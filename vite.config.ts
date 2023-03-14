@@ -6,6 +6,7 @@ import vitePluginSutpcLibStaticImport from 'vite-plugin-sutpc-lib-static-import'
 import vitePluginSutpcLessDeep from 'vite-plugin-sutpc-less-deep';
 import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
+import vitePluginSutpcConsole from 'vite-plugin-sutpc-console';
 import { createHtmlPlugin } from 'vite-plugin-html';
 
 import type { UserConfig, ConfigEnv } from 'vite';
@@ -37,6 +38,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vitePluginSutpcLessDeep(),
       vitePluginPurgeIcons(),
       vitePluginSutpcIconPark(),
+      vitePluginSutpcConsole(),
       createSvgIconsPlugin({
         // 源代码目录下的所有svg都扫描
         iconDirs: [pathResolve('src/')],
