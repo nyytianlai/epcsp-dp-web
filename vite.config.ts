@@ -39,12 +39,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vitePluginPurgeIcons(),
       vitePluginSutpcIconPark(),
       vitePluginSutpcCommon(),
-      createSvgIconsPlugin({
-        // 源代码目录下的所有svg都扫描
-        iconDirs: [pathResolve('src/')],
-        symbolId: 'icon-[name]',
-        svgoOptions: true
-      }),
+      createSvgIconsPlugin(),
       createHtmlPlugin({
         inject: {
           data: {
