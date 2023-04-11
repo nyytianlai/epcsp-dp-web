@@ -3,7 +3,7 @@
     <img class="icon" :src="data.img" alt="" />
     <div class="info">
       <span class="num">
-        {{ data.num }}
+        <span class="value">{{ data.num }}</span>
         <span class="unit">{{ data.unit }}</span>
       </span>
       <span class="name">{{ data.name }}</span>
@@ -11,7 +11,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs } from 'vue';
 interface Idata {
   img: string;
   name: string;
@@ -54,13 +53,16 @@ const { data, type } = toRefs(props);
       justify-content: center;
       align-items: center;
       .num {
-        .fontSize30DIN;
-        line-height: 30px;
-        background: linear-gradient(180deg, #0080ff 0%, #ffffff 52.08%, #007cf8 100%), #59ffff;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+        .value {
+          .fontSize30DIN;
+          font-family: 'PingFang SC';
+          line-height: 30px;
+          background: linear-gradient(180deg, #0080ff 0%, #ffffff 52.08%, #007cf8 100%), #59ffff;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
+        }
         .unit {
           font-size: 14px;
         }

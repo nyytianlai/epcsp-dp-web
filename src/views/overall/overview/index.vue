@@ -10,10 +10,12 @@
     </template>
   </div>
   <rank-list :data="projectList" :totalNum="totalNum" />
+  <title-column title="充电设施总量" />
 </template>
 <script setup>
 import NumCard from '@/components/num-card.vue';
 import RankList from '@/components/rank-list.vue';
+import TitleColumn from '@/components/title-column/index.vue';
 import { cdsszlFun, projectListFun } from './config.js';
 const cardData = ref(cdsszlFun());
 const projectList = ref(projectListFun());

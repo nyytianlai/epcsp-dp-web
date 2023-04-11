@@ -15,7 +15,6 @@
     "@sutpc/axios": "^1.0.7",
     "@sutpc/config": "^1.0.2",
     "@sutpc/theme-lib": "^1.0.0",
-    "@sutpc/vue3-basemap-mapboxgl": "^1.0.0",
     "@sutpc/vue3-ec-resize": "^1.0.2",
     "@sutpc/vue3-loading": "^1.0.0",
     "@sutpc/vue3-svg-icon": "^1.0.0",
