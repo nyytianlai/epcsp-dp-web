@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-11 14:53:41
+ * @LastEditTime: 2023-04-11 17:08:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -25,6 +25,7 @@
     </div>
     <div class="subject-container">
       <div class="main-content">
+        <div class="mask"></div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
@@ -195,6 +196,17 @@ export default {
 .main-content {
   height: 100%;
   width: 100%;
+  .mask {
+    width: 1597px;
+    height: 100%;
+    background: url(@/assets/images/layout/center-mask.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
 }
 .my-tab-wrap {
   position: absolute;

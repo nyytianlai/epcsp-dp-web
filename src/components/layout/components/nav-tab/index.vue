@@ -174,6 +174,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
     &:first-of-type,
     &:nth-child(3) {
       margin-right: 31px;
