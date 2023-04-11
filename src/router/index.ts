@@ -1,36 +1,87 @@
+/*
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-11 09:55:35
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-04-11 14:05:52
+ * @FilePath: \template-bigscreen-vue3\src\router\index.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Loading from '@sutpc/vue3-loading';
 import defaultDemo from './default-demo';
 import type { NProgressOptions } from 'nprogress';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import Layout from '@/components/layout/index.vue'
 
-const routeConfig = [
+export const routes = [
   {
-    path: '/',
-    component: () => import('@/layout/index.vue'),
+    path: '/overall',
+    name: 'overall',
+    meta: { title: '总览' },
+    component: Layout,
     children: [
       {
-        path: '',
-        redirect: '/index'
+        path: 'allView',
+        name: 'overallAllView',
+        realPath: '/overall/allView',
+        meta: { title: '总览', keepAlive: true },
+        component: () =>import('@/views/overall/overview/index.vue')
       },
-      {
-        path: '/index',
-        component: () => import('@/views/index/index.vue'),
-        meta: {
-          // 设置是否路由区域撑满整个屏幕
-          full: false
-        }
-      },
-      ...defaultDemo
     ]
-  }
+  },
+  {
+    path: '/device',
+    name: 'device',
+    meta: { title: '设备管理' },
+    component: Layout,
+    children: [
+      {
+        path: 'manage',
+        name: 'deviceManage',
+        realPath: '/device/manage',
+        meta: { title: '设备管理', keepAlive: true },
+        component: () =>import('@/views/overall/overview/index.vue')
+      },
+    ]
+  },
+  {
+    path: '/safety',
+    name: 'safety',
+    meta: { title: '设备监督' },
+    component: Layout,
+    children: [
+      {
+        path: 'supervision',
+        name: 'safetySupervision',
+        realPath: '/safety/supervision',
+        meta: { title: '设备监督', keepAlive: true },
+        component: () =>import('@/views/overall/overview/index.vue')
+      },
+    ]
+  },
+  {
+    path: '/public',
+    name: 'public',
+    meta: { title: '公共服务' },
+    component: Layout,
+    children: [
+      {
+        path: 'service',
+        name: 'publicService',
+        realPath: '/public/service',
+        meta: { title: '公共服务', keepAlive: true },
+        component: () =>import('@/views/overall/overview/index.vue')
+      },
+    ]
+  },
+
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   strict: true,
-  routes: routeConfig,
+  routes: routes,
   scrollBehavior: () => ({ left: 0, top: 0 })
 });
 

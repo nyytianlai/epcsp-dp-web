@@ -10,6 +10,7 @@ import '@/global/style/main.less';
 import registerComponents from '@/global/js/components';
 import themeLib from '@sutpc/theme-lib';
 import { setConfig } from '@sutpc/config';
+import store from './store'
 
 import '@purge-icons/generated';
 import 'virtual:svg-icons-register';
@@ -27,7 +28,7 @@ const app = createApp(App);
 
 app.use(ElementPlus, {
   locale: zhLocale
-});
+}).use(store);
 registerComponents(app);
 
 setupRouter(app);

@@ -26,7 +26,8 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.0.23",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@iconify/json": "^2.1.90",
@@ -44,6 +45,7 @@
     "postcss": "^8.4.16",
     "postcss-html": "^1.5.0",
     "postcss-less": "^6.0.0",
+    "postcss-plugin-px2rem": "^0.8.1",
     "postcss-pxtorem": "5.x",
     "prettier": "^2.7.1",
     "rollup-plugin-external-globals": "^0.6.1",

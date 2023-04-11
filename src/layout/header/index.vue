@@ -12,7 +12,6 @@ import { computed } from 'vue';
 const title = computed(() => {
   return import.meta.env.VITE_APP_TITLE;
 });
-
 </script>
 
 <style lang="less" scoped>
@@ -20,7 +19,8 @@ const title = computed(() => {
   position: relative;
   z-index: 1;
   height: 80px;
-  background: url(./images/header-bg.png) no-repeat, linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
+  background: url(@/assets/images/layout/header.png) no-repeat,
+    linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
   background-size: auto 100%;
   background-position: center center;
 }
@@ -36,7 +36,7 @@ const title = computed(() => {
   letter-spacing: 5px;
   color: transparent;
   font-weight: bold;
-  background: transparent linear-gradient(to bottom, #fff,40%,#fff,55%,#87cdeb);
+  background: transparent linear-gradient(to bottom, #fff, 40%, #fff, 55%, #87cdeb);
   background-clip: text;
 }
 </style>

@@ -7,4 +7,4 @@ VITE_API_BASEPATH = /cim/req/pro
 VITE_BASE_PATH = /
 
 # 应用名称，用于网页头部等
-VITE_APP_TITLE = 基于vite3的vue3大屏模板工程
+VITE_APP_TITLE = 电力充储放一张图
