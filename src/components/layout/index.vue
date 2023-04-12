@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-11 17:08:38
+ * @LastEditTime: 2023-04-12 17:03:35
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -25,7 +25,6 @@
     </div>
     <div class="subject-container">
       <div class="main-content">
-        <div class="mask"></div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
@@ -50,7 +49,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: ''
+      default: '电力充储放一张图'
     },
     activeName: {
       type: String,
@@ -196,16 +195,30 @@ export default {
 .main-content {
   height: 100%;
   width: 100%;
-  .mask {
-    width: 1597px;
-    height: 100%;
-    background: url(@/assets/images/layout/center-mask.png) no-repeat;
-    background-size: 100% 100%;
+  &::before {
+    content: '';
     position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-    pointer-events: none;
+    right: 10px;
+    bottom: 10px;
+    width: 259px;
+    height: 260px;
+    background: url(@/assets/images/layout/corner-bgc.png) no-repeat;
+    background-size: 100% 100%;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 259px;
+    height: 260px;
+    background: url(@/assets/images/layout/corner-bgc.png) no-repeat;
+    background-size: 100% 100%;
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    transform-origin: center;
   }
 }
 .my-tab-wrap {

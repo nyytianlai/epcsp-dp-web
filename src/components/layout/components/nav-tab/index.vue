@@ -54,21 +54,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="sub-menu-wrapper">
-      <div
-        :class="{
-          'subMenu-item': true,
-          actived: activeSubTitle === item.realPath,
-          disabled: item.meta.disabled
-        }"
-        v-for="item in subMenuList"
-        :key="item.realPath"
-        @click="handleSubTab(item)"
-      >
-        <div class="left-circle"></div>
-        <div class="sub-title">{{ item.meta.title }}</div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -170,11 +155,12 @@ export default {
   justify-content: center;
   .nav-item {
     width: 145px;
-    height: 42px;
+    height: 47px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
+    cursor: pointer;
     &:first-of-type,
     &:nth-child(3) {
       margin-right: 31px;
@@ -182,19 +168,21 @@ export default {
     &:first-of-type,
     &:nth-child(2) {
       background: url(@/assets/images/layout/menu-btn-left.png) no-repeat;
-      background-size: 100% 100%;
+      background-size: 100% 42px;
+      background-position: bottom left;
       &.active {
-        height: 47px;
         background-image: url(@/assets/images/layout/menu-btn-left-active.png);
+        background-size: 100% 100%;
       }
     }
     &:last-of-type,
     &:nth-child(3) {
       background: url(@/assets/images/layout/menu-btn-right.png) no-repeat;
-      background-size: 100% 100%;
+      background-size: 100% 42px;
+      background-position: bottom left;
       &.active {
-        height: 47px;
         background-image: url(@/assets/images/layout/menu-btn-right-active.png);
+        background-size: 100% 100%;
       }
     }
     &:nth-child(2) {

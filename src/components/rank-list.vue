@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-11 19:24:51
+ * @LastEditTime: 2023-04-12 11:56:06
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -83,7 +83,7 @@ const { data, totalNum } = toRefs(props);
   &:nth-of-type(3) {
     .top-info .rank-name .rank-num {
       border: 1px solid;
-      border-image: linear-gradient(to right, #1890ff, #1ee7e7) 1;
+      border-image: linear-gradient(94.35deg, #1890ff, #1ee7e7) 1;
     }
   }
   &:nth-of-type(n + 4) {

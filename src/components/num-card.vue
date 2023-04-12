@@ -4,7 +4,7 @@
     <div class="info">
       <span class="num">
         <span class="value">{{ data.num }}</span>
-        <span class="unit">{{ data.unit }}</span>
+        <span class="unit">&nbsp;{{ data.unit }}</span>
       </span>
       <span class="name">{{ data.name }}</span>
     </div>
@@ -46,6 +46,7 @@ const { data, type } = toRefs(props);
     .icon {
       width: 82px;
       height: 72px;
+      object-fit: cover;
     }
     .info {
       display: flex;
@@ -80,6 +81,7 @@ const { data, type } = toRefs(props);
       width: 61px;
       height: 64px;
       margin-right: 16px;
+      object-fit: cover;
     }
     .info {
       display: flex;

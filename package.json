@@ -44,7 +44,6 @@
     "postcss": "^8.4.16",
     "postcss-html": "^1.5.0",
     "postcss-less": "^6.0.0",
-    "postcss-plugin-px2rem": "^0.8.1",
     "postcss-pxtorem": "5.x",
     "prettier": "^2.7.1",
     "rollup-plugin-external-globals": "^0.6.1",

@@ -22,13 +22,12 @@ const { title } = toRefs(props);
   font-size: 22px;
   line-height: 27px;
   color: #ffffff;
-
-  transform: matrix(1, 0, -0.34, 0.94, 0, 0);
 }
 .title {
   position: absolute;
   left: 44px;
   bottom: 24px;
+  transform: matrix(1, 0, -0.34, 0.94, 0, 0);
 }
 .bottom-bgc {
   width: 429px;

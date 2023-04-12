@@ -2,7 +2,7 @@
   <div class="index-wrap">
     <div class="index-btn-wrap">
       <el-button type="primary" @click="gotoEchartsDemo">查看echarts示例</el-button>
-      <el-button @click="gotoMapboxglDemo">查看mapbox-gl示例</el-button>
+      <el-button @click="gotoComDemo">查看自定义组件示例</el-button>
       <el-button @click="gotoRequest">查看http请求示例</el-button>
       <el-button @click="gotoIcon">查看icon示例</el-button>
       <el-button @click="gotoLoading">查看loading示例</el-button>
@@ -19,8 +19,8 @@ const gotoEchartsDemo = () => {
   router.push('/default-demo/demo/echarts');
 };
 
-const gotoMapboxglDemo = () => {
-  router.push('/default-demo/demo/mapbox-gl');
+const gotoComDemo = () => {
+  router.push('/default-components');
 };
 
 const gotoRequest = () => {
@@ -33,7 +33,7 @@ const gotoIcon = () => {
 
 const gotoLoading = () => {
   router.push('/default-demo/demo/loading');
-}
+};
 </script>
 
 <style lang="less" scoped>
