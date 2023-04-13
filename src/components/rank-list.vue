@@ -2,12 +2,12 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-12 11:56:06
+ * @LastEditTime: 2023-04-13 17:25:04
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
 <template>
-  <div class="rank-list-wrap">
+  <div class="rank-list-wrap" :style="{height:height}">
     <ul class="content">
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <div class="top-info">
@@ -21,13 +21,16 @@
           </span>
         </div>
         <div class="bottom-bar">
-          <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }"></div>
+          <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }">
+            <icon icon="svg-icon:circle-point" />
+          </div>
         </div>
       </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
+import Icon from '@sutpc/vue3-svg-icon';
 interface Idata {
   name: string;
   num: number;
@@ -37,11 +40,18 @@ type Itype = 'top-down' | 'left-right';
 interface Props {
   data: Idata[];
   totalNum: number;
+  height:string
 }
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {
+  height:'2.4rem'
+});
 const { data, totalNum } = toRefs(props);
 </script>
 <style lang="less" scoped>
+.rank-list-wrap{
+  overflow: hidden auto;
+  padding: 8px;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -99,6 +109,14 @@ const { data, totalNum } = toRefs(props);
   .progress {
     height: 100%;
     background: linear-gradient(270deg, #13adc4 0%, #0b2f55 100%);
+    position: relative;
+    .el-icon {
+      position: absolute;
+      font-size: 12px;
+      right: 0;
+      top: 50%;
+      transform: translate(50%,-50%);
+    }
   }
 }
 </style>

@@ -8,6 +8,11 @@ import fast from '@/assets/images/overall/fast.png';
 import slow from '@/assets/images/overall/slow.png';
 import speed from '@/assets/images/overall/speed.png';
 import v2g from '@/assets/images/overall/v2g.png';
+import ztsyl from '@/assets/images/overall/ztsyl.png';
+import zxzl from '@/assets/images/overall/zxzl.png';
+
+import zgl from '@/assets/images/overall/zgl.png';
+import ssgl from '@/assets/images/overall/ssgl.png';
 
 export const cdsszlFun = () => {
   return [
@@ -40,22 +45,46 @@ export const projectListFun = () => {
       name: '充电站总量'
     },
     {
-      num: 201,
+      num: 5555,
       unit: '个',
       name: '已接入运营企业总量'
     },
     {
-      num: 48,
+      num: 666,
       unit: '个',
       name: '新能源汽车总量'
     },
     {
-      num: 201,
+      num: 2010,
       unit: '个',
       name: '已接入运营企业总量'
     },
     {
-      num: 48,
+      num: 4800,
+      unit: '个',
+      name: '新能源汽车总量'
+    },{
+      num: 6399,
+      unit: '个',
+      name: '充电站总量'
+    },
+    {
+      num: 2010,
+      unit: '个',
+      name: '已接入运营企业总量'
+    },
+    {
+      num: 4800,
+      unit: '个',
+      name: '新能源汽车总量'
+    },
+    {
+      num: 2010,
+      unit: '个',
+      name: '已接入运营企业总量'
+    },
+    {
+      num: 4800,
       unit: '个',
       name: '新能源汽车总量'
     }
@@ -215,22 +244,34 @@ export const todayTabsFun = () => {
 export const todayInfoNumDataFun = () => {
   return [
     {
-      img: cdzzl,
-      num: 6399,
-      unit: '个',
-      name: '充电站总量'
+      img: ztsyl,
+      num: '26%',
+      name: '整体使用率',
+      classStyleType:'leftRightStyleGreen'
     },
     {
-      img: xnyqczl,
-      num: 201,
+      img: zxzl,
+      num: 80855,
       unit: '个',
-      name: '已接入运营企业总量'
+      name: '在线总量',
+      classStyleType:'leftRightStyleYellow'
+    }
+  ];
+};
+
+export const powerInfoNumDataFun = () => {
+  return [
+    {
+      img: zgl,
+      num: 2818878.31,
+      name: '总功率/kw',
+      classStyleType:'leftRightStyleGreen'
     },
     {
-      img: yjryyqyzl,
-      num: 48,
-      unit: '万辆',
-      name: '新能源汽车总量'
+      img: ssgl,
+      num: 2765230.91,
+      name: '实时功率/kw',
+      classStyleType:'leftRightStyleYellow'
     }
   ];
 };

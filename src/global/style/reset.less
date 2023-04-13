@@ -14,3 +14,62 @@ ul, ol {
   outline: none;
   box-sizing: border-box;
 }
+
+.text-ellipsis-1{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.text-ellipsis-2{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2; 
+  -webkit-box-orient:vertical;
+}
+
+/* 滚动条样式 S */
+@--scrollbar-track-color: rgba(0, 0, 0, 0.5);
+@--scrollbar-thumb-color: transparent;
+
+// for Mozilla
+@-moz-document url-prefix() {
+  * {
+    scrollbar-color: @--scrollbar-track-color @--scrollbar-thumb-color !important;
+    scrollbar-width: thin !important;
+  }
+}
+
+// for IE
+.ie {
+  &, * {
+    scrollbar-arrow-color: @--scrollbar-track-color; // 三角箭头的颜色
+    scrollbar-face-color: @--scrollbar-track-color; // 滚动条滑块按钮的颜色
+    scrollbar-track-color: @--scrollbar-thumb-color; // 滚动条轨道颜色
+    scrollbar-shadow-color: transparent; // 滚动条阴影
+    // scrollbar-highlight-color: #0099dd; // 滚动条整体颜色
+    // scrollbar-3dlight-color:#0099dd; // 滚动条3d亮色阴影边框的外观颜色
+    // scrollbar-darkshadow-color: #0099dd; // 滚动条3d暗色阴影边框的外观颜色
+    // scrollbar-base-color: #0099dd; // 滚动条基准颜色
+  }
+}
+
+// for Webkit
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: @--scrollbar-track-color;
+  &:hover {
+    background-color: lighten(@--scrollbar-track-color, 20%);
+  }
+}
+::-webkit-scrollbar-track-piece {
+  border-radius: 4px;
+  background-color: @--scrollbar-thumb-color;
+}
+::-webkit-scrollbar-corner {
+  background-color: @--scrollbar-thumb-color;
+}

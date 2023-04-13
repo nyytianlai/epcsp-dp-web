@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 10:47:31
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-12 14:29:03
+ * @LastEditTime: 2023-04-13 17:24:01
  * @FilePath: \epcsp-dp-web\src\views\default-demo\components-show\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -23,7 +23,10 @@
       <title-column title="充电设施总量" />
       <tabs :data="tabsData" />
       <button-base>查看更多</button-base>
-      <button-base type="year">查看更多</button-base>
+      <warning-list :data="warningListData" />
+      <bottom-menu-tabs :data="tabsData"/>
+      <warning-tabs :data="warningTabsData" />
+      <area-rank-list :data="areaRankData" :totalNum="totalNum" />
     </el-space>
   </div>
 </template>
@@ -33,11 +36,15 @@ import RankList from '@/components/rank-list.vue';
 import TitleColumn from '@/components/title-column/index.vue';
 import Tabs from '@/components/tabs/index.vue';
 import ButtonBase from '@/components/button-base.vue';
-import { cdsszlFun, projectListFun, tabDataFun } from './config.js';
+import { cdsszlFun, projectListFun, tabDataFun,warningListFun,warningTabsDataFun,areaRankDataFun } from './config.js';
 const cardData = ref(cdsszlFun());
 const projectList = ref(projectListFun());
 const totalNum = ref(6399);
 const tabsData = ref(tabDataFun());
+const warningListData = ref(warningListFun())
+const select = ref('Option2')
+const warningTabsData = ref(warningTabsDataFun())
+const areaRankData = ref(areaRankDataFun())
 </script>
 <style lang="less" scoped>
 .components-wrap {
