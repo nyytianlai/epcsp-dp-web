@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 14:43:42
+ * @LastEditTime: 2023-04-14 17:54:14
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -52,11 +52,15 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
+      <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" />
+      <warning-tabs :data="warningTabsData" />
+      <warning-list :data="warningListData" />
     </div>
   </panel>
+  <bottom-menu-tabs :data="bottomTabsData"/>
 </template>
 <script setup>
 import PageNum from '@/components/page-num/index.vue';
@@ -70,7 +74,11 @@ import {
   projectListFun,
   todayTabsFun,
   todayInfoNumDataFun,
-  powerInfoNumDataFun
+  powerInfoNumDataFun,
+  lineTimeDataFun,
+  warningTabsDataFun,
+  warningListFun,
+  bottomTabDataFun
 } from './config.js';
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
@@ -90,6 +98,14 @@ const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
 const powerInfoNumData = ref(powerInfoNumDataFun())
+// 充电功率折线
+const lineTimeData = ref(lineTimeDataFun())
+// 今日告警信息tabData
+const warningTabsData = ref(warningTabsDataFun())
+const warningListData = ref(warningListFun())
+//底部button
+const bottomTabsData = ref(bottomTabDataFun());
+
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charger') {
@@ -201,8 +217,17 @@ const handleChangeTab = (data, type) => {
       }
     }
   }
+  .ec-wrap{
+    margin-top: 22px;
+  }
 }
 .today-warning-message{
   margin-top: 21px;
+  .warning-tabs{
+    margin-top: 6px;
+  }
+  .warning-list{
+    margin-top: 18px;
+  }
 }
 </style>
