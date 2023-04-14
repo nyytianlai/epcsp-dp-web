@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 17:23:22
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 17:26:35
+ * @LastEditTime: 2023-04-14 11:32:39
  * @FilePath: \epcsp-dp-web\src\components\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -17,6 +17,8 @@ import SelectBase from '@/components/select-base.vue';
 import BottomMenuTabs from '@/components/bottom-menu-tabs/index.vue';
 import WarningTabs from '@/components/warning-tabs/index.vue';
 import AreaRankList from '@/components/area-rank-list.vue';
+import PieChart from '@/components/pie-chart/index.vue';
+import LineTimeChart from '@/components/line-time-chart.vue'
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
 } = {
@@ -29,7 +31,9 @@ const components: {
     SelectBase,
     BottomMenuTabs,
     WarningTabs,
-    AreaRankList
+    AreaRankList,
+    PieChart,
+    LineTimeChart
 }
   
    

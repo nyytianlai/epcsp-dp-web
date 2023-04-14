@@ -39,7 +39,7 @@ const handleSelect = (item) => {
   background-size: 100% 21px;
   background-position: 0 7px;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   padding-left: 14px;
   padding-bottom: 3px;
   .tab {
