@@ -58,7 +58,40 @@ const styleObj = {
       fontSize: '0.16rem',
       lineHeight:'0.22rem'
     }
-    
+  },
+  leftRightStyleGreen6656: {
+    icon: {
+      width: '0.66rem',
+      height: '0.56rem'
+    },
+    num: {
+      lineHeight: '0.32rem',
+      fontSize:'0.32rem',
+      background: 'linear-gradient(180deg, #00F7FF 0%, #D5FEFF 52.08%, #00F7FF 100%)',
+      textFillColor: 'transparent',
+      '-webkit-background-clip': 'text',
+    },
+    name: {
+      fontSize: '0.16rem',
+      lineHeight:'0.22rem'
+    }
+  },
+  leftRightStyleGray6656: {
+    icon: {
+      width: '0.66rem',
+      height: '0.56rem'
+    },
+    num: {
+      lineHeight: '0.32rem',
+      fontSize:'0.32rem',
+      background: 'linear-gradient(180deg, #BFBFBF 0%, #FFFFFF 52.08%, #BFBFBF 100%)',
+      textFillColor: 'transparent',
+      '-webkit-background-clip': 'text',
+    },
+    name: {
+      fontSize: '0.16rem',
+      lineHeight:'0.22rem'
+    }
   }
 };
 interface Props {

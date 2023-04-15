@@ -19,6 +19,9 @@ import WarningTabs from '@/components/warning-tabs/index.vue';
 import AreaRankList from '@/components/area-rank-list.vue';
 import PieChart from '@/components/pie-chart/index.vue';
 import LineTimeChart from '@/components/line-time-chart.vue'
+import Panel from '@/components/panel/index.vue'
+import PageNum from '@/components/page-num/index.vue';
+
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
 } = {
@@ -33,7 +36,9 @@ const components: {
     WarningTabs,
     AreaRankList,
     PieChart,
-    LineTimeChart
+    LineTimeChart,
+    Panel,
+    PageNum
 }
   
    

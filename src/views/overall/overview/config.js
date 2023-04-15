@@ -14,6 +14,8 @@ import zxzl from '@/assets/images/overall/zxzl.png';
 import zgl from '@/assets/images/overall/zgl.png';
 import ssgl from '@/assets/images/overall/ssgl.png';
 
+import dayjs from 'dayjs';
+
 export const cdsszlFun = () => {
   return [
     {
@@ -275,14 +277,19 @@ export const powerInfoNumDataFun = () => {
     }
   ];
 };
-
+const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
 export const lineTimeDataFun = () => {
-  return [
-    { x: 1, y: 4, name: 'test' },
-    { x: 2, y: 3, name: 'test' },
-    { x: 2, y: 1, name: 'test1' },
-    { x: 3, y: 3, name: 'test1' }
-  ]
+  return [{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'额定功率'
+  },{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'实时功率'
+  }]
 }
 
 export const warningTabsDataFun = () => {
@@ -338,6 +345,31 @@ export const warningListFun = () => {
       message: '充电桩排队人数过多',
       area:'南山区'
     },
+    {
+      date: '12:30:12',
+      message: '充电桩排队人数过多充电桩排队人数过多',
+      area:'南山区充电桩排队人数过多'
+    },
+    {
+      date: '12:30:12',
+      message: '充电桩排队人数过多',
+      area:'南山区'
+    },
+    {
+      date: '12:30:12',
+      message: '充电桩排队人数过多',
+      area:'南山区'
+    },
+    {
+      date: '12:30:12',
+      message: '充电桩排队人数过多',
+      area:'南山区'
+    },
+    {
+      date: '12:30:12',
+      message: '充电桩排队人数过多',
+      area:'南山区'
+    }
   ]
 }
 

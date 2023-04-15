@@ -25,7 +25,7 @@ export const routes = [
         path: 'allView',
         name: 'overallAllView',
         realPath: '/overall/allView',
-        meta: { title: '总览', keepAlive: true },
+        meta: { title: '总览', keepAlive: false },
         component: () =>import('@/views/overall/overview/index.vue')
       },
     ]
@@ -40,8 +40,8 @@ export const routes = [
         path: 'manage',
         name: 'deviceManage',
         realPath: '/device/manage',
-        meta: { title: '设备管理', keepAlive: true },
-        component: () =>import('@/views/overall/overview/index.vue')
+        meta: { title: '设备管理', keepAlive: false },
+        component: () =>import('@/views/deviceManage/index.vue')
       },
     ]
   },

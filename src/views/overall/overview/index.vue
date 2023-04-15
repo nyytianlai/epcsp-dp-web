@@ -100,6 +100,7 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun())
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun())
+console.log(lineTimeData.value);
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun())
 const warningListData = ref(warningListFun())
@@ -161,72 +162,80 @@ const handleChangeTab = (data, type) => {
   .rank-list-wrap {
     display: flex;
     justify-content: flex-end;
-    margin-top: 28px;
+    margin-top: 20px;
   }
 }
 .today-num-info {
   .tabs {
     margin-top: 8px;
   }
-  .num-wrap{
+  .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
-    :deep(.num-card){
+    :deep(.num-card) {
       width: 49%;
       padding: 24px 0 11px;
-      background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
-      .info{
+      .info {
         flex-direction: column;
-        .name{
+        .name {
           margin-bottom: 0;
         }
       }
     }
   }
 }
-.today-power-info{
+.today-power-info {
   margin-top: 24px;
-  .num-wrap{
+  .num-wrap {
     margin-top: 12px;
     display: flex;
     justify-content: space-between;
     :deep(.num-card) {
       padding: 20px 0;
       width: 49%;
-      background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
-      .info{
+      .info {
         flex-direction: column;
-        .name{
+        .name {
           margin-bottom: 0;
         }
       }
-      .icon{
+      .icon {
         width: 60px !important;
         height: 60px !important;
       }
     }
   }
-  .ec-wrap{
+  .ec-wrap {
     margin-top: 22px;
   }
 }
-.today-warning-message{
+.today-warning-message {
   margin-top: 21px;
-  .warning-tabs{
+  .warning-tabs {
     margin-top: 6px;
   }
-  .warning-list{
+  .warning-list {
     margin-top: 18px;
   }
 }

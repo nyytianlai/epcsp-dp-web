@@ -121,6 +121,7 @@ export default {
       }
       let path = data.children?.length ? data.children[0].realPath : data.realPath || data.path;
       if (path === this.$route.fullPath) return;
+      console.log('path',path);
       this.$router.push(path);
     },
     handleSubTab(data) {

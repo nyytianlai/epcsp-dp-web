@@ -1,23 +1,16 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
     <div class="unit" v-if="unit">单位: {{unit}}</div>
-    <!-- 根据时间戳自动补全的组件 -->
-    <ec-autofill
-      :option="echartsOption"
-      :optionHandler="optionHandler"
-      @instanceReady="instanceReady"
-      :lineBarMinSize="0"
-      :showFullHour="true"
-    ></ec-autofill>
+    <ec-resize :option="ecOption" ref="ec" @instanceReady="watchInstanceReady" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { EcAutofill } from '@sutpc/vue3-ec-timeprecision';
+import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
 interface Idata {
-  x: string | number;
+  x: number;
   y: number;
   name: string;
 }
@@ -32,18 +25,12 @@ interface Props {
   colors?:string[]
 }
 const props = withDefaults(defineProps<Props>(), {
-  data: () => [
-    { x: 1, y: 4, name: 'test' },
-    { x: 2, y: 3, name: 'test' },
-    { x: 2, y: 1, name: 'test1' },
-    { x: 3, y: 3, name: 'test1' }
-  ],
   chartStyle: () => ({
     width: '4.29rem',
     height: '1.89rem'
   }),
   unit: '个',
-  colors:['green','blue']
+  colors:()=>['green','blue']
 });
 
 const { data, chartStyle, unit,colors } = toRefs(props);
@@ -57,7 +44,7 @@ const colorMap = {
           x2: 0,
           y2: 1,
           colorStops: [{
-              offset: 0, color: 'rgba(0, 255, 249, 0.2)' // 0% 处的颜色
+              offset: 0, color: 'rgba(0, 255, 249)' // 0% 处的颜色
           }, {
               offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
           }],
@@ -77,7 +64,7 @@ const colorMap = {
           x2: 0,
           y2: 1,
           colorStops: [{
-              offset: 0, color: 'rgba(98, 177, 255, 0.5)' // 0% 处的颜色
+              offset: 0, color: 'rgba(98, 177, 255)' // 0% 处的颜色
           }, {
               offset: 1, color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
           }],
@@ -88,20 +75,36 @@ const colorMap = {
       color: '#0053FF'
     }
   },
+  "#FF7723":{
+    areaStyle: {
+          color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+              offset: 0, color: 'rgba(255, 119, 35)' // 0% 处的颜色
+          }, {
+              offset: 1, color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+          }],
+          global: false // 缺省为 false
+        }
+    },
+    itemStyle: {
+      color: '#FF7723'
+    }
+  },
 }
-const echartsOption = computed(() => {
-  return {
-    // 数据源
-    data: data.value,
-    // 时间片
-    timeprecision: '60',
-    // 横坐标间隔
-    xGap: 4
-  };
-});
-const optionHandler = (ecOption) => {
-  // 在把Echarts option赋值给echarts之前，允许外部做一次修改
-  ecOption = merge(ecOption, {
+// const times = (new Array(25).fill(0)).map((item,index)=>dayjs().hour(index).format('YYYY-MM-DD HH:00'))
+// console.log(times);
+// const transformData = ()=>{
+//   data
+// }
+const ecOption = computed(() => {
+  console.log(JSON.stringify(data.value));
+  
+  let option = {
     grid: {
       top: 30,
       bottom: 24,
@@ -120,6 +123,8 @@ const optionHandler = (ecOption) => {
     },
     xAxis: {
       name: '',
+      type:'time',
+      boundaryGap: ['2%', '20%'],
       axisLine: {
         lineStyle: {
           color: '#BAE7FF'
@@ -136,10 +141,10 @@ const optionHandler = (ecOption) => {
         lineHeight: 18,
         color: '#B4C0CC',
         formatter: (value, index) => {
-          return getTimeStringByPeriod(value);
-        }
-        // min:0
-        // interval: 0
+          return dayjs(value).format('HH:00')
+          
+        },
+        interval:4
       },
       splitLine: {
         show: false
@@ -170,9 +175,10 @@ const optionHandler = (ecOption) => {
       backgroundColor: 'transparent',
       borderWidth: 0,
       padding:0,
+      trigger:'axis',
       formatter: (params) => {
         console.log(params);
-        const dataTime = getTimeStringByPeriod(params[0]?.dataIndex);
+        const dataTime = '00:00';
         let str = `<div class="time-tooltip">`;
         str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;
         params.map((item) => {
@@ -182,7 +188,7 @@ const optionHandler = (ecOption) => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value || '--'}</span>
+              <span class="value">${item?.value[1] || '--'}</span>
               <span class="unit">${unit.value}</span>
             </span>
           </div>`;
@@ -191,35 +197,109 @@ const optionHandler = (ecOption) => {
         return str;
       }
     },
-    series: colors.value.map(item=>colorMap[item])
-  });
-  return ecOption;
-};
-const getTimeStringByPeriod = (vPeriod) => {
-  var result = '';
-  var hourStr = '';
-  var minStr = '';
-  var hour;
-  var min;
-  var minTemp;
-  hour = parseInt(vPeriod / 1);
-  min = vPeriod % 1;
-  minTemp = min * 60;
-
-  hourStr = hour + '';
-  if (minTemp < 10) {
-    minStr = '0' + minTemp;
-  } else {
-    minStr = minTemp + '';
-  }
-  if (min == 0) {
-    result = `${hourStr}:00`;
-  } else {
-    result = hourStr + ':' + minStr;
-  }
-
-  return result;
-};
+    series: data.value
+  };
+  option = merge(option, {series: colors.value.map(item=>colorMap[item])})
+  return option;
+});
+// const echartsOption = computed(() => {
+// });
+// const optionHandler = (ecOption) => {
+//   // 在把Echarts option赋值给echarts之前，允许外部做一次修改
+//   ecOption = merge(ecOption, {
+//     grid: {
+//       top: 30,
+//       bottom: 24,
+//       width:'100%'
+//     },
+//     legend: {
+//       itemWidth: 16,
+//       itemHeight: 10,
+//       right: 0,
+//       top: 0,
+//       textStyle: {
+//         fontFamily: 'Source Han Sans CN',
+//         fontSize: 14,
+//         color: '#C6D1DB'
+//       }
+//     },
+//     xAxis: {
+//       name: '',
+//       axisLine: {
+//         lineStyle: {
+//           color: '#BAE7FF'
+//         }
+//       },
+//       axisTick: {
+//         lineStyle: {
+//           color: '#BAE7FF'
+//         }
+//       },
+//       axisLabel: {
+//         fontFamily: 'Source Han Sans CN',
+//         fontSize: 12,
+//         lineHeight: 18,
+//         color: '#B4C0CC',
+//         formatter: (value, index) => {
+//           return getTimeStringByPeriod(value);
+//         }
+//         // min:0
+//         // interval: 0
+//       },
+//       splitLine: {
+//         show: false
+//       }
+//     },
+//     yAxis: {
+//       name: '',
+//       axisLine: {
+//         show: false
+//       },
+//       axisTick: {
+//         show: false
+//       },
+//       axisLabel: {
+//         fontFamily: 'Helvetica',
+//         fontSize: 12,
+//         lineHeight: 16,
+//         color: '#B4C0CC'
+//       },
+//       splitLine: {
+//         lineStyle: {
+//           color: 'rgba(230, 247, 255, 0.2)',
+//           type: 'dashed'
+//         }
+//       }
+//     },
+//     tooltip: {
+//       backgroundColor: 'transparent',
+//       borderWidth: 0,
+//       padding:0,
+//       formatter: (params) => {
+//         console.log(params);
+//         const dataTime = getTimeStringByPeriod(params[0]?.dataIndex);
+//         let str = `<div class="time-tooltip">`;
+//         str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;
+//         params.map((item) => {
+//           str += `<div class="item-data">
+//             <span class="left-data">
+//               ${item?.marker}
+//               <span class="name">${item?.seriesName}</span>
+//             </span>
+//             <span class="right-data">
+//               <span class="value">${item?.value || '--'}</span>
+//               <span class="unit">${unit.value}</span>
+//             </span>
+//           </div>`;
+//         });
+//         str += '</div>';
+//         return str;
+//       }
+//     },
+//     series: colors.value.map(item=>colorMap[item])
+//   });
+//   return ecOption;
+// };
 </script>
 
 <style lang="less" scoped>
@@ -227,15 +307,14 @@ const getTimeStringByPeriod = (vPeriod) => {
   width: 429px;
   height: 189px;
   position: relative;
-  .unit{
+  .unit {
     position: absolute;
     top: 6px;
     left: 2px;
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
-    color: #B4C0CC;
-
+    color: #b4c0cc;
   }
 }
 :deep(.time-tooltip) {
@@ -262,7 +341,7 @@ const getTimeStringByPeriod = (vPeriod) => {
     padding: 5px 8px;
     white-space: nowrap;
     margin-bottom: 2px;
-    &:last-of-type{
+    &:last-of-type {
       margin-bottom: 0;
     }
     .left-data {

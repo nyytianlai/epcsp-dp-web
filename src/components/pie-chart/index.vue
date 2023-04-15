@@ -40,7 +40,7 @@ import EcResize from '@sutpc/vue3-ec-resize';
 interface Idata {
   name: string;
   value: number;
-  extraName: string;
+  extraName?: string;
   unit: string;
 }
 interface Props {
@@ -83,7 +83,8 @@ const ecOption = computed(() => {
             fontSize: 40,
             fontWeight: 'bold',
             formatter: (params) => {
-              return [`{a|${params.percent}%}`, `{b|${params.data?.extraName}}`].join('\n');
+              const name = params.data?.extraName || params.data?.name
+              return [`{a|${params.percent}%}`, `{b|${name}}`].join('\n');
             },
             rich: {
               a: {
@@ -163,6 +164,7 @@ const watchInstanceReady = (myChart) => {
   }
   .right-info {
     width: 65px;
+    white-space: nowrap;
     .value {
       font-family: 'DIN Alternate';
       font-style: normal;

@@ -41,7 +41,7 @@ interface Props {
   height: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  height: '2.35rem'
+  height: '2.12rem'
 });
 const { data, totalNum } = toRefs(props);
 </script>
@@ -49,15 +49,16 @@ const { data, totalNum } = toRefs(props);
 .area-rank-wrap {
   overflow: hidden auto;
   padding-right: 8px;
+  padding-left: 11px;
 }
 .content {
   display: flex;
   flex-direction: column;
   width: 411px;
-  position: relative
+  position: relative;
 }
 .list-item {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   .rank-name {
@@ -109,34 +110,34 @@ const { data, totalNum } = toRefs(props);
 .bottom-bar {
   background: rgba(255, 255, 255, 0.1);
   height: 8px;
-  flex: 1; 
+  flex: 1;
   .progress {
     height: 100%;
     background: linear-gradient(270deg, #13adc4 0%, #0b2f55 100%);
   }
 }
-.line{
-    position: absolute;
-    top: 0;
-    left: 96px;
-    height: 100%;
-    width: 1px;
-    border-left: 1px solid #BAE7FF;
-    &:nth-of-type(2){
-        left: 156px;
-        border-left: 1px dashed rgba(230, 247, 255, 0.2);
-    }
-    &:nth-of-type(3){
-        left: 216px;
-        border-left: 1px dashed rgba(230, 247, 255, 0.2);
-    }
-    &:nth-of-type(4){
-        left: 276px;
-        border-left: 1px dashed rgba(230, 247, 255, 0.2);
-    }
-    &:nth-of-type(5){
-        left: 336px;
-        border-left: 1px dashed rgba(230, 247, 255, 0.2);
-    }
+.line {
+  position: absolute;
+  top: 0;
+  left: 96px;
+  height: 100%;
+  width: 1px;
+  border-left: 1px solid #bae7ff;
+  &:nth-of-type(2) {
+    left: 156px;
+    border-left: 1px dashed rgba(230, 247, 255, 0.2);
   }
+  &:nth-of-type(3) {
+    left: 216px;
+    border-left: 1px dashed rgba(230, 247, 255, 0.2);
+  }
+  &:nth-of-type(4) {
+    left: 276px;
+    border-left: 1px dashed rgba(230, 247, 255, 0.2);
+  }
+  &:nth-of-type(5) {
+    left: 336px;
+    border-left: 1px dashed rgba(230, 247, 255, 0.2);
+  }
+}
 </style>

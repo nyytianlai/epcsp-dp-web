@@ -1,0 +1,205 @@
+import dqzx from '@/assets/images/deviceManage/dqzx.png';
+import dqlx from '@/assets/images/deviceManage/dqlx.png';
+import dqsyl from '@/assets/images/deviceManage/dqsyl.png';
+import dqgzl from '@/assets/images/deviceManage/dqgzl.png';
+import dayjs from 'dayjs';
+
+export const pageNumFun = () => {
+  return [
+    {
+      name: '充电站总量',
+      num: 6399,
+      unit: '个'
+    },
+    {
+      name: '充电桩总量',
+      num: 125639,
+      unit: '个'
+    },
+    {
+      name: '充电枪总量',
+      num: 125639,
+      unit: '个'
+    },
+    {
+      name: '充电总功率',
+      num: 281887.30,
+      unit: 'KW'
+    }
+  ];
+};
+
+export const chargingStationTabsFun = () => {
+  return [
+    {
+      code: 1,
+      label: '充电桩类型'
+    },
+    {
+      code: 2,
+      label: '充电桩电流类型'
+    }
+  ];
+};
+
+export const chargingStationPieDataFun = (code = 1)=>{
+  if(code === 1){
+    return [
+      { value: 33256, name: '快充桩',  unit: '个' },
+      { value: 58552, name: '慢充桩', unit: '个' },
+      { value: 67000, name: '超充桩',  unit: '个' },
+      { value: 3540, name: 'V2G桩',  unit: '个' }
+    ]
+  }else{
+    return [
+      { value: 33256, name: '直流桩',  unit: '个' },
+      { value: 58552, name: '交流桩', unit: '个' }
+    ]
+  }
+}
+
+export const areaRankDataFun = () => {
+  return [
+    {
+      num: 6399,
+      unit: '次',
+      name: '南山区'
+    },
+    {
+      num: 201,
+      unit: '次',
+      name: '宝安区'
+    },
+    {
+      num: 48,
+      unit: '次',
+      name: '罗湖区'
+    },
+    {
+      num: 201,
+      unit: '次',
+      name: '龙华区'
+    },
+    {
+      num: 48,
+      unit: '次',
+      name: '龙岗区'
+    },
+    {
+      num: 6399,
+      unit: '次',
+      name: '南山区'
+    },
+    {
+      num: 201,
+      unit: '次',
+      name: '宝安区'
+    },
+    {
+      num: 48,
+      unit: '次',
+      name: '罗湖区'
+    },
+    {
+      num: 201,
+      unit: '次',
+      name: '龙华区'
+    },
+    {
+      num: 48,
+      unit: '次',
+      name: '大鹏新区'
+    },
+  ];
+}
+
+export const chargingTypesTabsFun = ()=>{
+  return [
+    {
+      code: 1,
+      label: '充电桩状态'
+    },
+    {
+      code: 2,
+      label: '充电枪状态'
+    }
+  ];
+}
+
+export const chargingTypesFun = ()=>{
+  return [
+    {
+      img: dqzx,
+      num: '80855',
+      unit: '个',
+      name: '当前在线',
+      classStyleType:'leftRightStyleGreen6656'
+    },
+    {
+      img: dqlx,
+      num: 80855,
+      unit: '个',
+      name: '当前离线',
+      classStyleType:'leftRightStyleGray6656'
+    }
+  ];
+}
+
+const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
+export const lineStateDataFun = () => {
+  return [{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'在线'
+  },{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'离线'
+  }]
+}
+
+export const chargingRunTabsFun = () => {
+  return [
+    {
+      code: 1,
+      label: '充电桩运行情况'
+    },
+    {
+      code: 2,
+      label: '充电枪运行情况'
+    }
+  ];
+};
+
+export const chargingRunDataFun = ()=>{
+  return [
+    {
+      img: dqsyl,
+      num: '26%',
+      name: '当前使用率',
+      classStyleType:'leftRightStyleGreen6656'
+    },
+    {
+      img: dqgzl,
+      num: "26%",
+      name: '当前故障率',
+      classStyleType:'leftRightStyleGray6656'
+    }
+  ];
+}
+
+export const lineRunDataFun = () => {
+  return [{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'桩使用率'
+  },{
+    data:timeData(),
+    type: 'line',
+    smooth: true,
+    name:'桩故障率'
+  }]
+}
