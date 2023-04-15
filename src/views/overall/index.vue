@@ -13,7 +13,7 @@
       <title-column title="充电设施总量" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
-          <num-card :data="item" />
+          <num-card :data="item" classStyleType='bottomDown'  />
         </template>
       </div>
     </div>

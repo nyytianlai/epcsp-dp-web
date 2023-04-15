@@ -95,6 +95,26 @@ const colorMap = {
       color: '#FF7723'
     }
   },
+  '#FF6B4B':{
+    areaStyle: {
+          color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+              offset: 0, color: '#FF6B4B' // 0% 处的颜色
+          }, {
+              offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+          }],
+          global: false // 缺省为 false
+        }
+    },
+    itemStyle: {
+      color: '#FF6B4B'
+    }
+  }
 }
 // const times = (new Array(25).fill(0)).map((item,index)=>dayjs().hour(index).format('YYYY-MM-DD HH:00'))
 // console.log(times);
@@ -202,104 +222,6 @@ const ecOption = computed(() => {
   option = merge(option, {series: colors.value.map(item=>colorMap[item])})
   return option;
 });
-// const echartsOption = computed(() => {
-// });
-// const optionHandler = (ecOption) => {
-//   // 在把Echarts option赋值给echarts之前，允许外部做一次修改
-//   ecOption = merge(ecOption, {
-//     grid: {
-//       top: 30,
-//       bottom: 24,
-//       width:'100%'
-//     },
-//     legend: {
-//       itemWidth: 16,
-//       itemHeight: 10,
-//       right: 0,
-//       top: 0,
-//       textStyle: {
-//         fontFamily: 'Source Han Sans CN',
-//         fontSize: 14,
-//         color: '#C6D1DB'
-//       }
-//     },
-//     xAxis: {
-//       name: '',
-//       axisLine: {
-//         lineStyle: {
-//           color: '#BAE7FF'
-//         }
-//       },
-//       axisTick: {
-//         lineStyle: {
-//           color: '#BAE7FF'
-//         }
-//       },
-//       axisLabel: {
-//         fontFamily: 'Source Han Sans CN',
-//         fontSize: 12,
-//         lineHeight: 18,
-//         color: '#B4C0CC',
-//         formatter: (value, index) => {
-//           return getTimeStringByPeriod(value);
-//         }
-//         // min:0
-//         // interval: 0
-//       },
-//       splitLine: {
-//         show: false
-//       }
-//     },
-//     yAxis: {
-//       name: '',
-//       axisLine: {
-//         show: false
-//       },
-//       axisTick: {
-//         show: false
-//       },
-//       axisLabel: {
-//         fontFamily: 'Helvetica',
-//         fontSize: 12,
-//         lineHeight: 16,
-//         color: '#B4C0CC'
-//       },
-//       splitLine: {
-//         lineStyle: {
-//           color: 'rgba(230, 247, 255, 0.2)',
-//           type: 'dashed'
-//         }
-//       }
-//     },
-//     tooltip: {
-//       backgroundColor: 'transparent',
-//       borderWidth: 0,
-//       padding:0,
-//       formatter: (params) => {
-//         console.log(params);
-//         const dataTime = getTimeStringByPeriod(params[0]?.dataIndex);
-//         let str = `<div class="time-tooltip">`;
-//         str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;
-//         params.map((item) => {
-//           str += `<div class="item-data">
-//             <span class="left-data">
-//               ${item?.marker}
-//               <span class="name">${item?.seriesName}</span>
-//             </span>
-//             <span class="right-data">
-//               <span class="value">${item?.value || '--'}</span>
-//               <span class="unit">${unit.value}</span>
-//             </span>
-//           </div>`;
-//         });
-//         str += '</div>';
-//         return str;
-//       }
-//     },
-//     series: colors.value.map(item=>colorMap[item])
-//   });
-//   return ecOption;
-// };
 </script>
 
 <style lang="less" scoped>

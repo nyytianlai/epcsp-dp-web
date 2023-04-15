@@ -15,7 +15,10 @@ interface Idata {
   img: string;
   name: string;
   num: string | number;
-  unit: string;
+  unit?: string;
+  iconStyle?:object;
+  numStyle?:object;
+  nameStyle?:object;
 }
 type Itype = 'top-down' | 'left-right';
 
@@ -23,8 +26,33 @@ interface IimageSize {
   width: string;
   height: string;
 }
-type IclassStyleType = 'leftRightStyleYellow';
+type IclassStyleType = 'bottomDown'|'leftRightStyleYellow';
+
+interface Props {
+  data: Idata;
+  type: Itype;
+  classStyleType: IclassStyleType;
+}
+const props = withDefaults(defineProps<Props>(), {
+  data: () => {
+    return {
+      img: '',
+      name: '',
+      num: '',
+      unit: ''
+    };
+  },
+  type: 'top-down'
+});
+
 const styleObj = {
+  bottomDown:{
+    num: {
+      background: 'linear-gradient(180deg, #0080ff 0%, #ffffff 52.08%, #007cf8 100%)',
+      textFillColor: 'transparent',
+      '-webkit-background-clip': 'text',
+    }
+  },
   leftRightStyleYellow: {
     icon: {
       width: '0.78rem',
@@ -94,24 +122,22 @@ const styleObj = {
     }
   }
 };
-interface Props {
-  data: Idata;
-  type: Itype;
-  classStyleType: IclassStyleType;
-}
-const props = withDefaults(defineProps<Props>(), {
-  data: () => {
-    return {
-      img: '',
-      name: '',
-      num: '',
-      unit: ''
-    };
-  },
-  type: 'top-down'
-});
+
 const { data, type, classStyleType } = toRefs(props);
-const styleImgFont = styleObj[classStyleType.value] || {};
+const styleImgFont = computed(()=>{
+  console.log(data.value,classStyleType.value);
+  
+  if(classStyleType.value){
+    return styleObj[classStyleType.value]
+  }else{
+    return {
+      icon:data.value?.iconStyle,
+      num:data.value?.numStyle,
+      name:data.value?.nameStyle
+    }
+  }
+
+})
 </script>
 <style lang="less" scoped>
 .num-card {
@@ -134,11 +160,6 @@ const styleImgFont = styleObj[classStyleType.value] || {};
           font-size: 30px;
           line-height: 30px;
           font-weight: 700;
-          background: linear-gradient(180deg, #0080ff 0%, #ffffff 52.08%, #007cf8 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
         }
         .unit {
           font-size: 14px;
