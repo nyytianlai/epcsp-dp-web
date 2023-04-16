@@ -40,14 +40,15 @@ const handleSelect = (item) => {
   background-position: 0 7px;
   display: flex;
   align-items: flex-end;
-  padding-left: 14px;
+  padding-left: 25px;
   padding-bottom: 3px;
   .tab {
     width: 112px;
-    margin-right: 10px;
+    margin-right: 40px;
     display: flex;
     justify-content: center;
     cursor: pointer;
+    white-space: nowrap;
     &:last-of-type {
       margin-right: 0;
     }
