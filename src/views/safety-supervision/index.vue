@@ -6,6 +6,7 @@
             <tabs 
             :data="totalWarningTabs" 
             @changeTab="(data)=>handleChangeTab(data,'total-warning')" />
+            <scroll-table/>
 
         </div>
         <div class="area-warning-num">
@@ -39,6 +40,7 @@
     </panel>
   </template>
 <script setup>
+import ScrollTable from './components/scroll-table.vue'
 import {
     pageNumFun,
     totalWarningTabsFun,

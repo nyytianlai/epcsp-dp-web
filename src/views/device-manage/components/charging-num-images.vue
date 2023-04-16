@@ -64,6 +64,7 @@ const props = defineProps({
     margin-right: 8px;
     align-items: center;
     margin-bottom: 12px;
+    width: 136px;
     &:nth-child(3n) {
       margin-right: 0;
     }
@@ -71,7 +72,7 @@ const props = defineProps({
       margin-bottom: 0;
     }
     img {
-      width: 136px;
+      width: 100%;
     }
     .type {
       position: absolute;

@@ -18,6 +18,7 @@
     "@sutpc/vue3-ec-resize": "^1.0.2",
     "@sutpc/vue3-ec-timeprecision": "^1.0.1",
     "@sutpc/vue3-loading": "^1.0.0",
+    "@sutpc/vue3-scroll-table": "^1.0.3",
     "@sutpc/vue3-svg-icon": "^1.0.0",
     "@sutpc/vue3-theme-util": "^1.0.0",
     "dayjs": "^1.11.6",
