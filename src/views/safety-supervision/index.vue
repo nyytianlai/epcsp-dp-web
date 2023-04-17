@@ -1,5 +1,13 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-17 09:12:44
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-04-17 14:46:35
+ * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
-    <page-num :data="pageNumData" />
+    <page-num :data="pageNumData" bgcType="red-bgc" />
     <panel>
         <div class="total-warning-num">
             <title-column title="累计告警数据信息" />
@@ -35,9 +43,10 @@
             </div>
             <div class="realtime-trend">
                 <title-column title="实时告警趋势情况" />
-                <line-time-chart :data="realtimeTrend" :colors="['#FF6B4B']"/>
+                <line-time-chart :data="realtimeTrend" :chartStyle="{height:'2.55rem'}" :colors="['#FF6B4B']"/>
             </div>
     </panel>
+    <bottom-menu-tabs :data="bottomTabsData"/>
   </template>
 <script setup>
 import ScrollTable from './components/scroll-table.vue'
@@ -49,7 +58,8 @@ import {
     warningMonitorPieDataFun,
     realtimeStateTabsFun,
     realtimeStateDataFun,
-    realtimeTrendFun
+  realtimeTrendFun,
+  bottomTabDataFun
 } from './config.js'
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
@@ -67,25 +77,59 @@ const realtimeStateTabs = ref(realtimeStateTabsFun())
 const realtimeStateData = ref(realtimeStateDataFun())
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun())
+//底部button
+const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'total-warning') {
     //累计告警数据信息
-
+    
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
-  } else if (type === 'today') {
+  } else if (type === 'realtime-state') {
     // 实时状态情况
+    realtimeStateData.value = realtimeStateDataFun(data.code)
   }
 };
 </script>
 
 <style lang="less" scoped>
+.total-warning-num{
+  .tabs{
+    margin-top: 10px;
+  }
+  .el-table{
+    margin-top: 25px;
+  }
+}
+.area-warning-num{
+  margin-top: 18px;
+  .area-rank-wrap{
+    margin-top: 12px;
+  }
+}
+.warning-monitor{
+  .tabs{
+    margin-top: 7px;
+  }
+  .pie-wrap{
+    margin-top: 20px;
+  }
+}
 .realtime-state {
-  .num-wrap {
+  margin-top: 18px;
+  .tabs{
+    margin-top: 12px;
+  }
+  :deep(.num-wrap) {
+    height: 157px;
+    margin-top: 25px;
     display: flex;
     justify-content: space-between;
   }
+}
+.realtime-trend{
+  margin-top: 23px;
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-14 17:54:14
+ * @LastEditTime: 2023-04-17 17:46:14
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -55,7 +55,8 @@
       <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
     </div>
     <div class="today-warning-message">
-      <title-column title="今日告警信息" />
+      <title-column title="今日告警信息" :showBtn="true"  />
+        
       <warning-tabs :data="warningTabsData" />
       <warning-list :data="warningListData" />
     </div>

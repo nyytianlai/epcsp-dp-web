@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 09:55:35
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 19:22:51
+ * @LastEditTime: 2023-04-17 11:42:34
  * @FilePath: \template-bigscreen-vue3\src\router\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -71,7 +71,7 @@ export const routes = [
         name: 'publicService',
         realPath: '/public/service',
         meta: { title: '公共服务', keepAlive: true },
-        component: () =>import('@/views/safety-supervision/index.vue')
+        component: () =>import('@/views/public-service/index.vue')
       },
     ]
   },
@@ -79,6 +79,21 @@ export const routes = [
 ];
 let routesMap = [
   ...routes,
+  {
+    path: '/station',
+    name: 'station',
+    meta: { title: '' },
+    component: Layout,
+    children: [
+      {
+        path: 'detail',
+        name: 'stationDetail',
+        realPath: '/station/detail',
+        meta: { title: '', keepAlive: true },
+        component: () =>import('@/views/station-detail/index.vue')
+      },
+    ]
+  },
   {
   // vue-router@4的变化，舍弃*通配符
   // 官方文档：https://next.router.vuejs.org/zh/guide/migration/index.html#%E5%88%A0%E9%99%A4%E4%BA%86-%EF%BC%88%E6%98%9F%E6%A0%87%E6%88%96%E9%80%9A%E9%85%8D%E7%AC%A6%EF%BC%89%E8%B7%AF%E7%94%B1

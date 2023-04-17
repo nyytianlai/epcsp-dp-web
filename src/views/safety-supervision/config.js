@@ -10,24 +10,28 @@ import dayjs from 'dayjs';
 export const pageNumFun = () => {
   return [
     {
-      name: '充电站总量',
+      name: '累计告警总数',
       num: 6399,
-      unit: '个'
+      unit: '个',
+      nameColor:'#FF6B4B'
     },
     {
-      name: '充电桩总量',
+      name: '当前告警总数',
       num: 125639,
-      unit: '个'
+      unit: '个',
+      nameColor:'#F9E900'
     },
     {
-      name: '充电枪总量',
+      name: '已确认总数',
       num: 125639,
-      unit: '个'
+      unit: '个',
+      nameColor:'#FF6B4B'
     },
     {
-      name: '充电总功率',
+      name: '已恢复总数',
       num: 281887.3,
-      unit: 'KW'
+      unit: 'KW',
+      nameColor:'#FF6B4B'
     }
   ];
 };
@@ -149,7 +153,7 @@ const formatStyle = (style = {}) => {
   const styleDefault = {
     iconStyle: {
       width: '1.03rem',
-      height: '1.08rem'
+      height: '1.2rem'
     },
     numStyle: {
       fontFamily: 'DIN Condensed',
@@ -164,6 +168,10 @@ const formatStyle = (style = {}) => {
   style = merge(styleDefault, style);
   return style;
 };
+const iconStyleS =  {
+  width: '0.9rem',
+  height: '1.06rem'
+}
 
 export const realtimeStateDataFun = (code = 1) => {
   if (code === 1) {
@@ -195,23 +203,126 @@ export const realtimeStateDataFun = (code = 1) => {
         })
       }
     ];
+  } else if (code === 2) {
+    return [
+      {
+        img: stateBlueS,
+        num: 2203,
+        name: '在线/个',
+        ...formatStyle({
+          iconStyle:iconStyleS
+        })
+      },
+      {
+        img: stateGrayS,
+        num: 201,
+        name: '离线/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#FFFFFF'
+          }
+        })
+      },
+      {
+        img: stateGreenS,
+        num: 48,
+        name: '正常/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#00FFB2'
+          }
+        })
+      },
+      {
+        img: stateYellowS,
+        num: 48,
+        name: '故障/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#FFB713'
+          }
+        })
+      },
+    ];
+  } else {
+    return [
+      {
+        img: stateBlueS,
+        num: 2203,
+        name: '空闲/个',
+        ...formatStyle({
+          iconStyle:iconStyleS
+        })
+      },
+      {
+        img: stateGreenS,
+        num: 48,
+        name: '占用/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#00FFB2'
+          }
+        })
+      },
+      {
+        img: stateYellowS,
+        num: 48,
+        name: '故障/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#FFB713'
+          }
+        })
+      },
+      {
+        img: stateGrayS,
+        num: 201,
+        name: '离线/个',
+        ...formatStyle({
+          iconStyle:iconStyleS,
+          numStyle: {
+            color: '#FFFFFF'
+          }
+        })
+      },
+      
+      
+    ];
   }
 };
-const timeData = () =>
-  new Array(25)
-    .fill(0)
-    .map((item, index) => [
-      dayjs().hour(index).format('YYYY-MM-DD HH:00'),
-      Math.ceil(Math.random() * 100)
-    ]);
 
 export const realtimeTrendFun = () => {
+  const timeData = () =>
+    new Array(25)
+      .fill(0)
+      .map((item, index) => [
+        dayjs().hour(index).format('YYYY-MM-DD HH:00'),
+        Math.ceil(Math.random() * 100)
+      ]);
   return [
     {
       data: timeData(),
       type: 'line',
       smooth: true,
       name: '告警数'
+    }
+  ];
+};
+
+export const bottomTabDataFun = () => {
+  return [
+    {
+      code: 1,
+      label: '告警信息'
+    },
+    {
+      code: 2,
+      label: '充电站状态'
     }
   ];
 };
