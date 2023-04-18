@@ -53,6 +53,31 @@ ul, ol {
     // scrollbar-base-color: #0099dd; // 滚动条基准颜色
   }
 }
+// 页面表格样式
+.custom-table {
+  font-size: 14px !important;
+  font-weight: 400;
+  .el-table__cell{
+    padding: 0;
+  }
+
+  .el-table__header {
+    background: linear-gradient(0deg, #1c3b68 -24.83%, rgba(47, 61, 82, 0.0884779) 100%);
+    .el-table__cell {
+      .cell {
+        line-height: 36px;
+        font-weight: 400;
+      }
+    }
+  }
+  .el-table__body-wrapper {
+    .cell {
+      line-height: 44px;
+      white-space: nowrap;
+      color: #fff;
+    }
+  }
+}
 
 // for Webkit
 ::-webkit-scrollbar {

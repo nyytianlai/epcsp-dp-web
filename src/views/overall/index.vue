@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-14 17:54:14
+ * @LastEditTime: 2023-04-18 16:49:10
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -55,16 +55,23 @@
       <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
     </div>
     <div class="today-warning-message">
-      <title-column title="今日告警信息" />
+      <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
       <warning-tabs :data="warningTabsData" />
       <warning-list :data="warningListData" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData"/>
+  <dialog-table v-model:visible="dialogTableVisible"/>
 </template>
 <script setup>
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
+import {
+  overTotalCount,
+  totalFacilities,
+  totalEquipment,
+  stationOpeTop10
+} from '@/api/overall.js'
 import {
   pageNumFun,
   cdsszlFun,
@@ -91,8 +98,8 @@ const pileChargerData = ref(pileChargerFun());
 // 运营企业全年TOP10类型切换tab
 const operatingTabsData = ref(operatingTabsFun());
 // 运营企业全年TOP10类型运营企业数据
-const projectList = ref(projectListFun());
-const projectTotalNum = ref(6400);
+const projectList = ref([]);
+const projectTotalNum = ref(0);
 // 今日充电设施数据信息tab
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
@@ -106,19 +113,63 @@ const warningTabsData = ref(warningTabsDataFun())
 const warningListData = ref(warningListFun())
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-
+const dialogTableVisible = ref(false)
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
-    pileChargerData.value = pileChargerFun(data.code);
+    getTotalEquipment(data.code)
   } else if (type === 'operating') {
     // 切换运营企业全年TOP10类型
-    projectList.value = projectListFun();
+    getStationOpeTop10(data.code)
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
   }
 };
+
+const handleClick = () => {
+  dialogTableVisible.value = true
+}
+// 总览上面4个指标
+const getOverTotalCount = async() => {
+  const res = await overTotalCount()
+  pageNumData.value = pageNumFun(res.data)
+}
+//充电设施总量
+const getTotalFacilities = async () => {
+  const res = await totalFacilities()
+  cardData.value = cdsszlFun(res.data)
+}
+//充电桩总量：pile，充电枪总量：gun
+const getTotalEquipment = async (type) => {
+  const res = await totalEquipment(type)
+  pileChargerData.value = pileChargerFun(type,res.data)
+}
+
+//运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
+const getStationOpeTop10 = async (type) => {
+  const res = await stationOpeTop10(type)
+  if (res?.data) {
+    const data = res.data.map(item => {
+      return {
+        num: item.amount,
+        unit: '个',
+        name:item.operatorName
+      }
+    })
+    projectList.value = data
+    projectTotalNum.value = data[0].num || 0
+  } else {
+    projectList.value = []
+    projectTotalNum.value = 0
+  }
+}
+onMounted(() => {
+  getOverTotalCount()
+  getTotalFacilities()
+  getTotalEquipment('pile')
+  getStationOpeTop10('station')
+})
 </script>
 <style lang="less" scoped>
 .total-charging-facilities {

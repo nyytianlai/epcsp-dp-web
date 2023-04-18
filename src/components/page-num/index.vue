@@ -2,14 +2,14 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 15:03:31
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-12 16:00:08
+ * @LastEditTime: 2023-04-17 14:58:29
  * @FilePath: \epcsp-dp-web\src\components\page-num.vue\index.vue.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="page-num-wrap">
+  <div class="page-num-wrap" :class="bgcType">
     <div class="num-wrap" v-for="(item, index) in data">
-      <span class="name">{{ item.name }}</span>
+      <span class="name" :style="{color:item.nameColor}">{{ item.name }}</span>
       <span class="num-unit">
         <span class="num">{{ item.num }}</span>
         <span class="unit">{{ item.unit }}</span>
@@ -22,9 +22,11 @@ interface Idata {
   num: string | number;
   name: string;
   unit: string;
+  nameColor?: string;
 }
 interface Props {
   data: Idata[];
+  bgcType:string
 }
 const props = withDefaults(defineProps<Props>(), {});
 const { data } = toRefs(props);
@@ -43,6 +45,9 @@ const { data } = toRefs(props);
   padding: 0 80px 30px;
   display: flex;
   justify-content: space-between;
+  &.red-bgc{
+    background-image: url(./images/bottom-red-bgc.png);
+  }
   .num-wrap {
     display: flex;
     flex-direction: column;
