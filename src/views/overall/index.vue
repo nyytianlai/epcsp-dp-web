@@ -13,7 +13,7 @@
       <title-column title="充电设施总量" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
-          <num-card :data="item" classStyleType='bottomDown'  />
+          <num-card :data="item" classStyleType="bottomDown" />
         </template>
       </div>
     </div>
@@ -21,11 +21,7 @@
       <tabs :data="tabsData" @changeTab="(data) => handleChangeTab(data, 'charger')" />
       <div class="num-wrap">
         <template v-for="(item, index) in pileChargerData" :key="index">
-          <num-card
-            :data="item"
-            type="left-right"
-            classStyleType="leftRightStyle1"
-          />
+          <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
         </template>
       </div>
     </div>
@@ -52,7 +48,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
+      <line-time-chart :data="lineTimeData" :colors="['green', 'blue']" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" />
@@ -60,9 +56,11 @@
       <warning-list :data="warningListData" />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData"/>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+  <map-layer ref="mapLayerRef"></map-layer>
 </template>
 <script setup>
+import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import {
@@ -80,6 +78,7 @@ import {
   warningListFun,
   bottomTabDataFun
 } from './config.js';
+let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 //充电设施总量数据
@@ -97,13 +96,13 @@ const projectTotalNum = ref(6400);
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
-const powerInfoNumData = ref(powerInfoNumDataFun())
+const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
-const lineTimeData = ref(lineTimeDataFun())
+const lineTimeData = ref(lineTimeDataFun());
 console.log(lineTimeData.value);
 // 今日告警信息tabData
-const warningTabsData = ref(warningTabsDataFun())
-const warningListData = ref(warningListFun())
+const warningTabsData = ref(warningTabsDataFun());
+const warningListData = ref(warningListFun());
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 
@@ -118,6 +117,13 @@ const handleChangeTab = (data, type) => {
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
   }
+};
+
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  mapLayerRef.value.setRectBarVisibility(value);
+  mapLayerRef.value.setHeatMapVisibility(value);
 };
 </script>
 <style lang="less" scoped>

@@ -45,8 +45,10 @@
       <line-time-chart :data="lineRunData" :colors="['green','#FF7723']"/>
     </div>
   </panel>
+  <map-layer></map-layer>
 </template>
 <script setup>
+import MapLayer from './components/map-layer.vue'
 import ChargingNumImages from './components/charging-num-images.vue'
 import ChargingRealtimePower from './components/charging-realtime-power.vue'
 import {

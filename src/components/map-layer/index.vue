@@ -7,33 +7,29 @@ import { getImageUrl } from '@/utils/index';
 import { addAbortSignal } from 'stream';
 
 const aircityObj = inject('aircityObj');
-const { useEmitt } = inject('aircityObj');
+// const { useEmitt } = inject('aircityObj');
 
-useEmitt('AIRCITY_EVENT', (e) => {
-  // 编写自己的业务
-  console.log('鼠标左键单击', e);
-  aircityObj.acApi.polygon.focus(e.Id,13000)
-});
+// useEmitt('AIRCITY_EVENT', (e) => {
+//   // 编写自己的业务
+//   console.log('鼠标左键单击', e);
+//   aircityObj.acApi.polygon.focus(e.Id, 13000);
+
+// });
+
 const addQu = async () => {
   // await aircityObj.acApi.polyline.clear();
   const res = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/qu4547.geojson`
   });
 
-  let polylineArr = [];
+  let polygonArr = [];
   res.features.forEach((item, index) => {
-    let oPolyline = {
+    let oPolygon = {
       id: item.properties.QUNAME, //polygon唯一标识id
-      groupId: 'quLine',
+      groupId: 'quPolygon',
       coordinates: item.geometry.coordinates[0], //构成polygon的坐标点数组
       range: [1, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
-      userData:item.properties.QUNAME,
-      // color: '#8ae0fa', //折线颜色
-      // thickness: 100, //折线宽度
-      // intensity: 1, //亮度
-      // shape: 0, //折线类型 0：直线， 1：曲线
-      // depthTest: false, //是否做深度检测 开启后会被地形高度遮挡
-      // style: 5 //折线样式 参考样式枚举：PolylineStyle
+      userData: item.properties.QUNAME,
       color: [0, 0, 0.4, 0], //多边形的填充颜色
       frameColor: '#8ae0fa', //边框颜色
       frameThickness: 100, //边框厚度
@@ -41,11 +37,11 @@ const addQu = async () => {
       style: 0, //单色 请参照API开发文档选取枚举
       depthTest: false //是否做深度检测 开启后会被地形高度遮挡
     };
-    polylineArr.push(oPolyline);
+    polygonArr.push(oPolygon);
   });
   //批量添加polygon
-  // aircityObj.acApi.polyline.add(polylineArr, null); 
-  aircityObj.acApi.polygon.add(polylineArr, null);
+  // aircityObj.acApi.polyline.add(polylineArr, null);
+  aircityObj.acApi.polygon.add(polygonArr, null);
 };
 const addQuName = async () => {
   // await aircityObj.acApi.marker.clear();
@@ -99,7 +95,7 @@ const addBar = async () => {
   });
   aircityObj.acApi.customTag.add(barArr);
 };
-onMounted(async () => {
+onMounted(async() => {
   await aircityObj.acApi.reset();
   addQu();
   addQuName();

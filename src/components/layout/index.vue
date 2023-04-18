@@ -25,8 +25,7 @@
     </div>
     <div class="subject-container">
       <div class="main-content">
-        <base-ac :cloudHost=cloudHost @map-ready="mapReady">
-          <layer-operation></layer-operation>
+        <base-ac :cloudHost=cloudHost>
           <router-view v-slot="{ Component, route }">
             <keep-alive :exclude="excludeViews">
               <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
@@ -42,7 +41,6 @@
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
-import LayerOperation from '@/components/layer-operation.vue';
 import { routes } from '@/router';
 import { h } from 'vue';
 const wrapperMap = new Map();
@@ -50,8 +48,7 @@ export default {
   components: {
     HeaderArea,
     NavTab,
-    BaseAc,
-    LayerOperation
+    BaseAc
   },
   props: {
     title: {
@@ -121,9 +118,6 @@ export default {
     this.$nextTick(() => this.getkeepAliveList(routes));
   },
   methods: {
-    mapReady(obj) {
-      console.log('aircityObj', obj);
-    },
     getkeepAliveList(list, flag = false) {
       list.forEach((item) => {
         const isDropChildren = flag || item?.meta?.isDropChildren;
