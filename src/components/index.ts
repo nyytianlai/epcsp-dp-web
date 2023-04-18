@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 17:23:22
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-14 11:32:39
+ * @LastEditTime: 2023-04-18 11:09:21
  * @FilePath: \epcsp-dp-web\src\components\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,6 +21,7 @@ import PieChart from '@/components/pie-chart/index.vue';
 import LineTimeChart from '@/components/line-time-chart.vue'
 import Panel from '@/components/panel/index.vue'
 import PageNum from '@/components/page-num/index.vue';
+import DialogTable from '@/components/dialog-table/index.vue'
 
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
@@ -38,7 +39,8 @@ const components: {
     PieChart,
     LineTimeChart,
     Panel,
-    PageNum
+    PageNum,
+    DialogTable
 }
   
    

@@ -216,7 +216,6 @@ const ecOptionFun = () => {
       padding:0,
       trigger:'axis',
       formatter: (params) => {
-        console.log(params);
         const dataTime = '00:00';
         let str = `<div class="time-tooltip">`;
         str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;

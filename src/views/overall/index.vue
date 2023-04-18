@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-17 17:46:14
+ * @LastEditTime: 2023-04-18 14:31:28
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -55,13 +55,13 @@
       <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
     </div>
     <div class="today-warning-message">
-      <title-column title="今日告警信息" :showBtn="true"  />
-        
+      <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
       <warning-tabs :data="warningTabsData" />
       <warning-list :data="warningListData" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData"/>
+  <dialog-table v-model:visible="dialogTableVisible"/>
 </template>
 <script setup>
 import PageNum from '@/components/page-num/index.vue';
@@ -107,7 +107,7 @@ const warningTabsData = ref(warningTabsDataFun())
 const warningListData = ref(warningListFun())
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-
+const dialogTableVisible = ref(false)
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charger') {
@@ -120,6 +120,10 @@ const handleChangeTab = (data, type) => {
     // 今日充电设施数据信息tab切换
   }
 };
+
+const handleClick = () => {
+  dialogTableVisible.value = true
+}
 </script>
 <style lang="less" scoped>
 .total-charging-facilities {

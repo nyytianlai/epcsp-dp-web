@@ -131,7 +131,6 @@ interface IStyleImgFont{
   name?: CSSProperties;
 }
 const styleImgFont = computed<IStyleImgFont>(()=>{
-  console.log(data.value,classStyleType.value);
   
   if(classStyleType.value){
     return styleObj[classStyleType.value]
