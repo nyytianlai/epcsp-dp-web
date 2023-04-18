@@ -1,6 +1,6 @@
 import charging from '@/assets/images/stationDetail/charging.png'
 import camera from '@/assets/images/stationDetail/camera.png'
-import dLock from '@/assets/images/stationDetail/d-lock.png'
+import dLock from '@/assets/images/stationDetail/dLock.png'
 import rate from '@/assets/images/stationDetail/rate.png';
 import num from '@/assets/images/stationDetail/num.png';
 import dayjs from 'dayjs';
