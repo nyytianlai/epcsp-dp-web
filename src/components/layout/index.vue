@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-18 10:12:18
+ * @LastEditTime: 2023-04-18 15:01:25
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -23,6 +23,7 @@
         :nav-tab-name="navTabName"
       />
     </div>
+    <time-weather/>
     <div class="subject-container">
       <div class="main-content">
         <router-view v-slot="{ Component, route }">
@@ -38,13 +39,15 @@
 <script>
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
+import TimeWeather from './components/time-weather.vue'
 import { routes } from '@/router';
 import { h } from 'vue';
 const wrapperMap = new Map();
 export default {
   components: {
     HeaderArea,
-    NavTab
+    NavTab,
+    TimeWeather
   },
   props: {
     title: {
@@ -79,8 +82,6 @@ export default {
     }
   },
   data() {
-    console.log(routes);
-    console.log(routes.slice(0, routes.length));
     return {
       currentTab: 0,
       navDropList: routes.slice(0, routes.length),
@@ -182,6 +183,13 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
+
+}
+.time-weather-wrap{
+  position: absolute;
+  top: 52px;
+  right: 40px;
+  z-index: 999;
 }
 
 #subject-layout-wrap {
