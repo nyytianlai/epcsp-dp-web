@@ -9,7 +9,7 @@
 NODE_ENV = production
 
 # 接口前缀
-VITE_API_BASEPATH = /epcsp/dp/api/
+VITE_API_BASEPATH=/epcsp/dp/api/
 
 # 打包路径
 VITE_BASE_PATH = /
