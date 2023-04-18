@@ -115,7 +115,6 @@ const warningListData = ref(warningListFun())
 const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false)
 const handleChangeTab = (data, type) => {
-  console.log(data, type);
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
     getTotalEquipment(data.code)
@@ -131,8 +130,9 @@ const handleClick = () => {
   dialogTableVisible.value = true
 }
 // 总览上面4个指标
-const getOverTotalCount = async() => {
+const getOverTotalCount = async () => {
   const res = await overTotalCount()
+  console.log('总览上面4个指标',res);
   pageNumData.value = pageNumFun(res.data)
 }
 //充电设施总量
@@ -165,6 +165,7 @@ const getStationOpeTop10 = async (type) => {
   }
 }
 onMounted(() => {
+  console.log('mounted');
   getOverTotalCount()
   getTotalFacilities()
   getTotalEquipment('pile')
