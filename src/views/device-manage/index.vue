@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-14 17:54:14
+ * @LastEditTime: 2023-04-17 14:40:13
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -45,8 +45,10 @@
       <line-time-chart :data="lineRunData" :colors="['green','#FF7723']"/>
     </div>
   </panel>
+  <map-layer></map-layer>
 </template>
 <script setup>
+import MapLayer from './components/map-layer.vue'
 import ChargingNumImages from './components/charging-num-images.vue'
 import ChargingRealtimePower from './components/charging-realtime-power.vue'
 import {
@@ -100,10 +102,13 @@ const handleChangeTab = (data, type) => {
   }
 }
 .charging-peak-area {
-  margin-top: 35px;
+  margin-top: 22px;
+  .area-rank-wrap{
+    margin-top: 16px;
+  }
 }
 .charging-num-images {
-  margin-top: 40px;
+  margin-top: 26px;
 }
 .charging-types,
 .charging-runing {
@@ -116,7 +121,7 @@ const handleChangeTab = (data, type) => {
     margin-top: 16px;
     :deep(.num-card) {
       width: 49%;
-      padding: 24px 0 11px;
+      padding: 24px 0 18px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,

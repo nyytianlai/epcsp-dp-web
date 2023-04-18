@@ -9,7 +9,7 @@
 <template>
   <div class="pie-wrap">
     <div class="pie-chart-wrap">
-      <ec-resize :option="ecOption" ref="ec" @instanceReady="watchInstanceReady" />
+      <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
     </div>
     <div class="legend-wrap">
       <div class="legend" v-for="(item, index) in data" :key="index">
@@ -56,7 +56,6 @@ const props = withDefaults(defineProps<Props>(), {
   colors:()=>['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB']
 });
 const { data,colors } = toRefs(props);
-const ec = ref();
 const selectIndex = ref();
 const ecOption = computed(() => {
   return {

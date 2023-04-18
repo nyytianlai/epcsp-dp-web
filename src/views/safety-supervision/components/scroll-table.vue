@@ -1,6 +1,14 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-17 09:12:44
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-04-17 11:32:12
+ * @FilePath: \epcsp-dp-web\src\views\safety-supervision\components\scroll-table.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
       <ScrollTable
-        style="width: 100%; height: 3.34rem"
+        style="width: 100%; height: 3.44rem"
         :autoScroll="false"
         :interval="5000"
         :data="gridInfo.data"
@@ -51,25 +59,5 @@
   </script>
 
   <style lang="less">
-.custom-table {
-  font-size: 14px !important;
-  font-weight: 400;
 
-  .el-table__header {
-    background: linear-gradient(0deg, #1c3b68 -24.83%, rgba(47, 61, 82, 0.0884779) 100%);
-    .el-table__cell {
-      .cell {
-        line-height: 36px;
-        font-weight: 400;
-      }
-    }
-  }
-  .el-table__body-wrapper {
-    .cell {
-      line-height: 44px;
-      white-space: nowrap;
-      color: #fff;
-    }
-  }
-}
 </style>

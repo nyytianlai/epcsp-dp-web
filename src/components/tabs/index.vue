@@ -43,7 +43,6 @@ const handleSelect = (item) => {
   padding-left: 25px;
   padding-bottom: 3px;
   .tab {
-    width: 112px;
     margin-right: 40px;
     display: flex;
     justify-content: center;
@@ -62,12 +61,12 @@ const handleSelect = (item) => {
       &::after {
         content: '';
         position: absolute;
-        width: 100%;
+        width: 112px;
         height: 2px;
         bottom: -3px;
-        left: 0;
-        background: url(./images/tab-active-bgc.png) no-repeat;
-        background-size: 100% 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(270deg, rgba(37, 177, 255, 0) 4.73%, rgba(255, 255, 255, 0.8) 39.86%, rgba(255, 255, 255, 0.8) 51.13%, rgba(37, 177, 255, 0) 91.22%);
       }
     }
     .label {
