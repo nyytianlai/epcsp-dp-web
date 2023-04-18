@@ -14,5 +14,8 @@ VITE_API_BASEPATH=/epcsp/dp/api/
 # 打包路径
 VITE_BASE_PATH = /
 
+# 本地开发的飞渡地图服务地址
+VITE_FD_URL=10.10.50.136:10086
+
 # 应用名称，用于网页头部等
 VITE_APP_TITLE = 电力充储放一张图

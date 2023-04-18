@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 16:49:10
+ * @LastEditTime: 2023-04-18 20:40:38
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -13,7 +13,7 @@
       <title-column title="充电设施总量" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
-          <num-card :data="item" classStyleType='bottomDown'  />
+          <num-card :data="item" classStyleType="bottomDown" />
         </template>
       </div>
     </div>
@@ -21,11 +21,7 @@
       <tabs :data="tabsData" @changeTab="(data) => handleChangeTab(data, 'charger')" />
       <div class="num-wrap">
         <template v-for="(item, index) in pileChargerData" :key="index">
-          <num-card
-            :data="item"
-            type="left-right"
-            classStyleType="leftRightStyle1"
-          />
+          <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
         </template>
       </div>
     </div>
@@ -52,7 +48,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
+      <line-time-chart :data="lineTimeData" :colors="['green', 'blue']" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
@@ -60,11 +56,13 @@
       <warning-list :data="warningListData" />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData"/>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+  <map-layer ref="mapLayerRef"></map-layer>
   <dialog-table v-model:visible="dialogTableVisible"/>
 </template>
 <script setup>
 import {onMounted} from 'vue'
+import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import {
@@ -88,6 +86,7 @@ import {
   warningListFun,
   bottomTabDataFun
 } from './config.js';
+let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 //充电设施总量数据
@@ -105,13 +104,13 @@ const projectTotalNum = ref(0);
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
-const powerInfoNumData = ref(powerInfoNumDataFun())
+const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
-const lineTimeData = ref(lineTimeDataFun())
+const lineTimeData = ref(lineTimeDataFun());
 console.log(lineTimeData.value);
 // 今日告警信息tabData
-const warningTabsData = ref(warningTabsDataFun())
-const warningListData = ref(warningListFun())
+const warningTabsData = ref(warningTabsDataFun());
+const warningListData = ref(warningListFun());
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false)
@@ -127,6 +126,12 @@ const handleChangeTab = (data, type) => {
   }
 };
 
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  mapLayerRef.value.setRectBarVisibility(value);
+  mapLayerRef.value.setHeatMapVisibility(value);
+};
 const handleClick = () => {
   dialogTableVisible.value = true
 }

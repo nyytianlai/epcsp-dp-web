@@ -26,11 +26,13 @@
     <time-weather/>
     <div class="subject-container">
       <div class="main-content">
-        <router-view v-slot="{ Component, route }">
-          <keep-alive :exclude="excludeViews">
-            <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
-          </keep-alive>
-        </router-view>
+        <base-ac :cloudHost=cloudHost>
+          <router-view v-slot="{ Component, route }">
+            <keep-alive :exclude="excludeViews">
+              <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
+            </keep-alive>
+          </router-view>
+        </base-ac>
       </div>
     </div>
   </div>
@@ -39,6 +41,7 @@
 <script>
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
+import BaseAc from '@sutpc/vue3-aircity';
 import TimeWeather from './components/time-weather.vue'
 import { routes } from '@/router';
 import { h } from 'vue';
@@ -47,6 +50,7 @@ export default {
   components: {
     HeaderArea,
     NavTab,
+    BaseAc,
     TimeWeather
   },
   props: {
@@ -82,11 +86,13 @@ export default {
     }
   },
   data() {
+    const cloudHost=import.meta.env.VITE_FD_URL
     return {
       currentTab: 0,
       navDropList: routes.slice(0, routes.length),
       excludeViews: [],
-      includeViews: []
+      includeViews: [],
+      cloudHost
     };
   },
   computed: {
