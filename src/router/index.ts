@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 09:55:35
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-17 11:42:34
+ * @LastEditTime: 2023-04-18 19:27:12
  * @FilePath: \template-bigscreen-vue3\src\router\index.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -78,6 +78,10 @@ export const routes = [
 
 ];
 let routesMap = [
+  {
+    path: '/',
+    redirect: { name: 'overallAllView' }
+  },
   ...routes,
   {
     path: '/station',
