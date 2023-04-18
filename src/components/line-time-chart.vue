@@ -1,7 +1,7 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
     <div class="unit" v-if="unit">单位: {{unit}}</div>
-    <ec-resize :option="ecOption" ref="ec" @instanceReady="watchInstanceReady" />
+    <ec-resize :option="ecOption" />
   </div>
 </template>
 
@@ -26,14 +26,15 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
-    width: '4.29rem',
+    width: '100%',
     height: '1.89rem'
   }),
   unit: '个',
   colors:()=>['green','blue']
 });
 
-const { data, chartStyle, unit,colors } = toRefs(props);
+const { data, chartStyle, unit, colors } = toRefs(props);
+const ecOption = ref()
 const colorMap = {
   'green': {
     areaStyle: {
@@ -114,21 +115,39 @@ const colorMap = {
     itemStyle: {
       color: '#FF6B4B'
     }
-  }
+  },
+  '#00FFF9':{
+    areaStyle: {
+          color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+              offset: 0, color: '#00FFF9' // 0% 处的颜色
+          }, {
+              offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+          }],
+          global: false // 缺省为 false
+        }
+    },
+    itemStyle: {
+      color: '#00FFF9'
+    }
+  },
 }
 // const times = (new Array(25).fill(0)).map((item,index)=>dayjs().hour(index).format('YYYY-MM-DD HH:00'))
 // console.log(times);
 // const transformData = ()=>{
 //   data
 // }
-const ecOption = computed(() => {
-  console.log(JSON.stringify(data.value));
-  
+const ecOptionFun = () => {    
   let option = {
     grid: {
       top: 30,
       bottom: 24,
-      width:'100%'
+      width: '100%',
     },
     legend: {
       itemWidth: 16,
@@ -144,7 +163,7 @@ const ecOption = computed(() => {
     xAxis: {
       name: '',
       type:'time',
-      boundaryGap: ['2%', '20%'],
+      boundaryGap: ['2%', '18%'],
       axisLine: {
         lineStyle: {
           color: '#BAE7FF'
@@ -197,7 +216,6 @@ const ecOption = computed(() => {
       padding:0,
       trigger:'axis',
       formatter: (params) => {
-        console.log(params);
         const dataTime = '00:00';
         let str = `<div class="time-tooltip">`;
         str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;
@@ -221,12 +239,17 @@ const ecOption = computed(() => {
   };
   option = merge(option, {series: colors.value.map(item=>colorMap[item])})
   return option;
-});
+};
+watch(data, () => {
+  ecOption.value = ecOptionFun()
+}, {
+  immediate:true
+})
 </script>
 
 <style lang="less" scoped>
 .ec-wrap {
-  width: 429px;
+  width: 100%;
   height: 189px;
   position: relative;
   .unit {

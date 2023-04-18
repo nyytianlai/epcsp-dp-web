@@ -6,12 +6,12 @@
  * @FilePath: \zndd-web\src\router\permission.js
  * @Description: FilePath
  */
-import router from './index';
-router.beforeEach(async (to, from, next) => {
-  const disabled = to.matched[0];
-  if (!disabled) {
-    await next('/overall/allView');
-  } else {
-    next();
-  }
-});
+// import router from './index';
+// router.beforeEach(async (to, from, next) => {
+//   const disabled = to.matched[0];
+//   if (!disabled) {
+//     await next('/overall/allView');
+//   } else {
+//     next();
+//   }
+// });

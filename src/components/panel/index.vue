@@ -2,11 +2,12 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 16:10:29
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 14:40:16
+ * @LastEditTime: 2023-04-18 10:12:44
  * @FilePath: \epcsp-dp-web\src\components\panel\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
+  <div class="mask-bgc" :class="type"></div>
   <div class="panel" :class="type">
     <slot />
     <div class="circle-bg"></div>
@@ -23,11 +24,30 @@ const props = withDefaults(defineProps<Props>(), {
 const { type } = toRefs(props);
 </script>
 <style lang="less" scoped>
+.mask-bgc{
+  background: linear-gradient(270deg, rgba(0, 65, 129, 0) 0%, rgba(0, 20, 40, 0.81) 36.31%, #00101F 95.21%);
+  opacity: 0.8;
+  border-radius: 4px;
+  width: 739px;
+  height: 1080px;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  &.left{
+    left: 0;
+  }
+  &.right{
+    right: 0;
+    background: linear-gradient(270deg, #00101F 0%, rgba(0, 20, 40, 0.81) 59.5%, rgba(0, 65, 129, 0) 95.21%);
+  }
+}
 .panel {
   position: absolute;
   top: 126px;
   left: 30px;
   width: 426px;
+  z-index: 5;
   .circle-bg {
     position: absolute;
     width: 622px;

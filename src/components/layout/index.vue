@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-12 17:03:35
+ * @LastEditTime: 2023-04-18 15:01:25
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -23,6 +23,7 @@
         :nav-tab-name="navTabName"
       />
     </div>
+    <time-weather/>
     <div class="subject-container">
       <div class="main-content">
         <base-ac :cloudHost=cloudHost>
@@ -41,6 +42,7 @@
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
+import TimeWeather from './components/time-weather.vue'
 import { routes } from '@/router';
 import { h } from 'vue';
 const wrapperMap = new Map();
@@ -49,6 +51,7 @@ export default {
     HeaderArea,
     NavTab,
     BaseAc
+    TimeWeather
   },
   props: {
     title: {
@@ -83,9 +86,12 @@ export default {
     }
   },
   data() {
+<<<<<<< HEAD
     console.log(routes);
     console.log(routes.slice(0, routes.length));
     const cloudHost=import.meta.env.VITE_FD_URL
+=======
+>>>>>>> a12a6fe9f72ab9cf24fb63c3d89270b9ac73ae23
     return {
       currentTab: 0,
       navDropList: routes.slice(0, routes.length),
@@ -188,6 +194,13 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
+
+}
+.time-weather-wrap{
+  position: absolute;
+  top: 52px;
+  right: 40px;
+  z-index: 999;
 }
 
 #subject-layout-wrap {
@@ -204,16 +217,19 @@ export default {
   &::before {
     content: '';
     position: absolute;
+    z-index: 50;
     right: 10px;
     bottom: 10px;
     width: 259px;
     height: 260px;
     background: url(@/assets/images/layout/corner-bgc.png) no-repeat;
     background-size: 100% 100%;
+    pointer-events: none;
   }
   &::after {
     content: '';
     position: absolute;
+    z-index: 50;
     left: 10px;
     bottom: 10px;
     width: 259px;
@@ -225,6 +241,7 @@ export default {
     -o-transform: scaleX(-1);
     transform: scaleX(-1);
     transform-origin: center;
+    pointer-events: none;
   }
 }
 .my-tab-wrap {
@@ -232,7 +249,7 @@ export default {
   top: 44px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 100;
   .date-picker {
     position: absolute;
     flex: 0 0 1.8rem;

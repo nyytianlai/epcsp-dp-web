@@ -11,6 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { CSSProperties } from 'vue'
 interface Idata {
   img: string;
   name: string;
@@ -124,8 +125,12 @@ const styleObj = {
 };
 
 const { data, type, classStyleType } = toRefs(props);
-const styleImgFont = computed(()=>{
-  console.log(data.value,classStyleType.value);
+interface IStyleImgFont{
+  icon?: CSSProperties;
+  num?: CSSProperties;
+  name?: CSSProperties;
+}
+const styleImgFont = computed<IStyleImgFont>(()=>{
   
   if(classStyleType.value){
     return styleObj[classStyleType.value]
