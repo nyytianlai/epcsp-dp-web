@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 09:55:35
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 17:52:05
+ * @LastEditTime: 2023-04-18 20:17:43
  * @FilePath: \epcsp-dp-web\vite.config.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -33,7 +33,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     envDir: pathResolve('config'),
     base: env.VITE_BASE_PATH,
     build: {
-      target: 'esnext' //browsers can handle the latest ES features
+      // target: 'esnext' //browsers can handle the latest ES features
+    },
+    esbuild: {
+      supported: {
+        'top-level-await': true //browsers can handle top-level-await features
+      },
     },
     plugins: [
       vue(),
