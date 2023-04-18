@@ -49,6 +49,7 @@
     <bottom-menu-tabs :data="bottomTabsData"/>
   </template>
 <script setup>
+import { ref, onMounted } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
 import {
     pageNumFun,
@@ -95,31 +96,31 @@ const handleChangeTab = (data, type) => {
 </script>
 
 <style lang="less" scoped>
-.total-warning-num{
-  .tabs{
+.total-warning-num {
+  .tabs {
     margin-top: 10px;
   }
-  .el-table{
+  .el-table {
     margin-top: 25px;
   }
 }
-.area-warning-num{
+.area-warning-num {
   margin-top: 18px;
-  .area-rank-wrap{
+  .area-rank-wrap {
     margin-top: 12px;
   }
 }
-.warning-monitor{
-  .tabs{
+.warning-monitor {
+  .tabs {
     margin-top: 7px;
   }
-  .pie-wrap{
+  .pie-wrap {
     margin-top: 20px;
   }
 }
 .realtime-state {
   margin-top: 18px;
-  .tabs{
+  .tabs {
     margin-top: 12px;
   }
   :deep(.num-wrap) {
@@ -129,7 +130,7 @@ const handleChangeTab = (data, type) => {
     justify-content: space-between;
   }
 }
-.realtime-trend{
+.realtime-trend {
   margin-top: 23px;
 }
 </style>

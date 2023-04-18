@@ -11,6 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import {toRefs,computed } from 'vue'
 import type { CSSProperties } from 'vue'
 interface Idata {
   img: string;

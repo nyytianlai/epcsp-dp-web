@@ -16,7 +16,7 @@ import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import AutoImport from 'unplugin-auto-import/vite'
+// import AutoImport from 'unplugin-auto-import/vite'
 
 import type { UserConfig, ConfigEnv } from 'vite';
 
@@ -33,12 +33,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     envDir: pathResolve('config'),
     base: env.VITE_BASE_PATH,
     build: {
-      // target: 'esnext' //browsers can handle the latest ES features
-    },
-    esbuild: {
-      supported: {
-        'top-level-await': true //browsers can handle top-level-await features
-      },
+      target: 'esnext', //browsers can handle the latest ES features
     },
     plugins: [
       vue(),
@@ -64,10 +59,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           }
         }
       }),
-      AutoImport({//注册
-        imports: ['vue', 'vue-router'],
-        dts: 'src/auto-import.d.ts'
-      })
+      // AutoImport({//注册
+      //   imports: ['vue', 'vue-router'],
+      //   dts: 'src/auto-import.d.ts'
+      // })
     ],
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.less', '.css'],

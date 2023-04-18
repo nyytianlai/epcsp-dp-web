@@ -33,6 +33,7 @@
   </div>
 </template>
 <script setup>
+import {ref} from 'vue'
 import NumCard from '@/components/num-card.vue';
 import RankList from '@/components/rank-list.vue';
 import TitleColumn from '@/components/title-column/index.vue';

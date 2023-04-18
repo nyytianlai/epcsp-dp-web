@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref,toRefs } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 interface Idata {
   name: string;

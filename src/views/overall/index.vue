@@ -61,7 +61,7 @@
   <dialog-table v-model:visible="dialogTableVisible"/>
 </template>
 <script setup>
-import {onMounted} from 'vue'
+import {onMounted,ref} from 'vue'
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';

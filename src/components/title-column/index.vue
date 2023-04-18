@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-
+import {onMounted,ref,onBeforeUnmount,toRefs } from 'vue'
 interface Props {
   title: string;
   btnText?: string;
@@ -44,7 +44,7 @@ const handleClick = () => {
   background-size: 100% 38px;
   background-position: bottom left;
 }
-.border-out{
+.border-out {
   position: absolute;
   top: 2px;
   right: 12px;

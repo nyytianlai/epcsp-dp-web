@@ -29,6 +29,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { toRefs } from 'vue';
 interface Idata {
   name: string;
   num: number;

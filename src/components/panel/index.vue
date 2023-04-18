@@ -14,6 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import {onMounted,ref,onBeforeUnmount,toRefs } from 'vue'
 type Itype = 'left' | 'right';
 interface Props {
   type: string;
@@ -24,8 +25,13 @@ const props = withDefaults(defineProps<Props>(), {
 const { type } = toRefs(props);
 </script>
 <style lang="less" scoped>
-.mask-bgc{
-  background: linear-gradient(270deg, rgba(0, 65, 129, 0) 0%, rgba(0, 20, 40, 0.81) 36.31%, #00101F 95.21%);
+.mask-bgc {
+  background: linear-gradient(
+    270deg,
+    rgba(0, 65, 129, 0) 0%,
+    rgba(0, 20, 40, 0.81) 36.31%,
+    #00101f 95.21%
+  );
   opacity: 0.8;
   border-radius: 4px;
   width: 739px;
@@ -34,12 +40,17 @@ const { type } = toRefs(props);
   top: 0;
   z-index: 1;
   pointer-events: none;
-  &.left{
+  &.left {
     left: 0;
   }
-  &.right{
+  &.right {
     right: 0;
-    background: linear-gradient(270deg, #00101F 0%, rgba(0, 20, 40, 0.81) 59.5%, rgba(0, 65, 129, 0) 95.21%);
+    background: linear-gradient(
+      270deg,
+      #00101f 0%,
+      rgba(0, 20, 40, 0.81) 59.5%,
+      rgba(0, 65, 129, 0) 95.21%
+    );
   }
 }
 .panel {

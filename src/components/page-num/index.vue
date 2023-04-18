@@ -18,6 +18,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import {onMounted,ref,onBeforeUnmount,toRefs } from 'vue'
+
 interface Idata {
   num: string | number;
   name: string;
@@ -45,7 +47,7 @@ const { data } = toRefs(props);
   padding: 0 80px 30px;
   display: flex;
   justify-content: space-between;
-  &.red-bgc{
+  &.red-bgc {
     background-image: url(./images/bottom-red-bgc.png);
   }
   .num-wrap {

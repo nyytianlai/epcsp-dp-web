@@ -4,7 +4,7 @@
     </select>
 </template>
 <script setup lang="ts">
-
+import { toRefs } from 'vue';
 interface IOptions {
   value: string|number;
   label: string;

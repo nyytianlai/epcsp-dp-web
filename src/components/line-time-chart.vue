@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import {toRefs,ref,watch } from 'vue'
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
