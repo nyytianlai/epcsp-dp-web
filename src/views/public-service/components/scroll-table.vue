@@ -29,6 +29,7 @@
 </template>
 
 <script setup lang="ts">
+  import { ref, toRefs,reactive } from 'vue';
 import type { CSSProperties } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 interface Props {

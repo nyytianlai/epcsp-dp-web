@@ -13,6 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import {toRefs,ref } from 'vue'
 interface Idata {
   code: string | number;
   label: string;
@@ -66,7 +67,13 @@ const handleSelect = (item) => {
         bottom: -3px;
         left: 50%;
         transform: translateX(-50%);
-        background: linear-gradient(270deg, rgba(37, 177, 255, 0) 4.73%, rgba(255, 255, 255, 0.8) 39.86%, rgba(255, 255, 255, 0.8) 51.13%, rgba(37, 177, 255, 0) 91.22%);
+        background: linear-gradient(
+          270deg,
+          rgba(37, 177, 255, 0) 4.73%,
+          rgba(255, 255, 255, 0.8) 39.86%,
+          rgba(255, 255, 255, 0.8) 51.13%,
+          rgba(37, 177, 255, 0) 91.22%
+        );
       }
     }
     .label {

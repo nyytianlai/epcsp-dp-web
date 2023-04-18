@@ -10,6 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import {toRefs,ref } from 'vue'
 import dayjs from 'dayjs';
 
 interface Idata {

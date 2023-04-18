@@ -22,6 +22,7 @@
     </div>
 </template>
 <script setup>
+import {onMounted,ref,onBeforeUnmount } from 'vue'
 import dayjs from 'dayjs'
 const timeId = ref()
 const sday = ref()
@@ -33,17 +34,17 @@ onBeforeUnmount(() => {
 })
 </script>
 <style lang="less" scoped>
-    .time-weather-wrap{
-        .time{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            .hh-mm-ss{
-                font-size: 24px;
-            }
-            .yyyy-mm-dd{
-                font-size: 14px;
-            }
-        }
+.time-weather-wrap {
+  .time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    .hh-mm-ss {
+      font-size: 24px;
     }
+    .yyyy-mm-dd {
+      font-size: 14px;
+    }
+  }
+}
 </style>

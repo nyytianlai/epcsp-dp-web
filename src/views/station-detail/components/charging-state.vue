@@ -13,6 +13,7 @@
   </div>
 </template>
 <script setup>
+import { ref, onMounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const stateFormate = (state) => {
   return {
@@ -113,9 +114,9 @@ const barData = ref(barListFun());
 </script>
 <style lang="less" scoped>
 .charging-wrap {
-    overflow: hidden auto;
-    height: 330px;
-    margin-top: 12px;
+  overflow: hidden auto;
+  height: 330px;
+  margin-top: 12px;
   .content {
     display: flex;
     flex-wrap: wrap;

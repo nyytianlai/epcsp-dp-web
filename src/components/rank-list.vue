@@ -30,6 +30,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import {toRefs,ref } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
 interface Idata {
   name: string;
@@ -48,7 +49,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { data, totalNum } = toRefs(props);
 </script>
 <style lang="less" scoped>
-.rank-list-wrap{
+.rank-list-wrap {
   overflow: hidden auto;
   padding: 8px;
 }
@@ -115,7 +116,7 @@ const { data, totalNum } = toRefs(props);
       font-size: 12px;
       right: 0;
       top: 50%;
-      transform: translate(50%,-50%);
+      transform: translate(50%, -50%);
     }
   }
 }

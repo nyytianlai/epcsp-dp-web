@@ -29,6 +29,7 @@
   </template>
   
   <script setup lang="ts">
+  import { ref, onMounted,reactive } from 'vue';
   import ScrollTable from '@sutpc/vue3-scroll-table';
   let gridInfo = reactive({
     columnKeyList: [
@@ -59,5 +60,4 @@
   </script>
 
   <style lang="less">
-
 </style>

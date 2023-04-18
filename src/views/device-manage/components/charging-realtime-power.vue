@@ -12,6 +12,7 @@
     </div>
 </template>
 <script setup>
+  import { toRefs, onMounted,reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
     data:{

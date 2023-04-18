@@ -48,6 +48,7 @@
   <map-layer></map-layer>
 </template>
 <script setup>
+  import { ref, onMounted,reactive } from 'vue';
 import MapLayer from './components/map-layer.vue'
 import ChargingNumImages from './components/charging-num-images.vue'
 import ChargingRealtimePower from './components/charging-realtime-power.vue'
@@ -103,7 +104,7 @@ const handleChangeTab = (data, type) => {
 }
 .charging-peak-area {
   margin-top: 22px;
-  .area-rank-wrap{
+  .area-rank-wrap {
     margin-top: 16px;
   }
 }

@@ -36,6 +36,7 @@
     </panel>
   </template>
 <script setup>
+  import { ref, onMounted,reactive } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
 
 import {
@@ -68,18 +69,18 @@ const handleChangeTab = (data, type) => {
 </script>
 
 <style lang="less" scoped>
-.hot-charging{
-  .rank-list-wrap{
+.hot-charging {
+  .rank-list-wrap {
     margin-top: 20px;
   }
 }
-.citizens-feedback{
+.citizens-feedback {
   margin-top: 48px;
   .el-table {
     margin-top: 8px;
   }
 }
-.realtime-info{
+.realtime-info {
   .num-wrap {
     display: flex;
     justify-content: space-between;
@@ -105,20 +106,20 @@ const handleChangeTab = (data, type) => {
       }
     }
   }
-  .tabs{
+  .tabs {
     margin-top: 10px;
   }
-  :deep(.pie-wrap){
+  :deep(.pie-wrap) {
     margin-top: 24px;
-    .pie-chart-wrap{
+    .pie-chart-wrap {
       width: 218px;
       height: 218px;
     }
   }
 }
-.month-rate{
+.month-rate {
   margin-top: 18px;
-  .area-rank-wrap{
+  .area-rank-wrap {
     margin-top: 16px;
   }
 }

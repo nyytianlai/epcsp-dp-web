@@ -13,6 +13,7 @@
             v-for="(item, index) in data"
             :class="[{ active: item.code === activeTab }]"
             @click="handleSelect(item)"
+            :key="index"
           >
             <span class="label">
               {{ item.label }}
@@ -21,6 +22,7 @@
         </div>
   </template>
   <script setup lang="ts">
+  import {toRefs,ref } from 'vue'
   interface Idata {
     code: string | number;
     label: string;
@@ -41,49 +43,48 @@
   </script>
   <style lang="less" scoped>
 .bottom-menu-tabs {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 1364px;
+  height: 111px;
+  background: url(./images/bottom-bgc.png) no-repeat;
+  background-size: 100% 56px;
+  background-position: bottom left;
+  .tab {
+    width: 105px;
+    height: 83px;
+    background: url(./images/normal.png) no-repeat;
+    background-size: 100% 75px;
+    background-position: bottom left;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    width: 1364px;
-    height: 111px;
-    background: url(./images/bottom-bgc.png) no-repeat;
-    background-size: 100% 56px;
-    background-position: bottom left;
-    .tab{
-        width: 105px;
-        height: 83px;
-        background: url(./images/normal.png) no-repeat;
-        background-size: 100% 75px;
-        background-position: bottom left;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        margin-right: 108px;
-        cursor: pointer;
-        &.active{
-            background-image: url(./images/active.png);
-            .label{
-                font-weight: 600;
-                background: linear-gradient(180deg, #FFFFFF 62.5%, #0AE3F1 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                text-fill-color: transparent;
-            }
-        }
-        &:last-of-type{
-            margin-right: 0;
-        }
-        .label{
-            
-            font-size: 20px;
-            line-height: 30px;
-        }
+    margin-right: 108px;
+    cursor: pointer;
+    &.active {
+      background-image: url(./images/active.png);
+      .label {
+        font-weight: 600;
+        background: linear-gradient(180deg, #ffffff 62.5%, #0ae3f1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+    }
+    &:last-of-type {
+      margin-right: 0;
+    }
+    .label {
+      font-size: 20px;
+      line-height: 30px;
     }
   }
-  </style>
+}
+</style>
   

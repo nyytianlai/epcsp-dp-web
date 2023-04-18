@@ -51,6 +51,7 @@
   </panel>
 </template>
 <script setup>
+import { ref, onMounted } from 'vue';
 import stationInfo from './components/station-info.vue'
 import chargingState from './components/charging-state.vue'
 import {
@@ -113,38 +114,38 @@ const linePowerData = ref(linePowerDataFun())
     margin-top: 15px;
   }
 }
-.device-use-info{
-    margin-top: 30px;
-    .num-wrap {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 16px;
-        :deep(.num-card) {
-          width: 49%;
-          padding: 24px 0 18px;
-          background: linear-gradient(
-            258.38deg,
-            rgba(37, 177, 255, 0.1) 2.46%,
-            rgba(37, 177, 255, 0) 100%
-          );
-          mix-blend-mode: normal;
-          box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
-          filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
-          border-radius: 2px;
-          justify-content: center;
-          .info {
-            flex-direction: column;
-            .name {
-              margin-bottom: 0;
-            }
-          }
+.device-use-info {
+  margin-top: 30px;
+  .num-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    :deep(.num-card) {
+      width: 49%;
+      padding: 24px 0 18px;
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
+      mix-blend-mode: normal;
+      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+      border-radius: 2px;
+      justify-content: center;
+      .info {
+        flex-direction: column;
+        .name {
+          margin-bottom: 0;
         }
       }
-}
-.station-power{
-    margin-top: 15px;
-    .ec-wrap{
-        margin-top: 12px;
     }
+  }
+}
+.station-power {
+  margin-top: 15px;
+  .ec-wrap {
+    margin-top: 12px;
+  }
 }
 </style>
