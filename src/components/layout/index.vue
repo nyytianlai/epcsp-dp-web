@@ -50,7 +50,7 @@ export default {
   components: {
     HeaderArea,
     NavTab,
-    BaseAc
+    BaseAc,
     TimeWeather
   },
   props: {
@@ -86,12 +86,7 @@ export default {
     }
   },
   data() {
-<<<<<<< HEAD
-    console.log(routes);
-    console.log(routes.slice(0, routes.length));
     const cloudHost=import.meta.env.VITE_FD_URL
-=======
->>>>>>> a12a6fe9f72ab9cf24fb63c3d89270b9ac73ae23
     return {
       currentTab: 0,
       navDropList: routes.slice(0, routes.length),
