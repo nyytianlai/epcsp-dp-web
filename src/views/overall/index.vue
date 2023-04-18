@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 14:43:42
+ * @LastEditTime: 2023-04-14 17:54:14
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -13,7 +13,7 @@
       <title-column title="充电设施总量" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
-          <num-card :data="item" />
+          <num-card :data="item" classStyleType='bottomDown'  />
         </template>
       </div>
     </div>
@@ -52,11 +52,15 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
+      <line-time-chart :data="lineTimeData" :colors="['green','blue']"/>
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" />
+      <warning-tabs :data="warningTabsData" />
+      <warning-list :data="warningListData" />
     </div>
   </panel>
+  <bottom-menu-tabs :data="bottomTabsData"/>
 </template>
 <script setup>
 import PageNum from '@/components/page-num/index.vue';
@@ -70,7 +74,11 @@ import {
   projectListFun,
   todayTabsFun,
   todayInfoNumDataFun,
-  powerInfoNumDataFun
+  powerInfoNumDataFun,
+  lineTimeDataFun,
+  warningTabsDataFun,
+  warningListFun,
+  bottomTabDataFun
 } from './config.js';
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
@@ -90,6 +98,15 @@ const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
 const powerInfoNumData = ref(powerInfoNumDataFun())
+// 充电功率折线
+const lineTimeData = ref(lineTimeDataFun())
+console.log(lineTimeData.value);
+// 今日告警信息tabData
+const warningTabsData = ref(warningTabsDataFun())
+const warningListData = ref(warningListFun())
+//底部button
+const bottomTabsData = ref(bottomTabDataFun());
+
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charger') {
@@ -145,64 +162,81 @@ const handleChangeTab = (data, type) => {
   .rank-list-wrap {
     display: flex;
     justify-content: flex-end;
-    margin-top: 28px;
+    margin-top: 20px;
   }
 }
 .today-num-info {
   .tabs {
     margin-top: 8px;
   }
-  .num-wrap{
+  .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
-    :deep(.num-card){
+    :deep(.num-card) {
       width: 49%;
       padding: 24px 0 11px;
-      background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
-      .info{
+      .info {
         flex-direction: column;
-        .name{
+        .name {
           margin-bottom: 0;
         }
       }
     }
   }
 }
-.today-power-info{
+.today-power-info {
   margin-top: 24px;
-  .num-wrap{
+  .num-wrap {
     margin-top: 12px;
     display: flex;
     justify-content: space-between;
     :deep(.num-card) {
       padding: 20px 0;
       width: 49%;
-      background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
-      .info{
+      .info {
         flex-direction: column;
-        .name{
+        .name {
           margin-bottom: 0;
         }
       }
-      .icon{
+      .icon {
         width: 60px !important;
         height: 60px !important;
       }
     }
   }
+  .ec-wrap {
+    margin-top: 22px;
+  }
 }
-.today-warning-message{
+.today-warning-message {
   margin-top: 21px;
+  .warning-tabs {
+    margin-top: 6px;
+  }
+  .warning-list {
+    margin-top: 18px;
+  }
 }
 </style>

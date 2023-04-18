@@ -25,8 +25,8 @@ export const routes = [
         path: 'allView',
         name: 'overallAllView',
         realPath: '/overall/allView',
-        meta: { title: '总览', keepAlive: true },
-        component: () =>import('@/views/overall/overview/index.vue')
+        meta: { title: '总览', keepAlive: false },
+        component: () =>import('@/views/overall/index.vue')
       },
     ]
   },
@@ -40,8 +40,8 @@ export const routes = [
         path: 'manage',
         name: 'deviceManage',
         realPath: '/device/manage',
-        meta: { title: '设备管理', keepAlive: true },
-        component: () =>import('@/views/overall/overview/index.vue')
+        meta: { title: '设备管理', keepAlive: false },
+        component: () =>import('@/views/device-manage/index.vue')
       },
     ]
   },
@@ -56,7 +56,7 @@ export const routes = [
         name: 'safetySupervision',
         realPath: '/safety/supervision',
         meta: { title: '设备监督', keepAlive: true },
-        component: () =>import('@/views/overall/overview/index.vue')
+        component: () =>import('@/views/safety-supervision/index.vue')
       },
     ]
   },
@@ -71,7 +71,7 @@ export const routes = [
         name: 'publicService',
         realPath: '/public/service',
         meta: { title: '公共服务', keepAlive: true },
-        component: () =>import('@/views/overall/overview/index.vue')
+        component: () =>import('@/views/safety-supervision/index.vue')
       },
     ]
   },
