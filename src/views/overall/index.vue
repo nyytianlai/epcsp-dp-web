@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 16:37:37
+ * @LastEditTime: 2023-04-19 17:18:08
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -52,19 +52,31 @@
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
+      <warning-tabs
+        :data="warningTabsData"
+        @changeTab="(data) => handleChangeTab(data, 'warning')"
+      />
       <warning-list :data="warningListData" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer ref="mapLayerRef"></map-layer>
-  <dialog-table 
-    v-model:visible="dialogTableVisible" 
-    :columnData="columnData"
-  />
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
+    <el-table :data="data" height="6.34rem" style="width: 100%" class="custom-dialog-table">
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" />
+    </el-table>
+    <el-pagination 
+    :page-size="pageObj.pageSize" 
+    layout="prev, pager, next" 
+    :total="pageObj.total" 
+    :background="true"
+    :current-page="pageObj.currentPage"
+    @current-change="handPageChange"
+     />
+  </custom-dialog>
 </template>
 <script setup>
-import {onMounted,ref} from 'vue'
+import { onMounted, ref,reactive } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
@@ -78,7 +90,7 @@ import {
   alarmInfo,
   timePowerGraph,
   alarmCount
-} from '@/api/overall.js'
+} from '@/api/overall.js';
 import {
   pageNumFun,
   cdsszlFun,
@@ -121,21 +133,27 @@ const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-const dialogTableVisible = ref(false)
+const dialogTableVisible = ref(false);
 // 弹窗列名
-const columnData = ref(columnDataFun())
+const columnData = ref(columnDataFun());
+const alarmTableData = ref([])
+const pageObj = reactive({
+  pageSize: 8,
+  total: 0,
+  currentPage:1
+})
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
-    getTotalEquipment(data.code)
+    getTotalEquipment(data.code);
   } else if (type === 'operating') {
     // 切换运营企业全年TOP10类型
-    getStationOpeTop10(data.code)
+    getStationOpeTop10(data.code);
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
-    getDayEquInfo(data.code)
+    getDayEquInfo(data.code);
   } else if (type === 'warning') {
-    getAlarmInfo(data.code)
+    getAlarmInfo(data.code);
   }
 };
 
@@ -146,93 +164,113 @@ const changeButtomTab = (item) => {
   mapLayerRef.value.setHeatMapVisibility(value);
 };
 const handleClick = () => {
-  dialogTableVisible.value = true
-}
+  dialogTableVisible.value = true;
+};
 // 总览上面4个指标
 const getOverTotalCount = async () => {
-  const res = await overTotalCount()
-  pageNumData.value = pageNumFun(res.data)
-}
+  const res = await overTotalCount();
+  pageNumData.value = pageNumFun(res.data);
+};
 //充电设施总量
 const getTotalFacilities = async () => {
-  const res = await totalFacilities()
-  cardData.value = cdsszlFun(res.data)
-}
+  const res = await totalFacilities();
+  cardData.value = cdsszlFun(res.data);
+};
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async (type) => {
-  const res = await totalEquipment(type)
-  pileChargerData.value = pileChargerFun(type,res?.data)
-}
+  const res = await totalEquipment(type);
+  pileChargerData.value = pileChargerFun(type, res?.data);
+};
 
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
 const getStationOpeTop10 = async (type) => {
-  const res = await stationOpeTop10(type)
+  const res = await stationOpeTop10(type);
   if (res?.data) {
-    const data = res.data.map(item => {
+    const data = res.data.map((item) => {
       return {
         num: item.amount,
         unit: '个',
-        name:item.operatorName
-      }
-    })
-    projectList.value = data
-    projectTotalNum.value = data[0].num || 0
+        name: item.operatorName
+      };
+    });
+    projectList.value = data;
+    projectTotalNum.value = data[0].num || 0;
   } else {
-    projectList.value = []
-    projectTotalNum.value = 0
+    projectList.value = [];
+    projectTotalNum.value = 0;
   }
-}
+};
 //今日-充电桩/充电枪信息
-const getDayEquInfo = async(type) => {
-  const res = await dayEquInfo(type)
-  todayInfoNumData.value = todayInfoNumDataFun(res?.data)
-}
+const getDayEquInfo = async (type) => {
+  const res = await dayEquInfo(type);
+  todayInfoNumData.value = todayInfoNumDataFun(res?.data);
+};
 //今日充电功率信息
 const getDayPower = async () => {
-  const res = await dayPower()
-  powerInfoNumData.value = powerInfoNumDataFun(res.data)
-}
+  const res = await dayPower();
+  powerInfoNumData.value = powerInfoNumDataFun(res.data);
+};
 //今日告警信息
 const getAlarmInfo = async (level) => {
   const params = {
-    "alarmLevel": level,
-    "pageNum": 1,
-    "pageSize": 1000
-  }
-  const res = await alarmInfo(params)
+    alarmLevel: level,
+    pageNum: 1,
+    pageSize: 1000
+  };
+  const res = await alarmInfo(params);
   if (res.data && res.data.list) {
-    warningListData.value = res.data.list.map(item => {
+    warningListData.value = res.data.list.map((item) => {
       return {
         date: item.alarmTime,
         message: item.alarmDesc,
-        area:item.stationName
-      }
-    })
+        area: item.stationName
+      };
+    });
   } else {
-    warningListData.value = []
+    warningListData.value = [];
   }
-}
+};
 const getAlarmCount = async () => {
-  const res = await alarmCount()
-  warningTabsData.value = warningTabsDataFun(res.data)
-}
+  const res = await alarmCount();
+  warningTabsData.value = warningTabsDataFun(res.data);
+};
 //实时功率图表
-const getTimePowerGraph = async() => {
-  const res = await timePowerGraph()
-  lineTimeData.value = lineTimeDataFun(res.data)
+const getTimePowerGraph = async () => {
+  const res = await timePowerGraph();
+  lineTimeData.value = lineTimeDataFun(res.data);
+};
+
+const getTableAlarm = async (level) => {
+  const params = {
+    alarmLevel: level,
+    pageNum: pageObj.currentPage,
+    pageSize: pageObj.pageSize
+  };
+  const res = await alarmInfo(params);
+  if (res.data && res.data.list) {
+    alarmTableData.value = res.data.list
+    pageObj.total = res?.data?.total
+  } else {
+    alarmTableData.value = [];
+    pageObj.total = 0
+  }
+};
+// table数据
+const handPageChange = (value) => {
+  console.log(value);
 }
 onMounted(() => {
-  getOverTotalCount()
-  getTotalFacilities()
-  getTotalEquipment('pile')
-  getStationOpeTop10('station')
-  getDayEquInfo('pile')
-  getDayPower()
-  getAlarmInfo(1)
-  getTimePowerGraph()
-  getAlarmCount()
-  
-})
+  getOverTotalCount();
+  getTotalFacilities();
+  getTotalEquipment('pile');
+  getStationOpeTop10('station');
+  getDayEquInfo('pile');
+  getDayPower();
+  getAlarmInfo(1);
+  getTimePowerGraph();
+  getAlarmCount();
+  getTableAlarm()
+});
 </script>
 <style lang="less" scoped>
 .total-charging-facilities {
