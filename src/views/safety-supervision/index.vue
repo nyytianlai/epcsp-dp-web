@@ -73,7 +73,8 @@ import {
   districtAlarmLevelStatics,
   safetySupervisionAccumulated,
   districtAlarmStatics,
-  alarmLevelAndTypeByTime
+  alarmLevelAndTypeByTime,
+  alarmLevelAndTypeByTIme
 } from '@/api/supervision.js';
 
 // 头部累计数据
@@ -87,9 +88,9 @@ const getSafetySupervisionAccumulated = async (type) => {
     return {
       ...item,
       pro: type === 1 ? item.operatorName :  item.stationName,
-      pro1: item.cnt,
+      pro1: item.cnt || 0,
       pro2: item.affirmCnt,
-      pro3: item.recCnt
+      pro3: item.recCnt || 0
     }
   })
   scrollTableData.value = newData || []
@@ -98,7 +99,8 @@ const getSafetySupervisionAccumulated = async (type) => {
 //行政区告警数据
 // const areaRankData = ref(areaRankDataFun())
 const areaRankData = ref();
-const areaTotalNum = ref(6399);
+// const areaTotalNum = ref(6399);
+const areaTotalNum = ref();
 const getDistrictAlarmStatics = async () => {
   let { data } = await districtAlarmStatics();
   let newData = data?.data?.map((item) => {
@@ -110,6 +112,7 @@ const getDistrictAlarmStatics = async () => {
     };
   });
   areaRankData.value = newData || [];
+  areaTotalNum.value = newData[0]?.cnt || 0
 };
 //今日设备告警监控
 const warningMonitorTabs = ref(warningMonitorTabsFun());
@@ -155,6 +158,10 @@ const realtimeStateTabs = ref(realtimeStateTabsFun());
 const realtimeStateData = ref(realtimeStateDataFun());
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
+const getAlarmLevelAndTypeByTIme = async(param)=> {
+  let {data} = await alarmLevelAndTypeByTIme(param)
+  realtimeTrend.value = realtimeTrendFun(data?.data || [])
+}
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = (data, type) => {
@@ -190,6 +197,12 @@ onMounted(() => {
   getSafetySupervisionAccumulated(1);
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj)
+  getAlarmLevelAndTypeByTIme({
+    // startTime:'2023-04-03 14:22:34',
+    // endTime: '2023-04-06 14:22:34'
+    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  })
 });
 </script>
 
