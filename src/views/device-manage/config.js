@@ -4,26 +4,26 @@ import dqsyl from '@/assets/images/deviceManage/dqsyl.png';
 import dqgzl from '@/assets/images/deviceManage/dqgzl.png';
 import dayjs from 'dayjs';
 
-export const pageNumFun = () => {
+export const pageNumFun = (data={}) => {
   return [
     {
       name: '充电站总量',
-      num: 6399,
+      num: data?.stationCount,
       unit: '个'
     },
     {
       name: '充电桩总量',
-      num: 125639,
+      num: data?.equipmentCount,
       unit: '个'
     },
     {
       name: '充电枪总量',
-      num: 125639,
+      num: data?.gunCount,
       unit: '个'
     },
     {
       name: '充电总功率',
-      num: 281887.30,
+      num: data?.chargeTotalRate,
       unit: 'KW'
     }
   ];
@@ -126,18 +126,18 @@ export const chargingTypesTabsFun = ()=>{
   ];
 }
 
-export const chargingTypesFun = ()=>{
+export const chargingTypesFun = (data={})=>{
   return [
     {
       img: dqzx,
-      num: '80855',
+      num: data?.onlineCount,
       unit: '个',
       name: '当前在线',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: dqlx,
-      num: 80855,
+      num: data?.offlineCount,
       unit: '个',
       name: '当前离线',
       classStyleType:'leftRightStyleGray6656'

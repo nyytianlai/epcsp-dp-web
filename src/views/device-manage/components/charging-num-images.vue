@@ -1,9 +1,9 @@
 <template>
     <div class="images-wrap">
         <div class="img-content" v-for="(item,index) in data" :key="index">
-            <img :src="item.image" alt="">
-            <span class="type">{{ item.type }}</span>
-            <span class="name">{{ item.name }}</span>
+            <img :src="item.stationPic" alt="">
+            <span class="type">{{ item.stationType }}</span>
+            <span class="name text-ellipsis-1">{{ item.stationName }}</span>
         </div>
     </div>
 </template>
@@ -16,38 +16,7 @@ import lsgfPng from './images/lsgf.png'
 const props = defineProps({
     data:{
         type:Array,
-        default:()=>[
-            {
-                type:'规模大',
-                image:gmdPng,
-                name:'民乐充电站'
-            },
-            {
-                type:'服务区',
-                image:fwqPng,
-                name:'长圳服务区充电站'
-            },
-            {
-                type:'光储充',
-                image:gccPng,
-                name:'公明南充电站'
-            },
-            {
-                type:'V2G',
-                image:v2gPng,
-                name:'民兴院充电站'
-            },
-            {
-                type:'光储充放',
-                image:lsgfPng,
-                name:'奥特迅电力大厦充电站'
-            },
-            {
-                type:'绿色光伏',
-                image:lsgfPng,
-                name:'欢乐谷比亚迪充电站'
-            },
-        ]
+        default:()=>[]
     }
 })
 </script>
@@ -73,6 +42,7 @@ const props = defineProps({
     }
     img {
       width: 100%;
+      height: 80px;
     }
     .type {
       position: absolute;
@@ -92,6 +62,7 @@ const props = defineProps({
       /* identical to box height, or 167% */
       color: #4bdeff;
       margin-top: 4px;
+      max-width: 100%;
     }
   }
 }
