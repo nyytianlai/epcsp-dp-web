@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 15:12:39
+ * @LastEditTime: 2023-04-19 15:40:24
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -60,7 +60,10 @@ import {
   selectChargeEquipmentStatistics,
   selectHrStationInfo,
   selectPowerSumByDayTime,
-  selectChargeEquipmentStatus
+  selectChargeEquipmentStatus,
+  selectChargeEquipmentStatusByTime,
+  selectChargeEquipmentUseRate,
+  selectChargeEquipmentUseRateByTime
 } from '@/api/deviceManage.js'
 import {
   pageNumFun,
@@ -136,6 +139,21 @@ const getSelectChargeEquipmentStatus = async (type) => {
   const res = await selectChargeEquipmentStatus(type)
   chargingTypesData.value = chargingTypesFun(res.data)
 }
+//设备管理/充电桩-枪状态分时列表
+const getChargeEquipmentStatusByTime = async (type) => {
+  const res = await selectChargeEquipmentStatusByTime(type)
+  console.log(res);
+}
+
+const getChargeEquipmentUseRate = async (type) => {
+  const res = await selectChargeEquipmentUseRate(type)
+  chargingRunData.value = chargingRunDataFun(res.data)
+}
+//设备管理/充电桩-枪状态分时列表
+const getChargeEquipmentUseRateByTime = async (type) => {
+  const res = await selectChargeEquipmentUseRateByTime(type)
+  console.log(res);
+}
 onMounted(() => {
   getSelectChargeCount(1)
   getSelectChargeCountByArea()
@@ -143,6 +161,9 @@ onMounted(() => {
   getSelectHrStationInfo()
   getSelectPowerSumByDayTime()
   getSelectChargeEquipmentStatus(1)
+  getChargeEquipmentStatusByTime(1)
+  getChargeEquipmentUseRate(1)
+  getChargeEquipmentUseRateByTime(1)
 })
 const handleChangeTab = (data, type) => {
   console.log(data, type);
@@ -152,8 +173,11 @@ const handleChangeTab = (data, type) => {
   } else if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态
     getSelectChargeEquipmentStatus(data.code)
-  } else if (type === 'today') {
-    // 今日充电设施数据信息tab切换
+    getChargeEquipmentStatusByTime(data.code)
+  } else if (type === 'charging-runing') {
+    // 运行情况
+    getChargeEquipmentUseRate(data.code)
+    getChargeEquipmentUseRateByTime(data.code)
   }
 };
 </script>

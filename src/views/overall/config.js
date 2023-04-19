@@ -278,40 +278,41 @@ export const powerInfoNumDataFun = (data={}) => {
   ];
 };
 const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
-export const lineTimeDataFun = () => {
+export const lineTimeDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ')
   return [{
-    data:timeData(),
+    data:data.map(item=>[ yearMonthDay + item.timeDim,item.ratedPower]),
     type: 'line',
     smooth: true,
     name:'额定功率'
   },{
-    data:timeData(),
+    data:data.map(item=>[yearMonthDay + item.timeDim,item.realTimePower]),
     type: 'line',
     smooth: true,
     name:'实时功率'
   }]
 }
 
-export const warningTabsDataFun = () => {
+export const warningTabsDataFun = (data={}) => {
   return [
     {
       label: '一级人身安全',
       icon: 'first-level',
-      num: 100000000,
+      num: data?.firstLevel,
       code: 1,
       color: '#FA2A2D'
     },
     {
       label: '二级设备安全',
       icon: 'second-level',
-      num: 1090,
+      num: data?.secondLevel,
       code: 2,
       color: '#FF7500'
     },
     {
       label: '三级告警提示',
       icon: 'third-level',
-      num: 549,
+      num: data?.thirdLevel,
       code: 3,
       color: '#FFBF00'
     },

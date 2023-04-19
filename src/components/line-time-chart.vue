@@ -138,11 +138,38 @@ const colorMap = {
     }
   },
 }
-// const times = (new Array(25).fill(0)).map((item,index)=>dayjs().hour(index).format('YYYY-MM-DD HH:00'))
-// console.log(times);
-// const transformData = ()=>{
-//   data
-// }
+const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
+function simplifyNum(number) {
+        if (!number && number != 0) return number;
+        var str_num
+        if (number >= 1E3 && number < 1E4) {
+            str_num = number / 1E3
+            return str_num + '千'
+        } else if (number >= 1E4 && number < 1E6) {
+            str_num = number / 1E4
+            return str_num + '万'
+        } else if (number >= 1E6 && number < 1E7) {
+            str_num = number / 1E6
+            return str_num + '百万'
+        } else if (number >= 1E7 && number < 1E8) {
+            str_num = number / 1E7
+            return str_num + '千万'
+        } else if (number >= 1E8 && number < 1E10) {
+            str_num = number / 1E8
+            return str_num + '亿'
+        } else if (number >= 1E10 && number < 1E11) {
+            str_num = number / 1E10
+            return str_num + '百亿'
+        } else if (number >= 1E11 && number < 1E12) {
+            str_num = number / 1E11
+            return str_num + '千亿'
+        } else if (number >= 1E12) {
+            str_num = number / 1E12
+            return str_num + '万亿'
+        } else { //一千以下
+            return number
+        }
+    }
 const ecOptionFun = () => {    
   let option = {
     grid: {
@@ -202,7 +229,11 @@ const ecOptionFun = () => {
         fontFamily: 'Helvetica',
         fontSize: 12,
         lineHeight: 16,
-        color: '#B4C0CC'
+        color: '#B4C0CC',
+        formatter: (value) => {
+          console.log(value);
+          return value?simplifyNum(value):''
+        }
       },
       splitLine: {
         lineStyle: {
@@ -216,10 +247,10 @@ const ecOptionFun = () => {
       borderWidth: 0,
       padding:0,
       trigger:'axis',
-      formatter: (params) => {
-        const dataTime = '00:00';
+      formatter: (params) => {        
+        const dataTime = params[0].axisValueLabel;
         let str = `<div class="time-tooltip">`;
-        str += `<div class="time">${dayjs().format('YYYY-MM-DD')} ${dataTime}</div>`;
+        str += `<div class="time">${dataTime}</div>`;
         params.map((item) => {
           str += `<div class="item-data">
             <span class="left-data">
@@ -236,7 +267,21 @@ const ecOptionFun = () => {
         return str;
       }
     },
-    series: data.value
+    series: [
+      ...data.value,
+      {
+        type:'line',
+        data: timeData(),
+        symbolSize: 0,
+        showSymbol: false,
+        lineStyle: {
+          color: 'transparent',
+        },
+        tooltip: {
+          show:false
+        }
+      }
+    ]
   };
   option = merge(option, {series: colors.value.map(item=>colorMap[item])})
   return option;
