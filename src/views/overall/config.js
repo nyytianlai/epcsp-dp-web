@@ -277,7 +277,7 @@ export const powerInfoNumDataFun = (data={}) => {
     }
   ];
 };
-const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
+// const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
 export const lineTimeDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ')
   return [{

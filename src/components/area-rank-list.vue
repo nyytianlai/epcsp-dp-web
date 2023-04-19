@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 11:22:36
+ * @LastEditTime: 2023-04-19 18:33:48
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -12,7 +12,7 @@
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <span class="rank-name">
           <span class="rank-num">{{ index + 1 }}</span>
-          <span class="name">{{ item.name }}</span>
+          <span class="name text-ellipsis-1">{{ item.name }}</span>
         </span>
         <div class="bottom-bar">
             
@@ -70,6 +70,8 @@ const { data, totalNum } = toRefs(props);
     max-width: 84px;
     .rank-num {
       width: 24px;
+      min-width: 24px;
+
       height: 22px;
       border-radius: 2px;
       display: flex;
@@ -78,6 +80,7 @@ const { data, totalNum } = toRefs(props);
       margin-right: 4px;
     }
     .name {
+
     }
   }
   .num {
