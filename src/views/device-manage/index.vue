@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 11:29:18
+ * @LastEditTime: 2023-04-19 15:12:39
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -11,7 +11,8 @@
   <panel>
     <div class="charging-station-num "> 
       <title-column title="充电桩数量信息" />
-      <tabs :data="chargingStationTabs" @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
+      <tabs :data="chargingStationTabs" 
+      @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
       <pie-chart :data="chargingStationPieData"/>
     </div>
     <div class="charging-peak-area">
@@ -20,14 +21,15 @@
     </div>
     <div class="charging-num-images">
       <title-column title="充电站数字孪生" />
-      <charging-num-images/>
+      <charging-num-images :data="chargingNum"  />
     </div>
   </panel>
   <panel type="right">
     <title-column title="在线运行状态情况" />
-    <charging-realtime-power/>
+    <charging-realtime-power :data="chargingRealPower"/>
     <div class="charging-types">
-      <tabs :data="chargingTypesTabs" @changeTab="(data)=>handleChangeTab(data,'charging-types')" />
+      <tabs :data="chargingTypesTabs" 
+      @changeTab="(data)=>handleChangeTab(data,'charging-types')" />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -55,7 +57,10 @@ import ChargingRealtimePower from './components/charging-realtime-power.vue'
 import {
   selectChargeCount,
   selectChargeCountByArea,
-  selectChargeEquipmentStatistics
+  selectChargeEquipmentStatistics,
+  selectHrStationInfo,
+  selectPowerSumByDayTime,
+  selectChargeEquipmentStatus
 } from '@/api/deviceManage.js'
 import {
   pageNumFun,
@@ -77,6 +82,10 @@ const chargingStationPieData = ref(chargingStationPieDataFun())
 //充电高峰区域情况
 const areaRankData = ref([])
 const areaTotalNum = ref(0)
+// 设备管理/充电站数字孪生
+const chargingNum = ref([])
+//设备管理/在线运行状态情况
+const chargingRealPower = ref(0)
 //充电状态
 const chargingTypesTabs = ref(chargingTypesTabsFun())
 const chargingTypesData = ref(chargingTypesFun());
@@ -85,14 +94,19 @@ const lineStateData = ref(lineStateDataFun())
 const chargingRunTabs = ref(chargingRunTabsFun())
 const chargingRunData = ref(chargingRunDataFun())
 const lineRunData = ref(lineRunDataFun())
+//设备管理/标题下四个统计数
+const getSelectChargeEquipmentStatistics = async () => {
+  const res = await selectChargeEquipmentStatistics()
+  pageNumData.value = pageNumFun(res.data)
+}
 // 设备管理/充电桩数量
 const getSelectChargeCount = async(type) => {
   const res = await selectChargeCount()
   chargingStationPieData.value = chargingStationPieDataFun(type,res.data)
 }
+//设备管理/充电高峰区域情况
 const getSelectChargeCountByArea = async () => {
   const res = await selectChargeCountByArea()
-  console.log(res);
   if (res?.data) {
     areaRankData.value = res.data.map(item => {
       return {
@@ -107,18 +121,37 @@ const getSelectChargeCountByArea = async () => {
     areaTotalNum.value = 0
   }
 }
+//设备管理/充电站数字孪生
+const getSelectHrStationInfo = async () => {
+  const res = await selectHrStationInfo()
+  chargingNum.value = res.data || []
+}
+// 设备管理/在线运行状态情况
+const getSelectPowerSumByDayTime = async () => {
+  const res = await selectPowerSumByDayTime()
+  chargingRealPower.value = res?.data
+}
+// 设备管理/充电桩-枪状态
+const getSelectChargeEquipmentStatus = async (type) => {
+  const res = await selectChargeEquipmentStatus(type)
+  chargingTypesData.value = chargingTypesFun(res.data)
+}
 onMounted(() => {
   getSelectChargeCount(1)
   getSelectChargeCountByArea()
+  getSelectChargeEquipmentStatistics()
+  getSelectHrStationInfo()
+  getSelectPowerSumByDayTime()
+  getSelectChargeEquipmentStatus(1)
 })
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charging-station') {
     //切换充电桩数量信息
     getSelectChargeCount(data.code)
-  } else if (type === 'operating') {
-    // 切换运营企业全年TOP10类型
-    projectList.value = projectListFun();
+  } else if (type === 'charging-types') {
+    // 设备管理/充电桩-枪状态
+    getSelectChargeEquipmentStatus(data.code)
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
   }
