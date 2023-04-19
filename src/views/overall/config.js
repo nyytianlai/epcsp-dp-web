@@ -20,19 +20,19 @@ export const cdsszlFun = (data={}) => {
   return [
     {
       img: cdzzl,
-      num: data.totalChargingStations,
+      num: data?.totalChargingStations,
       unit: '个',
       name: '充电站总量'
     },
     {
       img: xnyqczl,
-      num: data.totalOperating,
+      num: data?.totalOperating,
       unit: '个',
       name: '已接入运营企业总量'
     },
     {
       img: yjryyqyzl,
-      num: data.totalNewEnergyVehicles,
+      num: data?.totalNewEnergyVehicles,
       unit: '万辆',
       name: '新能源汽车总量'
     }
@@ -110,22 +110,22 @@ export const pageNumFun = (data = {}) => {
   return [
     {
       name: '累计充电量',
-      num: data.cumulativeCharge,
+      num: data?.cumulativeCharge,
       unit: '亿度'
     },
     {
       name: '累计充电次数',
-      num: data.cumChargeCount,
+      num: data?.cumChargeCount,
       unit: '万次'
     },
     {
       name: '累计充电时长',
-      num: data.cumChargeTime,
+      num: data?.cumChargeTime,
       unit: '小时'
     },
     {
       name: '本年充电总量',
-      num: data.yearTotalCharge,
+      num: data?.yearTotalCharge,
       unit: '亿度'
     }
   ];
@@ -136,37 +136,37 @@ export const pileChargerFun = (code = 'pile',data={}) => {
     return [
       {
         img: zlcd,
-        num: data.directEquCount,
+        num: data?.directEquCount,
         unit: '个',
         name: '直流桩总量'
       },
       {
         img: jlcd,
-        num: data.exchangeEquCount,
+        num: data?.exchangeEquCount,
         unit: '个',
         name: '交流桩总量'
       },
       {
         img: fast,
-        num: data.fastChargeEquCount,
+        num: data?.fastChargeEquCount,
         unit: '个',
         name: '快充桩总量'
       },
       {
         img: slow,
-        num: data.slowChargeEquCount,
+        num: data?.slowChargeEquCount,
         unit: '个',
         name: '慢充桩总量'
       },
       {
         img: speed,
-        num: data.overchargeEquCount,
+        num: data?.overchargeEquCount,
         unit: '个',
         name: '超充桩总量'
       },
       {
         img: v2g,
-        num: data.v2GEquCount,
+        num: data?.v2GEquCount,
         unit: '个',
         name: 'V2G桩总量'
       }
@@ -175,37 +175,37 @@ export const pileChargerFun = (code = 'pile',data={}) => {
     return [
       {
         img: zlcd,
-        num: data.directEquCount,
+        num: data?.directEquCount,
         unit: '个',
         name: '直流枪总量'
       },
       {
         img: jlcd,
-        num: data.exchangeEquCount,
+        num: data?.exchangeEquCount,
         unit: '个',
         name: '交流枪总量'
       },
       {
         img: fast,
-        num: data.fastChargeEquCount,
+        num: data?.fastChargeEquCount,
         unit: '个',
         name: '快充枪总量'
       },
       {
         img: slow,
-        num: data.slowChargeEquCount,
+        num: data?.slowChargeEquCount,
         unit: '个',
         name: '慢充枪总量'
       },
       {
         img: speed,
-        num: data.overchargeEquCount,
+        num: data?.overchargeEquCount,
         unit: '个',
         name: '超充枪总量'
       },
       {
         img: v2g,
-        num: data.v2GEquCount,
+        num: data?.v2GEquCount,
         unit: '个',
         name: 'V2G枪总量'
       }
@@ -233,27 +233,27 @@ export const operatingTabsFun = () => {
 export const todayTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 'pile',
       label: '充电桩信息'
     },
     {
-      code: 2,
+      code: 'gun',
       label: '充电枪信息'
     }
   ];
 };
 
-export const todayInfoNumDataFun = () => {
+export const todayInfoNumDataFun = (data={}) => {
   return [
     {
       img: ztsyl,
-      num: '26%',
+      num: data?.overallUtilization,
       name: '整体使用率',
       classStyleType:'leftRightStyleGreen'
     },
     {
       img: zxzl,
-      num: 80855,
+      num: data?.totalOnline,
       unit: '个',
       name: '在线总量',
       classStyleType:'leftRightStyleYellow'
@@ -261,17 +261,17 @@ export const todayInfoNumDataFun = () => {
   ];
 };
 
-export const powerInfoNumDataFun = () => {
+export const powerInfoNumDataFun = (data={}) => {
   return [
     {
       img: zgl,
-      num: 2818878.31,
+      num: data?.totalPower,
       name: '总功率/kw',
       classStyleType:'leftRightStyleGreen'
     },
     {
       img: ssgl,
-      num: 2765230.91,
+      num: data?.realTimePower,
       name: '实时功率/kw',
       classStyleType:'leftRightStyleYellow'
     }
@@ -385,3 +385,48 @@ export const bottomTabDataFun = () => {
     }
   ];
 };
+
+export const columnDataFun = () => {
+  return [
+    {
+      prop: 'operatorName',
+      label: '运营商名称',
+      width:'250'
+    },
+    {
+      prop: 'stationName',
+      label: '充电站名称',
+      width:'150'
+    },
+    {
+      prop: 'alarmLevel',
+      label: '告警级别',
+      width:'120'
+    },
+    {
+      prop: 'alarmDesc',
+      label: '告警描述',
+      width:'300'
+    },
+    {
+      prop: 'alarmType',
+      label: '告警类型',
+      width:'100'
+    },
+    {
+      prop: 'alarmTime',
+      label: '告警时间',
+      width:'150'
+    },
+    {
+      prop: 'contactPerson',
+      label: '安全负责人',
+      width:'100'
+    },
+    {
+      prop: 'contactTel',
+      label: '联系电话',
+      width:''
+    },
+  ]
+}
