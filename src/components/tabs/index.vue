@@ -3,6 +3,7 @@
     <div
       class="tab"
       v-for="(item, index) in data"
+      :key="index"
       :class="[{ active: item.code === activeTab }]"
       @click="handleSelect(item)"
     >
