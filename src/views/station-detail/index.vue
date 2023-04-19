@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-17 17:31:56
+ * @LastEditTime: 2023-04-19 17:42:28
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -55,6 +55,10 @@ import { ref, onMounted } from 'vue';
 import stationInfo from './components/station-info.vue'
 import chargingState from './components/charging-state.vue'
 import {
+  selectStationStatistics,
+  selectEquipmentCountByStationId
+} from '@/api/stationDetail.js'
+import {
     pageNumFun,
     deviceInfoDataFun,
     warningTabsDataFun,
@@ -63,6 +67,10 @@ import {
     chargingTypesFun,
     linePowerDataFun
 } from './config.js';
+const params = {
+  operatorId:'61402628',
+  stationId:'440202003'
+}
 const pageNumData = ref(pageNumFun());
 const deviceInfoData = ref(deviceInfoDataFun());
 //告警信息
@@ -74,6 +82,19 @@ const chargingTypesData = ref(chargingTypesFun());
 
 // 站点实时功率
 const linePowerData = ref(linePowerDataFun())
+// 统计数据
+const getStationStatistics = async() => {
+  const res = await selectStationStatistics(params)
+  console.log(res);
+}
+const getEquipmentCountByStationId = async () => {
+  const res = await selectEquipmentCountByStationId(params)
+  console.log(res);
+}
+onMounted(() => {
+  getStationStatistics()
+  getEquipmentCountByStationId()
+})
 </script>
 <style lang="less" scoped>
 .device-info {

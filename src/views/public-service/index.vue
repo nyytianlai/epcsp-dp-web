@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-17 14:33:08
+ * @LastEditTime: 2023-04-19 18:32:01
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -41,6 +41,10 @@
 import ScrollTable from './components/scroll-table.vue'
 import MapLayer from './components/map-layer.vue';
 import {
+  hotCharging,
+  monthRate
+} from '@/api/publicService.js'
+import {
   pageNumFun,
   hotChargingDataFun,
   deviceDataFun,
@@ -53,14 +57,48 @@ let mapLayerRef = ref(null);
 const pageNumData = ref(pageNumFun());
 // 热门充电站TOP10
 const hotChargingData = ref(hotChargingDataFun());
-const totalChargingNum = ref(10000)
+const totalChargingNum = ref(0)
 // 实时设备信息
 const deviceData = ref(deviceDataFun())
 const chargingTypesTabs = ref(chargingTypesTabsFun())
 const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
-const monthRateData = ref(monthRateDataFun())
-const totalMonthRateNum = ref(10000)
+const monthRateData = ref([])
+const totalMonthRateNum = ref(0)
+const getHotCharging = async () => {
+  const res = await hotCharging()
+  console.log(res);
+  if (res?.data && res?.data?.data) {
+    hotChargingData.value = res?.data?.data.map(item => {
+      return {
+        num: item.chargingSum,
+        unit: 'KW',
+        name: item.operator_name
+      }
+    })
+    totalChargingNum.value = res?.data?.data[0].chargingSum
+  } else {
+    hotChargingData.value = []
+    totalChargingNum.value = 0
+  }
+}
+const getMonthRate = async () => {
+  const res = await monthRate()
+  console.log(res);
+  if (res?.data && res?.data?.data) {
+    monthRateData.value = res?.data?.data.map(item => {
+      return {
+        num: item.useRatio,
+        unit: '%',
+        name: item.area_name
+      }
+    })
+    totalMonthRateNum.value = res?.data?.data[0].chargingSum
+  } else {
+    monthRateData.value = []
+    totalMonthRateNum.value = 0
+  }
+}
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charging-types') {
@@ -68,6 +106,10 @@ const handleChangeTab = (data, type) => {
     chargingTypePieData.value = chargingTypePieDataFun(data.code)
   } 
 };
+onMounted(() => {
+  getHotCharging()
+  getMonthRate()
+})
 </script>
 
 <style lang="less" scoped>

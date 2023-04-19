@@ -296,22 +296,29 @@ export const realtimeStateDataFun = (code = 1) => {
   }
 };
 
-export const realtimeTrendFun = () => {
-  const timeData = () =>
-    new Array(25)
-      .fill(0)
-      .map((item, index) => [
-        dayjs().hour(index).format('YYYY-MM-DD HH:00'),
-        Math.ceil(Math.random() * 100)
-      ]);
-  return [
-    {
-      data: timeData(),
-      type: 'line',
-      smooth: true,
-      name: '告警数'
-    }
-  ];
+export const realtimeTrendFun = (data = []) => {
+  // const timeData = () =>
+  //   new Array(25)
+  //     .fill(0)
+  //     .map((item, index) => [
+  //       dayjs().hour(index).format('YYYY-MM-DD HH:00'),
+  //       Math.ceil(Math.random() * 100)
+  //     ]);
+  // return [
+  //   {
+  //     data: timeData(),
+  //     type: 'line',
+  //     smooth: true,
+  //     name: '告警数'
+  //   }
+  // ];
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ')
+  return [{
+    data:data.map(item=>[ yearMonthDay + item.time,item.cnt]),
+    type: 'line',
+    smooth: true,
+    name:'告警数'
+  }]
 };
 
 export const bottomTabDataFun = () => {
