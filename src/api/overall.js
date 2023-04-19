@@ -10,31 +10,37 @@ import request from '@sutpc/axios';
 
 // 总览上面4个指标
 export const overTotalCount = () => {
-    return request.get({
-        url: '/dp/api/v1/overview/overTotalCount'
-      })
-}
+  return request.get({
+    url: '/dp/api/v1/overview/overTotalCount'
+  });
+};
 //充电设施总量
 export const totalFacilities = () => {
-    return request.get({
-        url: '/dp/api/v1/overview/totalFacilities'
-      })
-}
+  return request.get({
+    url: '/dp/api/v1/overview/totalFacilities'
+  });
+};
 // 充电桩总量：pile，充电枪总量：gun
 export const totalEquipment = (type) => {
-    return request.post({
-        url: '/dp/api/v1/overview/totalEquipment',
-        data: {
-            type
-        }
-      })
-}
+  return request.post({
+    url: '/dp/api/v1/overview/totalEquipment',
+    data: {
+      type
+    }
+  });
+};
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
 export const stationOpeTop10 = (type) => {
-    return request.post({
-        url: '/dp/api/v1/overview/stationOpeTop10',
-        data: {
-            type
-        }
-      })
-}
+  return request.post({
+    url: '/dp/api/v1/overview/stationOpeTop10',
+    data: {
+      type
+    }
+  });
+};
+//地图柱状图
+export const getRectBar = () => {
+  return request.get({
+    url: '/dp/api/v1/equipmentManage/selectChargeEquipmentByArea',
+  });
+};

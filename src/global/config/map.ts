@@ -16,3 +16,14 @@ export const layerNameQuNameArr = (layerName) => {
     return layerName + '-' + item;
   });
 };
+export const infoObj = {
+  terrainId: '84F17E17411A28C0657442A8EC039B02',
+  szView: {
+    x: 523800.9,
+    y: 2449743.7,
+    z: 51713.465,
+    pitch: -44.999977,
+    yaw: -91.697815,
+    roll: 0.000002 //该参数无用，会自动忽略
+  }
+};

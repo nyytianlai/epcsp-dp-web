@@ -26,7 +26,7 @@
     <time-weather/>
     <div class="subject-container">
       <div class="main-content">
-        <base-ac :cloudHost=cloudHost>
+        <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690118293977">
           <router-view v-slot="{ Component, route }">
             <keep-alive :exclude="excludeViews">
               <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
