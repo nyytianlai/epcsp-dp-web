@@ -61,11 +61,22 @@ import {
     realtimeStateDataFun,
   realtimeTrendFun,
   bottomTabDataFun
-} from './config.js'
+} from './config.js';
+import { districtAlarmLevelStatics,safetySupervisionAccumulated } from "@/api/supervision.js";
+
 // 头部累计数据
+const getDistrictAlarmLevelStatics = async() => {
+  let { data } = await districtAlarmLevelStatics();
+  console.log(data.data,"getDistrictAlarmLevelStatics")
+}
 const pageNumData = ref(pageNumFun());
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun())
+
+const getSafetySupervisionAccumulated = async ()=> {
+  let {data} = await safetySupervisionAccumulated()
+  console.log(data,"getSafetySupervisionAccumulated")
+}
 
 //行政区告警数据
 const areaRankData = ref(areaRankDataFun())
@@ -93,6 +104,11 @@ const handleChangeTab = (data, type) => {
     realtimeStateData.value = realtimeStateDataFun(data.code)
   }
 };
+
+onMounted(()=> {
+  // getDistrictAlarmLevelStatics()
+  getSafetySupervisionAccumulated()
+})
 </script>
 
 <style lang="less" scoped>
