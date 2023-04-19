@@ -24,9 +24,12 @@ export const districtAlarmStatics = () => {
 }
 
 // 今日设备告警监控
-export const alarmLevelAndTypeByTime = () => {
+export const alarmLevelAndTypeByTime = (param) => {
   return request.get({
-    url: '/safetySupervision/alarmLevelAndTypeByTime'
+    url: '/safetySupervision/alarmLevelAndTypeByTime',
+    data: {
+      ...param
+    }
   })
 }
 

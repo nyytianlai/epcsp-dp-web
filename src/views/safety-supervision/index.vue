@@ -57,6 +57,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
+import dayjs from 'dayjs'
 import {
   pageNumFun,
   totalWarningTabsFun,
@@ -71,14 +72,11 @@ import {
 import {
   districtAlarmLevelStatics,
   safetySupervisionAccumulated,
-  districtAlarmStatics
+  districtAlarmStatics,
+  alarmLevelAndTypeByTime
 } from '@/api/supervision.js';
 
 // 头部累计数据
-const getDistrictAlarmLevelStatics = async () => {
-  let { data } = await districtAlarmLevelStatics();
-  console.log(data.data, 'getDistrictAlarmLevelStatics');
-};
 const pageNumData = ref(pageNumFun());
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
@@ -115,7 +113,43 @@ const getDistrictAlarmStatics = async () => {
 };
 //今日设备告警监控
 const warningMonitorTabs = ref(warningMonitorTabsFun());
-const warningMonitorPieData = ref(warningMonitorPieDataFun());
+const warningMonitorPieData = ref([]);
+const getAlarmLevelAndTypeByTime = async(param)=> {
+  let { data } = await alarmLevelAndTypeByTime(param)
+  let type1 = {
+    '1':'一级人身安全',
+    '2':'二级设备安全',
+    '3': '三级告警提示'
+  }
+  let extraName = {
+    '1':'人身安全',
+    '2':'设备安全',
+    '3': '告警提示'
+  }
+  let type2 = {
+    '1':'充电系统',
+    '2':'电池系统',
+    '3': '配电系统'
+  }
+  let newData = data?.data.map(item => {
+    if(param.type === 1) {
+      return {
+      value: item.cnt || 0,
+      name: type1[item.alarmLevel],
+      extraName: extraName[item.alarmLevel],
+      unit: '个'
+    }
+    }else {
+      return {
+      value: item.cnt || 0,
+      name: type2[item.alarmType],
+      unit: '个'
+    }
+    }
+    
+  })
+  warningMonitorPieData.value = newData
+} 
 //实时状态情况
 const realtimeStateTabs = ref(realtimeStateTabsFun());
 const realtimeStateData = ref(realtimeStateDataFun());
@@ -131,6 +165,14 @@ const handleChangeTab = (data, type) => {
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    let obj = {
+      type: data.code,
+      // startTime:'2023-04-03 14:22:34',
+      // endTime: '2023-04-06 14:22:34'
+      startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    }
+    getAlarmLevelAndTypeByTime(obj)
   } else if (type === 'realtime-state') {
     // 实时状态情况
     realtimeStateData.value = realtimeStateDataFun(data.code);
@@ -138,9 +180,16 @@ const handleChangeTab = (data, type) => {
 };
 
 onMounted(() => {
-  // getDistrictAlarmLevelStatics()
+  let obj = {
+    type:1,
+    // startTime:'2023-04-03 14:22:34',
+    // endTime: '2023-04-06 14:22:34' 
+    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+  }
   getSafetySupervisionAccumulated(1);
   getDistrictAlarmStatics();
+  getAlarmLevelAndTypeByTime(obj)
 });
 </script>
 
