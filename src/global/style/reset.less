@@ -79,6 +79,67 @@ ul, ol {
   }
 }
 
+//弹窗table样式
+.custom-dialog-table {
+  .el-table__inner-wrapper {
+    &::before {
+      height: 0;
+    }
+  }
+  tr {
+    th {
+      &:first-of-type {
+        padding-left: 16px !important;
+      }
+    }
+    td {
+      &:first-of-type {
+        padding-left: 16px !important;
+      }
+    }
+  }
+  td.el-table__cell,
+  th.el-table__cell.is-leaf {
+    border-bottom: 0;
+  }
+  td.el-table__cell {
+    background: rgba(84, 181, 255, 0.15);
+    border-bottom: 1px solid #081219;
+    padding: 24px 0;
+    .cell {
+      font-size: 16px;
+      line-height: 24px;
+      color: #ffffff;
+    }
+  }
+  .el-table__body tr:hover > td.el-table__cell {
+    background: #4391cc;
+    border-bottom: 1px solid #081219;
+  }
+  .el-table__header {
+    .el-table__cell {
+      padding: 4px 0;
+      background: rgba(84, 181, 255, 0.3);
+      .cell {
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 400;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 1px;
+          height: 14px;
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
+
 // for Webkit
 ::-webkit-scrollbar {
   width: 0px;
