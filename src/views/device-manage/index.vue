@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-17 14:40:13
+ * @LastEditTime: 2023-04-19 11:29:18
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -53,6 +53,11 @@ import MapLayer from './components/map-layer.vue'
 import ChargingNumImages from './components/charging-num-images.vue'
 import ChargingRealtimePower from './components/charging-realtime-power.vue'
 import {
+  selectChargeCount,
+  selectChargeCountByArea,
+  selectChargeEquipmentStatistics
+} from '@/api/deviceManage.js'
+import {
   pageNumFun,
   chargingStationTabsFun,
   chargingStationPieDataFun,
@@ -70,8 +75,8 @@ const pageNumData = ref(pageNumFun());
 const chargingStationTabs = ref(chargingStationTabsFun())
 const chargingStationPieData = ref(chargingStationPieDataFun())
 //充电高峰区域情况
-const areaRankData = ref(areaRankDataFun())
-const areaTotalNum = ref(6399)
+const areaRankData = ref([])
+const areaTotalNum = ref(0)
 //充电状态
 const chargingTypesTabs = ref(chargingTypesTabsFun())
 const chargingTypesData = ref(chargingTypesFun());
@@ -80,11 +85,37 @@ const lineStateData = ref(lineStateDataFun())
 const chargingRunTabs = ref(chargingRunTabsFun())
 const chargingRunData = ref(chargingRunDataFun())
 const lineRunData = ref(lineRunDataFun())
+// 设备管理/充电桩数量
+const getSelectChargeCount = async(type) => {
+  const res = await selectChargeCount()
+  chargingStationPieData.value = chargingStationPieDataFun(type,res.data)
+}
+const getSelectChargeCountByArea = async () => {
+  const res = await selectChargeCountByArea()
+  console.log(res);
+  if (res?.data) {
+    areaRankData.value = res.data.map(item => {
+      return {
+        num:item.chargeCount,
+        unit:'次',
+        name:item.areaName
+      }
+    })
+    areaTotalNum.value = res.data[0].chargeCount
+  } else {
+    areaRankData.value = []
+    areaTotalNum.value = 0
+  }
+}
+onMounted(() => {
+  getSelectChargeCount(1)
+  getSelectChargeCountByArea()
+})
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charging-station') {
     //切换充电桩数量信息
-    chargingStationPieData.value = chargingStationPieDataFun(data.code)
+    getSelectChargeCount(data.code)
   } else if (type === 'operating') {
     // 切换运营企业全年TOP10类型
     projectList.value = projectListFun();

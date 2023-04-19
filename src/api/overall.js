@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-18 15:15:30
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 16:11:59
+ * @LastEditTime: 2023-04-19 10:39:16
  * @FilePath: \epcsp-dp-web\src\api\overall.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,5 +36,37 @@ export const stationOpeTop10 = (type) => {
         data: {
             type
         }
+      })
+}
+
+//今日-充电桩/充电枪信息充电桩:pile,充电枪:gun
+export const dayEquInfo = (type) => {
+    return request.post({
+        url: '/dp/api/v1/overview/dayEquInfo',
+        data: {
+            type
+        }
+      })
+}
+
+// 今日充电功率信息
+export const dayPower = () => {
+    return request.get({
+        url: '/dp/api/v1/overview/dayPower'
+      })
+}
+
+//今日告警信息 /dp/api/v1/overview/alarmInfo
+export const alarmInfo = (params) => {
+    return request.post({
+        url: '/dp/api/v1/overview/alarmInfo',
+        data: params
+      })
+}
+
+// /dp/api/v1/overview/timePowerGraph 实时功率图表
+export const timePowerGraph = () => {
+    return request.post({
+        url: '/dp/api/v1/overview/timePowerGraph'
       })
 }

@@ -48,14 +48,14 @@ export const routes = [
   {
     path: '/safety',
     name: 'safety',
-    meta: { title: '设备监督' },
+    meta: { title: '安全监管' },
     component: Layout,
     children: [
       {
         path: 'supervision',
         name: 'safetySupervision',
         realPath: '/safety/supervision',
-        meta: { title: '设备监督', keepAlive: true },
+        meta: { title: '安全监管', keepAlive: true },
         component: () =>import('@/views/safety-supervision/index.vue')
       },
     ]
@@ -63,14 +63,14 @@ export const routes = [
   {
     path: '/public',
     name: 'public',
-    meta: { title: '公共服务' },
+    meta: { title: '公众服务' },
     component: Layout,
     children: [
       {
         path: 'service',
         name: 'publicService',
         realPath: '/public/service',
-        meta: { title: '公共服务', keepAlive: true },
+        meta: { title: '公众服务', keepAlive: true },
         component: () =>import('@/views/public-service/index.vue')
       },
     ]
