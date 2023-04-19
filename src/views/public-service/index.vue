@@ -34,11 +34,12 @@
           <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3.74rem" />
         </div>
     </panel>
+    <map-layer ref="mapLayerRef"></map-layer>
   </template>
 <script setup>
   import { ref, onMounted,reactive } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
-
+import MapLayer from './components/map-layer.vue';
 import {
   pageNumFun,
   hotChargingDataFun,
@@ -47,6 +48,7 @@ import {
   chargingTypePieDataFun,
   monthRateDataFun
 } from './config.js'
+let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 热门充电站TOP10

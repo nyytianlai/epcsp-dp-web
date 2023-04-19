@@ -17,8 +17,8 @@ export const layerNameQuNameArr = (layerName) => {
   });
 };
 export const infoObj = {
-  terrainId: '84F17E17411A28C0657442A8EC039B02',
-  szView: {
+  terrainId: '84F17E17411A28C0657442A8EC039B02',//地形图图层id
+  szView: { //全市视角
     x: 523800.9,
     y: 2449743.7,
     z: 51713.465,

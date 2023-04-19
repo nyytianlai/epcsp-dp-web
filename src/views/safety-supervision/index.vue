@@ -46,11 +46,13 @@
                 <line-time-chart :data="realtimeTrend" :chartStyle="{height:'2.55rem'}" :colors="['#FF6B4B']"/>
             </div>
     </panel>
-    <bottom-menu-tabs :data="bottomTabsData"/>
+    <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab"/>
+    <map-layer ref="mapLayerRef"></map-layer>
   </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
+import MapLayer from './components/map-layer.vue';
 import {
     pageNumFun,
     totalWarningTabsFun,
@@ -63,7 +65,14 @@ import {
   bottomTabDataFun
 } from './config.js';
 import { districtAlarmLevelStatics,safetySupervisionAccumulated } from "@/api/supervision.js";
-
+let mapLayerRef = ref(null);
+//地图底部tab切换
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  // mapLayerRef.value.setRectBarVisibility(value);
+  // mapLayerRef.value.setHeatMapVisibility(value);
+};
 // 头部累计数据
 const getDistrictAlarmLevelStatics = async() => {
   let { data } = await districtAlarmLevelStatics();
@@ -107,7 +116,7 @@ const handleChangeTab = (data, type) => {
 
 onMounted(()=> {
   // getDistrictAlarmLevelStatics()
-  getSafetySupervisionAccumulated()
+  // getSafetySupervisionAccumulated()
 })
 </script>
 
