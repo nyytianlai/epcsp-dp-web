@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 19:13:47
+ * @LastEditTime: 2023-04-19 11:22:36
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -17,6 +17,7 @@
         <div class="bottom-bar">
             
 
+          <div class="line" v-for="(item,i) in new Array(5)" :key="i"></div>
           <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }"></div>
         </div>
         <span class="num">
@@ -24,7 +25,6 @@
           <span class="unit">/{{ item.unit }}</span>
         </span>
       </li>
-    <div class="line" v-for="(item,i) in new Array(5)" :key="i"></div>
     </ul>
   </div>
 </template>
@@ -83,7 +83,6 @@ const { data, totalNum } = toRefs(props);
   .num {
     margin-left: 16px;
     min-width: 59px;
-    max-width: 59px;
     white-space: nowrap;
     .unit {
       color: rgba(230, 247, 255, 0.5);
@@ -112,6 +111,7 @@ const { data, totalNum } = toRefs(props);
   background: rgba(255, 255, 255, 0.1);
   height: 8px;
   flex: 1;
+  position: relative;
   .progress {
     height: 100%;
     background: linear-gradient(270deg, #13adc4 0%, #0b2f55 100%);
@@ -119,25 +119,26 @@ const { data, totalNum } = toRefs(props);
 }
 .line {
   position: absolute;
-  top: 0;
-  left: 96px;
-  height: 100%;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 40px;
   width: 1px;
   border-left: 1px solid #bae7ff;
   &:nth-of-type(2) {
-    left: 156px;
+    left: 25%;
     border-left: 1px dashed rgba(230, 247, 255, 0.2);
   }
   &:nth-of-type(3) {
-    left: 216px;
+    left: 50%;
     border-left: 1px dashed rgba(230, 247, 255, 0.2);
   }
   &:nth-of-type(4) {
-    left: 276px;
+    left: 75%;
     border-left: 1px dashed rgba(230, 247, 255, 0.2);
   }
   &:nth-of-type(5) {
-    left: 336px;
+    left: 100%;
     border-left: 1px dashed rgba(230, 247, 255, 0.2);
   }
 }

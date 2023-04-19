@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 20:40:38
+ * @LastEditTime: 2023-04-19 16:37:37
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -48,17 +48,20 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineTimeData" unit="KW" :colors="['green', 'blue']" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <warning-tabs :data="warningTabsData" />
+      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
       <warning-list :data="warningListData" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer ref="mapLayerRef"></map-layer>
-  <dialog-table v-model:visible="dialogTableVisible"/>
+  <dialog-table 
+    v-model:visible="dialogTableVisible" 
+    :columnData="columnData"
+  />
 </template>
 <script setup>
 import {onMounted,ref} from 'vue'
@@ -69,7 +72,12 @@ import {
   overTotalCount,
   totalFacilities,
   totalEquipment,
-  stationOpeTop10
+  stationOpeTop10,
+  dayEquInfo,
+  dayPower,
+  alarmInfo,
+  timePowerGraph,
+  alarmCount
 } from '@/api/overall.js'
 import {
   pageNumFun,
@@ -84,7 +92,8 @@ import {
   lineTimeDataFun,
   warningTabsDataFun,
   warningListFun,
-  bottomTabDataFun
+  bottomTabDataFun,
+  columnDataFun
 } from './config.js';
 let mapLayerRef = ref(null);
 // 头部累计数据
@@ -107,13 +116,14 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
-console.log(lineTimeData.value);
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
-const warningListData = ref(warningListFun());
+const warningListData = ref([]);
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false)
+// 弹窗列名
+const columnData = ref(columnDataFun())
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
@@ -123,6 +133,9 @@ const handleChangeTab = (data, type) => {
     getStationOpeTop10(data.code)
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
+    getDayEquInfo(data.code)
+  } else if (type === 'warning') {
+    getAlarmInfo(data.code)
   }
 };
 
@@ -138,7 +151,6 @@ const handleClick = () => {
 // 总览上面4个指标
 const getOverTotalCount = async () => {
   const res = await overTotalCount()
-  console.log('总览上面4个指标',res);
   pageNumData.value = pageNumFun(res.data)
 }
 //充电设施总量
@@ -149,7 +161,7 @@ const getTotalFacilities = async () => {
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async (type) => {
   const res = await totalEquipment(type)
-  pileChargerData.value = pileChargerFun(type,res.data)
+  pileChargerData.value = pileChargerFun(type,res?.data)
 }
 
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
@@ -170,12 +182,56 @@ const getStationOpeTop10 = async (type) => {
     projectTotalNum.value = 0
   }
 }
+//今日-充电桩/充电枪信息
+const getDayEquInfo = async(type) => {
+  const res = await dayEquInfo(type)
+  todayInfoNumData.value = todayInfoNumDataFun(res?.data)
+}
+//今日充电功率信息
+const getDayPower = async () => {
+  const res = await dayPower()
+  powerInfoNumData.value = powerInfoNumDataFun(res.data)
+}
+//今日告警信息
+const getAlarmInfo = async (level) => {
+  const params = {
+    "alarmLevel": level,
+    "pageNum": 1,
+    "pageSize": 1000
+  }
+  const res = await alarmInfo(params)
+  if (res.data && res.data.list) {
+    warningListData.value = res.data.list.map(item => {
+      return {
+        date: item.alarmTime,
+        message: item.alarmDesc,
+        area:item.stationName
+      }
+    })
+  } else {
+    warningListData.value = []
+  }
+}
+const getAlarmCount = async () => {
+  const res = await alarmCount()
+  warningTabsData.value = warningTabsDataFun(res.data)
+}
+//实时功率图表
+const getTimePowerGraph = async() => {
+  const res = await timePowerGraph()
+  lineTimeData.value = lineTimeDataFun(res.data)
+}
 onMounted(() => {
-  console.log('mounted');
   getOverTotalCount()
   getTotalFacilities()
   getTotalEquipment('pile')
   getStationOpeTop10('station')
+  getDayEquInfo('pile')
+  getDayPower()
+  getAlarmInfo(1)
+  getTimePowerGraph()
+  getAlarmCount()
+  
 })
 </script>
 <style lang="less" scoped>

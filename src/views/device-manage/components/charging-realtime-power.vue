@@ -17,7 +17,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
     data:{
         type:String || Number,
-        default:2818878.31
+        default: 0
     }
 })
 const {data} = toRefs(props)

@@ -4,26 +4,26 @@ import dqsyl from '@/assets/images/deviceManage/dqsyl.png';
 import dqgzl from '@/assets/images/deviceManage/dqgzl.png';
 import dayjs from 'dayjs';
 
-export const pageNumFun = () => {
+export const pageNumFun = (data={}) => {
   return [
     {
       name: '充电站总量',
-      num: 6399,
+      num: data?.stationCount,
       unit: '个'
     },
     {
       name: '充电桩总量',
-      num: 125639,
+      num: data?.equipmentCount,
       unit: '个'
     },
     {
       name: '充电枪总量',
-      num: 125639,
+      num: data?.gunCount,
       unit: '个'
     },
     {
       name: '充电总功率',
-      num: 281887.30,
+      num: data?.chargeTotalRate,
       unit: 'KW'
     }
   ];
@@ -42,18 +42,18 @@ export const chargingStationTabsFun = () => {
   ];
 };
 
-export const chargingStationPieDataFun = (code = 1)=>{
+export const chargingStationPieDataFun = (code = 1,data={})=>{
   if(code === 1){
     return [
-      { value: 33256, name: '快充桩',  unit: '个' },
-      { value: 58552, name: '慢充桩', unit: '个' },
-      { value: 67000, name: '超充桩',  unit: '个' },
-      { value: 3540, name: 'V2G桩',  unit: '个' }
+      { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个' },
+      { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个' },
+      { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个' },
+      { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个' }
     ]
   }else{
     return [
-      { value: 33256, name: '直流桩',  unit: '个' },
-      { value: 58552, name: '交流桩', unit: '个' }
+      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个' },
+      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' }
     ]
   }
 }
@@ -126,18 +126,18 @@ export const chargingTypesTabsFun = ()=>{
   ];
 }
 
-export const chargingTypesFun = ()=>{
+export const chargingTypesFun = (data={})=>{
   return [
     {
       img: dqzx,
-      num: '80855',
+      num: data?.onlineCount,
       unit: '个',
       name: '当前在线',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: dqlx,
-      num: 80855,
+      num: data?.offlineCount,
       unit: '个',
       name: '当前离线',
       classStyleType:'leftRightStyleGray6656'
@@ -173,17 +173,17 @@ export const chargingRunTabsFun = () => {
   ];
 };
 
-export const chargingRunDataFun = ()=>{
+export const chargingRunDataFun = (data={})=>{
   return [
     {
       img: dqsyl,
-      num: '26%',
+      num: data?.useRate,
       name: '当前使用率',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
-      num: "26%",
+      num: data?.troubleRate,
       name: '当前故障率',
       classStyleType:'leftRightStyleGray6656'
     }
