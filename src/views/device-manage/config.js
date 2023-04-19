@@ -173,17 +173,17 @@ export const chargingRunTabsFun = () => {
   ];
 };
 
-export const chargingRunDataFun = ()=>{
+export const chargingRunDataFun = (data={})=>{
   return [
     {
       img: dqsyl,
-      num: '26%',
+      num: data?.useRate,
       name: '当前使用率',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
-      num: "26%",
+      num: data?.troubleRate,
       name: '当前故障率',
       classStyleType:'leftRightStyleGray6656'
     }

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 14:43:44
+ * @LastEditTime: 2023-04-19 16:37:37
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -48,7 +48,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineTimeData" unit="KW" :colors="['green', 'blue']" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
@@ -76,7 +76,8 @@ import {
   dayEquInfo,
   dayPower,
   alarmInfo,
-  timePowerGraph
+  timePowerGraph,
+  alarmCount
 } from '@/api/overall.js'
 import {
   pageNumFun,
@@ -115,7 +116,6 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
-// console.log(lineTimeData.value);
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
@@ -200,7 +200,6 @@ const getAlarmInfo = async (level) => {
     "pageSize": 1000
   }
   const res = await alarmInfo(params)
-  console.log(res);
   if (res.data && res.data.list) {
     warningListData.value = res.data.list.map(item => {
       return {
@@ -213,10 +212,14 @@ const getAlarmInfo = async (level) => {
     warningListData.value = []
   }
 }
+const getAlarmCount = async () => {
+  const res = await alarmCount()
+  warningTabsData.value = warningTabsDataFun(res.data)
+}
 //实时功率图表
 const getTimePowerGraph = async() => {
   const res = await timePowerGraph()
-  console.log(res,'实时功率图表');
+  lineTimeData.value = lineTimeDataFun(res.data)
 }
 onMounted(() => {
   getOverTotalCount()
@@ -225,8 +228,10 @@ onMounted(() => {
   getStationOpeTop10('station')
   getDayEquInfo('pile')
   getDayPower()
-  getAlarmInfo()
+  getAlarmInfo(1)
   getTimePowerGraph()
+  getAlarmCount()
+  
 })
 </script>
 <style lang="less" scoped>
