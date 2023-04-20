@@ -72,7 +72,7 @@ import {
   bottomTabDataFun
 } from './config.js';
 import {
-  districtAlarmLevelStatics,
+  getAlarmUpStatics,
   safetySupervisionAccumulated,
   districtAlarmStatics,
   alarmLevelAndTypeByTime,
@@ -89,6 +89,11 @@ const changeButtomTab = (item) => {
 
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
+const getAlarmUpStaticsData = async()=> {
+  let { data } = await getAlarmUpStatics()
+  console.log(data,"df")
+  pageNumData.value = pageNumFun(data?.data || [])
+}
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([])
@@ -144,7 +149,10 @@ const getAlarmLevelAndTypeByTime = async(param)=> {
     '2':'电池系统',
     '3': '配电系统'
   }
-  let newData = data?.data.map(item => {
+  
+  let newData = null;
+  if(data?.data.length !== 0) {
+  newData = data?.data.map(item => {
     if(param.type === 1) {
       return {
       value: item.cnt || 0,
@@ -154,13 +162,17 @@ const getAlarmLevelAndTypeByTime = async(param)=> {
     }
     }else {
       return {
-      value: item.cnt || 0,
-      name: type2[item.alarmType],
-      unit: '个'
-    }
+        value: item.cnt || 0,
+        name: type2[item.alarmType],
+        unit: '个'
+      }
     }
     
   })
+  }else {
+    newData = warningMonitorPieDataFun(param.type)
+  }
+
   warningMonitorPieData.value = newData
 } 
 //实时状态情况
@@ -181,7 +193,7 @@ const handleChangeTab = (data, type) => {
     getSafetySupervisionAccumulated(data.code)
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
-    warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
     let obj = {
       type: data.code,
       // startTime:'2023-04-03 14:22:34',
@@ -204,6 +216,7 @@ onMounted(() => {
     startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
   }
+  getAlarmUpStaticsData()
   getSafetySupervisionAccumulated(1);
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj)

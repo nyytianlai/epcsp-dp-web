@@ -7,29 +7,29 @@ import stateYellowB from '@/assets/images/safetySupervision/state-yellow-b.png';
 import stateYellowS from '@/assets/images/safetySupervision/state-yellow-s.png';
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
-export const pageNumFun = () => {
+export const pageNumFun = (data) => {
   return [
     {
       name: '累计告警总数',
-      num: 6399,
+      num: data?.sumCount,
       unit: '个',
       nameColor:'#FF6B4B'
     },
     {
       name: '当前告警总数',
-      num: 125639,
+      num: data?.dealCount,
       unit: '个',
       nameColor:'#F9E900'
     },
     {
       name: '已确认总数',
-      num: 125639,
+      num: data?.affirmCount,
       unit: '个',
       nameColor:'#FF6B4B'
     },
     {
       name: '已恢复总数',
-      num: 281887.3,
+      num: data?.recCount,
       unit: 'KW',
       nameColor:'#FF6B4B'
     }
@@ -119,15 +119,15 @@ export const warningMonitorTabsFun = () => {
 export const warningMonitorPieDataFun = (code = 1) => {
   if (code === 1) {
     return [
-      { value: 1048, name: '一级人身安全', extraName: '人身安全', unit: '个' },
-      { value: 735, name: '二级设备安全', extraName: '设备安全', unit: '个' },
-      { value: 580, name: '三级告警提示', extraName: '告警提示', unit: '个' }
+      { value: 0, name: '一级人身安全', extraName: '人身安全', unit: '个' },
+      { value: 0, name: '二级设备安全', extraName: '设备安全', unit: '个' },
+      { value: 0, name: '三级告警提示', extraName: '告警提示', unit: '个' }
     ];
   } else {
     return [
-      { value: 1048, name: '充电系统', unit: '个' },
-      { value: 735, name: '电池系统', unit: '个' },
-      { value: 580, name: '配电系统', unit: '个' }
+      { value: 0, name: '充电系统', unit: '个' },
+      { value: 0, name: '电池系统', unit: '个' },
+      { value: 0, name: '配电系统', unit: '个' }
     ];
   }
 };

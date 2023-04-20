@@ -7,6 +7,12 @@ export const districtAlarmLevelStatics = () => {
   })
 }
 
+export const getAlarmUpStatics = () => {
+  return request.post({
+    url: '/safetySupervision/getAlarmUpStatics'
+  })
+}
+
 // 累计告警数据信息
 export const safetySupervisionAccumulated = (type) => {
   return request.get({
