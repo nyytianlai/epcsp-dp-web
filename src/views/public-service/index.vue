@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 18:32:01
+ * @LastEditTime: 2023-04-20 15:10:48
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -40,7 +40,9 @@
 import ScrollTable from './components/scroll-table.vue'
 import {
   hotCharging,
-  monthRate
+  monthRate,
+  personFeedback,
+  selectChargeEquipmentStatistics
 } from '@/api/publicService.js'
 import {
   pageNumFun,
@@ -62,9 +64,9 @@ const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
 const monthRateData = ref([])
 const totalMonthRateNum = ref(0)
+// 热门充电站TOP10
 const getHotCharging = async () => {
   const res = await hotCharging()
-  console.log(res);
   if (res?.data && res?.data?.data) {
     hotChargingData.value = res?.data?.data.map(item => {
       return {
@@ -79,9 +81,9 @@ const getHotCharging = async () => {
     totalChargingNum.value = 0
   }
 }
+// 右下-本月日均利用率
 const getMonthRate = async () => {
   const res = await monthRate()
-  console.log(res);
   if (res?.data && res?.data?.data) {
     monthRateData.value = res?.data?.data.map(item => {
       return {
@@ -96,6 +98,10 @@ const getMonthRate = async () => {
     totalMonthRateNum.value = 0
   }
 }
+const getChargeEquipmentStatistics = async () => {
+  const res = await selectChargeEquipmentStatistics()
+  deviceData.value = deviceDataFun(res.data)
+}
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'charging-types') {
@@ -103,9 +109,15 @@ const handleChangeTab = (data, type) => {
     chargingTypePieData.value = chargingTypePieDataFun(data.code)
   } 
 };
+const getPersonFeedback = async() => {
+  const res = await personFeedback()
+  console.log(res);
+}
 onMounted(() => {
   getHotCharging()
   getMonthRate()
+  getPersonFeedback()
+  getChargeEquipmentStatistics()
 })
 </script>
 

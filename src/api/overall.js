@@ -2,13 +2,16 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-18 15:15:30
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 16:31:55
+ * @LastEditTime: 2023-04-20 10:48:50
  * @FilePath: \epcsp-dp-web\src\api\overall.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import request from '@sutpc/axios';
 import dayjs from 'dayjs'
-
+const timeParams =()=> ({
+    "startTime":dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    "endTime": dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+})
 // 总览上面4个指标
 export const overTotalCount = () => {
     return request.get({
@@ -46,9 +49,7 @@ export const dayEquInfo = (type) => {
         url: '/dp/api/v1/overview/dayEquInfo',
         data: {
             type,
-            "startTime":"2022-04-18 00:00:00",
-            "endTime":"2022-04-18 23:59:59"
-
+            ...timeParams()
         }
       })
 }
@@ -58,8 +59,7 @@ export const dayPower = () => {
     return request.post({
         url: '/dp/api/v1/overview/dayPower',
         data: {
-             "startTime":"2023-04-18 00:00:00",
-    "endTime":"2023-04-18 23:59:59"
+            ...timeParams()
         }
       })
 }
@@ -69,8 +69,7 @@ export const alarmCount = (params) => {
     return request.post({
         url: '/dp/api/v1/overview/alarmCount',
         data: {
-            "startTime":"2023-03-01 00:00:00",
-            "endTime":"2023-03-01 23:59:59"
+            ...timeParams()
           }
       })
 }
@@ -80,8 +79,7 @@ export const alarmInfo = (params) => {
     return request.post({
         url: '/dp/api/v1/overview/alarmInfo',
         data: {
-            "startTime":"2023-03-01 00:00:00",
-            "endTime": "2023-03-01 23:59:59",
+            ...timeParams(),
             ...params
         }
       })
@@ -92,8 +90,7 @@ export const timePowerGraph = () => {
     return request.post({
         url: '/dp/api/v1/overview/timePowerGraph',
         data: {
-             "startTime":"2023-04-18 00:00:00",
-                "endTime":"2023-04-18 23:59:59"
+            ...timeParams()
         }
       })
 }

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 17:18:08
+ * @LastEditTime: 2023-04-20 10:43:45
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -61,8 +61,8 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer ref="mapLayerRef"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <el-table :data="data" height="6.34rem" style="width: 100%" class="custom-dialog-table">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <el-table :data="alarmTableData" height="6.34rem" style="width: 100%" class="custom-dialog-table">
       <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" />
     </el-table>
     <el-pagination 
@@ -257,8 +257,12 @@ const getTableAlarm = async (level) => {
 };
 // table数据
 const handPageChange = (value) => {
-  console.log(value);
+  pageObj.currentPage = value
+  getTableAlarm()
 }
+// const handleDialogClosed = () => {
+//   console.log('handleDialogClosed');
+// }
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();

@@ -407,7 +407,7 @@ export const columnDataFun = () => {
     {
       prop: 'alarmDesc',
       label: '告警描述',
-      width:'300'
+      width:'250'
     },
     {
       prop: 'alarmType',
@@ -417,7 +417,7 @@ export const columnDataFun = () => {
     {
       prop: 'alarmTime',
       label: '告警时间',
-      width:'150'
+      width:'180'
     },
     {
       prop: 'contactPerson',

@@ -1,35 +1,75 @@
 <template>
   <div class="charging-wrap">
     <ul class="content">
-      <li v-for="(item, index) in barData" :key="index" :class="stateFormate(item.state)?.code">
-        <span class="type">{{ item.type }}</span>
-        <icon :icon="`svg-icon:${stateFormate(item.state)?.code}`" />
-        <span class="power">{{ item.power }}</span>
+      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
+        <span class="type">{{ typeFormate(item.chargingType).code }}</span>
+        <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
+        <span class="power">{{ item.equipmentName }}</span>
         <span class="state">
-          <span class="text">{{ item.state }}</span>
+          <span class="text">{{ stateFormate(item.status).name }}</span>
         </span>
       </li>
     </ul>
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+const props = defineProps({
+  data: {
+    type: Object,
+    default:[]
+  }
+})
+const {data} = toRefs(props)
 const stateFormate = (state) => {
   return {
-    充电中: {
-      code: 'charging-work'
+    0: {
+      code: 'offline-work',
+      name:'离线'
     },
-    空闲: {
-      code: 'no-work'
+    1: {
+      code: 'no-work',
+      name:'空闲'
     },
-    故障: {
-      code: 'error-work'
+    2: {
+      code: 'charging-work',
+      name:'占用'
     },
-    离线: {
-      code: 'offline-work'
-    }
+    3: {
+      code: 'charging-work',
+      name:'占用'
+    },
+    4: {
+      code: 'charging-work',
+      name:'占用'
+    },
+    5: {
+      code: 'charging-work',
+      name:'占用'
+    },
+    255: {
+      code: 'error-work',
+      name:'故障'
+    },
+    
   }[state];
+};
+const typeFormate = (type) => {
+  return {
+    1: {
+      code: '快充'
+    },
+    2: {
+      code: '慢充'
+    },
+    3: {
+      code: '超充'
+    },
+    4: {
+      code: 'V2G'
+    }
+  }[type];
 };
 const barListFun = () => {
   return [

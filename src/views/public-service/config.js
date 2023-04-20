@@ -56,17 +56,17 @@ export const hotChargingDataFun = () => {
   ]; 
 }
 
-export const deviceDataFun = () => {
+export const deviceDataFun = (data={}) => {
   return [
     {
       img: ztsyl,
-      num: '80855',
+      num: data?.equipmentCount,
       name: '充电桩总数/个',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: ztsyl,
-      num: 80855,
+      num: data?.gunCount,
       name: '充电枪总数/个',
       classStyleType:'leftRightStyleGreen6656'
     }

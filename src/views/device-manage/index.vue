@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 15:40:24
+ * @LastEditTime: 2023-04-20 14:42:00
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -44,7 +44,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineRunData" :colors="['green','#FF7723']"/>
+      <line-time-chart :data="lineRunData" unit="%" :colors="['green','#FF7723']"/>
     </div>
   </panel>
   <map-layer></map-layer>
@@ -142,17 +142,17 @@ const getSelectChargeEquipmentStatus = async (type) => {
 //设备管理/充电桩-枪状态分时列表
 const getChargeEquipmentStatusByTime = async (type) => {
   const res = await selectChargeEquipmentStatusByTime(type)
-  console.log(res);
+  lineStateData.value = lineStateDataFun(res.data)
 }
 
 const getChargeEquipmentUseRate = async (type) => {
   const res = await selectChargeEquipmentUseRate(type)
   chargingRunData.value = chargingRunDataFun(res.data)
 }
-//设备管理/充电桩-枪状态分时列表
+//设备管理/充电桩-枪运行情况分时列表
 const getChargeEquipmentUseRateByTime = async (type) => {
   const res = await selectChargeEquipmentUseRateByTime(type)
-  console.log(res);
+  lineRunData.value = lineRunDataFun(res.data)
 }
 onMounted(() => {
   getSelectChargeCount(1)
@@ -166,7 +166,6 @@ onMounted(() => {
   getChargeEquipmentUseRateByTime(1)
 })
 const handleChangeTab = (data, type) => {
-  console.log(data, type);
   if (type === 'charging-station') {
     //切换充电桩数量信息
     getSelectChargeCount(data.code)

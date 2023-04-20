@@ -145,15 +145,15 @@ export const chargingTypesFun = (data={})=>{
   ];
 }
 
-const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
-export const lineStateDataFun = () => {
+export const lineStateDataFun = (data=[]) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ')
   return [{
-    data:timeData(),
+    data:data.map(item=>[ yearMonthDay + item.time,item.onlineCount]),
     type: 'line',
     smooth: true,
     name:'在线'
   },{
-    data:timeData(),
+    data:data.map(item=>[ yearMonthDay + item.time,item.offlineCount]),
     type: 'line',
     smooth: true,
     name:'离线'
@@ -190,14 +190,15 @@ export const chargingRunDataFun = (data={})=>{
   ];
 }
 
-export const lineRunDataFun = () => {
+export const lineRunDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ')
   return [{
-    data:timeData(),
+    data:data.map(item=>[ yearMonthDay + item.time,item.useRate]),
     type: 'line',
     smooth: true,
     name:'桩使用率'
   },{
-    data:timeData(),
+    data:data.map(item=>[ yearMonthDay + item.time,item.troubleRate]),
     type: 'line',
     smooth: true,
     name:'桩故障率'
