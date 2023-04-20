@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-13 16:08:53
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 17:40:18
+ * @LastEditTime: 2023-04-20 17:00:26
  * @FilePath: \epcsp-dp-web\src\components\bottom-menu-tabs\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -21,7 +21,7 @@
         </span>
         <span class="bottom-info">
             <icon :icon="`svg-icon:${item.icon}`" />
-            <span class="num" :style="{color:item.color}">{{item.num}}</span>
+            <span class="num" :style="{color:item.color}">{{formatWithToLocalString(item.num)}}</span>
         </span>
         <i v-if="item.code === activeTab" class="triangle" :style="{borderTopColor:item.color}"></i>
       </div>
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import {toRefs,ref } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
+import { formatWithToLocalString } from '@/global/commonFun.js'
 interface Idata {
     code: string | number;
     label: string;

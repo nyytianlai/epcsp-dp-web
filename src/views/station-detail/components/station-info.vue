@@ -14,7 +14,7 @@
         <ul class="info-list">
             <li v-for="(item,index) in infoListData" :key="index">
                 <label for="">{{item.label}}</label>
-                <span class="value"> {{item.value}}</span>
+                <span class="value text-ellipsis-1"> {{item.value}}</span>
             </li>    
         </ul>
     </div>

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 17:25:04
+ * @LastEditTime: 2023-04-20 17:02:15
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -16,7 +16,7 @@
             <span class="name">{{ item.name }}</span>
           </span>
           <span class="num">
-            <span>{{ item.num }}</span>
+            <span>{{ formatWithToLocalString(item.num) }}</span>
             <span class="unit">/{{ item.unit }}</span>
           </span>
         </div>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import {toRefs,ref } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
+import { formatWithToLocalString } from '@/global/commonFun.js'
 interface Idata {
   name: string;
   num: number;

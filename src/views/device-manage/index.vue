@@ -2,51 +2,51 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 14:42:00
+ * @LastEditTime: 2023-04-20 17:36:12
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <page-num :data="pageNumData" />
-  <panel>
-    <div class="charging-station-num "> 
-      <title-column title="充电桩数量信息" />
-      <tabs :data="chargingStationTabs" 
-      @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
-      <pie-chart :data="chargingStationPieData"/>
-    </div>
-    <div class="charging-peak-area">
-      <title-column title="充电高峰区域情况" />
-      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" />
-    </div>
-    <div class="charging-num-images">
-      <title-column title="充电站数字孪生" />
-      <charging-num-images :data="chargingNum"  />
-    </div>
-  </panel>
-  <panel type="right">
-    <title-column title="在线运行状态情况" />
-    <charging-realtime-power :data="chargingRealPower"/>
-    <div class="charging-types">
-      <tabs :data="chargingTypesTabs" 
-      @changeTab="(data)=>handleChangeTab(data,'charging-types')" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in chargingTypesData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
+    <panel>
+      <div class="charging-station-num "> 
+        <title-column title="充电桩数量信息" />
+        <tabs :data="chargingStationTabs" 
+        @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
+        <pie-chart :data="chargingStationPieData"/>
       </div>
-      <line-time-chart :data="lineStateData" :colors="['green','blue']"/>
-    </div>
-    <div class="charging-runing">
-      <tabs :data="chargingRunTabs" @changeTab="(data)=>handleChangeTab(data,'charging-runing')" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in chargingRunData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
+      <div class="charging-peak-area">
+        <title-column title="充电高峰区域情况" />
+        <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" />
       </div>
-      <line-time-chart :data="lineRunData" unit="%" :colors="['green','#FF7723']"/>
-    </div>
-  </panel>
+      <div class="charging-num-images">
+        <title-column title="充电站数字孪生" />
+        <charging-num-images :data="chargingNum"  />
+      </div>
+    </panel>
+    <panel type="right">
+      <title-column title="在线运行状态情况" />
+      <charging-realtime-power :data="chargingRealPower"/>
+      <div class="charging-types">
+        <tabs :data="chargingTypesTabs" 
+        @changeTab="(data)=>handleChangeTab(data,'charging-types')" />
+        <div class="num-wrap">
+          <template v-for="(item, index) in chargingTypesData" :key="index">
+            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+          </template>
+        </div>
+        <line-time-chart :data="lineStateData" :colors="['green','blue']"/>
+      </div>
+      <div class="charging-runing">
+        <tabs :data="chargingRunTabs" @changeTab="(data)=>handleChangeTab(data,'charging-runing')" />
+        <div class="num-wrap">
+          <template v-for="(item, index) in chargingRunData" :key="index">
+            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+          </template>
+        </div>
+        <line-time-chart :data="lineRunData" unit="%" :colors="['green','#FF7723']"/>
+      </div>
+    </panel>
   <map-layer></map-layer>
 </template>
 <script setup>
@@ -242,5 +242,15 @@ const handleChangeTab = (data, type) => {
   .ec-wrap {
     margin-top: 22px;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

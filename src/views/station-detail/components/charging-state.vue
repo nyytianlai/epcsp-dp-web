@@ -4,7 +4,7 @@
       <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
-        <span class="power">{{ item.equipmentName }}</span>
+        <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
         <span class="state">
           <span class="text">{{ stateFormate(item.status).name }}</span>
         </span>
@@ -189,6 +189,7 @@ const barData = ref(barListFun());
       font-size: 12px;
     }
     .power {
+      width: 100%;
       font-size: 12px;
       line-height: 17px;
       color: rgba(255, 255, 255, 0.8);

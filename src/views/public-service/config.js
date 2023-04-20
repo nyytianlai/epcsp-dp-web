@@ -76,30 +76,30 @@ export const deviceDataFun = (data={}) => {
 export const chargingTypesTabsFun = ()=>{
   return [
     {
-      code: 1,
+      code: 'pile',
       label: '充电桩'
     },
     {
-      code: 2,
+      code: 'gun',
       label: '充电枪'
     }
   ];
 }
 
-export const chargingTypePieDataFun = (code = 1)=>{
-  if(code === 1){
+export const chargingTypePieDataFun = (code = 'pile',data={})=>{
+  if(code === 'pile'){
     return [
-      { value: 33256, name: '离线',extraName:'离线充电桩', unit: '个' },
-      { value: 58552, name: '占用', extraName:'占用充电桩',unit: '个' },
-      { value: 67000, name: '故障',  extraName:'故障充电桩',unit: '个' },
-      { value: 3540, name: '闲置',  extraName:'闲置充电桩',unit: '个' }
+      { value: data?.offLine, name: '离线',extraName:'离线充电桩', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName:'占用充电桩',unit: '个' },
+      { value: data?.malfunction, name: '故障',  extraName:'故障充电桩',unit: '个' },
+      { value: data?.free, name: '闲置',  extraName:'闲置充电桩',unit: '个' }
     ]
   }else{
     return [
-      { value: 33256, name: '离线',extraName:'离线充电枪', unit: '个' },
-      { value: 58552, name: '占用', extraName:'占用充电枪',unit: '个' },
-      { value: 67000, name: '故障',  extraName:'故障充电枪',unit: '个' },
-      { value: 3540, name: '闲置',  extraName:'闲置充电枪',unit: '个' }
+      { value: data?.offLine, name: '离线',extraName:'离线充电枪', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName:'占用充电枪',unit: '个' },
+      { value: data?.malfunction, name: '故障',  extraName:'故障充电枪',unit: '个' },
+      { value: data?.free, name: '闲置',  extraName:'闲置充电枪',unit: '个' }
     ]
   }
 }

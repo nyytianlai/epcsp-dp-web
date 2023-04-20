@@ -2,11 +2,16 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-19 17:53:02
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 15:30:54
+ * @LastEditTime: 2023-04-20 16:19:55
  * @FilePath: \epcsp-dp-web\src\api\publicService.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import request from '@sutpc/axios';
+import dayjs from 'dayjs'
+const timeParams =()=> ({
+    "startTime":dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    "endTime": dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+})
 // 热门充电站TOP10
 export const hotCharging = () => {
     return request.get({
@@ -22,7 +27,7 @@ export const monthRate = () => {
 }
 // 大屏-公众服务-市民反馈，调取/personFeedback/query 中台默认接口
 export const personFeedback = () => {
-  return request.get({
+  return request.post({
       url: '/personFeedback/query'
     })
 }
@@ -39,3 +44,14 @@ export const overTotalCount = () => {
     url: '/dp/api/v1/overview/overTotalCount'
   });
 };
+
+// 实时设备信息饼图
+export const getChargeStatus = (type) => {
+  return request.post({
+    url: '/massService/getChargeStatus',
+    data: {
+      ...timeParams(),
+      type
+    }
+  });
+}

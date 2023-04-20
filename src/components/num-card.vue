@@ -3,7 +3,7 @@
     <img class="icon" :src="data.img" alt="" :style="styleImgFont?.icon" />
     <div class="info">
       <span class="num">
-        <span class="value" :style="styleImgFont?.num">{{ data.num }}</span>
+        <span class="value" :style="styleImgFont?.num">{{ formatWithToLocalString(data.num) }}</span>
         <span class="unit">&nbsp;{{ data.unit }}</span>
       </span>
       <span class="name" :style="styleImgFont?.name">{{ data.name }}</span>
@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import {toRefs,computed } from 'vue'
 import type { CSSProperties } from 'vue'
+import { formatWithToLocalString } from '@/global/commonFun.js'
 interface Idata {
   img: string;
   name: string;
