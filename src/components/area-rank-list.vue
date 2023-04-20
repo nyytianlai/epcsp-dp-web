@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 18:33:48
+ * @LastEditTime: 2023-04-20 17:10:44
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -20,8 +20,8 @@
           <div class="line" v-for="(item,i) in new Array(5)" :key="i"></div>
           <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }"></div>
         </div>
-        <span class="num">
-          <span>{{ item.num }}</span>
+        <span class="num" :style="numMaxWidth">
+          <span>{{ formatWithToLocalString(item.num) }}</span>
           <span class="unit">/{{ item.unit }}</span>
         </span>
       </li>
@@ -29,7 +29,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { toRefs,computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js'
 interface Idata {
   name: string;
   num: number;
@@ -45,6 +46,13 @@ const props = withDefaults(defineProps<Props>(), {
   height: '2.12rem'
 });
 const { data, totalNum } = toRefs(props);
+const numMaxWidth = computed(() => {
+  return {
+    maxWidth: (formatWithToLocalString(totalNum.value).length + 1) * 10 / 100 + 'rem',
+    minWidth:(formatWithToLocalString(totalNum.value).length + 1) * 10 /100 + 'rem'
+  }
+  
+})
 </script>
 <style lang="less" scoped>
 .area-rank-wrap {

@@ -30,7 +30,7 @@ export const pageNumFun = (data) => {
     {
       name: '已恢复总数',
       num: data?.recCount,
-      unit: 'KW',
+      unit: '个',
       nameColor:'#FF6B4B'
     }
   ];
@@ -135,15 +135,15 @@ export const warningMonitorPieDataFun = (code = 1) => {
 export const realtimeStateTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 3,
       label: '充电站'
     },
     {
-      code: 2,
+      code: 1,
       label: '充电桩'
     },
     {
-      code: 3,
+      code: 2,
       label: '充电枪'
     }
   ];
@@ -173,18 +173,18 @@ const iconStyleS =  {
   height: '1.06rem'
 }
 
-export const realtimeStateDataFun = (code = 1) => {
-  if (code === 1) {
+export const realtimeStateDataFun = (code = 1,data={}) => {
+  if (+code === 3) {
     return [
       {
         img: stateBlueB,
-        num: 2203,
+        num: data?.safeWarningStationStatisticVo?.normalCount,
         name: '正常/个',
         ...formatStyle()
       },
       {
         img: stateYellowB,
-        num: 201,
+        num: data?.safeWarningStationStatisticVo?.warningCount,
         name: '预警/个',
         ...formatStyle({
           numStyle: {
@@ -194,7 +194,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateGrayB,
-        num: 48,
+        num: data?.safeWarningStationStatisticVo?.offlineCount,
         name: '未上线/个',
         ...formatStyle({
           numStyle: {
@@ -203,11 +203,11 @@ export const realtimeStateDataFun = (code = 1) => {
         })
       }
     ];
-  } else if (code === 2) {
+  } else if (+code === 1) {
     return [
       {
         img: stateBlueS,
-        num: 2203,
+        num: data?.safeWarningEquipmentStatisticVo?.onlineCount,
         name: '在线/个',
         ...formatStyle({
           iconStyle:iconStyleS
@@ -215,7 +215,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateGrayS,
-        num: 201,
+        num: data?.safeWarningEquipmentStatisticVo?.offlineCount,
         name: '离线/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -226,7 +226,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateGreenS,
-        num: 48,
+        num: data?.safeWarningEquipmentStatisticVo?.normalCount,
         name: '正常/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -237,7 +237,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateYellowS,
-        num: 48,
+        num: data?.safeWarningEquipmentStatisticVo?.warningCount,
         name: '故障/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -251,7 +251,7 @@ export const realtimeStateDataFun = (code = 1) => {
     return [
       {
         img: stateBlueS,
-        num: 2203,
+        num: data?.safeWarningGunStatisticVo?.notUseCount,
         name: '空闲/个',
         ...formatStyle({
           iconStyle:iconStyleS
@@ -259,7 +259,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateGreenS,
-        num: 48,
+        num: data?.safeWarningGunStatisticVo?.useCount,
         name: '占用/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -270,7 +270,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateYellowS,
-        num: 48,
+        num: data?.safeWarningGunStatisticVo?.warningCount,
         name: '故障/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -281,7 +281,7 @@ export const realtimeStateDataFun = (code = 1) => {
       },
       {
         img: stateGrayS,
-        num: 201,
+        num: data?.safeWarningGunStatisticVo?.offlineCount,
         name: '离线/个',
         ...formatStyle({
           iconStyle:iconStyleS,
@@ -333,3 +333,48 @@ export const bottomTabDataFun = () => {
     }
   ];
 };
+
+export const columnDataFun = () => {
+  return [
+    {
+      prop: 'operatorName',
+      label: '运营商名称',
+      width:'250'
+    },
+    {
+      prop: 'stationName',
+      label: '充电站名称',
+      width:'150'
+    },
+    {
+      prop: 'alarmLevelName',
+      label: '告警级别',
+      width:'120'
+    },
+    {
+      prop: 'alarmDesc',
+      label: '告警描述',
+      width:'250'
+    },
+    {
+      prop: 'alarmTypeName',
+      label: '告警类型',
+      width:'120'
+    },
+    {
+      prop: 'alarmTime',
+      label: '告警时间',
+      width:'180'
+    },
+    {
+      prop: 'contactPerson',
+      label: '安全负责人',
+      width:'100'
+    },
+    {
+      prop: 'contactTel',
+      label: '联系电话',
+      width:''
+    },
+  ]
+}

@@ -231,7 +231,6 @@ const ecOptionFun = () => {
         lineHeight: 16,
         color: '#B4C0CC',
         formatter: (value) => {
-          console.log(value);
           return value?simplifyNum(value):''
         }
       },

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 18:32:01
+ * @LastEditTime: 2023-04-20 17:19:23
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -15,7 +15,7 @@
         </div>
         <div class="citizens-feedback">
           <title-column title="市民反馈情况" />
-          <scroll-table :styleWrap="{height:'4.8rem'}" />
+          <scroll-table :styleWrap="{height:'4.8rem'}" :data="feedBackData" />
         </div>
     </panel>
     <panel type="right">
@@ -42,7 +42,11 @@ import ScrollTable from './components/scroll-table.vue'
 import MapLayer from './components/map-layer.vue';
 import {
   hotCharging,
-  monthRate
+  monthRate,
+  personFeedback,
+  selectChargeEquipmentStatistics,
+  overTotalCount,
+  getChargeStatus
 } from '@/api/publicService.js'
 import {
   pageNumFun,
@@ -65,9 +69,16 @@ const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
 const monthRateData = ref([])
 const totalMonthRateNum = ref(0)
+
+const feedBackData = ref([])
+// 总览上面4个指标
+const getOverTotalCount = async () => {
+  const res = await overTotalCount();
+  pageNumData.value = pageNumFun(res.data);
+};
+// 热门充电站TOP10
 const getHotCharging = async () => {
   const res = await hotCharging()
-  console.log(res);
   if (res?.data && res?.data?.data) {
     hotChargingData.value = res?.data?.data.map(item => {
       return {
@@ -82,9 +93,9 @@ const getHotCharging = async () => {
     totalChargingNum.value = 0
   }
 }
+// 右下-本月日均利用率
 const getMonthRate = async () => {
   const res = await monthRate()
-  console.log(res);
   if (res?.data && res?.data?.data) {
     monthRateData.value = res?.data?.data.map(item => {
       return {
@@ -99,16 +110,33 @@ const getMonthRate = async () => {
     totalMonthRateNum.value = 0
   }
 }
+const getChargeEquipmentStatistics = async () => {
+  const res = await selectChargeEquipmentStatistics()
+  deviceData.value = deviceDataFun(res.data)
+}
+// 实时设备信息饼图
+const getChargeStatusData = async(type) => {
+  const res = await getChargeStatus(type)
+  chargingTypePieData.value = chargingTypePieDataFun(type,res?.data?.data)
+  
+}
 const handleChangeTab = (data, type) => {
-  console.log(data, type);
   if (type === 'charging-types') {
     //实时设备信息
-    chargingTypePieData.value = chargingTypePieDataFun(data.code)
+    getChargeStatusData(data.code)
   } 
 };
+const getPersonFeedback = async() => {
+  const res = await personFeedback()
+  feedBackData.value = res?.data || []
+}
 onMounted(() => {
+  getOverTotalCount()
   getHotCharging()
   getMonthRate()
+  getPersonFeedback()
+  getChargeEquipmentStatistics()
+  getChargeStatusData('pile')
 })
 </script>
 
