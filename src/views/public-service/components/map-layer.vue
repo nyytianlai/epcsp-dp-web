@@ -42,14 +42,14 @@ useEmitt('AIRCITY_EVENT', (e) => {
 
 const setQuVisibility = async (value: boolean) => {
   // value
-  //   ? __g.polygon.show(layerNameQuNameArr('qu-'))
-  //   : __g.polygon.hide(layerNameQuNameArr('qu-'));
+  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
+  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
   value
     ? await __g.customTag.show(layerNameQuNameArr('rectBar'))
     : await __g.customTag.hide(layerNameQuNameArr('rectBar'));
   value
-    ? await __g.marker.show(layerNameQuNameArr('quName-'))
-    : await __g.marker.hide(layerNameQuNameArr('quName-'));
+    ? await __g.marker.show(layerNameQuNameArr('quName'))
+    : await __g.marker.hide(layerNameQuNameArr('quName'));
 };
 
 const backSz = async () => {

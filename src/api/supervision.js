@@ -9,10 +9,17 @@ export const districtAlarmLevelStatics = () => {
 
 //地图站点状态柱状图
 export const getMapAreaStationByPower = () => {
-  return request.get({
-    url: '/safetySupervision/getMapAreaStationByPower'
+  return request.post({
+    url: '/safetySupervision/getMapAreaStationByPower',
+    data: {}
   });
 };
+export const getAlarmUpStatics = () => {
+  return request.post({
+    url: '/safetySupervision/getAlarmUpStatics'
+  })
+}
+
 // 累计告警数据信息
 export const safetySupervisionAccumulated = (type) => {
   return request.get({

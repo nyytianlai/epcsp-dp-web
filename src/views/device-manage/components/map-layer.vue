@@ -57,14 +57,14 @@ const changeStationStyle = (id, picName, size) => {
 
 const setQuVisibility = async (value: boolean) => {
   // value
-  //   ? __g.polygon.show(layerNameQuNameArr('qu-'))
-  //   : __g.polygon.hide(layerNameQuNameArr('qu-'));
+  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
+  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
   value
     ? await __g.customTag.show(layerNameQuNameArr('rectBar'))
     : await __g.customTag.hide(layerNameQuNameArr('rectBar'));
   value
-    ? await __g.marker.show(layerNameQuNameArr('quName-'))
-    : await __g.marker.hide(layerNameQuNameArr('quName-'));
+    ? await __g.marker.show(layerNameQuNameArr('quName'))
+    : await __g.marker.hide(layerNameQuNameArr('quName'));
 };
 
 const backSz = async () => {
@@ -78,6 +78,7 @@ const backSz = async () => {
     //返回区
     currentPosition.value = currentPositionBak;
     __g.tileLayer.delete('1');
+    __g.marker.focus(currentHrStationID, 200, 0.2);
   }
 };
 
@@ -118,12 +119,12 @@ const addQuStation = async (quCode: string) => {
 const addHrStation = async () => {
   await __g.tileLayer.add({
     id: '1',
-    fileName: `${import.meta.env.VITE_FD_URL}\\data\\3dt\\民乐\\station.3dt`, //3dt文件路径
-    location: [0, 0, 0], //坐标位置
+    fileName: 'D:/software/freedo/AirCityCloud/SDK' + `/data/3dt/民乐/station.3dt`, //3dt文件路径
+    location: [0, 0, 92.5], //坐标位置
     rotation: [0, 0, 0], //旋转角度
     scale: [1, 1, 1] //缩放大小
   });
-  __g.tileLayer.focus('1');
+  __g.tileLayer.focus('1', 500);
 };
 
 onMounted(async () => {
