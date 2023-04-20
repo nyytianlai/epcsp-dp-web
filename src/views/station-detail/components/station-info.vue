@@ -4,44 +4,54 @@
             <div class="icon"></div>
             <div class="name">
                 <span class="station-name">
-                    沙鱼涌码头新能源充电站
+                    {{ data?.stationName || '--' }}
                 </span>
                 <span class="company-name">
-                    深圳市鹏程昌运新能源科技有限公司
+                    {{ data?.propertyUnit || '--' }}
                 </span>
             </div>
         </div>
         <ul class="info-list">
             <li v-for="(item,index) in infoListData" :key="index">
                 <label for="">{{item.label}}</label>
-                <span class="value"> {{item.value}}</span>
+                <span class="value text-ellipsis-1"> {{item.value}}</span>
             </li>    
         </ul>
     </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
-const infoListFun = () => {
+import { ref, onMounted,toRefs,watch } from 'vue';
+const props = defineProps({
+  data: {
+    type: Object,
+    default:{}
+  }
+})
+const {data} = toRefs(props)
+const infoListFun = (data={}) => {
     return [
         {
             label: '具体地址：',
-            value:'深圳市龙岗区深葵路15号沙鱼涌码头充电站'
+            value:data?.address || '--'
         },
         {
             label: '站点区域：',
-            value:'大鹏新区大鹏街道'
+            value:data?.areaName || '--'
         },
         {
             label: '负责人：',
-            value:'张小辉'
+            value:data?.stationPrincipal || '--'
         },
         {
             label: '联系方式：',
-            value:'010-2891029839'
+            value:data?.telephone || '--'
         },
     ]
 }
 const infoListData = ref(infoListFun())
+watch(data, () => {
+  infoListData.value = infoListFun(data.value)
+})
 </script>
 <style lang="less" scoped>
 .station-info {

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 17:42:28
+ * @LastEditTime: 2023-04-20 18:49:27
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -11,7 +11,7 @@
   <panel>
     <div class="station-info">
       <title-column title="充电站点信息" />
-      <station-info/>
+      <station-info :data="stationInfoData"/>
     </div>
     <div class="device-info">
       <title-column title="设备设施信息" />
@@ -23,20 +23,20 @@
     </div>
     <div class="warning-message">
       <title-column title="告警信息" />
-      <warning-tabs :data="warningTabsData" />
+      <warning-tabs :data="warningTabsData" @changeTab="(data)=>handleChangeTab(data,'warning-message')" />
       <warning-list :data="warningListData" height="2.15rem" />
     </div>
   </panel>
   <panel type="right">
     <div class="charging-bar-state">
       <title-column title="站点充电桩状态" />
-        <charging-state/>
+        <charging-state :data="chargingStateData" />
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
       <tabs
         :data="chargingTypesTabs"
-        @changeTab="(data) => handleChangeTab(data, 'charging-types')"
+        @changeTab="(data) => handleChangeTab(data, 'device-use-info')"
       />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
@@ -46,17 +46,24 @@
     </div>
     <div class="station-power">
         <title-column title="站点实时功率" />
-        <line-time-chart :data="linePowerData" :colors="['#00FFF9']" :chartStyle="{height:'2.05rem'}" />
+        <line-time-chart unit="KW" :data="linePowerData" :colors="['#00FFF9']" :chartStyle="{height:'2.05rem'}" />
     </div>
   </panel>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import stationInfo from './components/station-info.vue'
 import chargingState from './components/charging-state.vue'
 import {
   selectStationStatistics,
-  selectEquipmentCountByStationId
+  selectEquipmentCountByStationId,
+  selectStationInfoByStationId,
+  selectWarningInfoByStationId,
+  selectEquipmentStatusByStationId,
+  selectEquipmentUseRateByStationId,
+  selectStationRealTimePowerByStationId,
+  selectWarningStatisticByStationId
 } from '@/api/stationDetail.js'
 import {
     pageNumFun,
@@ -67,15 +74,19 @@ import {
     chargingTypesFun,
     linePowerDataFun
 } from './config.js';
+const store = useStore()
 const params = {
-  operatorId:'61402628',
-  stationId:'440202003'
+  operatorId:store.getters.detailParams?.operatorId,
+  stationId:store.getters.detailParams?.stationId
 }
 const pageNumData = ref(pageNumFun());
+const stationInfoData = ref({})
 const deviceInfoData = ref(deviceInfoDataFun());
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
-const warningListData = ref(warningListFun());
+const warningListData = ref([]);
+//站点充电桩状态
+const chargingStateData = ref([])
 //充电设施日使用信息
 const chargingTypesTabs = ref(chargingTypesTabsFun())
 const chargingTypesData = ref(chargingTypesFun());
@@ -85,15 +96,76 @@ const linePowerData = ref(linePowerDataFun())
 // 统计数据
 const getStationStatistics = async() => {
   const res = await selectStationStatistics(params)
-  console.log(res);
+  pageNumData.value = pageNumFun(res?.data)
 }
+//设备详情/站点信息
+const getStationInfoByStationId = async () => {
+  const res = await selectStationInfoByStationId(params)
+  stationInfoData.value = res.data
+}
+// 设备详情/设备设施信息
 const getEquipmentCountByStationId = async () => {
   const res = await selectEquipmentCountByStationId(params)
-  console.log(res);
+  deviceInfoData.value = deviceInfoDataFun(res.data)
+}
+//设备详情/告警信息列表
+const getWarningInfoByStationId = async (alarmLevel) => {
+  const res = await selectWarningInfoByStationId({
+    ...params,
+    alarmLevel
+  })
+  if (res?.data && res?.data?.length) {
+    warningListData.value = res.data.map(item => {
+      return {
+        date: item.alarmTime,
+        message: item.alarmDesc,
+        area:item.equipmentName
+      }
+    })
+  } else {
+    warningListData.value = []
+  }
+}
+//设备详情/站点充电桩状态
+const getEquipmentStatusByStationId = async () => {
+  const res = await selectEquipmentStatusByStationId(params)
+  chargingStateData.value = res?.data || []
+}
+//设备详情/充电设施日使用信息
+const getEquipmentUseRateByStationId = async (equipmentType) => {
+  const res = await selectEquipmentUseRateByStationId({
+    ...params,
+    equipmentType
+  })
+  chargingTypesData.value = chargingTypesFun(res?.data)
+}
+// 设备详情/站点实时功率
+const getStationRealTimePowerByStationId = async() => {
+  const res = await selectStationRealTimePowerByStationId(params)
+  linePowerData.value = linePowerDataFun(res?.data)
+}
+//设备详情/告警信息统计
+const getWarningStatisticByStationId = async () => {
+  const res = await selectWarningStatisticByStationId(params)
+  warningTabsData.value = warningTabsDataFun(res?.data)
+}
+const handleChangeTab = (data,type) => {
+  if (type === 'device-use-info') {
+    getEquipmentUseRateByStationId(data.code)
+  } else if (type === 'warning-message') {
+    getWarningInfoByStationId(data.code)
+  }
+
 }
 onMounted(() => {
   getStationStatistics()
+  getStationInfoByStationId()
   getEquipmentCountByStationId()
+  getWarningInfoByStationId(1)
+  getEquipmentStatusByStationId()
+  getEquipmentUseRateByStationId(1)
+  getStationRealTimePowerByStationId()
+  getWarningStatisticByStationId()
 })
 </script>
 <style lang="less" scoped>

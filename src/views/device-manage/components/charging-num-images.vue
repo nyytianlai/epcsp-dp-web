@@ -1,6 +1,14 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-17 09:12:43
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-04-20 18:43:30
+ * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-num-images.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
     <div class="images-wrap">
-        <div class="img-content" v-for="(item,index) in data" :key="index">
+        <div class="img-content" v-for="(item,index) in data" :key="index" @click="handleClick(item)">
             <img :src="item.stationPic" alt="">
             <span class="type">{{ item.stationType }}</span>
             <span class="name text-ellipsis-1">{{ item.stationName }}</span>
@@ -8,17 +16,26 @@
     </div>
 </template>
 <script setup>
+import { useStore } from 'vuex';
 import gmdPng from './images/gmd.png'
 import fwqPng from './images/fwq.png'
 import gccPng from './images/gcc.png'
 import v2gPng from './images/v2g.png'
 import lsgfPng from './images/lsgf.png'
+const store = useStore()
 const props = defineProps({
     data:{
         type:Array,
         default:()=>[]
     }
 })
+const handleClick = (item) => {
+  store.commit('CHANGE_SHOW_COMPONENT', false);
+  store.commit('CHANGE_SHOW_DETAIL', {
+    show: true,
+    params: item
+  });
+}
 </script>
 <style lang="less" scoped>
 .images-wrap {
@@ -27,6 +44,7 @@ const props = defineProps({
   width: 434px;
   padding-left: 9px;
   .img-content {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     position: relative;

@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-19 14:39:41
+ * @LastEditTime: 2023-04-20 18:46:36
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -30,9 +30,14 @@
         <!-- <base-ac :cloudHost=cloudHost> -->
           <router-view v-slot="{ Component, route }">
             <keep-alive :exclude="excludeViews">
-              <component :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
+              <Transition>
+                <component v-show="showComponent" :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
+              </Transition>
             </keep-alive>
           </router-view>
+          <Transition>
+            <station-detail v-if="showDetail" />
+          </Transition>
         </base-ac>
       </div>
     </div>
@@ -44,15 +49,19 @@ import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
 import TimeWeather from './components/time-weather.vue'
+import StationDetail from '@/views/station-detail/index.vue'
 import { routes } from '@/router';
 import { h } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore();
 const wrapperMap = new Map();
 export default {
   components: {
     HeaderArea,
     NavTab,
     BaseAc,
-    TimeWeather
+    TimeWeather,
+    StationDetail
   },
   props: {
     title: {
@@ -113,6 +122,12 @@ export default {
         }
       });
       return names;
+    },
+    showComponent(){
+      return this.$store.getters.showComponent
+    },
+    showDetail(){
+      return this.$store.getters.showDetail
     }
   },
   mounted() {
@@ -282,5 +297,20 @@ export default {
       border: 1px solid rgba(84, 181, 255, 0.3);
     }
   }
+}
+/* 下面我们会解释这些 class 是做什么的 */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.button-close{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>

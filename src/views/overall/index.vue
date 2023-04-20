@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-19 17:18:08
+ * @LastEditTime: 2023-04-20 16:41:30
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -61,22 +61,31 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer ref="mapLayerRef"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <el-table :data="data" height="6.34rem" style="width: 100%" class="custom-dialog-table">
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" />
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <el-table
+      :data="alarmTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" >
+        <template #default="scope">
+          
+        </template>
+      </el-table-column>
     </el-table>
-    <el-pagination 
-    :page-size="pageObj.pageSize" 
-    layout="prev, pager, next" 
-    :total="pageObj.total" 
-    :background="true"
-    :current-page="pageObj.currentPage"
-    @current-change="handPageChange"
-     />
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    />
   </custom-dialog>
 </template>
 <script setup>
-import { onMounted, ref,reactive } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
@@ -136,12 +145,12 @@ const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false);
 // 弹窗列名
 const columnData = ref(columnDataFun());
-const alarmTableData = ref([])
+const alarmTableData = ref([]);
 const pageObj = reactive({
   pageSize: 8,
   total: 0,
-  currentPage:1
-})
+  currentPage: 1
+});
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
@@ -248,17 +257,21 @@ const getTableAlarm = async (level) => {
   };
   const res = await alarmInfo(params);
   if (res.data && res.data.list) {
-    alarmTableData.value = res.data.list
-    pageObj.total = res?.data?.total
+    alarmTableData.value = res.data.list;
+    pageObj.total = res?.data?.total;
   } else {
     alarmTableData.value = [];
-    pageObj.total = 0
+    pageObj.total = 0;
   }
 };
 // table数据
 const handPageChange = (value) => {
-  console.log(value);
-}
+  pageObj.currentPage = value;
+  getTableAlarm();
+};
+// const handleDialogClosed = () => {
+//   console.log('handleDialogClosed');
+// }
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
@@ -269,7 +282,7 @@ onMounted(() => {
   getAlarmInfo(1);
   getTimePowerGraph();
   getAlarmCount();
-  getTableAlarm()
+  getTableAlarm();
 });
 </script>
 <style lang="less" scoped>

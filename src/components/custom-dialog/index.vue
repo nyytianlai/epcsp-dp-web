@@ -13,6 +13,7 @@
     class="custom-dialog"
     width="15.58rem"
     @close="emit('update:visible', false)"
+    @closed="emit('closed')"
   >
     <icon icon="svg-icon:corner-top" class="top-left corner" />
     <icon icon="svg-icon:corner-bottom" class="bottom-left corner" />

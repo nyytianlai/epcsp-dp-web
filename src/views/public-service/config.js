@@ -2,26 +2,26 @@ import ztsyl from '@/assets/images/publicService/ztsyl.png';
 
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
-export const pageNumFun = () => {
+export const pageNumFun = (data = {}) => {
   return [
     {
       name: '累计充电量',
-      num: 6399,
+      num: data?.cumulativeCharge,
       unit: '亿度'
     },
     {
       name: '累计充电次数',
-      num: 125639,
+      num: data?.cumChargeCount,
       unit: '万次'
     },
     {
       name: '累计充电时长',
-      num: 125639,
-      unit: '万次'
+      num: data?.cumChargeTime,
+      unit: '小时'
     },
     {
       name: '本年充电总量',
-      num: 281887.3,
+      num: data?.yearTotalCharge,
       unit: '亿度'
     }
   ];
@@ -56,17 +56,17 @@ export const hotChargingDataFun = () => {
   ]; 
 }
 
-export const deviceDataFun = () => {
+export const deviceDataFun = (data={}) => {
   return [
     {
       img: ztsyl,
-      num: '80855',
+      num: data?.equipmentCount,
       name: '充电桩总数/个',
       classStyleType:'leftRightStyleGreen6656'
     },
     {
       img: ztsyl,
-      num: 80855,
+      num: data?.gunCount,
       name: '充电枪总数/个',
       classStyleType:'leftRightStyleGreen6656'
     }
@@ -76,30 +76,30 @@ export const deviceDataFun = () => {
 export const chargingTypesTabsFun = ()=>{
   return [
     {
-      code: 1,
+      code: 'pile',
       label: '充电桩'
     },
     {
-      code: 2,
+      code: 'gun',
       label: '充电枪'
     }
   ];
 }
 
-export const chargingTypePieDataFun = (code = 1)=>{
-  if(code === 1){
+export const chargingTypePieDataFun = (code = 'pile',data={})=>{
+  if(code === 'pile'){
     return [
-      { value: 33256, name: '离线',extraName:'离线充电桩', unit: '个' },
-      { value: 58552, name: '占用', extraName:'占用充电桩',unit: '个' },
-      { value: 67000, name: '故障',  extraName:'故障充电桩',unit: '个' },
-      { value: 3540, name: '闲置',  extraName:'闲置充电桩',unit: '个' }
+      { value: data?.offLine, name: '离线',extraName:'离线充电桩', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName:'占用充电桩',unit: '个' },
+      { value: data?.malfunction, name: '故障',  extraName:'故障充电桩',unit: '个' },
+      { value: data?.free, name: '闲置',  extraName:'闲置充电桩',unit: '个' }
     ]
   }else{
     return [
-      { value: 33256, name: '离线',extraName:'离线充电枪', unit: '个' },
-      { value: 58552, name: '占用', extraName:'占用充电枪',unit: '个' },
-      { value: 67000, name: '故障',  extraName:'故障充电枪',unit: '个' },
-      { value: 3540, name: '闲置',  extraName:'闲置充电枪',unit: '个' }
+      { value: data?.offLine, name: '离线',extraName:'离线充电枪', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName:'占用充电枪',unit: '个' },
+      { value: data?.malfunction, name: '故障',  extraName:'故障充电枪',unit: '个' },
+      { value: data?.free, name: '闲置',  extraName:'闲置充电枪',unit: '个' }
     ]
   }
 }
