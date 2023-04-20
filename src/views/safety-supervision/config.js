@@ -7,29 +7,29 @@ import stateYellowB from '@/assets/images/safetySupervision/state-yellow-b.png';
 import stateYellowS from '@/assets/images/safetySupervision/state-yellow-s.png';
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
-export const pageNumFun = () => {
+export const pageNumFun = (data) => {
   return [
     {
       name: '累计告警总数',
-      num: 6399,
+      num: data?.sumCount,
       unit: '个',
       nameColor:'#FF6B4B'
     },
     {
       name: '当前告警总数',
-      num: 125639,
+      num: data?.dealCount,
       unit: '个',
       nameColor:'#F9E900'
     },
     {
       name: '已确认总数',
-      num: 125639,
+      num: data?.affirmCount,
       unit: '个',
       nameColor:'#FF6B4B'
     },
     {
       name: '已恢复总数',
-      num: 281887.3,
+      num: data?.recCount,
       unit: 'KW',
       nameColor:'#FF6B4B'
     }

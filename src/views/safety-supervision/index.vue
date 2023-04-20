@@ -72,7 +72,7 @@ import {
   bottomTabDataFun
 } from './config.js';
 import {
-  districtAlarmLevelStatics,
+  getAlarmUpStatics,
   safetySupervisionAccumulated,
   districtAlarmStatics,
   alarmLevelAndTypeByTime,
@@ -89,6 +89,11 @@ const changeButtomTab = (item) => {
 
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
+const getAlarmUpStaticsData = async()=> {
+  let { data } = await getAlarmUpStatics()
+  console.log(data,"df")
+  pageNumData.value = pageNumFun(data?.data || [])
+}
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([])
@@ -211,6 +216,7 @@ onMounted(() => {
     startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
   }
+  getAlarmUpStaticsData()
   getSafetySupervisionAccumulated(1);
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj)
