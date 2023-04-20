@@ -119,15 +119,15 @@ export const warningMonitorTabsFun = () => {
 export const warningMonitorPieDataFun = (code = 1) => {
   if (code === 1) {
     return [
-      { value: 1048, name: '一级人身安全', extraName: '人身安全', unit: '个' },
-      { value: 735, name: '二级设备安全', extraName: '设备安全', unit: '个' },
-      { value: 580, name: '三级告警提示', extraName: '告警提示', unit: '个' }
+      { value: 0, name: '一级人身安全', extraName: '人身安全', unit: '个' },
+      { value: 0, name: '二级设备安全', extraName: '设备安全', unit: '个' },
+      { value: 0, name: '三级告警提示', extraName: '告警提示', unit: '个' }
     ];
   } else {
     return [
-      { value: 1048, name: '充电系统', unit: '个' },
-      { value: 735, name: '电池系统', unit: '个' },
-      { value: 580, name: '配电系统', unit: '个' }
+      { value: 0, name: '充电系统', unit: '个' },
+      { value: 0, name: '电池系统', unit: '个' },
+      { value: 0, name: '配电系统', unit: '个' }
     ];
   }
 };

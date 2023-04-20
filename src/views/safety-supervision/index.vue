@@ -134,7 +134,10 @@ const getAlarmLevelAndTypeByTime = async(param)=> {
     '2':'电池系统',
     '3': '配电系统'
   }
-  let newData = data?.data.map(item => {
+  
+  let newData = null;
+  if(data?.data.length !== 0) {
+  newData = data?.data.map(item => {
     if(param.type === 1) {
       return {
       value: item.cnt || 0,
@@ -144,13 +147,17 @@ const getAlarmLevelAndTypeByTime = async(param)=> {
     }
     }else {
       return {
-      value: item.cnt || 0,
-      name: type2[item.alarmType],
-      unit: '个'
-    }
+        value: item.cnt || 0,
+        name: type2[item.alarmType],
+        unit: '个'
+      }
     }
     
   })
+  }else {
+    newData = warningMonitorPieDataFun(param.type)
+  }
+
   warningMonitorPieData.value = newData
 } 
 //实时状态情况
@@ -171,7 +178,7 @@ const handleChangeTab = (data, type) => {
     getSafetySupervisionAccumulated(data.code)
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
-    warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
     let obj = {
       type: data.code,
       // startTime:'2023-04-03 14:22:34',
