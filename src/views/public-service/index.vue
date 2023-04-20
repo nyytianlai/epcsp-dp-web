@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 15:10:48
+ * @LastEditTime: 2023-04-20 15:32:43
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -34,15 +34,18 @@
           <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3.74rem" />
         </div>
     </panel>
+    <map-layer ref="mapLayerRef"></map-layer>
   </template>
 <script setup>
   import { ref, onMounted,reactive } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
+import MapLayer from './components/map-layer.vue';
 import {
   hotCharging,
   monthRate,
   personFeedback,
-  selectChargeEquipmentStatistics
+  selectChargeEquipmentStatistics,
+  overTotalCount
 } from '@/api/publicService.js'
 import {
   pageNumFun,
@@ -52,6 +55,7 @@ import {
   chargingTypePieDataFun,
   monthRateDataFun
 } from './config.js'
+let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 热门充电站TOP10
@@ -64,6 +68,11 @@ const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
 const monthRateData = ref([])
 const totalMonthRateNum = ref(0)
+// 总览上面4个指标
+const getOverTotalCount = async () => {
+  const res = await overTotalCount();
+  pageNumData.value = pageNumFun(res.data);
+};
 // 热门充电站TOP10
 const getHotCharging = async () => {
   const res = await hotCharging()
@@ -114,6 +123,7 @@ const getPersonFeedback = async() => {
   console.log(res);
 }
 onMounted(() => {
+  getOverTotalCount()
   getHotCharging()
   getMonthRate()
   getPersonFeedback()

@@ -2,26 +2,26 @@ import ztsyl from '@/assets/images/publicService/ztsyl.png';
 
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
-export const pageNumFun = () => {
+export const pageNumFun = (data = {}) => {
   return [
     {
       name: '累计充电量',
-      num: 6399,
+      num: data?.cumulativeCharge,
       unit: '亿度'
     },
     {
       name: '累计充电次数',
-      num: 125639,
+      num: data?.cumChargeCount,
       unit: '万次'
     },
     {
       name: '累计充电时长',
-      num: 125639,
-      unit: '万次'
+      num: data?.cumChargeTime,
+      unit: '小时'
     },
     {
       name: '本年充电总量',
-      num: 281887.3,
+      num: data?.yearTotalCharge,
       unit: '亿度'
     }
   ];

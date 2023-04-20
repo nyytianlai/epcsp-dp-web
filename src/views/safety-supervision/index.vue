@@ -7,108 +7,226 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-    <page-num :data="pageNumData" bgcType="red-bgc" />
-    <panel>
-        <div class="total-warning-num">
-            <title-column title="累计告警数据信息" />
-            <tabs 
-            :data="totalWarningTabs" 
-            @changeTab="(data)=>handleChangeTab(data,'total-warning')" />
-            <scroll-table/>
-
-        </div>
-        <div class="area-warning-num">
-            <title-column title="行政区告警数据" />
-            <area-rank-list 
-                :data="areaRankData" 
-                :totalNum="areaTotalNum" 
-                height="3.7rem"
-            />
-        </div>
-    </panel>
-    <panel type="right">
-        <div class="warning-monitor">
-            <title-column title="今日设备告警监控" />
-            <tabs :data="warningMonitorTabs" @changeTab="(data)=>handleChangeTab(data,'warning-monitor')" />
-            <pie-chart :data="warningMonitorPieData"/>
-        </div>
-        <div class="realtime-state">
-            <title-column title="实时状态情况" />
-            <tabs :data="realtimeStateTabs" @changeTab="(data)=>handleChangeTab(data,'realtime-state')" />
-                <div class="num-wrap">
-                    <template v-for="(item, index) in realtimeStateData" :key="index">
-                        <num-card :data="item" />
-                    </template>
-                </div>
-            </div>
-            <div class="realtime-trend">
-                <title-column title="实时告警趋势情况" />
-                <line-time-chart :data="realtimeTrend" :chartStyle="{height:'2.55rem'}" :colors="['#FF6B4B']"/>
-            </div>
-    </panel>
-    <bottom-menu-tabs :data="bottomTabsData"/>
-  </template>
+  <page-num :data="pageNumData" bgcType="red-bgc" />
+  <panel>
+    <div class="total-warning-num">
+      <title-column title="累计告警数据信息" />
+      <tabs
+        :data="totalWarningTabs"
+        @changeTab="(data) => handleChangeTab(data, 'total-warning')"
+      />
+      <scroll-table :scrollTableData="scrollTableData"/>
+    </div>
+    <div class="area-warning-num">
+      <title-column title="行政区告警数据" />
+      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="3.7rem" />
+    </div>
+  </panel>
+  <panel type="right">
+    <div class="warning-monitor">
+      <title-column title="今日设备告警监控" />
+      <tabs
+        :data="warningMonitorTabs"
+        @changeTab="(data) => handleChangeTab(data, 'warning-monitor')"
+      />
+      <pie-chart :data="warningMonitorPieData" />
+    </div>
+    <div class="realtime-state">
+      <title-column title="实时状态情况" />
+      <tabs
+        :data="realtimeStateTabs"
+        @changeTab="(data) => handleChangeTab(data, 'realtime-state')"
+      />
+      <div class="num-wrap">
+        <template v-for="(item, index) in realtimeStateData" :key="index">
+          <num-card :data="item" />
+        </template>
+      </div>
+    </div>
+    <div class="realtime-trend">
+      <title-column title="实时告警趋势情况" />
+      <line-time-chart
+        :data="realtimeTrend"
+        :chartStyle="{ height: '2.55rem' }"
+        :colors="['#FF6B4B']"
+      />
+    </div>
+  </panel>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab"/>
+  <map-layer ref="mapLayerRef"></map-layer>
+</template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import ScrollTable from './components/scroll-table.vue'
+import ScrollTable from './components/scroll-table.vue';
+import MapLayer from './components/map-layer.vue';
+import dayjs from 'dayjs'
 import {
-    pageNumFun,
-    totalWarningTabsFun,
-    areaRankDataFun,
-    warningMonitorTabsFun,
-    warningMonitorPieDataFun,
-    realtimeStateTabsFun,
-    realtimeStateDataFun,
+  pageNumFun,
+  totalWarningTabsFun,
+  areaRankDataFun,
+  warningMonitorTabsFun,
+  warningMonitorPieDataFun,
+  realtimeStateTabsFun,
+  realtimeStateDataFun,
   realtimeTrendFun,
   bottomTabDataFun
 } from './config.js';
-import { districtAlarmLevelStatics,safetySupervisionAccumulated } from "@/api/supervision.js";
+import {
+  getAlarmUpStatics,
+  safetySupervisionAccumulated,
+  districtAlarmStatics,
+  alarmLevelAndTypeByTime,
+  alarmLevelAndTypeByTIme
+} from '@/api/supervision.js';
+let mapLayerRef = ref(null);
+//地图底部tab切换
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  // mapLayerRef.value.setRectBarVisibility(value);
+  // mapLayerRef.value.setHeatMapVisibility(value);
+};
 
 // 头部累计数据
-const getDistrictAlarmLevelStatics = async() => {
-  let { data } = await districtAlarmLevelStatics();
-  console.log(data.data,"getDistrictAlarmLevelStatics")
-}
 const pageNumData = ref(pageNumFun());
-// 累计告警数据信息
-const totalWarningTabs = ref(totalWarningTabsFun())
-
-const getSafetySupervisionAccumulated = async ()=> {
-  let {data} = await safetySupervisionAccumulated()
-  console.log(data,"getSafetySupervisionAccumulated")
+const getAlarmUpStaticsData = async()=> {
+  let { data } = await getAlarmUpStatics()
+  console.log(data,"df")
+  pageNumData.value = pageNumFun(data?.data || [])
 }
+// 累计告警数据信息
+const totalWarningTabs = ref(totalWarningTabsFun());
+const scrollTableData = ref([])
+const getSafetySupervisionAccumulated = async (type) => {
+  let { data } = await safetySupervisionAccumulated(type);
+  let newData = data?.data.map(item => {
+    return {
+      ...item,
+      pro: type === 1 ? item.operatorName :  item.stationName,
+      pro1: item.cnt || 0,
+      pro2: item.affirmCnt,
+      pro3: item.recCnt || 0
+    }
+  })
+  scrollTableData.value = newData || []
+};
 
 //行政区告警数据
-const areaRankData = ref(areaRankDataFun())
-const areaTotalNum = ref(6399)
+// const areaRankData = ref(areaRankDataFun())
+const areaRankData = ref();
+// const areaTotalNum = ref(6399);
+const areaTotalNum = ref();
+const getDistrictAlarmStatics = async () => {
+  let { data } = await districtAlarmStatics();
+  let newData = data?.data?.map((item) => {
+    return {
+      ...item,
+      unit: '次',
+      num: item.cnt,
+      name: item.areaName
+    };
+  });
+  areaRankData.value = newData || [];
+  areaTotalNum.value = newData[0]?.cnt || 0
+};
 //今日设备告警监控
-const warningMonitorTabs = ref(warningMonitorTabsFun())
-const warningMonitorPieData = ref(warningMonitorPieDataFun())
+const warningMonitorTabs = ref(warningMonitorTabsFun());
+const warningMonitorPieData = ref([]);
+const getAlarmLevelAndTypeByTime = async(param)=> {
+  let { data } = await alarmLevelAndTypeByTime(param)
+  let type1 = {
+    '1':'一级人身安全',
+    '2':'二级设备安全',
+    '3': '三级告警提示'
+  }
+  let extraName = {
+    '1':'人身安全',
+    '2':'设备安全',
+    '3': '告警提示'
+  }
+  let type2 = {
+    '1':'充电系统',
+    '2':'电池系统',
+    '3': '配电系统'
+  }
+  
+  let newData = null;
+  if(data?.data.length !== 0) {
+  newData = data?.data.map(item => {
+    if(param.type === 1) {
+      return {
+      value: item.cnt || 0,
+      name: type1[item.alarmLevel],
+      extraName: extraName[item.alarmLevel],
+      unit: '个'
+    }
+    }else {
+      return {
+        value: item.cnt || 0,
+        name: type2[item.alarmType],
+        unit: '个'
+      }
+    }
+    
+  })
+  }else {
+    newData = warningMonitorPieDataFun(param.type)
+  }
+
+  warningMonitorPieData.value = newData
+} 
 //实时状态情况
-const realtimeStateTabs = ref(realtimeStateTabsFun())
-const realtimeStateData = ref(realtimeStateDataFun())
+const realtimeStateTabs = ref(realtimeStateTabsFun());
+const realtimeStateData = ref(realtimeStateDataFun());
 // 实时告警趋势情况
-const realtimeTrend = ref(realtimeTrendFun())
+const realtimeTrend = ref(realtimeTrendFun());
+const getAlarmLevelAndTypeByTIme = async(param)=> {
+  let {data} = await alarmLevelAndTypeByTIme(param)
+  realtimeTrend.value = realtimeTrendFun(data?.data || [])
+}
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = (data, type) => {
   console.log(data, type);
   if (type === 'total-warning') {
     //累计告警数据信息
-    
+    getSafetySupervisionAccumulated(data.code)
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
-    warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    let obj = {
+      type: data.code,
+      // startTime:'2023-04-03 14:22:34',
+      // endTime: '2023-04-06 14:22:34'
+      startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    }
+    getAlarmLevelAndTypeByTime(obj)
   } else if (type === 'realtime-state') {
     // 实时状态情况
-    realtimeStateData.value = realtimeStateDataFun(data.code)
+    realtimeStateData.value = realtimeStateDataFun(data.code);
   }
 };
 
-onMounted(()=> {
-  // getDistrictAlarmLevelStatics()
-  getSafetySupervisionAccumulated()
-})
+onMounted(() => {
+  let obj = {
+    type:1,
+    // startTime:'2023-04-03 14:22:34',
+    // endTime: '2023-04-06 14:22:34' 
+    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+  }
+  getAlarmUpStaticsData()
+  getSafetySupervisionAccumulated(1);
+  getDistrictAlarmStatics();
+  getAlarmLevelAndTypeByTime(obj)
+  getAlarmLevelAndTypeByTIme({
+    // startTime:'2023-04-03 14:22:34',
+    // endTime: '2023-04-06 14:22:34'
+    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  })
+});
 </script>
 
 <style lang="less" scoped>
