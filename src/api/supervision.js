@@ -62,10 +62,6 @@ export const alarmLevelAndTypeByTIme = (param) => {
     data: {
       ...param
     }
-<<<<<<< HEAD
-  });
-};
-=======
   })
 }
 
@@ -94,4 +90,3 @@ export const alarmInfo = (params) => {
       }
     })
 }
->>>>>>> 3e5d84dfc371d13b9a0642269cfdddb2794ccc75
