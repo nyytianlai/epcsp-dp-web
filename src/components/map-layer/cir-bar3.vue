@@ -2,18 +2,25 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { districtAlarmLevelStatics } from '@/api/supervision.js';
+import { districtAlarmLevelStatics, getMapAreaStationByPower } from '@/api/supervision.js';
 
 const aircityObj = inject('aircityObj');
 
 const addBar = async () => {
   await aircityObj.acApi.customTag.clear();
   let barArr = [];
-  const { data: res } = await districtAlarmLevelStatics();
+  // const { data: res } = await districtAlarmLevelStatics();
+  const { data: res } = await getMapAreaStationByPower();
+
   console.log('柱状图接口', res);
   // let gunCount = res.map((item) => {
   //   return item.gunCount;
   // });
+  // let gunCount
+  // for (const key in res) {
+  //   const element = res[key];
+  //   element.
+  // }
 
   let yMax = 21000; //Math.max(...gunCount);
   // console.log('gunCount', gunCount);
@@ -22,18 +29,15 @@ const addBar = async () => {
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/barPosition4547.geojson`
   });
   res1.features.forEach((item, index) => {
-    // let countObj = res.filter((i) => {
-    //   return i.areaCode == item.properties.QUCODE;
-    // });
-    let countObj = [{ one: 19856, two: 393, three: 147 }];
+    let countObj = res[item.properties.QUCODE];
     let o = {
       id: 'rectBar-' + item.properties.QUNAME,
       groupId: 'rectBar',
       userData: item.properties.QUCODE,
       coordinate: item.geometry.coordinates,
-      contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${countObj[0].one},${
-        countObj[0].two
-      },${countObj[0].three}&yMax=${yMax}`,
+      contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${countObj[0].cnt},${
+        countObj[1].cnt
+      },${countObj[2].cnt}&yMax=${yMax}`,
       contentSize: [108, 263], //网页窗口宽高 [width, height]
       pivot: [0.5, 1], // 中心点
       range: [1, 150000] //显示范围：[min, max]

@@ -14,7 +14,7 @@ export const hotCharging = () => {
       })
 }
 
-// 右下-本月日均利用率
+// 右下-本月日均利用率 以及地图柱状图
 export const monthRate = () => {
     return request.get({
         url: '/massService/queryStatisticsLeftAreaToMonthUseRatio'

@@ -8,18 +8,13 @@ import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
 import { getImageUrl } from '@/utils/index';
-import {layerNameQuNameArr} from '@/global/config/map';
+import { layerNameQuNameArr, projectCGCS2000_2_GK114 } from '@/global/config/map';
+import { getHeatMap } from '@/api/overall';
+import { gcj02ToWgs84 } from '@sutpc/zebra';
 
+let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
 aircityObj.acApi.reset();
-// const { useEmitt } = inject('aircityObj');
-
-// useEmitt('AIRCITY_EVENT', (e) => {
-//   // 编写自己的业务
-//   console.log('鼠标左键单击', e);
-//   aircityObj.acApi.polygon.focus(e.Id, 13000);
-
-// });
 
 const setRectBarVisibility = (value: boolean) => {
   value
@@ -30,30 +25,44 @@ const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.acApi.heatmap.get('heatmap1');
   console.log('获取热力图info', info);
   if (info.result === 0) {
-    value ? aircityObj.acApi.heatmap.hide('heatmap1') : aircityObj.acApi.heatmap.show('heatmap1');
+    value ? aircityObj.acApi.heatmap.show('heatmap1') : aircityObj.acApi.heatmap.hide('heatmap1');
   } else {
     addHeatMap();
   }
+  value ? updateHeatMap() : clearInterval(updateHeatMapInterval);
+};
+const updateHeatMap = () => {
+  updateHeatMapInterval = setInterval(async () => {
+    let data = [];
+    const { data: res } = await getHeatMap();
+    res.forEach((element) => {
+      const coord84 = gcj02ToWgs84(Number(element.longitude), Number(element.latitude));
+      const coord4547 = projectCGCS2000_2_GK114(coord84);
+      data.push({
+        id: element.stationId,
+        heatValue: element.realTimePower //热力值
+      });
+    });
+    aircityObj.acApi.heatmap.update('heatmap1', null, null, data);
+  }, 1 * 60 * 60 * 1000);
 };
 const addHeatMap = async () => {
   // await __g.heatmap.clear();
-  let bbox = [488670.75, 2488165, 5.7, 491659.59375, 2490987.5, 344.58];
-  let range = [0, 100];
+  const { data: res } = await getHeatMap();
+  let bbox = [470754, 2472106, 5.7, 629306, 2550338, 344.58];
+  let range = [0, 1000];
   let data = [];
-  for (let i = 0; i < 100; i++) {
-    let x = getRandNumBetween(bbox[0], bbox[3]); //minX ~ maxX
-    let y = getRandNumBetween(bbox[1], bbox[4]); //minY ~ maxY
+  res.forEach((element) => {
+    const coord84 = gcj02ToWgs84(Number(element.longitude), Number(element.latitude));
+    const coord4547 = projectCGCS2000_2_GK114(coord84);
     data.push({
-      id: i.toString(),
-      coordinate: [x, y, 0], //热力点的坐标
-      radius: Math.random() * 200, //热力点影像半径范围
-      heatValue: Math.random() * 100 //热力值
+      id: element.stationId,
+      coordinate: [...coord4547, 0], //热力点的坐标
+      radius: 660, //热力点影像半径范围
+      heatValue: element.realTimePower //热力值
     });
-  }
+  });
   await aircityObj.acApi.heatmap.add('heatmap1', bbox, range, data);
-};
-const getRandNumBetween = (max, min) => {
-  return Math.floor(Math.random() * (max - min) + min);
 };
 
 defineExpose({
