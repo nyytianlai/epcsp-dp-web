@@ -52,11 +52,13 @@
       />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData" />
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab"/>
+  <map-layer ref="mapLayerRef"></map-layer>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
+import MapLayer from './components/map-layer.vue';
 import dayjs from 'dayjs'
 import {
   pageNumFun,
@@ -76,6 +78,14 @@ import {
   alarmLevelAndTypeByTime,
   alarmLevelAndTypeByTIme
 } from '@/api/supervision.js';
+let mapLayerRef = ref(null);
+//地图底部tab切换
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  // mapLayerRef.value.setRectBarVisibility(value);
+  // mapLayerRef.value.setHeatMapVisibility(value);
+};
 
 // 头部累计数据
 const pageNumData = ref(pageNumFun());

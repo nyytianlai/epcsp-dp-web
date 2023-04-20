@@ -1,6 +1,6 @@
 <template>
   <qu></qu>
-  <rect-bar></rect-bar>
+  <cir-bar3></cir-bar3>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
     <div class="quName">{{ currentPosition }}</div>
@@ -8,7 +8,7 @@
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
-import RectBar from '@/components/map-layer/rect-bar.vue';
+import cirBar3 from '@/components/map-layer/cir-bar3.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
 import { getImageUrl } from '@/utils/index';
@@ -17,6 +17,7 @@ import { getQuStation } from '@/api/deviceManage';
 
 const aircityObj = inject('aircityObj');
 aircityObj.acApi.reset();
+
 const { useEmitt } = inject('aircityObj');
 const currentPosition = ref('深圳市');
 

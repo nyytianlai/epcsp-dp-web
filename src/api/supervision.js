@@ -1,5 +1,6 @@
 import request from '@sutpc/axios'; 
 
+//地图告警柱状图
 export const districtAlarmLevelStatics = () => {
   return request.get({
     url: '/safetySupervision/districtAlarmLevelStatics'
