@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:44:41
+ * @LastEditTime: 2023-04-21 10:45:56
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -14,8 +14,13 @@
       <tabs
         :data="totalWarningTabs"
         @changeTab="(data) => handleChangeTab(data, 'total-warning')"
-      />
-      <scroll-table :scrollTableData="scrollTableData"/>
+        v-model="messageWarningType"
+      >
+        <button-base @handleClick="handleClickMessageBtn">
+          查看更多
+        </button-base>
+      </tabs>
+      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList"/>
     </div>
     <div class="area-warning-num">
       <title-column title="行政区告警数据" />
@@ -78,6 +83,34 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
+  <custom-dialog 
+  v-model:visible="dialogTableMessageVisible" 
+    :title="messageDialogTitle" 
+    @closed="handleDialogClosed"
+  >
+    <el-table
+      :data="messageTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+    <el-table-column v-for="(item, index) in messageColumnData" :key="index" v-bind="item" >
+      <template #default="scope">
+        <span v-if="item.prop === 'alarmLevelName'">
+          {{ scope.row[scope.column.property] }}
+        </span>
+      </template>
+    </el-table-column>
+    </el-table>
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="(value)=>handPageChange(value,'total-message')"
+    />
+  </custom-dialog>
 </template>
 <script setup>
 import { ref, onMounted,reactive  } from 'vue';
@@ -94,7 +127,9 @@ import {
   realtimeStateDataFun,
   realtimeTrendFun,
   bottomTabDataFun,
-  columnDataFun 
+  columnDataFun,
+  columnKeyListFun,
+  messageColumnKeyListFun
 } from './config.js';
 import {
   getAlarmUpStatics,
@@ -114,6 +149,12 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 累计告警数据信息弹窗显隐
+const dialogTableMessageVisible = ref(false)
+const messageDialogTitle = ref('运营商告警列表')
+const messageColumnData = ref(messageColumnKeyListFun())
+const messageTableData = ref([])
+const messageWarningType = ref(1)
 //地图底部tab切换
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
@@ -131,19 +172,27 @@ const getAlarmUpStaticsData = async()=> {
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([])
-const getSafetySupervisionAccumulated = async (type) => {
-  let { data } = await safetySupervisionAccumulated(type);
-  let newData = data?.map(item => {
-    return {
-      ...item,
-      pro: type === 1 ? item.operatorName :  item.stationName,
-      pro1: item.cnt || 0,
-      pro2: item.affirmCnt,
-      pro3: item.recCnt || 0
-    }
-  })
-  scrollTableData.value = newData || []
+const columnKeyList = ref(columnKeyListFun())
+const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 10000) => {
+  const params = {
+    type,
+    pageOffset,
+    pageSize
+  }
+  let { data } = await safetySupervisionAccumulated(params);
+  return data
+  
 };
+
+const handleClickMessageBtn = async() => {
+  pageObj.currentPage = 1
+  messageDialogTitle.value = messageWarningType.value === 1?'运营商告警列表':'充电站告警列表'
+  dialogTableMessageVisible.value = true
+  messageColumnData.value = messageColumnKeyListFun(messageWarningType.value)
+  const data = await getSafetySupervisionAccumulated(messageWarningType.value, pageObj.currentPage, pageObj.pageSize)
+  messageTableData.value = data?.list || []
+  pageObj.total = data?.total || 0
+}
 
 //行政区告警数据
 // const areaRankData = ref(areaRankDataFun())
@@ -220,10 +269,12 @@ const getAlarmLevelAndTypeByTIme = async(param)=> {
 }
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-const handleChangeTab = (data, type) => {
+const handleChangeTab = async(data, type) => {
   if (type === 'total-warning') {
+    columnKeyList.value = columnKeyListFun(type)
+    scrollTableData.value = []
     //累计告警数据信息
-    getSafetySupervisionAccumulated(data.code)
+    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.list || []
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
@@ -248,7 +299,9 @@ const getOnlineStatusData = async(type) => {
 }
 
 const handleClick = () => {
+  pageObj.currentPage = 1
   dialogTableVisible.value = true;
+  getTableAlarm();
 };
 
 const getTableAlarm = async (level) => {
@@ -267,12 +320,19 @@ const getTableAlarm = async (level) => {
   }
 };
 // table数据
-const handPageChange = (value) => {
-  pageObj.currentPage = value;
-  getTableAlarm();
+const handPageChange = async(value, type) => {
+  if (type === 'total-message') {
+    pageObj.currentPage = value;
+    const data = await getSafetySupervisionAccumulated(messageWarningType.value, pageObj.currentPage, pageObj.pageSize)
+    messageTableData.value = data?.list || []
+  } else {
+    pageObj.currentPage = value;
+    getTableAlarm();
+    
+  }
 };
 
-onMounted(() => {
+onMounted(async() => {
   let obj = {
     type:1,
     // startTime:'2023-04-03 14:22:34',
@@ -281,7 +341,6 @@ onMounted(() => {
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
   }
   getAlarmUpStaticsData()
-  getSafetySupervisionAccumulated(1);
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj)
   getAlarmLevelAndTypeByTIme({
@@ -291,7 +350,7 @@ onMounted(() => {
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
   })
   getOnlineStatusData(3)
-  getTableAlarm();
+  scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.list || [];
 });
 </script>
 
@@ -299,6 +358,12 @@ onMounted(() => {
 .total-warning-num {
   .tabs {
     margin-top: 10px;
+    position: relative;
+    .button-base{
+      position: absolute;
+      bottom: 7px;
+      right: 0;
+    }
   }
   .el-table {
     margin-top: 25px;

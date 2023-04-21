@@ -128,9 +128,9 @@ const styleObj = {
 
 const { data, type, classStyleType } = toRefs(props);
 interface IStyleImgFont{
-  icon?: CSSProperties;
-  num?: CSSProperties;
-  name?: CSSProperties;
+  icon?: Partial<CSSStyleDeclaration>;
+  num?: Partial<CSSStyleDeclaration>;
+  name?: Partial<CSSStyleDeclaration>;
 }
 const styleImgFont = computed<IStyleImgFont>(()=>{
   

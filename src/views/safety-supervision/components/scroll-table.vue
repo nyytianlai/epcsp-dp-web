@@ -11,14 +11,14 @@
     style="width: 100%; height: 3.44rem"
     :autoScroll="false"
     :interval="5000"
-    :data="gridInfo.data"
+    :data="scrollTableData"
     :highlight-current-row="false"
     v-model="currentIndex"
     @current-change="currentChange"
     class="custom-table"
   >
     <el-table-column
-      v-for="(item, index) in gridInfo.columnKeyList"
+      v-for="(item, index) in columnKeyList"
       :key="index"
       :prop="item.prop"
       align="left"
@@ -28,7 +28,7 @@
   </ScrollTable>
 </template>
 
-<script setup lang="ts">
+<script setup >
 import { ref, onMounted, reactive,watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 
@@ -38,46 +38,18 @@ const props = defineProps({
     default: ()=> {
       return []
     }
+  },
+  columnKeyList: {
+    type: Array,
+    default: ()=> {
+      return []
+    }
   }
 })
-
-let gridInfo = reactive<any>({
-  columnKeyList: [
-    { prop: 'pro', label: '运营商名称', width: 4 },
-    { prop: 'pro1', label: '告警数', width: 2 },
-    { prop: 'pro2', label: '已确认', width: 2 },
-    { prop: 'pro3', label: '恢复数', width: 2 }
-  ],
-  data: [
-    { pro: 'SG20220430sadfasdfasdfafds', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'asdfasdfasdfsadfasdfas', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' },
-    { pro: 'SG20220430', pro1: '410', pro2: '400', pro3: '200' }
-  ]
-});
 let currentIndex = ref(0);
 let currentChange = (row) => {
   // 这里是选中的那一行数据
 };
-
-watch(
-  ()=>props.scrollTableData,
-  ()=> {
-   gridInfo.data = props.scrollTableData
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-  )
 </script>
 
 <style lang="less"></style>
