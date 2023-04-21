@@ -79,8 +79,8 @@ const styleObj = {
       height: '0.58rem'
     },
     num: {
-      lineHeight: '0.32rem',
-      fontSize:'0.32rem',
+      lineHeight: '0.28rem',
+      fontSize:'0.28rem',
       background: 'linear-gradient(180deg, #00F7FF 0%, #D5FEFF 52.08%, #00F7FF 100%)',
       textFillColor: 'transparent',
       '-webkit-background-clip': 'text',
