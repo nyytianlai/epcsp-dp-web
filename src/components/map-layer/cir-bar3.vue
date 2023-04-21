@@ -7,7 +7,7 @@ import { districtAlarmLevelStatics, getMapAreaStationByPower } from '@/api/super
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
 const addBar = async (code: 1 | 2) => {
-  await __g.customTag.clear();
+  // await __g.customTag.clear();
   let res;
   let valueField: string; //从哪个字段取值
   if (code === 1) {
@@ -29,7 +29,7 @@ const addBar = async (code: 1 | 2) => {
     });
     count.push(...countItem);
   }
-  console.log('count', count);
+  // console.log('count', count);
 
   let yMax = Math.max(...count);
 
@@ -37,8 +37,8 @@ const addBar = async (code: 1 | 2) => {
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/barPosition4547.geojson`
   });
   res1.features.forEach((item, index) => {
-    let countObj = res.data[item.properties.QUCODE];
-    console.log('countObj', countObj);
+    let countObj =
+      code == 1 ? res.data[item.properties.QUCODE].reverse() : res.data[item.properties.QUCODE];
     let o = {
       id: `rectBar${code}-${item.properties.QUNAME}`,
       groupId: 'rectBar',

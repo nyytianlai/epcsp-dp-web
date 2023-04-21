@@ -49,7 +49,7 @@ const buttomTabChange = async (code: 1 | 2) => {
   let info = await aircityObj.acApi.customTag.get('rectBar2-南山区');
   console.log('获取rectBar2-南山区info', info);
   if (info.result === 0) {
-    setObjVisibility('customTag', 'rectBar2', !value);
+    setObjVisibility('customTag', 'rectBar2', value);
   } else {
     cirBar3Ref.value.addBar(2);
   }
