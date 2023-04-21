@@ -378,3 +378,24 @@ export const columnDataFun = () => {
     },
   ]
 }
+
+export const columnKeyListFun = (type=1) => {
+  return [
+    { prop: type === 1 ? 'operatorName' :  'stationName', label:  type === 1 ? '运营商名称' :  '充电站名称', width: 4 },
+    { prop: 'cnt', label: '告警数', width: 2 },
+    { prop: 'affirmCnt', label: '已确认', width: 2 },
+    { prop: 'recCnt', label: '恢复数', width: 2 }
+  ]
+}
+
+export const messageColumnKeyListFun = (type=1) => {
+  return [
+    { prop: type === 1 ? 'operatorName' :  'stationName', label:  type === 1 ? '运营商名称' :  '充电站名称', width: 350 },
+    { prop: 'cnt', label: '告警总数', width: 150 },
+    { prop: 'unAffirmCnt', label: '未确认', width: 150 },
+    { prop: 'affirmCnt', label: '已确认', width: 150 },
+    { prop: 'recCnt', label: '已恢复', width: 150 },
+    { prop: 'contactPerson', label: '负责人', width: 150 },
+    { prop: 'contactTel', label: '联系电话', width: "" }
+  ]
+}

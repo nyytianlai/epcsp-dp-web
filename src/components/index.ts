@@ -22,6 +22,7 @@ import LineTimeChart from '@/components/line-time-chart.vue'
 import Panel from '@/components/panel/index.vue'
 import PageNum from '@/components/page-num/index.vue';
 import CustomDialog from '@/components/custom-dialog/index.vue'
+import LegendList from '@/components/legend-list.vue'
 
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
@@ -40,7 +41,8 @@ const components: {
     LineTimeChart,
     Panel,
     PageNum,
-    CustomDialog
+    CustomDialog,
+    LegendList
 }
   
    
