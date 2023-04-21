@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-20 18:46:36
+ * @LastEditTime: 2023-04-21 14:11:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -257,7 +257,7 @@ export default {
 }
 .my-tab-wrap {
   position: absolute;
-  top: 44px;
+  top: 68px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;

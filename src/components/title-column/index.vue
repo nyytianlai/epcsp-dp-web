@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 19:32:11
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 14:31:06
+ * @LastEditTime: 2023-04-21 14:51:31
  * @FilePath: \epcsp-dp-web\src\components\title-column\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -32,7 +32,6 @@ const handleClick = () => {
 </script>
 <style lang="less" scoped>
 .title-column {
-  width: 429px;
   position: relative;
   font-family: 'Inter';
   font-style: normal;

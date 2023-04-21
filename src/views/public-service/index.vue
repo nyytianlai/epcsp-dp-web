@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 19:27:03
+ * @LastEditTime: 2023-04-21 14:23:40
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -105,7 +105,7 @@ const getMonthRate = async () => {
         name: item.area_name
       }
     })
-    totalMonthRateNum.value = res?.data?.data[0].chargingSum
+    totalMonthRateNum.value = res?.data?.data[0].useRatio
   } else {
     monthRateData.value = []
     totalMonthRateNum.value = 0

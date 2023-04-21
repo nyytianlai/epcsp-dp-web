@@ -10,7 +10,7 @@
   <div class="mask-bgc" :class="type"></div>
   <div class="panel" :class="type">
     <slot />
-    <div class="circle-bg"></div>
+    <!-- <div class="circle-bg"></div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -57,7 +57,7 @@ const { type } = toRefs(props);
   position: absolute;
   top: 126px;
   left: 30px;
-  width: 426px;
+  width: 400px;
   z-index: 5;
   .circle-bg {
     position: absolute;
