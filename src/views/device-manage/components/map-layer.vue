@@ -11,9 +11,10 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl } from '@/utils/index';
+import { getImageUrl, getImageByCloud } from '@/utils/index';
 import { layerNameQuNameArr, infoObj } from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
+import chargeStationS from '@/assets/images/map/chargeStationS.png';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
@@ -27,6 +28,9 @@ useEmitt('AIRCITY_EVENT', (e) => {
   // 编写自己的业务
   console.log('鼠标左键单击', e);
   if (e.Id?.includes('区')) {
+    if (e.Id.split('-')[1] === currentPosition.value) {
+      return;
+    }
     currentPosition.value = e.Id.split('-')[1];
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
@@ -34,7 +38,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
   }
   if (e.Id?.includes('station') && e.UserData === '0') {
     //是高渲染站点
-    changeStationStyle(e.Id, 'hr', [287, 451]);
+    changeStationStyle(e.Id, 'hr', [287, 451], [-143, 451]);
 
     if (currentHrStationID === e.Id) {
       //连续两次点击相同站点 进入高渲染站点
@@ -43,16 +47,17 @@ useEmitt('AIRCITY_EVENT', (e) => {
       addHrStation();
     } else {
       currentHrStationID !== ''
-        ? changeStationStyle(currentHrStationID, 'chargeStationB', [76.83, 163.47])
+        ? changeStationStyle(currentHrStationID, 'chargeStationB', [77, 176], [-38.5, 176])
         : '';
     }
     currentHrStationID = e.Id;
   }
 });
 
-const changeStationStyle = (id, picName, size) => {
-  __g.marker.setImagePath(id, getImageUrl(picName));
+const changeStationStyle = (id, picName, size, anchors) => {
+  __g.marker.setImagePath(id, getImageByCloud(picName));
   __g.marker.setImageSize(id, size);
+  __g.marker.setAnchors(id, anchors);
 };
 
 const setQuVisibility = async (value: boolean) => {
@@ -84,6 +89,7 @@ const backSz = async () => {
 
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addQuStation = async (quCode: string) => {
+  console.time('test');
   await __g.marker.deleteByGroupId('quStation');
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
@@ -94,10 +100,11 @@ const addQuStation = async (quCode: string) => {
       userData: item.isHr + '',
       coordinateType: 2,
       coordinate: [item.lng, item.lat], //坐标位置
-      anchors: item.isHr ? [-16, 87] : [38.4, 163.47], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: item.isHr ? [32, 87] : [76.83, 163.47], //图片的尺寸
+      anchors: item.isHr ? [-16, 87] : [-38.5, 176], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: item.isHr ? [32, 87] : [77, 176], //图片的尺寸
       range: [1, 150000], //可视范围
-      imagePath: item.isHr ? getImageUrl('chargeStationS') : getImageUrl('chargeStationB'),
+      // imagePath: item.isHr ? getImageUrl('chargeStationS') : getImageUrl('chargeStationB'),
+      imagePath: item.isHr ? getImageByCloud('chargeStationS') : getImageByCloud('chargeStationB'),
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 50], //文本可视范围[近裁距离, 远裁距离]
@@ -107,19 +114,22 @@ const addQuStation = async (quCode: string) => {
       fontOutlineSize: 1, //字体轮廓线大小
       fontColor: '#FFFFFF', //字体颜色
       // fontOutlineColor: '#1b4863', //字体轮廓线颜色
-      displayMode: 2
+      displayMode: 2,
+      autoHeight: true
     };
     pointArr.push(o1);
   });
   //批量添加polygon
-  __g.marker.add(pointArr, null);
+  await __g.marker.add(pointArr.slice(0, 300), null);
+  console.timeEnd('test');
+  console.log(pointArr, 'pointArr');
 };
 
 //添加站点
 const addHrStation = async () => {
   await __g.tileLayer.add({
     id: '1',
-    fileName: 'D:/software/freedo/AirCityCloud/SDK' + `/data/3dt/民乐/station.3dt`, //3dt文件路径
+    fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
     location: [0, 0, 92.5], //坐标位置
     rotation: [0, 0, 0], //旋转角度
     scale: [1, 1, 1] //缩放大小
@@ -128,7 +138,8 @@ const addHrStation = async () => {
 };
 
 onMounted(async () => {
-  await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
+  await __g.tileLayer.delete('1');
+  await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
 });
 
 onBeforeUnmount(() => {
