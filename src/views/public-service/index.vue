@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 17:19:23
+ * @LastEditTime: 2023-04-20 19:27:03
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -60,7 +60,7 @@ let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 热门充电站TOP10
-const hotChargingData = ref(hotChargingDataFun());
+const hotChargingData = ref([]);
 const totalChargingNum = ref(0)
 // 实时设备信息
 const deviceData = ref(deviceDataFun())

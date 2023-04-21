@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-19 15:23:24
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:15:50
+ * @LastEditTime: 2023-04-21 09:40:32
  * @FilePath: \epcsp-dp-web\src\api\supervision.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -29,11 +29,11 @@ export const getAlarmUpStatics = () => {
 }
 
 // 累计告警数据信息
-export const safetySupervisionAccumulated = (type) => {
+export const safetySupervisionAccumulated = (params) => {
   return request.get({
     url: '/safetySupervision/safetySupervisionAccumulated',
     data: {
-      type
+      ...params
     }
   });
 };
@@ -84,8 +84,6 @@ export const alarmInfo = (params) => {
       url: '/dp/api/v1/overview/alarmInfo',
       data: {
         ...timeParams(),
-        "startTime":"2023-03-01 00:00:00",
-    "endTime":"2023-03-01 23:59:59",
           ...params
       }
     })
