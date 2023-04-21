@@ -1,6 +1,6 @@
 <template>
   <qu></qu>
-  <cir-bar3></cir-bar3>
+  <cir-bar3 ref="cirBar3Ref"></cir-bar3>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
     <div class="quName">{{ currentPosition }}</div>
@@ -16,44 +16,55 @@ import { layerNameQuNameArr, infoObj } from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
 
 const aircityObj = inject('aircityObj');
-aircityObj.acApi.reset();
+const __g = aircityObj.acApi;
+__g.reset();
 
 const { useEmitt } = inject('aircityObj');
 const currentPosition = ref('深圳市');
-
+let cirBar3Ref = ref(null);
 useEmitt('AIRCITY_EVENT', (e) => {
   // 编写自己的业务
   console.log('鼠标左键单击', e);
   if (e.Id?.includes('区')) {
     currentPosition.value = e.Id.split('-')[1];
-    aircityObj.acApi.polygon.focus('qu-' + currentPosition.value, 13000);
+    __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
     addQuStation(e.UserData);
   }
 });
 
 const setQuVisibility = async (value: boolean) => {
-  // value
-  //   ? aircityObj.acApi.polygon.show(layerNameQuNameArr('qu-'))
-  //   : aircityObj.acApi.polygon.hide(layerNameQuNameArr('qu-'));
-  value
-    ? await aircityObj.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : await aircityObj.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
-  value
-    ? await aircityObj.acApi.marker.show(layerNameQuNameArr('quName-'))
-    : await aircityObj.acApi.marker.hide(layerNameQuNameArr('quName-'));
+  setObjVisibility('customTag', 'rectBar1', value);
+  setObjVisibility('customTag', 'rectBar2', value);
+  setObjVisibility('marker', 'quName', value);
+};
+
+const setObjVisibility = (type: string, idPre: string, value: boolean) => {
+  value ? __g[type].show(layerNameQuNameArr(idPre)) : __g[type].hide(layerNameQuNameArr(idPre));
+};
+
+const buttomTabChange = async (code: 1 | 2) => {
+  let value = code === 1 ? true : false;
+  setObjVisibility('customTag', 'rectBar1', value);
+  let info = await aircityObj.acApi.customTag.get('rectBar2-南山区');
+  console.log('获取rectBar2-南山区info', info);
+  if (info.result === 0) {
+    setObjVisibility('customTag', 'rectBar2', value);
+  } else {
+    cirBar3Ref.value.addBar(2);
+  }
 };
 
 const backSz = async () => {
   currentPosition.value = '深圳市';
-  await aircityObj.acApi.marker.deleteByGroupId('quStation');
+  await __g.marker.deleteByGroupId('quStation');
   setQuVisibility(true);
-  await aircityObj.acApi.camera.set(infoObj.szView, 0.2);
+  await __g.camera.set(infoObj.szView, 0.2);
 };
 
 //添加区的点
 const addQuStation = async (quCode: string) => {
-  await aircityObj.acApi.marker.deleteByGroupId('quStation');
+  await __g.marker.deleteByGroupId('quStation');
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
   res.forEach((item, index) => {
@@ -81,15 +92,17 @@ const addQuStation = async (quCode: string) => {
     pointArr.push(o1);
   });
   //批量添加polygon
-  aircityObj.acApi.marker.add(pointArr, null);
+  __g.marker.add(pointArr, null);
 };
+defineExpose({ buttomTabChange });
 
 onMounted(async () => {
-  await aircityObj.acApi.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
+  await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
+  cirBar3Ref.value.addBar(1);
 });
 
 onBeforeUnmount(() => {
-  // aircityObj.acApi.polygon.delete(["polygon1"]);
+  // __g.polygon.delete(["polygon1"]);
 });
 </script>
 <style lang="less" scoped>

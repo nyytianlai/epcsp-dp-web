@@ -3,7 +3,7 @@
   <rect-bar></rect-bar>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
-    <div class="quName">{{ currentPosition }}</div>
+    <div class="quName" v-show="currentPosition !== ''">{{ currentPosition }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -16,56 +16,88 @@ import { layerNameQuNameArr, infoObj } from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
 
 const aircityObj = inject('aircityObj');
-aircityObj.acApi.reset();
+const __g = aircityObj.acApi;
+__g.reset();
 const { useEmitt } = inject('aircityObj');
-const currentPosition = ref('深圳市');
+const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
+let currentPositionBak = '';
+let currentHrStationID = ''; //当前点击的高渲染站点id
 
 useEmitt('AIRCITY_EVENT', (e) => {
   // 编写自己的业务
   console.log('鼠标左键单击', e);
   if (e.Id?.includes('区')) {
     currentPosition.value = e.Id.split('-')[1];
-    aircityObj.acApi.polygon.focus('qu-' + currentPosition.value, 13000);
+    __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
     addQuStation(e.UserData);
   }
+  if (e.Id?.includes('station') && e.UserData === '0') {
+    //是高渲染站点
+    changeStationStyle(e.Id, 'hr', [287, 451]);
+
+    if (currentHrStationID === e.Id) {
+      //连续两次点击相同站点 进入高渲染站点
+      currentPositionBak = currentPosition.value;
+      currentPosition.value = '';
+      addHrStation();
+    } else {
+      currentHrStationID !== ''
+        ? changeStationStyle(currentHrStationID, 'chargeStationB', [76.83, 163.47])
+        : '';
+    }
+    currentHrStationID = e.Id;
+  }
 });
+
+const changeStationStyle = (id, picName, size) => {
+  __g.marker.setImagePath(id, getImageUrl(picName));
+  __g.marker.setImageSize(id, size);
+};
 
 const setQuVisibility = async (value: boolean) => {
   // value
-  //   ? aircityObj.acApi.polygon.show(layerNameQuNameArr('qu-'))
-  //   : aircityObj.acApi.polygon.hide(layerNameQuNameArr('qu-'));
+  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
+  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
   value
-    ? await aircityObj.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : await aircityObj.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
+    ? await __g.customTag.show(layerNameQuNameArr('rectBar'))
+    : await __g.customTag.hide(layerNameQuNameArr('rectBar'));
   value
-    ? await aircityObj.acApi.marker.show(layerNameQuNameArr('quName-'))
-    : await aircityObj.acApi.marker.hide(layerNameQuNameArr('quName-'));
+    ? await __g.marker.show(layerNameQuNameArr('quName'))
+    : await __g.marker.hide(layerNameQuNameArr('quName'));
 };
 
 const backSz = async () => {
-  currentPosition.value = '深圳市';
-  await aircityObj.acApi.marker.deleteByGroupId('quStation');
-  setQuVisibility(true);
-  await aircityObj.acApi.camera.set(infoObj.szView, 0.2);
+  if (currentPosition.value.includes('区')) {
+    //返回市
+    currentPosition.value = '深圳市';
+    await __g.marker.deleteByGroupId('quStation');
+    setQuVisibility(true);
+    await __g.camera.set(infoObj.szView, 0.2);
+  } else if (currentPosition.value === '') {
+    //返回区
+    currentPosition.value = currentPositionBak;
+    __g.tileLayer.delete('1');
+    __g.marker.focus(currentHrStationID, 200, 0.2);
+  }
 };
 
-//添加区的点
+//添加区的点 isHr 0-是高渲染站点；1-否
 const addQuStation = async (quCode: string) => {
-  await aircityObj.acApi.marker.deleteByGroupId('quStation');
+  await __g.marker.deleteByGroupId('quStation');
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
   res.forEach((item, index) => {
     let o1 = {
       id: 'station-' + index,
       groupId: 'quStation',
-      // userData: item.properties.QUCODE,
+      userData: item.isHr + '',
       coordinateType: 2,
       coordinate: [item.lng, item.lat], //坐标位置
-      anchors: [-16, 87], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [32, 87], //图片的尺寸
+      anchors: item.isHr ? [-16, 87] : [38.4, 163.47], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: item.isHr ? [32, 87] : [76.83, 163.47], //图片的尺寸
       range: [1, 150000], //可视范围
-      imagePath: getImageUrl('chargeStationS'),
+      imagePath: item.isHr ? getImageUrl('chargeStationS') : getImageUrl('chargeStationB'),
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 50], //文本可视范围[近裁距离, 远裁距离]
@@ -80,15 +112,27 @@ const addQuStation = async (quCode: string) => {
     pointArr.push(o1);
   });
   //批量添加polygon
-  aircityObj.acApi.marker.add(pointArr, null);
+  __g.marker.add(pointArr, null);
+};
+
+//添加站点
+const addHrStation = async () => {
+  await __g.tileLayer.add({
+    id: '1',
+    fileName: 'D:/software/freedo/AirCityCloud/SDK' + `/data/3dt/民乐/station.3dt`, //3dt文件路径
+    location: [0, 0, 92.5], //坐标位置
+    rotation: [0, 0, 0], //旋转角度
+    scale: [1, 1, 1] //缩放大小
+  });
+  __g.tileLayer.focus('1', 500);
 };
 
 onMounted(async () => {
-  await aircityObj.acApi.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
+  await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
 });
 
 onBeforeUnmount(() => {
-  // aircityObj.acApi.polygon.delete(["polygon1"]);
+  // __g.polygon.delete(["polygon1"]);
 });
 </script>
 <style lang="less" scoped>

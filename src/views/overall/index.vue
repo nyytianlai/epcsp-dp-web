@@ -170,7 +170,7 @@ const changeButtomTab = (item) => {
   console.log('底部切换', item);
   let value = item.code === 1 ? true : false;
   mapLayerRef.value.setRectBarVisibility(value);
-  mapLayerRef.value.setHeatMapVisibility(value);
+  mapLayerRef.value.setHeatMapVisibility(!value);
 };
 const handleClick = () => {
   dialogTableVisible.value = true;

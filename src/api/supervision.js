@@ -12,9 +12,16 @@ import dayjs from 'dayjs'
 export const districtAlarmLevelStatics = () => {
   return request.get({
     url: '/safetySupervision/districtAlarmLevelStatics'
-  })
-}
+  });
+};
 
+//地图站点状态柱状图
+export const getMapAreaStationByPower = () => {
+  return request.post({
+    url: '/safetySupervision/getMapAreaStationByPower',
+    data: {}
+  });
+};
 export const getAlarmUpStatics = () => {
   return request.post({
     url: '/safetySupervision/getAlarmUpStatics'
@@ -28,15 +35,15 @@ export const safetySupervisionAccumulated = (params) => {
     data: {
       ...params
     }
-  })
-}
+  });
+};
 
 // 行政区告警数据
 export const districtAlarmStatics = () => {
   return request.get({
     url: '/safetySupervision/districtAlarmStatics'
-  })
-}
+  });
+};
 
 // 今日设备告警监控
 export const alarmLevelAndTypeByTime = (param) => {
@@ -45,8 +52,8 @@ export const alarmLevelAndTypeByTime = (param) => {
     data: {
       ...param
     }
-  })
-}
+  });
+};
 
 // 实时告警趋势情况
 export const alarmLevelAndTypeByTIme = (param) => {

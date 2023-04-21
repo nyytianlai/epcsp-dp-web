@@ -48,6 +48,12 @@ export const getRectBar = () => {
     url: '/dp/api/v1/equipmentManage/selectChargeEquipmentByArea'
   });
 };
+//地图热力图
+export const getHeatMap = () => {
+  return request.get({
+    url: 'dp/api/v1/overview/areaPower'
+  });
+};
 //今日-充电桩/充电枪信息充电桩:pile,充电枪:gun
 export const dayEquInfo = (type) => {
     return request.post({

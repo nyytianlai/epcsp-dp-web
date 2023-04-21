@@ -97,6 +97,7 @@ const getHotCharging = async () => {
 const getMonthRate = async () => {
   const res = await monthRate()
   if (res?.data && res?.data?.data) {
+    mapLayerRef.value.sendBarData(res?.data?.data) //给地图传柱状图数据
     monthRateData.value = res?.data?.data.map(item => {
       return {
         num: item.useRatio,

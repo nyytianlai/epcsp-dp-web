@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 10:45:56
+ * @LastEditTime: 2023-04-21 11:42:52
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -29,7 +29,12 @@
   </panel>
   <panel type="right">
     <div class="warning-monitor">
-      <title-column title="今日设备告警监控" :showBtn="true" btnText="告警列表" @handleClick="handleClick" />
+      <title-column
+        title="今日设备告警监控"
+        :showBtn="true"
+        btnText="告警列表"
+        @handleClick="handleClick"
+      />
       <tabs
         :data="warningMonitorTabs"
         @changeTab="(data) => handleChangeTab(data, 'warning-monitor')"
@@ -57,7 +62,7 @@
       />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab"/>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer ref="mapLayerRef"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <el-table
@@ -66,13 +71,13 @@
       style="width: 100%"
       class="custom-dialog-table"
     >
-    <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" >
-      <template #default="scope">
-        <span v-if="item.prop === 'alarmLevelName'">
-          {{ scope.row[scope.column.property] }}
-        </span>
-      </template>
-    </el-table-column>
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item">
+        <template #default="scope">
+          <span v-if="item.prop === 'alarmLevelName'">
+            {{ scope.row[scope.column.property] }}
+          </span>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       :page-size="pageObj.pageSize"
@@ -113,10 +118,10 @@
   </custom-dialog>
 </template>
 <script setup>
-import { ref, onMounted,reactive  } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import {
   pageNumFun,
   totalWarningTabsFun,
@@ -158,17 +163,15 @@ const messageWarningType = ref(1)
 //地图底部tab切换
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
-  let value = item.code === 1 ? true : false;
-  // mapLayerRef.value.setRectBarVisibility(value);
-  // mapLayerRef.value.setHeatMapVisibility(value);
+  mapLayerRef.value.buttomTabChange(item.code);
 };
 
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
-const getAlarmUpStaticsData = async()=> {
-  let { data } = await getAlarmUpStatics()
-  pageNumData.value = pageNumFun(data || {})
-}
+const getAlarmUpStaticsData = async () => {
+  let { data } = await getAlarmUpStatics();
+  pageNumData.value = pageNumFun(data || {});
+};
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([])
@@ -210,63 +213,62 @@ const getDistrictAlarmStatics = async () => {
     };
   });
   areaRankData.value = newData || [];
-  areaTotalNum.value = newData[0]?.cnt || 0
+  areaTotalNum.value = newData[0]?.cnt || 0;
 };
 //今日设备告警监控
 const warningMonitorTabs = ref(warningMonitorTabsFun());
 const warningMonitorPieData = ref([]);
-const getAlarmLevelAndTypeByTime = async(param)=> {
-  let { data } = await alarmLevelAndTypeByTime(param)
+const getAlarmLevelAndTypeByTime = async (param) => {
+  let { data } = await alarmLevelAndTypeByTime(param);
   let type1 = {
-    '1':'一级人身安全',
-    '2':'二级设备安全',
-    '3': '三级告警提示'
-  }
+    1: '一级人身安全',
+    2: '二级设备安全',
+    3: '三级告警提示'
+  };
   let extraName = {
-    '1':'人身安全',
-    '2':'设备安全',
-    '3': '告警提示'
-  }
+    1: '人身安全',
+    2: '设备安全',
+    3: '告警提示'
+  };
   let type2 = {
-    '1':'充电系统',
-    '2':'电池系统',
-    '3': '配电系统'
-  }
-  
+    1: '充电系统',
+    2: '电池系统',
+    3: '配电系统'
+  };
+
   let newData = null;
-  if(data?.length !== 0) {
-  newData = data?.map(item => {
-    if(param.type === 1) {
-      return {
-      value: item.cnt || 0,
-      name: type1[item.alarmLevel],
-      extraName: extraName[item.alarmLevel],
-      unit: '个'
-    }
-    }else {
-      return {
-        value: item.cnt || 0,
-        name: type2[item.alarmType],
-        unit: '个'
+  if (data?.length !== 0) {
+    newData = data?.map((item) => {
+      if (param.type === 1) {
+        return {
+          value: item.cnt || 0,
+          name: type1[item.alarmLevel],
+          extraName: extraName[item.alarmLevel],
+          unit: '个'
+        };
+      } else {
+        return {
+          value: item.cnt || 0,
+          name: type2[item.alarmType],
+          unit: '个'
+        };
       }
-    }
-    
-  })
-  }else {
-    newData = warningMonitorPieDataFun(param.type)
+    });
+  } else {
+    newData = warningMonitorPieDataFun(param.type);
   }
 
-  warningMonitorPieData.value = newData
-} 
+  warningMonitorPieData.value = newData;
+};
 //实时状态情况
 const realtimeStateTabs = ref(realtimeStateTabsFun());
 const realtimeStateData = ref(realtimeStateDataFun());
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
-const getAlarmLevelAndTypeByTIme = async(param)=> {
-  let {data} = await alarmLevelAndTypeByTIme(param)
-  realtimeTrend.value = realtimeTrendFun(data || [])
-}
+const getAlarmLevelAndTypeByTIme = async (param) => {
+  let { data } = await alarmLevelAndTypeByTIme(param);
+  realtimeTrend.value = realtimeTrendFun(data || []);
+};
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = async(data, type) => {
@@ -282,21 +284,21 @@ const handleChangeTab = async(data, type) => {
       type: data.code,
       // startTime:'2023-04-03 14:22:34',
       // endTime: '2023-04-06 14:22:34'
-      startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    }
-    getAlarmLevelAndTypeByTime(obj)
+      startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    };
+    getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
     // 实时状态情况
-    getOnlineStatusData(data.code)
+    getOnlineStatusData(data.code);
   }
 };
 
-const getOnlineStatusData = async(type) => {
-  const res = await getOnlineStatus(type)
+const getOnlineStatusData = async (type) => {
+  const res = await getOnlineStatus(type);
   console.log(res, '------online');
-  realtimeStateData.value = realtimeStateDataFun(type,res.data);
-}
+  realtimeStateData.value = realtimeStateDataFun(type, res.data);
+};
 
 const handleClick = () => {
   pageObj.currentPage = 1
@@ -334,7 +336,7 @@ const handPageChange = async(value, type) => {
 
 onMounted(async() => {
   let obj = {
-    type:1,
+    type: 1,
     // startTime:'2023-04-03 14:22:34',
     // endTime: '2023-04-06 14:22:34' 
     startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
@@ -342,11 +344,11 @@ onMounted(async() => {
   }
   getAlarmUpStaticsData()
   getDistrictAlarmStatics();
-  getAlarmLevelAndTypeByTime(obj)
+  getAlarmLevelAndTypeByTime(obj);
   getAlarmLevelAndTypeByTIme({
     // startTime:'2023-04-03 14:22:34',
     // endTime: '2023-04-06 14:22:34'
-    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
   })
   getOnlineStatusData(3)
