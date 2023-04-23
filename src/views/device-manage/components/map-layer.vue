@@ -12,6 +12,7 @@ import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
 // import {  } from '@/utils/index';
+import bus from '@/utils/bus';
 import {
   layerNameQuNameArr,
   infoObj,
@@ -92,7 +93,7 @@ const setQuVisibility = async (value: boolean) => {
 };
 
 const backSz = async () => {
-  if (currentPosition.value.includes('区')) {
+  if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     currentPosition.value = '深圳市';
     await __g.marker.deleteByGroupId('quStation');
@@ -155,6 +156,7 @@ const addHrStation = async () => {
 };
 
 const test = async () => {
+  await __g.tileLayer.delete('2');
   // await __g.tileLayer.add({
   //   id: '2',
   //   fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/NKZ_SplineTest.3dt`, //3dt文件路径
@@ -162,10 +164,9 @@ const test = async () => {
   //   rotation: [0, 0, 0], //旋转角度
   //   scale: [1, 1, 1] //缩放大小
   // });
-  // __g.tileLayer.focus('2', 150);
-  __g.tileLayer.delete('2');
+  // __g.tileLayer.focus('2', 1500);
   __g.misc.callBPFunction({
-    objectName: 'BP_SplineMain_0',
+    objectName: 'BP_SplineMain_2',
     functionName: 'SetSplineVisible',
     paramType: 5,
     paramValue: 'Zero'
@@ -176,7 +177,22 @@ const test = async () => {
 onMounted(async () => {
   await __g.tileLayer.delete('1');
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  test();
+  // test();
+  bus.on('toHr', (e) => {
+    // 传参由回调函数中的形参接受
+    console.log('高渲染站点信息2', e);
+    currentPositionBak = currentPosition.value;
+    currentPosition.value = '';
+    addHrStation();
+  });
+  bus.on('hrBackSz', async () => {
+    // 传参由回调函数中的形参接受
+    currentPosition.value = '深圳市';
+    await __g.marker.deleteByGroupId('quStation');
+    setQuVisibility(true);
+    await __g.camera.set(infoObj.szView, 0.2);
+    await __g.settings.setEnableCameraMovingEvent(false);
+  });
 });
 
 onBeforeUnmount(() => {

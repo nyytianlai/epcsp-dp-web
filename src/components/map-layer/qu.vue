@@ -88,9 +88,6 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
   }
   return quName;
 };
-const setSzView = async (value:boolean) => {
-  value?await __g.camera.set(infoObj.szView, 0.2):await __g.camera.set(infoObj.szViewFull, 0.2);;
-};
 
 defineExpose({ pointInWhichDistrict });
 onMounted(async () => {
