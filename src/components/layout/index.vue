@@ -1,10 +1,10 @@
 <!--
- * @Author: qinyushan
- * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-21 17:12:00
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-11 10:23:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @FilePath: \zndd-web\src\components\layout\index.vue
- * @Description:
+ * @LastEditTime: 2023-04-23 14:06:04
+ * @FilePath: \epcsp-dp-web\src\components\layout\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="subject-layout">
@@ -24,6 +24,7 @@
       />
     </div>
     <time-weather/>
+    <expand-btn/>
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690118293977"> -->
@@ -50,6 +51,7 @@ import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
 import TimeWeather from './components/time-weather.vue'
 import StationDetail from '@/views/station-detail/index.vue'
+import ExpandBtn from './components/expand-btn/index.vue'
 import { routes } from '@/router';
 import { h } from 'vue';
 import { useStore } from 'vuex';
@@ -61,7 +63,8 @@ export default {
     NavTab,
     BaseAc,
     TimeWeather,
-    StationDetail
+    StationDetail,
+    ExpandBtn
   },
   props: {
     title: {
