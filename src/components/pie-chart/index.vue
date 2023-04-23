@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-14 09:19:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:59:38
+ * @LastEditTime: 2023-04-23 09:36:56
  * @FilePath: \epcsp-dp-web\src\components\pie-chart.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -125,7 +125,6 @@ const watchInstanceReady = (myChart) => {
 .pie-wrap {
   display: flex;
   align-items: center;
-  width: 425px;
 }
 .pie-chart-wrap {
   width: 188px;

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 17:31:26
+ * @LastEditTime: 2023-04-23 09:49:15
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -58,7 +58,6 @@ const numMaxWidth = computed(() => {
 .area-rank-wrap {
   overflow: hidden auto;
   padding-right: 8px;
-  padding-left: 11px;
 }
 .content {
   display: flex;

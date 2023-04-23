@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 17:32:53
+ * @LastEditTime: 2023-04-23 09:40:58
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -183,20 +183,20 @@ const handleChangeTab = (data, type) => {
 <style lang="less" scoped>
 .charging-station-num {
   .tabs {
-    margin-top: 4px;
+    margin-top: 16px;
   }
   .pie-wrap {
-    margin-top: 21px;
+    margin-top: 25px;
   }
 }
 .charging-peak-area {
-  margin-top: 22px;
+  margin-top: 17px;
   .area-rank-wrap {
     margin-top: 16px;
   }
 }
 .charging-num-images {
-  margin-top: 20px;
+  margin-top: 22px;
   .images-wrap{
     margin-top: 16px;
   }
@@ -204,7 +204,7 @@ const handleChangeTab = (data, type) => {
 .charging-types,
 .charging-runing {
   .tabs {
-    margin-top: 13px;
+    margin-top: 16px;
   }
   .num-wrap {
     display: flex;
@@ -232,12 +232,12 @@ const handleChangeTab = (data, type) => {
     }
   }
   .ec-wrap {
-    margin-top: 18px;
+    margin-top: 20px;
   }
 }
 .charging-runing {
   .tabs {
-    margin-top: 28px;
+    margin-top: 20px;
   }
   .num-wrap {
     margin-top: 20px;

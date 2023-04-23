@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 11:42:52
+ * @LastEditTime: 2023-04-23 09:52:22
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -359,7 +359,7 @@ onMounted(async() => {
 <style lang="less" scoped>
 .total-warning-num {
   .tabs {
-    margin-top: 10px;
+    margin-top: 16px;
     position: relative;
     .button-base{
       position: absolute;
@@ -368,27 +368,27 @@ onMounted(async() => {
     }
   }
   .el-table {
-    margin-top: 25px;
+    margin-top: 12px;
   }
 }
 .area-warning-num {
-  margin-top: 18px;
+  margin-top: 20px;
   .area-rank-wrap {
-    margin-top: 12px;
+    margin-top: 16px;
   }
 }
 .warning-monitor {
   .tabs {
-    margin-top: 7px;
+    margin-top: 16px;
   }
   .pie-wrap {
-    margin-top: 20px;
+    margin-top: 18px;
   }
 }
 .realtime-state {
-  margin-top: 18px;
+  margin-top: 16px;
   .tabs {
-    margin-top: 12px;
+    margin-top: 16px;
   }
   :deep(.num-wrap) {
     height: 157px;
@@ -399,5 +399,8 @@ onMounted(async() => {
 }
 .realtime-trend {
   margin-top: 23px;
+  .ec-wrap{
+    margin-top: 14px;
+  }
 }
 </style>

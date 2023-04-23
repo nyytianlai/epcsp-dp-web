@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 19:32:11
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 17:27:29
+ * @LastEditTime: 2023-04-23 09:33:38
  * @FilePath: \epcsp-dp-web\src\components\title-column\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -81,6 +81,7 @@ const handleClick = () => {
     z-index: 10;
     font-size: 30px;
     margin-left: 30px;
+    padding-top: 10px;
   }
 }
 .right-bgc{
