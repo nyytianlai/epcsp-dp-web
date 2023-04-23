@@ -16,8 +16,8 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl } from '@/utils/index';
-import { layerNameQuNameArr, projectCGCS2000_2_GK114 } from '@/global/config/map';
+import { projectCGCS2000_2_GK114 } from '@/utils/index';
+import { layerNameQuNameArr,getImageUrl } from '@/global/config/map';
 import { getHeatMap } from '@/api/overall';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
 

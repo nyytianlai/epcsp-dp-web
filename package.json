@@ -22,6 +22,7 @@
     "@sutpc/vue3-scroll-table": "^1.0.3",
     "@sutpc/vue3-svg-icon": "^1.0.0",
     "@sutpc/vue3-theme-util": "^1.0.0",
+    "@turf/turf": "^6.5.0",
     "dayjs": "^1.11.6",
     "element-plus": "^2.2.20",
     "lodash": "^4.17.21",

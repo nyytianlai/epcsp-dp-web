@@ -1,5 +1,5 @@
 <template>
-  <qu></qu>
+  <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
@@ -11,10 +11,15 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl, getImageByCloud } from '@/utils/index';
-import { layerNameQuNameArr, infoObj } from '@/global/config/map';
+// import {  } from '@/utils/index';
+import {
+  layerNameQuNameArr,
+  infoObj,
+  getImageUrl,
+  getImageByCloud,
+  quNameCodeInterTrans
+} from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
-import chargeStationS from '@/assets/images/map/chargeStationS.png';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
@@ -23,10 +28,11 @@ const { useEmitt } = inject('aircityObj');
 const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
 let currentPositionBak = '';
 let currentHrStationID = ''; //当前点击的高渲染站点id
+let quRef = ref(null);
 
-useEmitt('AIRCITY_EVENT', (e) => {
+useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('鼠标左键单击', e);
+  console.log('事件监听', e);
   if (e.Id?.includes('区')) {
     if (e.Id.split('-')[1] === currentPosition.value) {
       return;
@@ -35,6 +41,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
     addQuStation(e.UserData);
+    await __g.settings.setEnableCameraMovingEvent(true);
   }
   if (e.Id?.includes('station') && e.UserData === '0') {
     //是高渲染站点
@@ -51,6 +58,18 @@ useEmitt('AIRCITY_EVENT', (e) => {
         : '';
     }
     currentHrStationID = e.Id;
+  }
+  if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
+    //当前不处于站点内
+    let cameraQuName = quRef.value.pointInWhichDistrict([e.Position[0], e.Position[1]]);
+    console.log('cameraQuName', cameraQuName);
+    if (cameraQuName && currentPosition.value !== cameraQuName) {
+      //当前相机位置所在区和当前区不一致
+      console.log('重新请求数据');
+      currentPosition.value = cameraQuName;
+      let cameraQuCode = quNameCodeInterTrans('name', cameraQuName);
+      cameraQuCode && addQuStation(cameraQuCode);
+    }
   }
 });
 
@@ -79,6 +98,7 @@ const backSz = async () => {
     await __g.marker.deleteByGroupId('quStation');
     setQuVisibility(true);
     await __g.camera.set(infoObj.szView, 0.2);
+    await __g.settings.setEnableCameraMovingEvent(false);
   } else if (currentPosition.value === '') {
     //返回区
     currentPosition.value = currentPositionBak;
@@ -89,7 +109,6 @@ const backSz = async () => {
 
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addQuStation = async (quCode: string) => {
-  console.time('test');
   await __g.marker.deleteByGroupId('quStation');
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
@@ -121,8 +140,6 @@ const addQuStation = async (quCode: string) => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr.slice(0, 300), null);
-  console.timeEnd('test');
-  console.log(pointArr, 'pointArr');
 };
 
 //添加站点
@@ -137,9 +154,29 @@ const addHrStation = async () => {
   __g.tileLayer.focus('1', 500);
 };
 
+const test = async () => {
+  // await __g.tileLayer.add({
+  //   id: '2',
+  //   fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/NKZ_SplineTest.3dt`, //3dt文件路径
+  //   location: [0, 0, 92.5], //坐标位置
+  //   rotation: [0, 0, 0], //旋转角度
+  //   scale: [1, 1, 1] //缩放大小
+  // });
+  // __g.tileLayer.focus('2', 150);
+  __g.tileLayer.delete('2');
+  __g.misc.callBPFunction({
+    objectName: 'BP_SplineMain_0',
+    functionName: 'SetSplineVisible',
+    paramType: 5,
+    paramValue: 'Zero'
+  });
+  // __g.customObject.callBPFunction('BP_SplineMain_0','SetSplineVisible',5,'Zero')
+};
+
 onMounted(async () => {
   await __g.tileLayer.delete('1');
-  await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  test();
 });
 
 onBeforeUnmount(() => {

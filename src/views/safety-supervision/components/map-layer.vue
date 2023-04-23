@@ -11,8 +11,8 @@ import Qu from '@/components/map-layer/qu.vue';
 import cirBar3 from '@/components/map-layer/cir-bar3.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl, getImageByCloud } from '@/utils/index';
-import { layerNameQuNameArr, infoObj } from '@/global/config/map';
+// import {  } from '@/utils/index';
+import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud} from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
 
 let cirBar3Ref = ref(null);
