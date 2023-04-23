@@ -5,6 +5,7 @@
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
     <div class="quName">{{ currentPosition }}</div>
   </div>
+  <legend-list legendName="充电站状态" :legendList="legendListData" />
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
@@ -14,7 +15,20 @@ import request from '@sutpc/axios';
 // import {  } from '@/utils/index';
 import { layerNameQuNameArr, infoObj,getImageUrl, getImageByCloud} from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
-
+const legendListData = [
+  {
+      color: ' #2AD7FD',
+      name:'正常'
+  },
+  {
+      color: '#FFB800',
+      name:'预警'
+  },
+  {
+      color: '#A3A3A3',
+      name:'未上线'
+  }
+]
 let cirBar2Ref = ref(null);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;

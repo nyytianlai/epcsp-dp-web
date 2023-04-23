@@ -5,6 +5,7 @@
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
     <div class="quName">{{ currentPosition }}</div>
   </div>
+  <legend-list :legendList="legendListData" legendName="告警级别（个）" />
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
@@ -14,10 +15,22 @@ import request from '@sutpc/axios';
 // import {  } from '@/utils/index';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud} from '@/global/config/map';
 import { getQuStation } from '@/api/deviceManage';
-
+const legendListData = [
+  {
+      color: 'linear-gradient(178.17deg, #FF0005 4.74%, #590303 95.4%)',
+      name:'一级 人身安全'
+  },
+  {
+      color: 'linear-gradient(178.1deg, #FF7A00 3.02%, #772B00 97.03%)',
+      name:'二级 设备安全'
+  },
+  {
+      color: 'linear-gradient(178.21deg, #FFF501 6.05%, #7E8E19 94.76%)',
+      name:'三级 告警提示'
+  }
+]
 let cirBar3Ref = ref(null);
 let buttomTabCode = 1;
-
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
 __g.reset();
