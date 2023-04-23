@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:33:50
+ * @LastEditTime: 2023-04-21 17:34:31
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\components\scroll-table.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
   columnKeyList:()=>[
     { prop: 'index', label: '序号', width: 2,type:'index' },
     { prop: 'typeName', label: '问题类型', width: 3 },
-    { prop: 'desc', label: '相关描述', width: 6 },
+    { prop: 'desc', label: '相关描述', width: 5 },
     { prop: 'cnt', label: '数量（个）', width: 3 }
   ],
   data:()=>[]

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 18:49:27
+ * @LastEditTime: 2023-04-23 10:13:41
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -46,7 +46,7 @@
     </div>
     <div class="station-power">
         <title-column title="站点实时功率" />
-        <line-time-chart unit="KW" :data="linePowerData" :colors="['#00FFF9']" :chartStyle="{height:'2.05rem'}" />
+        <line-time-chart unit="KW" :data="linePowerData" :colors="['#00FFF9']" :chartStyle="{height:'2.22rem'}" />
     </div>
   </panel>
 </template>
@@ -169,6 +169,9 @@ onMounted(() => {
 })
 </script>
 <style lang="less" scoped>
+.station-info{
+  margin-top: 12px;
+}
 .device-info {
   margin-top: 20px;
   :deep(.num-wrap) {
@@ -201,14 +204,17 @@ onMounted(() => {
 .warning-message {
   margin-top: 16px;
   .warning-tabs {
-    margin-top: 10px;
+    margin-top: 14px;
   }
   .warning-list {
-    margin-top: 15px;
+    margin-top: 14px;
   }
 }
 .device-use-info {
-  margin-top: 30px;
+  margin-top: 20px;
+  .tabs{
+    margin-top: 16px;
+  }
   .num-wrap {
     display: flex;
     justify-content: space-between;
@@ -236,9 +242,9 @@ onMounted(() => {
   }
 }
 .station-power {
-  margin-top: 15px;
+  margin-top: 16px;
   .ec-wrap {
-    margin-top: 12px;
+    margin-top: 16px;
   }
 }
 </style>

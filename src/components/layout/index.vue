@@ -1,7 +1,7 @@
 <!--
  * @Author: qinyushan
  * @Date: 2021-09-07 16:47:01
- * @LastEditTime: 2023-04-20 18:46:36
+ * @LastEditTime: 2023-04-21 17:12:00
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @FilePath: \zndd-web\src\components\layout\index.vue
  * @Description:
@@ -225,39 +225,11 @@ export default {
 .main-content {
   height: 100%;
   width: 100%;
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 50;
-    right: 10px;
-    bottom: 10px;
-    width: 259px;
-    height: 260px;
-    background: url(@/assets/images/layout/corner-bgc.png) no-repeat;
-    background-size: 100% 100%;
-    pointer-events: none;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: 50;
-    left: 10px;
-    bottom: 10px;
-    width: 259px;
-    height: 260px;
-    background: url(@/assets/images/layout/corner-bgc.png) no-repeat;
-    background-size: 100% 100%;
-    -moz-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    transform: scaleX(-1);
-    transform-origin: center;
-    pointer-events: none;
-  }
+  
 }
 .my-tab-wrap {
   position: absolute;
-  top: 44px;
+  top: 68px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;

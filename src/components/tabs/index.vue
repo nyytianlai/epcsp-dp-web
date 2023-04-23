@@ -36,7 +36,6 @@ const handleSelect = (item) => {
 </script>
 <style lang="less" scoped>
 .tabs {
-  width: 425px;
   height: 28px;
   background: url(./images/tabs-bgc.png) no-repeat;
   background-size: 100% 21px;

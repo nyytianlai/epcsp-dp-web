@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 15:03:31
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:54:20
+ * @LastEditTime: 2023-04-21 14:06:33
  * @FilePath: \epcsp-dp-web\src\components\page-num.vue\index.vue.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -37,7 +37,7 @@ const { data } = toRefs(props);
 <style lang="less" scoped>
 .page-num-wrap {
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: 50%;
   transform: translateX(-50%);
   width: 819px;

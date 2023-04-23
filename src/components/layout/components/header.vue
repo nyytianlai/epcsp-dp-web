@@ -2,7 +2,7 @@
  * @Author: niyayong
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @Date: 2022-04-18 17:27:54
- * @LastEditTime: 2023-04-12 15:28:54
+ * @LastEditTime: 2023-04-21 14:05:21
  * @FilePath: \zndd-web\src\components\layout\components\header.vue
  * @Description: FilePath
 -->
@@ -47,7 +47,7 @@ export default {
 
 <style lang="less" scoped>
 .subject-header {
-  height: 86px;
+  height: 80px;
   width: 100%;
   position: absolute;
   left: 0;

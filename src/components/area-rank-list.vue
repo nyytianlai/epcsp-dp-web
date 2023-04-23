@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 17:10:44
+ * @LastEditTime: 2023-04-23 09:49:15
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
@@ -48,8 +48,8 @@ const props = withDefaults(defineProps<Props>(), {
 const { data, totalNum } = toRefs(props);
 const numMaxWidth = computed(() => {
   return {
-    maxWidth: (formatWithToLocalString(totalNum.value).length + 1) * 10 / 100 + 'rem',
-    minWidth:(formatWithToLocalString(totalNum.value).length + 1) * 10 /100 + 'rem'
+    maxWidth: (formatWithToLocalString(totalNum.value).length + 1) * 12 / 100 + 'rem',
+    minWidth:(formatWithToLocalString(totalNum.value).length + 1) * 12 /100 + 'rem'
   }
   
 })
@@ -58,7 +58,6 @@ const numMaxWidth = computed(() => {
 .area-rank-wrap {
   overflow: hidden auto;
   padding-right: 8px;
-  padding-left: 11px;
 }
 .content {
   display: flex;

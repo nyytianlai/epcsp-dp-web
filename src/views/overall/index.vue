@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 16:41:30
+ * @LastEditTime: 2023-04-21 17:27:01
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -28,7 +28,7 @@
     <div class="operating-company">
       <title-column title="运营企业年度TOP10" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list :data="projectList" :totalNum="projectTotalNum" />
+      <rank-list :data="projectList" :totalNum="projectTotalNum" height="2.76rem" />
     </div>
   </panel>
   <panel type="right">
@@ -173,6 +173,7 @@ const changeButtomTab = (item) => {
   mapLayerRef.value.setHeatMapVisibility(!value);
 };
 const handleClick = () => {
+  console.log('handleClick');
   dialogTableVisible.value = true;
 };
 // 总览上面4个指标
@@ -292,7 +293,7 @@ onMounted(() => {
     justify-content: space-between;
     height: 160px;
     padding: 0 22px;
-    margin-top: 8px;
+    margin-top: 16px;
     background: linear-gradient(
       255.75deg,
       rgba(37, 177, 255, 0.02) 23.33%,
@@ -304,7 +305,7 @@ onMounted(() => {
   }
 }
 .pile-charger {
-  margin-top: 20px;
+  margin-top: 16px;
   .num-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -320,9 +321,9 @@ onMounted(() => {
   }
 }
 .operating-company {
-  margin-top: 30px;
+  margin-top: 23px;
   .tabs {
-    margin-top: 10px;
+    margin-top: 16px;
   }
   .rank-list-wrap {
     display: flex;
@@ -386,8 +387,8 @@ onMounted(() => {
         }
       }
       .icon {
-        width: 60px !important;
-        height: 60px !important;
+        width: 54px !important;
+        height: 54px !important;
       }
     }
   }

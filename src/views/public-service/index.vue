@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 11:33:28
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 19:27:03
+ * @LastEditTime: 2023-04-23 10:03:27
  * @FilePath: \epcsp-dp-web\src\views\public-service\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -11,11 +11,11 @@
     <panel>
         <div class="hot-charging">
             <title-column title="热门充电站TOP10" />
-            <rank-list :data="hotChargingData" :totalNum="totalChargingNum" />
+            <rank-list :data="hotChargingData" :totalNum="totalChargingNum" height="3.88rem" />
         </div>
         <div class="citizens-feedback">
           <title-column title="市民反馈情况" />
-          <scroll-table :styleWrap="{height:'4.8rem'}" :data="feedBackData" />
+          <scroll-table :styleWrap="{height:'3.88rem'}" :data="feedBackData" />
         </div>
     </panel>
     <panel type="right">
@@ -105,7 +105,7 @@ const getMonthRate = async () => {
         name: item.area_name
       }
     })
-    totalMonthRateNum.value = res?.data?.data[0].chargingSum
+    totalMonthRateNum.value = res?.data?.data[0].useRatio
   } else {
     monthRateData.value = []
     totalMonthRateNum.value = 0
@@ -144,20 +144,20 @@ onMounted(() => {
 <style lang="less" scoped>
 .hot-charging {
   .rank-list-wrap {
-    margin-top: 20px;
+    margin-top: 16px;
   }
 }
 .citizens-feedback {
-  margin-top: 48px;
+  margin-top: 20px;
   .el-table {
-    margin-top: 8px;
+    margin-top: 11px;
   }
 }
 .realtime-info {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 12px;
+    margin-top: 14px;
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 11px;
@@ -180,20 +180,21 @@ onMounted(() => {
     }
   }
   .tabs {
-    margin-top: 10px;
+    margin-top: 14px;
   }
   :deep(.pie-wrap) {
-    margin-top: 24px;
+    margin-top: 18px;
     .pie-chart-wrap {
-      width: 218px;
+      min-width: 218px;
+      max-width: 218px;
       height: 218px;
     }
   }
 }
 .month-rate {
-  margin-top: 18px;
+  margin-top: 20px;
   .area-rank-wrap {
-    margin-top: 16px;
+    margin-top: 23px;
   }
 }
 </style>

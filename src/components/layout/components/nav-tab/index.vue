@@ -21,10 +21,10 @@
             ]"
             :data-disabled="item.meta.disabled"
           >
-            <!-- <div class="left-top-dot corner" />
+            <div class="left-top-dot corner" />
             <div class="right-top-dot corner" />
             <div class="left-bottom-dot corner" />
-            <div class="right-bottom-dot corner" /> -->
+            <div class="right-bottom-dot corner" />
             <div>
               {{ item.meta.title }}
             </div>
@@ -156,38 +156,53 @@ export default {
   justify-content: center;
   .nav-item {
     width: 145px;
-    height: 47px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 20px;
     cursor: pointer;
+    background: rgba(84, 181, 255, 0.1);
+    border: 1px solid rgba(84, 181, 255, 0.3);
+    position: relative;
+    color: #BBE1FF;
+    &.active{
+      background: rgba(84, 181, 255, 0.3);
+      border: 1px solid #54B5FF;
+      color: #FFFFFF;
+    }
     &:first-of-type,
     &:nth-child(3) {
       margin-right: 31px;
     }
-    &:first-of-type,
     &:nth-child(2) {
-      background: url(@/assets/images/layout/menu-btn-left.png) no-repeat;
-      background-size: 100% 42px;
-      background-position: bottom left;
-      &.active {
-        background-image: url(@/assets/images/layout/menu-btn-left-active.png);
-        background-size: 100% 100%;
-      }
+      margin-right: 652px;
     }
-    &:last-of-type,
-    &:nth-child(3) {
-      background: url(@/assets/images/layout/menu-btn-right.png) no-repeat;
-      background-size: 100% 42px;
-      background-position: bottom left;
-      &.active {
-        background-image: url(@/assets/images/layout/menu-btn-right-active.png);
-        background-size: 100% 100%;
-      }
+    .corner {
+      position: absolute;
+      width: .02rem;
+      height: .02rem;
+      background: #3CD4FA;
     }
-    &:nth-child(2) {
-      margin-right: 889px;
+  
+    .left-top-dot {
+      top: -1px;
+      left: -1px;
+    }
+  
+    .left-bottom-dot {
+      bottom: -1px;
+      left: -1px;
+    }
+  
+    .right-top-dot {
+      top: -1px;
+      right: -1px;
+    }
+  
+    .right-bottom-dot {
+      right: -1px;
+      bottom: -1px;
     }
   }
 }

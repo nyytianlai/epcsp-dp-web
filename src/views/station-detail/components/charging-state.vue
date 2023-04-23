@@ -155,12 +155,11 @@ const barData = ref(barListFun());
 <style lang="less" scoped>
 .charging-wrap {
   overflow: hidden auto;
-  height: 330px;
+  height: 345px;
   margin-top: 12px;
   .content {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 20px;
   }
   li {
     mix-blend-mode: normal;
@@ -174,7 +173,7 @@ const barData = ref(barListFun());
     align-items: center;
     position: relative;
     margin-right: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     &:nth-child(4n) {
       margin-right: 0;
     }
