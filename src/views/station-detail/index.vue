@@ -11,7 +11,7 @@
   <panel>
     <div class="station-info">
       <title-column title="充电站点信息" />
-      <station-info :data="stationInfoData"/>
+      <station-info :data="stationInfoData" />
     </div>
     <div class="device-info">
       <title-column title="设备设施信息" />
@@ -23,14 +23,17 @@
     </div>
     <div class="warning-message">
       <title-column title="告警信息" />
-      <warning-tabs :data="warningTabsData" @changeTab="(data)=>handleChangeTab(data,'warning-message')" />
+      <warning-tabs
+        :data="warningTabsData"
+        @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+      />
       <warning-list :data="warningListData" height="2.15rem" />
     </div>
   </panel>
   <panel type="right">
     <div class="charging-bar-state">
       <title-column title="站点充电桩状态" />
-        <charging-state :data="chargingStateData" />
+      <charging-state :data="chargingStateData" />
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
@@ -45,16 +48,24 @@
       </div>
     </div>
     <div class="station-power">
-        <title-column title="站点实时功率" />
-        <line-time-chart unit="KW" :data="linePowerData" :colors="['#00FFF9']" :chartStyle="{height:'2.22rem'}" />
+      <title-column title="站点实时功率" />
+      <line-time-chart
+        unit="KW"
+        :data="linePowerData"
+        :colors="['#00FFF9']"
+        :chartStyle="{ height: '2.22rem' }"
+      />
     </div>
   </panel>
+  <div class="backBox">
+    <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
+  </div>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import stationInfo from './components/station-info.vue'
-import chargingState from './components/charging-state.vue'
+import stationInfo from './components/station-info.vue';
+import chargingState from './components/charging-state.vue';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -64,112 +75,137 @@ import {
   selectEquipmentUseRateByStationId,
   selectStationRealTimePowerByStationId,
   selectWarningStatisticByStationId
-} from '@/api/stationDetail.js'
+} from '@/api/stationDetail.js';
 import {
-    pageNumFun,
-    deviceInfoDataFun,
-    warningTabsDataFun,
-    warningListFun,
-    chargingTypesTabsFun,
-    chargingTypesFun,
-    linePowerDataFun
+  pageNumFun,
+  deviceInfoDataFun,
+  warningTabsDataFun,
+  warningListFun,
+  chargingTypesTabsFun,
+  chargingTypesFun,
+  linePowerDataFun
 } from './config.js';
-const store = useStore()
+import bus from '@/utils/bus';
+
+const store = useStore();
 const params = {
-  operatorId:store.getters.detailParams?.operatorId,
-  stationId:store.getters.detailParams?.stationId
-}
+  operatorId: store.getters.detailParams?.operatorId,
+  stationId: store.getters.detailParams?.stationId
+};
 const pageNumData = ref(pageNumFun());
-const stationInfoData = ref({})
+const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
 //站点充电桩状态
-const chargingStateData = ref([])
+const chargingStateData = ref([]);
 //充电设施日使用信息
-const chargingTypesTabs = ref(chargingTypesTabsFun())
+const chargingTypesTabs = ref(chargingTypesTabsFun());
 const chargingTypesData = ref(chargingTypesFun());
 
 // 站点实时功率
-const linePowerData = ref(linePowerDataFun())
+const linePowerData = ref(linePowerDataFun());
 // 统计数据
-const getStationStatistics = async() => {
-  const res = await selectStationStatistics(params)
-  pageNumData.value = pageNumFun(res?.data)
-}
+const getStationStatistics = async () => {
+  const res = await selectStationStatistics(params);
+  pageNumData.value = pageNumFun(res?.data);
+};
 //设备详情/站点信息
 const getStationInfoByStationId = async () => {
-  const res = await selectStationInfoByStationId(params)
-  stationInfoData.value = res.data
-}
+  const res = await selectStationInfoByStationId(params);
+  stationInfoData.value = res.data;
+};
 // 设备详情/设备设施信息
 const getEquipmentCountByStationId = async () => {
-  const res = await selectEquipmentCountByStationId(params)
-  deviceInfoData.value = deviceInfoDataFun(res.data)
-}
+  const res = await selectEquipmentCountByStationId(params);
+  deviceInfoData.value = deviceInfoDataFun(res.data);
+};
 //设备详情/告警信息列表
 const getWarningInfoByStationId = async (alarmLevel) => {
   const res = await selectWarningInfoByStationId({
     ...params,
     alarmLevel
-  })
+  });
   if (res?.data && res?.data?.length) {
-    warningListData.value = res.data.map(item => {
+    warningListData.value = res.data.map((item) => {
       return {
         date: item.alarmTime,
         message: item.alarmDesc,
-        area:item.equipmentName
-      }
-    })
+        area: item.equipmentName
+      };
+    });
   } else {
-    warningListData.value = []
+    warningListData.value = [];
   }
-}
+};
 //设备详情/站点充电桩状态
 const getEquipmentStatusByStationId = async () => {
-  const res = await selectEquipmentStatusByStationId(params)
-  chargingStateData.value = res?.data || []
-}
+  const res = await selectEquipmentStatusByStationId(params);
+  chargingStateData.value = res?.data || [];
+};
 //设备详情/充电设施日使用信息
 const getEquipmentUseRateByStationId = async (equipmentType) => {
   const res = await selectEquipmentUseRateByStationId({
     ...params,
     equipmentType
-  })
-  chargingTypesData.value = chargingTypesFun(res?.data)
-}
+  });
+  chargingTypesData.value = chargingTypesFun(res?.data);
+};
 // 设备详情/站点实时功率
-const getStationRealTimePowerByStationId = async() => {
-  const res = await selectStationRealTimePowerByStationId(params)
-  linePowerData.value = linePowerDataFun(res?.data)
-}
+const getStationRealTimePowerByStationId = async () => {
+  const res = await selectStationRealTimePowerByStationId(params);
+  linePowerData.value = linePowerDataFun(res?.data);
+};
 //设备详情/告警信息统计
 const getWarningStatisticByStationId = async () => {
-  const res = await selectWarningStatisticByStationId(params)
-  warningTabsData.value = warningTabsDataFun(res?.data)
-}
-const handleChangeTab = (data,type) => {
+  const res = await selectWarningStatisticByStationId(params);
+  warningTabsData.value = warningTabsDataFun(res?.data);
+};
+const handleChangeTab = (data, type) => {
   if (type === 'device-use-info') {
-    getEquipmentUseRateByStationId(data.code)
+    getEquipmentUseRateByStationId(data.code);
   } else if (type === 'warning-message') {
-    getWarningInfoByStationId(data.code)
+    getWarningInfoByStationId(data.code);
   }
-
-}
+};
+const backSz = () => {
+  store.commit('CHANGE_SHOW_DETAIL', {
+    show: false,
+    params: ''
+  });
+  bus.emit('hrBackSz')
+};
 onMounted(() => {
-  getStationStatistics()
-  getStationInfoByStationId()
-  getEquipmentCountByStationId()
-  getWarningInfoByStationId(1)
-  getEquipmentStatusByStationId()
-  getEquipmentUseRateByStationId(1)
-  getStationRealTimePowerByStationId()
-  getWarningStatisticByStationId()
-})
+  getStationStatistics();
+  getStationInfoByStationId();
+  getEquipmentCountByStationId();
+  getWarningInfoByStationId(1);
+  getEquipmentStatusByStationId();
+  getEquipmentUseRateByStationId(1);
+  getStationRealTimePowerByStationId();
+  getWarningStatisticByStationId();
+});
 </script>
 <style lang="less" scoped>
-.station-info{
+.backBox {
+  position: absolute;
+  height: 36px;
+  left: 86px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 10;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 1px;
+  }
+}
+.station-info {
   margin-top: 12px;
 }
 .device-info {
@@ -212,7 +248,7 @@ onMounted(() => {
 }
 .device-use-info {
   margin-top: 20px;
-  .tabs{
+  .tabs {
     margin-top: 16px;
   }
   .num-wrap {

@@ -2,9 +2,11 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl } from '@/utils/index';
+import { getImageUrl ,infoObj} from '@/global/config/map';
+import { pointIsInPolygon, Cartesian2D } from '@/utils/index'; 
 
 const aircityObj = inject('aircityObj');
+const __g = aircityObj.acApi;
 // const { useEmitt } = inject('aircityObj');
 
 // useEmitt('AIRCITY_EVENT', (e) => {
@@ -13,17 +15,18 @@ const aircityObj = inject('aircityObj');
 //   aircityObj.acApi.polygon.focus(e.Id, 13000);
 
 // });
+let quFeatures = [];
 
 const addQu = async () => {
   // await aircityObj.acApi.polyline.clear();
   const res = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/qu4547.geojson`
   });
-
+  quFeatures = res.features;
   let polygonArr = [];
-  res.features.forEach((item, index) => {
+  quFeatures.forEach((item, index) => {
     let oPolygon = {
-      id: 'qu-'+item.properties.QUNAME, //polygon唯一标识id
+      id: 'qu-' + item.properties.QUNAME, //polygon唯一标识id
       groupId: 'quPolygon',
       coordinates: item.geometry.coordinates[0], //构成polygon的坐标点数组
       range: [1, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
@@ -50,7 +53,7 @@ const addQuName = async () => {
 
   res.features.forEach((item, index) => {
     let o1 = {
-      id: 'quName-'+item.properties.QUNAME,
+      id: 'quName-' + item.properties.QUNAME,
       groupId: 'markerAdd',
       userData: item.properties.QUCODE,
       coordinate: item.geometry.coordinates, //坐标位置
@@ -74,7 +77,20 @@ const addQuName = async () => {
   //批量添加polygon
   aircityObj.acApi.marker.add(pointArr, null);
 };
-onMounted(async() => {
+
+const pointInWhichDistrict = (point: Cartesian2D) => {
+  let quName: string;
+  for (let index = 0; index < quFeatures.length; index++) {
+    const element = quFeatures[index];
+    if (pointIsInPolygon(point, element.geometry.coordinates[0])) {
+      quName = element.properties.QUNAME;
+    }
+  }
+  return quName;
+};
+
+defineExpose({ pointInWhichDistrict });
+onMounted(async () => {
   await aircityObj.acApi.reset();
   addQu();
   addQuName();

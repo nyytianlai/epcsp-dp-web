@@ -399,3 +399,18 @@ export const messageColumnKeyListFun = (type=1) => {
     { prop: 'contactTel', label: '联系电话', width: "" }
   ]
 }
+
+export const legendList = [
+  {
+      color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #002E2D 95.4%)',
+      name:'充电站'
+  },
+  {
+      color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
+      name:'充电桩'
+  },
+  {
+      color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
+      name:'充电枪'
+  }
+]

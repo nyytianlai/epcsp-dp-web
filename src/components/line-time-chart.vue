@@ -31,7 +31,8 @@ const props = withDefaults(defineProps<Props>(), {
     height: '1.89rem'
   }),
   unit: '个',
-  colors:()=>['green','blue']
+  colors: () => ['green', 'blue'],
+  data:()=>[]
 });
 
 const { data, chartStyle, unit, colors } = toRefs(props);
@@ -295,6 +296,7 @@ watch(data, () => {
 <style lang="less" scoped>
 .ec-wrap {
   width: 100%;
+  min-width: 200px;
   height: 189px;
   position: relative;
   .unit {
