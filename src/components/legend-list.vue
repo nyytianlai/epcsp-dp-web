@@ -1,5 +1,5 @@
 <template>
-  <div class="legend-wrap">
+  <div class="legend-wrap" :class="[{panelShow:!panelShow}]">
     <div class="legend-name">
       {{ legendName }}
     </div>
@@ -16,7 +16,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import {toRefs } from 'vue'
+import { toRefs,computed } from 'vue'
+import { useStore } from 'vuex';
+const store = useStore();
 interface ILegendList {
   color: string;
   name: string;
@@ -43,11 +45,12 @@ const props = withDefaults(defineProps<Props>(), {
         {
             color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
             name:'充电枪'
-        },
+        }
   ],
   hotRange:()=>['10万','500万']
 });
-const { legendName, legendList,legendType } = toRefs(props);
+const { legendName, legendList, legendType } = toRefs(props);
+const panelShow = computed(()=>store.getters.panelShow)
 </script>
 <style lang="less" scoped>
     .legend-wrap{
@@ -57,6 +60,10 @@ const { legendName, legendList,legendType } = toRefs(props);
         bottom: 85px;
         left: 498px;
         z-index: 999;
+        transition: all 0.3s;
+        &.panelShow{
+          left: 96px;
+        }
         .legend-name{
             font-weight: 500;
             font-size: 14px;
