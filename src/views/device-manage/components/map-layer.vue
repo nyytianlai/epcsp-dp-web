@@ -5,6 +5,7 @@
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
     <div class="quName" v-show="currentPosition !== ''">{{ currentPosition }}</div>
   </div>
+  <legend-list/>
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
