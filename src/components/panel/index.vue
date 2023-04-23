@@ -2,27 +2,34 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 16:10:29
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-18 10:12:44
+ * @LastEditTime: 2023-04-23 16:25:20
  * @FilePath: \epcsp-dp-web\src\components\panel\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="mask-bgc" :class="type"></div>
-  <div class="panel" :class="type">
-    <slot />
-    <!-- <div class="circle-bg"></div> -->
-  </div>
+  <transition>
+      <div class="panel" :class="type" v-if="panelShow">
+        <slot />
+        <!-- <div class="circle-bg"></div> -->
+      </div>
+    </transition>
 </template>
 <script setup lang="ts">
-import {onMounted,ref,onBeforeUnmount,toRefs } from 'vue'
+import { onMounted, ref, computed, toRefs } from 'vue'
+import { useStore } from 'vuex';
+const store = useStore();
 type Itype = 'left' | 'right';
 interface Props {
-  type: string;
+  type: Itype;
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'left'
 });
 const { type } = toRefs(props);
+const panelShow = computed(() => {
+  return store.getters.panelShow
+})
 </script>
 <style lang="less" scoped>
 .mask-bgc {
@@ -89,5 +96,15 @@ const { type } = toRefs(props);
       filter: FlipV;
     }
   }
+}
+/* 下面我们会解释这些 class 是做什么的 */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

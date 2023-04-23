@@ -71,27 +71,27 @@ export const tabDataFun = () => {
 export const warningListFun = () => {
   return [
     {
-      date: '12:30:12',
+      date: '2023.3.23 12:30:12',
       message: '充电桩排队人数过多充电桩排队人数过多',
       area:'南山区充电桩排队人数过多'
     },
     {
-      date: '12:30:12',
+      date: '2023.3.23 12:30:12',
       message: '充电桩排队人数过多',
       area:'南山区'
     },
     {
-      date: '12:30:12',
+      date: '2023.3.23 12:30:12',
       message: '充电桩排队人数过多',
       area:'南山区'
     },
     {
-      date: '12:30:12',
+      date: '2023.3.23 12:30:12',
       message: '充电桩排队人数过多',
       area:'南山区'
     },
     {
-      date: '12:30:12',
+      date: '2023.3.23 12:30:12',
       message: '充电桩排队人数过多',
       area:'南山区'
     },

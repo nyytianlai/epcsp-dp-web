@@ -16,12 +16,12 @@
     </div>
 </template>
 <script setup>
-import { useStore } from 'vuex';
 import gmdPng from './images/gmd.png'
 import fwqPng from './images/fwq.png'
 import gccPng from './images/gcc.png'
 import v2gPng from './images/v2g.png'
 import lsgfPng from './images/lsgf.png'
+import { useStore } from 'vuex';
 const store = useStore()
 const props = defineProps({
     data:{
