@@ -38,7 +38,8 @@ const addBar = async (code: 1 | 2) => {
   });
   res1.features.forEach((item, index) => {
     let countObj =
-      code == 1 ? res.data[item.properties.QUCODE].reverse() : res.data[item.properties.QUCODE];
+      code == 1 ? res.data[item.properties.QUCODE] : res.data[item.properties.QUCODE].reverse();
+    console.log("countObj",countObj);
     let o = {
       id: `rectBar${code}-${item.properties.QUNAME}`,
       groupId: 'rectBar',
@@ -46,7 +47,7 @@ const addBar = async (code: 1 | 2) => {
       coordinate: item.geometry.coordinates,
       contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
         countObj[0][valueField]
-      },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}`,
+      },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}`,
       contentSize: [108, 263], //网页窗口宽高 [width, height]
       pivot: [0.5, 1], // 中心点
       range: [1, 150000] //显示范围：[min, max]
