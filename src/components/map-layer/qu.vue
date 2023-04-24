@@ -1,24 +1,233 @@
-<template></template>
+<template>
+  <div class="backBox" v-show="currentPosition !== '深圳市'">
+    <img src="@/assets/images/map/back.png" alt="" @click="back" />
+    <div class="quName" v-show="currentPosition !== ''">{{ currentPosition }}</div>
+  </div>
+</template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import request from '@sutpc/axios';
-import { getImageUrl ,infoObj} from '@/global/config/map';
-import { pointIsInPolygon, Cartesian2D } from '@/utils/index'; 
+import {
+  layerNameQuNameArr,
+  infoObj,
+  getImageUrl,
+  getImageByCloud,
+  quNameCodeInterTrans,
+  getMapCenterCoord
+} from '@/global/config/map';
+import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
+import { useStore } from 'vuex';
+import bus from '@/utils/bus';
+import { getQuStation } from '@/api/deviceManage';
+
+interface Props {
+  buttomTabCode?: number | string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  buttomTabCode: ''
+});
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
-// const { useEmitt } = inject('aircityObj');
+const { useEmitt, player: aircityPlay } = inject('aircityObj');
+const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
+let currentPositionBak = '';
+let currentHrStationID = ''; //当前点击的高渲染站点id
+const store = useStore();
 
-// useEmitt('AIRCITY_EVENT', (e) => {
-//   // 编写自己的业务
-//   console.log('鼠标左键单击', e);
-//   aircityObj.acApi.polygon.focus(e.Id, 13000);
+// 抛出事件
+const emit = defineEmits<{
+  (e: 'changeCurrentPosition', position: string): void;
+  // (e: 'addHrStation', stationName: string): void;
+}>();
 
-// });
+useEmitt('AIRCITY_EVENT', async (e) => {
+  // 编写自己的业务
+  console.log('事件监听', e);
+  if (e.Id?.includes('区')) {
+    if (e.Id.split('-')[1] === currentPosition.value) {
+      return;
+    }
+
+    currentPosition.value = e.Id.split('-')[1];
+    emit('changeCurrentPosition', currentPosition.value);
+    __g.polygon.focus('qu-' + currentPosition.value, 13000);
+    setQuVisibility(false);
+    addQuStation(e.UserData);
+    setTimeout(async () => {
+      await __g.settings.setEnableCameraMovingEvent(true);
+    }, 2000);
+  }
+  if (e.Id?.includes('station')) {
+    let stationInfo = JSON.parse(e.UserData);
+    console.log('stationInfo', stationInfo);
+
+    if (stationInfo.isHr !== 0) {
+      return;
+    }
+    //是高渲染站点
+    changeStationStyle(e.Id, 'hr', [287, 451], [-143, 451]);
+
+    if (currentHrStationID === e.Id) {
+      //连续两次点击相同站点 进入高渲染站点
+      currentPositionBak = currentPosition.value;
+      currentPosition.value = '';
+      emit('changeCurrentPosition', currentPosition.value);
+      store.commit('CHANGE_SHOW_COMPONENT', false);
+      store.commit('CHANGE_SHOW_DETAIL', {
+        show: true,
+        params: {
+          operatorId: stationInfo.operatorId,
+          stationId: stationInfo.stationId
+        }
+      });
+      addHrStation(stationInfo.stationName);
+    } else {
+      currentHrStationID !== ''
+        ? changeStationStyle(currentHrStationID, 'chargeStation50', [55, 150], [-22.5, 150])
+        : '';
+    }
+    currentHrStationID = e.Id;
+  }
+  if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
+    //当前不处于站点内
+    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj);
+    let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
+    console.log('cameraQuName', cameraQuName);
+    if (cameraQuName && currentPosition.value !== cameraQuName) {
+      //当前相机位置所在区和当前区不一致
+      console.log('重新请求数据');
+      currentPosition.value = cameraQuName;
+      emit('changeCurrentPosition', currentPosition.value);
+      let cameraQuCode = quNameCodeInterTrans('name', cameraQuName);
+      cameraQuCode && addQuStation(cameraQuCode);
+    }
+  }
+});
+
+const changeStationStyle = async (id, picName, size, anchors) => {
+  await __g.marker.setAnchors(id, anchors);
+  await __g.marker.setImagePath(id, getImageByCloud(picName));
+  await __g.marker.setImageSize(id, size);
+};
+
+const setQuVisibility = async (value: boolean) => {
+  // value
+  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
+  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
+  value
+    ? await __g.customTag.show(layerNameQuNameArr('rectBar' + props.buttomTabCode))
+    : await __g.customTag.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+  value
+    ? await __g.marker.show(layerNameQuNameArr('quName'))
+    : await __g.marker.hide(layerNameQuNameArr('quName'));
+};
+
+const back = async () => {
+  console.log(
+    'currentPosition.value',
+    currentPosition.value,
+    'currentPositionBak',
+    currentPositionBak
+  );
+  __g.tileLayer.delete('1');
+  if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
+    //返回市
+    resetSz();
+  } else if (currentPosition.value === '') {
+    //返回区
+    currentPosition.value = currentPositionBak;
+    emit('changeCurrentPosition', currentPosition.value);
+    __g.marker.focus(currentHrStationID, 200, 0.2);
+  }
+};
+
+//重置到深圳
+const resetSz = async () => {
+  currentPosition.value = '深圳市';
+  emit('changeCurrentPosition', currentPosition.value);
+  currentPositionBak = '';
+  currentHrStationID = '';
+  await __g.marker.deleteByGroupId('quStation');
+  setQuVisibility(true);
+  await __g.camera.set(infoObj.szView, 0.2);
+  await __g.settings.setEnableCameraMovingEvent(false);
+};
+
+//添加区的点 isHr 0-是高渲染站点；1-否
+const addQuStation = async (quCode: string) => {
+  await __g.marker.deleteByGroupId('quStation');
+  const { data: res } = await getQuStation(quCode);
+  let pointArr = [];
+  res.forEach((item, index) => {
+    let o1 = {
+      id: 'station-' + index,
+      groupId: 'quStation',
+      userData: JSON.stringify(item),
+      coordinateType: 2,
+      coordinate: [item.lng, item.lat], //坐标位置
+      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [55, 150], //图片的尺寸
+      range: [1, 150000], //可视范围
+      imagePath: getImageByCloud('chargeStation50'),
+      text: item.stationName, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      textRange: [1, 50], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-72, -55], // 文本偏移
+      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+      fontSize: 16, //字体大小
+      fontOutlineSize: 1, //字体轮廓线大小
+      fontColor: '#FFFFFF', //字体颜色
+      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
+      displayMode: 2,
+      autoDisplayModeSwitchFirstRatio: 0.5,
+      autoDisplayModeSwitchSecondRatio: 0.5,
+      // displayMode: 4,
+      // autoDisplayModeSwitchFirstRatio: 0.5,
+      // autoDisplayModeSwitchSecondRatio: 0.5,
+      autoHeight: true
+    };
+    if (item.isHr == 0) {
+      let o = {
+        id: 'station-' + index + '-' + item.isHr,
+        groupId: 'quStation',
+        userData: item.isHr + '',
+        coordinateType: 2,
+        coordinate: [item.lng, item.lat],
+        anchors: [-11.5, 150],
+        imageSize: [33, 36],
+        range: [1, 150000],
+        imagePath: getImageByCloud('1'),
+        displayMode: 2,
+        autoHeight: true
+      };
+      pointArr.push(o);
+    }
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
+
+//添加站点
+const addHrStation = async (stationName: string) => {
+  if (stationName === '比亚迪民乐P+R电动汽车充电站') {
+    await __g.tileLayer.add({
+      id: '1',
+      fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
+      location: [0, 0, 92.5], //坐标位置
+      rotation: [0, 0, 0], //旋转角度
+      scale: [1, 1, 1] //缩放大小
+    });
+    __g.tileLayer.focus('1', 500);
+  }
+};
+
 let quFeatures = [];
 
 const addQu = async () => {
-  // await aircityObj.acApi.polyline.clear();
+  // await __g.polyline.clear();
   const res = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/qu4547.geojson`
   });
@@ -41,11 +250,11 @@ const addQu = async () => {
     polygonArr.push(oPolygon);
   });
   //批量添加polygon
-  // aircityObj.acApi.polyline.add(polylineArr, null);
-  aircityObj.acApi.polygon.add(polygonArr, null);
+  // __g.polyline.add(polylineArr, null);
+  __g.polygon.add(polygonArr, null);
 };
 const addQuName = async () => {
-  // await aircityObj.acApi.marker.clear();
+  // await __g.marker.clear();
   let pointArr = [];
   const res = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/quName4547.geojson`
@@ -75,7 +284,7 @@ const addQuName = async () => {
     pointArr.push(o1);
   });
   //批量添加polygon
-  aircityObj.acApi.marker.add(pointArr, null);
+  __g.marker.add(pointArr, null);
 };
 
 const pointInWhichDistrict = (point: Cartesian2D) => {
@@ -89,15 +298,60 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
   return quName;
 };
 
-defineExpose({ pointInWhichDistrict });
+defineExpose({ pointInWhichDistrict,resetSz });
 onMounted(async () => {
-  await aircityObj.acApi.reset();
+  await __g.reset();
+  await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
   addQuName();
+  bus.on('toHr', (e) => {
+    // 传参由回调函数中的形参接受
+    console.log('高渲染站点信息2', e);
+    currentPositionBak = currentPosition.value;
+    currentPosition.value = '';
+    emit('changeCurrentPosition', currentPosition.value);
+    addHrStation(e.stationName);
+  });
+  bus.on('hrBackSz', async () => {
+    // 传参由回调函数中的形参接受
+    if (currentPositionBak === '深圳市') {
+      currentPosition.value = currentPositionBak;
+      emit('changeCurrentPosition', currentPosition.value);
+    }
+    back();
+  });
 });
 
 onBeforeUnmount(() => {
-  // aircityObj.acApi.polygon.delete(["polygon1"]);
+  // __g.polygon.delete(["polygon1"]);
+  bus.off('toHr');
+  bus.off('hrBackSz');
 });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.backBox {
+  position: absolute;
+  height: 36px;
+  left: 86px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 10;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 1px;
+  }
+
+  .quName {
+    font-size: 16px;
+    line-height: 22px;
+    // background: rgba(4, 22, 43, 0.5);
+    // border: 1px solid rgba(148, 148, 148, 0.3);
+    padding: 7px 16px;
+  }
+}
+</style>

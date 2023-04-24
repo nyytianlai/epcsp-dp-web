@@ -64,3 +64,11 @@ export const quNameCodeInterTrans = (key: 'name' | 'code', value: string) => {
     return key === 'name' ? quCodeArr[index] : quNameArr[index];
   }
 };
+
+//获取屏幕中心点的坐标
+export const getMapCenterCoord = (aircityObj) => {
+  const x = aircityObj.player.rect.width; //视频流的宽度
+  const y = aircityObj.player.rect.height; //视频流的高度
+  const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
+  return screen2World_result;
+};
