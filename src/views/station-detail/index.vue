@@ -170,11 +170,11 @@ const handleChangeTab = (data, type) => {
   }
 };
 const backSz = () => {
+  store.commit('CHANGE_SHOW_COMPONENT', true);
   store.commit('CHANGE_SHOW_DETAIL', {
-    show: false,
-    params: ''
+    show: false
   });
-  bus.emit('hrBackSz')
+  bus.emit('hrBackSz');
 };
 onMounted(() => {
   getStationStatistics();
