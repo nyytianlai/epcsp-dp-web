@@ -5,7 +5,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import request from '@sutpc/axios';
 import {
   layerNameQuNameArr,
@@ -31,10 +31,10 @@ const props = withDefaults(defineProps<Props>(), {
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
 const { useEmitt, player: aircityPlay } = inject('aircityObj');
-const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
-let currentPositionBak = '';
-let currentHrStationID = ''; //当前点击的高渲染站点id
 const store = useStore();
+const currentPosition = computed(() => store.getters.currentPosition); //所在位置 深圳市 xx区 xx站(取值'')
+const currentPositionBak = computed(() => store.getters.currentPositionBak);
+const currentHrStationID = computed(() => store.getters.currentHrStationID);//当前点击的高渲染站点id
 
 // 抛出事件
 const emit = defineEmits<{
@@ -50,8 +50,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       return;
     }
 
-    currentPosition.value = e.Id.split('-')[1];
-    emit('changeCurrentPosition', currentPosition.value);
+    store.commit('CHANGE_CURRENTPOSITION', e.Id.split('-')[1]);
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
     addQuStation(e.UserData);
@@ -69,11 +68,11 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     //是高渲染站点
     changeStationStyle(e.Id, 'hr', [287, 451], [-143, 451]);
 
-    if (currentHrStationID === e.Id) {
+    if (currentHrStationID.value === e.Id) {
       //连续两次点击相同站点 进入高渲染站点
-      currentPositionBak = currentPosition.value;
-      currentPosition.value = '';
-      emit('changeCurrentPosition', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITION', '');
+
       store.commit('CHANGE_SHOW_COMPONENT', false);
       store.commit('CHANGE_SHOW_DETAIL', {
         show: true,
@@ -84,11 +83,11 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       });
       addHrStation(stationInfo.stationName);
     } else {
-      currentHrStationID !== ''
-        ? changeStationStyle(currentHrStationID, 'chargeStation50', [55, 150], [-22.5, 150])
+      currentHrStationID.value !== ''
+        ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
         : '';
     }
-    currentHrStationID = e.Id;
+    store.commit('CHANGE_CURRENTHRSTATIONID', e.Id);
   }
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
@@ -98,8 +97,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (cameraQuName && currentPosition.value !== cameraQuName) {
       //当前相机位置所在区和当前区不一致
       console.log('重新请求数据');
-      currentPosition.value = cameraQuName;
-      emit('changeCurrentPosition', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITION', cameraQuName);
       let cameraQuCode = quNameCodeInterTrans('name', cameraQuName);
       cameraQuCode && addQuStation(cameraQuCode);
     }
@@ -129,7 +127,7 @@ const back = async () => {
     'currentPosition.value',
     currentPosition.value,
     'currentPositionBak',
-    currentPositionBak
+    currentPositionBak.value
   );
   __g.tileLayer.delete('1');
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
@@ -137,18 +135,16 @@ const back = async () => {
     resetSz();
   } else if (currentPosition.value === '') {
     //返回区
-    currentPosition.value = currentPositionBak;
-    emit('changeCurrentPosition', currentPosition.value);
-    __g.marker.focus(currentHrStationID, 200, 0.2);
+    store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
+    __g.marker.focus(currentHrStationID.value, 200, 0.2);
   }
 };
 
 //重置到深圳
 const resetSz = async () => {
-  currentPosition.value = '深圳市';
-  emit('changeCurrentPosition', currentPosition.value);
-  currentPositionBak = '';
-  currentHrStationID = '';
+  store.commit('CHANGE_CURRENTPOSITION', '深圳市');
+  store.commit('CHANGE_CURRENTPOSITIONBAK', '');
+  store.commit('CHANGE_CURRENTHRSTATIONID', '');
   await __g.marker.deleteByGroupId('quStation');
   setQuVisibility(true);
   await __g.camera.set(infoObj.szView, 0.2);
@@ -162,7 +158,7 @@ const addQuStation = async (quCode: string) => {
   let pointArr = [];
   res.forEach((item, index) => {
     let o1 = {
-      id: 'station-' + index,
+      id: 'station-' + item.stationId,
       groupId: 'quStation',
       userData: JSON.stringify(item),
       coordinateType: 2,
@@ -298,7 +294,7 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
   return quName;
 };
 
-defineExpose({ pointInWhichDistrict,resetSz });
+defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
   await __g.settings.setEnableCameraMovingEvent(false);
@@ -307,16 +303,15 @@ onMounted(async () => {
   bus.on('toHr', (e) => {
     // 传参由回调函数中的形参接受
     console.log('高渲染站点信息2', e);
-    currentPositionBak = currentPosition.value;
-    currentPosition.value = '';
-    emit('changeCurrentPosition', currentPosition.value);
+    store.commit('CHANGE_CURRENTHRSTATIONID', 'station-' + e.stationId);
+    store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+    store.commit('CHANGE_CURRENTPOSITION', '');
     addHrStation(e.stationName);
   });
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
-    if (currentPositionBak === '深圳市') {
-      currentPosition.value = currentPositionBak;
-      emit('changeCurrentPosition', currentPosition.value);
+    if (currentPositionBak.value === '深圳市') {
+      store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
     }
     back();
   });
