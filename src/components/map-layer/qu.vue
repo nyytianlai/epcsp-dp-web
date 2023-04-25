@@ -29,8 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
-const { useEmitt, player: aircityPlay } = inject('aircityObj');
+const __g = aircityObj.value.acApi;
+const { useEmitt, player: aircityPlay } = aircityObj.value;
 const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
 let currentPositionBak = '';
 let currentHrStationID = ''; //当前点击的高渲染站点id
@@ -92,7 +92,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
-    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj);
+    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
     let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
     console.log('cameraQuName', cameraQuName);
     if (cameraQuName && currentPosition.value !== cameraQuName) {

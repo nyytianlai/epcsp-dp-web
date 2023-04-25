@@ -9,7 +9,7 @@ import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value.acApi;
 __g.reset();
 
 const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')

@@ -41,7 +41,7 @@ const addQu = async () => {
   });
   //批量添加polygon
   // aircityObj.acApi.polyline.add(polylineArr, null);
-  aircityObj.acApi.polygon.add(polygonArr, null);
+  aircityObj.value?.acApi.polygon.add(polygonArr, null);
 };
 const addQuName = async () => {
   // await aircityObj.acApi.marker.clear();
@@ -73,7 +73,7 @@ const addQuName = async () => {
     pointArr.push(o1);
   });
   //批量添加polygon
-  aircityObj.acApi.marker.add(pointArr, null);
+  aircityObj.value?.acApi.marker.add(pointArr, null);
 };
 const addBar = async () => {
   // await aircityObj.acApi.customTag.clear();
@@ -93,10 +93,10 @@ const addBar = async () => {
     };
     barArr.push(o);
   });
-  aircityObj.acApi.customTag.add(barArr);
+  aircityObj.value?.acApi.customTag.add(barArr);
 };
 onMounted(async() => {
-  await aircityObj.acApi.reset();
+  await aircityObj.value?.acApi.reset();
   addQu();
   addQuName();
   addBar();

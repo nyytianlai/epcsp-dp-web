@@ -60,7 +60,7 @@
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
-  <map-layer ref="mapLayerRef"></map-layer>
+  <map-layer :ref="(el) => mapLayerRef = el" v-if="aircityObj" ></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <el-table
       :data="alarmTableData"
@@ -85,7 +85,7 @@
   </custom-dialog>
 </template>
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive,inject,watch,nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
@@ -116,6 +116,7 @@ import {
   bottomTabDataFun,
   columnDataFun
 } from './config.js';
+const aircityObj = inject('aircityObj')
 let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
