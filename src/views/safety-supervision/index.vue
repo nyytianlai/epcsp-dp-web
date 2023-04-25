@@ -145,7 +145,7 @@ import {
   getOnlineStatus,
   alarmInfo
 } from '@/api/supervision.js';
-const aircityObj = inject()
+const aircityObj = inject('aircityObj')
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
 const columnData = ref(columnDataFun());
