@@ -29,8 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
-const { useEmitt, player: aircityPlay } = inject('aircityObj');
+const __g = aircityObj.value.acApi;
+const { useEmitt, player: aircityPlay } = aircityObj.value;
 const store = useStore();
 const currentPosition = computed(() => store.getters.currentPosition); //所在位置 深圳市 xx区 xx站(取值'')
 const currentPositionBak = computed(() => store.getters.currentPositionBak);

@@ -196,6 +196,7 @@ provide('aircityObj',aircityObj)
   top: 0;
   left: 0;
   z-index: 20;
+  pointer-events: none;
 }
 .my-tab-wrap {
   position: absolute;

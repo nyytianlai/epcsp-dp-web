@@ -66,6 +66,7 @@ const panelShow = computed(() => {
   left: 30px;
   width: 400px;
   z-index: 5;
+  pointer-events: all;
   .circle-bg {
     position: absolute;
     width: 622px;
