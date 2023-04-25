@@ -78,8 +78,16 @@ const listData = ref(listDataFun())
   margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   .list-item {
     width: 260px;
+    font-size: 16px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    .value {
+      color: #fff;
+    }
   }
 }
 </style>

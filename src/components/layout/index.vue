@@ -135,7 +135,7 @@ const wrap = (fullPath, component)=> {
             render() {
               return h(
                 'div',
-                { className: 'vaf-page-wrapper', style: { width: '100%', height: '100%' } },
+                { className: 'vaf-page-wrapper' },
                 component
               );
             }
@@ -192,11 +192,6 @@ provide('aircityObj',aircityObj)
   width: 100%;
 }
 .vaf-page-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  pointer-events: none;
 }
 .my-tab-wrap {
   position: absolute;
