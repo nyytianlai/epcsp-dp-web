@@ -146,7 +146,6 @@ const wrap = (fullPath, component)=> {
       }
     }
 const handleMapReady=(obj)=>{
-  console.log('handleMapReady',obj);
   aircityObj.value = obj
 }
 provide('aircityObj',aircityObj)
@@ -191,6 +190,12 @@ provide('aircityObj',aircityObj)
 .main-content {
   height: 100%;
   width: 100%;
+}
+.vaf-page-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
 }
 .my-tab-wrap {
   position: absolute;
