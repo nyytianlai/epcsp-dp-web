@@ -19,6 +19,7 @@ import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import { useStore } from 'vuex';
 import bus from '@/utils/bus';
 import { getQuStation } from '@/api/deviceManage';
+import { getQuStationWithAlarm } from '@/api/supervision';
 
 interface Props {
   buttomTabCode?: number | string;
@@ -36,12 +37,6 @@ const currentPosition = computed(() => store.getters.currentPosition); //所在�
 const currentPositionBak = computed(() => store.getters.currentPositionBak);
 const currentHrStationID = computed(() => store.getters.currentHrStationID); //当前点击的高渲染站点id
 
-// 抛出事件
-const emit = defineEmits<{
-  (e: 'changeCurrentPosition', position: string): void;
-  // (e: 'addHrStation', stationName: string): void;
-}>();
-
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
   console.log('事件监听', e);
@@ -53,7 +48,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     store.commit('CHANGE_CURRENTPOSITION', e.Id.split('-')[1]);
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
-    addQuStation(e.UserData);
+    addStationPoint(e.UserData);
+    addQuStationWithAlarmInfo;
     setTimeout(async () => {
       await __g.settings.setEnableCameraMovingEvent(true);
     }, 2000);
@@ -81,7 +77,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
           stationId: stationInfo.stationId
         }
       });
-      addHrStation(stationInfo.stationName);
+      __g.marker.hideByGroupId('quStation');
+      addHrStation(stationInfo.stationName, true);
     } else {
       currentHrStationID.value !== ''
         ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
@@ -99,7 +96,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       console.log('重新请求数据');
       store.commit('CHANGE_CURRENTPOSITION', cameraQuName);
       let cameraQuCode = quNameCodeInterTrans('name', cameraQuName);
-      cameraQuCode && addQuStation(cameraQuCode);
+      cameraQuCode && addStationPoint(cameraQuCode);
     }
   }
 });
@@ -129,12 +126,14 @@ const back = async () => {
     'currentPositionBak',
     currentPositionBak.value
   );
-  __g.tileLayer.delete('1');
+  // __g.tileLayer.delete('1');
+  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     resetSz();
   } else if (currentPosition.value === '') {
     //返回区
+    __g.marker.showByGroupId('quStation');
     store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
     __g.marker.focus(currentHrStationID.value, 200, 0.2);
   }
@@ -151,12 +150,17 @@ const resetSz = async () => {
   await __g.settings.setEnableCameraMovingEvent(false);
 };
 
+const addStationPoint = (quCode: string) => {
+  props.buttomTabCode == '' ? addQuStation(quCode) : addQuStationWithAlarmInfo(quCode);
+};
+
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addQuStation = async (quCode: string) => {
   await __g.marker.deleteByGroupId('quStation');
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
   res.forEach((item, index) => {
+    let xoffset = item.stationName.length * 12;
     let o1 = {
       id: 'station-' + item.stationId,
       groupId: 'quStation',
@@ -169,8 +173,8 @@ const addQuStation = async (quCode: string) => {
       imagePath: getImageByCloud('chargeStation50'),
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      textRange: [1, 50], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-72, -55], // 文本偏移
+      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-20 - xoffset, -85], // 文本偏移
       textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
       fontSize: 16, //字体大小
       fontOutlineSize: 1, //字体轮廓线大小
@@ -206,18 +210,81 @@ const addQuStation = async (quCode: string) => {
   await __g.marker.add(pointArr, null);
 };
 
+//安全监管模块撒点
+const addQuStationWithAlarmInfo = async (quCode: string) => {
+  await __g.marker.deleteByGroupId('quStation');
+  const { data: res } = await getQuStationWithAlarm(quCode);
+  let pointArr = [];
+  res.forEach((item, index) => {
+    let xoffset = item.stationName.length * 12;
+    let o1 = {
+      id: 'station-' + item.stationId,
+      groupId: 'quStation',
+      userData: JSON.stringify(item),
+      coordinateType: 2,
+      coordinate: [item.lng, item.lat], //坐标位置
+      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [55, 150], //图片的尺寸
+      range: [1, 150000], //可视范围
+      imagePath: getImageByCloud('chargeStation' + item.status),
+      text: item.stationName, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-20 - xoffset, -85], // 文本偏移
+      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+      fontSize: 16, //字体大小
+      fontOutlineSize: 1, //字体轮廓线大小
+      fontColor: '#FFFFFF', //字体颜色
+      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
+      displayMode: 2,
+      autoDisplayModeSwitchFirstRatio: 0.5,
+      autoDisplayModeSwitchSecondRatio: 0.5,
+      // displayMode: 4,
+      // autoDisplayModeSwitchFirstRatio: 0.5,
+      // autoDisplayModeSwitchSecondRatio: 0.5,
+      autoHeight: true
+    };
+    if (item.isHr == 0) {
+      let o = {
+        id: 'station-' + index + '-' + item.isHr,
+        groupId: 'quStation',
+        userData: item.isHr + '',
+        coordinateType: 2,
+        coordinate: [item.lng, item.lat],
+        anchors: [-11.5, 210],
+        imageSize: [33, 36],
+        range: [1, 150000],
+        imagePath: getImageByCloud('1'),
+        displayMode: 2,
+        autoHeight: true
+      };
+      pointArr.push(o);
+    }
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
+
 //添加站点
-const addHrStation = async (stationName: string) => {
-  __g.tileLayer.delete('1');
+const addHrStation = async (stationName: string, isShow: boolean) => {
   if (stationName === '比亚迪民乐P+R电动汽车充电站') {
-    await __g.tileLayer.add({
-      id: '1',
-      fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
-      location: [0, 0, 92.5], //坐标位置
-      rotation: [0, 0, 0], //旋转角度
-      scale: [1, 1, 1] //缩放大小
+    let ids = [
+      '7CED6A4A4F00FFA1B7273C9511B55B85',
+      'E4933C614755E6F56D8C209A5B28B8C4',
+      '6EA525CA4FB949D9850E5A933AA5FFCA'
+    ];
+    ids.forEach((element) => {
+      isShow ? __g.tileLayer.show(element) : __g.tileLayer.hide(element);
     });
-    __g.tileLayer.focus('1', 500);
+    // await __g.tileLayer.add({
+    //   id: '1',
+    //   fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
+    //   location: [0, 0, 92.5], //坐标位置
+    //   rotation: [0, 0, 0], //旋转角度
+    //   scale: [1, 1, 1] //缩放大小
+    // });
+    isShow ? __g.tileLayer.focus('7CED6A4A4F00FFA1B7273C9511B55B85', 500) : '';
   }
 };
 
@@ -298,7 +365,8 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
 defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
-  await __g.camera.set(infoObj.szView, 0.2)
+  // await __g.camera.set(infoObj.szView, 0);
+  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
   addQuName();
@@ -308,7 +376,8 @@ onMounted(async () => {
     store.commit('CHANGE_CURRENTHRSTATIONID', 'station-' + e.stationId);
     store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
     store.commit('CHANGE_CURRENTPOSITION', '');
-    addHrStation(e.stationName);
+    __g.marker.hideByGroupId('quStation');
+    addHrStation(e.stationName, true);
   });
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
