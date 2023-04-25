@@ -15,14 +15,20 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { useStore } from 'vuex';
+import { getImageUrl, infoObj } from '@/global/config/map';
+
 const store = useStore();
 const isCollapsed = ref(false);
+const aircityObj = inject('aircityObj');
+const __g = aircityObj.acApi;
+
 const handleClick = () => {
   isCollapsed.value = !isCollapsed.value;
   store.commit('CHANGE_SHOW_PANEL', !isCollapsed.value);
+  isCollapsed.value ? __g.camera.set(infoObj.szViewFull, 0.2) : __g.camera.set(infoObj.szView, 0.2);
 };
 </script>
 <style lang="less">
