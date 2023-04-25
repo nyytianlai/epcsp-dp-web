@@ -8,7 +8,7 @@ const aircityObj = inject('aircityObj');
 
 const addBar = async (res: [{ area_code: string; useRatio: string }]) => {
   // const addBar = async () => {
-  await aircityObj.acApi.customTag.clear();
+  await aircityObj.value?.acApi.customTag.clear();
   let barArr = [];
   // const { data: res } = await monthRate();
 
@@ -34,7 +34,7 @@ const addBar = async (res: [{ area_code: string; useRatio: string }]) => {
     };
     barArr.push(o);
   });
-  aircityObj.acApi.customTag.add(barArr);
+  aircityObj.value?.acApi.customTag.add(barArr);
 };
 defineExpose({addBar})
 onMounted(async () => {

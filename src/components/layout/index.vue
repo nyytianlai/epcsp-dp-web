@@ -27,25 +27,26 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690118293977"> -->
-        <base-ac :cloudHost=cloudHost>
-        <expand-btn/>
-          <router-view v-slot="{ Component, route }">
-            <keep-alive :exclude="excludeViews">
-              <Transition>
-                <component v-show="showComponent" :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
-              </Transition>
-            </keep-alive>
-          </router-view>
-          <Transition>
-            <station-detail v-if="showDetail" />
-          </Transition>
+        <base-ac :cloudHost=cloudHost @map-ready="handleMapReady">
         </base-ac>
+        <expand-btn/>
+        <router-view v-slot="{ Component, route }">
+          <keep-alive :exclude="excludeViews">
+            <Transition>
+              <component v-show="showComponent" :is="wrap(route.fullPath, Component)" :key="route.fullPath" />
+            </Transition>
+          </keep-alive>
+        </router-view>
+        <Transition>
+          <station-detail v-if="showDetail" />
+        </Transition>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import {ref,computed,onMounted,provide,nextTick } from 'vue'
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
@@ -57,16 +58,7 @@ import { h } from 'vue';
 import { useStore } from 'vuex';
 const store = useStore();
 const wrapperMap = new Map();
-export default {
-  components: {
-    HeaderArea,
-    NavTab,
-    BaseAc,
-    TimeWeather,
-    StationDetail,
-    ExpandBtn
-  },
-  props: {
+const props = defineProps({
     title: {
       type: String,
       default: '电力充储放一张图'
@@ -97,66 +89,38 @@ export default {
       type: String,
       default: ''
     }
-  },
-  data() {
-    const cloudHost=import.meta.env.VITE_FD_URL
-    return {
-      currentTab: 0,
-      navDropList: routes.slice(0, routes.length),
-      excludeViews: [],
-      includeViews: [],
-      cloudHost
-    };
-  },
-  computed: {
-    aliveViews() {
-      const names = [];
-      routes.forEach((item) => {
-        if (item.children?.length) {
-          item.children.forEach((child) => {
-            if (child.meta.keepAlive) {
-              names.push(child.name);
-            }
-          });
-        } else {
-          if (item.meta?.keepAlive) {
-            names.push(item.name);
-          }
-        }
-      });
-      return names;
-    },
-    showComponent(){
-      return this.$store.getters.showComponent
-    },
-    showDetail(){
-      return this.$store.getters.showDetail
-    }
-  },
-  mounted() {
-    // this.initCanvas()
-    this.$nextTick(() => this.getkeepAliveList(routes));
-  },
-  methods: {
-    getkeepAliveList(list, flag = false) {
+})
+const currentTab = ref(0)
+const navDropList = ref(routes.slice(0, routes.length))
+const excludeViews = ref([])
+const includeViews = ref([])
+const cloudHost = ref(import.meta.env.VITE_FD_URL)
+const aircityObj = ref(null)
+const showComponent = computed(()=>store.getters.showComponent)
+const showDetail = computed(()=>store.getters.showDetail)
+onMounted(async() => {
+  await nextTick()
+  getkeepAliveList(routes)
+})
+const getkeepAliveList = (list, flag = false)=> {
       list.forEach((item) => {
         const isDropChildren = flag || item?.meta?.isDropChildren;
         if (item.children?.length) {
-          this.getkeepAliveList(item.children, isDropChildren);
+          getkeepAliveList(item.children, isDropChildren);
         } else {
           if (!item.meta?.keepAlive) {
-            this.excludeViews.push(item.realPath || item.path);
+            excludeViews.value.push(item.realPath || item.path);
           } else {
             if (flag) {
-              this.excludeViews.push(item.realPath || item.path);
+              excludeViews.value.push(item.realPath || item.path);
             } else {
-              this.includeViews.push(item.realPath || item.path);
+              includeViews.value.push(item.realPath || item.path);
             }
           }
         }
       });
-    },
-    wrap(fullPath, component) {
+    }
+const wrap = (fullPath, component)=> {
       let wrapper;
       // 重点就是这里，这个组件的名字是完全可控的，
       // 只要自己写好逻辑，每次能找到对应的外壳组件就行，完全可以写成任何自己想要的名字
@@ -180,12 +144,12 @@ export default {
         }
         return h(wrapper);
       }
-    },
-    testRoute(route) {
-      console.log(route, this.includeViews, this.includeViews.includes(route), '0100101');
     }
-  }
-};
+const handleMapReady=(obj)=>{
+  console.log('handleMapReady',obj);
+  aircityObj.value = obj
+}
+provide('aircityObj',aircityObj)
 </script>
 
 <style lang="less" scoped>
@@ -208,9 +172,8 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
-
 }
-.time-weather-wrap{
+.time-weather-wrap {
   position: absolute;
   top: 52px;
   right: 40px;
@@ -228,7 +191,6 @@ export default {
 .main-content {
   height: 100%;
   width: 100%;
-  
 }
 .my-tab-wrap {
   position: absolute;
@@ -283,7 +245,7 @@ export default {
 .v-leave-to {
   opacity: 0;
 }
-.button-close{
+.button-close {
   position: absolute;
   top: 0;
   left: 0;

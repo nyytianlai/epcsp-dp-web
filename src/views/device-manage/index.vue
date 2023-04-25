@@ -47,10 +47,10 @@
         <line-time-chart :data="lineRunData" unit="%" :colors="['green','#FF7723']"/>
       </div>
     </panel>
-  <map-layer></map-layer>
+  <map-layer v-if="aircityObj"></map-layer>
 </template>
 <script setup>
-  import { ref, onMounted,reactive } from 'vue';
+  import { ref, onMounted,reactive ,inject} from 'vue';
 import MapLayer from './components/map-layer.vue'
 import ChargingNumImages from './components/charging-num-images.vue'
 import ChargingRealtimePower from './components/charging-realtime-power.vue'
@@ -77,6 +77,7 @@ import {
   chargingRunDataFun,
   lineRunDataFun
 } from './config.js';
+const aircityObj = inject()
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 充电桩数量信息
@@ -197,7 +198,7 @@ const handleChangeTab = (data, type) => {
 }
 .charging-num-images {
   margin-top: 22px;
-  .images-wrap{
+  .images-wrap {
     margin-top: 16px;
   }
 }
@@ -246,7 +247,7 @@ const handleChangeTab = (data, type) => {
     margin-top: 22px;
   }
 }
-.charging-realtime-power{
+.charging-realtime-power {
   margin-top: 16px;
 }
 
