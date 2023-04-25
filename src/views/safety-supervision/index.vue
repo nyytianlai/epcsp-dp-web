@@ -63,7 +63,7 @@
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
-  <map-layer ref="mapLayerRef"></map-layer>
+  <map-layer :ref="(el) => mapLayerRef = el" v-if="aircityObj" ></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <el-table
       :data="alarmTableData"
@@ -118,7 +118,7 @@
   </custom-dialog>
 </template>
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive,inject } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
 import dayjs from 'dayjs';
@@ -145,6 +145,7 @@ import {
   getOnlineStatus,
   alarmInfo
 } from '@/api/supervision.js';
+const aircityObj = inject('aircityObj')
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
 const columnData = ref(columnDataFun());
@@ -361,7 +362,7 @@ onMounted(async() => {
   .tabs {
     margin-top: 16px;
     position: relative;
-    .button-base{
+    .button-base {
       position: absolute;
       bottom: 7px;
       right: 0;
@@ -399,7 +400,7 @@ onMounted(async() => {
 }
 .realtime-trend {
   margin-top: 23px;
-  .ec-wrap{
+  .ec-wrap {
     margin-top: 14px;
   }
 }

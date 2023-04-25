@@ -10,7 +10,7 @@ import { inject, onMounted, onBeforeUnmount, ref,computed } from 'vue';
 import { useStore } from 'vuex';
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value.acApi;
 __g.reset();
 
 const store = useStore();

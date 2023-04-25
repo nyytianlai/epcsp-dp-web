@@ -23,7 +23,7 @@ const legendListData = [
 ];
 let cirBar2Ref = ref(null);
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value?.acApi;
 __g.reset();
 
 const sendBarData = (data) => {

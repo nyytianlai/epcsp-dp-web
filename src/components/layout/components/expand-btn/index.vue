@@ -23,9 +23,9 @@ import { getImageUrl, infoObj } from '@/global/config/map';
 const store = useStore();
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
 
 const handleClick = () => {
+  const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
   store.commit('CHANGE_SHOW_PANEL', !isCollapsed.value);
   isCollapsed.value ? __g.camera.set(infoObj.szViewFull, 0.2) : __g.camera.set(infoObj.szView, 0.2);

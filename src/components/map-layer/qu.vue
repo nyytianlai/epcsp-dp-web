@@ -91,7 +91,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
-    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj);
+    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
     let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
     console.log('cameraQuName', cameraQuName);
     if (cameraQuName && currentPosition.value !== cameraQuName) {

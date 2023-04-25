@@ -40,7 +40,7 @@ const addBar = async () => {
     };
     barArr.push(o);
   });
-  aircityObj.acApi.customTag.add(barArr);
+  aircityObj.value.acApi.customTag.add(barArr);
 };
 onMounted(async () => {
   addBar();

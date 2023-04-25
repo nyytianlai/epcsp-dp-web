@@ -41,14 +41,14 @@ const setRectBarVisibility = (value: boolean) => {
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
-    ? aircityObj.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
+    ? aircityObj.value?.acApi.customTag.show(layerNameQuNameArr('rectBar'))
+    : aircityObj.value?.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
 };
 const setHeatMapVisibility = async (value: boolean) => {
-  let info = await aircityObj.acApi.heatmap.get('heatmap1');
+  let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');
   console.log('获取热力图info', info);
   if (info.result === 0) {
-    value ? aircityObj.acApi.heatmap.show('heatmap1') : aircityObj.acApi.heatmap.hide('heatmap1');
+    value ? aircityObj.value?.acApi.heatmap.show('heatmap1') : aircityObj.value?.acApi.heatmap.hide('heatmap1');
   } else {
     addHeatMap();
   }
@@ -66,7 +66,7 @@ const updateHeatMap = () => {
         heatValue: element.realTimePower //热力值
       });
     });
-    aircityObj.acApi.heatmap.update('heatmap1', null, null, data);
+    aircityObj.value?.acApi.heatmap.update('heatmap1', null, null, data);
   }, 1 * 60 * 60 * 1000);
 };
 const addHeatMap = async () => {
@@ -85,7 +85,7 @@ const addHeatMap = async () => {
       heatValue: element.realTimePower //热力值
     });
   });
-  await aircityObj.acApi.heatmap.add('heatmap1', bbox, range, data);
+  await aircityObj.value?.acApi.heatmap.add('heatmap1', bbox, range, data);
 };
 
 defineExpose({

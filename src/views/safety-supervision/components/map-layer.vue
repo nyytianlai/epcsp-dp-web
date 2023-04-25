@@ -58,7 +58,7 @@ let cirBar3Ref = ref(null);
 let quRef = ref(null);
 const buttomTabCode = ref(1);
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value?.acApi;
 __g.reset();
 
 const setObjVisibility = (type: string, idPre: string, value: boolean) => {
