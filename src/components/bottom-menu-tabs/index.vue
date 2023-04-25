@@ -55,6 +55,7 @@
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 56px;
   background-position: bottom left;
+  pointer-events: all;
   .tab {
     width: 105px;
     height: 83px;

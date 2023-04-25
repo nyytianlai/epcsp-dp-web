@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <qu ref_key="quRef"></qu>
+  <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
   <legend-list
     :legendType="legendType"
@@ -37,7 +37,7 @@ const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 
 const setRectBarVisibility = (value: boolean) => {
-  quRef.value.resetSz();
+  // quRef.value.resetSz();
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
