@@ -10,6 +10,23 @@
                 <span class="value">{{ item.value }}</span>
             </li>
         </ul>
+        <div class="btns-wrap">
+            <div class='border-bg red'>
+                <div class='content'>
+                    一键断电
+                </div>
+            </div>
+            <div class='border-bg blue'>
+                <div class='content'>
+                    一键断电
+                </div>
+            </div>
+            <div class='border-bg blue'>
+                <div class='content'>
+                    一键断电
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script setup>
@@ -87,6 +104,41 @@ const listData = ref(listDataFun())
     margin-bottom: 20px;
     .value {
       color: #fff;
+    }
+  }
+}
+.btns-wrap {
+  display: flex;
+  justify-content: flex-end;
+  .border-bg {
+    width: 103px;
+    height: 39px;
+    padding: 3px;
+    margin-right: 24px;
+    cursor: pointer;
+    &:last-of-type {
+      margin-right: 0;
+    }
+    .content {
+      height: 100%;
+      background: linear-gradient(270deg, #740a0a 0%, #df3434 100%);
+      border: 1.5px solid #ff9999;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &.red {
+      background: url(./images/red-btn-bgc.png) no-repeat;
+      background-size: 100% 100%;
+    }
+    &.blue {
+      background: url(./images/blue-btn-bgc.png) no-repeat;
+      background-size: 100% 100%;
+      .content {
+        background: linear-gradient(270deg, #0a4174 0%, #3483df 100%);
+        border: 1.5px solid #99ceff;
+      }
     }
   }
 }
