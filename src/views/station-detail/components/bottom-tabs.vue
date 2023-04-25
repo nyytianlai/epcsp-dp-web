@@ -1,10 +1,11 @@
 <template>
     <div class="bottom-tabs">
         <div class="tab" 
-                v-for="(item,index) in data" 
+                v-for="(item,index) in dataR" 
                 :key="index"
                 @mouseover="handleHover(item)"
                 @mouseout="handleOut(item)"
+                @click="handleClick(item)"
             >
             <icon :icon="`svg-icon:${item.icon}`" />
             <span class="label">{{ item.label }}</span>
@@ -16,7 +17,7 @@
                     }
                 ]"
                 >
-                <div class="sub-item" v-for="(sub,ii) in item.children" :key="ii">
+                <div class="sub-item" @click="handleClick(item,sub)" v-for="(sub,ii) in item.children" :key="ii">
                     {{ sub.label }}
                 </div>
             </div>
@@ -24,7 +25,7 @@
     </div>
 </template>
 <script setup>
-import {toRefs} from 'vue'
+import {ref,toRefs,toRef} from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
     data:{
@@ -75,14 +76,23 @@ const props = defineProps({
         ]
     }
 })
+const emit = defineEmits('handleSelect')
 const {data} = toRefs(props)
-console.log(data);
+const dataR = ref(data.value)
 const handleHover = (tab)=> {
     tab.isHover = true;
-    console.log(tab);
 }
 const handleOut = (tab)=> {
-    // tab.isHover = false;
+    tab.isHover = false;
+}
+const handleClick = (item,sub)=>{
+    console.log(item,sub);
+    if(sub){
+        item.isHover = false
+        emit('handleSelect',sub)
+    }else{
+        emit('handleSelect',item)
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -118,20 +128,28 @@ const handleOut = (tab)=> {
     .sub-tab {
       position: absolute;
       width: 144px;
-      bottom: 66px;
+      bottom: 57px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(18, 40, 73, 0.85);
-      box-shadow: inset 0px 0px 8px rgba(10, 167, 255, 0.8);
-      border-radius: 2px;
-      border: 2px solid;
-      border-image: linear-gradient(
-          360deg,
-          rgba(75, 179, 255, 0.53) -12.24%,
-          rgba(75, 222, 255, 0) 111.61%
-        )
-        2;
-      padding: 8px 0;
+      height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.3s;
+      &.active {
+        height: auto;
+        opacity: 1;
+        background: rgba(18, 40, 73, 0.85);
+        box-shadow: inset 0px 0px 8px rgba(10, 167, 255, 0.8);
+        border-radius: 2px;
+        border: 2px solid;
+        border-image: linear-gradient(
+            360deg,
+            rgba(75, 179, 255, 0.53) -12.24%,
+            rgba(75, 222, 255, 0) 111.61%
+          )
+          2;
+        padding: 8px 0;
+      }
       .sub-item {
         line-height: 32px;
         padding-left: 14px;
