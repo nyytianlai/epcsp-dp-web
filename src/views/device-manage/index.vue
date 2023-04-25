@@ -77,7 +77,7 @@ import {
   chargingRunDataFun,
   lineRunDataFun
 } from './config.js';
-const aircityObj = inject()
+const aircityObj = inject('aircityObj')
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 充电桩数量信息
