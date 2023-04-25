@@ -52,7 +52,7 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   background-image: url(@/assets/images/layout/header.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
