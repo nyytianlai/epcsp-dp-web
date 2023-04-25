@@ -60,12 +60,14 @@
   <div class="backBox">
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
   </div>
+  <bottom-tabs/>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
+import BottomTabs from './components/bottom-tabs.vue'
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
