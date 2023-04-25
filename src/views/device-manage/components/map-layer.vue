@@ -27,7 +27,6 @@ const test = async () => {
 };
 
 onMounted(async () => {
-  await __g.tileLayer.delete('1');
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
   // test();
 });

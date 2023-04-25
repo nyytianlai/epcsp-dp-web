@@ -82,7 +82,6 @@ const buttomTabChange = async (code: 1 | 2) => {
 defineExpose({ buttomTabChange });
 
 onMounted(async () => {
-  await __g.tileLayer.delete('1');
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
   cirBar3Ref.value.addBar(buttomTabCode.value);

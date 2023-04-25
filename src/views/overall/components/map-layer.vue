@@ -30,7 +30,7 @@ const currentPosition = computed(() => store.getters.currentPosition);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
-aircityObj.acApi.reset();
+aircityObj.value?.acApi.reset();
 
 let quRef = ref(null);
 const legendType = ref('normal');
@@ -48,7 +48,9 @@ const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');
   console.log('获取热力图info', info);
   if (info.result === 0) {
-    value ? aircityObj.value?.acApi.heatmap.show('heatmap1') : aircityObj.value?.acApi.heatmap.hide('heatmap1');
+    value
+      ? aircityObj.value?.acApi.heatmap.show('heatmap1')
+      : aircityObj.value?.acApi.heatmap.hide('heatmap1');
   } else {
     addHeatMap();
   }

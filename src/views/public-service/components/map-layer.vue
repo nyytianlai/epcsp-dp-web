@@ -31,7 +31,6 @@ const sendBarData = (data) => {
 };
 defineExpose({ sendBarData });
 onMounted(async () => {
-  await __g.tileLayer.delete('1');
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
 });
