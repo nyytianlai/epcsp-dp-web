@@ -34,7 +34,7 @@ const { useEmitt, player: aircityPlay } = inject('aircityObj');
 const store = useStore();
 const currentPosition = computed(() => store.getters.currentPosition); //所在位置 深圳市 xx区 xx站(取值'')
 const currentPositionBak = computed(() => store.getters.currentPositionBak);
-const currentHrStationID = computed(() => store.getters.currentHrStationID);//当前点击的高渲染站点id
+const currentHrStationID = computed(() => store.getters.currentHrStationID); //当前点击的高渲染站点id
 
 // 抛出事件
 const emit = defineEmits<{
@@ -208,6 +208,7 @@ const addQuStation = async (quCode: string) => {
 
 //添加站点
 const addHrStation = async (stationName: string) => {
+  __g.tileLayer.delete('1');
   if (stationName === '比亚迪民乐P+R电动汽车充电站') {
     await __g.tileLayer.add({
       id: '1',
@@ -297,6 +298,7 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
 defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
+  await __g.camera.set(infoObj.szView, 0.2)
   await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
   addQuName();
