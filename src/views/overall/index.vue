@@ -249,7 +249,6 @@ const getAlarmCount = async () => {
 const getTimePowerGraph = async () => {
   const res = await timePowerGraph();
   lineTimeData.value = lineTimeDataFun(res.data);
-  console.log('lineTimeData',JSON.parse(lineTimeData.value));
 };
 
 const getTableAlarm = async (level) => {
