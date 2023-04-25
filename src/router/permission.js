@@ -7,13 +7,16 @@
  * @Description: FilePath
  */
 import router from './index';
-import store from '../store'
+import store from '../store';
 router.beforeEach(async (to, from, next) => {
-    store.commit('CHANGE_SHOW_COMPONENT', true);
-    store.commit('CHANGE_SHOW_PANEL', true);
-    store.commit('CHANGE_SHOW_DETAIL', {
-      show: false,
-      params: {}
-    });
-    next()
+  store.commit('CHANGE_SHOW_COMPONENT', true);
+  store.commit('CHANGE_SHOW_PANEL', true);
+  store.commit('CHANGE_SHOW_DETAIL', {
+    show: false,
+    params: {}
+  });
+  store.commit('CHANGE_CURRENTPOSITION', '深圳市');
+  store.commit('CHANGE_CURRENTPOSITIONBAK', '');
+  store.commit('CHANGE_CURRENTHRSTATIONID', '');
+  next();
 });

@@ -26,7 +26,7 @@
     <time-weather/>
     <div class="subject-container">
       <div class="main-content">
-        <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690118293977"> -->
+        <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
         <base-ac :cloudHost=cloudHost @map-ready="handleMapReady">
         </base-ac>
         <expand-btn/>
@@ -196,6 +196,7 @@ provide('aircityObj',aircityObj)
   top: 0;
   left: 0;
   z-index: 20;
+  pointer-events: none;
 }
 .my-tab-wrap {
   position: absolute;

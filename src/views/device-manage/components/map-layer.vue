@@ -1,25 +1,23 @@
 <template>
-  <qu ref="quRef" @changeCurrentPosition="changeCurrentPosition"></qu>
+  <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
   <legend-list v-show="currentPosition == '深圳市'" />
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
-import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref,computed } from 'vue';
+import { useStore } from 'vuex';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
 __g.reset();
 
-const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
-let currentPositionBak = '';
-let currentHrStationID = ''; //当前点击的高渲染站点id
-let quRef = ref(null);
+const store = useStore();
+// const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
+const currentPosition = computed(() => store.getters.currentPosition);
 
-const changeCurrentPosition = (position: string) => {
-  currentPosition.value = position;
-};
+let quRef = ref(null);
 
 const test = async () => {
   __g.misc.callBPFunction({
