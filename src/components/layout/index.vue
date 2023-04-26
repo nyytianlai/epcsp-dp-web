@@ -147,6 +147,7 @@ const wrap = (fullPath, component)=> {
     }
 const handleMapReady=(obj)=>{
   aircityObj.value = obj
+  window.aircityObj = obj
 }
 provide('aircityObj',aircityObj)
 </script>

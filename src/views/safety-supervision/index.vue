@@ -274,7 +274,7 @@ const getAlarmLevelAndTypeByTIme = async (param) => {
 const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = async(data, type) => {
   if (type === 'total-warning') {
-    columnKeyList.value = columnKeyListFun(type)
+    columnKeyList.value = columnKeyListFun(data.code)
     scrollTableData.value = []
     //累计告警数据信息
     scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.list || []
