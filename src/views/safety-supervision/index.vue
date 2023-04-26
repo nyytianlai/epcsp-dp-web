@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 09:52:22
+ * @LastEditTime: 2023-04-26 18:35:06
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -16,11 +16,9 @@
         @changeTab="(data) => handleChangeTab(data, 'total-warning')"
         v-model="messageWarningType"
       >
-        <button-base @handleClick="handleClickMessageBtn">
-          查看更多
-        </button-base>
+        <button-base @handleClick="handleClickMessageBtn">查看更多</button-base>
       </tabs>
-      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList"/>
+      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
     </div>
     <div class="area-warning-num">
       <title-column title="行政区告警数据" />
@@ -63,7 +61,7 @@
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
-  <map-layer :ref="(el) => mapLayerRef = el" v-if="aircityObj" ></map-layer>
+  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <el-table
       :data="alarmTableData"
@@ -71,7 +69,12 @@
       style="width: 100%"
       class="custom-dialog-table"
     >
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item">
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :formatter="tableColumnFun"
+      >
         <template #default="scope">
           <span v-if="item.prop === 'alarmLevelName'">
             {{ scope.row[scope.column.property] }}
@@ -88,9 +91,9 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
-  <custom-dialog 
-  v-model:visible="dialogTableMessageVisible" 
-    :title="messageDialogTitle" 
+  <custom-dialog
+    v-model:visible="dialogTableMessageVisible"
+    :title="messageDialogTitle"
     @closed="handleDialogClosed"
   >
     <el-table
@@ -99,13 +102,18 @@
       style="width: 100%"
       class="custom-dialog-table"
     >
-    <el-table-column v-for="(item, index) in messageColumnData" :key="index" v-bind="item" >
-      <template #default="scope">
-        <span v-if="item.prop === 'alarmLevelName'">
-          {{ scope.row[scope.column.property] }}
-        </span>
-      </template>
-    </el-table-column>
+      <el-table-column
+        v-for="(item, index) in messageColumnData"
+        :key="index"
+        v-bind="item"
+        :formatter="tableColumnFun"
+      >
+        <template #default="scope">
+          <span v-if="item.prop === 'alarmLevelName'">
+            {{ scope.row[scope.column.property] }}
+          </span>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       :page-size="pageObj.pageSize"
@@ -113,15 +121,16 @@
       :total="pageObj.total"
       :background="true"
       :current-page="pageObj.currentPage"
-      @current-change="(value)=>handPageChange(value,'total-message')"
+      @current-change="(value) => handPageChange(value, 'total-message')"
     />
   </custom-dialog>
 </template>
 <script setup>
-import { ref, onMounted, reactive,inject } from 'vue';
+import { ref, onMounted, reactive, inject } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
 import dayjs from 'dayjs';
+import { tableColumnFun } from '@/global/commonFun.js';
 import {
   pageNumFun,
   totalWarningTabsFun,
@@ -145,7 +154,7 @@ import {
   getOnlineStatus,
   alarmInfo
 } from '@/api/supervision.js';
-const aircityObj = inject('aircityObj')
+const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
 const columnData = ref(columnDataFun());
@@ -156,11 +165,11 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 累计告警数据信息弹窗显隐
-const dialogTableMessageVisible = ref(false)
-const messageDialogTitle = ref('运营商告警列表')
-const messageColumnData = ref(messageColumnKeyListFun())
-const messageTableData = ref([])
-const messageWarningType = ref(1)
+const dialogTableMessageVisible = ref(false);
+const messageDialogTitle = ref('运营商告警列表');
+const messageColumnData = ref(messageColumnKeyListFun());
+const messageTableData = ref([]);
+const messageWarningType = ref(1);
 //地图底部tab切换
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
@@ -175,28 +184,31 @@ const getAlarmUpStaticsData = async () => {
 };
 // 累计告警数据信息
 const totalWarningTabs = ref(totalWarningTabsFun());
-const scrollTableData = ref([])
-const columnKeyList = ref(columnKeyListFun())
+const scrollTableData = ref([]);
+const columnKeyList = ref(columnKeyListFun());
 const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 10000) => {
   const params = {
     type,
     pageOffset,
     pageSize
-  }
+  };
   let { data } = await safetySupervisionAccumulated(params);
-  return data
-  
+  return data;
 };
 
-const handleClickMessageBtn = async() => {
-  pageObj.currentPage = 1
-  messageDialogTitle.value = messageWarningType.value === 1?'运营商告警列表':'充电站告警列表'
-  dialogTableMessageVisible.value = true
-  messageColumnData.value = messageColumnKeyListFun(messageWarningType.value)
-  const data = await getSafetySupervisionAccumulated(messageWarningType.value, pageObj.currentPage, pageObj.pageSize)
-  messageTableData.value = data?.list || []
-  pageObj.total = data?.total || 0
-}
+const handleClickMessageBtn = async () => {
+  pageObj.currentPage = 1;
+  messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
+  dialogTableMessageVisible.value = true;
+  messageColumnData.value = messageColumnKeyListFun(messageWarningType.value);
+  const data = await getSafetySupervisionAccumulated(
+    messageWarningType.value,
+    pageObj.currentPage,
+    pageObj.pageSize
+  );
+  messageTableData.value = data?.list || [];
+  pageObj.total = data?.total || 0;
+};
 
 //行政区告警数据
 // const areaRankData = ref(areaRankDataFun())
@@ -272,12 +284,12 @@ const getAlarmLevelAndTypeByTIme = async (param) => {
 };
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-const handleChangeTab = async(data, type) => {
+const handleChangeTab = async (data, type) => {
   if (type === 'total-warning') {
-    columnKeyList.value = columnKeyListFun(data.code)
-    scrollTableData.value = []
+    columnKeyList.value = columnKeyListFun(data.code);
+    scrollTableData.value = [];
     //累计告警数据信息
-    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.list || []
+    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.list || [];
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
@@ -302,7 +314,7 @@ const getOnlineStatusData = async (type) => {
 };
 
 const handleClick = () => {
-  pageObj.currentPage = 1
+  pageObj.currentPage = 1;
   dialogTableVisible.value = true;
   getTableAlarm();
 };
@@ -323,27 +335,30 @@ const getTableAlarm = async (level) => {
   }
 };
 // table数据
-const handPageChange = async(value, type) => {
+const handPageChange = async (value, type) => {
   if (type === 'total-message') {
     pageObj.currentPage = value;
-    const data = await getSafetySupervisionAccumulated(messageWarningType.value, pageObj.currentPage, pageObj.pageSize)
-    messageTableData.value = data?.list || []
+    const data = await getSafetySupervisionAccumulated(
+      messageWarningType.value,
+      pageObj.currentPage,
+      pageObj.pageSize
+    );
+    messageTableData.value = data?.list || [];
   } else {
     pageObj.currentPage = value;
     getTableAlarm();
-    
   }
 };
 
-onMounted(async() => {
+onMounted(async () => {
   let obj = {
     type: 1,
     // startTime:'2023-04-03 14:22:34',
-    // endTime: '2023-04-06 14:22:34' 
-    startTime:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss'),
-  }
-  getAlarmUpStaticsData()
+    // endTime: '2023-04-06 14:22:34'
+    startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  };
+  getAlarmUpStaticsData();
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj);
   getAlarmLevelAndTypeByTIme({
@@ -351,8 +366,8 @@ onMounted(async() => {
     // endTime: '2023-04-06 14:22:34'
     startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
     endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-  })
-  getOnlineStatusData(3)
+  });
+  getOnlineStatusData(3);
   scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.list || [];
 });
 </script>

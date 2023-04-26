@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 10:13:41
+ * @LastEditTime: 2023-04-26 18:42:12
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -61,15 +61,17 @@
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
   </div>
   <bottom-tabs/>
-  <pile-dialog :visible="pileVisible" />
+  <pile-dialog v-model:visible="pileVisible" :type="pileType" :pileVideoData="pileVideoData" />
+  <map-layer v-if="aircityObj"/>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject } from 'vue';
 import { useStore } from 'vuex';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue'
 import PileDialog from './components/pile-dialog/pile-dialog.vue'
+import MapLayer from './components/map-layer.vue'
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -92,6 +94,8 @@ import {
 import bus from '@/utils/bus';
 
 const store = useStore();
+const aircityObj = inject('aircityObj');
+const { useEmitt } = aircityObj.value;
 const params = {
   operatorId: store.getters.detailParams?.operatorId,
   stationId: store.getters.detailParams?.stationId
@@ -99,8 +103,11 @@ const params = {
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
-// 桩弹窗
+
+// 弹窗
 const pileVisible = ref(false)
+const pileType = ref()
+const pileVideoData = ref()
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
@@ -182,6 +189,15 @@ const backSz = () => {
   });
   bus.emit('hrBackSz');
 };
+useEmitt('AIRCITY_EVENT', async (e) => {
+  if (e.Id?.includes('camera')) { 
+    pileType.value = 'monitor'
+    const data = JSON.parse(e.UserData)
+    pileVideoData.value = data
+    pileVisible.value = true
+  }
+
+});
 onMounted(() => {
   getStationStatistics();
   getStationInfoByStationId();

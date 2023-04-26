@@ -4,16 +4,21 @@
             <el-tab-pane label="基本信息" name="first">
               <BaseInfo/>
             </el-tab-pane>
-            <el-tab-pane label="动态信息" name="second">动态信息</el-tab-pane>
-            <el-tab-pane label="告警信息" name="third">告警信息</el-tab-pane>
-            <el-tab-pane label="充电记录" name="fourth">充电记录</el-tab-pane>
+            <el-tab-pane label="动态信息" name="second">
+              <active-message/>
+            </el-tab-pane>
+            <el-tab-pane label="告警信息" name="third">
+              <warning-message/>
+            </el-tab-pane>
+            <!-- <el-tab-pane label="充电记录" name="fourth">充电记录</el-tab-pane> -->
         </el-tabs>
     </div>
 </template>
 <script  setup>
 import { ref } from 'vue'
 import BaseInfo from './base-info.vue'
-
+import WarningMessage from './warning-message.vue'
+import ActiveMessage from './active-message.vue'
 const activeName = ref('first')
 
 const handleClick = (tab, event) => {
