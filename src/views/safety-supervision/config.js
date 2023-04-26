@@ -339,44 +339,44 @@ export const columnDataFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      width: '250'
+      minWidth:2.8
     },
     {
       prop: 'stationName',
       label: '充电站名称',
-      width: '150'
+      minWidth:'1'
     },
     {
       prop: 'alarmLevelName',
       label: '告警级别',
-      width: '120'
+      minWidth:1
     },
     {
       prop: 'alarmDesc',
       label: '告警描述',
-      width: '250'
+      minWidth:'2'
     },
     {
       prop: 'alarmTypeName',
       label: '告警类型',
-      width: '120'
+      minWidth:'1'
     },
     {
       prop: 'alarmTime',
       label: '告警时间',
-      width: '180'
+      minWidth:2
     },
     {
       prop: 'contactPerson',
       label: '安全负责人',
-      width: '100'
+      minWidth:1
     },
     {
       prop: 'contactTel',
       label: '联系电话',
-      width: ''
-    }
-  ];
+      minWidth:1.8
+    },
+  ]
 };
 
 export const columnKeyListFun = (type = 1) => {
@@ -397,14 +397,14 @@ export const messageColumnKeyListFun = (type = 1) => {
     {
       prop: type === 1 ? 'operatorName' : 'stationName',
       label: type === 1 ? '运营商名称' : '充电站名称',
-      width: 350
+      minWidth: 4
     },
-    { prop: 'cnt', label: '告警总数', width: 150 },
-    { prop: 'unAffirmCnt', label: '未确认', width: 150 },
-    { prop: 'affirmCnt', label: '已确认', width: 150 },
-    { prop: 'recCnt', label: '已恢复', width: 150 },
-    { prop: 'contactPerson', label: '负责人', width: 150 },
-    { prop: 'contactTel', label: '联系电话', width: '' }
+    { prop: 'cnt', label: '告警总数', minWidth: 1.5 },
+    { prop: 'unAffirmCnt', label: '未确认', minWidth: 1.5 },
+    { prop: 'affirmCnt', label: '已确认', minWidth: 1.5 },
+    { prop: 'recCnt', label: '已恢复', minWidth: 1.5 },
+    { prop: 'contactPerson', label: '负责人', minWidth: 1.5 },
+    { prop: 'contactTel', label: '联系电话', minWidth: 2 }
   ];
 };
 
