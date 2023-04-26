@@ -49,7 +49,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
     addStationPoint(e.UserData);
-    addQuStationWithAlarmInfo;
     setTimeout(async () => {
       await __g.settings.setEnableCameraMovingEvent(true);
     }, 2000);
@@ -140,7 +139,7 @@ const back = async () => {
 };
 
 //重置到深圳
-const resetSz = async (value?: true) => {
+const resetSz = async (value = true) => {
   store.commit('CHANGE_CURRENTPOSITION', '深圳市');
   store.commit('CHANGE_CURRENTPOSITIONBAK', '');
   store.commit('CHANGE_CURRENTHRSTATIONID', '');
@@ -277,13 +276,6 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
     ids.forEach((element) => {
       isShow ? __g.tileLayer.show(element) : __g.tileLayer.hide(element);
     });
-    // await __g.tileLayer.add({
-    //   id: '1',
-    //   fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
-    //   location: [0, 0, 92.5], //坐标位置
-    //   rotation: [0, 0, 0], //旋转角度
-    //   scale: [1, 1, 1] //缩放大小
-    // });
     isShow ? __g.tileLayer.focus('7CED6A4A4F00FFA1B7273C9511B55B85', 500) : '';
   }
 };
@@ -376,6 +368,7 @@ onMounted(async () => {
     store.commit('CHANGE_CURRENTHRSTATIONID', 'station-' + e.stationId);
     store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
     store.commit('CHANGE_CURRENTPOSITION', '');
+    setQuVisibility(false);
     __g.marker.hideByGroupId('quStation');
     addHrStation(e.stationName, true);
   });
@@ -410,6 +403,7 @@ onBeforeUnmount(() => {
     width: 36px;
     height: 36px;
     border-radius: 1px;
+    cursor: pointer;
   }
 
   .quName {

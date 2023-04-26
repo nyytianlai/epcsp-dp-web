@@ -75,7 +75,7 @@ const addHeatMap = async () => {
   // await __g.heatmap.clear();
   const { data: res } = await getHeatMap();
   let bbox = [470754, 2472106, 5.7, 629306, 2550338, 344.58];
-  let range = [0, 1000];
+  let range = [0, 3000];
   let data = [];
   res.forEach((element) => {
     const coord84 = gcj02ToWgs84(Number(element.longitude), Number(element.latitude));
@@ -83,7 +83,7 @@ const addHeatMap = async () => {
     data.push({
       id: element.stationId,
       coordinate: [...coord4547, 0], //热力点的坐标
-      radius: 660, //热力点影像半径范围
+      radius: 4000, //热力点影像半径范围
       heatValue: element.realTimePower //热力值
     });
   });
