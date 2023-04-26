@@ -7,20 +7,23 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="page-num-wrap" :class="bgcType">
-    <div class="num-wrap" v-for="(item, index) in data">
-      <span class="name" :style="{color:item.nameColor}">{{ item.name }}</span>
-      <span class="num-unit">
-        <span class="num">{{ formatWithToLocalString(item.num) }}</span>
-        <span class="unit">{{ item.unit }}</span>
-      </span>
+  <transition>
+    <div class="page-num-wrap" :class="bgcType" v-if="panelShow">
+      <div class="num-wrap" v-for="(item, index) in data" :key="index">
+        <span class="name" :style="{color:item.nameColor}">{{ item.name }}</span>
+        <span class="num-unit">
+          <span class="num">{{ formatWithToLocalString(item.num) }}</span>
+          <span class="unit">{{ item.unit }}</span>
+        </span>
+      </div>
     </div>
-  </div>
+    </transition>
 </template>
 <script setup lang="ts">
-import {onMounted,ref,onBeforeUnmount,toRefs } from 'vue'
+import {onMounted,ref,computed,toRefs } from 'vue'
 import { formatWithToLocalString } from '@/global/commonFun.js'
-
+import { useStore } from 'vuex';
+const store = useStore();
 interface Idata {
   num: string | number;
   name: string;
@@ -33,6 +36,9 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {});
 const { data } = toRefs(props);
+const panelShow = computed(() => {
+  return store.getters.panelShow
+})
 </script>
 <style lang="less" scoped>
 .page-num-wrap {
@@ -40,6 +46,7 @@ const { data } = toRefs(props);
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 19;
   width: 819px;
   height: 79px;
   background: url(./images/bottom-bgc.png) no-repeat;
@@ -79,5 +86,15 @@ const { data } = toRefs(props);
       }
     }
   }
+}
+/* 下面我们会解释这些 class 是做什么的 */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

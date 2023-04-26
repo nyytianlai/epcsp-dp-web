@@ -23,8 +23,8 @@
         </div>
       </div>
     </template>
-    <normal-pile v-if="type === 'normal-pile'" />
-    <warning-pile v-else />
+      <normal-pile v-if="type === 'normal-pile'" />
+      <warning-pile @close="close" v-else  />
     </el-dialog>
 </template>
 <script setup>
@@ -43,11 +43,14 @@ const props = defineProps({
   },
   type:{
     type:String,
-    default:'warning-pile'
+    default:'normal-pile'
   }
 });
 const {visible,title,type} = toRefs(props)
-const emit = defineEmits(['update:visible']);
+const emit = defineEmits(['update:visible','closed']);
+const close = ()=>{
+  emit('update:visible', false)
+}
 </script>
 <style lang="less">
 .pile-dialog {

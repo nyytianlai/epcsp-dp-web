@@ -61,7 +61,7 @@
     <img src="@/assets/images/map/back.png" alt="" @click="backSz" />
   </div>
   <bottom-tabs/>
-  <pile-dialog/>
+  <pile-dialog :visible="pileVisible" />
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -69,7 +69,7 @@ import { useStore } from 'vuex';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue'
-import PileDialog from './components/pile-dialog.vue'
+import PileDialog from './components/pile-dialog/pile-dialog.vue'
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -99,6 +99,8 @@ const params = {
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
+// 桩弹窗
+const pileVisible = ref(false)
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
@@ -201,7 +203,8 @@ onMounted(() => {
   background: rgba(4, 22, 43, 0.4);
   border: 1px solid rgba(148, 148, 148, 0.3);
   color: #ffffff;
-  z-index: 10;
+  z-index: 20;
+  cursor: pointer;
 
   img {
     width: 36px;

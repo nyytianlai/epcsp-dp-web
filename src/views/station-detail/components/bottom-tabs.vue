@@ -101,10 +101,16 @@ const handleOut = (tab)=> {
     tab.isHover = false;
 }
 const handleRoaming = (value)=>{
-    __g.camera.getAnimationList();// 获取导航列表
-    if(value === '1-2'){
+    // __g.camera.getAnimationList();// 获取导航列表
+    if(value === '1-1'){
+
+    }else if(value === '1-2'){
         //参数：录制导览的索引序号，从0开始
       __g.camera.playAnimation(2);
+    }else if(value === '1-3'){
+        __g.camera.set(504734.233359, 2499794.870781, 147.298916, -38.010437, 109.420509, 0); //入口
+    }else if(value === '1-4'){
+        __g.camera.set(504812.854141, 2499524.212188, 130.5496, -36.160389, -150.332504, 0); //出口
     }else if(value === '1-5'){
           //参数：录制导览的索引序号，从0开始
       __g.camera.playAnimation(1);
@@ -123,8 +129,9 @@ const handleClick = (item,sub)=>{
         }
         emit('handleSelect',sub)
     }else{
+        if(item.children && item.children.length)return
         selectIndex.value = null
-        if(sub.value === selectIndex.value){
+        if(item.value === activeTab.value){
             activeTab.value = null
         }else{
             activeTab.value = item.value
