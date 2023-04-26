@@ -6,8 +6,8 @@
  * @FilePath: \epcsp-dp-web\src\api\supervision.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import request from '@sutpc/axios'; 
-import dayjs from 'dayjs'
+import request from '@sutpc/axios';
+import dayjs from 'dayjs';
 //地图告警柱状图
 export const districtAlarmLevelStatics = () => {
   return request.get({
@@ -22,11 +22,20 @@ export const getMapAreaStationByPower = () => {
     data: {}
   });
 };
+// 地图区级下钻撒点
+export const getQuStationWithAlarm = (areaCode) => {
+  return request.post({
+    url: '/safetySupervision/selectStationAlarmInfoByArea',
+    data: {
+      areaCode
+    }
+  });
+};
 export const getAlarmUpStatics = () => {
   return request.post({
     url: '/safetySupervision/getAlarmUpStatics'
-  })
-}
+  });
+};
 
 // 累计告警数据信息
 export const safetySupervisionAccumulated = (params) => {
@@ -62,8 +71,8 @@ export const alarmLevelAndTypeByTIme = (param) => {
     data: {
       ...param
     }
-  })
-}
+  });
+};
 
 // 实时状态情况
 export const getOnlineStatus = (type) => {
@@ -72,19 +81,19 @@ export const getOnlineStatus = (type) => {
     data: {
       type
     }
-  })
-}
-const timeParams =()=> ({
-  "startTime":dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-  "endTime": dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-})
+  });
+};
+const timeParams = () => ({
+  startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+  endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+});
 //今日告警信息 /dp/api/v1/overview/alarmInfo
 export const alarmInfo = (params) => {
   return request.post({
-      url: '/dp/api/v1/overview/alarmInfo',
-      data: {
-        ...timeParams(),
-          ...params
-      }
-    })
-}
+    url: '/dp/api/v1/overview/alarmInfo',
+    data: {
+      ...timeParams(),
+      ...params
+    }
+  });
+};

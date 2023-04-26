@@ -5,7 +5,7 @@ import request from '@sutpc/axios';
 import { districtAlarmLevelStatics, getMapAreaStationByPower } from '@/api/supervision.js';
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value?.acApi;
 const addBar = async (code: 1 | 2) => {
   // await __g.customTag.clear();
   let res;

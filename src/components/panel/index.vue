@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="mask-bgc" :class="type"></div>
+  <div class="mask-bgc" :class="type" v-if="panelShow"></div>
   <transition>
       <div class="panel" :class="type" v-if="panelShow">
         <slot />
@@ -65,7 +65,7 @@ const panelShow = computed(() => {
   top: 126px;
   left: 30px;
   width: 400px;
-  z-index: 5;
+  z-index: 20;
   .circle-bg {
     position: absolute;
     width: 622px;

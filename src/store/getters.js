@@ -13,6 +13,9 @@ const getters = {
   showDetail: (state) => state.visibleComponent.showDetail,
   detailParams: (state) => state.visibleComponent.detailParams,
   isInDetail: (state) => state.visibleComponent.isInDetail,
-  panelShow:(state) => state.visibleComponent.panelShow
+  panelShow: (state) => state.visibleComponent.panelShow,
+  currentPosition: (state) => state.map.currentPosition,
+  currentPositionBak: (state) => state.map.currentPositionBak,
+  currentHrStationID: (state) => state.map.currentHrStationID
 };
 export default getters;

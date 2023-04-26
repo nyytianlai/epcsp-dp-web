@@ -34,10 +34,10 @@
           <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3.74rem" />
         </div>
     </panel>
-    <map-layer ref="mapLayerRef"></map-layer>
+    <map-layer :ref="(el) => mapLayerRef=el" v-if="aircityObj"></map-layer>
   </template>
 <script setup>
-  import { ref, onMounted,reactive } from 'vue';
+import { ref, onMounted,reactive,inject,watch,nextTick } from 'vue';
 import ScrollTable from './components/scroll-table.vue'
 import MapLayer from './components/map-layer.vue';
 import {
@@ -56,7 +56,9 @@ import {
   chargingTypePieDataFun,
   monthRateDataFun
 } from './config.js'
+const aircityObj = inject('aircityObj')
 let mapLayerRef = ref(null);
+const mapData = ref([])
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 热门充电站TOP10
@@ -97,7 +99,7 @@ const getHotCharging = async () => {
 const getMonthRate = async () => {
   const res = await monthRate()
   if (res?.data && res?.data?.data) {
-    mapLayerRef.value.sendBarData(res?.data?.data) //给地图传柱状图数据
+    mapData.value = res?.data?.data
     monthRateData.value = res?.data?.data.map(item => {
       return {
         num: item.useRatio,
@@ -139,6 +141,12 @@ onMounted(() => {
   getChargeEquipmentStatistics()
   getChargeStatusData('pile')
 })
+
+watch([aircityObj,mapData],async()=>{
+  await nextTick()
+  mapLayerRef.value.sendBarData(mapData.value)
+})
+
 </script>
 
 <style lang="less" scoped>

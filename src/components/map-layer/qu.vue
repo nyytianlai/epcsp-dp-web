@@ -5,7 +5,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import request from '@sutpc/axios';
 import {
   layerNameQuNameArr,
@@ -19,6 +19,7 @@ import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import { useStore } from 'vuex';
 import bus from '@/utils/bus';
 import { getQuStation } from '@/api/deviceManage';
+import { getQuStationWithAlarm } from '@/api/supervision';
 
 interface Props {
   buttomTabCode?: number | string;
@@ -29,18 +30,12 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
-const { useEmitt, player: aircityPlay } = inject('aircityObj');
-const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
-let currentPositionBak = '';
-let currentHrStationID = ''; //当前点击的高渲染站点id
+const __g = aircityObj.value.acApi;
+const { useEmitt, player: aircityPlay } = aircityObj.value;
 const store = useStore();
-
-// 抛出事件
-const emit = defineEmits<{
-  (e: 'changeCurrentPosition', position: string): void;
-  // (e: 'addHrStation', stationName: string): void;
-}>();
+const currentPosition = computed(() => store.getters.currentPosition); //所在位置 深圳市 xx区 xx站(取值'')
+const currentPositionBak = computed(() => store.getters.currentPositionBak);
+const currentHrStationID = computed(() => store.getters.currentHrStationID); //当前点击的高渲染站点id
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
@@ -50,11 +45,11 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       return;
     }
 
-    currentPosition.value = e.Id.split('-')[1];
-    emit('changeCurrentPosition', currentPosition.value);
+    store.commit('CHANGE_CURRENTPOSITION', e.Id.split('-')[1]);
     __g.polygon.focus('qu-' + currentPosition.value, 13000);
     setQuVisibility(false);
-    addQuStation(e.UserData);
+    addStationPoint(e.UserData);
+    addQuStationWithAlarmInfo;
     setTimeout(async () => {
       await __g.settings.setEnableCameraMovingEvent(true);
     }, 2000);
@@ -69,11 +64,11 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     //是高渲染站点
     changeStationStyle(e.Id, 'hr', [287, 451], [-143, 451]);
 
-    if (currentHrStationID === e.Id) {
+    if (currentHrStationID.value === e.Id) {
       //连续两次点击相同站点 进入高渲染站点
-      currentPositionBak = currentPosition.value;
-      currentPosition.value = '';
-      emit('changeCurrentPosition', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITION', '');
+
       store.commit('CHANGE_SHOW_COMPONENT', false);
       store.commit('CHANGE_SHOW_DETAIL', {
         show: true,
@@ -82,26 +77,26 @@ useEmitt('AIRCITY_EVENT', async (e) => {
           stationId: stationInfo.stationId
         }
       });
-      addHrStation(stationInfo.stationName);
+      __g.marker.hideByGroupId('quStation');
+      addHrStation(stationInfo.stationName, true);
     } else {
-      currentHrStationID !== ''
-        ? changeStationStyle(currentHrStationID, 'chargeStation50', [55, 150], [-22.5, 150])
+      currentHrStationID.value !== ''
+        ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
         : '';
     }
-    currentHrStationID = e.Id;
+    store.commit('CHANGE_CURRENTHRSTATIONID', e.Id);
   }
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
-    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj);
+    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
     let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
     console.log('cameraQuName', cameraQuName);
     if (cameraQuName && currentPosition.value !== cameraQuName) {
       //当前相机位置所在区和当前区不一致
       console.log('重新请求数据');
-      currentPosition.value = cameraQuName;
-      emit('changeCurrentPosition', currentPosition.value);
+      store.commit('CHANGE_CURRENTPOSITION', cameraQuName);
       let cameraQuCode = quNameCodeInterTrans('name', cameraQuName);
-      cameraQuCode && addQuStation(cameraQuCode);
+      cameraQuCode && addStationPoint(cameraQuCode);
     }
   }
 });
@@ -129,30 +124,34 @@ const back = async () => {
     'currentPosition.value',
     currentPosition.value,
     'currentPositionBak',
-    currentPositionBak
+    currentPositionBak.value
   );
-  __g.tileLayer.delete('1');
+  // __g.tileLayer.delete('1');
+  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     resetSz();
   } else if (currentPosition.value === '') {
     //返回区
-    currentPosition.value = currentPositionBak;
-    emit('changeCurrentPosition', currentPosition.value);
-    __g.marker.focus(currentHrStationID, 200, 0.2);
+    __g.marker.showByGroupId('quStation');
+    store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
+    __g.marker.focus(currentHrStationID.value, 200, 0.2);
   }
 };
 
 //重置到深圳
 const resetSz = async () => {
-  currentPosition.value = '深圳市';
-  emit('changeCurrentPosition', currentPosition.value);
-  currentPositionBak = '';
-  currentHrStationID = '';
+  store.commit('CHANGE_CURRENTPOSITION', '深圳市');
+  store.commit('CHANGE_CURRENTPOSITIONBAK', '');
+  store.commit('CHANGE_CURRENTHRSTATIONID', '');
   await __g.marker.deleteByGroupId('quStation');
   setQuVisibility(true);
   await __g.camera.set(infoObj.szView, 0.2);
   await __g.settings.setEnableCameraMovingEvent(false);
+};
+
+const addStationPoint = (quCode: string) => {
+  props.buttomTabCode == '' ? addQuStation(quCode) : addQuStationWithAlarmInfo(quCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否
@@ -161,8 +160,9 @@ const addQuStation = async (quCode: string) => {
   const { data: res } = await getQuStation(quCode);
   let pointArr = [];
   res.forEach((item, index) => {
+    let xoffset = item.stationName.length * 12;
     let o1 = {
-      id: 'station-' + index,
+      id: 'station-' + item.stationId,
       groupId: 'quStation',
       userData: JSON.stringify(item),
       coordinateType: 2,
@@ -173,8 +173,8 @@ const addQuStation = async (quCode: string) => {
       imagePath: getImageByCloud('chargeStation50'),
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      textRange: [1, 50], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-72, -55], // 文本偏移
+      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-20 - xoffset, -85], // 文本偏移
       textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
       fontSize: 16, //字体大小
       fontOutlineSize: 1, //字体轮廓线大小
@@ -210,17 +210,81 @@ const addQuStation = async (quCode: string) => {
   await __g.marker.add(pointArr, null);
 };
 
+//安全监管模块撒点
+const addQuStationWithAlarmInfo = async (quCode: string) => {
+  await __g.marker.deleteByGroupId('quStation');
+  const { data: res } = await getQuStationWithAlarm(quCode);
+  let pointArr = [];
+  res.forEach((item, index) => {
+    let xoffset = item.stationName.length * 12;
+    let o1 = {
+      id: 'station-' + item.stationId,
+      groupId: 'quStation',
+      userData: JSON.stringify(item),
+      coordinateType: 2,
+      coordinate: [item.lng, item.lat], //坐标位置
+      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [55, 150], //图片的尺寸
+      range: [1, 150000], //可视范围
+      imagePath: getImageByCloud('chargeStation' + item.status),
+      text: item.stationName, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-20 - xoffset, -85], // 文本偏移
+      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+      fontSize: 16, //字体大小
+      fontOutlineSize: 1, //字体轮廓线大小
+      fontColor: '#FFFFFF', //字体颜色
+      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
+      displayMode: 2,
+      autoDisplayModeSwitchFirstRatio: 0.5,
+      autoDisplayModeSwitchSecondRatio: 0.5,
+      // displayMode: 4,
+      // autoDisplayModeSwitchFirstRatio: 0.5,
+      // autoDisplayModeSwitchSecondRatio: 0.5,
+      autoHeight: true
+    };
+    if (item.isHr == 0) {
+      let o = {
+        id: 'station-' + index + '-' + item.isHr,
+        groupId: 'quStation',
+        userData: item.isHr + '',
+        coordinateType: 2,
+        coordinate: [item.lng, item.lat],
+        anchors: [-11.5, 210],
+        imageSize: [33, 36],
+        range: [1, 150000],
+        imagePath: getImageByCloud('1'),
+        displayMode: 2,
+        autoHeight: true
+      };
+      pointArr.push(o);
+    }
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
+
 //添加站点
-const addHrStation = async (stationName: string) => {
+const addHrStation = async (stationName: string, isShow: boolean) => {
   if (stationName === '比亚迪民乐P+R电动汽车充电站') {
-    await __g.tileLayer.add({
-      id: '1',
-      fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
-      location: [0, 0, 92.5], //坐标位置
-      rotation: [0, 0, 0], //旋转角度
-      scale: [1, 1, 1] //缩放大小
+    let ids = [
+      '7CED6A4A4F00FFA1B7273C9511B55B85',
+      'E4933C614755E6F56D8C209A5B28B8C4',
+      '6EA525CA4FB949D9850E5A933AA5FFCA'
+    ];
+    ids.forEach((element) => {
+      isShow ? __g.tileLayer.show(element) : __g.tileLayer.hide(element);
     });
-    __g.tileLayer.focus('1', 500);
+    // await __g.tileLayer.add({
+    //   id: '1',
+    //   fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/station.3dt`, //3dt文件路径
+    //   location: [0, 0, 92.5], //坐标位置
+    //   rotation: [0, 0, 0], //旋转角度
+    //   scale: [1, 1, 1] //缩放大小
+    // });
+    isShow ? __g.tileLayer.focus('7CED6A4A4F00FFA1B7273C9511B55B85', 500) : '';
   }
 };
 
@@ -298,25 +362,27 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
   return quName;
 };
 
-defineExpose({ pointInWhichDistrict,resetSz });
+defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
+  // await __g.camera.set(infoObj.szView, 0);
+  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
   addQuName();
   bus.on('toHr', (e) => {
     // 传参由回调函数中的形参接受
     console.log('高渲染站点信息2', e);
-    currentPositionBak = currentPosition.value;
-    currentPosition.value = '';
-    emit('changeCurrentPosition', currentPosition.value);
-    addHrStation(e.stationName);
+    store.commit('CHANGE_CURRENTHRSTATIONID', 'station-' + e.stationId);
+    store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+    store.commit('CHANGE_CURRENTPOSITION', '');
+    __g.marker.hideByGroupId('quStation');
+    addHrStation(e.stationName, true);
   });
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
-    if (currentPositionBak === '深圳市') {
-      currentPosition.value = currentPositionBak;
-      emit('changeCurrentPosition', currentPosition.value);
+    if (currentPositionBak.value === '深圳市') {
+      store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
     }
     back();
   });
@@ -338,7 +404,8 @@ onBeforeUnmount(() => {
   background: rgba(4, 22, 43, 0.4);
   border: 1px solid rgba(148, 148, 148, 0.3);
   color: #ffffff;
-  z-index: 10;
+  z-index: 20;
+  cursor: pointer;
 
   img {
     width: 36px;

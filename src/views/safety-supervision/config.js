@@ -13,25 +13,25 @@ export const pageNumFun = (data) => {
       name: '累计告警总数',
       num: data?.sumCount,
       unit: '个',
-      nameColor:'#FF6B4B'
+      nameColor: '#FF6B4B'
     },
     {
       name: '当前告警总数',
       num: data?.dealCount,
       unit: '个',
-      nameColor:'#F9E900'
+      nameColor: '#F9E900'
     },
     {
       name: '已确认总数',
       num: data?.affirmCount,
       unit: '个',
-      nameColor:'#FF6B4B'
+      nameColor: '#FF6B4B'
     },
     {
       name: '已恢复总数',
       num: data?.recCount,
       unit: '个',
-      nameColor:'#FF6B4B'
+      nameColor: '#FF6B4B'
     }
   ];
 };
@@ -168,12 +168,12 @@ const formatStyle = (style = {}) => {
   style = merge(styleDefault, style);
   return style;
 };
-const iconStyleS =  {
+const iconStyleS = {
   width: '0.9rem',
   height: '1.06rem'
-}
+};
 
-export const realtimeStateDataFun = (code = 1,data={}) => {
+export const realtimeStateDataFun = (code = 1, data = {}) => {
   if (+code === 3) {
     return [
       {
@@ -210,7 +210,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningEquipmentStatisticVo?.onlineCount,
         name: '在线/个',
         ...formatStyle({
-          iconStyle:iconStyleS
+          iconStyle: iconStyleS
         })
       },
       {
@@ -218,7 +218,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningEquipmentStatisticVo?.offlineCount,
         name: '离线/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#FFFFFF'
           }
@@ -229,7 +229,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningEquipmentStatisticVo?.normalCount,
         name: '正常/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#00FFB2'
           }
@@ -240,12 +240,12 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningEquipmentStatisticVo?.warningCount,
         name: '故障/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#FFB713'
           }
         })
-      },
+      }
     ];
   } else {
     return [
@@ -254,7 +254,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningGunStatisticVo?.notUseCount,
         name: '空闲/个',
         ...formatStyle({
-          iconStyle:iconStyleS
+          iconStyle: iconStyleS
         })
       },
       {
@@ -262,7 +262,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningGunStatisticVo?.useCount,
         name: '占用/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#00FFB2'
           }
@@ -273,7 +273,7 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningGunStatisticVo?.warningCount,
         name: '故障/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#FFB713'
           }
@@ -284,14 +284,12 @@ export const realtimeStateDataFun = (code = 1,data={}) => {
         num: data?.safeWarningGunStatisticVo?.offlineCount,
         name: '离线/个',
         ...formatStyle({
-          iconStyle:iconStyleS,
+          iconStyle: iconStyleS,
           numStyle: {
             color: '#FFFFFF'
           }
         })
-      },
-      
-      
+      }
     ];
   }
 };
@@ -312,13 +310,15 @@ export const realtimeTrendFun = (data = []) => {
   //     name: '告警数'
   //   }
   // ];
-  const yearMonthDay = dayjs().format('YYYY-MM-DD ')
-  return [{
-    data:data.map(item=>[ yearMonthDay + item.time,item.cnt]),
-    type: 'line',
-    smooth: true,
-    name:'告警数'
-  }]
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  return [
+    {
+      data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
+      type: 'line',
+      smooth: true,
+      name: '告警数'
+    }
+  ];
 };
 
 export const bottomTabDataFun = () => {
@@ -339,78 +339,86 @@ export const columnDataFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      width:'250'
+      width: '250'
     },
     {
       prop: 'stationName',
       label: '充电站名称',
-      width:'150'
+      width: '150'
     },
     {
       prop: 'alarmLevelName',
       label: '告警级别',
-      width:'120'
+      width: '120'
     },
     {
       prop: 'alarmDesc',
       label: '告警描述',
-      width:'250'
+      width: '250'
     },
     {
       prop: 'alarmTypeName',
       label: '告警类型',
-      width:'120'
+      width: '120'
     },
     {
       prop: 'alarmTime',
       label: '告警时间',
-      width:'180'
+      width: '180'
     },
     {
       prop: 'contactPerson',
       label: '安全负责人',
-      width:'100'
+      width: '100'
     },
     {
       prop: 'contactTel',
       label: '联系电话',
-      width:''
-    },
-  ]
-}
+      width: ''
+    }
+  ];
+};
 
-export const columnKeyListFun = (type=1) => {
+export const columnKeyListFun = (type = 1) => {
   return [
-    { prop: type === 1 ? 'operatorName' :  'stationName', label:  type === 1 ? '运营商名称' :  '充电站名称', width: 4 },
+    {
+      prop: type === 1 ? 'operatorName' : 'stationName',
+      label: type === 1 ? '运营商名称' : '充电站名称',
+      width: 4
+    },
     { prop: 'cnt', label: '告警数', width: 2 },
     { prop: 'affirmCnt', label: '已确认', width: 2 },
     { prop: 'recCnt', label: '恢复数', width: 2 }
-  ]
-}
+  ];
+};
 
-export const messageColumnKeyListFun = (type=1) => {
+export const messageColumnKeyListFun = (type = 1) => {
   return [
-    { prop: type === 1 ? 'operatorName' :  'stationName', label:  type === 1 ? '运营商名称' :  '充电站名称', width: 350 },
+    {
+      prop: type === 1 ? 'operatorName' : 'stationName',
+      label: type === 1 ? '运营商名称' : '充电站名称',
+      width: 350
+    },
     { prop: 'cnt', label: '告警总数', width: 150 },
     { prop: 'unAffirmCnt', label: '未确认', width: 150 },
     { prop: 'affirmCnt', label: '已确认', width: 150 },
     { prop: 'recCnt', label: '已恢复', width: 150 },
     { prop: 'contactPerson', label: '负责人', width: 150 },
-    { prop: 'contactTel', label: '联系电话', width: "" }
-  ]
-}
+    { prop: 'contactTel', label: '联系电话', width: '' }
+  ];
+};
 
 export const legendList = [
   {
-      color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #002E2D 95.4%)',
-      name:'充电站'
+    color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #002E2D 95.4%)',
+    name: '充电站'
   },
   {
-      color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
-      name:'充电桩'
+    color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
+    name: '充电桩'
   },
   {
-      color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
-      name:'充电枪'
+    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
+    name: '充电枪'
   }
-]
+];

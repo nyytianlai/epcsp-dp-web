@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <qu @changeCurrentPosition="changeCurrentPosition"></qu>
+  <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
   <legend-list
     :legendType="legendType"
@@ -18,37 +18,39 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
-import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import request from '@sutpc/axios';
 import { projectCGCS2000_2_GK114 } from '@/utils/index';
 import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
 import { getHeatMap } from '@/api/overall';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
+import { useStore } from 'vuex';
+const store = useStore();
+const currentPosition = computed(() => store.getters.currentPosition);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
-aircityObj.acApi.reset();
-const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
+aircityObj.value?.acApi.reset();
 
+let quRef = ref(null);
 const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 
-const changeCurrentPosition = (position: string) => {
-  currentPosition.value = position;
-};
-
 const setRectBarVisibility = (value: boolean) => {
+  // quRef.value.resetSz();
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
-    ? aircityObj.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
+    ? aircityObj.value?.acApi.customTag.show(layerNameQuNameArr('rectBar'))
+    : aircityObj.value?.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
 };
 const setHeatMapVisibility = async (value: boolean) => {
-  let info = await aircityObj.acApi.heatmap.get('heatmap1');
+  let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');
   console.log('获取热力图info', info);
   if (info.result === 0) {
-    value ? aircityObj.acApi.heatmap.show('heatmap1') : aircityObj.acApi.heatmap.hide('heatmap1');
+    value
+      ? aircityObj.value?.acApi.heatmap.show('heatmap1')
+      : aircityObj.value?.acApi.heatmap.hide('heatmap1');
   } else {
     addHeatMap();
   }
@@ -66,7 +68,7 @@ const updateHeatMap = () => {
         heatValue: element.realTimePower //热力值
       });
     });
-    aircityObj.acApi.heatmap.update('heatmap1', null, null, data);
+    aircityObj.value?.acApi.heatmap.update('heatmap1', null, null, data);
   }, 1 * 60 * 60 * 1000);
 };
 const addHeatMap = async () => {
@@ -85,7 +87,7 @@ const addHeatMap = async () => {
       heatValue: element.realTimePower //热力值
     });
   });
-  await aircityObj.acApi.heatmap.add('heatmap1', bbox, range, data);
+  await aircityObj.value?.acApi.heatmap.add('heatmap1', bbox, range, data);
 };
 
 defineExpose({

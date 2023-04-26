@@ -1,9 +1,5 @@
 <template>
-  <qu
-    ref="quRef"
-    @changeCurrentPosition="changeCurrentPosition"
-    :buttomTabCode="buttomTabCode"
-  ></qu>
+  <qu ref="quRef" :buttomTabCode="buttomTabCode"></qu>
   <cir-bar3 ref="cirBar3Ref"></cir-bar3>
   <legend-list
     :legendList="legendListData1"
@@ -19,11 +15,14 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import cirBar3 from '@/components/map-layer/cir-bar3.vue';
-import { inject, onMounted, onBeforeUnmount, ref, reactive } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, reactive, computed } from 'vue';
 import request from '@sutpc/axios';
 // import {  } from '@/utils/index';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
-import { getQuStation } from '@/api/deviceManage';
+
+import { useStore } from 'vuex';
+const store = useStore();
+const currentPosition = computed(() => store.getters.currentPosition);
 const legendNameData1 = '告警级别（个）';
 const legendListData1 = [
   {
@@ -59,17 +58,11 @@ let cirBar3Ref = ref(null);
 let quRef = ref(null);
 const buttomTabCode = ref(1);
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.acApi;
+const __g = aircityObj.value?.acApi;
 __g.reset();
-
-const currentPosition = ref('深圳市');
 
 const setObjVisibility = (type: string, idPre: string, value: boolean) => {
   value ? __g[type].show(layerNameQuNameArr(idPre)) : __g[type].hide(layerNameQuNameArr(idPre));
-};
-
-const changeCurrentPosition = (position: string) => {
-  currentPosition.value = position;
 };
 
 const buttomTabChange = async (code: 1 | 2) => {
@@ -89,7 +82,6 @@ const buttomTabChange = async (code: 1 | 2) => {
 defineExpose({ buttomTabChange });
 
 onMounted(async () => {
-  await __g.tileLayer.delete('1');
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
   cirBar3Ref.value.addBar(buttomTabCode.value);
