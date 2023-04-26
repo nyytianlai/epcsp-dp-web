@@ -1,10 +1,9 @@
 <template>
     <el-dialog
         v-model="visible"
-        :title="title"
         class="pile-dialog"
         :class="type"
-        width="6.75rem"
+        :width="type === 'normal-pile'?'8.45rem':'6.75rem'"
         @close="emit('update:visible', false)"
         @closed="emit('closed')"
     >
@@ -24,29 +23,31 @@
       </div>
     </template>
       <normal-pile v-if="type === 'normal-pile'" />
-      <warning-pile @close="close" v-else  />
+      <warning-pile v-if="type === 'warning-pile'"  @close="close" />
+      <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData" />
     </el-dialog>
 </template>
 <script setup>
 import { toRefs, ref } from 'vue';
 import NormalPile from './normal-pile.vue'
 import WarningPile from './warning-pile.vue'
+import VideoPlayer from './video-palyer.vue'
 import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
   visible: {
     type: Boolean,
     default: false
   },
-  title: {
-    type: String,
-    default:''
-  },
   type:{
     type:String,
-    default:'normal-pile'
+    default:'monitor'
+  },
+  pileVideoData: {
+    type: String,
+    default:''
   }
 });
-const {visible,title,type} = toRefs(props)
+const {visible,title,type,pileVideoData} = toRefs(props)
 const emit = defineEmits(['update:visible','closed']);
 const close = ()=>{
   emit('update:visible', false)
@@ -56,6 +57,11 @@ const close = ()=>{
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
+  height: 582px;
+  clip-path: polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,20px 100%,0 calc(100% - 20px),0 0);
+  &.monitor{
+    height: 482px;
+  }
   &.warning-pile {
     background: radial-gradient(
         58.3% 58.3% at 50% 50%,

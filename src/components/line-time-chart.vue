@@ -23,7 +23,8 @@ interface Props {
   data: Idata[];
   chartStyle: IChartStyle;
   unit?: string;
-  colors?:string[]
+  colors?:string[],
+  customOption?:object
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -32,10 +33,11 @@ const props = withDefaults(defineProps<Props>(), {
   }),
   unit: '个',
   colors: () => ['green', 'blue'],
-  data:()=>[]
+  data: () => [],
+  customOption:()=>({})
 });
 
-const { data, chartStyle, unit, colors } = toRefs(props);
+const { data, chartStyle, unit, colors,customOption } = toRefs(props);
 const ecOption = ref()
 const colorMap = {
   'green': {
@@ -175,8 +177,7 @@ const ecOptionFun = () => {
   let option = {
     grid: {
       top: 30,
-      bottom: 24,
-      width: '100%',
+      bottom: 24
     },
     legend: {
       itemWidth: 16,
@@ -283,11 +284,13 @@ const ecOptionFun = () => {
       }
     ]
   };
-  option = merge(option, {series: colors.value.map(item=>colorMap[item])})
+  option = merge(option, { series: colors.value.map(item => colorMap[item]), ...customOption.value })  
   return option;
 };
 watch(data, () => {
   ecOption.value = ecOptionFun()
+  console.log('ecOption',ecOption.value);
+  
 }, {
   immediate:true
 })

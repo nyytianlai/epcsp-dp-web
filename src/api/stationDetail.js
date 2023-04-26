@@ -1,3 +1,11 @@
+/*
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-19 17:24:43
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-04-26 16:34:37
+ * @FilePath: \epcsp-dp-web\src\api\stationDetail.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import request from '@sutpc/axios';
 // 设备详情/标题下四个统计数，stationId:站点id，operatorId:运营商id
 export const selectStationStatistics = (params) => {
@@ -56,6 +64,14 @@ export const selectStationRealTimePowerByStationId = (params) => {
 export const selectWarningStatisticByStationId = (params) => {
   return request.post({
       url: '/dp/api/v1/equipmentManageDetail/selectWarningStatisticByStationId',
+      data: params
+    })
+}
+
+//设备详情/摄像头信息，stationId:站点id，operatorId:运营商id
+export const selectCameraByStationId = (params) => {
+  return request.post({
+      url: '/dp/api/v1/equipmentManageDetail/selectCameraByStationId',
       data: params
     })
 }

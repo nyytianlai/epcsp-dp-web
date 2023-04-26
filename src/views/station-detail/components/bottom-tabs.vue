@@ -35,7 +35,7 @@
 import {ref,toRefs,toRef,inject } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
 const aircityObj = inject('aircityObj');
-const __g = aircityObj.value.acApi;
+const __g = aircityObj.value?.acApi;
 const props = defineProps({
     data:{
         type:Array,
@@ -103,17 +103,17 @@ const handleOut = (tab)=> {
 const handleRoaming = (value)=>{
     // __g.camera.getAnimationList();// 获取导航列表
     if(value === '1-1'){
-
+        __g && __g.camera.set(504684.210703, 2499647.408125, 112.292803, -36.212811, 142.757401, 2); //休息区
     }else if(value === '1-2'){
         //参数：录制导览的索引序号，从0开始
-      __g.camera.playAnimation(2);
+        __g && __g.camera.playAnimation(2);
     }else if(value === '1-3'){
-        __g.camera.set(504734.233359, 2499794.870781, 147.298916, -38.010437, 109.420509, 0); //入口
+        __g && __g.camera.set(504734.233359, 2499794.870781, 147.298916, -38.010437, 109.420509, 2); //入口
     }else if(value === '1-4'){
-        __g.camera.set(504812.854141, 2499524.212188, 130.5496, -36.160389, -150.332504, 0); //出口
+        __g && __g.camera.set(504812.854141, 2499524.212188, 130.5496, -36.160389, -150.332504, 2); //出口
     }else if(value === '1-5'){
           //参数：录制导览的索引序号，从0开始
-      __g.camera.playAnimation(1);
+          __g && __g.camera.playAnimation(1);
     }
 }
 const handleClick = (item,sub)=>{
