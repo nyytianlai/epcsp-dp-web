@@ -37,7 +37,7 @@ const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 
 const setRectBarVisibility = (value: boolean) => {
-  quRef.value.resetSz(true);
+  quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value

@@ -140,12 +140,12 @@ const back = async () => {
 };
 
 //重置到深圳
-const resetSz = async (value) => {
+const resetSz = async (value?: true) => {
   store.commit('CHANGE_CURRENTPOSITION', '深圳市');
   store.commit('CHANGE_CURRENTPOSITIONBAK', '');
   store.commit('CHANGE_CURRENTHRSTATIONID', '');
   await __g.marker.deleteByGroupId('quStation');
-  value ? '' : setQuVisibility(true);
+  value ? setQuVisibility(true) : '';
   await __g.camera.set(infoObj.szView, 0.2);
   await __g.settings.setEnableCameraMovingEvent(false);
 };
