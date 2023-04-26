@@ -10,4 +10,12 @@ export const formatWithToLocalString = (
     }else{
         return '--'
     }
+}
+  
+export const tableColumnFun = (row, column, cellValue, index) => {
+  // console.log(row, column, cellValue, index);
+  if (cellValue === '' || cellValue === null) {
+    return '--'
   }
+  return cellValue
+}

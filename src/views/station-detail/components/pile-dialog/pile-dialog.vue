@@ -1,65 +1,96 @@
 <template>
-    <el-dialog
-        v-model="visible"
-        class="pile-dialog"
-        :class="type"
-        :width="type === 'normal-pile'?'8.45rem':'6.75rem'"
-        @close="emit('update:visible', false)"
-        @closed="emit('closed')"
-    >
+  <el-dialog
+    v-model="visible"
+    class="pile-dialog"
+    :class="type"
+    :width="type === 'normal-pile' ? '8.45rem' : '6.75rem'"
+    @close="emit('update:visible', false)"
+    @closed="emit('closed')"
+  >
     <template #header>
       <div class="my-header">
         <icon :icon="`svg-icon:${type}`" />
         <div class="info">
-            <span class="top">
-                <span class="name-pile">#103直流桩</span>
-                <span class="power">240KW</span>
-                <span class="status">正常</span>
-            </span>
-            <span class="pile-code">
-                12837479W900Q00Q0
-            </span>
+          <span class="top">
+            <span class="name-pile">{{ headerData.name }}</span>
+            <span class="power" v-if="headerData.power">{{headerData.power}}KW</span>
+            <span class="status" :class="headerData.class" >{{ headerData.status }}</span>
+          </span>
+          <span class="pile-code">
+            {{ headerData.code }}
+          </span>
         </div>
       </div>
     </template>
-      <normal-pile v-if="type === 'normal-pile'" />
-      <warning-pile v-if="type === 'warning-pile'"  @close="close" />
-      <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData" />
-    </el-dialog>
+    <normal-pile v-if="type === 'normal-pile'" />
+    <warning-pile v-if="type === 'warning-pile'" @close="close" />
+    <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData.cameraUrl" />
+  </el-dialog>
 </template>
 <script setup>
-import { toRefs, ref } from 'vue';
-import NormalPile from './normal-pile.vue'
-import WarningPile from './warning-pile.vue'
-import VideoPlayer from './video-palyer.vue'
+import { toRefs, ref, computed } from 'vue';
+import NormalPile from './normal-pile.vue';
+import WarningPile from './warning-pile.vue';
+import VideoPlayer from './video-palyer.vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
   visible: {
     type: Boolean,
     default: false
   },
-  type:{
-    type:String,
-    default:'monitor'
+  type: {
+    type: String,
+    default: 'monitor'
   },
   pileVideoData: {
-    type: String,
-    default:''
+    type: Object,
+    default: () => ({})
   }
 });
-const {visible,title,type,pileVideoData} = toRefs(props)
-const emit = defineEmits(['update:visible','closed']);
-const close = ()=>{
-  emit('update:visible', false)
-}
+const { visible, title, type, pileVideoData } = toRefs(props);
+const emit = defineEmits(['update:visible', 'closed']);
+const close = () => {
+  emit('update:visible', false);
+};
+const videoStatus = {
+  0: {
+    statusName:'离线',
+    class:'offline'
+  },
+  1: {
+    statusName:'在线',
+    class:'online'
+  },
+  255: {
+    statusName:'故障',
+    class:'warning'
+  }
+};
+const headerData = computed(() => {
+  return {
+    name: pileVideoData.value?.location,
+    status:videoStatus[pileVideoData.value?.status]?.statusName,
+    code: pileVideoData.value?.ip,
+    class: videoStatus[pileVideoData.value?.status]?.class,
+    power:''
+  };
+});
 </script>
 <style lang="less">
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
-  clip-path: polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,20px 100%,0 calc(100% - 20px),0 0);
-  &.monitor{
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 0
+  );
+  &.monitor {
     height: 482px;
   }
   &.warning-pile {
@@ -119,6 +150,16 @@ const close = ()=>{
           line-height: 20px;
           margin-left: 6px;
           font-size: 12px;
+          &.offline{
+
+          }
+          &.warning{
+            background: rgba(170, 5, 5, 0.3);
+            border: 1px solid #AA0505;
+            border-radius: 4px;
+            color: #FF6B4B;
+
+          }
         }
       }
       .pile-code {

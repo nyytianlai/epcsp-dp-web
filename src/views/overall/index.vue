@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 15:12:29
+ * @LastEditTime: 2023-04-26 18:28:19
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -68,7 +68,7 @@
       style="width: 100%"
       class="custom-dialog-table"
     >
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" >
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :formatter="tableColumnFun" >
         <template #default="scope">
           
         </template>
@@ -89,6 +89,7 @@ import { onMounted, ref, reactive,inject,watch,nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
+import {tableColumnFun} from '@/global/commonFun.js'
 import {
   overTotalCount,
   totalFacilities,

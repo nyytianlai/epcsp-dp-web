@@ -24,6 +24,7 @@
       align="left"
       :label="item.label"
       :min-width="item.width"
+      :formatter="tableColumnFun" 
     ></el-table-column>
   </ScrollTable>
 </template>
@@ -31,7 +32,7 @@
 <script setup >
 import { ref, onMounted, reactive,watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
-
+import {tableColumnFun} from '@/global/commonFun.js'
 const props = defineProps({
   scrollTableData:{
     type: Array,
