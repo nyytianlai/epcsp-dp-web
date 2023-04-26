@@ -1,11 +1,13 @@
 <template>
     <div class="bottom-tabs">
-        <div class="tab" 
-                v-for="(item,index) in dataR" 
-                :key="index"
-                @mouseover="handleHover(item)"
-                @mouseout="handleOut(item)"
-                @click="handleClick(item)"
+        <div 
+            class="tab" 
+            :class="[{active:item.value === activeTab}]"
+            v-for="(item,index) in dataR" 
+            :key="index"
+            @mouseover="handleHover(item)"
+            @mouseout="handleOut(item)"
+            @click="handleClick(item)"
             >
             <icon :icon="`svg-icon:${item.icon}`" />
             <span class="label">{{ item.label }}</span>
@@ -17,7 +19,12 @@
                     }
                 ]"
                 >
-                <div class="sub-item" @click="handleClick(item,sub)" v-for="(sub,ii) in item.children" :key="ii">
+                <div 
+                    class="sub-item" 
+                    @click.stop="handleClick(item,sub)" 
+                    v-for="(sub,ii) in item.children" :key="ii"
+                    :class="[{active:sub.value === selectIndex}]"
+                >
                     {{ sub.label }}
                 </div>
             </div>
@@ -25,8 +32,10 @@
     </div>
 </template>
 <script setup>
-import {ref,toRefs,toRef} from 'vue'
+import {ref,toRefs,toRef,inject } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
+const aircityObj = inject('aircityObj');
+const __g = aircityObj.value.acApi;
 const props = defineProps({
     data:{
         type:Array,
@@ -50,6 +59,10 @@ const props = defineProps({
                     },{
                         label:'停车场出口',
                         value:'1-4'
+                    },
+                    {
+                        label:'默认视角',
+                        value:'1-5'
                     },
                 ]
             },
@@ -79,18 +92,50 @@ const props = defineProps({
 const emit = defineEmits('handleSelect')
 const {data} = toRefs(props)
 const dataR = ref(data.value)
+const selectIndex = ref(null)
+const activeTab = ref()
 const handleHover = (tab)=> {
     tab.isHover = true;
 }
 const handleOut = (tab)=> {
     tab.isHover = false;
 }
+const handleRoaming = (value)=>{
+    // __g.camera.getAnimationList();// 获取导航列表
+    if(value === '1-1'){
+
+    }else if(value === '1-2'){
+        //参数：录制导览的索引序号，从0开始
+      __g.camera.playAnimation(2);
+    }else if(value === '1-3'){
+        __g.camera.set(504734.233359, 2499794.870781, 147.298916, -38.010437, 109.420509, 0); //入口
+    }else if(value === '1-4'){
+        __g.camera.set(504812.854141, 2499524.212188, 130.5496, -36.160389, -150.332504, 0); //出口
+    }else if(value === '1-5'){
+          //参数：录制导览的索引序号，从0开始
+      __g.camera.playAnimation(1);
+    }
+}
 const handleClick = (item,sub)=>{
-    console.log(item,sub);
     if(sub){
         item.isHover = false
+        if(sub.value === selectIndex.value){
+            selectIndex.value = null
+            activeTab.value = null
+        }else{
+            selectIndex.value = sub.value
+            activeTab.value = item.value
+            handleRoaming(sub.value)
+        }
         emit('handleSelect',sub)
     }else{
+        if(item.children && item.children.length)return
+        selectIndex.value = null
+        if(item.value === activeTab.value){
+            activeTab.value = null
+        }else{
+            activeTab.value = item.value
+        }
         emit('handleSelect',item)
     }
 }
@@ -115,6 +160,21 @@ const handleClick = (item,sub)=>{
     cursor: pointer;
     &:last-of-type {
       margin-right: 0;
+    }
+    &.active {
+      background: linear-gradient(
+        270deg,
+        rgba(75, 169, 255, 0) 2.08%,
+        rgba(75, 158, 255, 0.639) 49.01%,
+        rgba(10, 167, 255, 0) 98.96%
+      );
+      .label {
+        color: #fff;
+      }
+      &::before {
+        content: '';
+        position: absolute;
+      }
     }
     .el-icon {
       font-size: 24px;
@@ -156,6 +216,9 @@ const handleClick = (item,sub)=>{
         font-size: 16px;
         color: #fff;
         cursor: pointer;
+        &.active {
+          background: rgba(84, 181, 255, 0.7);
+        }
         &:hover {
           background: rgba(84, 181, 255, 0.7);
         }

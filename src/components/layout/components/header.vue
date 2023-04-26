@@ -7,6 +7,9 @@
  * @Description: FilePath
 -->
 <template>
+  <div class="header-bgc">
+
+  </div>
   <div class="subject-header">
     <div class="header-title ioc-text-heavy"></div>
   </div>
@@ -46,6 +49,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.header-bgc {
+  background: linear-gradient(
+    180deg,
+    #000f2b 0%,
+    #001428 22.32%,
+    rgba(0, 20, 41, 0.5) 44.46%,
+    rgba(0, 15, 43, 0) 95.21%
+  );
+  border-radius: 4px;
+  position: absolute;
+  width: 100%;
+  height: 240px;
+  top: 0;
+  left: 0;
+  z-index: 19;
+}
 .subject-header {
   height: 80px;
   width: 100%;

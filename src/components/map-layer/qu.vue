@@ -404,7 +404,8 @@ onBeforeUnmount(() => {
   background: rgba(4, 22, 43, 0.4);
   border: 1px solid rgba(148, 148, 148, 0.3);
   color: #ffffff;
-  z-index: 10;
+  z-index: 20;
+  cursor: pointer;
 
   img {
     width: 36px;
