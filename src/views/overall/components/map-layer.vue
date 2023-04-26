@@ -37,7 +37,7 @@ const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 
 const setRectBarVisibility = (value: boolean) => {
-  // quRef.value.resetSz();
+  quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
@@ -75,7 +75,7 @@ const addHeatMap = async () => {
   // await __g.heatmap.clear();
   const { data: res } = await getHeatMap();
   let bbox = [470754, 2472106, 5.7, 629306, 2550338, 344.58];
-  let range = [0, 1000];
+  let range = [0, 3000];
   let data = [];
   res.forEach((element) => {
     const coord84 = gcj02ToWgs84(Number(element.longitude), Number(element.latitude));
@@ -83,7 +83,7 @@ const addHeatMap = async () => {
     data.push({
       id: element.stationId,
       coordinate: [...coord4547, 0], //热力点的坐标
-      radius: 660, //热力点影像半径范围
+      radius: 4000, //热力点影像半径范围
       heatValue: element.realTimePower //热力值
     });
   });
