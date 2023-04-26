@@ -271,7 +271,8 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
     let ids = [
       '7CED6A4A4F00FFA1B7273C9511B55B85',
       'E4933C614755E6F56D8C209A5B28B8C4',
-      '6EA525CA4FB949D9850E5A933AA5FFCA'
+      '6EA525CA4FB949D9850E5A933AA5FFCA',
+      'D398F2D8482A2FCC5BA60F9DE52C6DB9' //车辆充电动画
     ];
     ids.forEach((element) => {
       isShow ? __g.tileLayer.show(element) : __g.tileLayer.hide(element);
@@ -325,7 +326,7 @@ const addQuName = async () => {
       anchors: [-11, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [22, 19], //图片的尺寸
       range: [1, 150000], //可视范围
-      imagePath: getImageUrl('regionName'),
+      imagePath: getImageByCloud('regionName'),
       text: item.properties.QUNAME, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 150000], //文本可视范围[近裁距离, 远裁距离]
