@@ -2,53 +2,60 @@
   <el-dialog
     v-model="visible"
     class="pile-dialog"
-    :class="type"
-    :width="type === 'normal-pile' ? '8.45rem' : '6.75rem'"
+    :class="type,headerData?.type"
+    :width="headerData?.type === 'normal-pile' ? '8.45rem' : '6.75rem'"
     @close="emit('update:visible', false)"
     @closed="emit('closed')"
+    :modal="false"
+    destroy-on-close
   >
     <template #header>
       <div class="my-header">
-        <icon :icon="`svg-icon:${type}`" />
+        <icon :icon="`svg-icon:${type}`" v-if="type === 'monitor'" />
+        <icon :icon="`svg-icon:${headerData?.type}`" v-if="type === 'pile'" />
         <div class="info">
           <span class="top">
-            <span class="name-pile">{{ headerData.name }}</span>
-            <span class="power" v-if="headerData.power">{{headerData.power}}KW</span>
-            <span class="status" :class="headerData.class" >{{ headerData.status }}</span>
+            <span class="name-pile">{{ headerData?.name }}</span>
+            <span class="power" v-if="headerData?.power">{{headerData?.power}}KW</span>
+            <span class="status" v-if="headerData?.status" :class="headerData?.class" >{{ headerData?.status }}</span>
           </span>
           <span class="pile-code">
-            {{ headerData.code }}
+            {{ headerData?.code }}
           </span>
         </div>
       </div>
     </template>
-    <normal-pile v-if="type === 'normal-pile'" />
-    <warning-pile v-if="type === 'warning-pile'" @close="close" />
+    <normal-pile v-if="headerData?.type === 'normal-pile'" />
+    <warning-pile v-if="headerData?.type === 'warning-pile'" @close="close" />
     <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData.cameraUrl" />
   </el-dialog>
 </template>
 <script setup>
-import { toRefs, ref, computed } from 'vue';
+import { toRefs, ref, computed,onMounted,watch ,provide} from 'vue';
 import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
 import VideoPlayer from './video-palyer.vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import {selectEquipmentInfoByEquipmentId} from '@/api/stationDetail.js'
 const props = defineProps({
   visible: {
     type: Boolean,
     default: false
   },
   type: {
-    type: String,
-    default: 'monitor'
+    type: String
+  },
+  pileParams: {
+    type: Object
   },
   pileVideoData: {
-    type: Object,
-    default: () => ({})
+    type: Object
   }
 });
-const { visible, title, type, pileVideoData } = toRefs(props);
+const { visible, title, type, pileVideoData,pileParams } = toRefs(props);
 const emit = defineEmits(['update:visible', 'closed']);
+const headerData = ref({})
+const pileData = ref({})
 const close = () => {
   emit('update:visible', false);
 };
@@ -66,15 +73,78 @@ const videoStatus = {
     class:'warning'
   }
 };
-const headerData = computed(() => {
+const stateFormate = (state) => {
   return {
-    name: pileVideoData.value?.location,
-    status:videoStatus[pileVideoData.value?.status]?.statusName,
-    code: pileVideoData.value?.ip,
-    class: videoStatus[pileVideoData.value?.status]?.class,
-    power:''
-  };
-});
+    0: {
+      code: 'warning',
+      name: '故障',
+      type: 'warning-pile'
+    },
+    1: {
+      code: 'online',
+      name:'正常',
+      type: 'normal-pile'
+    },
+    2: {
+      code: 'online',
+      name:'正常',
+      type: 'normal-pile'
+    },
+    3: {
+      code: 'online',
+      name:'正常',
+      type: 'normal-pile'
+    },
+    4: {
+      code: 'online',
+      name:'正常',
+      type: 'normal-pile'
+    },
+    5: {
+      code: 'online',
+      name:'正常',
+      type: 'normal-pile'
+    },
+    255: {
+      code: 'warning',
+      name: '故障',
+      type: 'warning-pile'
+    },
+    
+  }[state];
+};
+const getEquipmentInfoByEquipmentIdData = async () => {
+  const res = await selectEquipmentInfoByEquipmentId(pileParams.value)
+  console.log(res);
+  if (res?.data) {
+    headerData.value = {
+          name: res?.data?.equipmentName,
+          status:stateFormate([res?.data?.equipmentStatus])?.name,
+          code: res?.data?.equipmentId,
+          class: stateFormate([res?.data?.equipmentStatus])?.code,
+          power: res?.data?.equipmentPower,
+          type:stateFormate([res?.data?.equipmentStatus])?.type
+    }
+    pileData.value = res?.data
+  }
+}
+watch(visible, (newVal) => {
+  if (newVal){
+    if (type.value !== 'monitor') {
+      getEquipmentInfoByEquipmentIdData()
+    } else {
+      if(!pileVideoData.value)return
+        headerData.value = {
+          name: pileVideoData.value?.location,
+          status:videoStatus[pileVideoData.value?.status]?.statusName,
+          code: pileVideoData.value?.ip,
+          class: videoStatus[pileVideoData.value?.status]?.class,
+          power:''
+      }
+    }
+  }
+})
+provide('pileData',pileData)
 </script>
 <style lang="less">
 .pile-dialog {
@@ -94,6 +164,7 @@ const headerData = computed(() => {
     height: 482px;
   }
   &.warning-pile {
+    height: 482px;
     background: radial-gradient(
         58.3% 58.3% at 50% 50%,
         rgba(73, 18, 18, 0.85) 0%,
@@ -151,12 +222,13 @@ const headerData = computed(() => {
           margin-left: 6px;
           font-size: 12px;
           &.offline{
-
+            background: rgba(159, 159, 159, 0.3);
+            border-color: #E8E8E8;
+            color: #FFFFFF;
           }
           &.warning{
             background: rgba(170, 5, 5, 0.3);
-            border: 1px solid #AA0505;
-            border-radius: 4px;
+            border-color: #AA0505;
             color: #FF6B4B;
 
           }
