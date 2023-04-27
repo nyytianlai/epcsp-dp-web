@@ -97,7 +97,6 @@ import {
   linePowerDataFun
 } from './config.js';
 import bus from '@/utils/bus';
-import {useRouter} from 'vue-router'
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -189,14 +188,12 @@ const handleChangeTab = (data, type) => {
     getWarningInfoByStationId(data.code);
   }
 };
-const router = useRouter()
 const backSz = () => {
-  router.push('/overall/allView')
-  // store.commit('CHANGE_SHOW_COMPONENT', true);
-  // store.commit('CHANGE_SHOW_DETAIL', {
-  //   show: false
-  // });
-  // bus.emit('hrBackSz');
+  store.commit('CHANGE_SHOW_COMPONENT', true);
+  store.commit('CHANGE_SHOW_DETAIL', {
+    show: false
+  });
+  bus.emit('hrBackSz');
 };
 useEmitt('AIRCITY_EVENT', async (e) => {
     // pileParams.value = {
