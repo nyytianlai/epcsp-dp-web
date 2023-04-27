@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap">
     <ul class="content">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
+      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
@@ -151,6 +151,9 @@ const barListFun = () => {
   ];
 };
 const barData = ref(barListFun());
+const handleClick = (item)=> {
+  console.log(item);
+}
 </script>
 <style lang="less" scoped>
 .charging-wrap {
@@ -174,6 +177,7 @@ const barData = ref(barListFun());
     position: relative;
     margin-right: 16px;
     margin-bottom: 12px;
+    cursor: pointer;
     &:nth-child(4n) {
       margin-right: 0;
     }
