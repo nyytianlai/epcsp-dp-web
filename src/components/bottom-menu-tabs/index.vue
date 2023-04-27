@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-13 16:08:53
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-13 16:27:46
+ * @LastEditTime: 2023-04-27 10:56:09
  * @FilePath: \epcsp-dp-web\src\components\bottom-menu-tabs\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -67,8 +67,22 @@
     align-items: flex-start;
     margin-right: 108px;
     cursor: pointer;
+    position: relative;
     &.active {
       background-image: url(./images/active.png);
+      &::before{
+        content: '';
+        width: 100px;
+        height: 56px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 26px;
+        background: linear-gradient(180deg, rgba(9, 226, 245, 0) 5.08%, rgba(9, 226, 245) 86%);
+        clip-path: polygon(0 0,100% 0,calc(100% - 18px) 100%,18px 100%,0 0);
+        animation: activeAnimate 1s infinite alternate;
+        z-index: -1;
+      }
       .label {
         font-weight: 600;
         background: linear-gradient(180deg, #ffffff 62.5%, #0ae3f1 100%);
@@ -85,6 +99,18 @@
       font-size: 20px;
       line-height: 30px;
     }
+  }
+}
+@keyframes activeAnimate {
+  from {
+    /* pushes the sun down past the viewport */
+    height: 0;
+    width: 90px;
+  }
+  to {
+    /* returns the sun to its default position */
+    height: 56px;
+    width: 100px;
   }
 }
 </style>

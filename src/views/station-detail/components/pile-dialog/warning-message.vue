@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 14:09:49
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-26 14:22:44
+ * @LastEditTime: 2023-04-27 18:45:40
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\pile-dialog\warning-message.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -23,6 +23,7 @@
             align="left"
             :label="item.label"
             :min-width="item.width"
+            :type="item.type"
         ></el-table-column>
         </ScrollTable>
         <el-pagination
@@ -36,14 +37,16 @@
     </div>
 </template>
 <script setup>
-import { ref,reactive } from 'vue';
+import { ref,reactive,inject,onMounted } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
+import { selectEquipmentAlarmByPage } from '@/api/stationDetail.js'
+const pileData = inject('pileData');
 const messageColumnKeyListFun = () => {
   return [
     { prop: 'index', label: '序号', width: 30, type: 'index' },
-    { prop: 'cnt', label: '告警时间', width: 150 },
-    { prop: 'unAffirmCnt', label: '告警类型', width: 120 },
-    { prop: 'unAffirmCnt', label: '告警描述', width: 150 }
+    { prop: 'alarmTime', label: '告警时间', width: 150 },
+    { prop: 'alarmType', label: '告警类型', width: 120 },
+    { prop: 'alarmDesc', label: '告警描述', width: 150 }
   ];
 };
 const pageObj = reactive({
@@ -56,7 +59,27 @@ const scrollTableData = ref([]);
 // table数据
 const handPageChange = (value) => {
   pageObj.currentPage = value;
+  getEquipmentAlarmByPage()
 };
+const getEquipmentAlarmByPage = async () => {
+  const params = {
+    "equipmentId": pileData.value?.equipmentId,
+    "operatorId": pileData.value?.operatorId,
+    "pageNum": pageObj.currentPage,
+    "pageSize": pageObj.pageSize
+  }
+  const res = await selectEquipmentAlarmByPage(params)
+  if (res?.data?.dataList) {
+    scrollTableData.value = res?.data?.dataList
+    pageObj.total = res?.data?.totalData
+  } else {
+    scrollTableData.value = []
+    pageObj.total = 0
+  }
+}
+onMounted(() => {
+  getEquipmentAlarmByPage()
+})
 </script>
 <style lang="less" scoped>
 .warning-message{

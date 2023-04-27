@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-19 17:24:43
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-26 16:34:37
+ * @LastEditTime: 2023-04-27 14:42:49
  * @FilePath: \epcsp-dp-web\src\api\stationDetail.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -72,6 +72,39 @@ export const selectWarningStatisticByStationId = (params) => {
 export const selectCameraByStationId = (params) => {
   return request.post({
       url: '/dp/api/v1/equipmentManageDetail/selectCameraByStationId',
+      data: params
+    })
+}
+
+// /dp/api/v1/equipmentManageDetail/selectEquipmentInfoByEquipmentId 设备详情/桩基本信息
+export const selectEquipmentInfoByEquipmentId = (params) => {
+  return request.post({
+      url: '/dp/api/v1/equipmentManageDetail/selectEquipmentInfoByEquipmentId',
+      data: params
+    })
+}
+
+// /dp/api/v1/equipmentManageDetail/selectEquipmentDynamicInfo 设备详情/桩枪动态信息
+export const selectEquipmentDynamicInfo = (params) => {
+  return request.post({
+      url: '/dp/api/v1/equipmentManageDetail/selectEquipmentDynamicInfo',
+      data: params
+    })
+}
+
+// /dp/api/v1/equipmentManageDetail/selectEquipmentDynamicInfoGroupByTime设备详情/桩枪动态信息分时列表
+export const selectEquipmentDynamicInfoGroupByTime = (params) => {
+  return request.post({
+      url: '/dp/api/v1/equipmentManageDetail/selectEquipmentDynamicInfoGroupByTime',
+      data: params
+    })
+}
+
+
+// /dp/api/v1/equipmentManageDetail/selectEquipmentAlarmByPage设备详情/根据桩号查询告警信息分页
+export const selectEquipmentAlarmByPage = (params) => {
+  return request.post({
+      url: '/dp/api/v1/equipmentManageDetail/selectEquipmentAlarmByPage',
       data: params
     })
 }

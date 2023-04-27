@@ -1,6 +1,6 @@
 <template>
     <div class="normal-pile">
-        <el-tabs v-model="activeName" class="pile-tabs" @tab-click="handleClick">
+        <el-tabs v-model="activeName" class="pile-tabs">
             <el-tab-pane label="基本信息" name="first">
               <BaseInfo/>
             </el-tab-pane>
@@ -20,10 +20,6 @@ import BaseInfo from './base-info.vue'
 import WarningMessage from './warning-message.vue'
 import ActiveMessage from './active-message.vue'
 const activeName = ref('first')
-
-const handleClick = (tab, event) => {
-  console.log(tab, event)
-}
 </script>
 <style lang="less" scoped>
 :deep(.pile-tabs) {

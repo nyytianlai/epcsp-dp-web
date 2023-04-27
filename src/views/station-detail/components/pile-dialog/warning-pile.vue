@@ -1,135 +1,156 @@
 <template>
-    <div class="warning-pile">
-        <div class="safe-level">
-            <icon icon="svg-icon:warning" />
-            <span>二级设备安全</span>
-        </div>
-        <ul class="device-info">
-            <li class="list-item" v-for="(item,index) in listData" :key="index">
-                <label for="">{{ item.label }}</label>
-                <span class="value">{{ item.value }}</span>
-            </li>
-        </ul>
-        <div class="btns-wrap" >
-            <div class='border-bg red' @click="emit('close')">
-                <div class='content'>
-                    一键断电
-                </div>
-            </div>
-            <div class='border-bg blue' @click="innerVisible=true">
-                <div class='content'>
-                  一键呼叫
-                </div>
-            </div>
-            <div class='border-bg blue' @click="emit('close')">
-                <div class='content'>
-                  确认修复
-                </div>
-            </div>
-        </div>
-        <el-dialog
-          v-model="innerVisible"
-          class="phone-dialog"
-          width="10.45rem"
-          title="Inner Dialog"
-          append-to-body
-        >
-        <template #header>
-          <div class="my-header">
-            <icon icon="svg-icon:people" />
-            <div class="info">
-                <span class="top">
-                    <span class="name-pile">李某某-欢乐谷比亚迪充电站-安全负责人</span>
-                </span>
-                <span class="pile-code">
-                  18283993910
-                </span>
-            </div>
-          </div>
-        </template>
-        <div class="user-info">
-          <icon icon="svg-icon:people-big" style="fontSize:2.94rem"  />
-          <span class="user-name">李某某</span>
-          <span class="time">00:00:00</span>
-          <div class="btn-wrap">
-            <span class="btn-item" @click="handleClick(item)" v-for="item in btnList" :key="item.icon" >
-              <icon :icon="`svg-icon:${item.icon}`" style="fontSize:0.6rem" />
-              <span class="text">{{ item.text }}</span>
-            </span>
-          </div>
-        </div>
-      </el-dialog>
+  <div class="warning-pile">
+    <div class="safe-level">
+      <icon icon="svg-icon:warning" />
+      <span>{{ alarmLevelData[pileData.alarmLevel] || '--' }}</span>
     </div>
+    <ul class="device-info">
+      <li class="list-item" v-for="(item, index) in listData" :key="index">
+        <label for="">{{ item.label }}</label>
+        <span class="value">{{ item.value }}</span>
+      </li>
+    </ul>
+    <div class="btns-wrap">
+      <div class="border-bg red" @click="emit('close')">
+        <div class="content">一键断电</div>
+      </div>
+      <div class="border-bg blue" @click="innerVisible = true">
+        <div class="content">一键呼叫</div>
+      </div>
+      <div class="border-bg blue" @click="emit('close')">
+        <div class="content">确认修复</div>
+      </div>
+    </div>
+    <el-dialog
+      v-model="innerVisible"
+      class="phone-dialog"
+      width="10.45rem"
+      title="Inner Dialog"
+      append-to-body
+    >
+      <template #header>
+        <div class="my-header">
+          <icon icon="svg-icon:people" />
+          <div class="info">
+            <span class="top">
+              <span class="name-pile">李某某-欢乐谷比亚迪充电站-安全负责人</span>
+            </span>
+            <span class="pile-code">18283993910</span>
+          </div>
+        </div>
+      </template>
+      <div class="user-info">
+        <icon icon="svg-icon:people-big" style="fontsize: 2.94rem" />
+        <span class="user-name">李某某</span>
+        <span class="time">00:00:00</span>
+        <div class="btn-wrap">
+          <span
+            class="btn-item"
+            @click="handleClick(item)"
+            v-for="item in btnList"
+            :key="item.icon"
+          >
+            <icon :icon="`svg-icon:${item.icon}`" style="fontsize: 0.6rem" />
+            <span class="text">{{ item.text }}</span>
+          </span>
+        </div>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script setup>
-import {ref} from 'vue'
+import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-const emit = defineEmits(['close'])
-const listDataFun = ()=>{
-    return [
-        {
-            label:'设备名称：',
-            value:'#103直流桩'
-        },
-        {
-            label:'设备类型：',
-            value:'直流桩'
-        },
-        {
-            label:'设备编号：',
-            value:'12938749490001938'
-        },
-        {
-            label:'设备接口编码：',
-            value:'29102093819'
-        },
-        {
-            label:'告警类型：',
-            value:'充电系统故障'
-        },
-        {
-            label:'告警描述：',
-            value:'急停'
-        },
-        {
-            label:'告警时间：',
-            value:'2013-03-14 09:09:56'
-        },
-        {
-            label:'上报时间：',
-            value:'2013-03-14 09:09:58'
-        },
-        {
-            label:'确认结果：',
-            value:'未确认'
-        },
-        {
-            label:'负责人电话：',
-            value:'181838806'
-        },
-    ]
-}
-const listData = ref(listDataFun())
-const innerVisible = ref(false)
+const emit = defineEmits(['close']);
+const pileData = inject('pileData');
+const alarmLevelData = {
+  1: '一级人身安全',
+  2: '二级设备安全',
+  3: '三级告警提示'
+};
+const equipmentTypes = {
+  1: '直流设备',
+  2: '交流设备',
+  3: '交直流一体设备',
+  4: '无线充电',
+  5: '充放电设备',
+  255: '其他'
+};
+const alarmTypes = {
+  1: '充电系统故障',
+  2: '电池系统故障',
+  3: '配电系统故障'
+};
+const affirms = {
+  1: '未确认',
+  2: '已确认'
+};
+const listDataFun = (data = {}) => {
+  return [
+    {
+      label: '设备名称：',
+      value: data?.equipmentName || '--'
+    },
+    {
+      label: '设备类型：',
+      value: equipmentTypes[data?.equipmentType] || '--'
+    },
+    {
+      label: '设备编号：',
+      value: data?.equipmentId || '--'
+    },
+    {
+      label: '设备接口编码：',
+      value: data?.connectorId || '--'
+    },
+    {
+      label: '告警类型：',
+      value: alarmTypes[data?.alarmType] || '--'
+    },
+    {
+      label: '告警描述：',
+      value: data?.alarmDesc || '--'
+    },
+    {
+      label: '告警时间：',
+      value: data?.alarmTime || '--'
+    },
+    {
+      label: '上报时间：',
+      value: data?.reportingTime || '--'
+    },
+    {
+      label: '确认结果：',
+      value: affirms[data?.affirm] || '--'
+    },
+    {
+      label: '负责人电话：',
+      value: data?.contactTel || '--'
+    }
+  ];
+};
+const listData = ref(listDataFun(pileData.value));
+const innerVisible = ref(false);
 const btnList = ref([
   {
-    icon:'video',
-    text:'视频'
+    icon: 'video',
+    text: '视频'
   },
   {
-    icon:'voice',
-    text:'麦克风'
+    icon: 'voice',
+    text: '麦克风'
   },
   {
-    icon:'hangup',
-    text:'挂断'
+    icon: 'hangup',
+    text: '挂断'
   }
-])
-const handleClick = (item)=>{
-  if(item.icon === 'hangup'){
-    innerVisible.value = false
+]);
+
+const handleClick = (item) => {
+  if (item.icon === 'hangup') {
+    innerVisible.value = false;
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .warning-pile {
@@ -197,7 +218,7 @@ const handleClick = (item)=>{
   }
 }
 </style>
-<style lang="less" >
+<style lang="less">
 .phone-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
