@@ -72,3 +72,8 @@ export const getMapCenterCoord = (aircityObj) => {
   const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
   return screen2World_result;
 };
+
+//控制3dt的显示隐藏
+export const control3dts = async (__g, ids: string[], isShow: boolean) => {
+  isShow ? await __g.infoTree.show(ids) : await __g.infoTree.hide(ids);
+};

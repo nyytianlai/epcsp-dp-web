@@ -10,9 +10,11 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { getImageByCloud } from '@/global/config/map';
+import { getImageByCloud, control3dts } from '@/global/config/map';
+import { operatorLabel } from '@/views/station-detail/mapOperate';
 import { selectCameraByStationId } from '@/api/stationDetail.js';
 import bus from '@/utils/bus';
+import { tabCameraInfo } from '../config.js';
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -64,28 +66,114 @@ const addCameraPoint = async (data) => {
   await __g.marker.add(pointArr, null);
 };
 //车辆充电动画
-const carChargingAnimation = () => {
-  setTimeout(() => {
-    __g.misc.callBPFunction({
+const carChargingAnimation = async () => {
+  setTimeout(async () => {
+    await __g.misc.callBPFunction({
       objectName: 'BP_PlaySequence_2',
       functionName: 'PlaySequence'
-    },()=>{
-      __g.camera.playAnimation(3);
     });
-  }, 5000);
+    await control3dts(__g, ['106461804A48EF11238C788590C41BA0','CDBA07094FEF9E795D850591ADB5D497'], true);
+    setTimeout(async () => {
+      carChargingCameraTour();
+    }, 10000);
+  }, 4000);
+};
+const carChargingCameraTour = async () => {
+  await __g.cameraTour.delete('1');
+  //通过接口添加导览并播放
+  let frames = [];
+  //注意：rocation属可选参数，若不传入则相机朝向会根据相机的连续位置自动计算
+  frames.push(
+    new CameraTourKeyFrame(
+      0,
+      0,
+      [504704.88390625, 2499655.3351562503, 114.912919921875],
+      [-57.08574295043945, 55.92612838745117, 0]
+    )
+  );
+  frames.push(
+    new CameraTourKeyFrame(
+      1,
+      3.0,
+      [504709.416875, 2499646.40921875, 96.09150390625],
+      [-28.3896789, 90.26435852050781, 0]
+    )
+  );
+
+  let o = new CameraTourData('1', 'carChargingCameraTour', frames);
+  await __g.cameraTour.add(o);
+  __g.cameraTour.play('1');
+};
+const currentPathCameraTour = async () => {
+  await __g.cameraTour.delete('2');
+  //通过接口添加导览并播放
+  let frames = [];
+  //注意：rocation属可选参数，若不传入则相机朝向会根据相机的连续位置自动计算
+  frames.push(
+    new CameraTourKeyFrame(
+      0,
+      0,
+      [504794.62703125, 2499537.379472656, 107.731845703125],
+      [-42.052947998046875, -88.0236587524414, 0]
+    )
+  );
+  frames.push(
+    new CameraTourKeyFrame(
+      1,
+      4.0,
+      [504784.727265625, 2499566.4553125002, 123.267548828125],
+      [-44.999977111816406, -91.69781494140625, 0]
+    )
+  );
+  frames.push(
+    new CameraTourKeyFrame(
+      2,
+      6.0,
+      [504608.0959375, 2499591.229140625, 182.93339843750002],
+      [-33.08489990234375, -31.16402816772461, 0]
+    )
+  );
+
+  let o = new CameraTourData('2', 'currentPathCameraTour', frames);
+  await __g.cameraTour.add(o);
+  __g.cameraTour.play('2');
+};
+//电流流转
+const currentPath = async (isShow: boolean) => {
+  await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow);
+  currentPathCameraTour();
+};
+//运营商分布
+const operatorDistribution = async (isShow: boolean) => {
+  await control3dts(__g, ['4F5731014B1E4245ECBBAA92FFE23CBA'], isShow);
+  operatorLabel(__g, isShow);
+};
+const resetTab3dt = () => {
+  operatorLabel(__g, false);
+  control3dts(
+    __g,
+    [
+      '7FE772F144B492908689359AF808E6F1',
+      '4F5731014B1E4245ECBBAA92FFE23CBA',
+      '106461804A48EF11238C788590C41BA0'
+    ],
+    false
+  );
 };
 onMounted(() => {
   getCameraData();
   bus.on('handleTabSelect', (e) => {
-    // 传参由回调函数中的形参接受
-    console.log('菜单栏切换', e);
-    if (e.value === '2') {
+    //一级菜单栏切换
+    resetTab3dt();
+    if (e?.value === '2') {
       //站内设施
-    } else if (e.value === '3') {
+    } else if (e?.value === '3') {
       //车辆充电
       carChargingAnimation();
-    } else if (e.value === '4') {
-    } else if (e.value === '5') {
+    } else if (e?.value === '4') {
+      currentPath(true);
+    } else if (e?.value === '5') {
+      operatorDistribution(true);
     }
   });
 });

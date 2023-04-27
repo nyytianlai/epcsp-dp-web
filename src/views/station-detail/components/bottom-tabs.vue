@@ -109,14 +109,14 @@ const handleOut = (tab) => {
 const handleRoaming = (value) => {
   // __g.camera.getAnimationList();// 获取导航列表
   if (value === '1-1') {
-    __g.camera.set(504688.403125, 2499655.846718, 113.203554, -28.484086, 143.718093, 2); //休息区
+    __g.camera.set(504688.403125, 2499655.846718, 113.203554, -28.484086, 143.718093, 6); //休息区
   } else if (value === '1-2') {
     //参数：录制导览的索引序号，从0开始
     __g.camera.playAnimation(2);
   } else if (value === '1-3') {
-    __g.camera.set(504690.2866015625, 2499779.48125, 105.225283203125, -41.8230018, 45.9391136, 2); //入口
+    __g.camera.set(504690.2866015625, 2499779.48125, 105.225283203125, -41.8230018, 45.9391136, 6); //入口
   } else if (value === '1-4') {
-    __g.camera.set(504782.055390625, 2499525.1625, 105.1740625, -27.37429, -76.997833, 2); //出口
+    __g.camera.set(504782.055390625, 2499525.1625, 105.1740625, -27.37429, -76.997833, 6); //出口
   } else if (value === '1-5') {
     //参数：录制导览的索引序号，从0开始
     __g.camera.playAnimation(1);
@@ -133,7 +133,8 @@ const handleClick = (item, sub) => {
       activeTab.value = item.value;
       handleRoaming(sub.value);
     }
-    emit('handleSelect', sub);
+    // emit('handleSelect', sub);
+    bus.emit('handleTabSelect');
   } else {
     if (item.children && item.children.length) return;
     selectIndex.value = null;
@@ -144,7 +145,6 @@ const handleClick = (item, sub) => {
     }
     handleTabView(item.label);
     bus.emit('handleTabSelect', item);
-    emit('handleSelect', item);
   }
 };
 
@@ -152,9 +152,9 @@ const handleClick = (item, sub) => {
 const handleTabView = (label: string) => {
   let cameraInfo = tabCameraInfo()[label];
   if (typeof cameraInfo === 'number') {
-    __g.camera.playAnimation(cameraInfo);
+    // __g.camera.playAnimation(cameraInfo);
   } else {
-    __g.camera.set(cameraInfo, 2);
+    __g.camera.set(...cameraInfo,3);
   }
 };
 </script>
