@@ -209,7 +209,7 @@ const ecOptionFun = () => {
         fontSize: 12,
         lineHeight: 18,
         color: '#B4C0CC',
-        formatter: (value, index) => {
+        formatter: (value, index) => {          
           return dayjs(value).format('HH:00')
           
         },
@@ -217,6 +217,9 @@ const ecOptionFun = () => {
       },
       splitLine: {
         show: false
+      },
+      max: function (value) { 
+          return value.max + 1
       }
     },
     yAxis: {
@@ -285,11 +288,11 @@ const ecOptionFun = () => {
     ]
   };
   option = merge(option, { series: colors.value.map(item => colorMap[item]), ...customOption.value })  
+  
   return option;
 };
 watch(data, () => {
   ecOption.value = ecOptionFun()
-  console.log('ecOption',ecOption.value);
   
 }, {
   immediate:true

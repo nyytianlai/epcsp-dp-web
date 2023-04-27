@@ -161,7 +161,7 @@ const handleTabView = (label: string) => {
 <style lang="less" scoped>
 .bottom-tabs {
   width: 1537px;
-  height: 57px;
+  height: 65px;
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 100%;
   position: absolute;
@@ -171,27 +171,31 @@ const handleTabView = (label: string) => {
   display: flex;
   justify-content: center;
   .tab {
-    display: flex;
-    align-items: center;
-    margin-right: 34px;
-    position: relative;
-    cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-right: 34px;
+      position: relative;
+      cursor: pointer;
+      padding-top: 10px;
     &:last-of-type {
       margin-right: 0;
     }
     &.active {
-      background: linear-gradient(
-        270deg,
-        rgba(75, 169, 255, 0) 2.08%,
-        rgba(75, 158, 255, 0.639) 49.01%,
-        rgba(10, 167, 255, 0) 98.96%
-      );
+      
       .label {
         color: #fff;
       }
       &::before {
         content: '';
         position: absolute;
+        width: 161px;
+        height: 58px;
+        background: url(./images/tab-active-bgc.png) no-repeat;
+        background-size: 100% 100%;
+        background-position: center center;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: -1;
       }
     }
     .el-icon {
