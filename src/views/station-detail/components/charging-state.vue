@@ -154,15 +154,8 @@ const barListFun = () => {
 };
 const barData = ref(barListFun());
 const handleClick = (item) => {
-  __g.tileLayer.getActorInfo({
-            id: '7CED6A4A4F00FFA1B7273C9511B55B85',
-            objectIds: ["462"]
-  }, (res) => {
-    console.log(res);
-    const { rotation } = res.data[0]
           //E4933C614755E6F56D8C209A5B28B8C4 图层id
-    __g?.tileLayer?.focusActor( "7CED6A4A4F00FFA1B7273C9511B55B85","462",2,2,rotation)
-  });
+    __g?.tileLayer?.focusActor( "E4933C614755E6F56D8C209A5B28B8C4","462",2,2,[-25,0,0])
 }
 </script>
 <style lang="less" scoped>
