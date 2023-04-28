@@ -15,6 +15,7 @@
 <script setup>
 import { ref, onMounted,toRefs,inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import { getImageByCloud} from '@/global/config/map';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const props = defineProps({
@@ -153,6 +154,43 @@ const barListFun = () => {
   ];
 };
 const barData = ref(barListFun());
+//添加区的点 isHr 0-是高渲染站点；1-否
+const addWarningPoint = async (data) => {
+  const pointArr = [];
+  data.forEach((item, index) => {
+    console.log(item);
+    let o1 = {
+      id: 'warning-point',
+      groupId: 'warningPointGroup',
+      userData: JSON.stringify(item),
+      coordinateType: 2,
+      coordinate:item.location, //坐标位置
+      anchors: [-57, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [114, 150], //图片的尺寸
+      range: [1, 1500], //可视范围
+      imagePath: getImageByCloud('warning'),
+      //   text: item.stationName, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      // textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      // textOffset: [-20 - xoffset, -85], // 文本偏移
+      // textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+      fontSize: 16, //字体大小
+      fontOutlineSize: 1, //字体轮廓线大小
+      fontColor: '#FFFFFF', //字体颜色
+      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
+      displayMode: 2,
+      autoDisplayModeSwitchFirstRatio: 0.5,
+      autoDisplayModeSwitchSecondRatio: 0.5,
+      // displayMode: 4,
+      // autoDisplayModeSwitchFirstRatio: 0.5,
+      // autoDisplayModeSwitchSecondRatio: 0.5,
+      autoHeight: true
+    };
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
 const handleClick = (item) => {
   //清除绿色高亮
   __g.tileLayer.stopHighlightAllActors()
@@ -164,13 +202,12 @@ const handleClick = (item) => {
   //定位过去
   __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 2, 2, [-25, 0, 0])
   //故障高亮
-  if (+item.status === 255) {
+  if (+item.status) {
     __g.tileLayer.getActorInfo({
             id: '7CED6A4A4F00FFA1B7273C9511B55B85',
             objectIds: [item.eid]
     }, (res) => {
       const { location } = res.data[0]
-      console.log(location);
       location[0] = location[0]
       location[1] = location[1] - 0.3
       location[2] = 92.80
@@ -182,7 +219,8 @@ const handleClick = (item) => {
       __g.misc.callBPFunction({             
               objectName: 'BP_Warning_2',
               functionName: 'UnpauseTimer',
-        });
+      });
+      addWarningPoint(res.data)
       // __g.tileLayer.focus('1E0DA98D4A4DA1E3106E69AE5469D860')
     });
   } else {

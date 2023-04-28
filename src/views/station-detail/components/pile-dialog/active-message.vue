@@ -4,7 +4,7 @@
       <el-tab-pane :name="item.name" v-for="(item, index) in tabList" :key="index">
         <template #label>
           <span class="custom-tabs-label">
-            <span>{{ item.name }}</span>
+            <span class="label">{{ item.name }}</span>
             <span v-if="item.status" class="status" :class="item?.status?.code">
               {{ item?.status?.name }}
             </span>
@@ -235,6 +235,17 @@ onMounted(() => {
     }
     .el-tabs__nav {
       width: 100%;
+    }
+    &.tabs-length1{
+      .el-tabs__item:nth-child(2) {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%, 0 0);
+      }
+    }
+    &.tabs-length2{
+      .el-tabs__item:nth-child(3) {
+        clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
+        margin-left: -15px;
+      }
     }
     .el-tabs__item {
       flex: 1;
