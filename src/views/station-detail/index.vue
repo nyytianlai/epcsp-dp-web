@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-28 18:29:55
+ * @LastEditTime: 2023-04-28 18:41:26
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -102,7 +102,7 @@ import bus from '@/utils/bus';
 const store = useStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const { useEmitt } = aircityObj.value;
+const useEmitt  = aircityObj.value?.useEmitt;
 const params = {
   operatorId: store.getters.detailParams?.operatorId,
   stationId: store.getters.detailParams?.stationId
