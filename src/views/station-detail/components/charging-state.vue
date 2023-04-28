@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap">
     <ul class="content">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
+      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
@@ -13,8 +13,10 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,toRefs } from 'vue';
+import { ref, onMounted,toRefs,inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+const aircityObj = inject('aircityObj');
+const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
     type: Object,
@@ -151,6 +153,10 @@ const barListFun = () => {
   ];
 };
 const barData = ref(barListFun());
+const handleClick = (item) => {
+          //E4933C614755E6F56D8C209A5B28B8C4 图层id
+    __g?.tileLayer?.focusActor( "E4933C614755E6F56D8C209A5B28B8C4","462",2,2,[-25,0,0])
+}
 </script>
 <style lang="less" scoped>
 .charging-wrap {
@@ -174,6 +180,7 @@ const barData = ref(barListFun());
     position: relative;
     margin-right: 16px;
     margin-bottom: 12px;
+    cursor: pointer;
     &:nth-child(4n) {
       margin-right: 0;
     }
