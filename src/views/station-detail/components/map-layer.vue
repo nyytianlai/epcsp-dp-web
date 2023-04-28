@@ -10,10 +10,10 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { getImageByCloud, control3dts, add3dt, delete3dt } from '@/global/config/map';
+import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
 import { selectCameraByStationId } from '@/api/stationDetail.js';
 import bus from '@/utils/bus';
-import { tabCameraInfo } from '../config.js';
+import { ceilingId, currentLabel } from '../config.js';
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -151,7 +151,35 @@ const currentPathCameraTour = async () => {
 const currentPath = async (isShow: boolean) => {
   await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow);
   currentPathCameraTour();
+  isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), false); //设置棚顶的样式
+  addCurrentLabel();
 };
+
+const addCurrentLabel = async () => {
+  const pointArr = [];
+  currentLabel().forEach((item, index) => {
+    let o1 = {
+      id: 'currentLabel-' + index,
+      groupId: 'stationCurrentLabel',
+      coordinate: item.position, //坐标位置
+      anchors: [0, 0], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [0, 0], //图片的尺寸
+      range: [1, 1500], //可视范围
+      imagePath: getImageByCloud('camera'),
+      text: item.value, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+      textBackgroundColor: [84 / 255, 169 / 255, 51 / 255, 0.64], //文本背景颜色
+      fontSize: 16, //字体大小
+      fontColor: '#FFFFFF', //字体颜色
+      displayMode: 2
+    };
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
+
 //运营商分布
 const operatorDistribution = async (isShow: boolean) => {
   add3dt(__g, 'NewYYSFB');
@@ -159,6 +187,8 @@ const operatorDistribution = async (isShow: boolean) => {
 const resetTab3dt = () => {
   control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
   delete3dt(__g, ['NewYYSFB']);
+  isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), true); //设置棚顶的样式
+  __g.marker.deleteByGroupId('stationCurrentLabel');
 };
 onMounted(() => {
   getCameraData();
@@ -184,6 +214,7 @@ onBeforeUnmount(() => {
   __g.marker.deleteByGroupId('stationCameras');
   __g.marker.deleteByGroupId('warningPointGroup');
   bus.off('handleTabSelect');
+  resetTab3dt()
 });
 </script>
 <style lang="less" scoped></style>

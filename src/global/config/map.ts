@@ -90,3 +90,9 @@ export const add3dt = async (__g, fileName: string) => {
 export const delete3dt = async (__g, ids: string[]) => {
   await __g.tileLayer.delete(ids);
 };
+
+export const isShowActors = async (__g, layerid: string, ids: string[], isShow: boolean) => {
+  isShow
+    ? await __g.tileLayer.showActors([{ id: layerid, objectIds: ids }])
+    : await __g.tileLayer.hideActors([{ id: layerid, objectIds: ids }]);
+};

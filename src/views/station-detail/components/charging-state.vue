@@ -156,6 +156,7 @@ const barListFun = () => {
 const barData = ref(barListFun());
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addWarningPoint = async (data) => {
+  console.log('告警',data);
   const pointArr = [];
   data.forEach((item, index) => {
     console.log(item);
@@ -163,7 +164,6 @@ const addWarningPoint = async (data) => {
       id: 'warning-point',
       groupId: 'warningPointGroup',
       userData: JSON.stringify(item),
-      // coordinateType: 2,
       coordinate:item.location, //坐标位置
       anchors: [-57, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [114, 150], //图片的尺寸
@@ -184,7 +184,6 @@ const addWarningPoint = async (data) => {
       // displayMode: 4,
       // autoDisplayModeSwitchFirstRatio: 0.5,
       // autoDisplayModeSwitchSecondRatio: 0.5,
-      autoHeight: true
     };
     pointArr.push(o1);
   });

@@ -21,7 +21,6 @@ import bus from '@/utils/bus';
 import { getQuStation } from '@/api/deviceManage';
 import { getQuStationWithAlarm } from '@/api/supervision';
 import { moveCar } from '@/views/station-detail/mapOperate';
-
 interface Props {
   buttomTabCode?: number | string;
 }
@@ -278,7 +277,16 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
     ];
     isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
     moveCar(__g, isShow); //默认全程显示但是关不掉的3dt
-    isShow ? __g.infoTree.focus('7CED6A4A4F00FFA1B7273C9511B55B85', 500) : '';
+    isShow
+      ? __g.camera.set(
+          504944.50832031254,
+          2499761.401875,
+          388.7284765625,
+          -39.981967,
+          147.698425,
+          3
+        )
+      : '';
   }
 };
 

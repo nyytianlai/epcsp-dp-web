@@ -5,6 +5,48 @@ import rate from '@/assets/images/stationDetail/rate.png';
 import num from '@/assets/images/stationDetail/num.png';
 import dayjs from 'dayjs';
 
+//民乐站电流标签
+export const currentLabel = () => {
+  return [
+    {
+      value: '220V 50HZ',
+      position: [504774.7628125, 2499640.8000000003, 92.8]
+    },
+    {
+      value: '220V 50HZ',
+      position: [504758.515625, 2499630.24, 92.8]
+    },
+    {
+      value: '220V 50HZ',
+      position: [504741.965625, 2499619.68, 92.8]
+    },
+    {
+      value: '220V 50HZ',
+      position: [504725.815625, 2499608.64, 92.8]
+    },
+    {
+      value: '220V 50HZ',
+      position: [504709.5103125, 2499596.48, 92.8]
+    }
+  ];
+};
+//民乐站棚顶的id
+export const ceilingId = () => {
+  return [
+    'Shape036',
+    'Shape037',
+    'Shape038',
+    'Shape039',
+    'Rectangle092',
+    'Shape045',
+    'Shape044',
+    'Shape041',
+    'Shape042',
+    'Line140'
+  ];
+};
+
+//还有一个场站初始化默认视角
 export const tabCameraInfo = () => {
   return {
     站内设施: [
@@ -15,7 +57,7 @@ export const tabCameraInfo = () => {
     ],
     电流流转: 4,
     运营商分布: [
-      504807.40734375, 2499714.140703125, 217.183515625, -46.425331115722656, 145.0386505126953
+      504819.34391601564, 2499694.298125, 217.183515625, -46.425331115722656, 145.0386505126953
     ]
   };
 };
