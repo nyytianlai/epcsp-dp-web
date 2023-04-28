@@ -212,6 +212,7 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
   __g.marker.deleteByGroupId('stationCameras');
+  __g.marker.deleteByGroupId('warningPointGroup');
   bus.off('handleTabSelect');
   resetTab3dt()
 });
