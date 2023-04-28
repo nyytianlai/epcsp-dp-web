@@ -1,6 +1,6 @@
 <template>
   <div class="active-message">
-    <el-tabs v-model="activeName" class="beveled-tabs" @tab-click="handleClick">
+    <el-tabs v-model="activeName" class="beveled-tabs" @tab-click="handleClick" :class="`tabs-length${tabList.length}`">
       <el-tab-pane :name="item.name" v-for="(item, index) in tabList" :key="index">
         <template #label>
           <span class="custom-tabs-label">
@@ -123,8 +123,8 @@ const dynamicActive = ref(infoList.value[0]);
 const stateFormate = (state) => {
   return {
     0: {
-      code: 'warning',
-      name: '故障'
+      code: 'offline',
+      name: '离线'
     },
     1: {
       code: 'normal',
@@ -274,8 +274,12 @@ onMounted(() => {
         &.warning {
           background: rgba(170, 5, 5, 0.3);
           border: 1px solid #aa0505;
-          border-radius: 4px;
           color: #ff6b4b;
+        }
+        &.offline{
+          background: rgba(159, 159, 159, 0.3);
+          border-color: #E8E8E8;
+          color: #FFFFFF;
         }
       }
     }

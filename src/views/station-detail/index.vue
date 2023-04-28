@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-27 19:27:52
+ * @LastEditTime: 2023-04-28 15:28:41
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -66,6 +66,7 @@
     :type="pileType" 
     :pileVideoData="pileVideoData" 
     :pileParams="pileParams"
+    @close="handleClose"
   />
   <map-layer v-if="aircityObj"/>
 </template>
@@ -100,6 +101,7 @@ import bus from '@/utils/bus';
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
+const __g = aircityObj.value?.acApi;
 const { useEmitt } = aircityObj.value;
 const params = {
   operatorId: store.getters.detailParams?.operatorId,
@@ -119,6 +121,7 @@ const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
 //站点充电桩状态
 const chargingStateData = ref([]);
+const chargingStateDataObj = ref({})
 //充电设施日使用信息
 const chargingTypesTabs = ref(chargingTypesTabsFun());
 const chargingTypesData = ref(chargingTypesFun());
@@ -162,6 +165,11 @@ const getWarningInfoByStationId = async (alarmLevel) => {
 const getEquipmentStatusByStationId = async () => {
   const res = await selectEquipmentStatusByStationId(params);
   chargingStateData.value = res?.data || [];
+  const eidObj ={}
+  chargingStateData.value.map(item => {
+      eidObj[item.eid] = item
+  })
+  chargingStateDataObj.value = eidObj
 };
 //设备详情/充电设施日使用信息
 const getEquipmentUseRateByStationId = async (equipmentType) => {
@@ -196,11 +204,6 @@ const backSz = () => {
   bus.emit('hrBackSz');
 };
 useEmitt('AIRCITY_EVENT', async (e) => {
-    // pileParams.value = {
-    //   "eid": "108608"
-    // }
-  // console.log('AIRCITY_EVENT', e);
-    // 打开监控弹窗
   if (e.Id?.includes('camera')) { 
     pileType.value = 'monitor'
     const data = JSON.parse(e.UserData)
@@ -208,14 +211,25 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     pileVisible.value = true
   }
   if (e.PropertyName === "station") {
+    if(!chargingStateDataObj.value[e.ObjectID])return
+    //清除绿色高亮
+    __g.tileLayer.stopHighlightAllActors()
+    if (+chargingStateDataObj.value[e.ObjectID].status !== 255) {
+      //设置高亮颜色（全局生效）
+      __g.settings.highlightColor(Color.Green);
+      __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', e.ObjectID);
+    }
      pileParams.value = {
         "eid": e.ObjectID
     }
     pileType.value = 'pile'
     pileVisible.value = true
   }
-
 });
+const handleClose = () => {
+   //清除绿色高亮
+   __g.tileLayer.stopHighlightAllActors()
+}
 onMounted(() => {
   getStationStatistics();
   getStationInfoByStationId();
