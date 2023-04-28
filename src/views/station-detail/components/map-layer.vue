@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 16:35:27
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-26 17:42:02
+ * @LastEditTime: 2023-04-28 16:36:15
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\map-layer.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -40,7 +40,7 @@ const addCameraPoint = async (data) => {
       coordinate: [item.cameraLng, item.cameraLat], //坐标位置
       anchors: [-13, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [26, 41], //图片的尺寸
-      range: [1, 150000], //可视范围
+      range: [1, 1500], //可视范围
       imagePath: getImageByCloud('camera'),
       //   text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
