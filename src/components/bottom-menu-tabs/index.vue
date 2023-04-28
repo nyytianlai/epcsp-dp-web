@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-13 16:08:53
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-27 10:56:09
+ * @LastEditTime: 2023-04-28 11:26:51
  * @FilePath: \epcsp-dp-web\src\components\bottom-menu-tabs\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -72,8 +72,8 @@
       background-image: url(./images/active.png);
       &::before{
         content: '';
-        width: 100px;
-        height: 56px;
+        width: 90px;
+        height: 0;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -90,14 +90,19 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
+        transform: translateY(8px);
+        font-size: 20px;
       }
     }
     &:last-of-type {
       margin-right: 0;
     }
     .label {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 30px;
+      transform: translateY(18px);
+      transition: all 0.5s;
+      color: #E7E7E7;
     }
   }
 }
