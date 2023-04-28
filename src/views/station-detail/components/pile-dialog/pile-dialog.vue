@@ -76,9 +76,9 @@ const videoStatus = {
 const stateFormate = (state) => {
   return {
     0: {
-      code: 'warning',
-      name: '故障',
-      type: 'warning-pile'
+      code: 'offline',
+      name: '离线',
+      type: 'normal-pile'
     },
     1: {
       code: 'online',

@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-23 10:55:27
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 15:56:17
+ * @LastEditTime: 2023-04-28 14:10:39
  * @FilePath: \epcsp-dp-web\src\components\layout\components\expand-btn\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -28,6 +28,7 @@ const handleClick = () => {
   const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
   store.commit('CHANGE_SHOW_PANEL', !isCollapsed.value);
+  if(store.getters.showDetail)return
   isCollapsed.value ? __g.camera.set(infoObj.szViewFull, 0.2) : __g.camera.set(infoObj.szView, 0.2);
 };
 </script>
