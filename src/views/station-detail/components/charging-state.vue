@@ -163,7 +163,7 @@ const addWarningPoint = async (data) => {
       id: 'warning-point',
       groupId: 'warningPointGroup',
       userData: JSON.stringify(item),
-      coordinateType: 2,
+      // coordinateType: 2,
       coordinate:item.location, //坐标位置
       anchors: [-57, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [114, 150], //图片的尺寸
@@ -198,11 +198,12 @@ const handleClick = (item) => {
   __g.misc.callBPFunction({             
               objectName: 'BP_Warning_2',
               functionName: 'PauseTimer',
-          });
+  });
+  __g.marker.deleteByGroupId('warningPointGroup');
   //定位过去
   __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 2, 2, [-25, 0, 0])
   //故障高亮
-  if (+item.status) {
+  if (+item.status === 255) {
     __g.tileLayer.getActorInfo({
             id: '7CED6A4A4F00FFA1B7273C9511B55B85',
             objectIds: [item.eid]
