@@ -5,6 +5,51 @@ import rate from '@/assets/images/stationDetail/rate.png';
 import num from '@/assets/images/stationDetail/num.png';
 import dayjs from 'dayjs';
 
+//民乐站配套设施标签
+export const facilitiesLabel = () => {
+  return [
+    {
+      value: '配电房',
+      position: [504774.168125, 2499575.52, 96.99998046875],
+      img: 'electricalRoom'
+    },
+    {
+      value: '配电房',
+      position: [504753.5603125, 2499558.88, 97.00000976562501],
+      img: 'electricalRoom'
+    },
+    {
+      value: '配电房',
+      position: [504741.674375, 2499550.24, 97.00000976562501],
+      img: 'electricalRoom'
+    },
+    {
+      value: '卫生间',
+      position: [504675.3878125, 2499607.36, 98.3817578125],
+      img: 'toilet'
+    },
+    {
+      value: '便利店',
+      position: [504672.74375, 2499624.8000000003, 96.959091796875],
+      img: 'store'
+    },
+    {
+      value: '休息区',
+      position: [504657.135625, 2499639.04, 98.2],
+      img: 'rest'
+    },
+    {
+      value: '维修区',
+      position: [504635.49562500004, 2499664.96, 98.5],
+      img: 'maintenance'
+    },
+    {
+      value: '配电房',
+      position: [504684.1375, 2499708.64, 97],
+      img: 'electricalRoom'
+    }
+  ];
+};
 //民乐站电流标签
 export const currentLabel = () => {
   return [

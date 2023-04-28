@@ -13,7 +13,7 @@ import { useStore } from 'vuex';
 import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
 import { selectCameraByStationId } from '@/api/stationDetail.js';
 import bus from '@/utils/bus';
-import { ceilingId, currentLabel } from '../config.js';
+import { ceilingId, currentLabel, facilitiesLabel } from '../config.js';
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -184,17 +184,45 @@ const addCurrentLabel = async () => {
 const operatorDistribution = async (isShow: boolean) => {
   add3dt(__g, 'NewYYSFB');
 };
-const resetTab3dt = () => {
+//站内设施加点
+const addFacilitiesLabel = async () => {
+  const pointArr = [];
+  facilitiesLabel().forEach((item, index) => {
+    let o1 = {
+      id: 'facilitiesLabel-' + index,
+      groupId: 'stationFacilitiesLabel',
+      coordinate: item.position, //坐标位置
+      anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [48, 52], //图片的尺寸
+      range: [1, 1500], //可视范围
+      imagePath: getImageByCloud(item.img),
+      text: item.value, //显示的文字
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      textRange: [1, 300], //文本可视范围[近裁距离, 远裁距离]
+      textOffset: [-60, -35], // 文本偏移
+      textBackgroundColor: [11 / 255, 67 / 255, 92 / 255, 1], //文本背景颜色
+      fontSize: 14, //字体大小
+      fontColor: '#FFFFFF', //字体颜色
+      displayMode: 2
+    };
+    pointArr.push(o1);
+  });
+  //批量添加polygon
+  await __g.marker.add(pointArr, null);
+};
+const resetTab3dt = async () => {
   control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
   delete3dt(__g, ['NewYYSFB']);
   isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), true); //设置棚顶的样式
-  __g.marker.deleteByGroupId('stationCurrentLabel');
+  await __g.marker.deleteByGroupId('stationCurrentLabel');
+  // __g.marker.deleteByGroupId('stationFacilitiesLabel');
 };
 onMounted(() => {
   getCameraData();
-  bus.on('handleTabSelect', (e) => {
+  addFacilitiesLabel();
+  bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
-    resetTab3dt();
+    await resetTab3dt();
     if (e?.value === '2') {
       //站内设施
     } else if (e?.value === '3') {
@@ -213,7 +241,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   __g.marker.deleteByGroupId('stationCameras');
   bus.off('handleTabSelect');
-  resetTab3dt()
+  resetTab3dt();
 });
 </script>
 <style lang="less" scoped></style>

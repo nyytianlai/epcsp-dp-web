@@ -267,6 +267,7 @@ const addQuStationWithAlarmInfo = async (quCode: string) => {
 
 //添加站点
 const addHrStation = async (stationName: string, isShow: boolean) => {
+  !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
   if (stationName === '比亚迪民乐P+R电动汽车充电站') {
     let ids = [
       '7CED6A4A4F00FFA1B7273C9511B55B85',
@@ -287,6 +288,7 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
           3
         )
       : '';
+    isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
   }
 };
 
@@ -367,7 +369,6 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
 defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
-  // await __g.camera.set(infoObj.szView, 0);
   addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
