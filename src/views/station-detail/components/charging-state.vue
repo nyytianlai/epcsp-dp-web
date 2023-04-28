@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap">
     <ul class="content">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
+      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
@@ -13,8 +13,10 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,toRefs } from 'vue';
+import { ref, onMounted,toRefs,inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+const aircityObj = inject('aircityObj');
+const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
     type: Object,
@@ -151,6 +153,36 @@ const barListFun = () => {
   ];
 };
 const barData = ref(barListFun());
+const handleClick = (item) => {
+  //定位过去
+  __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 2, 2, [-25, 0, 0])
+  //清除绿色高亮
+  __g.tileLayer.stopHighlightAllActors()
+  //故障高亮
+  if (+item.status === 255) {
+    __g.tileLayer.getActorInfo({
+            id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+            objectIds: [item.eid]
+    }, (res) => {
+      const {location} = res.data[0]
+      __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
+      //Xy坐标在获取的基础上都加0.1
+      __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
+      // __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001,0.0001,0.0001]);
+      __g.misc.callBPFunction({             
+              objectName: 'BP_Warning_2',
+              functionName: 'UnpauseTimer',
+          });
+      // __g.tileLayer.focus('1E0DA98D4A4DA1E3106E69AE5469D860')
+    });
+  } else {
+    //设置高亮颜色（全局生效）
+    __g.settings.highlightColor(Color.Green);
+    __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
+  }
+    
+   
+}
 </script>
 <style lang="less" scoped>
 .charging-wrap {
@@ -174,6 +206,7 @@ const barData = ref(barListFun());
     position: relative;
     margin-right: 16px;
     margin-bottom: 12px;
+    cursor: pointer;
     &:nth-child(4n) {
       margin-right: 0;
     }
