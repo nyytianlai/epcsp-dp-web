@@ -13,8 +13,10 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,toRefs } from 'vue';
+import { ref, onMounted,toRefs,inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+const aircityObj = inject('aircityObj');
+const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
     type: Object,
@@ -151,8 +153,16 @@ const barListFun = () => {
   ];
 };
 const barData = ref(barListFun());
-const handleClick = (item)=> {
-  console.log(item);
+const handleClick = (item) => {
+  __g.tileLayer.getActorInfo({
+            id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+            objectIds: ["462"]
+  }, (res) => {
+    console.log(res);
+    const { rotation } = res.data[0]
+          //E4933C614755E6F56D8C209A5B28B8C4 图层id
+    __g?.tileLayer?.focusActor( "7CED6A4A4F00FFA1B7273C9511B55B85","462",2,2,rotation)
+  });
 }
 </script>
 <style lang="less" scoped>
