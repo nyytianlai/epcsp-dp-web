@@ -154,8 +154,34 @@ const barListFun = () => {
 };
 const barData = ref(barListFun());
 const handleClick = (item) => {
-          //E4933C614755E6F56D8C209A5B28B8C4 图层id
-    __g?.tileLayer?.focusActor( "E4933C614755E6F56D8C209A5B28B8C4","462",2,2,[-25,0,0])
+  //定位过去
+  __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 2, 2, [-25, 0, 0])
+  //清除绿色高亮
+  __g.tileLayer.stopHighlightAllActors()
+  //故障高亮
+  if (+item.status === 255) {
+    __g.tileLayer.getActorInfo({
+            id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+            objectIds: [item.eid]
+    }, (res) => {
+      const {location} = res.data[0]
+      __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
+      //Xy坐标在获取的基础上都加0.1
+      __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
+      // __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001,0.0001,0.0001]);
+      __g.misc.callBPFunction({             
+              objectName: 'BP_Warning_2',
+              functionName: 'UnpauseTimer',
+          });
+      // __g.tileLayer.focus('1E0DA98D4A4DA1E3106E69AE5469D860')
+    });
+  } else {
+    //设置高亮颜色（全局生效）
+    __g.settings.highlightColor(Color.Green);
+    __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
+  }
+    
+   
 }
 </script>
 <style lang="less" scoped>
