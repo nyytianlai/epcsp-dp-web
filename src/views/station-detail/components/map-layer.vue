@@ -10,8 +10,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { getImageByCloud, control3dts } from '@/global/config/map';
-import { operatorLabel } from '@/views/station-detail/mapOperate';
+import { getImageByCloud, control3dts, add3dt, delete3dt } from '@/global/config/map';
 import { selectCameraByStationId } from '@/api/stationDetail.js';
 import bus from '@/utils/bus';
 import { tabCameraInfo } from '../config.js';
@@ -72,8 +71,18 @@ const carChargingAnimation = async () => {
       objectName: 'BP_PlaySequence_2',
       functionName: 'PlaySequence'
     });
-    await control3dts(__g, ['106461804A48EF11238C788590C41BA0','CDBA07094FEF9E795D850591ADB5D497'], true);
+    await control3dts(
+      __g,
+      ['106461804A48EF11238C788590C41BA0', 'CDBA07094FEF9E795D850591ADB5D497'],
+      true
+    );
     setTimeout(async () => {
+      //   await __g.misc.callBPFunction({
+      //   objectName: '052697',
+      //   functionName: 'SetMeshHidden ',
+      //   paramType: 0,
+      //   paramValue: true
+      // });
       carChargingCameraTour();
     }, 10000);
   }, 4000);
@@ -145,20 +154,11 @@ const currentPath = async (isShow: boolean) => {
 };
 //运营商分布
 const operatorDistribution = async (isShow: boolean) => {
-  await control3dts(__g, ['4F5731014B1E4245ECBBAA92FFE23CBA'], isShow);
-  operatorLabel(__g, isShow);
+  add3dt(__g, 'NewYYSFB');
 };
 const resetTab3dt = () => {
-  operatorLabel(__g, false);
-  control3dts(
-    __g,
-    [
-      '7FE772F144B492908689359AF808E6F1',
-      '4F5731014B1E4245ECBBAA92FFE23CBA',
-      '106461804A48EF11238C788590C41BA0'
-    ],
-    false
-  );
+  control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
+  delete3dt(__g, ['NewYYSFB']);
 };
 onMounted(() => {
   getCameraData();
@@ -175,6 +175,9 @@ onMounted(() => {
     } else if (e?.value === '5') {
       operatorDistribution(true);
     }
+  });
+  bus.on('resetTab3dt', () => {
+    resetTab3dt();
   });
 });
 onBeforeUnmount(() => {

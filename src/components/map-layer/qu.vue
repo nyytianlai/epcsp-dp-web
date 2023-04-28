@@ -20,7 +20,7 @@ import { useStore } from 'vuex';
 import bus from '@/utils/bus';
 import { getQuStation } from '@/api/deviceManage';
 import { getQuStationWithAlarm } from '@/api/supervision';
-import { operatorLabel, moveCar } from '@/views/station-detail/mapOperate';
+import { moveCar } from '@/views/station-detail/mapOperate';
 
 interface Props {
   buttomTabCode?: number | string;
@@ -274,7 +274,7 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
       'E4933C614755E6F56D8C209A5B28B8C4',
       '6EA525CA4FB949D9850E5A933AA5FFCA',
       'D398F2D8482A2FCC5BA60F9DE52C6DB9', //车辆充电动画
-      'D408B03D461BCF45F7E70D9F80D0C45E' //充电桩id
+      '21BD0867470C8FF5295AED9D635E10A1' //充电中的车
     ];
     isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
     moveCar(__g, isShow); //默认全程显示但是关不掉的3dt
@@ -356,19 +356,12 @@ const pointInWhichDistrict = (point: Cartesian2D) => {
   return quName;
 };
 
-//有些3dt默认关不掉 需要调用蓝图函数去关闭
-//触发显示但是关不掉的3dt
-const setSome3dtVisibility = (isShow: boolean) => {
-  operatorLabel(__g, isShow);
-};
-
 defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
-  await __g.camera.set(infoObj.szView, 0);
+  // await __g.camera.set(infoObj.szView, 0);
   addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   await __g.settings.setEnableCameraMovingEvent(false);
-  setSome3dtVisibility(false);
   addQu();
   addQuName();
   bus.on('toHr', (e) => {
@@ -387,13 +380,14 @@ onMounted(async () => {
       store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
     }
     back();
+    bus.emit('resetTab3dt');
   });
 });
 
-onBeforeUnmount(() => {
-  // __g.polygon.delete(["polygon1"]);
+onBeforeUnmount(async () => {
   bus.off('toHr');
   bus.off('hrBackSz');
+  await __g.reset();
 });
 </script>
 <style lang="less" scoped>

@@ -77,3 +77,16 @@ export const getMapCenterCoord = (aircityObj) => {
 export const control3dts = async (__g, ids: string[], isShow: boolean) => {
   isShow ? await __g.infoTree.show(ids) : await __g.infoTree.hide(ids);
 };
+
+export const add3dt = async (__g, fileName: string) => {
+  await __g.tileLayer.add({
+    id: fileName,
+    fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/${fileName}.3dt`, //3dt文件路径
+    location: [0, 0, 92.5], //坐标位置
+    rotation: [0, 0, 0], //旋转角度
+    scale: [1, 1, 1] //缩放大小
+  });
+};
+export const delete3dt = async (__g, ids: string[]) => {
+  await __g.tileLayer.delete(ids);
+};
