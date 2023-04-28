@@ -177,7 +177,8 @@ const ecOptionFun = () => {
   let option = {
     grid: {
       top: 30,
-      bottom: 24
+      bottom: 24,
+      right:15
     },
     legend: {
       itemWidth: 16,
