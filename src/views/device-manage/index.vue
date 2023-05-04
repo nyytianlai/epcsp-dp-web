@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 09:40:58
+ * @LastEditTime: 2023-05-04 10:31:03
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -13,7 +13,7 @@
         <title-column title="充电桩数量信息" />
         <tabs :data="chargingStationTabs" 
         @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
-        <pie-chart :data="chargingStationPieData"/>
+        <pie-chart :data="chargingStationPieData" totalName="充电桩总数" />
       </div>
       <div class="charging-peak-area">
         <title-column title="充电高峰区域情况" />

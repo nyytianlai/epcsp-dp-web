@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-14 09:19:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 09:36:56
+ * @LastEditTime: 2023-05-04 14:03:12
  * @FilePath: \epcsp-dp-web\src\components\pie-chart.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -10,6 +10,10 @@
   <div class="pie-wrap">
     <div class="pie-chart-wrap">
       <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
+      <div class="total-content" v-if="!selectIndex && selectIndex!== 0">
+        <span class="value" style="fontSize:28px;lineHeight:32px">{{totalNum}}</span>
+        <span class="name" style="fontSize:14px;lineHeight:20px">{{totalName}}</span>
+      </div>
     </div>
     <div class="legend-wrap">
       <div class="legend" v-for="(item, index) in data" :key="index">
@@ -47,6 +51,7 @@ interface Idata {
 interface Props {
   data: Idata[];
   colors: string[];
+  totalName:string
 }
 const props = withDefaults(defineProps<Props>(), {
   data: () => [
@@ -54,9 +59,10 @@ const props = withDefaults(defineProps<Props>(), {
     { value: 735, name: '二级设备安全', extraName: '设备安全', unit: '个' },
     { value: 580, name: '三级告警提示', extraName: '告警提示', unit: '个' }
   ],
-  colors:()=>['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB']
+  colors: () => ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'],
+  totalName:'合计'
 });
-const { data,colors } = toRefs(props);
+const { data,colors,totalName} = toRefs(props);
 const selectIndex = ref();
 const ecOption = computed(() => {
   return {
@@ -111,6 +117,13 @@ const ecOption = computed(() => {
     ]
   };
 });
+const totalNum = computed(() => {
+  let total = 0
+  data.value?.map(item => {
+    total += item.value
+  })
+  return total || 0
+})
 const watchInstanceReady = (myChart) => {
   myChart.on('mouseover', function (params) {
     selectIndex.value = params.dataIndex;
@@ -131,6 +144,24 @@ const watchInstanceReady = (myChart) => {
   height: 188px;
   background: url(./images/circle-bgc.png) no-repeat;
   background-size: 100% 100%;
+  position: relative;
+  .total-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .value{
+      font-family: 'DIN Alternate';
+      font-style: normal;
+      font-weight: 700;
+    }
+    .name{
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
 }
 .legend-wrap {
   margin-left: 30px;

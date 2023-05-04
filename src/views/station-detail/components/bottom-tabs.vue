@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 11:35:17
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-28 17:34:20
+ * @LastEditTime: 2023-05-04 14:09:50
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\bottom-tabs.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -213,9 +213,7 @@ let o = new CameraTourData('1', 'test', frames);
 await __g.cameraTour.add(o);
 __g.cameraTour.play('1');
 }
-const handleRoaming = (value) => {
-  console.log('handleRoaming');
-  
+const handleRoaming = (value) => {  
   // __g.camera.getAnimationList();// 获取导航列表
   if (value === '1-1') {
     __g.camera.set(504688.403125, 2499655.846718, 113.203554, -28.484086, 143.718093, 6); //休息区
@@ -281,7 +279,7 @@ const handleTabView = (label: string) => {
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 100%;
   position: absolute;
-  bottom: 2px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;

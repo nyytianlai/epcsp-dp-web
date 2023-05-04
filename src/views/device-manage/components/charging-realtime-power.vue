@@ -1,3 +1,11 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-17 09:12:43
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-05-04 10:49:02
+ * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-realtime-power.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
     <div class="charging-realtime-power">
         <icon icon="svg-icon:power"/>
@@ -53,6 +61,7 @@ const {data} = toRefs(props)
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
+      letter-spacing: 0.1em;
     }
     .unit-info {
       width: 237px;
