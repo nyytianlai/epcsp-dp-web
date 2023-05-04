@@ -148,16 +148,10 @@ function simplifyNum(number) {
         if (number >= 1E3 && number < 1E4) {
             str_num = number / 1E3
             return str_num + '千'
-        } else if (number >= 1E4 && number < 1E6) {
+        } else if (number >= 1E4 && number < 1E7) {
             str_num = number / 1E4
             return str_num + '万'
-        } else if (number >= 1E6 && number < 1E7) {
-            str_num = number / 1E6
-            return str_num + '百万'
-        } else if (number >= 1E7 && number < 1E8) {
-            str_num = number / 1E7
-            return str_num + '千万'
-        } else if (number >= 1E8 && number < 1E10) {
+        }  else if (number >= 1E7 && number < 1E10) {
             str_num = number / 1E8
             return str_num + '亿'
         } else if (number >= 1E10 && number < 1E11) {
@@ -178,7 +172,8 @@ const ecOptionFun = () => {
     grid: {
       top: 30,
       bottom: 24,
-      right:15
+      right: 15,
+      left: 42
     },
     legend: {
       itemWidth: 16,
@@ -194,7 +189,7 @@ const ecOptionFun = () => {
     xAxis: {
       name: '',
       type:'time',
-      boundaryGap: ['2%', '18%'],
+      boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
           color: '#BAE7FF'
@@ -236,7 +231,7 @@ const ecOptionFun = () => {
         fontSize: 12,
         lineHeight: 16,
         color: '#B4C0CC',
-        formatter: (value) => {
+        formatter: (value) => {          
           return value?simplifyNum(value):''
         }
       },
