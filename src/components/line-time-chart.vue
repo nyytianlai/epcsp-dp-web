@@ -1,12 +1,12 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
-    <div class="unit" v-if="unit">单位: {{unit}}</div>
+    <div class="unit" v-if="unit">单位: {{ unit }}</div>
     <ec-resize :option="ecOption" />
   </div>
 </template>
 
 <script setup lang="ts">
-import {toRefs,ref,watch } from 'vue'
+import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
@@ -23,8 +23,8 @@ interface Props {
   data: Idata[];
   chartStyle: IChartStyle;
   unit?: string;
-  colors?:string[],
-  customOption?:object
+  colors?: string[];
+  customOption?: object;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -34,140 +34,172 @@ const props = withDefaults(defineProps<Props>(), {
   unit: '个',
   colors: () => ['green', 'blue'],
   data: () => [],
-  customOption:()=>({})
+  customOption: () => ({})
 });
 
-const { data, chartStyle, unit, colors,customOption } = toRefs(props);
-const ecOption = ref()
+const { data, chartStyle, unit, colors, customOption } = toRefs(props);
+const ecOption = ref();
 const colorMap = {
-  'green': {
+  green: {
     areaStyle: {
-          color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-              offset: 0, color: 'rgba(0, 255, 249)' // 0% 处的颜色
-          }, {
-              offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-          }],
-          global: false // 缺省为 false
-        }
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: 'rgba(0, 255, 249)' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
     },
     itemStyle: {
       color: 'rgba(0, 255, 249, 1)'
     }
   },
-  'blue': {
+  blue: {
     areaStyle: {
-          color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-              offset: 0, color: 'rgba(98, 177, 255)' // 0% 处的颜色
-          }, {
-              offset: 1, color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-          }],
-          global: false // 缺省为 false
-        }
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: 'rgba(98, 177, 255)' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
     },
     itemStyle: {
       color: '#0053FF'
     }
   },
-  "#FF7723":{
+  '#FF7723': {
     areaStyle: {
-          color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-              offset: 0, color: 'rgba(255, 119, 35)' // 0% 处的颜色
-          }, {
-              offset: 1, color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-          }],
-          global: false // 缺省为 false
-        }
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: 'rgba(255, 119, 35)' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
     },
     itemStyle: {
       color: '#FF7723'
     }
   },
-  '#FF6B4B':{
+  '#FF6B4B': {
     areaStyle: {
-          color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-              offset: 0, color: '#FF6B4B' // 0% 处的颜色
-          }, {
-              offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-          }],
-          global: false // 缺省为 false
-        }
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#FF6B4B' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
     },
     itemStyle: {
       color: '#FF6B4B'
     }
   },
-  '#00FFF9':{
+  '#00FFF9': {
     areaStyle: {
-          color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [{
-              offset: 0, color: '#00FFF9' // 0% 处的颜色
-          }, {
-              offset: 1, color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-          }],
-          global: false // 缺省为 false
-        }
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: '#00FFF9' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
     },
     itemStyle: {
       color: '#00FFF9'
     }
-  },
-}
-const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
+  }
+};
+const timeData = () =>
+  new Array(25)
+    .fill(0)
+    .map((item, index) => [
+      dayjs().hour(index).format('YYYY-MM-DD HH:00'),
+      Math.ceil(Math.random() * 100)
+    ]);
 function simplifyNum(number) {
-        if (!number && number != 0) return number;
-        var str_num
-        if (number >= 1E3 && number < 1E4) {
-            str_num = number / 1E3
-            return str_num + '千'
-        } else if (number >= 1E4 && number < 1E7) {
-            str_num = number / 1E4
-            return str_num + '万'
-        }  else if (number >= 1E7 && number < 1E10) {
-            str_num = number / 1E8
-            return str_num + '亿'
-        } else if (number >= 1E10 && number < 1E11) {
-            str_num = number / 1E10
-            return str_num + '百亿'
-        } else if (number >= 1E11 && number < 1E12) {
-            str_num = number / 1E11
-            return str_num + '千亿'
-        } else if (number >= 1E12) {
-            str_num = number / 1E12
-            return str_num + '万亿'
-        } else { //一千以下
-            return number
-        }
-    }
-const ecOptionFun = () => {    
+  if (!number && number != 0) return number;
+  var str_num;
+  if (number >= 1e3 && number < 1e4) {
+    str_num = number / 1e3;
+    return str_num + '千';
+  } else if (number >= 1e4 && number < 1e7) {
+    str_num = number / 1e4;
+    return str_num + '万';
+  } else if (number >= 1e7 && number < 1e10) {
+    str_num = number / 1e8;
+    return str_num + '亿';
+  } else if (number >= 1e10 && number < 1e11) {
+    str_num = number / 1e10;
+    return str_num + '百亿';
+  } else if (number >= 1e11 && number < 1e12) {
+    str_num = number / 1e11;
+    return str_num + '千亿';
+  } else if (number >= 1e12) {
+    str_num = number / 1e12;
+    return str_num + '万亿';
+  } else {
+    //一千以下
+    return number;
+  }
+}
+const ecOptionFun = () => {
   let option = {
     grid: {
       top: 30,
@@ -188,7 +220,7 @@ const ecOptionFun = () => {
     },
     xAxis: {
       name: '',
-      type:'time',
+      type: 'time',
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -205,17 +237,16 @@ const ecOptionFun = () => {
         fontSize: 12,
         lineHeight: 18,
         color: '#B4C0CC',
-        formatter: (value, index) => {          
-          return dayjs(value).format('HH:00')
-          
+        formatter: (value, index) => {
+          return dayjs(value).format('HH:00');
         },
-        interval:4
+        interval: 4
       },
       splitLine: {
         show: false
       },
-      max: function (value) { 
-          return value.max + 1
+      max: function (value) {
+        return value.max + 1;
       }
     },
     yAxis: {
@@ -231,8 +262,8 @@ const ecOptionFun = () => {
         fontSize: 12,
         lineHeight: 16,
         color: '#B4C0CC',
-        formatter: (value) => {          
-          return value?simplifyNum(value):''
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
         }
       },
       splitLine: {
@@ -245,9 +276,9 @@ const ecOptionFun = () => {
     tooltip: {
       backgroundColor: 'transparent',
       borderWidth: 0,
-      padding:0,
-      trigger:'axis',
-      formatter: (params) => {        
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
         const dataTime = params[0].axisValueLabel;
         let str = `<div class="time-tooltip">`;
         str += `<div class="time">${dataTime}</div>`;
@@ -258,7 +289,9 @@ const ecOptionFun = () => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value[1] || item?.value[1] === 0? item?.value[1]:'--'}</span>
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
               <span class="unit">${unit.value}</span>
             </span>
           </div>`;
@@ -270,29 +303,35 @@ const ecOptionFun = () => {
     series: [
       ...data.value,
       {
-        type:'line',
+        type: 'line',
         data: timeData(),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {
-          color: 'transparent',
+          color: 'transparent'
         },
         tooltip: {
-          show:false
+          show: false
         }
       }
     ]
   };
-  option = merge(option, { series: colors.value.map(item => colorMap[item]), ...customOption.value })  
-  
+  option = merge(option, {
+    series: colors.value.map((item) => colorMap[item]),
+    ...customOption.value
+  });
+
   return option;
 };
-watch(data, () => {
-  ecOption.value = ecOptionFun()
-  
-}, {
-  immediate:true
-})
+watch(
+  data,
+  () => {
+    ecOption.value = ecOptionFun();
+  },
+  {
+    immediate: true
+  }
+);
 </script>
 
 <style lang="less" scoped>

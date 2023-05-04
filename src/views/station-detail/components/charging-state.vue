@@ -1,7 +1,12 @@
 <template>
   <div class="charging-wrap">
     <ul class="content">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
+      <li
+        v-for="(item, index) in data"
+        :key="index"
+        :class="stateFormate(item.status)?.code"
+        @click="handleClick(item)"
+      >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
@@ -13,49 +18,48 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted,toRefs,inject } from 'vue';
+import { ref, onMounted, toRefs, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { getImageByCloud} from '@/global/config/map';
+import { getImageByCloud } from '@/global/config/map';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
     type: Object,
-    default:[]
+    default: []
   }
-})
-const {data} = toRefs(props)
+});
+const { data } = toRefs(props);
 const stateFormate = (state) => {
   return {
     0: {
       code: 'offline-work',
-      name:'离线'
+      name: '离线'
     },
     1: {
       code: 'no-work',
-      name:'空闲'
+      name: '空闲'
     },
     2: {
       code: 'charging-work',
-      name:'占用'
+      name: '占用'
     },
     3: {
       code: 'charging-work',
-      name:'占用'
+      name: '占用'
     },
     4: {
       code: 'charging-work',
-      name:'占用'
+      name: '占用'
     },
     5: {
       code: 'charging-work',
-      name:'占用'
+      name: '占用'
     },
     255: {
       code: 'error-work',
-      name:'故障'
-    },
-    
+      name: '故障'
+    }
   }[state];
 };
 const typeFormate = (type) => {
@@ -125,8 +129,8 @@ const barListFun = () => {
       state: '充电中',
       type: '快',
       power: '60KW'
-      },
-      {
+    },
+    {
       state: '充电中',
       type: '快',
       power: '60KW'
@@ -158,8 +162,8 @@ const barData = ref(barListFun());
 const addWarningPoint = async (data) => {
   const pointArr = [];
   data.forEach((item, index) => {
-    const location = JSON.parse(JSON.stringify(item.location))
-    location[2] = location[2] + 2.5
+    const location = JSON.parse(JSON.stringify(item.location));
+    location[2] = location[2] + 2.5;
     let o1 = {
       id: 'warning-point',
       groupId: 'warningPointGroup',
@@ -192,46 +196,52 @@ const addWarningPoint = async (data) => {
 };
 const handleClick = (item) => {
   //清除绿色高亮
-  __g.tileLayer.stopHighlightAllActors()
+  __g.tileLayer.stopHighlightAllActors();
   //删除红色
-  __g.misc.callBPFunction({             
-              objectName: 'BP_Warning_2',
-              functionName: 'PauseTimer',
+  __g.misc.callBPFunction({
+    objectName: 'BP_Warning_2',
+    functionName: 'PauseTimer'
   });
   __g.marker.deleteByGroupId('warningPointGroup');
-
-    __g?.tileLayer?.getActorInfo({
-                id: '7CED6A4A4F00FFA1B7273C9511B55B85',
-                objectIds: [item.eid]
-    }, (res) => {
-      const rotation = res?.data[0].rotation
+  // 查询充电桩信息
+  __g?.tileLayer?.getActorInfo(
+    {
+      id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+      objectIds: [item.eid]
+    },
+    (res) => {
+      const rotation = res?.data[0].rotation;
       //定位过去
       // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [-18, 140, 0])
-      __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [rotation[0] - 18, rotation[1] - 85, 0])
+      __g?.tileLayer?.focusActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid, 3, 2, [
+        rotation[0] - 12,
+        rotation[1] - 92,
+        0
+      ]);
       //故障高亮
       if (+item.status === 255) {
-        const { location } = res.data[0]
-        location[0] = location[0]
-        location[1] = location[1] 
-        location[2] = 92.80
+        const { location } = res.data[0];
+        location[0] = location[0];
+        location[1] = location[1];
+        location[2] = 92.8;
         __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
         //Xy坐标在获取的基础上都加0.1
-        __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
+        __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0, 58, 0]);
         __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001, 0.0001, 0.0001]);
         __g.tileLayer.setCollision('1E0DA98D4A4DA1E3106E69AE5469D860', false);
-        __g.misc.callBPFunction({             
-                objectName: 'BP_Warning_2',
-                functionName: 'UnpauseTimer',
+        __g.misc.callBPFunction({
+          objectName: 'BP_Warning_2',
+          functionName: 'UnpauseTimer'
         });
-        addWarningPoint(res.data)
+        addWarningPoint(res.data);
       } else {
         //设置高亮颜色（全局生效）
         __g.settings.highlightColor(Color.Green);
         __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
       }
-    });
-   
-}
+    }
+  );
+};
 </script>
 <style lang="less" scoped>
 .charging-wrap {
