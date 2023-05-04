@@ -156,15 +156,15 @@ const barListFun = () => {
 const barData = ref(barListFun());
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addWarningPoint = async (data) => {
-  console.log('告警',data);
   const pointArr = [];
   data.forEach((item, index) => {
-    console.log(item);
+    const location = JSON.parse(JSON.stringify(item.location))
+    location[2] = location[2] + 2.5
     let o1 = {
       id: 'warning-point',
       groupId: 'warningPointGroup',
       userData: JSON.stringify(item),
-      coordinate:item.location, //坐标位置
+      coordinate: location, //坐标位置
       anchors: [-57, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [114, 150], //图片的尺寸
       range: [1, 1500], //可视范围
@@ -180,7 +180,7 @@ const addWarningPoint = async (data) => {
       // fontOutlineColor: '#1b4863', //字体轮廓线颜色
       displayMode: 2,
       autoDisplayModeSwitchFirstRatio: 0.5,
-      autoDisplayModeSwitchSecondRatio: 0.5,
+      autoDisplayModeSwitchSecondRatio: 0.5
       // displayMode: 4,
       // autoDisplayModeSwitchFirstRatio: 0.5,
       // autoDisplayModeSwitchSecondRatio: 0.5,
@@ -199,36 +199,37 @@ const handleClick = (item) => {
               functionName: 'PauseTimer',
   });
   __g.marker.deleteByGroupId('warningPointGroup');
-  //定位过去
-  __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 2, 2, [-25, 0, 0])
-  //故障高亮
-  if (+item.status === 255) {
-    __g.tileLayer.getActorInfo({
-            id: '7CED6A4A4F00FFA1B7273C9511B55B85',
-            objectIds: [item.eid]
+
+    __g?.tileLayer?.getActorInfo({
+                id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+                objectIds: [item.eid]
     }, (res) => {
-      const { location } = res.data[0]
-      location[0] = location[0]
-      location[1] = location[1] - 0.3
-      location[2] = 92.80
-      __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
-      //Xy坐标在获取的基础上都加0.1
-      __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
-      __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001, 0.0001, 0.0001]);
-      __g.tileLayer.setCollision('1E0DA98D4A4DA1E3106E69AE5469D860', false);
-      __g.misc.callBPFunction({             
-              objectName: 'BP_Warning_2',
-              functionName: 'UnpauseTimer',
-      });
-      addWarningPoint(res.data)
-      // __g.tileLayer.focus('1E0DA98D4A4DA1E3106E69AE5469D860')
+      const rotation = res?.data[0].rotation
+      //定位过去
+      // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [-18, 140, 0])
+      __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [rotation[0] - 18, rotation[1] - 85, 0])
+      //故障高亮
+      if (+item.status === 255) {
+        const { location } = res.data[0]
+        location[0] = location[0]
+        location[1] = location[1] 
+        location[2] = 92.80
+        __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
+        //Xy坐标在获取的基础上都加0.1
+        __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
+        __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001, 0.0001, 0.0001]);
+        __g.tileLayer.setCollision('1E0DA98D4A4DA1E3106E69AE5469D860', false);
+        __g.misc.callBPFunction({             
+                objectName: 'BP_Warning_2',
+                functionName: 'UnpauseTimer',
+        });
+        addWarningPoint(res.data)
+      } else {
+        //设置高亮颜色（全局生效）
+        __g.settings.highlightColor(Color.Green);
+        __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
+      }
     });
-  } else {
-    //设置高亮颜色（全局生效）
-    __g.settings.highlightColor(Color.Green);
-    __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
-  }
-    
    
 }
 </script>

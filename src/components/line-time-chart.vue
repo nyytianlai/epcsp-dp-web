@@ -263,7 +263,7 @@ const ecOptionFun = () => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value[1] || '--'}</span>
+              <span class="value">${item?.value[1] || item?.value[1] === 0? item?.value[1]:'--'}</span>
               <span class="unit">${unit.value}</span>
             </span>
           </div>`;
