@@ -214,7 +214,6 @@ const handleClick = (item) => {
         location[0] = location[0]
         location[1] = location[1] 
         location[2] = 92.80
-        console.log('location',location);
         __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
         //Xy坐标在获取的基础上都加0.1
         __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0,58,0]);
