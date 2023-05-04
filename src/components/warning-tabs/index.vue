@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-13 16:08:53
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-20 17:00:26
+ * @LastEditTime: 2023-05-04 16:01:15
  * @FilePath: \epcsp-dp-web\src\components\bottom-menu-tabs\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -28,7 +28,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import {toRefs,ref } from 'vue'
+import {toRefs,ref,watch } from 'vue'
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js'
 interface Idata {
@@ -39,18 +39,25 @@ interface Idata {
     color: string;
 }
 interface Props {
-data: Idata[];
-modelValue: string | number;
+  data: Idata[];
+  modelValue: string | number;
 }
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(['update:modelValue', 'changeTab']);
 const { data, modelValue } = toRefs(props);
-const activeTab = ref(data.value[0]?.code);
+const activeTab = ref(modelValue.value?modelValue.value:data.value[0]?.code);
 const handleSelect = (item) => {
 activeTab.value = item.code;
-emit('update:modelValue', item.code);
-emit('changeTab', item);
+  emit('update:modelValue', item.code);
+  emit('changeTab', item);
 };
+watch(data, (newVal) => {
+  const filterItem = newVal.filter(item => item.num)
+  console.log('watch',filterItem);
+  if (filterItem && filterItem?.length) {
+    handleSelect(filterItem[0])
+  }
+})
 </script>
 <style lang="less" scoped>
 .warning-tabs {

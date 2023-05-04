@@ -247,7 +247,7 @@ export const todayInfoNumDataFun = (data={}) => {
   return [
     {
       img: ztsyl,
-      num: data?.overallUtilization,
+      num: data?.overallUtilization || data?.overallUtilization === 0?(data?.overallUtilization  + '%') : '--',
       name: '整体使用率',
       classStyleType:'leftRightStyleGreen'
     },
