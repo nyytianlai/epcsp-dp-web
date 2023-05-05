@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="stateFormate(item.status)?.code"
-        @click="__g.customObject.focus('warning-1');"
+        @click="handleClickFocus(__g,item.eid,item.status)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
@@ -258,7 +258,7 @@ const customFun = async(data) => {
     let co_location = [item.equipmentLng, item.equipmentLat];
     let o = {
         id: 'warning-1',//自定义对象唯一id
-        pakFilePath: `http://${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/ZYK.pak`,//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
+        pakFilePath: `http://${import.meta.env.VITE_FD_URL}/data/3dt/民乐/ZYK.pak`,//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
         assetPath: '/JC_CustomAssets/EffectLibrary/Exhibition/BP_GJ.BP_GJ',//资源目录，自定义对象在pak文件资源包里的相对路径
         location: co_location,//位置坐标
         coordinateType: 1,// 坐标系类型 
