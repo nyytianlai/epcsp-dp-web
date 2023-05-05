@@ -58,6 +58,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     console.log('stationInfo', stationInfo);
 
     if (stationInfo.isHr !== 0) {
+      __g.marker.focus(e.Id, 100);
+      enterStationInfo(stationInfo);
       return;
     }
     //是高渲染站点
@@ -65,17 +67,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
     if (currentHrStationID.value === e.Id) {
       //连续两次点击相同站点 进入高渲染站点
-      store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-      store.commit('CHANGE_CURRENTPOSITION', '');
-
-      store.commit('CHANGE_SHOW_COMPONENT', false);
-      store.commit('CHANGE_SHOW_DETAIL', {
-        show: true,
-        params: {
-          operatorId: stationInfo.operatorId,
-          stationId: stationInfo.stationId
-        }
-      });
+      enterStationInfo(stationInfo);
       __g.marker.hideByGroupId('quStation');
       addHrStation(stationInfo.stationName, true);
     } else {
@@ -99,6 +91,20 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
   }
 });
+
+const enterStationInfo = (stationInfo) => {
+  store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+  store.commit('CHANGE_CURRENTPOSITION', '');
+
+  store.commit('CHANGE_SHOW_COMPONENT', false);
+  store.commit('CHANGE_SHOW_DETAIL', {
+    show: true,
+    params: {
+      operatorId: stationInfo.operatorId,
+      stationId: stationInfo.stationId
+    }
+  });
+};
 
 const changeStationStyle = async (id, picName, size, anchors) => {
   await __g.marker.setAnchors(id, anchors);
@@ -134,7 +140,12 @@ const back = async () => {
     //返回区
     __g.marker.showByGroupId('quStation');
     store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
-    __g.marker.focus(currentHrStationID.value, 200, 0.2);
+    console.log('currentHrStationID.value', currentHrStationID.value);
+    if (currentHrStationID.value !== '') {
+      __g.marker.focus(currentHrStationID.value, 200, 0.2);
+    } else {
+      __g.polygon.focus('qu-' + currentPosition.value, 13000);
+    }
   }
 };
 
@@ -216,6 +227,7 @@ const addQuStationWithAlarmInfo = async (quCode: string) => {
   let pointArr = [];
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
+    let text = item.stationName + '(' + item.warningCount + ')';
     let o1 = {
       id: 'station-' + item.stationId,
       groupId: 'quStation',
@@ -226,7 +238,7 @@ const addQuStationWithAlarmInfo = async (quCode: string) => {
       imageSize: [55, 150], //图片的尺寸
       range: [1, 150000], //可视范围
       imagePath: getImageByCloud('chargeStation' + item.status),
-      text: item.stationName, //显示的文字
+      text: text, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
       textOffset: [-20 - xoffset, -85], // 文本偏移
