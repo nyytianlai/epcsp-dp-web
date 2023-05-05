@@ -2,13 +2,13 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 10:18:17
+ * @LastEditTime: 2023-05-05 10:07:04
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
 <template>
   <div class="rank-list-wrap" :style="{height:height}">
-    <ul class="content">
+    <ul class="content" v-if="data && data.length">
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <div class="top-info">
           <span class="rank-name">
@@ -27,6 +27,7 @@
         </div>
       </li>
     </ul>
+    <no-data v-else/>
   </div>
 </template>
 <script setup lang="ts">

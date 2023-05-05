@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:43
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-04 10:49:02
+ * @LastEditTime: 2023-05-04 17:56:06
  * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-realtime-power.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -11,7 +11,7 @@
         <icon icon="svg-icon:power"/>
         <div class="num-info">
             <span class="num">
-                {{ data }}
+                {{ formatWithToLocalString(data) }}
             </span>
             <span class="unit-info">
                 充电实时功率/kw
@@ -22,6 +22,7 @@
 <script setup>
   import { toRefs, onMounted,reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import {formatWithToLocalString} from '@/global/commonFun.js'
 const props = defineProps({
     data:{
         type:String || Number,

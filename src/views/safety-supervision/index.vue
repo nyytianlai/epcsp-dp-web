@@ -73,6 +73,7 @@
         v-for="(item, index) in columnData"
         :key="index"
         v-bind="item"
+        :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
       >
         <template #default="scope">
@@ -106,6 +107,7 @@
         v-for="(item, index) in messageColumnData"
         :key="index"
         v-bind="item"
+        :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
       >
         <template #default="scope">

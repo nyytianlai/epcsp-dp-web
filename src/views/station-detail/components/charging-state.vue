@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="stateFormate(item.status)?.code"
-        @click="handleClick(item)"
+        @click="__g.customObject.focus('warning-1');"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
@@ -18,9 +18,10 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, toRefs, inject } from 'vue';
+import { ref, onMounted, toRefs, inject,watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { getImageByCloud } from '@/global/config/map';
+import {handleClickFocus} from '../mapOperate.ts'
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const props = defineProps({
@@ -194,54 +195,88 @@ const addWarningPoint = async (data) => {
   //批量添加polygon
   await __g.marker.add(pointArr, null);
 };
-const handleClick = (item) => {
-  //清除绿色高亮
-  __g.tileLayer.stopHighlightAllActors();
-  //删除红色
-  __g.misc.callBPFunction({
-    objectName: 'BP_Warning_2',
-    functionName: 'PauseTimer'
-  });
-  __g.marker.deleteByGroupId('warningPointGroup');
-  // 查询充电桩信息
-  __g?.tileLayer?.getActorInfo(
-    {
-      id: '7CED6A4A4F00FFA1B7273C9511B55B85',
-      objectIds: [item.eid]
-    },
-    (res) => {
-      const rotation = res?.data[0].rotation;
-      //定位过去
-      // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [-18, 140, 0])
-      __g?.tileLayer?.focusActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid, 3, 2, [
-        rotation[0] - 12,
-        rotation[1] - 92,
-        0
-      ]);
-      //故障高亮
-      if (+item.status === 255) {
-        const { location } = res.data[0];
-        location[0] = location[0];
-        location[1] = location[1];
-        location[2] = 92.8;
-        __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
-        //Xy坐标在获取的基础上都加0.1
-        __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0, 58, 0]);
-        __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001, 0.0001, 0.0001]);
-        __g.tileLayer.setCollision('1E0DA98D4A4DA1E3106E69AE5469D860', false);
-        __g.misc.callBPFunction({
-          objectName: 'BP_Warning_2',
-          functionName: 'UnpauseTimer'
-        });
-        addWarningPoint(res.data);
-      } else {
-        //设置高亮颜色（全局生效）
-        __g.settings.highlightColor(Color.Green);
-        __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
-      }
-    }
-  );
-};
+// const handleClickFocus = (item) => {
+//   //清除绿色高亮
+//   __g.tileLayer.stopHighlightAllActors();
+//   //删除红色
+//   __g.misc.callBPFunction({
+//     objectName: 'BP_Warning_2',
+//     functionName: 'PauseTimer'
+//   });
+//   __g.marker.deleteByGroupId('warningPointGroup');
+//   // 查询充电桩信息
+//   __g?.tileLayer?.getActorInfo(
+//     {
+//       id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+//       objectIds: [item.eid]
+//     },
+//     (res) => {
+//       const rotation = res?.data[0].rotation;
+//       //定位过去
+//       // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", item.eid, 3.5, 2, [-18, 140, 0])
+//       __g?.tileLayer?.focusActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid, 3, 2, [
+//         rotation[0] - 12,
+//         rotation[1] - 92,
+//         0
+//       ]);
+//       //故障高亮
+//       if (+item.status === 255) {
+//         const { location } = res.data[0];
+//         location[0] = location[0];
+//         location[1] = location[1];
+//         location[2] = 92.8;
+//         __g.tileLayer.setLocation('1E0DA98D4A4DA1E3106E69AE5469D860', location);
+//         //Xy坐标在获取的基础上都加0.1
+//         __g.tileLayer.setRotation('1E0DA98D4A4DA1E3106E69AE5469D860', [0, 58, 0]);
+//         __g.tileLayer.setScale('1E0DA98D4A4DA1E3106E69AE5469D860', [0.0001, 0.0001, 0.0001]);
+//         __g.tileLayer.setCollision('1E0DA98D4A4DA1E3106E69AE5469D860', false);
+//         __g.misc.callBPFunction({
+//           objectName: 'BP_Warning_2',
+//           functionName: 'UnpauseTimer'
+//         });
+//         addWarningPoint(res.data);
+//       } else {
+//         //设置高亮颜色（全局生效）
+//         __g.settings.highlightColor(Color.Green);
+//         __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', item.eid);
+//       }
+//     }
+//   );
+// };
+const customFun = async(data) => {
+  /**
+     * 注意：自定义对象操作
+     * 1、可以从资源库pak添加各种内置模型
+     * 2、也可以从按规范从UE打包的自定义模型添加
+     */
+
+    //添加前清空所有customObject 防止id重复
+  __g.customObject.clear();
+  const arr = []
+  data.map(item => {
+    //投影坐标
+    let co_location = [item.equipmentLng, item.equipmentLat];
+    let o = {
+        id: 'warning-1',//自定义对象唯一id
+        pakFilePath: `http://${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/ZYK.pak`,//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
+        assetPath: '/JC_CustomAssets/EffectLibrary/Exhibition/BP_GJ.BP_GJ',//资源目录，自定义对象在pak文件资源包里的相对路径
+        location: co_location,//位置坐标
+        coordinateType: 1,// 坐标系类型 
+        rotation: [0, 0, 0],// 世界坐标系旋转
+        localRotation: [0, 0, 0],//模型自身旋转
+        scale: [1, 1, 1],//模型缩放
+        smoothMotion: 1   //1: 平滑移动，0: 跳跃移动
+    };
+    arr.push(o)
+  })
+  console.log('arr',arr);
+  await __g.customObject.add(arr);
+}
+watch(data, (newVal) => {
+  const warningData = newVal.filter(item => item.status === 255)
+  console.log('warningData', warningData);
+  // customFun(warningData)
+})
 </script>
 <style lang="less" scoped>
 .charging-wrap {

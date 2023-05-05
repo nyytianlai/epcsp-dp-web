@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-04 15:54:44
+ * @LastEditTime: 2023-05-05 09:45:33
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -60,7 +60,7 @@
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
-  <map-layer :ref="(el) => mapLayerRef = el" v-if="aircityObj" ></map-layer>
+  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <el-table
       :data="alarmTableData"
@@ -68,10 +68,14 @@
       style="width: 100%"
       class="custom-dialog-table"
     >
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :formatter="tableColumnFun" >
-        <template #default="scope">
-          
-        </template>
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
+        <template #default="scope"></template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -85,11 +89,11 @@
   </custom-dialog>
 </template>
 <script setup>
-import { onMounted, ref, reactive,inject,watch,nextTick } from 'vue';
+import { onMounted, ref, reactive, inject, watch, nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
-import {tableColumnFun} from '@/global/commonFun.js'
+import { tableColumnFun } from '@/global/commonFun.js';
 import {
   overTotalCount,
   totalFacilities,
@@ -117,7 +121,7 @@ import {
   bottomTabDataFun,
   columnDataFun
 } from './config.js';
-const aircityObj = inject('aircityObj')
+const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
@@ -384,7 +388,7 @@ onMounted(() => {
       justify-content: center;
       .info {
         flex-direction: column;
-        .value{
+        .value {
           font-size: 28px !important;
         }
         .name {
@@ -408,12 +412,12 @@ onMounted(() => {
   }
   .warning-list {
     margin-top: 18px;
-    :deep(.warning-info){
-      .message{
+    :deep(.warning-info) {
+      .message {
         min-width: 2rem;
         max-width: 2rem;
-      } 
-      .area{
+      }
+      .area {
         min-width: 0.8rem;
         max-width: 0.8rem;
       }

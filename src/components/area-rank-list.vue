@@ -2,17 +2,22 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 17:39:05
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 09:49:15
+ * @LastEditTime: 2023-05-05 10:06:16
  * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
  * @Description: 排名列表 有项目名称
 -->
 <template>
   <div class="area-rank-wrap" :style="{ height: height }">
-    <ul class="content">
+    <ul class="content" v-if="data && data.length">
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <span class="rank-name">
           <span class="rank-num">{{ index + 1 }}</span>
-          <span class="name text-ellipsis-1">{{ item.name }}</span>
+          <span class="name text-ellipsis-1">
+            
+            <el-tooltip :content="item.name || ''" placement="top">
+              {{ item.name }}
+            </el-tooltip>
+          </span>
         </span>
         <div class="bottom-bar">
             
@@ -26,6 +31,7 @@
         </span>
       </li>
     </ul>
+    <no-data v-else/>
   </div>
 </template>
 <script setup lang="ts">
