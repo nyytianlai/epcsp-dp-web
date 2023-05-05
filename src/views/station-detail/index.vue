@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 19:48:46
+ * @LastEditTime: 2023-05-05 20:22:55
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -208,7 +208,7 @@ const backSz = () => {
 useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
   //设施点
   if (e.Id?.includes('facilitiesLabel')) { 
-    __g?.marker?.focus(e.Id);
+    __g?.marker?.focus(e.Id,20);
   }
   //摄像头
   if (e.Id?.includes('camera')) { 
