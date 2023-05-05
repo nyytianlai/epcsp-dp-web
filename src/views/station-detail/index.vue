@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 21:24:45
+ * @LastEditTime: 2023-05-05 21:43:53
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -69,7 +69,6 @@
     @close="handleClose"
   />
   <map-layer v-if="aircityObj"/>
-  <span>{{store.getters.detailParams}}</span>
 </template>
 <script setup>
 import { ref, onMounted,inject,watch,computed} from 'vue';
@@ -249,7 +248,7 @@ const handleClose = () => {
 }
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return
-    handleClickFocus(__g,item.eid)
+    handleClickFocus(__g,item.eid,+chargingStateDataObj.value[item.eid].status)
 }
 watch(()=>store.getters.detailParams,() => {
   const paramsDefault = {
