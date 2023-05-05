@@ -40,29 +40,4 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="less" scoped>
-.backBox {
-  position: absolute;
-  height: 36px;
-  left: 86px;
-  top: 68px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
-  border: 1px solid rgba(148, 148, 148, 0.3);
-  color: #ffffff;
-  z-index: 10;
-
-  img {
-    width: 36px;
-    height: 36px;
-    border-radius: 1px;
-  }
-
-  .quName {
-    font-size: 16px;
-    line-height: 22px;
-    // background: rgba(4, 22, 43, 0.5);
-    // border: 1px solid rgba(148, 148, 148, 0.3);
-    padding: 7px 16px;
-  }
-}
 </style>
