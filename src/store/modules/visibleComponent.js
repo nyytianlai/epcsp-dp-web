@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-20 17:47:18
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 16:09:26
+ * @LastEditTime: 2023-05-05 20:49:18
  * @FilePath: \epcsp-dp-web\src\store\modules\visibleComponent.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -24,7 +24,8 @@ const mutations = {
   },
   CHANGE_SHOW_DETAIL: (state, { show, params }) => {
     state.showDetail = show;
-    state.detailParams = params;
+    state.detailParams = {...params};
+    console.log('CHANGE_SHOW_DETAIL',state.detailParams);
     if (show) {
       state.isInDetail = true;
     }
