@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-04 11:10:11
+ * @LastEditTime: 2023-05-05 14:24:33
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -27,7 +27,7 @@
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
       />
-      <warning-list :data="warningListData" height="2.15rem" />
+      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" />
     </div>
   </panel>
   <panel type="right">
@@ -98,6 +98,7 @@ import {
   linePowerDataFun
 } from './config.js';
 import bus from '@/utils/bus';
+import {handleClickFocus} from './mapOperate.ts'
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -154,7 +155,8 @@ const getWarningInfoByStationId = async (alarmLevel) => {
       return {
         date: item.alarmTime,
         message: item.alarmDesc,
-        area: item.equipmentName
+        area: item.equipmentName,
+        ...item
       };
     });
   } else {
@@ -205,20 +207,23 @@ const backSz = () => {
 };
 useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.Id?.includes('camera')) { 
+    __g?.marker?.focus(e.Id);
     pileType.value = 'monitor'
     const data = JSON.parse(e.UserData)
     pileVideoData.value = data
     pileVisible.value = true
+    
   }
   if (e.PropertyName === "station") {
-    if(!chargingStateDataObj.value[e.ObjectID])return
+    if (!chargingStateDataObj.value[e.ObjectID]) return
+    handleClickFocus(__g,e.ObjectID,+chargingStateDataObj.value[e.ObjectID].status)
     //清除绿色高亮
-    __g.tileLayer.stopHighlightAllActors()
-    if (+chargingStateDataObj.value[e.ObjectID].status !== 255) {
+    // __g.tileLayer.stopHighlightAllActors()
+    // if (+chargingStateDataObj.value[e.ObjectID].status !== 255) {
       //设置高亮颜色（全局生效）
-      __g.settings.highlightColor(Color.Green);
-      __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', e.ObjectID);
-    }
+      // __g.settings.highlightColor(Color.Green);
+      // __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', e.ObjectID);
+    // }
      pileParams.value = {
         "eid": e.ObjectID
     }
@@ -229,6 +234,11 @@ useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
 const handleClose = () => {
    //清除绿色高亮
   //  __g.tileLayer.stopHighlightAllActors()
+}
+const clickWarningList = (item) => {
+  console.log(item);
+  if (!chargingStateDataObj.value[item.eid]) return
+    handleClickFocus(__g,item.eid)
 }
 onMounted(() => {
   getStationStatistics();

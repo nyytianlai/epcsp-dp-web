@@ -14,7 +14,11 @@
         <ul class="info-list">
             <li v-for="(item,index) in infoListData" :key="index">
                 <label for="">{{item.label}}</label>
-                <span class="value text-ellipsis-1"> {{item.value}}</span>
+                <span class="value text-ellipsis-1"> 
+                  <el-tooltip :content="item.value || ''" placement="top">
+                    {{item.value}}
+                  </el-tooltip>
+                </span>
             </li>    
         </ul>
     </div>
