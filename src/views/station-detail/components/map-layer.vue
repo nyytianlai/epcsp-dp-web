@@ -64,6 +64,10 @@ const carChargingAnimation = async () => {
       objectName: 'BP_PlaySequence_2',
       functionName: 'PlaySequence'
     });
+    // await __g.misc.callBPFunction({
+    //   objectName: 'BP_Move2_5',
+    //   functionName: 'BeginMove'
+    // });
     await control3dts(
       __g,
       ['106461804A48EF11238C788590C41BA0', 'CDBA07094FEF9E795D850591ADB5D497'],

@@ -301,6 +301,13 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
         )
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
+  } else if (stationName === '奥特迅电力大厦后广场充电站') {
+    let ids = ['D56023684855E6E91E9F0CB4F6D00D59'];
+    isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
+    isShow
+      ? __g.camera.set(494480.218672,2495531.893906,29.262388,-10.561944,-147.549225, 3)
+      : '';
+  } else if (stationName === '比亚迪民乐P+R电动汽车充电站') {
   }
 };
 
@@ -382,6 +389,7 @@ defineExpose({ pointInWhichDistrict, resetSz });
 onMounted(async () => {
   await __g.reset();
   addHrStation('比亚迪民乐P+R电动汽车充电站', false);
+  addHrStation('奥特迅电力大厦后广场充电站', false);
   await __g.settings.setEnableCameraMovingEvent(false);
   addQu();
   addQuName();
