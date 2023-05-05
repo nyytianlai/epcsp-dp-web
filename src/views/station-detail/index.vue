@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 19:48:46
+ * @LastEditTime: 2023-05-05 20:59:19
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -69,9 +69,10 @@
     @close="handleClose"
   />
   <map-layer v-if="aircityObj"/>
+  <span>{{store.getters.detailParams}}</span>
 </template>
 <script setup>
-import { ref, onMounted,inject } from 'vue';
+import { ref, onMounted,inject,watch,computed} from 'vue';
 import { useStore } from 'vuex';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
@@ -104,10 +105,10 @@ const store = useStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt  = aircityObj.value?.useEmitt;
-const params = {
+const params = ref({
   operatorId: store.getters.detailParams?.operatorId,
   stationId: store.getters.detailParams?.stationId
-};
+});
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
@@ -131,23 +132,23 @@ const chargingTypesData = ref(chargingTypesFun());
 const linePowerData = ref(linePowerDataFun());
 // 统计数据
 const getStationStatistics = async () => {
-  const res = await selectStationStatistics(params);
+  const res = await selectStationStatistics(params.value);
   pageNumData.value = pageNumFun(res?.data);
 };
 //设备详情/站点信息
 const getStationInfoByStationId = async () => {
-  const res = await selectStationInfoByStationId(params);
+  const res = await selectStationInfoByStationId(params.value);
   stationInfoData.value = res.data;
 };
 // 设备详情/设备设施信息
 const getEquipmentCountByStationId = async () => {
-  const res = await selectEquipmentCountByStationId(params);
+  const res = await selectEquipmentCountByStationId(params.value);
   deviceInfoData.value = deviceInfoDataFun(res.data);
 };
 //设备详情/告警信息列表
 const getWarningInfoByStationId = async (alarmLevel) => {
   const res = await selectWarningInfoByStationId({
-    ...params,
+    ...params.value,
     alarmLevel
   });
   if (res?.data && res?.data?.length) {
@@ -165,7 +166,7 @@ const getWarningInfoByStationId = async (alarmLevel) => {
 };
 //设备详情/站点充电桩状态
 const getEquipmentStatusByStationId = async () => {
-  const res = await selectEquipmentStatusByStationId(params);
+  const res = await selectEquipmentStatusByStationId(params.value);
   chargingStateData.value = res?.data || [];
   const eidObj ={}
   chargingStateData.value.map(item => {
@@ -176,19 +177,19 @@ const getEquipmentStatusByStationId = async () => {
 //设备详情/充电设施日使用信息
 const getEquipmentUseRateByStationId = async (equipmentType) => {
   const res = await selectEquipmentUseRateByStationId({
-    ...params,
+    ...params.value,
     equipmentType
   });
   chargingTypesData.value = chargingTypesFun(res?.data);
 };
 // 设备详情/站点实时功率
 const getStationRealTimePowerByStationId = async () => {
-  const res = await selectStationRealTimePowerByStationId(params);
+  const res = await selectStationRealTimePowerByStationId(params.value);
   linePowerData.value = linePowerDataFun(res?.data);
 };
 //设备详情/告警信息统计
 const getWarningStatisticByStationId = async () => {
-  const res = await selectWarningStatisticByStationId(params);
+  const res = await selectWarningStatisticByStationId(params.value);
   warningTabsData.value = warningTabsDataFun(res?.data);
 };
 const handleChangeTab = (data, type) => {
@@ -208,7 +209,7 @@ const backSz = () => {
 useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
   //设施点
   if (e.Id?.includes('facilitiesLabel')) { 
-    __g?.marker?.focus(e.Id);
+    __g?.marker?.focus(e.Id,20,2,[113.203554, -28.484086, 0]);
   }
   //摄像头
   if (e.Id?.includes('camera')) { 
@@ -250,7 +251,12 @@ const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return
     handleClickFocus(__g,item.eid)
 }
-onMounted(() => {
+watch(()=>store.getters.detailParams,() => {
+  const paramsDefault = {
+    operatorId: store.getters.detailParams?.operatorId,
+    stationId: store.getters.detailParams?.stationId
+  }
+  params.value = paramsDefault
   getStationStatistics();
   getStationInfoByStationId();
   getEquipmentCountByStationId();
@@ -259,7 +265,20 @@ onMounted(() => {
   getEquipmentUseRateByStationId(1);
   getStationRealTimePowerByStationId();
   getWarningStatisticByStationId();
-});
+}, {
+  deep: true,
+  immediate:true
+})
+// onMounted(() => {
+//   getStationStatistics();
+//   getStationInfoByStationId();
+//   getEquipmentCountByStationId();
+//   getWarningInfoByStationId(1);
+//   getEquipmentStatusByStationId();
+//   getEquipmentUseRateByStationId(1);
+//   getStationRealTimePowerByStationId();
+//   getWarningStatisticByStationId();
+// });
 </script>
 <style lang="less" scoped>
 .backBox {

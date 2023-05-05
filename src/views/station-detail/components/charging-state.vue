@@ -1,6 +1,6 @@
 <template>
   <div class="charging-wrap">
-    <ul class="content">
+    <ul class="content" v-if="data && data.length">
       <li
         v-for="(item, index) in data"
         :key="index"
@@ -15,6 +15,7 @@
         </span>
       </li>
     </ul>
+    <no-data v-else/>
   </div>
 </template>
 <script setup>
@@ -186,7 +187,7 @@ const customFun = async(data) => {
             id: 'warning-top-' + data[index],//自定义对象唯一id
             pakFilePath: '@path:ZYK.pak',//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
             assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_GJ_LR',//资源目录，自定义对象在pak文件资源包里的相对路径
-            location: [co_location[0],co_location[1],co_location[2] + 5],//位置坐标
+            location: [co_location[0],co_location[1],co_location[2] + 6],//位置坐标
             coordinateType: 0,// 坐标系类型 
             rotation: [0, 0, 0],// 世界坐标系旋转
             localRotation: [0, 0, 0],//模型自身旋转

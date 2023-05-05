@@ -177,7 +177,7 @@ const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [yearMonthDay + `${item.time}:00`, item.count]),
+      data: data?.map((item) => [yearMonthDay + `${item.time}:00`, item.count]),
       type: 'line',
       smooth: true,
       name: dynamicActive.value?.name

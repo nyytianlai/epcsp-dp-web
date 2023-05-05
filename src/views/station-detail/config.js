@@ -159,7 +159,7 @@ export const deviceInfoDataFun = (data = {}) => {
 
 export const warningTabsDataFun = (data = []) => {
   const levelData = {};
-  data.map((item) => {
+  data?.map((item) => {
     levelData[item.levelType] = item.levelCount;
   });
   return [
@@ -277,7 +277,7 @@ export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.power]),
+      data: data?.map((item) => [yearMonthDay + item.time, item.power]),
       type: 'line',
       smooth: true,
       name: '实时功率'
