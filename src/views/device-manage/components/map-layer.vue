@@ -19,8 +19,6 @@ const currentPosition = computed(() => store.getters.currentPosition);
 
 let quRef = ref(null);
 
-
-
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
 });

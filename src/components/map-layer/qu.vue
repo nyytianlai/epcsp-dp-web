@@ -99,27 +99,27 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
     store.commit('CHANGE_CURRENTHRSTATIONID', e.Id);
   }
-  // if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
-  //   //当前不处于站点内
-  //   const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
-  //   let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
-  //   // console.log('cameraQuName', cameraQuName);
-  //   let cameraJdInfo = pointInWhichStreet([centerCoord[0], centerCoord[1]], cameraQuName);
-  //   // console.log('cameraJdInfo', cameraJdInfo);
-  //   // console.log('重新请求数据');
-  //   if (cameraQuName && currentQu.value !== cameraQuName) {
-  //     //当前相机位置所在区和当前区不一致
-  //     handleQuChange(cameraQuName, cameraJdInfo);
-  //   } else if (cameraQuName) {
-  //     //当前相机位置所在区和当前区一致
-  //     if (currentPosition.value.includes('街道') && cameraJdInfo.JDNAME !== currentJd.value) {
-  //       addStationPoint(cameraJdInfo.JDCODE);
-  //       store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-  //       store.commit('CHANGE_CURRENTJD', cameraJdInfo.JDNAME);
-  //       store.commit('CHANGE_CURRENTPOSITION', cameraJdInfo.JDNAME);
-  //     }
-  //   }
-  // }
+  if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
+    //当前不处于站点内
+    const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
+    let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
+    // console.log('cameraQuName', cameraQuName);
+    let cameraJdInfo = pointInWhichStreet([centerCoord[0], centerCoord[1]], cameraQuName);
+    // console.log('cameraJdInfo', cameraJdInfo);
+    // console.log('重新请求数据');
+    if (cameraQuName && currentQu.value !== cameraQuName) {
+      //当前相机位置所在区和当前区不一致
+      handleQuChange(cameraQuName, cameraJdInfo);
+    } else if (cameraQuName) {
+      //当前相机位置所在区和当前区一致
+      if (currentPosition.value.includes('街道') && cameraJdInfo.JDNAME !== currentJd.value) {
+        addStationPoint(cameraJdInfo.JDCODE);
+        store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+        store.commit('CHANGE_CURRENTJD', cameraJdInfo.JDNAME);
+        store.commit('CHANGE_CURRENTPOSITION', cameraJdInfo.JDNAME);
+      }
+    }
+  }
 });
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
   store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
@@ -180,7 +180,7 @@ const deleteJdData = async () => {
   );
   await __g.customTag.delete(
     ids.map((i) => {
-      return 'rectBar-' + i;
+      return `rectBar${props.buttomTabCode}-` + i;
     })
   );
 };
@@ -188,7 +188,7 @@ const deleteSingleJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
   await __g.customTag.delete(
     ids.map((i) => {
-      return 'rectBar-' + i;
+      return `rectBar${props.buttomTabCode}-` + i;
     })
   );
   await __g.marker.deleteByGroupId('jdStation');

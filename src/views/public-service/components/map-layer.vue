@@ -10,9 +10,11 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import cirBar2 from '@/components/map-layer/cir-bar2.vue';
-import { inject, onMounted, onBeforeUnmount, ref,computed } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
 import { useStore } from 'vuex';
+import bus from '@/utils/bus';
+import { jdMonthRate } from '@/api/publicService';
 const store = useStore();
 const currentPosition = computed(() => store.getters.currentPosition);
 const legendListData = [
@@ -27,17 +29,23 @@ const __g = aircityObj.value?.acApi;
 __g.reset();
 
 const sendBarData = (data) => {
-  cirBar2Ref.value.addBar(data);
+  cirBar2Ref.value.addBar(data, 'qu');
+};
+const sendJdBarData = async (value: { type: string; quCode: string }) => {
+  const { data: res } = await jdMonthRate(value.quCode);
+  cirBar2Ref.value.addBar(res.data, value.type, value.quCode);
 };
 defineExpose({ sendBarData });
 onMounted(async () => {
-  // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  bus.on('addBar', async (e) => {
+    // 传参由回调函数中的形参接受
+    sendJdBarData(e);
+  });
 });
 
 onBeforeUnmount(() => {
-  // __g.polygon.delete(["polygon1"]);
+  bus.off('addBar');
 });
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

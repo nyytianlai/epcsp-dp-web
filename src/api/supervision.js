@@ -9,17 +9,20 @@
 import request from '@sutpc/axios';
 import dayjs from 'dayjs';
 //地图告警柱状图
-export const districtAlarmLevelStatics = () => {
+export const districtAlarmLevelStatics = (areaCode) => {
   return request.get({
-    url: '/safetySupervision/districtAlarmLevelStatics'
+    url: '/safetySupervision/districtAlarmLevelStatics',
+    data: {
+      areaCode
+    }
   });
 };
 
 //地图站点状态柱状图
-export const getMapAreaStationByPower = () => {
+export const getMapAreaStationByPower = (areaCode) => {
   return request.post({
     url: '/safetySupervision/getMapAreaStationByPower',
-    data: {}
+    data: { areaCode }
   });
 };
 // 地图区级下钻撒点

@@ -7,10 +7,10 @@ import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');
 
-const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
+const addBar = async (type: 'qu' | 'jd', quCode?: string) => {
   // await aircityObj.acApi.customTag.clear();
   let barArr = [];
-  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
+  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(quCode);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   console.log('柱状图接口', res);
   let gunCount = res.map((item) => {
@@ -25,16 +25,16 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   });
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
-      return item.properties.QUCODE === streetId;
+      return item.properties.QUCODE === quCode;
     });
   }
   res1.features.forEach((item, index) => {
     let countObj = res.filter((i) => {
       return type === 'qu'
         ? i.areaCode == item.properties.QUCODE
-        : i.streetId == item.properties.JDCODE;
+        : i.quCode == item.properties.JDCODE;
     });
-    console.log('countObj', countObj);
+    // console.log('countObj', countObj);
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
@@ -64,6 +64,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   // aircityObj.acApi.polygon.delete(["polygon1"]);
+  bus.off('addBar');
 });
 </script>
 <style lang="less" scoped></style>

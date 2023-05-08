@@ -19,6 +19,7 @@ import { inject, onMounted, onBeforeUnmount, ref, reactive, computed } from 'vue
 import request from '@sutpc/axios';
 // import {  } from '@/utils/index';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
+import bus from '@/utils/bus';
 
 import { useStore } from 'vuex';
 const store = useStore();
@@ -74,7 +75,7 @@ const buttomTabChange = async (code: 1 | 2) => {
   if (info.result === 0) {
     setObjVisibility('customTag', 'rectBar2', !value);
   } else {
-    cirBar3Ref.value.addBar(buttomTabCode.value);
+    cirBar3Ref.value.addBar(buttomTabCode.value,'qu');
   }
   quRef.value.resetSz();
 };
@@ -84,12 +85,15 @@ defineExpose({ buttomTabChange });
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  cirBar3Ref.value.addBar(buttomTabCode.value);
+  cirBar3Ref.value.addBar(buttomTabCode.value,'qu');
+  bus.on('addBar', (e) => {
+    cirBar3Ref.value.addBar(buttomTabCode.value, e.type,e.quCode);
+  });
 });
 
 onBeforeUnmount(() => {
   // __g.polygon.delete(["polygon1"]);
+  bus.off('addBar');
 });
 </script>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
