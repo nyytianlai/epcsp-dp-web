@@ -10,6 +10,7 @@
           @click="handleCurrentTab(item)"
           @mouseover="handleHover(item)"
           @mouseout="handleOut(item)"
+          :style="{marginRight:index === 1?'652px':'31px'}"
           :class="[{ active: activeTitle === item.path }]"
         >
           <div

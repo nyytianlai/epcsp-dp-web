@@ -2,25 +2,28 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:43
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 09:30:11
+ * @LastEditTime: 2023-05-08 10:37:07
  * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-num-images.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="images-wrap">
-    <div class="img-content" v-for="(item, index) in data" :key="index" @click="handleClick(item)">
-      <img :src="item.stationPic" alt="" />
-      <span class="type">{{ item.stationType }}</span>
-      <span class="name text-ellipsis-1">
-      <el-tooltip
-        class="box-item"
-        :content="item.stationName"
-        placement="top"
-      >
-      {{ item.stationName }}
-      </el-tooltip>
-      </span>
-    </div>
+    <template v-if="data && data?.length">
+      <div class="img-content" v-for="(item, index) in data" :key="index" @click="handleClick(item)">
+        <img :src="item.stationPic" alt="" />
+        <span class="type">{{ item.stationType }}</span>
+        <span class="name text-ellipsis-1">
+        <el-tooltip
+          class="box-item"
+          :content="item.stationName"
+          placement="top"
+        >
+        {{ item.stationName }}
+        </el-tooltip>
+        </span>
+      </div>
+    </template>
+    <no-data v-else/>
   </div>
 </template>
 <script setup>
@@ -52,7 +55,10 @@ const handleClick = (item) => {
 .images-wrap {
   display: flex;
   flex-wrap: wrap;
+  height: 220px;
   width: 434px;
+  overflow:hidden auto;
+  position: relative;
   .img-content {
     cursor: pointer;
     display: flex;
