@@ -16,6 +16,11 @@ const getters = {
   panelShow: (state) => state.visibleComponent.panelShow,
   currentPosition: (state) => state.map.currentPosition,
   currentPositionBak: (state) => state.map.currentPositionBak,
-  currentHrStationID: (state) => state.map.currentHrStationID
+  currentHrStationID: (state) => state.map.currentHrStationID,
+  lastPosition: (state) => state.map.lastPosition,
+  currentJd: (state) => state.map.currentJd,
+  currentQu: (state) => state.map.currentQu,
+  lastJd: (state) => state.map.lastJd,
+  lastQu: (state) => state.map.lastQu,
 };
 export default getters;

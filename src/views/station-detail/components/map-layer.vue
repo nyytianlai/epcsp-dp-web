@@ -172,7 +172,8 @@ const currentPathCameraTour = async () => {
 };
 //电流流转
 const currentPath = async (isShow: boolean) => {
-  await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow);
+  // await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow); 
+  await control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827'], isShow);
   currentPathCameraTour();
   isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), false); //设置棚顶的样式
   addCurrentLabel();
@@ -234,7 +235,8 @@ const addFacilitiesLabel = async () => {
   await __g.marker.add(pointArr, null);
 };
 const resetTab3dt = async () => {
-  control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
+  // control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
+  control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827', '106461804A48EF11238C788590C41BA0'], false);
   delete3dt(__g, ['NewYYSFB']);
   isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), true); //设置棚顶的样式
   await __g.marker.deleteByGroupId('stationCurrentLabel');

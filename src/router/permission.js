@@ -18,5 +18,7 @@ router.beforeEach(async (to, from, next) => {
   store.commit('CHANGE_CURRENTPOSITION', '深圳市');
   store.commit('CHANGE_CURRENTPOSITIONBAK', '');
   store.commit('CHANGE_CURRENTHRSTATIONID', '');
+  store.commit('CHANGE_CURRENTQU', '');
+  store.commit('CHANGE_CURRENTJD', '');
   next();
 });

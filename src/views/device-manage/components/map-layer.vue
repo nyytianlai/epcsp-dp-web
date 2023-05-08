@@ -19,16 +19,10 @@ const currentPosition = computed(() => store.getters.currentPosition);
 
 let quRef = ref(null);
 
-const test = async () => {
-  __g.misc.callBPFunction({
-    objectName: 'BP_PlaySequence_2',
-    functionName: 'PlaySequence'
-  });
-};
+
 
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  // test();
 });
 
 onBeforeUnmount(() => {
