@@ -7,10 +7,10 @@ import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');
 
-const addBar = async (type: 'qu' | 'jd', quCode?: string) => {
+const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   // await aircityObj.acApi.customTag.clear();
   let barArr = [];
-  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(quCode);
+  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   console.log('柱状图接口', res);
   let gunCount = res.map((item) => {
@@ -25,14 +25,14 @@ const addBar = async (type: 'qu' | 'jd', quCode?: string) => {
   });
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
-      return item.properties.QUCODE === quCode;
+      return item.properties.QUCODE === streetId;
     });
   }
   res1.features.forEach((item, index) => {
     let countObj = res.filter((i) => {
       return type === 'qu'
         ? i.areaCode == item.properties.QUCODE
-        : i.quCode == item.properties.JDCODE;
+        : i.streetId == item.properties.JDCODE;
     });
     // console.log('countObj', countObj);
 
