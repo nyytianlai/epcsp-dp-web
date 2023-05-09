@@ -47,7 +47,7 @@ import dayjs from 'dayjs';
 import {
   selectEquipmentDynamicInfo,
   selectEquipmentDynamicInfoGroupByTime
-} from '@/api/stationDetail.js';
+} from './api.js';
 const pileData = inject('pileData');
 const activeName = ref('充电桩');
 const customOption = {

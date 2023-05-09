@@ -10,6 +10,7 @@
           @click="handleCurrentTab(item)"
           @mouseover="handleHover(item)"
           @mouseout="handleOut(item)"
+          :style="{marginRight:index === 1?'652px':'31px'}"
           :class="[{ active: activeTitle === item.path }]"
         >
           <div
@@ -41,11 +42,11 @@
             <div
               :class="[
                 'drop-item',
-                { active: activeDrop === child.realPath },
+                { active: activeDrop === child.path },
                 { disabled: child.meta.disabled }
               ]"
               v-for="child in item.children"
-              :key="child.realPath"
+              :key="child.path"
               @click="handleDrop(item, child)"
             >
               {{ child.meta.title }}
@@ -119,17 +120,16 @@ export default {
       ) {
         return;
       }
-      let path = data.children?.length ? data.children[0].realPath : data.realPath || data.path;
+      let path = data.children?.length ? data.children[0].path : data.path;
       if (path === this.$route.fullPath) return;
-      console.log('path',path);
       this.$router.push(path);
     },
     handleSubTab(data) {
       if (Object.prototype.hasOwnProperty.call(data.meta, 'disabled') && data.meta.disabled) {
         return;
       }
-      if (data.realPath === this.$route.fullPath) return;
-      this.$router.push(data.realPath);
+      if (data.path === this.$route.fullPath) return;
+      this.$router.push(data.path);
     },
     handleHover(tab) {
       tab.isHover = true;
@@ -138,9 +138,9 @@ export default {
       tab.isHover = false;
     },
     handleDrop(tab, child) {
-      let path = child.realPath;
+      let path = child.path;
       if (child.children?.length) {
-        path = child.children[0].realPath;
+        path = child.children[0].path;
       }
       if (path === this.$route.fullPath || child.meta.disabled) return;
       tab.isHover = false;
@@ -171,12 +171,8 @@ export default {
       border: 1px solid #54B5FF;
       color: #FFFFFF;
     }
-    &:first-of-type,
-    &:nth-child(3) {
-      margin-right: 31px;
-    }
-    &:nth-child(2) {
-      margin-right: 652px;
+    &:last-of-type{
+      margin-right: 0 !important;
     }
     .corner {
       position: absolute;

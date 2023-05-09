@@ -1,7 +1,7 @@
-import dqzx from '@/assets/images/deviceManage/dqzx.png';
-import dqlx from '@/assets/images/deviceManage/dqlx.png';
-import dqsyl from '@/assets/images/deviceManage/dqsyl.png';
-import dqgzl from '@/assets/images/deviceManage/dqgzl.png';
+import dqzx from './images/dqzx.png';
+import dqlx from './images/dqlx.png';
+import dqsyl from './images/dqsyl.png';
+import dqgzl from './images/dqgzl.png';
 import dayjs from 'dayjs';
 
 export const pageNumFun = (data={}) => {

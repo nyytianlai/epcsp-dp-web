@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 15:03:31
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-21 14:06:33
+ * @LastEditTime: 2023-05-08 10:08:31
  * @FilePath: \epcsp-dp-web\src\components\page-num.vue\index.vue.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -47,12 +47,12 @@ const panelShow = computed(() => {
   left: 50%;
   transform: translateX(-50%);
   z-index: 19;
-  width: 819px;
+  width: 746px;
   height: 79px;
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 63px;
   background-position: bottom left;
-  padding: 0 80px 30px;
+  padding: 0 64px 30px 76px;
   display: flex;
   justify-content: space-between;
   &.red-bgc {

@@ -2,19 +2,13 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 10:23:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-23 14:06:04
+ * @LastEditTime: 2023-05-09 18:45:40
  * @FilePath: \epcsp-dp-web\src\components\layout\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
   <div class="subject-layout">
-    <header-area
-      :title="title"
-      :buttom-list="headerButtomList"
-      :show-breadcrumb="showBreadcrumb"
-      :active-name="activeName"
-      :nav-tab-name="navTabName"
-    />
+    <header-area/>
     <div class="my-tab-wrap">
       <nav-tab
         ref="navTab"
@@ -156,14 +150,7 @@ provide('aircityObj',aircityObj)
 .subject-layout {
   width: 100%;
   height: 100%;
-
-  // background-color: #000527;
   background-color: #000317;
-
-  // background-image: url("~@/assets/images/layout/index/background.png");
-  // background-repeat: no-repeat;
-  // background-position: center center;
-  // background-size: 100% 100%;
 }
 
 .subject-container {

@@ -38,8 +38,8 @@ const handleSelect = (item) => {
 .tabs {
   height: 28px;
   background: url(./images/tabs-bgc.png) no-repeat;
-  background-size: 100% 21px;
-  background-position: 0 7px;
+  background-size: 100% 25px;
+  background-position: 0 3px;
   display: flex;
   align-items: flex-end;
   padding-left: 25px;

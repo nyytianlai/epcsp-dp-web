@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { getRectBar, getRectBarByStreet } from '@/api/overall.js';
+import { getRectBar, getRectBarByStreet } from './api.js';
 import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');

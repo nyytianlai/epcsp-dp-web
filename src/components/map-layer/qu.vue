@@ -1,6 +1,14 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-18 20:40:18
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-05-09 19:58:42
+ * @FilePath: \epcsp-dp-web\src\components\map-layer\qu.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
-    <img src="@/assets/images/map/back.png" alt="" @click="back" />
+    <img src="./images/back.png" alt="" @click="back" />
     <div class="quName" v-show="currentPosition !== ''">{{ currentQu + ' - ' + currentJd }}</div>
   </div>
 </template>
@@ -18,8 +26,8 @@ import {
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import { useStore } from 'vuex';
 import bus from '@/utils/bus';
-import { getJdStation } from '@/api/deviceManage';
-import { getQuStationWithAlarm } from '@/api/supervision';
+import { getJdStation } from './api.js';
+import { getQuStationWithAlarm } from './api.js';
 import { moveCar } from '@/views/station-detail/mapOperate';
 interface Props {
   buttomTabCode?: number | string;

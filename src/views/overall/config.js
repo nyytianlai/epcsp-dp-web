@@ -1,18 +1,18 @@
-import cdzzl from '@/assets/images/overall/cdzzl.png';
-import xnyqczl from '@/assets/images/overall/xnyqczl.png';
-import yjryyqyzl from '@/assets/images/overall/yjryyqyzl.png';
+import cdzzl from './images/cdzzl.png';
+import xnyqczl from './images/xnyqczl.png';
+import yjryyqyzl from './images/yjryyqyzl.png';
 
-import zlcd from '@/assets/images/overall/zlcd.png';
-import jlcd from '@/assets/images/overall/jlcd.png';
-import fast from '@/assets/images/overall/fast.png';
-import slow from '@/assets/images/overall/slow.png';
-import speed from '@/assets/images/overall/speed.png';
-import v2g from '@/assets/images/overall/v2g.png';
-import ztsyl from '@/assets/images/overall/ztsyl.png';
-import zxzl from '@/assets/images/overall/zxzl.png';
+import zlcd from './images/zlcd.png';
+import jlcd from './images/jlcd.png';
+import fast from './images/fast.png';
+import slow from './images/slow.png';
+import speed from './images/speed.png';
+import v2g from './images/v2g.png';
+import ztsyl from './images/ztsyl.png';
+import zxzl from './images/zxzl.png';
 
-import zgl from '@/assets/images/overall/zgl.png';
-import ssgl from '@/assets/images/overall/ssgl.png';
+import zgl from './images/zgl.png';
+import ssgl from './images/ssgl.png';
 
 import dayjs from 'dayjs';
 

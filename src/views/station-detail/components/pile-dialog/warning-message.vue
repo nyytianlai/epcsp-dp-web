@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 14:09:49
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-27 18:45:40
+ * @LastEditTime: 2023-05-09 20:06:01
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\pile-dialog\warning-message.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -39,7 +39,7 @@
 <script setup>
 import { ref,reactive,inject,onMounted } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
-import { selectEquipmentAlarmByPage } from '@/api/stationDetail.js'
+import { selectEquipmentAlarmByPage } from './api.js'
 const pileData = inject('pileData');
 const messageColumnKeyListFun = () => {
   return [

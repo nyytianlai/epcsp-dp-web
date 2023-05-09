@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { districtAlarmLevelStatics, getMapAreaStationByPower } from '@/api/supervision.js';
+import { districtAlarmLevelStatics, getMapAreaStationByPower } from './api.js';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;

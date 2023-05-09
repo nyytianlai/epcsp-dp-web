@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { monthRate } from '@/api/publicService.js';
+import { monthRate } from './api.js';
 
 const aircityObj = inject('aircityObj');
 
