@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 16:35:27
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 20:13:57
+ * @LastEditTime: 2023-05-09 09:44:10
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\map-layer.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -38,18 +38,12 @@ const addCameraPoint = async (data) => {
       userData: JSON.stringify(item),
       coordinateType: 1,
       coordinate: [item.cameraLng, item.cameraLat], //坐标位置
-      anchors: [-13, 41], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [26, 41], //图片的尺寸
+      anchors: [-12, 26], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [24, 26], //图片的尺寸
       range: [1, 1500], //可视范围
       imagePath: getImageByCloud('camera'),
-      fixedSize:true,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      fontSize: 16, //字体大小
-      fontOutlineSize: 1, //字体轮廓线大小
-      fontColor: '#FFFFFF', //字体颜色
       displayMode: 2,
-      autoDisplayModeSwitchFirstRatio: 0.5,
-      autoDisplayModeSwitchSecondRatio: 0.5,
       autoHeight: true
     };
     pointArr.push(o1);

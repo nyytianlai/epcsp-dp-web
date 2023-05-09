@@ -172,12 +172,8 @@ export default {
       border: 1px solid #54B5FF;
       color: #FFFFFF;
     }
-    &:first-of-type,
-    &:nth-child(3) {
-      margin-right: 31px;
-    }
-    &:nth-child(2) {
-      margin-right: 652px;
+    &:last-of-type{
+      margin-right: 0 !important;
     }
     .corner {
       position: absolute;
