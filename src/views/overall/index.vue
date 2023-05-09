@@ -104,7 +104,7 @@ import {
   alarmInfo,
   timePowerGraph,
   alarmCount
-} from '@/api/overall.js';
+} from './api.js';
 import {
   pageNumFun,
   cdsszlFun,

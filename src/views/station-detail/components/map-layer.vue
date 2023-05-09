@@ -11,7 +11,7 @@
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
-import { selectCameraByStationId } from '@/api/stationDetail.js';
+import { selectCameraByStationId } from '../api.js';
 import bus from '@/utils/bus';
 import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
 import { Data } from '@icon-park/vue-next';

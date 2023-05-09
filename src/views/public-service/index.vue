@@ -47,7 +47,7 @@ import {
   selectChargeEquipmentStatistics,
   overTotalCount,
   getChargeStatus
-} from '@/api/publicService.js'
+} from './api.js'
 import {
   pageNumFun,
   hotChargingDataFun,

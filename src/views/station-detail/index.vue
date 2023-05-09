@@ -87,7 +87,7 @@ import {
   selectEquipmentUseRateByStationId,
   selectStationRealTimePowerByStationId,
   selectWarningStatisticByStationId
-} from '@/api/stationDetail.js';
+} from './api.js';
 import {
   pageNumFun,
   deviceInfoDataFun,

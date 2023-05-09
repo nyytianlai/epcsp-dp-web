@@ -36,7 +36,7 @@ import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
 import VideoPlayer from './video-palyer.vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import {selectEquipmentInfoByEquipmentId} from '@/api/stationDetail.js'
+import {selectEquipmentInfoByEquipmentId} from './api.js'
 const props = defineProps({
   visible: {
     type: Boolean,
