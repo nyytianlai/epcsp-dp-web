@@ -52,7 +52,7 @@ export const routes = [
       {
         name: 'safetySupervision',
         path: '/safety/supervision',
-        meta: { title: '安全监管', keepAlive: true },
+        meta: { title: '安全监管', keepAlive: false },
         component: () =>import('@/views/safety-supervision/index.vue')
       },
     ]
@@ -66,7 +66,7 @@ export const routes = [
       {
         name: 'publicService',
         path: '/public/service',
-        meta: { title: '公众服务', keepAlive: true },
+        meta: { title: '公众服务', keepAlive: false },
         component: () =>import('@/views/public-service/index.vue')
       },
     ]
@@ -88,7 +88,7 @@ let routesMap = [
       {
         name: 'stationDetail',
         path: '/station/detail',
-        meta: { title: '', keepAlive: true },
+        meta: { title: '', keepAlive: false },
         component: () =>import('@/views/station-detail/index.vue')
       },
     ]
