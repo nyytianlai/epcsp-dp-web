@@ -1,8 +1,8 @@
-import charging from '@/assets/images/stationDetail/charging.png';
-import camera from '@/assets/images/stationDetail/camera.png';
-import dLock from '@/assets/images/stationDetail/dLock.png';
-import rate from '@/assets/images/stationDetail/rate.png';
-import num from '@/assets/images/stationDetail/num.png';
+import charging from './images/charging.png';
+import camera from './images/camera.png';
+import dLock from './images/dLock.png';
+import rate from './images/rate.png';
+import num from './images/num.png';
 import dayjs from 'dayjs';
 
 //民乐站充电中汽车电池数据

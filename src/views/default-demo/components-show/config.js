@@ -1,6 +1,6 @@
-import cdzzl from '@/assets/images/overall/cdzzl.png';
-import xnyqczl from '@/assets/images/overall/xnyqczl.png';
-import yjryyqyzl from '@/assets/images/overall/yjryyqyzl.png';
+import cdzzl from './images/cdzzl.png';
+import xnyqczl from './images/xnyqczl.png';
+import yjryyqyzl from './images/yjryyqyzl.png';
 
 export const cdsszlFun = () => {
   return [

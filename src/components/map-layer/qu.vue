@@ -1,6 +1,6 @@
 <template>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
-    <img src="@/assets/images/map/back.png" alt="" @click="back" />
+    <img src="./images/back.png" alt="" @click="back" />
     <div class="quName" v-show="currentPosition !== ''">{{ currentQu + ' - ' + currentJd }}</div>
   </div>
 </template>

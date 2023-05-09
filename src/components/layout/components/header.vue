@@ -2,7 +2,7 @@
  * @Author: niyayong
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @Date: 2022-04-18 17:27:54
- * @LastEditTime: 2023-05-08 10:32:54
+ * @LastEditTime: 2023-05-09 18:46:01
  * @FilePath: \zndd-web\src\components\layout\components\header.vue
  * @Description: FilePath
 -->
@@ -10,7 +10,7 @@
   <div class="header-bgc"></div>
   <div class="subject-header">
     <img
-      src="@/assets/images/layout/header-line-move.png"
+      src="../images//header-line-move.png"
       class="header_line_move"
       :style="{ top: `${step * -0.91}rem` }"
     />
@@ -58,7 +58,7 @@ onMounted(() => {
   left: 0;
   top: 0;
   z-index: 100;
-  background-image: url(@/assets/images/layout/header.png);
+  background-image: url(../images/header.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   overflow: hidden;

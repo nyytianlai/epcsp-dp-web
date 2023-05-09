@@ -1,10 +1,10 @@
-import stateBlueB from '@/assets/images/safetySupervision/state-blue-b.png';
-import stateBlueS from '@/assets/images/safetySupervision/state-blue-s.png';
-import stateGrayB from '@/assets/images/safetySupervision/state-gray-b.png';
-import stateGrayS from '@/assets/images/safetySupervision/state-gray-s.png';
-import stateGreenS from '@/assets/images/safetySupervision/state-green-s.png';
-import stateYellowB from '@/assets/images/safetySupervision/state-yellow-b.png';
-import stateYellowS from '@/assets/images/safetySupervision/state-yellow-s.png';
+import stateBlueB from './images/state-blue-b.png';
+import stateBlueS from './images/state-blue-s.png';
+import stateGrayB from './images/state-gray-b.png';
+import stateGrayS from './images/state-gray-s.png';
+import stateGreenS from './images/state-green-s.png';
+import stateYellowB from './images/state-yellow-b.png';
+import stateYellowS from './images/state-yellow-s.png';
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
 export const pageNumFun = (data) => {

@@ -1,4 +1,4 @@
-import ztsyl from '@/assets/images/publicService/ztsyl.png';
+import ztsyl from './images/ztsyl.png';
 
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
