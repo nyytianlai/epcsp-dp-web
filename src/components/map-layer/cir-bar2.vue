@@ -38,7 +38,7 @@ const addBar = async (
       userData: userData,
       coordinate: item.geometry.coordinates,
       contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar2.html?value=${value}`,
-      contentSize: [108, 160], //网页窗口宽高 [width, height]
+      contentSize: [108, 170], //网页窗口宽高 [width, height]
       pivot: [0.5, 1], // 中心点
       range: [1, 150000] //显示范围：[min, max]
       // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口

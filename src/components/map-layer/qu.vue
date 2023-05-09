@@ -183,6 +183,7 @@ const deleteJdData = async () => {
       return `rectBar${props.buttomTabCode}-` + i;
     })
   );
+  console.log(`rectBar${props.buttomTabCode}-`, ids);
 };
 const deleteSingleJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
@@ -305,7 +306,7 @@ const addJdStation = async (jdCode: string) => {
         id: 'station-' + index + '-' + item.isHr,
         groupId: 'jdStation',
         userData: item.isHr + '',
-        coordinateType: 2,
+        coordinateType: 1,
         coordinate: [item.lng, item.lat],
         anchors: [-11.5, 150],
         imageSize: [33, 36],
@@ -382,6 +383,7 @@ const addQuStationWithAlarmInfo = async (quCode: string) => {
 const beforeAddOrExitHrStation = async (isShow: boolean) => {
   !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
   isShowJdPolygon(!isShow);
+  !isShow ? __g.polygon3d.show('wall') : __g.polygon3d.hide('wall');
   if (currentPositionBak.value === '深圳市') {
   } else if (currentPositionBak.value.includes('区')) {
     isShow ? deleteJdData() : '';
@@ -398,7 +400,8 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
       'E4933C614755E6F56D8C209A5B28B8C4',
       '6EA525CA4FB949D9850E5A933AA5FFCA',
       'D398F2D8482A2FCC5BA60F9DE52C6DB9', //车辆充电动画
-      '21BD0867470C8FF5295AED9D635E10A1' //充电中的车
+      '21BD0867470C8FF5295AED9D635E10A1', //充电中的车
+      'E7203AA94D657F717982D2A7DC51709D' //车辆充电动画桩
     ];
     isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
     moveCar(__g, isShow); //默认全程显示但是关不掉的3dt
@@ -413,6 +416,7 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
         )
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
+    isShow ? '' : __g.marker.deleteByGroupId('stationChargeIcon');
   } else if (stationName === '奥特迅电力大厦后广场充电站') {
     let ids = ['D56023684855E6E91E9F0CB4F6D00D59'];
     isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
@@ -482,6 +486,23 @@ const addXzqhName = async (res, type: string, idName: string, userDataName: stri
   });
   //批量添加polygon
   __g.marker.add(pointArr, null);
+};
+const addWall = async () => {
+  let res = await requestGeojsonData('outline4547');
+  let opolygon = {
+    id: 'wall', //3DPolygon唯一标识id
+    coordinates: res.features[0].geometry.coordinates, //构成3DPolygon的坐标点数组
+    color: '#5bb7d2', //3DPolygon颜色
+    height: 800, //3D多边形的高度
+    intensity: 1.0, //亮度
+    style: 1, //3DPolygon的样式 请参照API开发文档选取枚举
+    generateTop: false, //是否生成顶面
+    generateSide: true, //是否生成侧面
+    generateBottom: false //是否生成底面
+  };
+
+  //批量添加3DPolygon
+  __g.polygon3d.add(opolygon, null);
 };
 
 const pointInWhichDistrict = (point: Cartesian2D) => {
@@ -555,7 +576,7 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz });
+defineExpose({ pointInWhichDistrict, resetSz, deleteJdData });
 onMounted(async () => {
   await __g.reset();
   addHrStation('比亚迪民乐P+R电动汽车充电站', false);
@@ -566,6 +587,7 @@ onMounted(async () => {
   addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');
   let res1 = await requestGeojsonData('quName4547');
   addXzqhName(res1.features, 'quName', 'QUNAME', 'QUCODE');
+  addWall();
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
     console.log('高渲染站点信息2', e);

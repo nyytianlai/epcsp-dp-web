@@ -23,12 +23,16 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
   let count = [];
   for (const key in res.data) {
     const element = res.data[key];
-    let countItem = element.map((item) => {
-      return item[valueField];
-    });
-    count.push(...countItem);
+    let countItem = element
+      .map((item) => {
+        return item[valueField];
+      })
+      .reduce(function (prev, cur) {
+        return prev + cur;
+      }, 0);
+    count.push(countItem);
   }
-  // console.log('count', count);
+  console.log('count', count);
 
   let yMax = Math.max(...count);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
@@ -49,7 +53,18 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
       countObj =
         code == 1 ? res.data[item.properties.JDCODE] : res.data[item.properties.JDCODE].reverse();
     }
-    console.log('countObj', countObj);
+    let sum = countObj
+      .map((item) => {
+        return item[valueField];
+      })
+      .reduce(function (prev, cur) {
+        return prev + cur;
+      }, 0);
+    // console.log('sum', sum);
+
+    let contentHeight = (sum / yMax) * 180 + 83;
+    // let contentHeight = 263;
+    // console.log('countObj', countObj);
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
@@ -60,7 +75,7 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
       contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
         countObj[0][valueField]
       },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}`,
-      contentSize: [108, 263], //网页窗口宽高 [width, height]
+      contentSize: [88, contentHeight], //网页窗口宽高 [width, height] 263
       pivot: [0.5, 1], // 中心点
       range: [1, 150000] //显示范围：[min, max]
       // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口

@@ -62,22 +62,24 @@ const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
 
-const setObjVisibility = (type: string, idPre: string, value: boolean) => {
-  value ? __g[type].show(layerNameQuNameArr(idPre)) : __g[type].hide(layerNameQuNameArr(idPre));
+const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
+  value
+    ? await __g[type].show(layerNameQuNameArr(idPre))
+    : await __g[type].hide(layerNameQuNameArr(idPre));
 };
 
 const buttomTabChange = async (code: 1 | 2) => {
+  await quRef.value.deleteJdData();
   buttomTabCode.value = code;
   let value = code === 1 ? true : false;
-  setObjVisibility('customTag', 'rectBar1', value);
+  await setObjVisibility('customTag', 'rectBar1', value);
   let info = await __g.customTag.get('rectBar2-南山区');
-  console.log('获取rectBar2-南山区info', info);
   if (info.result === 0) {
-    setObjVisibility('customTag', 'rectBar2', !value);
+    await setObjVisibility('customTag', 'rectBar2', !value);
   } else {
-    cirBar3Ref.value.addBar(buttomTabCode.value,'qu');
+    await cirBar3Ref.value.addBar(buttomTabCode.value, 'qu');
   }
-  quRef.value.resetSz();
+  await quRef.value.resetSz();
 };
 
 defineExpose({ buttomTabChange });
@@ -85,9 +87,9 @@ defineExpose({ buttomTabChange });
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  cirBar3Ref.value.addBar(buttomTabCode.value,'qu');
+  cirBar3Ref.value.addBar(buttomTabCode.value, 'qu');
   bus.on('addBar', (e) => {
-    cirBar3Ref.value.addBar(buttomTabCode.value, e.type,e.quCode);
+    cirBar3Ref.value.addBar(buttomTabCode.value, e.type, e.quCode);
   });
 });
 
