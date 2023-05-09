@@ -6,16 +6,15 @@ import { districtAlarmLevelStatics, getMapAreaStationByPower } from '@/api/super
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const addBar = async (code: 1 | 2) => {
-  // await __g.customTag.clear();
+const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
   let res;
   let valueField: string; //从哪个字段取值
   if (code === 1) {
-    res = await districtAlarmLevelStatics();
+    res = await districtAlarmLevelStatics(quCode);
     valueField = 'cnt';
     console.log('11--districtAlarmLevelStatics');
   } else {
-    res = await getMapAreaStationByPower();
+    res = await getMapAreaStationByPower(quCode);
     valueField = 'alarmStatusSize';
     console.log('22--getMapAreaStationByPower');
   }
@@ -32,18 +31,31 @@ const addBar = async (code: 1 | 2) => {
   // console.log('count', count);
 
   let yMax = Math.max(...count);
-
+  const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   const res1 = await request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/barPosition4547.geojson`
+    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
+  if (type === 'jd') {
+    res1.features = res1.features.filter((item) => {
+      return item.properties.QUCODE === quCode;
+    });
+  }
   res1.features.forEach((item, index) => {
-    let countObj =
-      code == 1 ? res.data[item.properties.QUCODE] : res.data[item.properties.QUCODE].reverse();
-    console.log("countObj",countObj);
+    let countObj;
+    if (type == 'qu') {
+      countObj =
+        code == 1 ? res.data[item.properties.QUCODE] : res.data[item.properties.QUCODE].reverse();
+    } else {
+      countObj =
+        code == 1 ? res.data[item.properties.JDCODE] : res.data[item.properties.JDCODE].reverse();
+    }
+    console.log('countObj', countObj);
+    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
-      id: `rectBar${code}-${item.properties.QUNAME}`,
+      id: `rectBar${code}-${idEnd}`,
       groupId: 'rectBar',
-      userData: item.properties.QUCODE,
+      userData: userData,
       coordinate: item.geometry.coordinates,
       contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
         countObj[0][valueField]
@@ -58,12 +70,8 @@ const addBar = async (code: 1 | 2) => {
   __g.customTag.add(barArr);
 };
 defineExpose({ addBar });
-onMounted(async () => {
-  // addBar();
-});
+onMounted(async () => {});
 
-onBeforeUnmount(() => {
-  // __g.polygon.delete(["polygon1"]);
-});
+onBeforeUnmount(() => {});
 </script>
 <style lang="less" scoped></style>

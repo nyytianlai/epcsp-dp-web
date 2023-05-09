@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-26 16:35:27
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 09:44:10
+ * @LastEditTime: 2023-05-09 09:56:11
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\map-layer.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -13,7 +13,8 @@ import { useStore } from 'vuex';
 import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
 import { selectCameraByStationId } from '@/api/stationDetail.js';
 import bus from '@/utils/bus';
-import { ceilingId, currentLabel, facilitiesLabel } from '../config.js';
+import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
+import { Data } from '@icon-park/vue-next';
 
 const store = useStore();
 const aircityObj = inject('aircityObj');
@@ -42,6 +43,7 @@ const addCameraPoint = async (data) => {
       imageSize: [24, 26], //图片的尺寸
       range: [1, 1500], //可视范围
       imagePath: getImageByCloud('camera'),
+      fixedSize: true,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       displayMode: 2,
       autoHeight: true
@@ -54,29 +56,35 @@ const addCameraPoint = async (data) => {
 //车辆充电动画
 const carChargingAnimation = async () => {
   setTimeout(async () => {
-    await __g.misc.callBPFunction({
-      objectName: 'BP_PlaySequence_2',
-      functionName: 'PlaySequence'
-    });
     // await __g.misc.callBPFunction({
-    //   objectName: 'BP_Move2_5',
-    //   functionName: 'BeginMove'
+    //   objectName: 'BP_PlaySequence_2',
+    //   functionName: 'PlaySequence'
     // });
-    await control3dts(
-      __g,
-      ['106461804A48EF11238C788590C41BA0', 'CDBA07094FEF9E795D850591ADB5D497'],
-      true
-    );
+    await resetCarChargingAnimation();
+    await __g.misc.callBPFunction({
+      objectName: 'BP_Taxi_backUp_2',
+      functionName: 'Event_Move_Car'
+    });
     setTimeout(async () => {
-      //   await __g.misc.callBPFunction({
-      //   objectName: '052697',
-      //   functionName: 'SetMeshHidden ',
-      //   paramType: 0,
-      //   paramValue: true
-      // });
+      await __g.misc.callBPFunction({
+        objectName: 'BP_MoveA_4',
+        functionName: 'SetMoveA',
+        paramType: 0,
+        paramValue: false
+      });
+      addChageingIcon([[504708.99062500003, 2499640.96, 94.115224609375]], 'chargeIcon');
       carChargingCameraTour();
     }, 10000);
   }, 4000);
+};
+const resetCarChargingAnimation = async () => {
+  await __g.misc.callBPFunction({
+    objectName: 'BP_MoveA_4',
+    functionName: 'SetMoveA',
+    paramType: 0,
+    paramValue: true
+  });
+  __g.marker.delete('chargeIcon');
 };
 const carChargingCameraTour = async () => {
   await __g.cameraTour.delete('1');
@@ -95,14 +103,33 @@ const carChargingCameraTour = async () => {
     new CameraTourKeyFrame(
       1,
       3.0,
-      [504709.416875, 2499646.40921875, 96.09150390625],
-      [-28.3896789, 90.26435852050781, 0]
+      [504714.888594, 2499635.966094, 97.744414],
+      [-35.082382, -141.756882, 0.000002]
     )
   );
 
   let o = new CameraTourData('1', 'carChargingCameraTour', frames);
   await __g.cameraTour.add(o);
   __g.cameraTour.play('1');
+};
+const addChageingIcon = async (data, id?: string) => {
+  const pointArr = [];
+  data.forEach((element, index) => {
+    let fid = id ? id : 'charge-' + index;
+    let o1 = {
+      id: fid,
+      groupId: 'stationChargeIcon',
+      coordinate: element, //坐标位置
+      anchors: [-22, 93.6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [44, 93.6], //图片的尺寸
+      range: [1, 100], //可视范围
+      imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      displayMode: 2
+    };
+    pointArr.push(o1);
+  });
+  await __g.marker.add(pointArr, null);
 };
 const currentPathCameraTour = async () => {
   await __g.cameraTour.delete('2');
@@ -140,7 +167,8 @@ const currentPathCameraTour = async () => {
 };
 //电流流转
 const currentPath = async (isShow: boolean) => {
-  await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow);
+  // await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow); 
+  await control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827'], isShow);
   currentPathCameraTour();
   isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), false); //设置棚顶的样式
   addCurrentLabel();
@@ -202,7 +230,8 @@ const addFacilitiesLabel = async () => {
   await __g.marker.add(pointArr, null);
 };
 const resetTab3dt = async () => {
-  control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
+  // control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
+  control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827', '106461804A48EF11238C788590C41BA0'], false);
   delete3dt(__g, ['NewYYSFB']);
   isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), true); //设置棚顶的样式
   await __g.marker.deleteByGroupId('stationCurrentLabel');
@@ -211,6 +240,7 @@ const resetTab3dt = async () => {
 onMounted(() => {
   getCameraData();
   addFacilitiesLabel();
+  addChageingIcon(chargeIcon());
   bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
     await resetTab3dt();

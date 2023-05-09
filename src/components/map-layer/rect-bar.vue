@@ -2,14 +2,16 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { getRectBar } from '@/api/overall.js';
+import { getRectBar, getRectBarByStreet } from '@/api/overall.js';
+import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');
 
-const addBar = async () => {
+const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   // await aircityObj.acApi.customTag.clear();
   let barArr = [];
-  const { data: res } = await getRectBar();
+  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
+  const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   console.log('柱状图接口', res);
   let gunCount = res.map((item) => {
     return item.gunCount;
@@ -19,16 +21,27 @@ const addBar = async () => {
   console.log('gunCount', gunCount);
 
   const res1 = await request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/barPosition4547.geojson`
+    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
+  if (type === 'jd') {
+    res1.features = res1.features.filter((item) => {
+      return item.properties.QUCODE === streetId;
+    });
+  }
   res1.features.forEach((item, index) => {
     let countObj = res.filter((i) => {
-      return i.areaCode == item.properties.QUCODE;
+      return type === 'qu'
+        ? i.areaCode == item.properties.QUCODE
+        : i.streetId == item.properties.JDCODE;
     });
+    // console.log('countObj', countObj);
+
+    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
-      id: 'rectBar-' + item.properties.QUNAME,
+      id: 'rectBar-' + idEnd,
       groupId: 'rectBar',
-      userData: item.properties.QUCODE,
+      userData: userData,
       coordinate: item.geometry.coordinates,
       contentURL: `${import.meta.env.VITE_FD_URL}/data/html/rectBar.html?value=${
         countObj[0].gunCount
@@ -43,11 +56,15 @@ const addBar = async () => {
   aircityObj.value.acApi.customTag.add(barArr);
 };
 onMounted(async () => {
-  addBar();
+  addBar('qu');
+  bus.on('addBar', (e) => {
+    addBar(e.type, e.quCode);
+  });
 });
 
 onBeforeUnmount(() => {
   // aircityObj.acApi.polygon.delete(["polygon1"]);
+  bus.off('addBar');
 });
 </script>
 <style lang="less" scoped></style>

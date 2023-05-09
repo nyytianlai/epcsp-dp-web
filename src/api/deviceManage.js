@@ -8,11 +8,20 @@
  */
 import request from '@sutpc/axios';
 // 地图区级下钻撒点
-export const getQuStation = (areaCode) => {
+// export const getQuStation = (areaCode) => {
+//   return request.post({
+//     url: '/dp/api/v1/equipmentManage/selectChargeStationByAreaCode',
+//     data: {
+//       areaCode
+//     }
+//   });
+// };
+// 地图区级下钻撒点
+export const getJdStation = (streetId) => {
   return request.post({
-    url: '/dp/api/v1/equipmentManage/selectChargeStationByAreaCode',
+    url: '/dp/api/v1/equipmentManage/selectStationInfoByStreetId',
     data: {
-      areaCode
+      streetId
     }
   });
 };
