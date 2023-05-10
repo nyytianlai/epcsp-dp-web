@@ -7,7 +7,6 @@
 </template>
 <script setup>
 import { toRefs } from 'vue';
-import HlsVideo from '@/components/hls/index.vue';
 const props = defineProps({
     videoUrl: {
         type:String,
