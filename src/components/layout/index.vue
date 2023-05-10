@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 10:23:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 18:45:40
+ * @LastEditTime: 2023-05-10 11:13:17
  * @FilePath: \epcsp-dp-web\src\components\layout\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -48,9 +48,9 @@ import TimeWeather from './components/time-weather.vue'
 import StationDetail from '@/views/station-detail/index.vue'
 import ExpandBtn from './components/expand-btn/index.vue'
 import { routes } from '@/router';
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
 import { h } from 'vue';
-import { useStore } from 'vuex';
-const store = useStore();
+const store = useVisibleComponentStore()
 const wrapperMap = new Map();
 const props = defineProps({
     title: {
@@ -90,8 +90,8 @@ const excludeViews = ref([])
 const includeViews = ref([])
 const cloudHost = ref(import.meta.env.VITE_FD_URL)
 const aircityObj = ref(null)
-const showComponent = computed(()=>store.getters.showComponent)
-const showDetail = computed(()=>store.getters.showDetail)
+const showComponent = computed(()=>store.showComponent)
+const showDetail = computed(()=>store.showDetail)
 onMounted(async() => {
   await nextTick()
   getkeepAliveList(routes)

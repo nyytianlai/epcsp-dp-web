@@ -20,11 +20,11 @@ import Qu from '@/components/map-layer/qu.vue';
 import cirBar2 from '@/components/map-layer/cir-bar2.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
-import { useStore } from 'vuex';
+import { useMapStore } from '@/stores/map'
 import bus from '@/utils/bus';
 import { jdMonthRate } from '../api.js';
-const store = useStore();
-const currentPosition = computed(() => store.getters.currentPosition);
+const store = useMapStore()
+const currentPosition = computed(() => store.currentPosition);
 const legendListData = [
   {
     color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #067471 95.4%)',
