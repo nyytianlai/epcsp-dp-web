@@ -24,9 +24,9 @@ import { projectCGCS2000_2_GK114 } from '@/utils/index';
 import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
 import { getHeatMap } from '../api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
-import { useStore } from 'vuex';
-const store = useStore();
-const currentPosition = computed(() => store.getters.currentPosition);
+import { useMapStore } from '@/stores/map'
+const store = useMapStore()
+const currentPosition = computed(() => store.currentPosition);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');

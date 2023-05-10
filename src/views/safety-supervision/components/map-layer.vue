@@ -21,9 +21,9 @@ import request from '@sutpc/axios';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
 import bus from '@/utils/bus';
 
-import { useStore } from 'vuex';
-const store = useStore();
-const currentPosition = computed(() => store.getters.currentPosition);
+import { useMapStore } from '@/stores/map'
+const store = useMapStore()
+const currentPosition = computed(() => store.currentPosition);
 const legendNameData1 = '告警级别（个）';
 const legendListData1 = [
   {

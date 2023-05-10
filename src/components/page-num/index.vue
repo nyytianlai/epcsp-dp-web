@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-12 15:03:31
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-08 10:08:31
+ * @LastEditTime: 2023-05-10 11:23:31
  * @FilePath: \epcsp-dp-web\src\components\page-num.vue\index.vue.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -22,8 +22,9 @@
 <script setup lang="ts">
 import {onMounted,ref,computed,toRefs } from 'vue'
 import { formatWithToLocalString } from '@/global/commonFun.js'
-import { useStore } from 'vuex';
-const store = useStore();
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
+
+const store = useVisibleComponentStore()
 interface Idata {
   num: string | number;
   name: string;
@@ -37,7 +38,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 const { data } = toRefs(props);
 const panelShow = computed(() => {
-  return store.getters.panelShow
+  return store.panelShow
 })
 </script>
 <style lang="less" scoped>

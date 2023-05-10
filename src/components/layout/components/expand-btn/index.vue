@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-23 10:55:27
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-04-28 14:10:39
+ * @LastEditTime: 2023-05-10 11:33:32
  * @FilePath: \epcsp-dp-web\src\components\layout\components\expand-btn\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -17,18 +17,17 @@
 <script setup>
 import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { useStore } from 'vuex';
 import { getImageUrl, infoObj } from '@/global/config/map';
-
-const store = useStore();
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
+const store = useVisibleComponentStore()
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
 
 const handleClick = () => {
   const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
-  store.commit('CHANGE_SHOW_PANEL', !isCollapsed.value);
-  if(store.getters.showDetail)return
+  store.changeShowPanel(!isCollapsed.value);
+  if(store.showDetail)return
   isCollapsed.value ? __g.camera.set(infoObj.szViewFull, 0.2) : __g.camera.set(infoObj.szView, 0.2);
 };
 </script>

@@ -22,8 +22,9 @@
 </template>
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
-import { useStore } from 'vuex';
-const store = useStore();
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
+
+const store = useVisibleComponentStore()
 interface ILegendList {
   color: string;
   name: string;
@@ -47,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
   hotRange: () => ['10万', '500万']
 });
 const { legendName, legendList, legendType } = toRefs(props);
-const panelShow = computed(() => store.getters.panelShow);
+const panelShow = computed(() => store.panelShow);
 </script>
 <style lang="less" scoped>
 .legend-wrap {

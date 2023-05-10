@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:43
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-08 10:37:07
+ * @LastEditTime: 2023-05-10 11:35:10
  * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-num-images.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -32,10 +32,10 @@ import fwqPng from './images/fwq.png';
 import gccPng from './images/gcc.png';
 import v2gPng from './images/v2g.png';
 import lsgfPng from './images/lsgf.png';
-import { useStore } from 'vuex';
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
 import bus from '@/utils/bus';
 
-const store = useStore();
+const store = useVisibleComponentStore()
 const props = defineProps({
   data: {
     type: Array,
@@ -43,8 +43,8 @@ const props = defineProps({
   }
 });
 const handleClick = (item) => {
-  store.commit('CHANGE_SHOW_COMPONENT', false);
-  store.commit('CHANGE_SHOW_DETAIL', {
+  store.changeShowComponent(false);
+  store.changeShowDetail({
     show: true,
     params: item
   });
