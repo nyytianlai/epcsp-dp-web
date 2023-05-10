@@ -54,19 +54,20 @@ export const districtAlarmLevelStatics = (areaCode) => {
 };
 
 //地图站点状态柱状图
-export const getMapAreaStationByPower = (areaCode) => {
+export const getMapAreaStationByPower = (areaCodeList) => {
   return request.post({
     url: '/safetySupervision/getMapAreaStationByPower',
-    data: { areaCode }
+    data: { areaCodeList }
   });
 };
 
 // 地图区级下钻撒点
-export const getQuStationWithAlarm = (areaCode) => {
+export const getQuStationWithAlarm = (areaCode,stationStreet) => {
   return request.post({
     url: '/safetySupervision/selectStationAlarmInfoByArea',
     data: {
-      areaCode
+      areaCode,
+      stationStreet
     }
   });
 };

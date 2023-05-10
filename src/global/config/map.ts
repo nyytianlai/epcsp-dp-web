@@ -75,7 +75,7 @@ export const getMapCenterCoord = (aircityObj) => {
 
 //控制3dt的显示隐藏
 export const control3dts = async (__g, ids: string[], isShow: boolean) => {
-  isShow ? await __g.infoTree.show(ids) : await __g.infoTree.hide(ids);
+  isShow ?  __g.infoTree.show(ids) :  __g.infoTree.hide(ids);
 };
 
 export const add3dt = async (__g, fileName: string) => {

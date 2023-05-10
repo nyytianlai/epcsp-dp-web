@@ -39,8 +39,8 @@ const addCameraPoint = async (data) => {
       userData: JSON.stringify(item),
       coordinateType: 1,
       coordinate: [item.cameraLng, item.cameraLat], //坐标位置
-      anchors: [-12, 26], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [24, 26], //图片的尺寸
+      anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [48, 52], //图片的尺寸
       range: [1, 1500], //可视范围
       imagePath: getImageByCloud('camera'),
       fixedSize: true,

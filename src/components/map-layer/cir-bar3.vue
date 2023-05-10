@@ -14,7 +14,7 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
     valueField = 'cnt';
     console.log('11--districtAlarmLevelStatics');
   } else {
-    res = await getMapAreaStationByPower(quCode);
+    res = await getMapAreaStationByPower(quCode ? [quCode] : quCode);
     valueField = 'alarmStatusSize';
     console.log('22--getMapAreaStationByPower');
   }

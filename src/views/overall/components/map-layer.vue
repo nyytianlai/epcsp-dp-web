@@ -9,6 +9,7 @@
 <template>
   <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
+  <!-- <heat-map></heat-map> -->
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
@@ -18,6 +19,7 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
+import HeatMap from '@/components/map-layer/heat-map.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import request from '@sutpc/axios';
 import { projectCGCS2000_2_GK114 } from '@/utils/index';
@@ -74,7 +76,8 @@ const updateHeatMap = () => {
 const addHeatMap = async () => {
   // await __g.heatmap.clear();
   const { data: res } = await getHeatMap();
-  let bbox = [470754, 2472106, 5.7, 629306, 2550338, 344.58];
+  console.log('热力图数据', res);
+  let bbox = [474542.44, 2483371.45, 5.7, 564130.59, 2529557.43, 344.58];
   let range = [0, 6000];
   let data = [];
   res.forEach((element) => {
