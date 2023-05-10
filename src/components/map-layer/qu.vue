@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-18 20:40:18
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:58:42
+ * @LastEditTime: 2023-05-10 11:55:16
  * @FilePath: \epcsp-dp-web\src\components\map-layer\qu.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -27,11 +27,14 @@ import {
   control3dts
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
-import { useStore } from 'vuex';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
+import { useMapStore } from '@/stores/map'
+const storeVisible = useVisibleComponentStore()
+const store = useMapStore()
 interface Props {
   buttomTabCode?: number | string;
 }
@@ -43,16 +46,15 @@ const props = withDefaults(defineProps<Props>(), {
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
 const { useEmitt, player: aircityPlay } = aircityObj.value;
-const store = useStore();
-const currentPosition = computed(() => store.getters.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
-const currentJd = computed(() => store.getters.currentJd);
-const currentQu = computed(() => store.getters.currentQu);
+const currentPosition = computed(() => store.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
+const currentJd = computed(() => store.currentJd);
+const currentQu = computed(() => store.currentQu);
 
-const lastJd = computed(() => store.getters.lastJd);
-const lastQu = computed(() => store.getters.lastQu);
+const lastJd = computed(() => store.lastJd);
+const lastQu = computed(() => store.lastQu);
 
-const currentPositionBak = computed(() => store.getters.currentPositionBak);
-const currentHrStationID = computed(() => store.getters.currentHrStationID); //当前点击的高渲染站点id
+const currentPositionBak = computed(() => store.currentPositionBak);
+const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
@@ -62,9 +64,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (quName === currentQu.value) {
       return;
     }
-    store.commit('CHANGE_LASTQU', currentQu.value);
-    store.commit('CHANGE_CURRENTQU', quName);
-    store.commit('CHANGE_CURRENTPOSITION', quName);
+    store.changeLastQu(currentQu.value);
+    store.changeCurrentQu(quName);
+    store.changeCurrentPosition(quName);
     __g.polygon.focus('qu-' + currentQu.value, 11000);
     setQuVisibility(false);
     addJdData(quName);
@@ -77,9 +79,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     // if (jdName === currentPosition.value) {
     //   return;
     // }
-    store.commit('CHANGE_LASTJD', currentJd.value);
-    store.commit('CHANGE_CURRENTJD', jdName);
-    store.commit('CHANGE_CURRENTPOSITION', jdName);
+    store.changeLastJd(currentJd.value);
+    store.changeCurrentJd(jdName);
+    store.changeCurrentPosition(jdName);
     __g.polygon.focus('jd-' + currentJd.value, 1500);
     // setQuVisibility(false);
     deleteSingleJdData();
@@ -108,7 +110,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
         : '';
     }
-    store.commit('CHANGE_CURRENTHRSTATIONID', e.Id);
+    store.changeCurrentHrStationId(e.Id);
   }
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
@@ -125,33 +127,33 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       //当前相机位置所在区和当前区一致
       if (currentPosition.value.includes('街道') && cameraJdInfo.JDNAME !== currentJd.value) {
         addStationPoint(cameraJdInfo.JDCODE);
-        store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-        store.commit('CHANGE_CURRENTJD', cameraJdInfo.JDNAME);
-        store.commit('CHANGE_CURRENTPOSITION', cameraJdInfo.JDNAME);
+        store.changeCurrentPositionBak( currentPosition.value);
+        store.changeCurrentJd(cameraJdInfo.JDNAME);
+        store.changeCurrentPosition( cameraJdInfo.JDNAME);
       }
     }
   }
 });
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
-  store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
+  store.changeCurrentPositionBak(currentPosition.value);
   if (currentPosition.value.includes('区')) {
     addJdData(quName);
-    store.commit('CHANGE_CURRENTPOSITION', quName);
+    store.changeCurrentPosition(quName);
   } else if (currentPosition.value.includes('街道')) {
     addJdData(quName, 'noBar');
     addStationPoint(cameraJdInfo.JDCODE);
-    store.commit('CHANGE_CURRENTPOSITION', cameraJdInfo.JDNAME);
-    store.commit('CHANGE_CURRENTJD', cameraJdInfo.JDNAME);
+    store.changeCurrentPosition(cameraJdInfo.JDNAME);
+    store.changeCurrentJd(cameraJdInfo.JDNAME);
   }
-  store.commit('CHANGE_CURRENTQU', quName);
+  store.changeCurrentQu(quName);
 };
 
 const enterStationInfo = (stationInfo) => {
-  store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-  store.commit('CHANGE_CURRENTPOSITION', '');
+  store.changeCurrentPositionBak( currentPosition.value);
+  store.changeCurrentPosition('');
 
-  store.commit('CHANGE_SHOW_COMPONENT', false);
-  store.commit('CHANGE_SHOW_DETAIL', {
+  storeVisible.changeShowComponent(false);
+  storeVisible.changeShowDetail({
     show: true,
     params: {
       operatorId: stationInfo.operatorId,
@@ -239,8 +241,8 @@ const back = async () => {
 //重置到街道
 const resetJd = async () => {
   __g.marker.showByGroupId('jdStation');
-  store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-  store.commit('CHANGE_CURRENTPOSITION', currentJd.value);
+  store.changeCurrentPositionBak(currentPosition.value);
+  store.changeCurrentPosition(currentJd.value);
   console.log('currentHrStationID.value', currentHrStationID.value);
   // if (currentHrStationID.value !== '') {
   //   __g.marker.focus(currentHrStationID.value, 200, 0.2);
@@ -252,11 +254,11 @@ const resetJd = async () => {
 const resetQu = async () => {
   await __g.marker.deleteByGroupId('jdStation');
   await addJdData(currentQu.value);
-  store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-  store.commit('CHANGE_CURRENTPOSITION', currentQu.value);
+  store.changeCurrentPositionBak( currentPosition.value);
+  store.changeCurrentPosition(currentQu.value);
   __g.polygon.focus('qu-' + currentQu.value, 13000);
-  store.commit('CHANGE_LASTJD', currentJd.value);
-  store.commit('CHANGE_CURRENTJD', '');
+  store.changeLastJd( currentJd.value);
+  store.changeCurrentJd('');
 };
 //重置到深圳
 const resetSz = async (value = true) => {
@@ -265,11 +267,11 @@ const resetSz = async (value = true) => {
   await __g.marker.deleteByGroupId('jdStation');
   value ? setQuVisibility(true) : '';
   await __g.camera.set(infoObj.szView, 0.2);
-  store.commit('CHANGE_CURRENTPOSITION', '深圳市');
-  store.commit('CHANGE_CURRENTPOSITIONBAK', '');
-  store.commit('CHANGE_CURRENTHRSTATIONID', '');
-  store.commit('CHANGE_CURRENTQU', '');
-  store.commit('CHANGE_CURRENTJD', '');
+  store.changeCurrentPosition('深圳市');
+  store.changeCurrentPositionBak('');
+  store.changeCurrentHrStationId('');
+  store.changeCurrentQu('');
+  store.changeCurrentJd('');
 };
 
 const addStationPoint = (jdCode: string) => {
@@ -608,9 +610,9 @@ onMounted(async () => {
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
     console.log('高渲染站点信息2', e);
-    store.commit('CHANGE_CURRENTHRSTATIONID', 'station-' + e.stationId);
-    store.commit('CHANGE_CURRENTPOSITIONBAK', currentPosition.value);
-    store.commit('CHANGE_CURRENTPOSITION', '');
+    store.changeCurrentHrStationId('station-' + e.stationId);
+    store.changeCurrentPositionBak(currentPosition.value);
+    store.changeCurrentPosition('');
     setQuVisibility(false);
     __g.marker.hideByGroupId('jdStation');
     addHrStation(e.stationName, true);
@@ -619,7 +621,7 @@ onMounted(async () => {
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
     if (currentPositionBak.value === '深圳市') {
-      store.commit('CHANGE_CURRENTPOSITION', currentPositionBak.value);
+      store.changeCurrentPosition(currentPositionBak.value);
     }
     back();
     bus.emit('resetTab3dt');

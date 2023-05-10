@@ -9,19 +9,19 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
 import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
 import { selectCameraByStationId } from '../api.js';
 import bus from '@/utils/bus';
 import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
 import { Data } from '@icon-park/vue-next';
 
-const store = useStore();
+const store = useVisibleComponentStore()
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
-  operatorId: '398461164' || store.getters.detailParams?.operatorId,
-  stationId: '118' || store.getters.detailParams?.stationId
+  operatorId: '398461164' || store.detailParams?.operatorId,
+  stationId: '118' || store.detailParams?.stationId
 };
 const getCameraData = async () => {
   const res = await selectCameraByStationId(params);

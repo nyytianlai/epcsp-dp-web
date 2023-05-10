@@ -7,15 +7,15 @@
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
 import { inject, onMounted, onBeforeUnmount, ref,computed } from 'vue';
-import { useStore } from 'vuex';
+import { useMapStore } from '@/stores/map'
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
 __g.reset();
 
-const store = useStore();
+const store = useMapStore()
 // const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
-const currentPosition = computed(() => store.getters.currentPosition);
+const currentPosition = computed(() => store.currentPosition);
 
 let quRef = ref(null);
 

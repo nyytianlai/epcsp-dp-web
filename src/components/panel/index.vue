@@ -17,8 +17,8 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref, computed, toRefs } from 'vue'
-import { useStore } from 'vuex';
-const store = useStore();
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
+const store = useVisibleComponentStore()
 type Itype = 'left' | 'right';
 interface Props {
   type: Itype;
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const { type } = toRefs(props);
 const panelShow = computed(() => {
-  return store.getters.panelShow
+  return store.panelShow
 })
 </script>
 <style lang="less" scoped>
