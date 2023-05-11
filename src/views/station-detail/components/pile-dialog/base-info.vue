@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject,watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 const activeNames = ref(['1', '2']);
 const pileData = inject('pileData');
@@ -144,6 +144,10 @@ const listData = ref(listDataFun(pileData.value));
 const handleChange = (val) => {
   console.log(val);
 };
+watch(pileData, (newVal) => {
+  scrollTableData.value = newVal?.gunInfoVoList || []
+  listData.value = listDataFun(newVal)
+})
 </script>
 <style lang="less" scoped>
 .custom-collapse {

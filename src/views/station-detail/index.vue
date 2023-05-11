@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:21:01
+ * @LastEditTime: 2023-05-11 17:16:35
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="warning-message">
-      <title-column title="告警信息" />
+      <title-column title="告警信息" :showBtn="true" />
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
@@ -33,7 +33,7 @@
   <panel type="right">
     <div class="charging-bar-state">
       <title-column title="站点充电桩状态" />
-      <charging-state :data="chargingStateData" />
+      <charging-state :data="chargingStateData" @handleClickState="focusToPile" />
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
@@ -223,25 +223,23 @@ useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.Id?.includes('warning-bottom')) { 
     const eid = e.UserData
     if (!chargingStateDataObj.value[eid]) return
-    handleClickFocus(__g,eid,255)
-     pileParams.value = {
-        "eid": eid
-    }
-    pileType.value = 'pile'
-    pileVisible.value = true
-    
+    focusToPile(eid,255)
   }
   //正常桩
   if (e.PropertyName === "station") {
     if (!chargingStateDataObj.value[e.ObjectID]) return
-    handleClickFocus(__g,e.ObjectID,+chargingStateDataObj.value[e.ObjectID].status)
-     pileParams.value = {
-        "eid": e.ObjectID
-    }
-    pileType.value = 'pile'
-    pileVisible.value = true
+    focusToPile(e.ObjectID,+chargingStateDataObj.value[e.ObjectID].status)
   }
 });
+// 定位到桩弹窗
+const focusToPile = (eid,status) => {
+  handleClickFocus(__g, eid, status)
+  pileParams.value = {
+        "eid": eid
+  }
+  pileType.value = 'pile'
+  pileVisible.value = true
+}
 const handleClose = () => {
    //清除绿色高亮
   //  __g.tileLayer.stopHighlightAllActors()
