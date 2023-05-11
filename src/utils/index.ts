@@ -15,7 +15,7 @@ export const projectCGCS2000_2_GK114 = (coord: Cartesian2D) => {
 };
 
 //点是否在面内
-export const pointIsInPolygon = (pointCoord: Cartesian2D, polygonCoord) => {
+export const pointIsInPolygon = (pointCoord,polygonCoord) => {
   var pt = point(pointCoord);
   var poly = polygon(polygonCoord);
   // var poly = polygonCoord;

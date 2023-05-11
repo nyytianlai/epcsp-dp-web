@@ -21,13 +21,16 @@ import {
   getImageUrl,
   getImageByCloud,
   quNameCodeInterTrans,
-  getMapCenterCoord
+  getMapCenterCoord,
+  add3dt,
+  delete3dt,
+  control3dts
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';
-import { moveCar } from '@/views/station-detail/mapOperate';
+import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent'
 import { useMapStore } from '@/stores/map'
 const storeVisible = useVisibleComponentStore()
@@ -334,9 +337,12 @@ const addJdStation = async (jdCode: string) => {
 };
 
 //安全监管模块撒点
-const addQuStationWithAlarmInfo = async (quCode: string) => {
+const addQuStationWithAlarmInfo = async (jdCode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
-  const { data: res } = await getQuStationWithAlarm(quCode);
+  const { data: res } = await getQuStationWithAlarm(
+    quNameCodeInterTrans('name', currentQu.value),
+    jdCode
+  );
   let pointArr = [];
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
@@ -406,15 +412,18 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
   await beforeAddOrExitHrStation(isShow);
   if (stationName === '比亚迪民乐P+R电动汽车充电站') {
     let ids = [
-      '7CED6A4A4F00FFA1B7273C9511B55B85',
-      'E4933C614755E6F56D8C209A5B28B8C4',
-      '6EA525CA4FB949D9850E5A933AA5FFCA',
-      'D398F2D8482A2FCC5BA60F9DE52C6DB9', //车辆充电动画
-      '21BD0867470C8FF5295AED9D635E10A1', //充电中的车
-      'E7203AA94D657F717982D2A7DC51709D' //车辆充电动画桩
+      // '7CED6A4A4F00FFA1B7273C9511B55B85', //station
+      // 'E4933C614755E6F56D8C209A5B28B8C4',
+      // '6EA525CA4FB949D9850E5A933AA5FFCA',
+      // 'D398F2D8482A2FCC5BA60F9DE52C6DB9', //车辆充电动画
+      // '21BD0867470C8FF5295AED9D635E10A1', //充电中的车
+      // 'E7203AA94D657F717982D2A7DC51709D' //车辆充电动画桩
+      'D3A3D73B41E03DC60DAFC38D1C1B051F'
     ];
     isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
-    moveCar(__g, isShow); //默认全程显示但是关不掉的3dt
+    // await control3dts(__g, ['D3A3D73B41E03DC60DAFC38D1C1B051F'], isShow);
+    isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
+    setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
       ? __g.camera.set(
           504944.50832031254,

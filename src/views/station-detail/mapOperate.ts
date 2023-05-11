@@ -1,19 +1,18 @@
-
-//默认移动车辆
-export const moveCar = async (__g, isShow: boolean) => {
-   __g.misc.callBPFunction(
+//设置默认移动车辆的车速
+export const setMoveCarSpeed = async (__g, value:number) => {
+  __g.misc.callBPFunction(
     {
       //移动车辆 ML_VehicleSpline
       objectName: 'BP_MainSpline_1',
-      functionName: 'SetSplineIsHidden',
-      paramType: 5,
-      paramValue: isShow ? 'TRUE' : 'FALSE'
+      functionName: 'SetSpeed',
+      paramType: 3,
+      paramValue: value
     },
     null
   );
 };
 
-export const handleClickFocus = ( __g,eid,status) => {
+export const handleClickFocus = (__g, eid, status) => {
   //清除绿色高亮
   __g.tileLayer.stopHighlightAllActors();
   //删除红色
@@ -29,7 +28,7 @@ export const handleClickFocus = ( __g,eid,status) => {
       objectIds: [eid]
     },
     (res) => {
-      if(!res?.data)return
+      if (!res?.data) return;
       const rotation = res?.data[0].rotation;
       //定位过去
       // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", eid, 3.5, 2, [-18, 140, 0])
