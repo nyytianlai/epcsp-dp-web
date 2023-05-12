@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-11 12:55:20
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:30:46
+ * @LastEditTime: 2023-05-11 17:43:19
  * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -10,7 +10,7 @@
   <page-num :data="pageNumData" />
     <panel>
       <div class="charging-station-num "> 
-        <title-column title="充电桩数量信息" />
+        <title-column title="充电设施总量" />
         <tabs :data="chargingStationTabs" 
         @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
         <pie-chart :data="chargingStationPieData" totalName="充电桩总数" />
@@ -128,7 +128,11 @@ const getSelectChargeCountByArea = async () => {
 //设备管理/充电站数字孪生
 const getSelectHrStationInfo = async () => {
   const res = await selectHrStationInfo()
-  chargingNum.value = res.data || []
+  if (res?.data?.length) {
+    chargingNum.value = res.data.sort((a,b)=>a.sort - b.sort)
+  } else {
+    chargingNum.value = []
+  }
 }
 // 设备管理/在线运行状态情况
 const getSelectPowerSumByDayTime = async () => {

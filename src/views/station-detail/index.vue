@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 15:04:38
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:21:01
+ * @LastEditTime: 2023-05-12 15:24:44
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="warning-message">
-      <title-column title="告警信息" />
+      <title-column title="告警信息" :showBtn="true" @handleClick="handleShowWarning" />
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
@@ -33,7 +33,7 @@
   <panel type="right">
     <div class="charging-bar-state">
       <title-column title="站点充电桩状态" />
-      <charging-state :data="chargingStateData" />
+      <charging-state :data="chargingStateData" @handleClickState="focusToPile" />
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
@@ -70,15 +70,42 @@
     @close="handleClose"
   />
   <map-layer v-if="aircityObj" />
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <el-table
+      :data="alarmTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
+        <template #default="scope"></template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    />
+  </custom-dialog>
 </template>
 <script setup>
-import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { ref, onMounted,inject,watch,computed,reactive } from 'vue';
+import { useVisibleComponentStore } from '@/stores/visibleComponent'
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
-import BottomTabs from './components/bottom-tabs.vue';
-import PileDialog from './components/pile-dialog/pile-dialog.vue';
-import MapLayer from './components/map-layer.vue';
+import BottomTabs from './components/bottom-tabs.vue'
+import PileDialog from './components/pile-dialog/pile-dialog.vue'
+import MapLayer from './components/map-layer.vue'
+import { tableColumnFun } from '@/global/commonFun.js';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -97,7 +124,8 @@ import {
   warningListFun,
   chargingTypesTabsFun,
   chargingTypesFun,
-  linePowerDataFun
+  linePowerDataFun,
+  columnDataFun
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate.ts';
@@ -117,6 +145,15 @@ const deviceInfoData = ref(deviceInfoDataFun());
 const isHr = computed(() => store.detailParams?.isHr);
 const tabData = ref([]);
 
+//告警弹窗分页
+const columnData = ref(columnDataFun());
+const alarmTableData = ref([]);
+const pageObj = reactive({
+  pageSize: 8,
+  total: 0,
+  currentPage: 1
+});
+const dialogTableVisible = ref(false)
 // 弹窗
 const pileVisible = ref(false);
 const pileType = ref();
@@ -157,22 +194,29 @@ const getEquipmentCountByStationId = async () => {
   deviceInfoData.value = deviceInfoDataFun(res.data);
 };
 //设备详情/告警信息列表
-const getWarningInfoByStationId = async (alarmLevel) => {
+const getWarningInfoByStationId = async (alarmLevel,pageNum=1,pageSize=99999,type) => {
   const res = await selectWarningInfoByStationId({
     ...params.value,
-    alarmLevel
+    alarmLevel,
+    pageNum,
+    pageSize
   });
-  if (res?.data && res?.data?.length) {
-    warningListData.value = res.data.map((item) => {
-      return {
-        date: item.alarmTime,
-        message: item.alarmDesc,
-        area: item.equipmentName,
-        ...item
-      };
-    });
+  if (type === 'table') {
+    pageObj.total = res?.data?.totalData || 0
+    alarmTableData.value = res?.data?.dataList || []
   } else {
-    warningListData.value = [];
+    if (res?.data && res?.data?.dataList && res?.data?.dataList?.length) {
+      warningListData.value = res.data.dataList.map((item) => {
+        return {
+          date: item.alarmTime,
+          message: item.alarmDesc,
+          area: item.equipmentName,
+          ...item
+        };
+      });
+    } else {
+      warningListData.value = [];
+    }
   }
 };
 //设备详情/站点充电桩状态
@@ -217,71 +261,62 @@ const backSz = () => {
   });
   bus.emit('hrBackSz');
 };
-useEmitt &&
-  useEmitt('AIRCITY_EVENT', async (e) => {
-    //设施点
-    if (e.Id?.includes('facilitiesLabel')) {
-      __g?.marker?.focus(e.Id, 20, 2);
-    }
-    //摄像头
-    if (e.Id?.includes('camera')) {
-      __g?.marker?.focus(e.Id);
-      pileType.value = 'monitor';
-      const data = JSON.parse(e.UserData);
-      pileVideoData.value = data;
-      pileVisible.value = true;
-    }
-    //告警桩
-    if (e.Id?.includes('warning-bottom')) {
-      const eid = e.UserData;
-      if (!chargingStateDataObj.value[eid]) return;
-      handleClickFocus(__g, eid, 255);
-      pileParams.value = {
-        eid: eid
-      };
-      pileType.value = 'pile';
-      pileVisible.value = true;
-    }
-    //正常桩
-    if (e.PropertyName === 'station') {
-      if (!chargingStateDataObj.value[e.ObjectID]) return;
-      handleClickFocus(__g, e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
-      pileParams.value = {
-        eid: e.ObjectID
-      };
-      pileType.value = 'pile';
-      pileVisible.value = true;
-    }
-  });
+useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
+  //设施点
+  if (e.Id?.includes('facilitiesLabel')) {
+    __g?.marker?.focus(e.Id,20,2);
+  }
+  //摄像头
+  if (e.Id?.includes('camera')) {
+    __g?.marker?.focus(e.Id);
+    pileType.value = 'monitor'
+    const data = JSON.parse(e.UserData)
+    pileVideoData.value = data
+    pileVisible.value = true
+
+  }
+  //告警桩
+  if (e.Id?.includes('warning-bottom')) {
+    const eid = e.UserData
+    if (!chargingStateDataObj.value[eid]) return
+    focusToPile(eid,255)
+  }
+  //正常桩
+  if (e.PropertyName === "station") {
+    if (!chargingStateDataObj.value[e.ObjectID]) return
+    focusToPile(e.ObjectID,+chargingStateDataObj.value[e.ObjectID].status)
+  }
+});
+// 定位到桩弹窗
+const focusToPile = (eid,status) => {
+  handleClickFocus(__g, eid, status)
+  pileParams.value = {
+        "eid": eid
+  }
+  pileType.value = 'pile'
+  pileVisible.value = true
+}
 const handleClose = () => {
   //清除绿色高亮
   //  __g.tileLayer.stopHighlightAllActors()
 };
 const clickWarningList = (item) => {
-  if (!chargingStateDataObj.value[item.eid]) return;
-  handleClickFocus(__g, item.eid, +chargingStateDataObj.value[item.eid].status);
+  if (!chargingStateDataObj.value[item.eid]) return
+    handleClickFocus(__g,item.eid,+chargingStateDataObj.value[item.eid].status)
+}
+const handleShowWarning = () => {
+  dialogTableVisible.value = true;
+  getWarningInfoByStationId(undefined,pageObj.currentPage,pageObj.pageSize,'table')
+}
+// warning table数据
+const handPageChange = (value) => {
+  pageObj.currentPage = value;
+  getWarningInfoByStationId(undefined,pageObj.currentPage,pageObj.pageSize,'table');
 };
-watch(
-  () => store.detailParams,
-  () => {
-    const paramsDefault = {
-      operatorId: store.detailParams?.operatorId,
-      stationId: store.detailParams?.stationId
-    };
-    params.value = paramsDefault;
-    getStationStatistics();
-    getStationInfoByStationId();
-    getEquipmentCountByStationId();
-    getWarningInfoByStationId(1);
-    getEquipmentStatusByStationId();
-    getEquipmentUseRateByStationId(1);
-    getStationRealTimePowerByStationId();
-    getWarningStatisticByStationId();
-    getButtomMenuData();
-  },
-  {
-    deep: true,
-    immediate: true
+watch(()=>store.detailParams,() => {
+  const paramsDefault = {
+    operatorId: store.detailParams?.operatorId,
+    stationId: store.detailParams?.stationId
   }
 );
 // onMounted(() => {

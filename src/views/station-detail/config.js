@@ -312,3 +312,48 @@ export const linePowerDataFun = (data = []) => {
     }
   ];
 };
+
+export const columnDataFun = () => {
+  return [
+    {
+      prop: 'operatorName',
+      label: '运营商名称',
+      minWidth:2.8
+    },
+    {
+      prop: 'stationName',
+      label: '充电站名称',
+      minWidth:'1'
+    },
+    {
+      prop: 'alarmLevelName',
+      label: '告警级别',
+      minWidth:1
+    },
+    {
+      prop: 'alarmDesc',
+      label: '告警描述',
+      minWidth:'2'
+    },
+    {
+      prop: 'alarmTypeName',
+      label: '告警类型',
+      minWidth:'1'
+    },
+    {
+      prop: 'alarmTime',
+      label: '告警时间',
+      minWidth:2
+    },
+    {
+      prop: 'stationPrincipal',
+      label: '安全负责人',
+      minWidth:1
+    },
+    {
+      prop: 'serviceTel',
+      label: '联系电话',
+      minWidth:1.8
+    },
+  ]
+}

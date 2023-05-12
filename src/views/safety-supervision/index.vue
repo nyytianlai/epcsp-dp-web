@@ -2,7 +2,7 @@
  * @Author: xiang cao caoxiang@sutpc.com
  * @Date: 2023-04-17 09:12:44
  * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:59:59
+ * @LastEditTime: 2023-05-11 15:34:52
  * @FilePath: \epcsp-dp-web\src\views\safety-supervision\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -252,26 +252,35 @@ const getAlarmLevelAndTypeByTime = async (param) => {
   };
 
   let newData = null;
-  if (data?.length !== 0) {
-    newData = data?.map((item) => {
-      if (param.type === 1) {
-        return {
-          value: item.cnt || 0,
-          name: type1[item.alarmLevel],
-          extraName: extraName[item.alarmLevel],
-          unit: '个'
-        };
-      } else {
-        return {
-          value: item.cnt || 0,
-          name: type2[item.alarmType],
-          unit: '个'
-        };
-      }
-    });
-  } else {
-    newData = warningMonitorPieDataFun(param.type);
-  }
+  const dataObj = {}
+  data?.map(item => {
+    if (param.type === 1) { 
+      dataObj[item.alarmLevel] = item.cnt
+    } else {
+      dataObj[item.alarmType] = item.cnt
+    }
+  })
+  newData = warningMonitorPieDataFun(param.type,dataObj);
+  // if (data?.length !== 0) {
+  //   newData = data?.map((item) => {
+  //     if (param.type === 1) {
+  //       return {
+  //         value: item.cnt || 0,
+  //         name: type1[item.alarmLevel],
+  //         extraName: extraName[item.alarmLevel],
+  //         unit: '个'
+  //       };
+  //     } else {
+  //       return {
+  //         value: item.cnt || 0,
+  //         name: type2[item.alarmType],
+  //         unit: '个'
+  //       };
+  //     }
+  //   });
+  // } else {
+  //   newData = warningMonitorPieDataFun(param.type);
+  // }
 
   warningMonitorPieData.value = newData;
 };
@@ -401,6 +410,12 @@ onMounted(async () => {
   }
   .pie-wrap {
     margin-top: 18px;
+    :deep(.legend-wrap){
+      margin-left: 24px;
+      .right-info{
+        width: 45px;
+      }
+    }
   }
 }
 .realtime-state {

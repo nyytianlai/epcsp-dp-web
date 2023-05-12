@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="stateFormate(item.status)?.code"
-        @click="handleClickFocus(__g,item.eid,item.status)"
+        @click="emit('handleClickState',item.eid,item.status)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
@@ -22,16 +22,16 @@
 import { ref, onMounted, toRefs, inject,watch,onBeforeUnmount} from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { getImageByCloud } from '@/global/config/map';
-import {handleClickFocus} from '../mapOperate.ts'
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const { useEmitt} = aircityObj.value;
+const useEmitt = aircityObj.value?.useEmitt;
 const props = defineProps({
   data: {
     type: Object,
     default: []
   }
 });
+const emit = defineEmits(['handleClickState'])
 const { data } = toRefs(props);
 const warningDataId = ref([])
 const stateFormate = (state) => {
@@ -210,7 +210,7 @@ const customFun = async(data) => {
         arr.push(bottom)
       })
       console.log('arr',arr);
-      await __g.customObject.add(arr);
+      await __g?.customObject.add(arr);
     })
 }
 watch([data, aircityObj], (newVal) => {
@@ -224,7 +224,7 @@ watch([data, aircityObj], (newVal) => {
   }
 })
 onBeforeUnmount(() => {
-  __g.customObject.clear();
+  __g?.customObject.clear();
 })
 </script>
 <style lang="less" scoped>

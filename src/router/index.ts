@@ -97,7 +97,6 @@ let routesMap = [
 if (import.meta.env.DEV) {
   routesMap = [...routesMap,...defaultDemo]
 }
-console.log(routesMap);
 
 
 const router = createRouter({

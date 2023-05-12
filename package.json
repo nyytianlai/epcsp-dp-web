@@ -32,8 +32,7 @@
     "pinia": "^2.0.23",
     "proj4": "^2.9.0",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.6",
-    "vuex": "^4.1.0"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@iconify/json": "^2.1.90",
