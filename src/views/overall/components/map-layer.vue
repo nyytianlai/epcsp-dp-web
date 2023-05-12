@@ -9,7 +9,7 @@
 <template>
   <qu ref="quRef"></qu>
   <rect-bar></rect-bar>
-  <!-- <heat-map></heat-map> -->
+  <!-- <heat-map v-if="isHeatMap"></heat-map> -->
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
@@ -26,8 +26,8 @@ import { projectCGCS2000_2_GK114 } from '@/utils/index';
 import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
 import { getHeatMap } from '../api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
-import { useMapStore } from '@/stores/map'
-const store = useMapStore()
+import { useMapStore } from '@/stores/map';
+const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
@@ -37,6 +37,7 @@ aircityObj.value?.acApi.reset();
 let quRef = ref(null);
 const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
+const isHeatMap = ref(false);
 
 const setRectBarVisibility = (value: boolean) => {
   quRef.value.resetSz(false);
@@ -57,6 +58,7 @@ const setHeatMapVisibility = async (value: boolean) => {
     addHeatMap();
   }
   value ? updateHeatMap() : clearInterval(updateHeatMapInterval);
+  // isHeatMap.value = value;
 };
 const updateHeatMap = () => {
   updateHeatMapInterval = setInterval(async () => {
@@ -76,7 +78,14 @@ const updateHeatMap = () => {
 const addHeatMap = async () => {
   // await __g.heatmap.clear();
   const { data: res } = await getHeatMap();
-  console.log('热力图数据', res);
+  // console.log('热力图数据', res);
+  let realTimePower = res.map((item) => {
+    return item.realTimePower;
+  });
+
+  let heightStart = Math.min(...realTimePower);
+  let heightEnd = Math.max(...realTimePower);
+  console.log(heightStart, heightEnd);
   let bbox = [474542.44, 2483371.45, 5.7, 564130.59, 2529557.43, 344.58];
   let range = [0, 6000];
   let data = [];

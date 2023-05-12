@@ -60,24 +60,25 @@
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
-  <bottom-tabs/>
-  <pile-dialog 
-    v-model:visible="pileVisible" 
-    :type="pileType" 
-    :pileVideoData="pileVideoData" 
+  <bottom-tabs :tabData="tabData" v-if="!isHr" />
+  <!-- isHr是0 是高渲染站点 -->
+  <pile-dialog
+    v-model:visible="pileVisible"
+    :type="pileType"
+    :pileVideoData="pileVideoData"
     :pileParams="pileParams"
     @close="handleClose"
   />
-  <map-layer v-if="aircityObj"/>
+  <map-layer v-if="aircityObj" />
 </template>
 <script setup>
-import { ref, onMounted,inject,watch,computed} from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
+import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
-import BottomTabs from './components/bottom-tabs.vue'
-import PileDialog from './components/pile-dialog/pile-dialog.vue'
-import MapLayer from './components/map-layer.vue'
+import BottomTabs from './components/bottom-tabs.vue';
+import PileDialog from './components/pile-dialog/pile-dialog.vue';
+import MapLayer from './components/map-layer.vue';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -86,7 +87,8 @@ import {
   selectEquipmentStatusByStationId,
   selectEquipmentUseRateByStationId,
   selectStationRealTimePowerByStationId,
-  selectWarningStatisticByStationId
+  selectWarningStatisticByStationId,
+  viewMenuData
 } from './api.js';
 import {
   pageNumFun,
@@ -98,12 +100,12 @@ import {
   linePowerDataFun
 } from './config.js';
 import bus from '@/utils/bus';
-import {handleClickFocus} from './mapOperate.ts'
+import { handleClickFocus } from './mapOperate.ts';
 
-const store = useVisibleComponentStore()
+const store = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const useEmitt  = aircityObj.value?.useEmitt;
+const useEmitt = aircityObj.value?.useEmitt;
 const params = ref({
   operatorId: store.detailParams?.operatorId,
   stationId: store.detailParams?.stationId
@@ -112,23 +114,33 @@ const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 
+const isHr = computed(() => store.detailParams?.isHr);
+const tabData = ref([]);
+
 // 弹窗
-const pileVisible = ref(false)
-const pileType = ref()
-const pileVideoData = ref()
-const pileParams = ref()
+const pileVisible = ref(false);
+const pileType = ref();
+const pileVideoData = ref();
+const pileParams = ref();
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
 //站点充电桩状态
 const chargingStateData = ref([]);
-const chargingStateDataObj = ref({})
+const chargingStateDataObj = ref({});
 //充电设施日使用信息
 const chargingTypesTabs = ref(chargingTypesTabsFun());
 const chargingTypesData = ref(chargingTypesFun());
 
 // 站点实时功率
 const linePowerData = ref(linePowerDataFun());
+// 获取底图菜单栏数据
+const getButtomMenuData = async () => {
+  const { data: res } = await viewMenuData({ stationId: store.detailParams?.stationId });
+  console.log('底部菜单栏数据', res);
+  tabData.value.length = 0;
+  tabData.value.push(...res);
+};
 // 统计数据
 const getStationStatistics = async () => {
   const res = await selectStationStatistics(params.value);
@@ -167,11 +179,11 @@ const getWarningInfoByStationId = async (alarmLevel) => {
 const getEquipmentStatusByStationId = async () => {
   const res = await selectEquipmentStatusByStationId(params.value);
   chargingStateData.value = res?.data || [];
-  const eidObj ={}
-  chargingStateData.value.map(item => {
-      eidObj[item.eid] = item
-  })
-  chargingStateDataObj.value = eidObj
+  const eidObj = {};
+  chargingStateData.value.map((item) => {
+    eidObj[item.eid] = item;
+  });
+  chargingStateDataObj.value = eidObj;
 };
 //设备详情/充电设施日使用信息
 const getEquipmentUseRateByStationId = async (equipmentType) => {
@@ -205,69 +217,73 @@ const backSz = () => {
   });
   bus.emit('hrBackSz');
 };
-useEmitt && useEmitt('AIRCITY_EVENT', async (e) => {
-  //设施点
-  if (e.Id?.includes('facilitiesLabel')) { 
-    __g?.marker?.focus(e.Id,20,2);
-  }
-  //摄像头
-  if (e.Id?.includes('camera')) { 
-    __g?.marker?.focus(e.Id);
-    pileType.value = 'monitor'
-    const data = JSON.parse(e.UserData)
-    pileVideoData.value = data
-    pileVisible.value = true
-    
-  }
-  //告警桩
-  if (e.Id?.includes('warning-bottom')) { 
-    const eid = e.UserData
-    if (!chargingStateDataObj.value[eid]) return
-    handleClickFocus(__g,eid,255)
-     pileParams.value = {
-        "eid": eid
+useEmitt &&
+  useEmitt('AIRCITY_EVENT', async (e) => {
+    //设施点
+    if (e.Id?.includes('facilitiesLabel')) {
+      __g?.marker?.focus(e.Id, 20, 2);
     }
-    pileType.value = 'pile'
-    pileVisible.value = true
-    
-  }
-  //正常桩
-  if (e.PropertyName === "station") {
-    if (!chargingStateDataObj.value[e.ObjectID]) return
-    handleClickFocus(__g,e.ObjectID,+chargingStateDataObj.value[e.ObjectID].status)
-     pileParams.value = {
-        "eid": e.ObjectID
+    //摄像头
+    if (e.Id?.includes('camera')) {
+      __g?.marker?.focus(e.Id);
+      pileType.value = 'monitor';
+      const data = JSON.parse(e.UserData);
+      pileVideoData.value = data;
+      pileVisible.value = true;
     }
-    pileType.value = 'pile'
-    pileVisible.value = true
-  }
-});
+    //告警桩
+    if (e.Id?.includes('warning-bottom')) {
+      const eid = e.UserData;
+      if (!chargingStateDataObj.value[eid]) return;
+      handleClickFocus(__g, eid, 255);
+      pileParams.value = {
+        eid: eid
+      };
+      pileType.value = 'pile';
+      pileVisible.value = true;
+    }
+    //正常桩
+    if (e.PropertyName === 'station') {
+      if (!chargingStateDataObj.value[e.ObjectID]) return;
+      handleClickFocus(__g, e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+      pileParams.value = {
+        eid: e.ObjectID
+      };
+      pileType.value = 'pile';
+      pileVisible.value = true;
+    }
+  });
 const handleClose = () => {
-   //清除绿色高亮
+  //清除绿色高亮
   //  __g.tileLayer.stopHighlightAllActors()
-}
+};
 const clickWarningList = (item) => {
-  if (!chargingStateDataObj.value[item.eid]) return
-    handleClickFocus(__g,item.eid,+chargingStateDataObj.value[item.eid].status)
-}
-watch(()=>store.detailParams,() => {
-  const paramsDefault = {
-    operatorId: store.detailParams?.operatorId,
-    stationId: store.detailParams?.stationId
+  if (!chargingStateDataObj.value[item.eid]) return;
+  handleClickFocus(__g, item.eid, +chargingStateDataObj.value[item.eid].status);
+};
+watch(
+  () => store.detailParams,
+  () => {
+    const paramsDefault = {
+      operatorId: store.detailParams?.operatorId,
+      stationId: store.detailParams?.stationId
+    };
+    params.value = paramsDefault;
+    getStationStatistics();
+    getStationInfoByStationId();
+    getEquipmentCountByStationId();
+    getWarningInfoByStationId(1);
+    getEquipmentStatusByStationId();
+    getEquipmentUseRateByStationId(1);
+    getStationRealTimePowerByStationId();
+    getWarningStatisticByStationId();
+    getButtomMenuData();
+  },
+  {
+    deep: true,
+    immediate: true
   }
-  params.value = paramsDefault
-  getStationStatistics();
-  getStationInfoByStationId();
-  getEquipmentCountByStationId();
-  getWarningInfoByStationId(1);
-  getEquipmentStatusByStationId();
-  getEquipmentUseRateByStationId(1);
-  getStationRealTimePowerByStationId();
-  getWarningStatisticByStationId();
-}, {
-  deep: true,
-  immediate:true
-})
+);
 // onMounted(() => {
 //   getStationStatistics();
 //   getStationInfoByStationId();

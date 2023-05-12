@@ -9,14 +9,22 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
-import { getImageByCloud, control3dts, add3dt, delete3dt, isShowActors } from '@/global/config/map';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import {
+  getImageByCloud,
+  control3dts,
+  add3dt,
+  delete3dt,
+  isShowActors,
+  getTreeLayerIdByName
+} from '@/global/config/map';
 import { selectCameraByStationId } from '../api.js';
 import bus from '@/utils/bus';
 import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
 import { Data } from '@icon-park/vue-next';
-
-const store = useVisibleComponentStore()
+import { useMapStore } from '@/stores/map';
+const store = useVisibleComponentStore();
+const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
@@ -167,10 +175,10 @@ const currentPathCameraTour = async () => {
 };
 //电流流转
 const currentPath = async (isShow: boolean) => {
-  // await control3dts(__g, ['7FE772F144B492908689359AF808E6F1'], isShow); 
-  await control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827'], isShow);
-  currentPathCameraTour();
-  isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), false); //设置棚顶的样式
+  let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
+  await control3dts(__g, [id], isShow);
+  // currentPathCameraTour();
+  isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), false); //设置棚顶的样式
   addCurrentLabel();
 };
 
@@ -230,12 +238,11 @@ const addFacilitiesLabel = async () => {
   await __g.marker.add(pointArr, null);
 };
 const resetTab3dt = async () => {
-  // control3dts(__g, ['7FE772F144B492908689359AF808E6F1', '106461804A48EF11238C788590C41BA0'], false);
-  control3dts(__g, ['7EC1AB6A418DB0DDC60F2B880D0E1827', '106461804A48EF11238C788590C41BA0'], false);
+  let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
+  control3dts(__g, [id], false);
   delete3dt(__g, ['NewYYSFB']);
-  isShowActors(__g, '7CED6A4A4F00FFA1B7273C9511B55B85', ceilingId(), true); //设置棚顶的样式
+  isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), true); //设置棚顶的样式
   await __g.marker.deleteByGroupId('stationCurrentLabel');
-  // __g.marker.deleteByGroupId('stationFacilitiesLabel');
 };
 onMounted(() => {
   getCameraData();
@@ -244,14 +251,14 @@ onMounted(() => {
   bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
     await resetTab3dt();
-    if (e?.value === '2') {
+    if (e?.viewOrder === 2) {
       //站内设施
-    } else if (e?.value === '3') {
+    } else if (e?.viewOrder === 3) {
       //车辆充电
       carChargingAnimation();
-    } else if (e?.value === '4') {
+    } else if (e?.viewOrder === 4) {
       currentPath(true);
-    } else if (e?.value === '5') {
+    } else if (e?.viewOrder === 5) {
       operatorDistribution(true);
     }
   });
