@@ -9,21 +9,22 @@
 <template>
   <div class="images-wrap">
     <template v-if="data && data?.length">
-      <div class="img-content" v-for="(item, index) in data" :key="index" @click="handleClick(item)">
+      <div
+        class="img-content"
+        v-for="(item, index) in data"
+        :key="index"
+        @click="handleClick(item)"
+      >
         <img :src="item.stationPic" alt="" />
         <span class="type">{{ item.stationType }}</span>
         <span class="name text-ellipsis-1">
-        <el-tooltip
-          class="box-item"
-          :content="item.stationName"
-          placement="top"
-        >
-        {{ item.stationName }}
-        </el-tooltip>
+          <el-tooltip class="box-item" :content="item.stationName" placement="top">
+            {{ item.stationName }}
+          </el-tooltip>
         </span>
       </div>
     </template>
-    <no-data v-else/>
+    <no-data v-else />
   </div>
 </template>
 <script setup>
@@ -32,10 +33,10 @@ import fwqPng from './images/fwq.png';
 import gccPng from './images/gcc.png';
 import v2gPng from './images/v2g.png';
 import lsgfPng from './images/lsgf.png';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 
-const store = useVisibleComponentStore()
+const store = useVisibleComponentStore();
 const props = defineProps({
   data: {
     type: Array,
@@ -43,12 +44,13 @@ const props = defineProps({
   }
 });
 const handleClick = (item) => {
+  item['isHr'] = 0;
   store.changeShowComponent(false);
   store.changeShowDetail({
     show: true,
     params: item
   });
-  bus.emit('toHr', item)
+  bus.emit('toHr', item);
 };
 </script>
 <style lang="less" scoped>
@@ -57,7 +59,7 @@ const handleClick = (item) => {
   flex-wrap: wrap;
   height: 220px;
   width: 434px;
-  overflow:hidden auto;
+  overflow: hidden auto;
   position: relative;
   .img-content {
     cursor: pointer;

@@ -75,7 +75,7 @@ export const getMapCenterCoord = (aircityObj) => {
 
 //控制3dt的显示隐藏
 export const control3dts = async (__g, ids: string[], isShow: boolean) => {
-  isShow ?  __g.infoTree.show(ids) :  __g.infoTree.hide(ids);
+  isShow ? __g.infoTree.show(ids) : __g.infoTree.hide(ids);
 };
 
 export const add3dt = async (__g, fileName: string) => {
@@ -95,4 +95,24 @@ export const isShowActors = async (__g, layerid: string, ids: string[], isShow: 
   isShow
     ? await __g.tileLayer.showActors([{ id: layerid, objectIds: ids }])
     : await __g.tileLayer.hideActors([{ id: layerid, objectIds: ids }]);
+};
+
+//根据图层树的图层名字获取图层id
+export const getTreeLayerIdByName = (name: string | string[], treeInfo): any => {
+  if (Array.isArray(name)) {
+    return name.map((item, index) => {
+      return getTreeLayerIdByName(item, treeInfo);
+    });
+  } else {
+    return (
+      (treeInfo as unknown as any[]).find((item: any) => {
+        return item.name === name;
+      })?.iD || ''
+    );
+  }
+};
+
+export const hideAllStation3dt = (__g, treeInfo) => {
+  let ids = getTreeLayerIdByName('充电站模型', treeInfo);
+  __g.infoTree.hide(ids);
 };

@@ -24,17 +24,19 @@ import {
   getMapCenterCoord,
   add3dt,
   delete3dt,
-  control3dts
+  control3dts,
+  getTreeLayerIdByName,
+  hideAllStation3dt
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
-import { useMapStore } from '@/stores/map'
-const storeVisible = useVisibleComponentStore()
-const store = useMapStore()
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useMapStore } from '@/stores/map';
+const storeVisible = useVisibleComponentStore();
+const store = useMapStore();
 interface Props {
   buttomTabCode?: number | string;
 }
@@ -76,16 +78,11 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
   if (e.Id?.includes('街道')) {
     let jdName = e.Id.split('-')[1];
-    // if (jdName === currentPosition.value) {
-    //   return;
-    // }
     store.changeLastJd(currentJd.value);
     store.changeCurrentJd(jdName);
     store.changeCurrentPosition(jdName);
     __g.polygon.focus('jd-' + currentJd.value, 1500);
-    // setQuVisibility(false);
     deleteSingleJdData();
-    // deleteJdData();
     addStationPoint(e.UserData);
   }
   if (e.Id?.includes('station')) {
@@ -93,6 +90,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     console.log('stationInfo', stationInfo);
 
     if (stationInfo.isHr !== 0) {
+      //普通站点
       __g.marker.focus(e.Id, 100);
       enterStationInfo(stationInfo);
       return;
@@ -104,7 +102,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       //连续两次点击相同站点 进入高渲染站点
       enterStationInfo(stationInfo);
       __g.marker.hideByGroupId('jdStation');
-      addHrStation(stationInfo.stationName, true);
+      addHrStation(stationInfo.stationId, true);
     } else {
       currentHrStationID.value !== ''
         ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
@@ -127,9 +125,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       //当前相机位置所在区和当前区一致
       if (currentPosition.value.includes('街道') && cameraJdInfo.JDNAME !== currentJd.value) {
         addStationPoint(cameraJdInfo.JDCODE);
-        store.changeCurrentPositionBak( currentPosition.value);
+        store.changeCurrentPositionBak(currentPosition.value);
         store.changeCurrentJd(cameraJdInfo.JDNAME);
-        store.changeCurrentPosition( cameraJdInfo.JDNAME);
+        store.changeCurrentPosition(cameraJdInfo.JDNAME);
       }
     }
   }
@@ -149,15 +147,18 @@ const handleQuChange = (quName: string, cameraJdInfo: {}) => {
 };
 
 const enterStationInfo = (stationInfo) => {
-  store.changeCurrentPositionBak( currentPosition.value);
-  store.changeCurrentPosition('');
+  if (currentPosition.value !== '') {
+    store.changeCurrentPositionBak(currentPosition.value);
+    store.changeCurrentPosition('');
+  }
 
   storeVisible.changeShowComponent(false);
   storeVisible.changeShowDetail({
     show: true,
     params: {
       operatorId: stationInfo.operatorId,
-      stationId: stationInfo.stationId
+      stationId: stationInfo.stationId,
+      isHr: stationInfo.isHr
     }
   });
 };
@@ -220,7 +221,6 @@ const isShowJdPolygon = async (isShow: Boolean) => {
 const back = async () => {
   console.log('当前位置', currentPosition.value, '当前位置备份', currentPositionBak.value);
   console.log('currentJd.value', currentJd.value);
-  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     await resetSz();
@@ -229,6 +229,8 @@ const back = async () => {
     await resetQu();
   } else if (currentPosition.value === '') {
     //此种情况返回哪一级需根据上一个位置
+    hideAllStation3dt(__g, store.treeInfo);
+    beforeAddOrExitHrStation(false);
     if (currentPositionBak.value.includes('街道')) {
       await resetJd();
     } else if (currentPositionBak.value.includes('区')) {
@@ -254,10 +256,10 @@ const resetJd = async () => {
 const resetQu = async () => {
   await __g.marker.deleteByGroupId('jdStation');
   await addJdData(currentQu.value);
-  store.changeCurrentPositionBak( currentPosition.value);
+  store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
   __g.polygon.focus('qu-' + currentQu.value, 13000);
-  store.changeLastJd( currentJd.value);
+  store.changeLastJd(currentJd.value);
   store.changeCurrentJd('');
 };
 //重置到深圳
@@ -408,20 +410,14 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
   }
 };
 //添加站点
-const addHrStation = async (stationName: string, isShow: boolean) => {
+const addHrStation = async (stationId: string, isShow: boolean) => {
+  console.log(1111111, stationId, isShow);
+
   await beforeAddOrExitHrStation(isShow);
-  if (stationName === '比亚迪民乐P+R电动汽车充电站') {
-    let ids = [
-      // '7CED6A4A4F00FFA1B7273C9511B55B85', //station
-      // 'E4933C614755E6F56D8C209A5B28B8C4',
-      // '6EA525CA4FB949D9850E5A933AA5FFCA',
-      // 'D398F2D8482A2FCC5BA60F9DE52C6DB9', //车辆充电动画
-      // '21BD0867470C8FF5295AED9D635E10A1', //充电中的车
-      // 'E7203AA94D657F717982D2A7DC51709D' //车辆充电动画桩
-      'D3A3D73B41E03DC60DAFC38D1C1B051F'
-    ];
-    isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
-    // await control3dts(__g, ['D3A3D73B41E03DC60DAFC38D1C1B051F'], isShow);
+  let ids = getTreeLayerIdByName(stationId + '默认展示', store.treeInfo);
+  isShow ? __g.infoTree.show(ids) : __g.infoTree.hide(ids);
+  if (stationId === '118') {
+    //比亚迪民乐P+R电动汽车充电站
     isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
@@ -436,13 +432,20 @@ const addHrStation = async (stationName: string, isShow: boolean) => {
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
     isShow ? '' : __g.marker.deleteByGroupId('stationChargeIcon');
-  } else if (stationName === '奥特迅电力大厦后广场充电站') {
-    let ids = ['D56023684855E6E91E9F0CB4F6D00D59'];
-    isShow ? __g.infoTree.show(ids) : __g.tileLayer.hide(ids);
+  } else if (stationId === '440202003') {
+    //奥特迅电力大厦后广场充电站
     isShow
       ? __g.camera.set(494480.218672, 2495531.893906, 29.262388, -10.561944, -147.549225, 3)
       : '';
-  } else if (stationName === '比亚迪民乐P+R电动汽车充电站') {
+  } else if (stationId === '20') {
+    //红荔西5G示范站
+    __g.infoTree.focus('FF75D7BF4BBD3C2CC3C30BA362A7A6DA');
+  } else if (stationId === '4403070124') {
+    //深圳国际低碳城光储充放一体化示范站
+    __g.infoTree.focus('506123D84C2F3ED94B67EFB36FB794D1');
+  } else if (stationId === '144') {
+    //充电有道欢乐谷快充站
+    __g.infoTree.focus('AFCEFF9249C56F2CB113B5A6A9FCFFE3');
   }
 };
 
@@ -598,8 +601,7 @@ const filterJdNameArrByQuName = (quName: string) => {
 defineExpose({ pointInWhichDistrict, resetSz, deleteJdData });
 onMounted(async () => {
   await __g.reset();
-  addHrStation('比亚迪民乐P+R电动汽车充电站', false);
-  addHrStation('奥特迅电力大厦后广场充电站', false);
+  hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
   let res = await requestGeojsonData('qu4547');
   quFeatures = res.features;
@@ -615,16 +617,12 @@ onMounted(async () => {
     store.changeCurrentPosition('');
     setQuVisibility(false);
     __g.marker.hideByGroupId('jdStation');
-    addHrStation(e.stationName, true);
-    // await deleteJdData();
+    addHrStation(e.stationId, true);
   });
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
-    if (currentPositionBak.value === '深圳市') {
-      store.changeCurrentPosition(currentPositionBak.value);
-    }
     back();
-    bus.emit('resetTab3dt');
+    // bus.emit('resetTab3dt');
   });
 });
 
