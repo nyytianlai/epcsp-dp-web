@@ -1,9 +1,16 @@
+/*
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-05-16 15:52:44
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-05-16 15:53:08
+ * @FilePath: \epcsp-dp-web\src\global\js\request.js
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 
 import request, {
   // 如果有自定义拦截器的需求，可以用它
   axios
 } from '@sutpc/axios';
-import md5 from 'md5'
 request.config({
   requestPre: import.meta.env.VITE_API_BASEPATH,
   contentType: 'json',
