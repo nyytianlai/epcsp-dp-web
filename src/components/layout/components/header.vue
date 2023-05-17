@@ -2,7 +2,7 @@
  * @Author: niyayong
  * @LastEditors: xiang cao caoxiang@sutpc.com
  * @Date: 2022-04-18 17:27:54
- * @LastEditTime: 2023-05-09 18:46:01
+ * @LastEditTime: 2023-05-16 16:24:57
  * @FilePath: \zndd-web\src\components\layout\components\header.vue
  * @Description: FilePath
 -->
@@ -18,8 +18,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,onBeforeUnmount} from 'vue';
 const step = ref(0);
+const timeId = ref()
 const moveImg = () => {
   if (step.value >= 19) {
     step.value = 0;
@@ -28,10 +29,13 @@ const moveImg = () => {
   }
 };
 onMounted(() => {
-  setInterval(() => {
+  timeId.value = setInterval(() => {
     moveImg();
   }, 100);
 });
+onBeforeUnmount(() => {
+  clearInterval(timeId.value)
+})
 </script>
 
 <style lang="less" scoped>
