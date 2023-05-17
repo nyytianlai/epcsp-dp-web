@@ -20,8 +20,7 @@ VITE_BASE_PATH = /
 VITE_FD_URL=localhost:8080 #开发环境  //演示笔记本
 # 飞渡文件磁盘地址
 # VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境  //斜对面电脑
-VITE_FD_FileURL=C:/Software/FreeDo/Cloud/SDK # 开发环境  //演示笔记本
-
+VITE_FD_FileURL=C:/Users/SUTPC/AppData/Roaming/AirCityCloud/5.4/SDK # 开发环境  //演示笔记本
 
 # 应用名称，用于网页头部等
 VITE_APP_TITLE = 电力充储放一张图
