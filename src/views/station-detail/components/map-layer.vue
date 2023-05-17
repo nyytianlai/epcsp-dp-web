@@ -64,10 +64,6 @@ const addCameraPoint = async (data) => {
 //车辆充电动画
 const carChargingAnimation = async () => {
   setTimeout(async () => {
-    // await __g.misc.callBPFunction({
-    //   objectName: 'BP_PlaySequence_2',
-    //   functionName: 'PlaySequence'
-    // });
     await resetCarChargingAnimation();
     await __g.misc.callBPFunction({
       objectName: 'BP_Taxi_backUp_2',
@@ -82,7 +78,7 @@ const carChargingAnimation = async () => {
       });
       addChageingIcon([[504708.99062500003, 2499640.96, 94.115224609375]], 'chargeIcon');
       carChargingCameraTour();
-    }, 10000);
+    }, 14000);
   }, 4000);
 };
 const resetCarChargingAnimation = async () => {
