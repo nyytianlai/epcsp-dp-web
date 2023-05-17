@@ -16,9 +16,11 @@ VITE_BASE_PATH = /
 
 
 # 飞渡地图服务地址
-VITE_FD_URL=10.10.46.135:8080 #开发环境
+# VITE_FD_URL=10.10.46.135:8080 #开发环境  //斜对面电脑
+VITE_FD_URL=localhost:8080 #开发环境  //演示笔记本
 # 飞渡文件磁盘地址
-VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境 
+# VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境  //斜对面电脑
+VITE_FD_FileURL=C:/Software/FreeDo/Cloud/SDK # 开发环境  //演示笔记本
 
 
 # 应用名称，用于网页头部等
