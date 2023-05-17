@@ -609,7 +609,7 @@ onMounted(async () => {
   await __g.reset();
   hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
-  await __g.settings.setMousePickMask(7);
+  await __g.settings.setMousePickMask(0);
   let res = await requestGeojsonData('qu4547');
   quFeatures = res.features;
   addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');
