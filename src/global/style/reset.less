@@ -1,0 +1,177 @@
+html, body, #app {
+  height: 100%;
+  font-size: 14px;
+  font-family: "PingFang SC", "Microsoft Yahei", monospace;
+}
+
+ul, ol {
+  list-style-type: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.text-ellipsis-1{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.text-ellipsis-2{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2; 
+  -webkit-box-orient:vertical;
+}
+
+/* 滚动条样式 S */
+@--scrollbar-track-color: rgba(0, 0, 0, 0.5);
+@--scrollbar-thumb-color: transparent;
+
+// for Mozilla
+@-moz-document url-prefix() {
+  * {
+    scrollbar-color: @--scrollbar-track-color @--scrollbar-thumb-color !important;
+    scrollbar-width: thin !important;
+  }
+}
+
+// for IE
+.ie {
+  &, * {
+    scrollbar-arrow-color: @--scrollbar-track-color; // 三角箭头的颜色
+    scrollbar-face-color: @--scrollbar-track-color; // 滚动条滑块按钮的颜色
+    scrollbar-track-color: @--scrollbar-thumb-color; // 滚动条轨道颜色
+    scrollbar-shadow-color: transparent; // 滚动条阴影
+    // scrollbar-highlight-color: #0099dd; // 滚动条整体颜色
+    // scrollbar-3dlight-color:#0099dd; // 滚动条3d亮色阴影边框的外观颜色
+    // scrollbar-darkshadow-color: #0099dd; // 滚动条3d暗色阴影边框的外观颜色
+    // scrollbar-base-color: #0099dd; // 滚动条基准颜色
+  }
+}
+// 页面表格样式
+.custom-table {
+  font-size: 14px !important;
+  font-weight: 400;
+  .el-table__cell{
+    padding: 0;
+  }
+
+  .el-table__header {
+    background: linear-gradient(0deg, #1c3b68 -24.83%, rgba(47, 61, 82, 0.0884779) 100%);
+    .el-table__cell {
+      .cell {
+        line-height: 36px;
+        font-weight: 400;
+      }
+    }
+  }
+  .el-table__body-wrapper {
+    .cell {
+      line-height: 44px;
+      white-space: nowrap;
+      color: #fff;
+    }
+  }
+}
+
+//弹窗table样式
+.custom-dialog-table {
+  .el-table__inner-wrapper {
+    &::before {
+      height: 0;
+    }
+  }
+  tr {
+    th {
+      &:first-of-type {
+        padding-left: 16px !important;
+      }
+    }
+    td {
+      &:first-of-type {
+        padding-left: 16px !important;
+      }
+    }
+  }
+  td.el-table__cell,
+  th.el-table__cell.is-leaf {
+    border-bottom: 0;
+  }
+  td.el-table__cell {
+    background: rgba(84, 181, 255, 0.15);
+    border-bottom: 1px solid #081219;
+    padding: 24px 0;
+    .cell {
+      font-size: 16px;
+      line-height: 24px;
+      color: #ffffff;
+    }
+  }
+  .el-table__body tr:hover > td.el-table__cell {
+    background: #4391cc;
+    border-bottom: 1px solid #081219;
+  }
+  .el-table__header {
+    .el-table__cell {
+      padding: 4px 0;
+      background: rgba(84, 181, 255, 0.3);
+      .cell {
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 400;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 1px;
+          height: 14px;
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// tooltip样式
+.el-popper{
+  font-size: 16px;
+  line-height: 22px;
+  color: #fff !important;
+  padding: 16px;
+  border:0 !important;
+  background: rgba(2, 15, 37, 0.9) !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  .el-popper__arrow::before{
+    background: rgba(2, 15, 37, 0.9) !important;
+    border-bottom-color: rgba(2, 15, 37, 0.9) !important;
+    border-right-color: rgba(2, 15, 37, 0.9) !important;
+  }
+}
+
+// for Webkit
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: @--scrollbar-track-color;
+  &:hover {
+    background-color: lighten(@--scrollbar-track-color, 20%);
+  }
+}
+::-webkit-scrollbar-track-piece {
+  border-radius: 4px;
+  background-color: @--scrollbar-thumb-color;
+}
+::-webkit-scrollbar-corner {
+  background-color: @--scrollbar-thumb-color;
+}

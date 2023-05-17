@@ -1,0 +1,427 @@
+<!--
+ * @Author: xiang cao caoxiang@sutpc.com
+ * @Date: 2023-04-11 12:55:20
+ * @LastEditors: xiang cao caoxiang@sutpc.com
+ * @LastEditTime: 2023-05-05 09:45:33
+ * @FilePath: \epcsp-dp-web\src\views\overall\overview\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<template>
+  <page-num :data="pageNumData" />
+  <panel>
+    <div class="total-charging-facilities">
+      <title-column title="充电设施总量" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in cardData" :key="index">
+          <num-card :data="item" classStyleType="bottomDown" />
+        </template>
+      </div>
+    </div>
+    <div class="pile-charger">
+      <tabs :data="tabsData" @changeTab="(data) => handleChangeTab(data, 'charger')" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in pileChargerData" :key="index">
+          <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
+        </template>
+      </div>
+    </div>
+    <div class="operating-company">
+      <title-column title="运营企业年度TOP10" />
+      <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
+      <rank-list :data="projectList" :totalNum="projectTotalNum" height="2.76rem" />
+    </div>
+  </panel>
+  <panel type="right">
+    <div class="today-num-info">
+      <title-column title="今日充电设施数据信息" />
+      <tabs :data="todayTabs" @changeTab="(data) => handleChangeTab(data, 'today')" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in todayInfoNumData" :key="index">
+          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+        </template>
+      </div>
+    </div>
+    <div class="today-power-info">
+      <title-column title="今日充电功率信息" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in powerInfoNumData" :key="index">
+          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+        </template>
+      </div>
+      <line-time-chart :data="lineTimeData" unit="KW" :colors="['green', 'blue']" />
+    </div>
+    <div class="today-warning-message">
+      <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
+      <warning-tabs
+        :data="warningTabsData"
+        @changeTab="(data) => handleChangeTab(data, 'warning')"
+      />
+      <warning-list :data="warningListData" />
+    </div>
+  </panel>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <el-table
+      :data="alarmTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
+        <template #default="scope"></template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    />
+  </custom-dialog>
+</template>
+<script setup>
+import { onMounted, ref, reactive, inject, watch, nextTick } from 'vue';
+import MapLayer from './components/map-layer.vue';
+import PageNum from '@/components/page-num/index.vue';
+import Panel from '@/components//panel/index.vue';
+import { tableColumnFun } from '@/global/commonFun.js';
+import {
+  overTotalCount,
+  totalFacilities,
+  totalEquipment,
+  stationOpeTop10,
+  dayEquInfo,
+  dayPower,
+  alarmInfo,
+  timePowerGraph,
+  alarmCount
+} from './api.js';
+import {
+  pageNumFun,
+  cdsszlFun,
+  tabDataFun,
+  pileChargerFun,
+  operatingTabsFun,
+  projectListFun,
+  todayTabsFun,
+  todayInfoNumDataFun,
+  powerInfoNumDataFun,
+  lineTimeDataFun,
+  warningTabsDataFun,
+  warningListFun,
+  bottomTabDataFun,
+  columnDataFun
+} from './config.js';
+const aircityObj = inject('aircityObj');
+let mapLayerRef = ref(null);
+// 头部累计数据
+const pageNumData = ref(pageNumFun());
+//充电设施总量数据
+const cardData = ref(cdsszlFun());
+//充电桩总量和充电枪总量切换
+const tabsData = ref(tabDataFun());
+// 切换充电桩总量和充电枪总量数据
+const pileChargerData = ref(pileChargerFun());
+// 运营企业全年TOP10类型切换tab
+const operatingTabsData = ref(operatingTabsFun());
+// 运营企业全年TOP10类型运营企业数据
+const projectList = ref([]);
+const projectTotalNum = ref(0);
+// 今日充电设施数据信息tab
+const todayTabs = ref(todayTabsFun());
+const todayInfoNumData = ref(todayInfoNumDataFun());
+// 充电功率
+const powerInfoNumData = ref(powerInfoNumDataFun());
+// 充电功率折线
+const lineTimeData = ref(lineTimeDataFun());
+// 今日告警信息tabData
+const warningTabsData = ref(warningTabsDataFun());
+const warningListData = ref([]);
+//底部button
+const bottomTabsData = ref(bottomTabDataFun());
+const dialogTableVisible = ref(false);
+// 弹窗列名
+const columnData = ref(columnDataFun());
+const alarmTableData = ref([]);
+const pageObj = reactive({
+  pageSize: 8,
+  total: 0,
+  currentPage: 1
+});
+const handleChangeTab = (data, type) => {
+  if (type === 'charger') {
+    //切换充电桩总量和充电枪总量
+    getTotalEquipment(data.code);
+  } else if (type === 'operating') {
+    // 切换运营企业全年TOP10类型
+    getStationOpeTop10(data.code);
+  } else if (type === 'today') {
+    // 今日充电设施数据信息tab切换
+    getDayEquInfo(data.code);
+  } else if (type === 'warning') {
+    getAlarmInfo(data.code);
+  }
+};
+
+const changeButtomTab = (item) => {
+  console.log('底部切换', item);
+  let value = item.code === 1 ? true : false;
+  mapLayerRef.value.setRectBarVisibility(value);
+  mapLayerRef.value.setHeatMapVisibility(!value);
+};
+const handleClick = () => {
+  console.log('handleClick');
+  dialogTableVisible.value = true;
+};
+// 总览上面4个指标
+const getOverTotalCount = async () => {
+  const res = await overTotalCount();
+  pageNumData.value = pageNumFun(res.data);
+};
+//充电设施总量
+const getTotalFacilities = async () => {
+  const res = await totalFacilities();
+  cardData.value = cdsszlFun(res.data);
+};
+//充电桩总量：pile，充电枪总量：gun
+const getTotalEquipment = async (type) => {
+  const res = await totalEquipment(type);
+  pileChargerData.value = pileChargerFun(type, res?.data);
+};
+
+//运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
+const getStationOpeTop10 = async (type) => {
+  const res = await stationOpeTop10(type);
+  if (res?.data) {
+    const data = res.data.map((item) => {
+      return {
+        num: item.amount,
+        unit: '个',
+        name: item.operatorName
+      };
+    });
+    projectList.value = data;
+    projectTotalNum.value = data[0].num || 0;
+  } else {
+    projectList.value = [];
+    projectTotalNum.value = 0;
+  }
+};
+//今日-充电桩/充电枪信息
+const getDayEquInfo = async (type) => {
+  const res = await dayEquInfo(type);
+  todayInfoNumData.value = todayInfoNumDataFun(res?.data);
+};
+//今日充电功率信息
+const getDayPower = async () => {
+  const res = await dayPower();
+  powerInfoNumData.value = powerInfoNumDataFun(res.data);
+};
+//今日告警信息
+const getAlarmInfo = async (level) => {
+  const params = {
+    alarmLevel: level,
+    pageNum: 1,
+    pageSize: 1000
+  };
+  const res = await alarmInfo(params);
+  if (res.data && res.data.list) {
+    warningListData.value = res.data.list.map((item) => {
+      return {
+        date: item.alarmTime,
+        message: item.alarmDesc,
+        area: item.stationName
+      };
+    });
+  } else {
+    warningListData.value = [];
+  }
+};
+const getAlarmCount = async () => {
+  const res = await alarmCount();
+  warningTabsData.value = warningTabsDataFun(res.data);
+};
+//实时功率图表
+const getTimePowerGraph = async () => {
+  const res = await timePowerGraph();
+  lineTimeData.value = lineTimeDataFun(res.data);
+};
+
+const getTableAlarm = async (level) => {
+  const params = {
+    alarmLevel: level,
+    pageNum: pageObj.currentPage,
+    pageSize: pageObj.pageSize
+  };
+  const res = await alarmInfo(params);
+  if (res.data && res.data.list) {
+    alarmTableData.value = res.data.list;
+    pageObj.total = res?.data?.total;
+  } else {
+    alarmTableData.value = [];
+    pageObj.total = 0;
+  }
+};
+// table数据
+const handPageChange = (value) => {
+  pageObj.currentPage = value;
+  getTableAlarm();
+};
+// const handleDialogClosed = () => {
+//   console.log('handleDialogClosed');
+// }
+onMounted(() => {
+  getOverTotalCount();
+  getTotalFacilities();
+  getTotalEquipment('pile');
+  getStationOpeTop10('station');
+  getDayEquInfo('pile');
+  getDayPower();
+  getAlarmInfo(1);
+  getTimePowerGraph();
+  getAlarmCount();
+  getTableAlarm();
+});
+</script>
+<style lang="less" scoped>
+.total-charging-facilities {
+  .num-wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 160px;
+    padding: 0 22px;
+    margin-top: 16px;
+    background: linear-gradient(
+      255.75deg,
+      rgba(37, 177, 255, 0.02) 23.33%,
+      rgba(37, 177, 255, 0.2) 100%
+    );
+    mix-blend-mode: normal;
+    box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+    border-radius: 4px;
+  }
+}
+.pile-charger {
+  margin-top: 16px;
+  .num-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-top: 30px;
+    .num-card {
+      margin-bottom: 20px;
+      &:nth-last-of-type(1),
+      &:nth-last-of-type(2) {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.operating-company {
+  margin-top: 23px;
+  .tabs {
+    margin-top: 16px;
+  }
+  .rank-list-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+}
+.today-num-info {
+  .tabs {
+    margin-top: 8px;
+  }
+  .num-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    :deep(.num-card) {
+      width: 49%;
+      padding: 24px 0 11px;
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
+      mix-blend-mode: normal;
+      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+      border-radius: 2px;
+      justify-content: center;
+      .info {
+        flex-direction: column;
+        .name {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+.today-power-info {
+  margin-top: 24px;
+  .num-wrap {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    :deep(.num-card) {
+      padding: 20px 0;
+      width: 49%;
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
+      mix-blend-mode: normal;
+      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+      border-radius: 2px;
+      justify-content: center;
+      .info {
+        flex-direction: column;
+        .value {
+          font-size: 28px !important;
+        }
+        .name {
+          margin-bottom: 0;
+        }
+      }
+      .icon {
+        width: 54px !important;
+        height: 54px !important;
+      }
+    }
+  }
+  .ec-wrap {
+    margin-top: 22px;
+  }
+}
+.today-warning-message {
+  margin-top: 21px;
+  .warning-tabs {
+    margin-top: 12px;
+  }
+  .warning-list {
+    margin-top: 18px;
+    :deep(.warning-info) {
+      .message {
+        min-width: 2rem;
+        max-width: 2rem;
+      }
+      .area {
+        min-width: 0.8rem;
+        max-width: 0.8rem;
+      }
+    }
+  }
+}
+</style>
