@@ -61,55 +61,58 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
   console.log('事件监听', e);
-  if (e.Id?.includes('区')) {
-    let quName = e.Id.split('-')[1];
-    if (quName === currentQu.value) {
-      return;
+  if (e.eventtype === 'LeftMouseButtonClick') {
+    if (e.Id?.includes('区')) {
+      let quName = e.Id.split('-')[1];
+      if (quName === currentQu.value) {
+        return;
+      }
+      store.changeLastQu(currentQu.value);
+      store.changeCurrentQu(quName);
+      store.changeCurrentPosition(quName);
+      __g.polygon.focus('qu-' + currentQu.value, 11000);
+      setQuVisibility(false);
+      addJdData(quName);
+      setTimeout(async () => {
+        await __g.settings.setEnableCameraMovingEvent(true);
+      }, 2000);
     }
-    store.changeLastQu(currentQu.value);
-    store.changeCurrentQu(quName);
-    store.changeCurrentPosition(quName);
-    __g.polygon.focus('qu-' + currentQu.value, 11000);
-    setQuVisibility(false);
-    addJdData(quName);
-    setTimeout(async () => {
-      await __g.settings.setEnableCameraMovingEvent(true);
-    }, 2000);
-  }
-  if (e.Id?.includes('街道')) {
-    let jdName = e.Id.split('-')[1];
-    store.changeLastJd(currentJd.value);
-    store.changeCurrentJd(jdName);
-    store.changeCurrentPosition(jdName);
-    __g.polygon.focus('jd-' + currentJd.value, 1500);
-    deleteSingleJdData();
-    addStationPoint(e.UserData);
-  }
-  if (e.Id?.includes('station')) {
-    let stationInfo = JSON.parse(e.UserData);
-    console.log('stationInfo', stationInfo);
+    if (e.Id?.includes('街道')) {
+      let jdName = e.Id.split('-')[1];
+      store.changeLastJd(currentJd.value);
+      store.changeCurrentJd(jdName);
+      store.changeCurrentPosition(jdName);
+      __g.polygon.focus('jd-' + currentJd.value, 1500);
+      deleteSingleJdData();
+      addStationPoint(e.UserData);
+    }
+    if (e.Id?.includes('station')) {
+      let stationInfo = JSON.parse(e.UserData);
+      console.log('stationInfo', stationInfo);
 
-    if (stationInfo.isHr !== 0) {
-      //普通站点
-      __g.marker.focus(e.Id, 100);
-      enterStationInfo(stationInfo);
-      return;
-    }
-    //是高渲染站点
-    changeStationStyle(e.Id, 'hr', [287, 451], [-143, 451]);
+      if (stationInfo.isHr !== 0) {
+        //普通站点
+        __g.marker.focus(e.Id, 100);
+        enterStationInfo(stationInfo);
+        return;
+      }
+      //是高渲染站点
+      changeStationStyle(e.Id, 'hr', [311, 499], [-156, 499]);
 
-    if (currentHrStationID.value === e.Id) {
-      //连续两次点击相同站点 进入高渲染站点
-      enterStationInfo(stationInfo);
-      __g.marker.hideByGroupId('jdStation');
-      addHrStation(stationInfo.stationId, true);
-    } else {
-      currentHrStationID.value !== ''
-        ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
-        : '';
+      if (currentHrStationID.value === e.Id) {
+        //连续两次点击相同站点 进入高渲染站点
+        enterStationInfo(stationInfo);
+        __g.marker.hideByGroupId('jdStation');
+        addHrStation(stationInfo.stationId, true);
+      } else {
+        currentHrStationID.value !== ''
+          ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
+          : '';
+      }
+      store.changeCurrentHrStationId(e.Id);
     }
-    store.changeCurrentHrStationId(e.Id);
   }
+
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
     const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
@@ -130,6 +133,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         store.changeCurrentPosition(cameraJdInfo.JDNAME);
       }
     }
+  }
+  if (e.eventtype === 'MouseHovered' && (e.Id?.includes('区') || e.Id?.includes('街道'))) {
+
   }
 });
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
@@ -321,9 +327,9 @@ const addJdStation = async (jdCode: string) => {
         id: 'station-' + index + '-' + item.isHr,
         groupId: 'jdStation',
         userData: item.isHr + '',
-        coordinateType: 1,
+        coordinateType: 2,
         coordinate: [item.lng, item.lat],
-        anchors: [-11.5, 150],
+        anchors: [-11.5, 200],
         imageSize: [33, 36],
         range: [1, 150000],
         imagePath: getImageByCloud('1'),
@@ -603,6 +609,7 @@ onMounted(async () => {
   await __g.reset();
   hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
+  await __g.settings.setMousePickMask(0);
   let res = await requestGeojsonData('qu4547');
   quFeatures = res.features;
   addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');
