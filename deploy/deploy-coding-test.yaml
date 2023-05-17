@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${parameters.APP_NAME}
+  namespace: ${parameters.DEPLOY_NAMESPACE}
+  labels:
+    project: ${parameters.APP_NAME}
+    app: ${parameters.APP_NAME}
+spec:
+  selector:
+    matchLabels:
+      project: ${parameters.APP_NAME}
+      app: ${parameters.APP_NAME}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        project: ${parameters.APP_NAME}
+        app: ${parameters.APP_NAME}
+    spec:
+      imagePullSecrets:
+      - name: coding-docker
+      containers:
+      - name: ${parameters.APP_NAME}
+        image: sutpc-docker.pkg.coding.net/yyrjb_public_repo/docker/epcsp-dp-web-test
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: "100m"
+          requests:
+            memory: 64Mi
+            cpu: "10m"
