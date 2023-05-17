@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${parameters.APP_NAME}
+  namespace: ${parameters.DEPLOY_NAMESPACE}
+  labels:
+    project: ${parameters.APP_NAME}
+    app: ${parameters.APP_NAME}
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: ${#toInt(parameters.NODE_PORT)}
+  selector:
+    project: ${parameters.APP_NAME}
+    app: ${parameters.APP_NAME}

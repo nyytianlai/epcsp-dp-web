@@ -1,0 +1,10 @@
+FROM sutpc-docker.pkg.coding.net/yyrjb_public_repo/docker/nginx:1.21.6-centos
+
+LABEL maintainer="gaotuo<gaotuo@sutpc.com>"
+
+RUN mkdir /var/log/nginx
+COPY ./dist/ /data/front/ProjectName/
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+
+ENTRYPOINT ["nginx","-g", "daemon off;"]
+EXPOSE 80
