@@ -116,7 +116,7 @@ export const warningMonitorTabsFun = () => {
     }
   ];
 };
-export const warningMonitorPieDataFun = (code = 1,data={}) => {
+export const warningMonitorPieDataFun = (code = 1, data = {}) => {
   if (code === 1) {
     return [
       { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个' },
