@@ -53,6 +53,13 @@ export const infoObj = {
 export const getImageUrl = (dir: string) => {
   return new URL(`./images/map/${dir}.png`, import.meta.url).href;
 };
+export const getHtmlUrl = () => {
+  if (import.meta.env.MODE == 'base') {
+    return 'http://127.0.0.1:5500/public';
+  } else {
+    return window.location.origin;
+  }
+};
 export const getImageByCloud = (picName: string) => {
   return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
 };
@@ -68,7 +75,7 @@ export const quNameCodeInterTrans = (key: 'name' | 'code', value: string) => {
 //获取屏幕中心点的坐标
 export const getMapCenterCoord = (aircityObj) => {
   const x = aircityObj.player.rect.width; //视频流的宽度
-  const y = aircityObj.player.rect.height; //视频流的高度
+  const y = aircityObj.player.rect.height + 40; //视频流的高度
   const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
   return screen2World_result;
 };

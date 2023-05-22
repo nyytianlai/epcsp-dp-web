@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      #pop-panel{
+        height:131px; 
+        width: 180px;
+        background: url('../images/rectbarPop.png') no-repeat;
+        position: fixed;
+        /* z-index: 99999; */
+      }
+      .title{
+          position: absolute;
+          height: 24px;  
+          left: 30px;
+          top: -5px;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #FFFFFF;
+          text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        }
+        .content{
+          position: absolute;
+          margin: 2px 12px;
+          top: 20px;
+          width: 144px;
+          height: 76px;
+        }
+        li{
+           display: flex;
+           justify-content: space-between;
+           text-align: center;
+           font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 32px;
+          color: rgba(255, 255, 255, 0.8);
+          }
+          .liRight{
+            display: flex;
+          }
+        .num{
+          font-style: normal;
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 32px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin-right: 2px;
+          background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+    </style>
+  </head>
+
+  <body style="height: 100%; width: 100%; margin: 0">
+    <!-- <div id="chart-panel" style="height: 100%; width: 100%"></div> -->
+    <!-- <div id="chart-panel" style="height: 300px; width: 1000px"></div> -->
+    <div id="chart-panel"></div>
+
+    <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
+    <script type="text/javascript">
+      
+      var urlParams = new URLSearchParams(location.search);
+      let paramsValue = urlParams.get("value")?urlParams.get("value").split(","):[44,55,66];
+      const VALUE = [
+        { value: Number(paramsValue[1]), label: { offset: [0, 0] } },
+      ];
+      const yMax = Number(urlParams.get("yMax")); 
+      const contentHeight = Number(urlParams.get("contentHeight"));
+      // console.log("最大值", yMax);
+      const div = document.querySelector('#chart-panel')
+      console.log(div)
+      div.style.height = `${contentHeight}px`
+      div.style.width = '80px'
+      console.log(div.style)
+      var dom = document.getElementById("chart-panel");
+      var myChart = echarts.init(dom);
+      var option;
+      var app = {};
+      const offsetX = 20;
+      const offsetY = 10;
+      const offsetX1 = [0, 0, -35];
+      const offsetY1 = [20, 10, 0];
+      // 绘制左侧面
+      const CubeLeft = echarts.graphic.extendShape({
+        shape: {
+          x: 0,
+          y: 0,
+        },
+        buildPath: function (ctx, shape) {
+          // 会canvas的应该都能看得懂，shape是从custom传入的
+          const xAxisPoint = shape.xAxisPoint;
+          const c0 = [shape.x, shape.y + shape.offsetY1]; //右上角
+          const c1 = [shape.x - offsetX, shape.y - offsetY + shape.offsetY1]; //左上角
+          const c2 = [
+            xAxisPoint[0] - offsetX,
+            xAxisPoint[1] - offsetY + shape.offsetY1,
+          ]; //左下角
+          const c3 = [xAxisPoint[0], xAxisPoint[1] + shape.offsetY1]; //右下角
+          ctx
+            .moveTo(c0[0], c0[1])
+            .lineTo(c1[0], c1[1])
+            .lineTo(c2[0], c2[1])
+            .lineTo(c3[0], c3[1])
+            .closePath();
+        },
+      });
+      // 绘制右侧面
+      const CubeRight = echarts.graphic.extendShape({
+        shape: {
+          x: 0,
+          y: 0,
+        },
+        buildPath: function (ctx, shape) {
+          const xAxisPoint = shape.xAxisPoint;
+          const c1 = [shape.x, shape.y + shape.offsetY1];
+          const c2 = [xAxisPoint[0], xAxisPoint[1] + shape.offsetY1];
+          const c3 = [
+            xAxisPoint[0] + offsetX,
+            xAxisPoint[1] - offsetY + shape.offsetY1,
+          ];
+          const c4 = [shape.x + offsetX, shape.y - offsetY + shape.offsetY1];
+          ctx
+            .moveTo(c1[0], c1[1])
+            .lineTo(c2[0], c2[1])
+            .lineTo(c3[0], c3[1])
+            .lineTo(c4[0], c4[1])
+            .closePath();
+        },
+      });
+      // 绘制顶面
+      const CubeTop = echarts.graphic.extendShape({
+        shape: {
+          x: 0,
+          y: 0,
+        },
+        buildPath: function (ctx, shape) {
+          const c1 = [shape.x, shape.y + shape.offsetY1];
+          const c2 = [shape.x + offsetX, shape.y - offsetY + shape.offsetY1]; //右点
+          const c3 = [shape.x, shape.y - offsetX + shape.offsetY1];
+          const c4 = [shape.x - offsetX, shape.y - offsetY + shape.offsetY1];
+          ctx
+            .moveTo(c1[0], c1[1])
+            .lineTo(c2[0], c2[1])
+            .lineTo(c3[0], c3[1])
+            .lineTo(c4[0], c4[1])
+            .closePath();
+        },
+      });
+      // 注册三个面图形
+      echarts.graphic.registerShape("CubeLeft", CubeLeft);
+      echarts.graphic.registerShape("CubeRight", CubeRight);
+      echarts.graphic.registerShape("CubeTop", CubeTop);
+
+
+      const barColor = [
+        [
+          ["#0091B0", "#00529D"],
+          ["#4AD9FC", "#096FA8"],
+          ["#B6F2FF", "#B6F2FF"],
+        ],
+        [
+          ["#267A7B", "#03817D"],
+          ["#59FFFF", "#117370"],
+          ["#B6F2FF", "#B6F2FF"],
+        ],
+        [
+          ["#1B2F79", "#1B2F79"],
+          ["#5678F9", "#003077"],
+          ["#4575F1", "#4575F1"],
+        ],
+      ];
+
+      function setOptionColor(num) {
+        return {
+          backgroundColor: '#030446',
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow",
+            },
+            backgroundColor: "rgba(9, 24, 48, 0.5)",
+            borderColor: "rgba(75, 253, 238, 0.4)",
+            textStyle: {
+              color: "#CFE3FC",
+            },
+            confine:false,
+            borderWidth: 1,
+            formatter: function (params) {
+              console.log('1111111',params);
+              let item = "";
+              item += params[0].name;
+              // $(params).each(function (idx, itm) {
+              //   item += ": " + itm.value + "万元";
+              // });
+              return `    <div id="pop-panel">
+     <div class="title">福田区</div>
+     <div class="content">
+      <li>充电站<div class="liRight"><sapn class="num">350</sapn>个</div></li>
+      <li>充电桩<div class="liRight"><span class="num">6000</span>个</div></li>
+      <li>充电枪<div class="liRight"><span class="num">6461</span>个</div></li>
+     </div>
+    </div>`
+              //  paramsValue[1];
+            },
+          },
+          grid: {
+            left: "20%",
+            right: "0%",
+            top: "20%",
+            bottom: "20%",
+          },
+          xAxis: {
+            type: "category",
+            data: ["1001"],
+            axisLine: {
+              show: true,
+              lineStyle: {
+                width: 2,
+                color: "#2B7BD6",
+              },
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              fontSize: 14,
+            },
+            show: false,
+          },
+          yAxis: {
+            type: "value",
+            max: yMax,
+            axisLine: {
+              show: true,
+              lineStyle: {
+                width: 2,
+                color: "#2B7BD6",
+              },
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#153D7D",
+              },
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLabel: {
+              fontSize: 14,
+            },
+            // boundaryGap: ["20%", "20%"],
+            show: false,
+          },
+          series: [
+            {
+              type: "custom",
+              renderItem: (params, api) => {
+                // console.log("params", params, api);
+                const location = api.coord([api.value(0), api.value(1)]);
+                return {
+                  type: "group",
+                  children: [
+                    {
+                      type: "CubeLeft",
+                      shape: {
+                        api,
+                        xValue: api.value(0),
+                        yValue: api.value(1),
+                        x: location[0] + offsetX1[params.dataIndex],
+                        y: location[1],
+                        xAxisPoint: api
+                          .coord([api.value(0), 0])
+                          .map((item, i) =>
+                            i === 0 ? item + offsetX1[params.dataIndex] : item
+                          ),
+                        offsetY1: offsetY1[params.dataIndex],
+                      },
+                      style: {
+                        fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          {
+                            offset: 0,
+                            color: barColor[params.dataIndex + num][0][0],
+                          },
+                          {
+                            offset: 1,
+                            color: barColor[params.dataIndex + num][0][1],
+                          },
+                        ]),
+                      },
+                    },
+                    {
+                      type: "CubeRight",
+                      shape: {
+                        api,
+                        xValue: api.value(0),
+                        yValue: api.value(1),
+                        x: location[0] + offsetX1[params.dataIndex],
+                        y: location[1],
+                        xAxisPoint: api
+                          .coord([api.value(0), 0])
+                          .map((item, i) =>
+                            i === 0 ? item + offsetX1[params.dataIndex] : item
+                          ),
+                        offsetY1: offsetY1[params.dataIndex],
+                      },
+                      style: {
+                        fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          {
+                            offset: 0,
+                            color: barColor[params.dataIndex + num][1][0],
+                          },
+                          {
+                            offset: 1,
+                            color: barColor[params.dataIndex + num][1][1],
+                          },
+                        ]),
+                      },
+                    },
+                    {
+                      type: "CubeTop",
+                      shape: {
+                        api,
+                        xValue: api.value(0),
+                        yValue: api.value(1),
+                        x: location[0] + offsetX1[params.dataIndex],
+                        y: location[1],
+                        xAxisPoint: api
+                          .coord([api.value(0), 0])
+                          .map((item, i) =>
+                            i === 0 ? item + offsetX1[params.dataIndex] : item
+                          ),
+                        offsetY1: offsetY1[params.dataIndex],
+                      },
+                      style: {
+                        fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                          {
+                            offset: 0,
+                            color: barColor[params.dataIndex + num][2][0],
+                          },
+                          {
+                            offset: 1,
+                            color: barColor[params.dataIndex + num][2][1],
+                          },
+                        ]),
+                      },
+                    },
+                  ],
+                };
+              },
+              data: VALUE,
+            },
+            {
+              type: "bar",
+              label: {
+                normal: {
+                  show: true,
+                  position: "top",
+                  formatter: (e) => {
+                    return e.value;
+          // switch (e.name) {
+          //     case '1001':
+          //         return e.value;
+          //     case '1002':
+          //         return VALUE[1];
+          //     case '1003':
+          //         return VALUE[2];
+          // } 
+                  },
+                  fontSize: 14,
+                  color: "#E6F7FF",
+                  backgroundColor: {
+                    image: "../images/back.png",
+                  },
+                  height: 20,
+                  padding: [5, 10, 5, 11],
+                },
+              },
+              itemStyle: {
+                color: "transparent",
+              },
+              // tooltip: {},
+              data: VALUE,
+            },
+          ],
+        };
+      }
+      option = setOptionColor(0);
+      if (option && typeof option === "object") {
+        myChart.setOption(option);
+        myChart.on("mouseover", function (params) {
+            myChart.setOption(setOptionColor(1));
+            // ue.dtspoi.postevent(`${paramsValue}`)
+        });
+        myChart.on("mouseout", function (params) {
+          myChart.setOption(setOptionColor(0));
+          // ue.dtspoi.postevent(`移出`)
+        });
+      }
+    </script>
+  </body>
+</html>

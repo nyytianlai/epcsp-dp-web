@@ -4,8 +4,38 @@ import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
 import { getRectBar, getRectBarByStreet } from './api.js';
 import bus from '@/utils/bus';
+import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
+
+const { useEmitt } = aircityObj.value;
+let barPositionBak = [];
+let currentBar = '';
+
+useEmitt('AIRCITY_EVENT', async (e) => {
+  // 编写自己的业务
+  // console.log('事件监听', e);
+  if (e.eventtype === 'MouseMoved') {
+    let quName = e.Id?.split('-')[1];
+    console.log('currentBar',currentBar);
+    
+    if (e.Id?.split('-')[0] === 'rectBar' && currentBar !== e.Id) {
+      // addPopupLabel(quName, e.UserData);
+      currentBar = e.Id;
+      aircityObj.value.acApi.marker.setPopupSize(e.Id,[500,500])
+    } else {
+      await aircityObj.value.acApi.customTag.delete('rectBarPop');
+      currentBar = '';
+    }
+  }
+});
+
+const getBarPositionByQuName = (quName: string) => {
+  let quItem = barPositionBak.filter((item) => {
+    return item.properties.QUNAME === quName;
+  });
+  return quItem[0].geometry.coordinates;
+};
 
 const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   // await aircityObj.acApi.customTag.clear();
@@ -22,6 +52,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
+  barPositionBak = res1.features;
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
       return item.properties.QUCODE === streetId;
@@ -37,22 +68,55 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
     let contentHeight = (countObj[0].stationCount / yMax) * 100 + 100;
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+    // let o = {
+    //   id: 'rectBar-' + idEnd,
+    //   groupId: 'rectBar',
+    //   userData: userData,
+    //   coordinate: item.geometry.coordinates,
+    //   contentURL: `${import.meta.env.VITE_FD_URL}/data/html/rectBar.html?value=${
+    //     countObj[0].gunCount
+    //   },${countObj[0].stationCount},${countObj[0].equipmentCount}&yMax=${yMax}`,
+    //   contentSize: [80, contentHeight], //网页窗口宽高 [width, height]
+    //   pivot: [0.5, 1], // 中心点
+    //   range: [1, 150000] //显示范围：[min, max]
+    //   // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
+    // };
     let o = {
       id: 'rectBar-' + idEnd,
       groupId: 'rectBar',
       userData: userData,
       coordinate: item.geometry.coordinates,
-      contentURL: `${import.meta.env.VITE_FD_URL}/data/html/rectBar.html?value=${
-        countObj[0].gunCount
-      },${countObj[0].stationCount},${countObj[0].equipmentCount}&yMax=${yMax}`,
-      contentSize: [80, contentHeight], //网页窗口宽高 [width, height]
-      pivot: [0.5, 1], // 中心点
-      range: [1, 150000] //显示范围：[min, max]
-      // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
+      anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [82, 38], //图片的尺寸
+      range: [1, 1000000], //可视范围
+      imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      popupURL: `${getHtmlUrl()}/static/html/rectBar.html?value=${countObj[0].gunCount},${
+        countObj[0].stationCount
+      },${countObj[0].equipmentCount}&yMax=${yMax}&contentHeight=${contentHeight}`, //弹窗HTML链接
+      autoHidePopupWindow: false,
+      popupSize: [80, contentHeight], //弹窗大小
+      popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移
+      autoHeight: false, // 自动判断下方是否有物体
+      displayMode: 2 ,//智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
     barArr.push(o);
   });
-  aircityObj.value.acApi.customTag.add(barArr);
+  // aircityObj.value.acApi.customTag.add(barArr);
+  await aircityObj.value.acApi.marker.add(barArr);
+  await aircityObj.value.acApi.marker.showAllPopupWindow();
+};
+const addPopupLabel = async (quName: string, value: string) => {
+  let coord = getBarPositionByQuName(quName);
+  let o = {
+    id: 'rectBarPop',
+    coordinate: coord,
+    range: [1, 1000000], //可视范围
+    contentURL: `${getHtmlUrl()}/static/html/rectBarPop.html?value=${value}&quName=${quName}`, //弹窗HTML链接
+    contentSize: [180, 131], //弹窗大小
+    pivot: [0, 0]
+  };
+  await aircityObj.value.acApi.customTag.add(o);
 };
 onMounted(async () => {
   addBar('qu');

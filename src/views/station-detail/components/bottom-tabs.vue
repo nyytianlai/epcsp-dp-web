@@ -62,61 +62,7 @@ type TabElement = {
 const props = withDefaults(defineProps<PropsType>(), {
   tabData: () => []
 });
-// const props = defineProps({
-//   data: {
-//     type: Array,
-//     default: () => [
-//       {
-//         label: '视角漫游',
-//         value: '1',
-//         icon: 'camera',
-//         isHover: false,
-//         children: [
-//           {
-//             label: '休息区',
-//             value: '1-1'
-//           },
-//           {
-//             label: '车行视角',
-//             value: '1-2'
-//           },
-//           {
-//             label: '停车场入口',
-//             value: '1-3'
-//           },
-//           {
-//             label: '停车场出口',
-//             value: '1-4'
-//           },
-//           {
-//             label: '默认视角',
-//             value: '1-5'
-//           }
-//         ]
-//       },
-//       {
-//         label: '站内设施',
-//         value: '2',
-//         icon: 'device'
-//       },
-//       {
-//         label: '车辆充电',
-//         value: '3',
-//         icon: 'charting'
-//       },
-//       {
-//         label: '电流流转',
-//         value: '4',
-//         icon: 'electric'
-//       },
-//       {
-//         label: '运营商分布',
-//         value: '5',
-//         icon: 'operator'
-//       }
-//     ]
-//   }
-// });
+
 const emit = defineEmits('handleSelect');
 const { tabData } = toRefs(props);
 console.log('传过来的底部菜单数据', tabData);
