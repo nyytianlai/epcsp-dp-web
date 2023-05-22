@@ -521,7 +521,7 @@ const addWall = async () => {
     id: 'wall', //3DPolygon唯一标识id
     coordinates: res.features[0].geometry.coordinates, //构成3DPolygon的坐标点数组
     color: '#5bb7d2', //3DPolygon颜色
-    height: 800, //3D多边形的高度
+    height: -800, //3D多边形的高度
     intensity: 1.0, //亮度
     style: 1, //3DPolygon的样式 请参照API开发文档选取枚举
     generateTop: false, //是否生成顶面
