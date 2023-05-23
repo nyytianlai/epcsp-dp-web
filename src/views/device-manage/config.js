@@ -41,19 +41,30 @@ export const chargingStationTabsFun = () => {
     }
   ];
 };
-
+export const chargingStationGunTabsFun = () => {
+  return [
+    {
+      code: 1,
+      label: '充电枪类型'
+    },
+    {
+      code: 2,
+      label: '充电枪电流类型'
+    }
+  ];
+};
 export const chargingStationPieDataFun = (code = 1,data={})=>{
   if(code === 1){
     return [
-      { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个' },
-      { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个' },
-      { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个' },
-      { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个' }
+      { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个',isChoose: true },
+      { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个',isChoose: true },
+      { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个',isChoose: true },
+      { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个',isChoose: true }
     ]
   }else{
     return [
-      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个' },
-      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' }
+      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个',isChoose: true },
+      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个',isChoose: true }
     ]
   }
 }
@@ -204,3 +215,16 @@ export const lineRunDataFun = (data = []) => {
     name:'桩故障率'
   }]
 }
+
+export const bottomTabDataFun = () => {
+  return [
+    {
+      code: 1,
+      label: '充电桩'
+    },
+    {
+      code: 2,
+      label: '充电枪'
+    }
+  ];
+};

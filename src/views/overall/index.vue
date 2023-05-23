@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="operating-company">
-      <title-column title="运营企业年度TOP10" />
+      <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
       <rank-list :data="projectList" :totalNum="projectTotalNum" height="2.76rem" />
     </div>
@@ -86,6 +86,47 @@
       :current-page="pageObj.currentPage"
       @current-change="handPageChange"
     />
+  </custom-dialog>
+  <custom-dialog
+    v-model:visible="dialogRankVisible"
+    title="运营企业排名列表"
+    @closed="handleDialogClosed"
+  >
+    <template #titleSearch>
+      <el-select v-model="inputRank" remote placeholder="请输入" filterable :remote-method="remoteMethod">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+    </template>
+
+    <!-- <el-table
+      :data="alarmTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
+        <template #default="scope"></template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    /> -->
   </custom-dialog>
 </template>
 <script setup>
@@ -157,6 +198,11 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 运营企业排名弹窗显示标识
+const dialogRankVisible = ref(false)
+// 运营企业排名搜索
+const inputRank = ref()
+
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
@@ -279,6 +325,10 @@ const handPageChange = (value) => {
 // const handleDialogClosed = () => {
 //   console.log('handleDialogClosed');
 // }
+// 运营企业排名详情点击
+const handleDetailClick = ()=>{
+  dialogRankVisible.value = true
+}
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();

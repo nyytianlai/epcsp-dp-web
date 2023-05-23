@@ -10,10 +10,10 @@
   <page-num :data="pageNumData" />
     <panel>
       <div class="charging-station-num "> 
-        <title-column title="充电设施总量" />
-        <tabs :data="chargingStationTabs" 
+        <title-column title="充电设施总量" :showBtn="true" @handleClick="handleDetailClick"/>
+        <tabs :data="bottomBtnCur === 1?chargingStationTabs:chargingStationGunTabs" 
         @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
-        <pie-chart :data="chargingStationPieData" totalName="充电桩总数" />
+        <pie-chart :data="chargingStationPieData" totalName="充电桩总数" mode="canChoose" @choose="handleChoose"/>
       </div>
       <div class="charging-peak-area">
         <title-column title="充电高峰区域情况" />
@@ -48,6 +48,7 @@
       </div>
     </panel>
   <map-layer v-if="aircityObj"></map-layer>
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
 </template>
 <script setup>
   import { ref, onMounted,reactive ,inject} from 'vue';
@@ -68,6 +69,7 @@ import {
 import {
   pageNumFun,
   chargingStationTabsFun,
+  chargingStationGunTabsFun,
   chargingStationPieDataFun,
   areaRankDataFun,
   chargingTypesTabsFun,
@@ -75,13 +77,15 @@ import {
   lineStateDataFun,
   chargingRunTabsFun,
   chargingRunDataFun,
-  lineRunDataFun
+  lineRunDataFun,
+  bottomTabDataFun,
 } from './config.js';
 const aircityObj = inject('aircityObj')
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 充电桩数量信息
 const chargingStationTabs = ref(chargingStationTabsFun())
+const chargingStationGunTabs = ref(chargingStationGunTabsFun())
 const chargingStationPieData = ref(chargingStationPieDataFun())
 //充电高峰区域情况
 const areaRankData = ref([])
@@ -98,6 +102,13 @@ const lineStateData = ref(lineStateDataFun())
 const chargingRunTabs = ref(chargingRunTabsFun())
 const chargingRunData = ref(chargingRunDataFun())
 const lineRunData = ref(lineRunDataFun())
+//底部button
+const bottomTabsData = ref(bottomTabDataFun());
+
+// 当前底部button高亮的对象
+const bottomBtnCur = ref(1)
+// 充电设施总量tab高亮
+const totalCurCode = ref(1)
 //设备管理/标题下四个统计数
 const getSelectChargeEquipmentStatistics = async () => {
   const res = await selectChargeEquipmentStatistics()
@@ -105,7 +116,7 @@ const getSelectChargeEquipmentStatistics = async () => {
 }
 // 设备管理/充电桩数量
 const getSelectChargeCount = async(type) => {
-  const res = await selectChargeCount()
+  const res = await selectChargeCount({type: bottomBtnCur.value})
   chargingStationPieData.value = chargingStationPieDataFun(type,res.data)
 }
 //设备管理/充电高峰区域情况
@@ -159,6 +170,19 @@ const getChargeEquipmentUseRateByTime = async (type) => {
   const res = await selectChargeEquipmentUseRateByTime(type)
   lineRunData.value = lineRunDataFun(res.data)
 }
+
+// 底部按钮点击
+const changeButtomTab =(item)=>{
+  console.log('底部切换', item);
+  bottomBtnCur.value = item.code
+  // 重新获取充电设施总量
+  getSelectChargeCount(totalCurCode.value)
+}
+// 充电设施总量
+const handleChoose = (item)=>{
+  console.log('充电设施总量',item)
+  // todo
+}
 onMounted(() => {
   getSelectChargeCount(1)
   getSelectChargeCountByArea()
@@ -171,6 +195,7 @@ onMounted(() => {
   getChargeEquipmentUseRateByTime(1)
 })
 const handleChangeTab = (data, type) => {
+  totalCurCode.value = data.code
   if (type === 'charging-station') {
     //切换充电桩数量信息
     getSelectChargeCount(data.code)

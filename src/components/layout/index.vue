@@ -21,7 +21,7 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady"></base-ac>
+        <!-- <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady"></base-ac> -->
         <expand-btn />
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">

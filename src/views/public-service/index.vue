@@ -30,7 +30,7 @@
           <pie-chart :data="chargingTypePieData"/>
         </div>
         <div class="month-rate">
-          <title-column title="本月利用率情况" />
+          <title-column title="行政区设备利用率情况" />
           <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3.74rem" />
         </div>
     </panel>

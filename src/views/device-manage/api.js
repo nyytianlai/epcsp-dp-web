@@ -26,9 +26,10 @@ export const getJdStation = (streetId) => {
   });
 };
 // 设备管理/充电桩数量 /dp/api/v1/equipmentManage/selectChargeCount
-export const selectChargeCount = () => {
+export const selectChargeCount = (data) => {
   return request.get({
-    url: '/dp/api/v1/equipmentManage/selectChargeCount'
+    url: '/dp/api/v1/equipmentManage/selectChargeCount',
+    data
   });
 };
 // 设备管理/充电高峰区域情况 /dp​/api​/v1​/equipmentManage​/selectChargeCountByArea
