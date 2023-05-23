@@ -63,8 +63,8 @@ export const chargingStationPieDataFun = (code = 1,data={})=>{
     ]
   }else{
     return [
-      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个',isChoose: true },
-      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个',isChoose: true }
+      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个' },
+      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' }
     ]
   }
 }

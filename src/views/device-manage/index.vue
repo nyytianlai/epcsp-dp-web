@@ -13,7 +13,7 @@
         <title-column title="充电设施总量" :showBtn="true" @handleClick="handleDetailClick"/>
         <tabs :data="bottomBtnCur === 1?chargingStationTabs:chargingStationGunTabs" 
         @changeTab="(data)=>handleChangeTab(data,'charging-station')" />
-        <pie-chart :data="chargingStationPieData" totalName="充电桩总数" mode="canChoose" @choose="handleChoose"/>
+        <pie-chart :data="chargingStationPieData" totalName="充电桩总数" :mode="totalCurCode===1?'canChoose':'default'" @choose="handleChoose"/>
       </div>
       <div class="charging-peak-area">
         <title-column title="充电高峰区域情况" />
