@@ -266,13 +266,13 @@ export const powerInfoNumDataFun = (data={}) => {
     {
       img: zgl,
       num: data?.totalPower,
-      name: '总功率/kw',
+      name: '额定总功率/kw',
       classStyleType:'leftRightStyleGreen'
     },
     {
       img: ssgl,
       num: data?.realTimePower,
-      name: '实时功率/kw',
+      name: '实时总功率/kw',
       classStyleType:'leftRightStyleYellow'
     }
   ];
@@ -378,7 +378,7 @@ export const bottomTabDataFun = () => {
   return [
     {
       code: 1,
-      label: '充电设施'
+      label: '充电站'
     },
     {
       code: 2,

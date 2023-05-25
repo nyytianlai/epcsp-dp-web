@@ -9,17 +9,24 @@
 <template>
   <el-dialog
     v-model="visible"
-    :title="title"
     class="custom-dialog"
     width="15.58rem"
     @close="emit('update:visible', false)"
     @closed="emit('closed')"
   >
+    <template #header>
+      <div class="title-box">
+        <div class="rectangle"></div>
+        <div class="title">{{ title }}</div>
+        <div class="line"></div>
+      </div>
+      <slot name="titleSearch" />
+    </template>
     <icon icon="svg-icon:corner-top" class="top-left corner" />
     <icon icon="svg-icon:corner-bottom" class="bottom-left corner" />
     <icon icon="svg-icon:corner-top" class="top-right corner" />
     <icon icon="svg-icon:corner-bottom" class="bottom-right corner" />
-    <slot/>
+    <slot />
   </el-dialog>
 </template>
 <script setup>
@@ -76,6 +83,9 @@ const { visible, columnData, data } = toRefs(props);
     border-bottom: 1px solid rgba(84, 181, 255, 0.4);
     margin-left: 20px;
     padding-left: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 65px;
   }
   .el-dialog__title {
     font-size: 20px;
@@ -87,6 +97,29 @@ const { visible, columnData, data } = toRefs(props);
   .el-pagination {
     margin-top: 20px;
     float: right;
+  }
+  .title-box {
+    display: flex;
+    align-items: center;
+  }
+  .rectangle {
+    width: 16.97px;
+    height: 16.97px;
+    background: #00fff9;
+    transform: rotate(45deg);
+    border: 6px solid rgba(0, 255, 249, 0.1);
+    margin-right: 8px;
+    background-clip: content-box;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  .line {
+    height: 2px;
+    width: 164px;
+    background: linear-gradient(90deg, #54b5ff -0.6%, rgba(84, 181, 255, 0) 100.14%);
   }
 }
 </style>
