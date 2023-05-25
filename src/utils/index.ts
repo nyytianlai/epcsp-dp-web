@@ -27,3 +27,16 @@ export const pointIsInPolygon = (pointCoord, polygonCoord) => {
 
   return booleanPointInPolygon(pt, poly);
 };
+
+// 深拷贝
+// 深拷贝
+export const deepClone = (obj) => {
+  if (!obj || typeof obj !== 'object') {
+    return obj
+  }
+  const res = obj instanceof Array ? [] : {}
+  for (const i in obj) {
+    res[i] = deepClone(obj[i])
+  }
+  return res
+}

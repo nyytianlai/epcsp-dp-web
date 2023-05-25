@@ -40,12 +40,12 @@ const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
 interface Props {
   buttomTabCode?: number | string;
-  module: string;
+  module: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   buttomTabCode: '',
-  module: ''
+  module: 0
 });
 
 const aircityObj = inject('aircityObj');
@@ -328,7 +328,7 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.module !== '3' ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否

@@ -33,9 +33,10 @@ export const selectChargeCount = (data) => {
   });
 };
 // 设备管理/充电高峰区域情况 /dp​/api​/v1​/equipmentManage​/selectChargeCountByArea
-export const selectChargeCountByArea = () => {
+export const selectChargeCountByArea = (data) => {
   return request.get({
-    url: '/dp/api/v1/equipmentManage/selectChargeCountByArea'
+    url: '/dp/api/v1/equipmentManage/selectChargeCountByArea',
+    data
   });
 };
 
@@ -97,5 +98,12 @@ export const selectChargeEquipmentUseRateByTime = (equipmentType) => {
     data: {
       equipmentType
     }
+  });
+};
+// 设备管理/充电站设施列表分页
+export const selectStationInfoByPage = (data) => {
+  return request.post({
+    url: '/dp/api/v1/equipmentManage/selectStationInfoByPage',
+    data: data
   });
 };

@@ -51,7 +51,6 @@ let legendListData = [
   }
 ];
 
-
 const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
   value
     ? await __g[type].show(layerNameQuNameArr(idPre))

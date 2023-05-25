@@ -80,7 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
     { value: 735, name: '二级设备安全', extraName: '设备安全', unit: '个' },
     { value: 580, name: '三级告警提示', extraName: '告警提示', unit: '个' }
   ],
-  colors: () => ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'],
+  colors: () => ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA','#BEE5FB'],
   totalName: '合计',
   mode: 'default'
 });
