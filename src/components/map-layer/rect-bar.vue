@@ -14,18 +14,16 @@ let currentBar = '';
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  // console.log('事件监听', e);
-  if (e.eventtype === 'MouseMoved') {
-    let quName = e.Id?.split('-')[1];
-    console.log('currentBar',currentBar);
-    
-    if (e.Id?.split('-')[0] === 'rectBar' && currentBar !== e.Id) {
-      // addPopupLabel(quName, e.UserData);
-      currentBar = e.Id;
-      aircityObj.value.acApi.marker.setPopupSize(e.Id,[500,500])
-    } else {
-      await aircityObj.value.acApi.customTag.delete('rectBarPop');
-      currentBar = '';
+  console.log('事件监听', e);
+  if (e.eventtype === 'MarkerCallBack') {
+    let quName = e.ID?.split('-')[1];
+    if (e.Data === 'mouseover') {
+      //鼠标悬浮事件
+      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
+      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.6]);
+    } else if (e.Data === 'mouseout') {
+      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
+      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.0]);
     }
   }
 });
@@ -38,11 +36,9 @@ const getBarPositionByQuName = (quName: string) => {
 };
 
 const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
-  // await aircityObj.acApi.customTag.clear();
   let barArr = [];
   const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
-  console.log('柱状图接口', res);
   let stationCount = res.map((item) => {
     return item.stationCount;
   });
@@ -64,27 +60,14 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
         ? i.areaCode == item.properties.QUCODE
         : i.streetId == item.properties.JDCODE;
     });
-    // let contentHeight=250
-    let contentHeight = (countObj[0].stationCount / yMax) * 100 + 100;
+    let contentHeight = 190;
+
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
-    let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
-    // let o = {
-    //   id: 'rectBar-' + idEnd,
-    //   groupId: 'rectBar',
-    //   userData: userData,
-    //   coordinate: item.geometry.coordinates,
-    //   contentURL: `${import.meta.env.VITE_FD_URL}/data/html/rectBar.html?value=${
-    //     countObj[0].gunCount
-    //   },${countObj[0].stationCount},${countObj[0].equipmentCount}&yMax=${yMax}`,
-    //   contentSize: [80, contentHeight], //网页窗口宽高 [width, height]
-    //   pivot: [0.5, 1], // 中心点
-    //   range: [1, 150000] //显示范围：[min, max]
-    //   // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
-    // };
+    let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
       id: 'rectBar-' + idEnd,
       groupId: 'rectBar',
-      userData: userData,
+      userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [82, 38], //图片的尺寸
@@ -93,30 +76,22 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/rectBar.html?value=${countObj[0].gunCount},${
         countObj[0].stationCount
-      },${countObj[0].equipmentCount}&yMax=${yMax}&contentHeight=${contentHeight}`, //弹窗HTML链接
+      },${countObj[0].equipmentCount}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [80, contentHeight], //弹窗大小
-      popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移
+      // popupSize: [80, contentHeight], //弹窗大小
+      // popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移
+      popupSize: [200, contentHeight + 100],
+      popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
-      displayMode: 2 ,//智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
     barArr.push(o);
   });
-  // aircityObj.value.acApi.customTag.add(barArr);
   await aircityObj.value.acApi.marker.add(barArr);
   await aircityObj.value.acApi.marker.showAllPopupWindow();
 };
-const addPopupLabel = async (quName: string, value: string) => {
-  let coord = getBarPositionByQuName(quName);
-  let o = {
-    id: 'rectBarPop',
-    coordinate: coord,
-    range: [1, 1000000], //可视范围
-    contentURL: `${getHtmlUrl()}/static/html/rectBarPop.html?value=${value}&quName=${quName}`, //弹窗HTML链接
-    contentSize: [180, 131], //弹窗大小
-    pivot: [0, 0]
-  };
-  await aircityObj.value.acApi.customTag.add(o);
+const changeXzqhColor = (polygonId: string, newVal: [number, number, number, number]) => {
+  aircityObj.value.acApi.polygon.setColor(polygonId, newVal);
 };
 onMounted(async () => {
   addBar('qu');

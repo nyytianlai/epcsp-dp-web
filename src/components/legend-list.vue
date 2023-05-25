@@ -10,6 +10,7 @@
         v-for="(item, index) in legendList"
         :key="index"
       >
+      <!-- :class="{isGrey:item.type}" -->
         <span class="icon" :style="{ background: item.color }"></span>
         <span class="name">{{ item?.name }}</span>
       </li>

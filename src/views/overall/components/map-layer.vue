@@ -44,8 +44,8 @@ const setRectBarVisibility = (value: boolean) => {
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
-    ? aircityObj.value?.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.value?.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
+    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar'))
+    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar'));
 };
 const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');

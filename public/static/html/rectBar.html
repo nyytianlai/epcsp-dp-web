@@ -58,35 +58,33 @@
     </style>
   </head>
 
-  <body style="height: 100%; width: 100%; margin: 0">
-    <!-- <div id="chart-panel" style="height: 100%; width: 100%"></div> -->
-    <!-- <div id="chart-panel" style="height: 300px; width: 1000px"></div> -->
-    <div id="chart-panel"></div>
-
+  <body style="height: 100%; width: 100%; margin: 0;">
+    <!-- background-color: #D5FEFF; -->
+    <div id="chart-panel" style="height: 100%; width: 100%;position: absolute;bottom: 0px;left: 50px;"></div>
     <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
     <script type="text/javascript">
       
       var urlParams = new URLSearchParams(location.search);
       let paramsValue = urlParams.get("value")?urlParams.get("value").split(","):[44,55,66];
       const VALUE = [
-        { value: Number(paramsValue[1]), label: { offset: [0, 0] } },
+        { value: Number(paramsValue[1]), label: { offset: [0, -10] } },
       ];
-      const yMax = Number(urlParams.get("yMax")); 
+      const yMax = Number(urlParams.get("yMax"));
+      const quName = urlParams.get("quName");
+      const areaCode = urlParams.get("areaCode");
       const contentHeight = Number(urlParams.get("contentHeight"));
-      // console.log("最大值", yMax);
+      console.log("最大值", yMax);
       const div = document.querySelector('#chart-panel')
-      console.log(div)
       div.style.height = `${contentHeight}px`
       div.style.width = '80px'
-      console.log(div.style)
       var dom = document.getElementById("chart-panel");
       var myChart = echarts.init(dom);
       var option;
       var app = {};
       const offsetX = 20;
-      const offsetY = 10;
+      const offsetY = 5;
       const offsetX1 = [0, 0, -35];
-      const offsetY1 = [20, 10, 0];
+      const offsetY1 = [3, 10, 0];
       // 绘制左侧面
       const CubeLeft = echarts.graphic.extendShape({
         shape: {
@@ -143,7 +141,7 @@
         buildPath: function (ctx, shape) {
           const c1 = [shape.x, shape.y + shape.offsetY1];
           const c2 = [shape.x + offsetX, shape.y - offsetY + shape.offsetY1]; //右点
-          const c3 = [shape.x, shape.y - offsetX + shape.offsetY1];
+          const c3 = [shape.x, shape.y - offsetX + shape.offsetY1+10];//后面的10 加了让顶部的四边形变窄
           const c4 = [shape.x - offsetX, shape.y - offsetY + shape.offsetY1];
           ctx
             .moveTo(c1[0], c1[1])
@@ -179,42 +177,39 @@
 
       function setOptionColor(num) {
         return {
-          backgroundColor: '#030446',
+          // backgroundColor: '#030446',
           tooltip: {
             trigger: "axis",
             axisPointer: {
               type: "shadow",
             },
-            backgroundColor: "rgba(9, 24, 48, 0.5)",
-            borderColor: "rgba(75, 253, 238, 0.4)",
+            backgroundColor: "rgba(9, 24, 48, 0.0)",
+            borderColor: "rgba(75, 253, 238, 0.0)",
             textStyle: {
               color: "#CFE3FC",
             },
-            confine:false,
-            borderWidth: 1,
+            // confine:false,
+            borderWidth: 0,
+            position: [-50, -131+190-(Number(paramsValue[1])*140)/yMax-20],//(Number(paramsValue[1])*120)/yMax 柱子高度
             formatter: function (params) {
-              console.log('1111111',params);
               let item = "";
               item += params[0].name;
-              // $(params).each(function (idx, itm) {
-              //   item += ": " + itm.value + "万元";
-              // });
               return `    <div id="pop-panel">
-     <div class="title">福田区</div>
+     <div class="title">${quName}</div>
      <div class="content">
-      <li>充电站<div class="liRight"><sapn class="num">350</sapn>个</div></li>
-      <li>充电桩<div class="liRight"><span class="num">6000</span>个</div></li>
-      <li>充电枪<div class="liRight"><span class="num">6461</span>个</div></li>
+      <li>充电站<div class="liRight"><sapn class="num">${paramsValue[1]}</sapn>个</div></li>
+      <li>充电桩<div class="liRight"><span class="num">${paramsValue[2]}</span>个</div></li>
+      <li>充电枪<div class="liRight"><span class="num">${paramsValue[0]}</span>个</div></li>
      </div>
     </div>`
               //  paramsValue[1];
             },
           },
           grid: {
-            left: "20%",
+            left: "6px",
             right: "0%",
-            top: "20%",
-            bottom: "20%",
+            top: "45px",
+            bottom: '5px',
           },
           xAxis: {
             type: "category",
@@ -256,7 +251,6 @@
             axisLabel: {
               fontSize: 14,
             },
-            // boundaryGap: ["20%", "20%"],
             show: false,
           },
           series: [
@@ -365,14 +359,6 @@
                   position: "top",
                   formatter: (e) => {
                     return e.value;
-          // switch (e.name) {
-          //     case '1001':
-          //         return e.value;
-          //     case '1002':
-          //         return VALUE[1];
-          //     case '1003':
-          //         return VALUE[2];
-          // } 
                   },
                   fontSize: 14,
                   color: "#E6F7FF",
@@ -397,11 +383,16 @@
         myChart.setOption(option);
         myChart.on("mouseover", function (params) {
             myChart.setOption(setOptionColor(1));
-            // ue.dtspoi.postevent(`${paramsValue}`)
+            ue.dtspoi.postevent(`mouseover`)
         });
         myChart.on("mouseout", function (params) {
           myChart.setOption(setOptionColor(0));
-          // ue.dtspoi.postevent(`移出`)
+          ue.dtspoi.postevent(`mouseout`)
+        });
+        myChart.on("click", function (params) {
+	       console.log('获取点击的数据',params);
+         ue.dtspoi.postevent(`click-${areaCode}`)
+	       //在这里可以拿到数据然后调用需要调用的方法
         });
       }
     </script>
