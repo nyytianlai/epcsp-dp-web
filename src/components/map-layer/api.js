@@ -34,7 +34,7 @@ export const getJdStation = (streetId) => {
   
 //设备管理地图柱状图 区
 export const getEquipmentBar = (data) => {
-    return request.get({
+    return request.post({
       url: '/dp/api/v1/equipmentManage/selectChargeEquipmentByArea',
       data
     });

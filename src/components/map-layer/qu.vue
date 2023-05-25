@@ -40,10 +40,12 @@ const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
 interface Props {
   buttomTabCode?: number | string;
+  module: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  buttomTabCode: ''
+  buttomTabCode: '',
+  module: ''
 });
 
 const aircityObj = inject('aircityObj');
@@ -225,15 +227,9 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 };
 
 const setQuVisibility = async (value: boolean) => {
-  // value
-  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
-  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
   value
     ? await __g.marker.show(layerNameQuNameArr('rectBar' + props.buttomTabCode))
     : await __g.marker.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
-  // value
-  //   ? await __g.marker.show(layerNameQuNameArr('quName'))
-  //   : await __g.marker.hide(layerNameQuNameArr('quName'));
 };
 const deleteJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
@@ -322,7 +318,7 @@ const resetSz = async (value = true) => {
   await __g.settings.setEnableCameraMovingEvent(false);
   await deleteJdData();
   await __g.marker.deleteByGroupId('jdStation');
-  value ? setQuVisibility(true) : '';
+  value ? await setQuVisibility(true) : '';
   await __g.camera.set(infoObj.szView, 0.2);
   store.changeCurrentPosition('深圳市');
   store.changeCurrentPositionBak('');
@@ -332,7 +328,7 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.buttomTabCode == '' ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  props.module !== '3' ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否

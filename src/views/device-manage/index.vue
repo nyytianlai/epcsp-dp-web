@@ -47,7 +47,7 @@
         <line-time-chart :data="lineRunData" unit="%" :colors="['green','#FF7723']"/>
       </div>
     </panel>
-  <map-layer v-if="aircityObj"></map-layer>
+  <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
 </template>
 <script setup>
@@ -81,6 +81,7 @@ import {
   bottomTabDataFun,
 } from './config.js';
 const aircityObj = inject('aircityObj')
+let mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 充电桩数量信息
@@ -177,6 +178,7 @@ const changeButtomTab =(item)=>{
   bottomBtnCur.value = item.code
   // 重新获取充电设施总量
   getSelectChargeCount(totalCurCode.value)
+  mapLayerRef.value.buttomTabChange(item.code);
 }
 // 充电设施总量
 const handleChoose = (item)=>{

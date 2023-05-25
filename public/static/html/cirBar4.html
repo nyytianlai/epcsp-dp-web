@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
 </head>
 
-<body style="height: 100%; width: 100%; margin: 0">
+<body style="height: 100%; width: 100%; margin: 0;bottom: 30px;">
   <!-- <div id="chart-panel" style="height: 263px; width: 88px"></div> -->
   <div id="chart-panel" style="height: 100%; width: 100%"></div>
   <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
@@ -17,34 +17,43 @@
     var option;
     var app = {};
     var urlParams = new URLSearchParams(location.search);
-    let paramsValue = urlParams.get("value").split(",");
+    let paramsValue = JSON.parse(urlParams.get("value"));
+    console.log("value",paramsValue)
     const yMax = Number(urlParams.get("yMax"));
-    const colorType = Number(urlParams.get("colorType")) - 1;
     console.log("最大值", yMax);
+    const areaCode = urlParams.get("areaCode");
     var xData = ["递铺街道"];
-    var data1 = [Number(paramsValue[0])]; //下部数据
-    var data2 = [Number(paramsValue[1])]; //中
-    var data3 = [Number(paramsValue[2])]; //上
+    var data1 = [paramsValue.v2GCount ]; //底部数据
+    var data2 = [paramsValue.superCount]; //中底
+    var data3 = [paramsValue.noQuickCount]; //中顶
+    var data4 = [paramsValue.quickCount]; //顶部
     
-    var data1Cir = data1[0] ? data1 : [1]; //下部数据
-    var data2Cir = data2[0] ? data2 : [1]; //中
-    var data3Cir = data3[0] ? data3 : [1]; //上
-    var data4 = [];
+    // var data1Cir = data1[0] ? data1 : [1]; //底部数据
+    // var data2Cir = data2[0] ? data2 : [1]; //中底
+    // var data3Cir = data3[0] ? data3 : [1]; //中顶
+    // var data4Cir = data4[0] ? data4 : [1]; //顶
+    var data1Cir = data1; //底部数据
+    var data2Cir = data2; //中底
+    var data3Cir = data3; //中顶
+    var data4Cir = data4; //顶
+    var data5 = [];
     for (let i = 0; i < data1.length; i++) {
-      data4.push(data1[i] + data2[i] + data3[i]);
+      data5.push(data1[i] + data2[i] + data3[i]+ data4[i]);
     }
 
     const colorCollection = [
-      [["#7A1D1D", "#801F1F", "#B92D2D", "#FB2222", "#F23C3C"], ['#1D5E7A', '#1D5E7A', '#257FA6', '#3BC3FE', '#43C6FE']],
-      [["#7A4F1D", "#7A4A1D", "#A67225", "#FEB03B", "#FEA843"], ['#7A4F1D', '#7A4A1D', '#A67225', '#FEB03B', '#FEA843']],
-      [["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"], ['#6D6D6D', '#797979', '#B5B5B5', '#FFFFFF', '#E8EBEB']],
-      [["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"], ['#6D6D6D', '#797979', '#B5B5B5', '#FFFFFF', '#E8EBEB']],
-      [["#7A1D1D", "#801F1F", "#B92D2D", "#FB2222", "#F23C3C"], ['#1D5E7A', '#1D5E7A', '#257FA6', '#3BC3FE', '#43C6FE']],
-      [["#EC4040", "#970404"], ['#3BC3FE', '#00B2FF']],
-      [["#7A4F1D", "#7A4A1D", "#A67225", "#FEB03B", "#FEA843"], ['#7A4F1D', '#7A4A1D', '#A67225', '#FEB03B', '#FEA843']],
-      [["#FE993B", "#AB6906"], ['#FE993B', '#AB6906']],
-      [["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"], ['#6D6D6D', '#797979', '#B5B5B5', '#FFFFFF', '#E8EBEB']],
-      [["#FFEE54", "#F6FF95"], ['#EEEEEE', '#CECECE']],
+      ["#1D7A79", "#1F7F80", "#2DB8B9", "#22FAFB", "#3CF1F2"],//底 柱子
+      ["#1D5E7A", "#1D5E7A", "#257FA6", "#3BC3FE", "#43C6FE"],//中底
+      ["#263580", "#263580", "#344DD0", "#3B5AFE", "#3B5AFE"],//中顶
+      ["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"],//顶
+      ["#1D7A79", "#1F7F80", "#2DB8B9", "#22FAFB", "#3CF1F2"],//底部底部圆
+      ["#ADF4F4", "#5CD4D4"], //底部顶部圆 
+      ["#1D5E7A", "#1D5E7A", "#257FA6", "#3BC3FE", "#43C6FE"],//中底部底部圆
+      ["#3BC3FE", "#00B2FF"],//中底部顶部圆
+      ["#263580", "#263580", "#344DD0", "#3B5AFE", "#3B5AFE"],//中顶部底部圆
+      ["#546FFF", "#95A6FF"], //中顶部顶部圆
+      ["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"],//顶部顶部圆
+      ["#FFEE54", "#F6FF95"], //顶部顶部圆
     ];
     var option = {
       animation: false,
@@ -128,7 +137,7 @@
           type: "bar",
           barMaxWidth: "auto",
           barWidth: 40,
-          itemStyle: getItemStyle(colorCollection[0][colorType]),
+          itemStyle: getItemStyle(colorCollection[0]),
         },
         {
           name: "中底部柱子",
@@ -137,25 +146,25 @@
           type: "bar",
           barMaxWidth: "auto",
           barWidth: 40,
-          itemStyle: getItemStyle(colorCollection[1][colorType]),
+          itemStyle: getItemStyle(colorCollection[1]),
         },
         {
           name: "中顶部柱子",
-          data: data2,
-          stack: "zs",
-          type: "bar",
-          barMaxWidth: "auto",
-          barWidth: 40,
-          itemStyle: getItemStyle(colorCollection[2][colorType]),
-        },
-        {
-          name: "顶部柱子",
           data: data3,
           stack: "zs",
           type: "bar",
           barMaxWidth: "auto",
           barWidth: 40,
-          itemStyle: getItemStyle(colorCollection[3][colorType]),
+          itemStyle: getItemStyle(colorCollection[2]),
+        },
+        {
+          name: "顶部柱子",
+          data: data4,
+          stack: "zs",
+          type: "bar",
+          barMaxWidth: "auto",
+          barWidth: 40,
+          itemStyle: getItemStyle(colorCollection[3]),
         },
         {
           name: "下部底部圆",
@@ -165,7 +174,7 @@
           symbolOffset: [0, "50%"],
           symbolSize: [40, 15],
           zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[3][colorType]),
+          itemStyle: getItemStyle(colorCollection[4]),
         },
         {
           name: "下部顶部圆",
@@ -176,10 +185,10 @@
           symbolOffset: [0, "-50%"],
           symbolSize: [40, 12],
           zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[4][colorType]),
+          itemStyle: getItemStyle(colorCollection[5]),
         },
         {
-          name: "中部底部圆",
+          name: "中底部底部圆",
           data: data1Cir,
           type: "pictorialBar",
           barMaxWidth: "20",
@@ -187,10 +196,10 @@
           symbolOffset: [0, "-60%"],
           symbolSize: [40, 12],
           zlevel: 2,
-          itemStyle: getItemStyle(colorCollection[5][colorType]),
+          itemStyle: getItemStyle(colorCollection[6]),
         },
         {
-          name: "中部顶部圆",
+          name: "中底部顶部圆",
           data: [data1Cir[0] + data2Cir[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
@@ -198,29 +207,51 @@
           symbolOffset: [0, "-50%"],
           symbolSize: [40, 15],
           zlevel: 2,
-          itemStyle: getItemStyle(colorCollection[6][colorType]),
+          itemStyle: getItemStyle(colorCollection[7]),
+        },
+        {
+          name: "中顶部底部圆",
+          data: [data1Cir[0] + data2Cir[0]],
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolPosition: "end",
+          symbolOffset: [0, "-60%"],
+          symbolSize: [40, 12],
+          zlevel: 2,
+          itemStyle: getItemStyle(colorCollection[8]),
+        },
+        {
+          name: "中顶部顶部圆",
+          data: [data1Cir[0] + data2Cir[0]+ data3Cir[0]],
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolPosition: "end",
+          symbolOffset: [0, "-50%"],
+          symbolSize: [40, 15],
+          zlevel: 2,
+          itemStyle: getItemStyle(colorCollection[9]),
         },
         {
           name: "上部底部圆",
-          data: [data1Cir[0] + data2Cir[0]],
+          data: [data1Cir[0] + data2Cir[0]+ data3Cir[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
           symbolOffset: [0, "-60%"],
           symbolSize: [40, 15],
           zlevel: 2,
-          itemStyle: getItemStyle(colorCollection[7][colorType]),
+          itemStyle: getItemStyle(colorCollection[10]),
         },
         {
           name: "上部顶部圆",
-          data: data4,
+          data: data5,
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
           symbolOffset: [0, "-50%"],
           symbolSize: [40, 12],
           zlevel: 2,
-          itemStyle: getItemStyle(colorCollection[8][colorType]),
+          itemStyle: getItemStyle(colorCollection[11]),
           label: {
             normal: {
               show: true,
@@ -240,6 +271,11 @@
 
     if (option && typeof option === "object") {
       myChart.setOption(option);
+      myChart.on("click", function (params) {
+	       console.log('获取点击的数据',params);
+         ue.dtspoi.postevent(`click-${areaCode}`)
+	       //在这里可以拿到数据然后调用需要调用的方法
+        });
     }
 
     function getItemStyle(colorArr) {
