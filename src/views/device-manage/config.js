@@ -53,20 +53,45 @@ export const chargingStationGunTabsFun = () => {
     }
   ];
 };
-export const chargingStationPieDataFun = (code = 1,data={})=>{
-  if(code === 1){
-    return [
-      { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个',isChoose: true },
-      { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个',isChoose: true },
-      { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个',isChoose: true },
-      { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个',isChoose: true }
-    ]
-  }else{
-    return [
-      { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个' },
-      { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' }
-    ]
+export const chargingStationPieDataFun = (code = 1,data={},maintab = 1)=>{
+  if(maintab === 1){
+    // 充电桩
+    if(code === 1){
+      return [
+        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个',isChoose: true },
+        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个',isChoose: true }
+      ]
+    }else{
+      return [
+        { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流桩',  unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.directAndExchangeCount, name: '交直流桩', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G桩', unit: '个' },
+      ]
+    }
+  }else {
+    // 充电枪
+    if(code === 1){
+      return [
+        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充枪',  unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充枪', unit: '个',isChoose: true },
+        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充枪',  unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G枪',  unit: '个',isChoose: true }
+      ]
+    }else{
+      return [
+        { value: data?.chargeCountByElectricityTypeDto?.directCurrentCount, name: '直流枪',  unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流枪', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.directAndExchangeCount, name: '交直流枪', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
+        { value:  data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G枪', unit: '个' },
+      ]
+    }
   }
+
 }
 
 export const areaRankDataFun = () => {
@@ -228,3 +253,103 @@ export const bottomTabDataFun = () => {
     }
   ];
 };
+
+// 设备详情弹窗
+export const columnDataFun = () => {
+  return [
+    // {
+    //   type: 'index',
+    //   label: '序号',
+    //   index:(index)=>(pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
+    //   minWidth:1
+    // },
+    {
+      prop: 'stationName',
+      label: '充电站名称',
+      minWidth:2.8
+    },
+    {
+      prop: 'operatorName',
+      label: '运营企业名称',
+      minWidth:2
+    },
+    {
+      prop: 'areaName',
+      label: '所属区域',
+      minWidth:1,
+      filterMultiple: true
+    },
+    {
+      prop: 'equipmentCount',
+      label: '充电桩',
+      minWidth:1,
+      sortable: 'custom',
+    },
+    {
+      prop: 'gunCount',
+      label: '充电枪',
+      minWidth:1,
+      sortable: 'custom',
+    },
+    {
+      prop: 'equipmentPower',
+      label: '额定总功率/kw',
+      minWidth:2,
+      sortable: 'custom',
+    },
+  ]
+}
+// 数据过滤的选项
+export const  filters =[
+  {
+    id: 1,
+    label: '全部',
+    children:[
+      {
+        id: 440303,
+        label: '罗湖区',
+      },
+      {
+        id: 440304,
+        label: '福田区',
+      },
+      {
+        id: 440305,
+        label: '南山区',
+      },
+      {
+        id: 440306,
+        label: '宝安区',
+      },
+      {
+        id: 440307,
+        label: '龙岗区',
+      },
+      {
+        id: 440308,
+        label: '盐田区',
+      },
+      {
+        id: 440309,
+        label: '龙华区',
+      },
+      {
+        id: 440310,
+        label: '坪山区',
+      },
+      {
+        id: 440311,
+        label: '光明区',
+      },
+      {
+        id: 440343,
+        label: '大鹏新区',
+      },
+      {
+        id: 441521,
+        label: '深汕特别合作区',
+      },
+    ]
+  }
+]
+

@@ -48,6 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
   btnText: '查看更多',
   showBtn: false,
   showTabBtn: false,
+  // 按钮 [{value:'xxx',name:'xxx'}]
   tabList: ()=>[]
 });
 const curBtn = ref(props.showTabBtn?props.tabList?.[0].value:'')
