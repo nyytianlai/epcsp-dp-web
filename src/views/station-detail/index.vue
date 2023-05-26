@@ -328,6 +328,10 @@ watch(()=>store.detailParams,() => {
   getStationRealTimePowerByStationId();
   getWarningStatisticByStationId();
   getButtomMenuData()
+  if(store.detailParams?.equipmentId){
+      focusToPile(store.detailParams.equipmentId,255)
+  }
+
 }, {
   deep: true,
   immediate:true

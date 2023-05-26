@@ -116,12 +116,12 @@ export const warningMonitorTabsFun = () => {
     }
   ];
 };
-export const warningMonitorPieDataFun = (code = 1,data={}) => {
+export const warningMonitorPieDataFun = (code = 1, data = {}) => {
   if (code === 1) {
     return [
-      { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个' },
-      { value: data['2'], name: '二级设备安全', extraName: '设备安全', unit: '个' },
-      { value: data['3'], name: '三级告警提示', extraName: '告警提示', unit: '个' }
+      { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个', isChoose: true },
+      { value: data['2'], name: '二级设备安全', extraName: '设备安全', unit: '个', isChoose: true },
+      { value: data['3'], name: '三级告警提示', extraName: '告警提示', unit: '个', isChoose: true }
     ];
   } else {
     return [
@@ -180,12 +180,14 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateBlueB,
         num: data?.safeWarningStationStatisticVo?.normalCount,
         name: '正常/个',
-        ...formatStyle()
+        ...formatStyle(),
+        isChoose: true
       },
       {
         img: stateYellowB,
         num: data?.safeWarningStationStatisticVo?.warningCount,
         name: '预警/个',
+        isChoose: true,
         ...formatStyle({
           numStyle: {
             color: '#FFB713'
@@ -196,6 +198,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateGrayB,
         num: data?.safeWarningStationStatisticVo?.offlineCount,
         name: '未上线/个',
+        isChoose: true,
         ...formatStyle({
           numStyle: {
             color: '#FFFFFF'
@@ -294,7 +297,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
   }
 };
 
-export const realtimeTrendFun = (data = []) => {
+export const realtimeTrendFun = (data = [], type = 1) => {
   // const timeData = () =>
   //   new Array(25)
   //     .fill(0)
@@ -310,15 +313,42 @@ export const realtimeTrendFun = (data = []) => {
   //     name: '告警数'
   //   }
   // ];
-  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  return [
-    {
-      data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
-      type: 'line',
-      smooth: true,
-      name: '告警数'
-    }
-  ];
+
+  if (type === 1) {
+    // 日
+
+    return [
+      {
+        data: data.map((item) => [item.time + ':00:00', item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  } else if (type === 2) {
+    // 周
+
+    return [
+      {
+        data: data.map((item) => [item.time, item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  } else {
+    // 月
+    const yearMonthDay = dayjs().format('YYYY-');
+    return [
+      {
+        data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  }
+
 };
 
 export const bottomTabDataFun = () => {
@@ -339,46 +369,88 @@ export const columnDataFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      minWidth:2.8
+      minWidth: 2.8
     },
     {
       prop: 'stationName',
       label: '充电站名称',
-      minWidth:'1'
+      minWidth: '1'
     },
     {
       prop: 'alarmLevelName',
       label: '告警级别',
-      minWidth:1
-    },
-    {
-      prop: 'alarmDesc',
-      label: '告警描述',
-      minWidth:'2'
+      minWidth: 1,
+      filterMultiple: true
     },
     {
       prop: 'alarmTypeName',
       label: '告警类型',
-      minWidth:'1'
+      minWidth: '1'
+    },
+    {
+      prop: 'alarmDesc',
+      label: '告警描述',
+      minWidth: '2'
     },
     {
       prop: 'alarmTime',
       label: '告警时间',
-      minWidth:2
+      minWidth: 2
     },
     {
       prop: 'contactPerson',
       label: '安全负责人',
-      minWidth:1
+      minWidth: 1
     },
     {
       prop: 'contactTel',
       label: '联系电话',
-      minWidth:1.8
+      minWidth: 1.8
     },
   ]
-};
-
+}
+// 数据过滤的选项
+export const filtersAlarmLevelName = [
+  {
+    id: 'all',
+    label: '全部',
+    children: [
+      {
+        id: '1',
+        label: '一级人身安全',
+      },
+      {
+        id: '2',
+        label: '二级设备安全',
+      },
+      {
+        id: '3',
+        label: '三级告警提示',
+      },
+    ]
+  }
+]
+// 警告类型数据过滤的选项
+export const filtersAlarmTypeName = [
+  {
+    id: 'all',
+    label: '全部',
+    children: [
+      {
+        id: '1',
+        label: '充电系统',
+      },
+      {
+        id: '2',
+        label: '电池系统',
+      },
+      {
+        id: '3',
+        label: '配电系统',
+      },
+    ]
+  }
+]
 export const columnKeyListFun = (type = 1) => {
   return [
     {
@@ -399,10 +471,22 @@ export const messageColumnKeyListFun = (type = 1) => {
       label: type === 1 ? '运营商名称' : '充电站名称',
       minWidth: 4
     },
-    { prop: 'cnt', label: '告警总数', minWidth: 1.5 },
-    { prop: 'unAffirmCnt', label: '未确认', minWidth: 1.5 },
-    { prop: 'affirmCnt', label: '已确认', minWidth: 1.5 },
-    { prop: 'recCnt', label: '已恢复', minWidth: 1.5 },
+    {
+      prop: 'cnt', label: '告警总数', minWidth: 1.5, sortable: 'custom',
+      sortOrders: ['ascending', 'descending']
+    },
+    {
+      prop: 'unAffirmCnt', label: '未确认', minWidth: 1.5, sortable: 'custom',
+      sortOrders: ['ascending', 'descending']
+    },
+    {
+      prop: 'affirmCnt', label: '已确认', minWidth: 1.5, sortable: 'custom',
+      sortOrders: ['ascending', 'descending']
+    },
+    {
+      prop: 'recCnt', label: '已恢复', minWidth: 1.5, sortable: 'custom',
+      sortOrders: ['ascending', 'descending']
+    },
     { prop: 'contactPerson', label: '负责人', minWidth: 1.5 },
     { prop: 'contactTel', label: '联系电话', minWidth: 2 }
   ];

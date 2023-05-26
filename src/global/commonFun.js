@@ -28,7 +28,6 @@ export const formatWithToLocalString = (
 }
   
 export const tableColumnFun = (row, column, cellValue, index) => {
-  console.log(column,cellValue)
   // console.log(row, column, cellValue, index);
   if (!cellValue && cellValue !== 0) {
     return '--'

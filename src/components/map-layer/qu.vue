@@ -18,6 +18,7 @@ import request from '@sutpc/axios';
 import {
   layerNameQuNameArr,
   infoObj,
+  quView,
   getImageUrl,
   getImageByCloud,
   quNameCodeInterTrans,
@@ -28,21 +29,25 @@ import {
   getTreeLayerIdByName,
   hideAllStation3dt
 } from '@/global/config/map';
-import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
+import { pointIsInPolygon, Cartesian2D, GCJ02_2_4547 } from '@/utils/index';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
+import { getHtmlUrl } from '@/global/config/map';
+
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
 interface Props {
   buttomTabCode?: number | string;
+  module: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  buttomTabCode: ''
+  buttomTabCode: '',
+  module: 0
 });
 
 const aircityObj = inject('aircityObj');
@@ -61,31 +66,40 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
   console.log('事件监听', e);
-  if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Id?.includes('区')) {
-      let quName = e.Id.split('-')[1];
-      if (quName === currentQu.value) {
-        return;
+  if (e.eventtype === 'MarkerCallBack') {
+    if (e.Data == 'closeStationHighLight') {
+      //关闭 点击非高渲染站点添加的动态圈圈
+      __g.radiationPoint.clear();
+    }
+    if (e.Data.includes('click')) {
+      let areaCode = e.Data.split('-')[1];
+      if (e.ID?.includes('区')) {
+        let quName = e.ID.split('-')[1];
+        if (quName === currentQu.value) {
+          return;
+        }
+        store.changeLastQu(currentQu.value);
+        store.changeCurrentQu(quName);
+        store.changeCurrentPosition(quName);
+        __g.camera.set(...quView[currentQu.value]);
+        setQuVisibility(false);
+        addJdData(quName);
+        setTimeout(async () => {
+          await __g.settings.setEnableCameraMovingEvent(true);
+        }, 2000);
       }
-      store.changeLastQu(currentQu.value);
-      store.changeCurrentQu(quName);
-      store.changeCurrentPosition(quName);
-      __g.polygon.focus('qu-' + currentQu.value, 11000);
-      setQuVisibility(false);
-      addJdData(quName);
-      setTimeout(async () => {
-        await __g.settings.setEnableCameraMovingEvent(true);
-      }, 2000);
+      if (e.ID?.includes('街道')) {
+        let jdName = e.ID.split('-')[1];
+        store.changeLastJd(currentJd.value);
+        store.changeCurrentJd(jdName);
+        store.changeCurrentPosition(jdName);
+        __g.polygon.focus('jd-' + currentJd.value, 1500);
+        deleteSingleJdData();
+        addStationPoint(areaCode);
+      }
     }
-    if (e.Id?.includes('街道')) {
-      let jdName = e.Id.split('-')[1];
-      store.changeLastJd(currentJd.value);
-      store.changeCurrentJd(jdName);
-      store.changeCurrentPosition(jdName);
-      __g.polygon.focus('jd-' + currentJd.value, 1500);
-      deleteSingleJdData();
-      addStationPoint(e.UserData);
-    }
+  }
+  if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Id?.includes('station')) {
       let stationInfo = JSON.parse(e.UserData);
       console.log('stationInfo', stationInfo);
@@ -93,6 +107,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       if (stationInfo.isHr !== 0) {
         //普通站点
         __g.marker.focus(e.Id, 100);
+        highLightNormalStation(JSON.parse(e.UserData));
         enterStationInfo(stationInfo);
         return;
       }
@@ -116,6 +131,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
     //当前不处于站点内
     const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
+    // addCenterPoint([centerCoord[0], centerCoord[1]])
     let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
     // console.log('cameraQuName', cameraQuName);
     let cameraJdInfo = pointInWhichStreet([centerCoord[0], centerCoord[1]], cameraQuName);
@@ -135,9 +151,69 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
   }
   if (e.eventtype === 'MouseHovered' && (e.Id?.includes('区') || e.Id?.includes('街道'))) {
-
   }
 });
+
+const highLightNormalStation = async (obj) => {
+  __g.radiationPoint.clear();
+  let o = {
+    id: '1',
+    coordinate: [obj.lng, obj.lat], //辐射圈坐标位置
+    coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
+    radius: 300, //辐射半径
+    rippleNumber: 3, //波纹数量
+    color: [0, 1, 1, 0.5], //颜色
+    intensity: 0.1, //亮度
+    autoHeight: false //自动判断下方是否有物体
+  };
+  await __g.radiationPoint.add(o);
+  __g.radiationPoint.focus(o.id, 200, 1);
+};
+
+const addCenterPoint = async (point) => {
+  __g.marker.clear();
+  //支持经纬度坐标和普通投影坐标两种类型
+  let o1 = {
+    id: 'm1',
+    groupId: 'markerAdd',
+    coordinate: point, //坐标位置
+    coordinateType: 0, //默认0是投影坐标系，也可以设置为经纬度空间坐标系值为1
+    anchors: [-25, 50], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [50, 50], //图片的尺寸
+    hoverImageSize: [50, 50], //鼠标悬停时显示的图片尺寸
+    range: [1, 100000], //可视范围
+    imagePath: `${import.meta.env.VITE_FD_URL}` + '/samples/images/tag.png', //显示图片路径
+    hoverImagePath: `${import.meta.env.VITE_FD_URL}` + '/samples/images/hilightarea.png', // 鼠标悬停时显示的图片路径
+    fixedSize: true, //图片固定尺寸，取值范围：false 自适应，近大远小，true 固定尺寸，默认值：false
+
+    text: '北京银行', //显示的文字
+    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+    textRange: [1, 1000], //文本可视范围[近裁距离, 远裁距离]
+    textOffset: [0, 0], // 文本偏移
+    textBackgroundColor: '#389a4c', //文本背景颜色
+    fontSize: 24, //字体大小
+    fontOutlineSize: 1, //字体轮廓线大小
+    fontColor: '#ffffff', //字体颜色
+    fontOutlineColor: '#1f1f1f', //字体轮廓线颜色
+
+    showLine: true, //标注点下方是否显示垂直牵引线
+    lineSize: [2, 100], //垂直牵引线宽度和高度[width, height]
+    lineColor: '#dc2123', //垂直牵引线颜色
+    lineOffset: [0, 0], //垂直牵引线偏移
+
+    autoHidePopupWindow: true, //失去焦点后是否自动关闭弹出窗口
+    autoHeight: false, // 自动判断下方是否有物体
+    displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式
+    clusterByImage: true, // 聚合时是否根据图片路径分类，即当多个marker的imagePath路径参数相同时按路径对marker分类聚合
+    priority: 0, //避让优先级
+    occlusionCull: false //是否参与遮挡剔除
+  };
+
+  let markerArr = [];
+  markerArr.push(o1);
+  //海量poi添加请使用批量添加 提供效率
+  await __g.marker.add(markerArr);
+};
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
   store.changeCurrentPositionBak(currentPosition.value);
   if (currentPosition.value.includes('区')) {
@@ -176,15 +252,12 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 };
 
 const setQuVisibility = async (value: boolean) => {
-  // value
-  //   ? __g.polygon.show(layerNameQuNameArr('qu'))
-  //   : __g.polygon.hide(layerNameQuNameArr('qu'));
-  value
-    ? await __g.customTag.show(layerNameQuNameArr('rectBar' + props.buttomTabCode))
-    : await __g.customTag.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
-  // value
-  //   ? await __g.marker.show(layerNameQuNameArr('quName'))
-  //   : await __g.marker.hide(layerNameQuNameArr('quName'));
+  if (value) {
+    await __g.marker.show(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+    await __g.marker.showAllPopupWindow();
+  } else {
+    await __g.marker.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+  }
 };
 const deleteJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
@@ -198,7 +271,7 @@ const deleteJdData = async () => {
       return 'jdName-' + i;
     })
   );
-  await __g.customTag.delete(
+  await __g.marker.delete(
     ids.map((i) => {
       return `rectBar${props.buttomTabCode}-` + i;
     })
@@ -207,7 +280,7 @@ const deleteJdData = async () => {
 };
 const deleteSingleJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
-  await __g.customTag.delete(
+  await __g.marker.delete(
     ids.map((i) => {
       return `rectBar${props.buttomTabCode}-` + i;
     })
@@ -264,7 +337,7 @@ const resetQu = async () => {
   await addJdData(currentQu.value);
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
-  __g.polygon.focus('qu-' + currentQu.value, 13000);
+  __g.camera.set(...quView[currentQu.value]);
   store.changeLastJd(currentJd.value);
   store.changeCurrentJd('');
 };
@@ -273,7 +346,7 @@ const resetSz = async (value = true) => {
   await __g.settings.setEnableCameraMovingEvent(false);
   await deleteJdData();
   await __g.marker.deleteByGroupId('jdStation');
-  value ? setQuVisibility(true) : '';
+  value ? await setQuVisibility(true) : '';
   await __g.camera.set(infoObj.szView, 0.2);
   store.changeCurrentPosition('深圳市');
   store.changeCurrentPositionBak('');
@@ -283,7 +356,7 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.buttomTabCode == '' ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否
@@ -305,6 +378,13 @@ const addJdStation = async (jdCode: string) => {
       imageSize: [55, 150], //图片的尺寸
       range: [1, 150000], //可视范围
       imagePath: getImageByCloud('chargeStation50'),
+      popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
+        item.stationName
+      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
+      popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
+      popupSize: [425, 57], //弹窗大小
+      popupOffset: [-210, -157], //弹窗偏移
+      autoHidePopupWindow: false,
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
@@ -313,13 +393,9 @@ const addJdStation = async (jdCode: string) => {
       fontSize: 16, //字体大小
       fontOutlineSize: 1, //字体轮廓线大小
       fontColor: '#FFFFFF', //字体颜色
-      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
       displayMode: 2,
       autoDisplayModeSwitchFirstRatio: 0.5,
       autoDisplayModeSwitchSecondRatio: 0.5,
-      // displayMode: 4,
-      // autoDisplayModeSwitchFirstRatio: 0.5,
-      // autoDisplayModeSwitchSecondRatio: 0.5,
       autoHeight: true
     };
     if (item.isHr == 0) {
@@ -521,7 +597,7 @@ const addWall = async () => {
     id: 'wall', //3DPolygon唯一标识id
     coordinates: res.features[0].geometry.coordinates, //构成3DPolygon的坐标点数组
     color: '#5bb7d2', //3DPolygon颜色
-    height: 800, //3D多边形的高度
+    height: -800, //3D多边形的高度
     intensity: 1.0, //亮度
     style: 1, //3DPolygon的样式 请参照API开发文档选取枚举
     generateTop: false, //是否生成顶面
@@ -609,7 +685,7 @@ onMounted(async () => {
   await __g.reset();
   hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
-  await __g.settings.setMousePickMask(0);
+  // await __g.settings.setMousePickMask(0);
   let res = await requestGeojsonData('qu4547');
   quFeatures = res.features;
   addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');

@@ -12,6 +12,10 @@ const timeParams = () => ({
   startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
   endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
 });
+const timeOnNow = ()=>({
+  startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+  endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+})
 // 总览上面4个指标
 export const overTotalCount = () => {
   return request.get({
@@ -25,12 +29,10 @@ export const totalFacilities = () => {
   });
 };
 // 充电桩总量：pile，充电枪总量：gun
-export const totalEquipment = (type) => {
+export const totalEquipment = (data) => {
   return request.post({
     url: '/dp/api/v1/overview/totalEquipment',
-    data: {
-      type
-    }
+    data
   });
 };
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
@@ -88,7 +90,7 @@ export const dayPower = () => {
   return request.post({
     url: '/dp/api/v1/overview/dayPower',
     data: {
-      ...timeParams()
+      ...timeOnNow()
     }
   });
 };
@@ -123,3 +125,34 @@ export const timePowerGraph = () => {
     }
   });
 };
+
+// 总览-运营商企业排名列表
+export const operatorInfoList = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/overview/operatorInfoList',
+    data
+  });
+};
+// 总览-运营商基本信息
+export const operatorBasicInfo = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/overview/operatorBasicInfo',
+    data
+  });
+};
+// 充电设施
+export const equInfo = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/overview/equInfo',
+    data
+  });
+};
+// 充电设施列表
+export const stationInfoList = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/overview/stationInfoList',
+    data
+  });
+};
+
+

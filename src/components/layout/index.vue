@@ -21,8 +21,14 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady"></base-ac>
+        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
+          <hawk-eye></hawk-eye>
+        </base-ac>
         <expand-btn />
+        <div class="backBox">
+          <img src="./images/back.png" alt="" @click="router.go(-1)" />
+        </div>
+        <div class="name">充电站</div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -47,6 +53,7 @@ import { ref, computed, onMounted, provide, nextTick } from 'vue';
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
+import HawkEye from '@/components/map-layer/hawk-eye.vue';
 import TimeWeather from './components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
@@ -55,9 +62,11 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { storeToRefs } from 'pinia';
 import { h } from 'vue';
+import {useRouter} from 'vue-router'
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const wrapperMap = new Map();
+const router = useRouter()
 const props = defineProps({
   title: {
     type: String,
@@ -167,8 +176,8 @@ provide('aircityObj', aircityObj);
 }
 .time-weather-wrap {
   position: absolute;
-  top: 52px;
-  right: 40px;
+  top: 38px;
+  right: 20px;
   z-index: 999;
 }
 
@@ -243,5 +252,37 @@ provide('aircityObj', aircityObj);
   position: absolute;
   top: 0;
   left: 0;
+}
+.backBox {
+  position: absolute;
+  height: 36px;
+  left: 86px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 20;
+  cursor: pointer;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 1px;
+  }
+}
+.name {
+    position: absolute;
+  height: 36px;
+  left: 146px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 20;
+  padding: 7px 16px;
+  color: #fff;
+
 }
 </style>

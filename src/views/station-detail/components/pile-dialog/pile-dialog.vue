@@ -150,7 +150,7 @@ provide('pileData',pileData)
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
-  height: 582px;
+  min-height: 542px;
   clip-path: polygon(
     0 0,
     100% 0,

@@ -42,7 +42,7 @@ export const getAlarmUpStatics = () => {
 
 // 累计告警数据信息
 export const safetySupervisionAccumulated = (params) => {
-  return request.get({
+  return request.post({
     url: '/safetySupervision/safetySupervisionAccumulated',
     data: {
       ...params
@@ -51,9 +51,10 @@ export const safetySupervisionAccumulated = (params) => {
 };
 
 // 行政区告警数据
-export const districtAlarmStatics = () => {
+export const districtAlarmStatics = (data) => {
   return request.get({
-    url: '/safetySupervision/districtAlarmStatics'
+    url: '/safetySupervision/districtAlarmStatics',
+    data
   });
 };
 

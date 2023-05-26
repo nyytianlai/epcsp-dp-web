@@ -1,4 +1,5 @@
 import { booleanPointInPolygon, point, polygon } from '@turf/turf';
+import { gcj02ToWgs84 } from '@sutpc/zebra';
 import proj4 from 'proj4';
 proj4.defs('EPSG:4490', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
 proj4.defs(
@@ -19,6 +20,13 @@ export const GK114_2_projectCGCS2000 = (coord: Cartesian2D) => {
   return GK114_2_CGCS2000.forward(coord);
 };
 
+//火星坐标转4547
+export const GCJ02_2_4547 = (lon: number, lat: number) => {
+  const coord84 = gcj02ToWgs84(lon, lat);
+  const coord4547 = projectCGCS2000_2_GK114(coord84);
+  return coord4547;
+};
+
 //点是否在面内
 export const pointIsInPolygon = (pointCoord, polygonCoord) => {
   var pt = point(pointCoord);
@@ -26,4 +34,17 @@ export const pointIsInPolygon = (pointCoord, polygonCoord) => {
   // var poly = polygonCoord;
 
   return booleanPointInPolygon(pt, poly);
+};
+
+// 深拷贝
+// 深拷贝
+export const deepClone = (obj) => {
+  if (!obj || typeof obj !== 'object') {
+    return obj;
+  }
+  const res = obj instanceof Array ? [] : {};
+  for (const i in obj) {
+    res[i] = deepClone(obj[i]);
+  }
+  return res;
 };
