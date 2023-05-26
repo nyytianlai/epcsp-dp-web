@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      #pop-panel{
+        display: flex;
+        justify-content: space-between;
+        height: 100%; 
+        width: 100%;
+        background: url('../images/stationPopLeft.png') no-repeat;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 31px;
+        text-align: center;
+
+        color: #FFFFFF;
+        /* -webkit-clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+        clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+        background: #030C10;
+        opacity: 0.8;
+        border: 2px solid #FBBE5E;
+        box-shadow: 0px 0px 50px #F7BD31;
+        border-radius: 0.5px;
+*/
+      }
+      #left{
+        margin: 14px 0 0 40px;
+      }
+      #right{
+          width:57.49px;
+          height: 34px;
+          background: url('../images/stationPopRight.png') no-repeat;
+          margin-top: 13.1px;
+          cursor:pointer
+      }
+    </style>
+  </head>
+
+  <body style="height: 100%; width: 100%; margin: 0">
+    <div id="pop-panel">
+      <div id="left"></div>
+      <div id="right" onclick="cli1()">X</div>
+    </div>
+    <script type="text/javascript">
+       var urlParams = new URLSearchParams(location.search);
+       let stationName = urlParams.get("value");
+       let element=document.getElementById("left")
+       element.innerHTML=stationName
+       function cli1(){
+        ue.dtspoi.postevent(`closeStationHighLight`)
+        ue.dtspoi.closewindow();
+       }
+    </script>
+  </body>
+</html>
