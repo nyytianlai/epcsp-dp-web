@@ -284,18 +284,21 @@ export const columnDataFun = () => {
       label: '充电桩',
       minWidth:1,
       sortable: 'custom',
+      sortOrders: ['ascending','descending']
     },
     {
       prop: 'gunCount',
       label: '充电枪',
       minWidth:1,
       sortable: 'custom',
+      sortOrders: ['ascending','descending']
     },
     {
       prop: 'equipmentPower',
       label: '额定总功率/kw',
       minWidth:2,
       sortable: 'custom',
+      sortOrders: ['ascending','descending']
     },
   ]
 }

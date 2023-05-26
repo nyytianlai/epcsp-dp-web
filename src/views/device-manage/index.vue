@@ -80,6 +80,7 @@
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
+      
       :default-sort="{ prop: 'equipmentPower', order: 'descending' }"
     >
       <el-table-column
@@ -89,6 +90,7 @@
         :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
         :sortable="item.sortable"
+        :sort-orders="item.sortOrders"
       >
         <template #header v-if="item.prop === 'areaName'">
           <div class="areaName">
@@ -408,9 +410,10 @@ onMounted(() => {
   getSelectStationInfoByPage()
 })
 const handleChangeTab = (data, type) => {
-  totalCurCode.value = data.code
+  
   if (type === 'charging-station') {
     //切换充电桩数量信息
+    totalCurCode.value = data.code
     getSelectChargeCount(data.code,bottomBtnCur.value)
   } else if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态

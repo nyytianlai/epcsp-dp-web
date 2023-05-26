@@ -51,9 +51,10 @@ export const safetySupervisionAccumulated = (params) => {
 };
 
 // 行政区告警数据
-export const districtAlarmStatics = () => {
+export const districtAlarmStatics = (data) => {
   return request.get({
-    url: '/safetySupervision/districtAlarmStatics'
+    url: '/safetySupervision/districtAlarmStatics',
+    data
   });
 };
 

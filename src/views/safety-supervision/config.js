@@ -119,9 +119,9 @@ export const warningMonitorTabsFun = () => {
 export const warningMonitorPieDataFun = (code = 1, data = {}) => {
   if (code === 1) {
     return [
-      { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个' },
-      { value: data['2'], name: '二级设备安全', extraName: '设备安全', unit: '个' },
-      { value: data['3'], name: '三级告警提示', extraName: '告警提示', unit: '个' }
+      { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个',isChoose:true },
+      { value: data['2'], name: '二级设备安全', extraName: '设备安全', unit: '个',isChoose:true },
+      { value: data['3'], name: '三级告警提示', extraName: '告警提示', unit: '个',isChoose:true }
     ];
   } else {
     return [
@@ -180,12 +180,14 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateBlueB,
         num: data?.safeWarningStationStatisticVo?.normalCount,
         name: '正常/个',
-        ...formatStyle()
+        ...formatStyle(),
+        isChoose:true
       },
       {
         img: stateYellowB,
         num: data?.safeWarningStationStatisticVo?.warningCount,
         name: '预警/个',
+        isChoose:true,
         ...formatStyle({
           numStyle: {
             color: '#FFB713'
@@ -196,6 +198,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateGrayB,
         num: data?.safeWarningStationStatisticVo?.offlineCount,
         name: '未上线/个',
+        isChoose:true,
         ...formatStyle({
           numStyle: {
             color: '#FFFFFF'
@@ -294,7 +297,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
   }
 };
 
-export const realtimeTrendFun = (data = []) => {
+export const realtimeTrendFun = (data = [],type = 1) => {
   // const timeData = () =>
   //   new Array(25)
   //     .fill(0)
@@ -310,15 +313,42 @@ export const realtimeTrendFun = (data = []) => {
   //     name: '告警数'
   //   }
   // ];
-  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  return [
-    {
-      data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
-      type: 'line',
-      smooth: true,
-      name: '告警数'
-    }
-  ];
+  
+  if(type === 1){
+    // 日
+
+    return [
+      {
+        data: data.map((item) => [item.time+':00:00', item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  }else if(type === 2){
+    // 周
+
+    return [
+      {
+        data: data.map((item) => [item.time, item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  }else {
+    // 月
+    const yearMonthDay = dayjs().format('YYYY-');
+    return [
+      {
+        data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  }
+
 };
 
 export const bottomTabDataFun = () => {

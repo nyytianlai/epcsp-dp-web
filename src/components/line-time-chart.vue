@@ -25,6 +25,8 @@ interface Props {
   unit?: string;
   colors?: string[];
   customOption?: object;
+  // 模式
+  mode?: string|boolean
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -34,10 +36,12 @@ const props = withDefaults(defineProps<Props>(), {
   unit: '个',
   colors: () => ['green', 'blue'],
   data: () => [],
-  customOption: () => ({})
+  customOption: () => ({}),
+  mode: false
 });
 
 const { data, chartStyle, unit, colors, customOption } = toRefs(props);
+
 const ecOption = ref();
 const colorMap = {
   green: {
@@ -177,6 +181,7 @@ function simplifyNum(number) {
   if (!number && number != 0) return number;
   var str_num;
   if (number >= 1e3 && number < 1e4) {
+
     str_num = number / 1e3;
     return str_num + '千';
   } else if (number >= 1e4 && number < 1e7) {
@@ -220,7 +225,7 @@ const ecOptionFun = () => {
     },
     xAxis: {
       name: '',
-      type: 'time',
+      type: props.mode?'category':'time',
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -304,7 +309,125 @@ const ecOptionFun = () => {
       ...data.value,
       {
         type: 'line',
-        data: timeData(),
+        data:  timeData(),
+        symbolSize: 0,
+        showSymbol: false,
+        lineStyle: {
+          color: 'transparent'
+        },
+        tooltip: {
+          show: false
+        }
+      }
+    ]
+  };
+  option = merge(option, {
+    series: colors.value.map((item) => colorMap[item]),
+    ...customOption.value
+  });
+
+  return option;
+};
+const ecOptionFunMode = () => {
+  let option = {
+    grid: {
+      top: 30,
+      bottom: 24,
+      right: 15,
+      left: 42
+    },
+    legend: {
+      itemWidth: 16,
+      itemHeight: 10,
+      right: 0,
+      top: 0,
+      textStyle: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 14,
+        color: '#C6D1DB'
+      }
+    },
+    xAxis: {
+      name: '',
+      type: 'category',
+      data: data.value[0].data?.map(i=>i[0]),
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC',
+      },
+      splitLine: {
+        show: false
+      },
+    },
+    yAxis: {
+      name: '',
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
+      }
+    },
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const dataTime = params[0].axisValueLabel;
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${dataTime}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
+              <span class="unit">${unit.value}</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
+      }
+    },
+    series: [
+      ...data.value,
+      {
+        type: 'line',
+        data:  timeData(),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {
@@ -326,7 +449,8 @@ const ecOptionFun = () => {
 watch(
   data,
   () => {
-    ecOption.value = ecOptionFun();
+    console.log('data111',data.value)
+    ecOption.value = props.mode?ecOptionFunMode():ecOptionFun();
   },
   {
     immediate: true

@@ -21,7 +21,7 @@
       <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
     </div>
     <div class="area-warning-num">
-      <title-column title="行政区告警数据" />
+      <title-column title="行政区告警数据"  :showTabBtn="true" :tabList="[{value:1,name:'日'},{value:2,name:'月'},{value:3,name:'年'}]"   @handleTabBtn="handleWarmYearBtn"/>
       <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="3.7rem" />
     </div>
   </panel>
@@ -37,7 +37,7 @@
         :data="warningMonitorTabs"
         @changeTab="(data) => handleChangeTab(data, 'warning-monitor')"
       />
-      <pie-chart :data="warningMonitorPieData" />
+      <pie-chart :data="warningMonitorPieData" :mode="totalCurCode === 1 ? 'canChoose' : 'default'" @choose="handleChoose"/>
     </div>
     <div class="realtime-state">
       <title-column title="实时状态情况" />
@@ -47,16 +47,17 @@
       />
       <div class="num-wrap">
         <template v-for="(item, index) in realtimeStateData" :key="index">
-          <num-card :data="item" />
+          <num-card :data="item" @click="handleBall(item)" :class="{'ball-active':nowStatus === 3&&item.isChoose, cursor:nowStatus === 3 }"/>
         </template>
       </div>
     </div>
     <div class="realtime-trend">
-      <title-column title="实时告警趋势情况" />
+      <title-column title="实时告警趋势情况" :showTabBtn="true" :tabList="[{value:1,name:'日'},{value:2,name:'周'},{value:3,name:'月'}]"  @handleTabBtn="handleYearBtn"/>
       <line-time-chart
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
         :colors="['#FF6B4B']"
+        :mode="true"
       />
     </div>
   </panel>
@@ -156,6 +157,7 @@ import {
   getOnlineStatus,
   alarmInfo
 } from './api.js';
+import { dataType } from 'element-plus/es/components/table-v2/src/common';
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
@@ -166,18 +168,23 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 告警级别tab高亮
+const totalCurCode = ref(1)
 // 累计告警数据信息弹窗显隐
 const dialogTableMessageVisible = ref(false);
 const messageDialogTitle = ref('运营商告警列表');
 const messageColumnData = ref(messageColumnKeyListFun());
 const messageTableData = ref([]);
 const messageWarningType = ref(1);
+// 告警趋势
+const dayTypeAlarm = ref(1)
 //地图底部tab切换
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
   mapLayerRef.value.buttomTabChange(item.code);
 };
-
+// 充电桩实时按钮
+const nowStatus  = ref(3)
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const getAlarmUpStaticsData = async () => {
@@ -197,7 +204,8 @@ const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 
   let { data } = await safetySupervisionAccumulated(params);
   return data;
 };
-
+// 左二的时间类型
+const dayTypeWarn = ref(1)
 const handleClickMessageBtn = async () => {
   pageObj.currentPage = 1;
   messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
@@ -218,7 +226,7 @@ const areaRankData = ref();
 // const areaTotalNum = ref(6399);
 const areaTotalNum = ref();
 const getDistrictAlarmStatics = async () => {
-  let { data } = await districtAlarmStatics();
+  let { data } = await districtAlarmStatics({dayType:dayTypeWarn.value});
   let newData = data?.map((item) => {
     return {
       ...item,
@@ -289,9 +297,11 @@ const realtimeStateTabs = ref(realtimeStateTabsFun());
 const realtimeStateData = ref(realtimeStateDataFun());
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
-const getAlarmLevelAndTypeByTIme = async (param) => {
-  let { data } = await alarmLevelAndTypeByTIme(param);
-  realtimeTrend.value = realtimeTrendFun(data || []);
+const getAlarmLevelAndTypeByTIme = async () => {
+  let { data } = await alarmLevelAndTypeByTIme({dayType:dayTypeAlarm.value});
+  console.log('data',data)
+  console.log('dayTypeAlarm',dayTypeAlarm.value)
+  realtimeTrend.value = realtimeTrendFun(data || [],dayTypeAlarm.value);
 };
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
@@ -304,6 +314,7 @@ const handleChangeTab = async (data, type) => {
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    totalCurCode.value = data.code
     let obj = {
       type: data.code,
       // startTime:'2023-04-03 14:22:34',
@@ -314,6 +325,7 @@ const handleChangeTab = async (data, type) => {
     getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
     // 实时状态情况
+    nowStatus.value = data.code
     getOnlineStatusData(data.code);
   }
 };
@@ -360,7 +372,34 @@ const handPageChange = async (value, type) => {
     getTableAlarm();
   }
 };
+// 右三日周年点击
+const handleYearBtn = (value)=>{
+  console.log(value)
+  dayTypeAlarm.value = value.value
+  getAlarmLevelAndTypeByTIme();
 
+}
+// 左二行政区
+const handleWarmYearBtn = (value) =>{
+  console.log(value)
+  dayTypeWarn.value = value.value
+  console.log('dataType.value',dayTypeWarn.value)
+  getDistrictAlarmStatics()
+}
+
+// 告警选中
+const handleChoose = (item)=>{
+  console.log('告警选中',item)
+  // todo
+}
+// 实时状态球选中
+const handleBall = (item)=>{
+  
+  if(nowStatus.value !==3) return
+  item.isChoose = !item.isChoose
+  console.log('ball',item)
+  // todo
+}
 onMounted(async () => {
   let obj = {
     type: 1,
@@ -372,12 +411,7 @@ onMounted(async () => {
   getAlarmUpStaticsData();
   getDistrictAlarmStatics();
   getAlarmLevelAndTypeByTime(obj);
-  getAlarmLevelAndTypeByTIme({
-    // startTime:'2023-04-03 14:22:34',
-    // endTime: '2023-04-06 14:22:34'
-    startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-  });
+  getAlarmLevelAndTypeByTIme();
   getOnlineStatusData(3);
   scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.list || [];
 });
@@ -429,6 +463,15 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
   }
+  :deep(.num-wrap>.ball-active){
+    img {
+      transform: scale(1.2);
+    }
+  }
+  :deep(.num-wrap>.cursor){
+    cursor: pointer;
+  }
+
 }
 .realtime-trend {
   margin-top: 23px;
