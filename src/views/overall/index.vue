@@ -276,9 +276,9 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getTableAlarm();
 };
-// const handleDialogClosed = () => {
-//   console.log('handleDialogClosed');
-// }
+const handleDialogClosed = () => {
+  console.log('handleDialogClosed');
+};
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
