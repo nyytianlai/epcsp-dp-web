@@ -7,7 +7,22 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import request from '@sutpc/axios';
-// 地图区级下钻撒点
+//总览区级柱状图
+export const getRectBar = () => {
+  return request.post({
+    url: '/dp/api/v1/overview/selectChargeEquipmentByArea'
+  });
+};
+//总览街道级柱状图
+export const getRectBarByStreet = (areaCode) => {
+  return request.post({
+    url: '/dp/api/v1/overview/selectStreetChargeEquipmentByAreaCode',
+    data: {
+      areaCode
+    }
+  });
+};
+// 地图区级下钻撒点 总览 设备管理 公众服务
 export const getJdStation = (streetId) => {
     return request.post({
       url: '/dp/api/v1/equipmentManage/selectStationInfoByStreetId',
@@ -17,19 +32,18 @@ export const getJdStation = (streetId) => {
     });
 };
   
-//地图柱状图 区
-export const getRectBar = () => {
-    return request.get({
-      url: '/dp/api/v1/equipmentManage/selectChargeEquipmentByArea'
+//设备管理地图柱状图 区
+export const getEquipmentBar = (data) => {
+    return request.post({
+      url: '/dp/api/v1/equipmentManage/selectChargeEquipmentByArea',
+      data
     });
   };
-  //地图柱状图 街道
-  export const getRectBarByStreet = (areaCode) => {
+//设备管理地图柱状图 街道
+export const getEquipmentBarByStreet = (data) => {
     return request.post({
       url: '/dp/api/v1/equipmentManage/selectStreetChargeEquipmentByAreaCode',
-      data: {
-        areaCode
-      }
+      data
     });
 };
   

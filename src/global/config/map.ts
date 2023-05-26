@@ -22,6 +22,18 @@ const quCodeArr = [
   '440343',
   '440304'
 ];
+export const quView = {
+  盐田区: [526161.507422, 2492962.024277, 6038.915, -44.99995, -89.440895, 2],
+  南山区: [491997.28, 2480720.229375, 13827.865, -44.999977, -89.440895, 2],
+  罗湖区: [513908.451484, 2491118.620313, 6038.9125, -44.999977, -89.440895, 2],
+  龙岗区: [517003.580937, 2494984.815625, 13390.7875, -44.999977, -89.440895, 2],
+  龙华区: [502971.697813, 2498430.7525, 9883.83625, -44.999977, -89.440895, 2],
+  坪山区: [535168.512773, 2498967.770625, 11631.5075, -44.999977, -89.440895, 2],
+  光明区: [490930.331562, 2506703.8225, 11572.8525, -44.999977, -89.440895, 2],
+  宝安区: [488489.648125, 2490075.870234, 17785.27125, -44.999977, -91.697815],
+  大鹏新区: [549647.3225, 2482515.143125, 13827.865, -44.999977, -89.440895, 2],
+  福田区: [505279.921797, 2488181.229375, 5346.12875, -44.999977, -89.440895, 2]
+};
 //图层名加上区名构成对象的id
 export const layerNameQuNameArr = (layerName) => {
   return quNameArr.map((item) => {
@@ -47,11 +59,27 @@ export const infoObj = {
     pitch: -44.999977,
     yaw: -91.697815,
     roll: 0.000002
+  },
+  ssView: {
+    //深汕视角
+    x: 611285.494609,
+    y: 2508151.180312,
+    z: 39109.675,
+    pitch: -62.748112,
+    yaw: -89.440918,
+    roll: 0.000011
   }
 };
 
 export const getImageUrl = (dir: string) => {
   return new URL(`./images/map/${dir}.png`, import.meta.url).href;
+};
+export const getHtmlUrl = () => {
+  if (import.meta.env.MODE == 'base') {
+    return 'http://127.0.0.1:5500/public';
+  } else {
+    return window.location.origin;
+  }
 };
 export const getImageByCloud = (picName: string) => {
   return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
@@ -68,7 +96,7 @@ export const quNameCodeInterTrans = (key: 'name' | 'code', value: string) => {
 //获取屏幕中心点的坐标
 export const getMapCenterCoord = (aircityObj) => {
   const x = aircityObj.player.rect.width; //视频流的宽度
-  const y = aircityObj.player.rect.height; //视频流的高度
+  const y = aircityObj.player.rect.height + 40; //视频流的高度
   const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
   return screen2World_result;
 };

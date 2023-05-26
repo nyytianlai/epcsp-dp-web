@@ -3,6 +3,7 @@
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
 import { districtAlarmLevelStatics, getMapAreaStationByPower } from './api.js';
+import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
@@ -62,27 +63,47 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
       }, 0);
     // console.log('sum', sum);
 
-    let contentHeight = (sum / yMax) * 180 + 83;
-    // let contentHeight = 263;
+    // let contentHeight = (sum / yMax) * 180 + 83;
+    let contentHeight = 190;
     // console.log('countObj', countObj);
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
-    let userData = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+    let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+    // let o = {
+    //   id: `rectBar${code}-${idEnd}`,
+    //   groupId: 'rectBar',
+    //   userData: userData,
+    //   coordinate: item.geometry.coordinates,
+    //   contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
+    //     countObj[0][valueField]
+    //   },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}`,
+    //   contentSize: [88, contentHeight], //网页窗口宽高 [width, height] 263
+    //   pivot: [0.5, 1], // 中心点
+    //   range: [1, 150000] //显示范围：[min, max]
+    //   // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
+    // };
     let o = {
       id: `rectBar${code}-${idEnd}`,
       groupId: 'rectBar',
-      userData: userData,
+      userData: areaCode,
       coordinate: item.geometry.coordinates,
-      contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
-        countObj[0][valueField]
-      },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}`,
-      contentSize: [88, contentHeight], //网页窗口宽高 [width, height] 263
-      pivot: [0.5, 1], // 中心点
-      range: [1, 150000] //显示范围：[min, max]
-      // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
+      anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [82, 38], //图片的尺寸
+      range: [1, 1000000], //可视范围
+      imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      popupURL: `${getHtmlUrl()}/static/html/cirBar3.html?value=${
+         countObj[0][valueField]
+       },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}&areaCode=${areaCode}`, //弹窗HTML链接
+      autoHidePopupWindow: false,
+      popupSize: [88, contentHeight],
+      popupOffset:[-88, -80], //弹窗偏移
+      autoHeight: false, // 自动判断下方是否有物体
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
     barArr.push(o);
   });
-  __g.customTag.add(barArr);
+  await  __g.marker.add(barArr);
+  await  __g.marker.showAllPopupWindow();
 };
 defineExpose({ addBar });
 onMounted(async () => {});

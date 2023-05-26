@@ -1,30 +1,138 @@
 <template>
-  <qu ref="quRef"></qu>
-  <rect-bar></rect-bar>
-  <legend-list v-show="currentPosition == '深圳市'" />
+  <qu ref="quRef" :buttomTabCode="buttomTabCode" :module="2"></qu>
+  <cir-bar4 ref="cirBar4Ref"></cir-bar4>
+  <legend-list
+    :legendList="legendListData"
+    :legendName="legendNameData"
+    v-show="currentPosition == '深圳市'"
+  />
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
-import RectBar from '@/components/map-layer/rect-bar.vue';
-import { inject, onMounted, onBeforeUnmount, ref,computed } from 'vue';
-import { useMapStore } from '@/stores/map'
+import CirBar4 from '@/components/map-layer/cir-bar4.vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
+import { useMapStore } from '@/stores/map';
+import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
+import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
 __g.reset();
 
-const store = useMapStore()
-// const currentPosition = ref('深圳市'); //所在位置 深圳市 xx区 xx站(取值'')
+const store = useMapStore();
+//所在位置 深圳市 xx区 xx站(取值'')
 const currentPosition = computed(() => store.currentPosition);
 
 let quRef = ref(null);
+let cirBar4Ref = ref(null);
+const buttomTabCode = ref(1);
 
+let legendNameData = ref('充电桩数/个');
+let legendListData = reactive([
+  {
+    color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
+    name: '快充桩',
+    type: false
+  },
+  {
+    color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
+    name: '慢充桩',
+    type: false
+  },
+  {
+    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
+    name: '超充桩',
+    type: false
+  },
+  {
+    color: 'linear-gradient(178.17deg, #B9FFFF 4.74%, #214D4B 95.4%)',
+    name: 'V2G桩',
+    type: false
+  }
+]);
+
+const setLegendData = (code: 1 | 2) => {
+  let type = code == 1 ? '桩' : '枪';
+  (legendNameData.value = `充电${type}数/个`),
+    legendListData.forEach((item) => {
+      item.name = item.name.slice(0, -1) + type;
+    });
+};
+
+const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
+  value
+    ? await __g[type].show(layerNameQuNameArr(idPre))
+    : await __g[type].hide(layerNameQuNameArr(idPre));
+};
+const buttomTabChange = async (code: 1 | 2) => {
+  await quRef.value.deleteJdData();
+  buttomTabCode.value = code;
+  setLegendData(code);
+  let value = code === 1 ? true : false;
+  await setObjVisibility('customTag', 'rectBar1', value);
+  let info = await __g.customTag.get('rectBar2-南山区');
+  if (info.result === 0) {
+    await setObjVisibility('customTag', 'rectBar2', !value);
+  } else {
+    // await __g.marker.delete(layerNameQuNameArr(`rectBar${buttomTabCode.value}`));
+    await cirBar4Ref.value.addBar({
+      code: buttomTabCode.value,
+      type: 'qu',
+      chargeType: Array.from(chargeTypeCollet)
+    });
+  }
+  await quRef.value.resetSz();
+};
+
+let chargeTypeCollet = new Set([1, 2, 3, 4]);
+type ChargeType = { name: string; isChoose: boolean; code: number };
+const handleChargeTypeChange = async (item: ChargeType) => {
+  legendListData.forEach((ele) => {
+    if (ele.name === item.name) {
+      ele.type = !item.isChoose;
+      item.isChoose ? chargeTypeCollet.add(item.code) : chargeTypeCollet.delete(item.code);
+    }
+  });
+  await __g.marker.delete(layerNameQuNameArr(`rectBar${buttomTabCode.value}`));
+  // if (currentPosition.value.includes('区')) {
+  cirBar4Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'qu',
+    chargeType: Array.from(chargeTypeCollet)
+  });
+  // } else if (currentPosition.value.includes('街道')) {
+  //   // cirBar4Ref.value.addBar({
+  //   //   code: buttomTabCode.value,
+  //   //   type: 'jd',
+  //   //   chargeType: chargeTypeCollet
+  //   // });
+  // }
+};
+defineExpose({ buttomTabChange });
 onMounted(async () => {
-  // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  cirBar4Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'qu',
+    chargeType: Array.from(chargeTypeCollet)
+  });
+  bus.on('addBar', (e) => {
+    //加载街道的柱状图
+    cirBar4Ref.value.addBar({
+      code: buttomTabCode.value,
+      type: e.type,
+      quCode: e.quCode,
+      chargeType: Array.from(chargeTypeCollet)
+    });
+  });
+  bus.on('chargeTypeChange', (e: ChargeType) => {
+    handleChargeTypeChange(e);
+  });
 });
 
 onBeforeUnmount(() => {
   // __g.polygon.delete(["polygon1"]);
+  bus.off('addBar');
+  bus.off('chargeTypeChange');
 });
 </script>
 <style lang="less" scoped></style>

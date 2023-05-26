@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <qu ref="quRef"></qu>
+  <qu ref="quRef" :module="1"></qu>
   <rect-bar></rect-bar>
   <!-- <heat-map v-if="isHeatMap"></heat-map> -->
   <legend-list
@@ -44,8 +44,8 @@ const setRectBarVisibility = (value: boolean) => {
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
-    ? aircityObj.value?.acApi.customTag.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.value?.acApi.customTag.hide(layerNameQuNameArr('rectBar'));
+    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar'))
+    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar'));
 };
 const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');

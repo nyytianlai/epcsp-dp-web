@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef" :buttomTabCode="buttomTabCode"></qu>
+  <qu ref="quRef" :buttomTabCode="buttomTabCode" :module="3"></qu>
   <cir-bar3 ref="cirBar3Ref"></cir-bar3>
   <legend-list
     :legendList="legendListData1"
@@ -72,10 +72,10 @@ const buttomTabChange = async (code: 1 | 2) => {
   await quRef.value.deleteJdData();
   buttomTabCode.value = code;
   let value = code === 1 ? true : false;
-  await setObjVisibility('customTag', 'rectBar1', value);
+  await setObjVisibility('marker', 'rectBar1', value);
   let info = await __g.customTag.get('rectBar2-南山区');
   if (info.result === 0) {
-    await setObjVisibility('customTag', 'rectBar2', !value);
+    await setObjVisibility('marker', 'rectBar2', !value);
   } else {
     await cirBar3Ref.value.addBar(buttomTabCode.value, 'qu');
   }
@@ -86,7 +86,7 @@ defineExpose({ buttomTabChange });
 
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
-  await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
   cirBar3Ref.value.addBar(buttomTabCode.value, 'qu');
   bus.on('addBar', (e) => {
     cirBar3Ref.value.addBar(buttomTabCode.value, e.type, e.quCode);

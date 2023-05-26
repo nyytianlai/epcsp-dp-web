@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      #pop-panel{
+        height: 100%; 
+        width: 100%;
+        background: url('../images/rectbarPop.png') no-repeat;
+      }
+      .title{
+          position: absolute;
+          height: 24px;  
+          left: 30px;
+          top: -5px;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+          color: #FFFFFF;
+          text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+        }
+        .content{
+          position: absolute;
+          margin: 2px 12px;
+          top: 20px;
+          width: 144px;
+          height: 76px;
+        }
+        li{
+           display: flex;
+           justify-content: space-between;
+           text-align: center;
+           font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 32px;
+          color: rgba(255, 255, 255, 0.8);
+          }
+          .liRight{
+            display: flex;
+          }
+        .num{
+          font-style: normal;
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 32px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          margin-right: 2px;
+          background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+    </style>
+  </head>
+
+  <body style="height: 100%; width: 100%; margin: 0">
+    <div id="pop-panel">
+     <div class="title">福田区</div>
+     <div class="content">
+      <li>充电站<div class="liRight"><sapn class="num">350</sapn>个</div></li>
+      <li>充电桩<div class="liRight"><span class="num">6000</span>个</div></li>
+      <li>充电枪<div class="liRight"><span class="num">6461</span>个</div></li>
+     </div>
+    </div>
+    <script type="text/javascript">
+       var urlParams = new URLSearchParams(location.search);
+      let paramsValue = urlParams.get("value")?urlParams.get("value").split(","):[44,55,66];
+
+    </script>
+  </body>
+</html>
