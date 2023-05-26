@@ -25,6 +25,10 @@
           <hawk-eye></hawk-eye>
         </base-ac>
         <expand-btn />
+        <div class="backBox">
+          <img src="./images/back.png" alt="" @click="router.go(-1)" />
+        </div>
+        <div class="name">充电站</div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -58,9 +62,11 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { storeToRefs } from 'pinia';
 import { h } from 'vue';
+import {useRouter} from 'vue-router'
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const wrapperMap = new Map();
+const router = useRouter()
 const props = defineProps({
   title: {
     type: String,
@@ -246,5 +252,37 @@ provide('aircityObj', aircityObj);
   position: absolute;
   top: 0;
   left: 0;
+}
+.backBox {
+  position: absolute;
+  height: 36px;
+  left: 86px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 20;
+  cursor: pointer;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 1px;
+  }
+}
+.name {
+    position: absolute;
+  height: 36px;
+  left: 146px;
+  top: 68px;
+  display: flex;
+  background: rgba(4, 22, 43, 0.4);
+  border: 1px solid rgba(148, 148, 148, 0.3);
+  color: #ffffff;
+  z-index: 20;
+  padding: 7px 16px;
+  color: #fff;
+
 }
 </style>

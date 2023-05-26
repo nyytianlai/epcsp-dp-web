@@ -12,6 +12,10 @@ const timeParams = () => ({
   startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
   endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
 });
+const timeOnNow = ()=>({
+  startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+  endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+})
 // 总览上面4个指标
 export const overTotalCount = () => {
   return request.get({
@@ -86,7 +90,7 @@ export const dayPower = () => {
   return request.post({
     url: '/dp/api/v1/overview/dayPower',
     data: {
-      ...timeParams()
+      ...timeOnNow()
     }
   });
 };

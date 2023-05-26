@@ -599,7 +599,8 @@ const handleDetailWarn = (item)=>{
     params: {
       operatorId: item.row.operatorId,
       stationId: item.row.stationId,
-      isHr: item.row.isHr
+      isHr: item.row.isHr,
+      equipmentId: item.row.equipmentId
     }
   });
 }

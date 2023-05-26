@@ -225,7 +225,7 @@ const ecOptionFun = () => {
     },
     xAxis: {
       name: '',
-      type: props.mode?'category':'time',
+      type: 'time',
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {

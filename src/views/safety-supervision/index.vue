@@ -21,7 +21,16 @@
       <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
     </div>
     <div class="area-warning-num">
-      <title-column title="行政区告警数据"  :showTabBtn="true" :tabList="[{value:1,name:'日'},{value:2,name:'月'},{value:3,name:'年'}]"   @handleTabBtn="handleWarmYearBtn"/>
+      <title-column
+        title="行政区告警数据"
+        :showTabBtn="true"
+        :tabList="[
+          { value: 1, name: '日' },
+          { value: 2, name: '月' },
+          { value: 3, name: '年' }
+        ]"
+        @handleTabBtn="handleWarmYearBtn"
+      />
       <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="3.7rem" />
     </div>
   </panel>
@@ -37,7 +46,11 @@
         :data="warningMonitorTabs"
         @changeTab="(data) => handleChangeTab(data, 'warning-monitor')"
       />
-      <pie-chart :data="warningMonitorPieData" :mode="totalCurCode === 1 ? 'canChoose' : 'default'" @choose="handleChoose"/>
+      <pie-chart
+        :data="warningMonitorPieData"
+        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        @choose="handleChoose"
+      />
     </div>
     <div class="realtime-state">
       <title-column title="实时状态情况" />
@@ -47,12 +60,25 @@
       />
       <div class="num-wrap">
         <template v-for="(item, index) in realtimeStateData" :key="index">
-          <num-card :data="item" @click="handleBall(item)" :class="{'ball-active':nowStatus === 3&&item.isChoose, cursor:nowStatus === 3 }"/>
+          <num-card
+            :data="item"
+            @click="handleBall(item)"
+            :class="{ 'ball-active': nowStatus === 3 && item.isChoose, cursor: nowStatus === 3 }"
+          />
         </template>
       </div>
     </div>
     <div class="realtime-trend">
-      <title-column title="实时告警趋势情况" :showTabBtn="true" :tabList="[{value:1,name:'日'},{value:2,name:'周'},{value:3,name:'月'}]"  @handleTabBtn="handleYearBtn"/>
+      <title-column
+        title="实时告警趋势情况"
+        :showTabBtn="true"
+        :tabList="[
+          { value: 1, name: '日' },
+          { value: 2, name: '周' },
+          { value: 3, name: '月' }
+        ]"
+        @handleTabBtn="handleYearBtn"
+      />
       <line-time-chart
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
@@ -64,6 +90,18 @@
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <template #titleSearch>
+      <el-input
+        v-model="inputWarn"
+        placeholder="请输入"
+        class="search-input"
+        @change="handleSearchWarn"
+      >
+        <template #suffix>
+          <icon :size="12" icon="svg-icon:search" />
+        </template>
+      </el-input>
+    </template>
     <el-table
       :data="alarmTableData"
       height="6.34rem"
@@ -77,10 +115,57 @@
         :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
       >
+        <template #header v-if="item.prop === 'alarmLevelName'">
+          <div class="alarmLevelName">
+            {{ item.label }}
+            <el-popover placement="bottom" trigger="click">
+              <template #reference>
+                <icon :size="12" icon="svg-icon:filter" class="filter" />
+              </template>
+              <div class="checkbox">
+                <el-tree
+                  :data="filtersAlarmLevelName"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false"
+                  @check="handleFilter"
+                  class="table-filter"
+                  :indent="0.00001"
+                  :default-checked-keys="defaultAreaWarm"
+                />
+              </div>
+            </el-popover>
+          </div>
+        </template>
+        <template #header v-if="item.prop === 'alarmTypeName'">
+          <div class="alarmTypeName">
+            {{ item.label }}
+            <el-popover placement="bottom" trigger="click">
+              <template #reference>
+                <icon :size="12" icon="svg-icon:filter" class="filter" />
+              </template>
+              <div class="checkbox">
+                <el-tree
+                  :data="filtersAlarmTypeName"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false"
+                  @check="handleFilterType"
+                  class="table-filter"
+                  :indent="0.00001"
+                  :default-checked-keys="defaultAreaWarmType"
+                />
+              </div>
+            </el-popover>
+          </div>
+        </template>
+        <template #default="scope"></template>
+      </el-table-column>
+      <el-table-column label="操作" key="operation" minWidth="2">
         <template #default="scope">
-          <span v-if="item.prop === 'alarmLevelName'">
-            {{ scope.row[scope.column.property] }}
-          </span>
+          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
         </template>
       </el-table-column>
     </el-table>
@@ -96,13 +181,31 @@
   <custom-dialog
     v-model:visible="dialogTableMessageVisible"
     :title="messageDialogTitle"
-    @closed="handleDialogClosed"
+    @closed="
+      () => {
+        inputWarnLeft = null;
+      }
+    "
   >
+    <template #titleSearch>
+      <el-input
+        v-model="inputWarnLeft"
+        placeholder="请输入"
+        class="search-input"
+        @change="handleSearchWarnLeft"
+      >
+        <template #suffix>
+          <icon :size="12" icon="svg-icon:search" />
+        </template>
+      </el-input>
+    </template>
     <el-table
       :data="messageTableData"
       height="6.34rem"
       style="width: 100%"
       class="custom-dialog-table"
+      @sort-change="handleSort"
+      :default-sort="{ prop: 'cnt', order: 'descending' }"
     >
       <el-table-column
         v-for="(item, index) in messageColumnData"
@@ -110,12 +213,10 @@
         v-bind="item"
         :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
+        :sortable="item.sortable"
+        :sort-orders="item.sortOrders"
       >
-        <template #default="scope">
-          <span v-if="item.prop === 'alarmLevelName'">
-            {{ scope.row[scope.column.property] }}
-          </span>
-        </template>
+        <template #default="scope"></template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -129,6 +230,7 @@
   </custom-dialog>
 </template>
 <script setup>
+import Icon from '@sutpc/vue3-svg-icon';
 import { ref, onMounted, reactive, inject } from 'vue';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
@@ -146,7 +248,9 @@ import {
   bottomTabDataFun,
   columnDataFun,
   columnKeyListFun,
-  messageColumnKeyListFun
+  messageColumnKeyListFun,
+  filtersAlarmLevelName,
+  filtersAlarmTypeName
 } from './config.js';
 import {
   getAlarmUpStatics,
@@ -158,6 +262,10 @@ import {
   alarmInfo
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+
+const storeVisible = useVisibleComponentStore();
+
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
@@ -168,6 +276,11 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 左一搜索
+const inputWarnLeft = ref()
+// 警告筛选
+const alarmLevel = ref()
+const alarmType = ref()
 // 告警级别tab高亮
 const totalCurCode = ref(1)
 // 累计告警数据信息弹窗显隐
@@ -178,13 +291,22 @@ const messageTableData = ref([]);
 const messageWarningType = ref(1);
 // 告警趋势
 const dayTypeAlarm = ref(1)
+// 警告默认筛选
+const defaultAreaWarm = ref(['1','2','3'])
+const defaultAreaWarmType = ref(['1','2','3'])
 //地图底部tab切换
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
   mapLayerRef.value.buttomTabChange(item.code);
 };
+// 排序
+const sort = ref(0);
+// 排序类型
+const sortType = ref(2);
 // 充电桩实时按钮
 const nowStatus  = ref(3)
+// 告警搜索
+const inputWarn = ref()
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const getAlarmUpStaticsData = async () => {
@@ -195,11 +317,14 @@ const getAlarmUpStaticsData = async () => {
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([]);
 const columnKeyList = ref(columnKeyListFun());
-const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 10000) => {
+const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 10000,input =null,sort=null,sortType=null) => {
   const params = {
     type,
     pageOffset,
-    pageSize
+    pageSize,
+    name: input,
+    sort,
+    sortType
   };
   let { data } = await safetySupervisionAccumulated(params);
   return data;
@@ -211,13 +336,7 @@ const handleClickMessageBtn = async () => {
   messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
   dialogTableMessageVisible.value = true;
   messageColumnData.value = messageColumnKeyListFun(messageWarningType.value);
-  const data = await getSafetySupervisionAccumulated(
-    messageWarningType.value,
-    pageObj.currentPage,
-    pageObj.pageSize
-  );
-  messageTableData.value = data?.list || [];
-  pageObj.total = data?.total || 0;
+  loadGetSafetySupervisionAccumulated()
 };
 
 //行政区告警数据
@@ -310,7 +429,7 @@ const handleChangeTab = async (data, type) => {
     columnKeyList.value = columnKeyListFun(data.code);
     scrollTableData.value = [];
     //累计告警数据信息
-    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.list || [];
+    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.dataList || [];
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
@@ -344,9 +463,11 @@ const handleClick = () => {
 
 const getTableAlarm = async (level) => {
   const params = {
-    alarmLevel: level,
+    alarmLevel: alarmLevel.value,
+    alarmType: alarmType.value,
     pageNum: pageObj.currentPage,
-    pageSize: pageObj.pageSize
+    pageSize: pageObj.pageSize,
+    searchContent:inputWarn.value
   };
   const res = await alarmInfo(params);
   if (res.data && res.data.list) {
@@ -357,16 +478,24 @@ const getTableAlarm = async (level) => {
     pageObj.total = 0;
   }
 };
+// 获取左一警告信息
+const loadGetSafetySupervisionAccumulated = async()=>{
+    const data = await getSafetySupervisionAccumulated(
+    messageWarningType.value,
+    pageObj.currentPage,
+    pageObj.pageSize,
+    inputWarnLeft.value,
+    sort.value,
+    sortType.value
+  );
+  messageTableData.value = data?.dataList || [];
+  pageObj.total = data?.total || 0;
+}
 // table数据
 const handPageChange = async (value, type) => {
   if (type === 'total-message') {
     pageObj.currentPage = value;
-    const data = await getSafetySupervisionAccumulated(
-      messageWarningType.value,
-      pageObj.currentPage,
-      pageObj.pageSize
-    );
-    messageTableData.value = data?.list || [];
+    loadGetSafetySupervisionAccumulated()
   } else {
     pageObj.currentPage = value;
     getTableAlarm();
@@ -400,6 +529,83 @@ const handleBall = (item)=>{
   console.log('ball',item)
   // todo
 }
+// 告警搜索
+const handleSearchWarn = ()=>{
+  getTableAlarm();
+}
+// 警告级别筛选
+const handleFilter = (value,data)=>{
+  const temp = data.checkedKeys
+  // 全部
+  if(temp.includes('all')){
+    alarmLevel.value = []
+    getTableAlarm()
+  }else {
+    // 存在筛选
+    alarmLevel.value = temp
+    getTableAlarm()
+  }
+} 
+// 警告类型筛选
+const handleFilterType = (value,data)=>{
+  const temp = data.checkedKeys
+  // 全部
+  if(temp.includes('all')){
+    alarmType.value = []
+    getTableAlarm()
+  }else {
+    // 存在筛选
+    alarmType.value = temp
+    getTableAlarm()
+  }
+} 
+// 告警详情
+const handleDetailWarn = (item)=>{
+  console.log('item',item)
+  dialogTableVisible.value = false
+  // 展示站点
+  storeVisible.changeShowComponent(false);
+  storeVisible.changeShowDetail({
+    show: true,
+    params: {
+      operatorId: item.row.operatorId,
+      stationId: item.row.stationId,
+      isHr: item.row.isHr,
+      equipmentId: item.row.equipmentId
+
+    }
+  });
+}
+
+// 左一详情搜索
+const handleSearchWarnLeft =()=>{
+  loadGetSafetySupervisionAccumulated()
+}
+// 左一排序
+const handleSort = (item) => {
+  console.log('item', item);
+  if (item.order) {
+    // 存在排序
+    const sortTypeNum = {
+      ascending: 1,
+      descending: 2
+    };
+    const sortIndex = {
+      cnt: 0,
+      unAffirmCnt: 1,
+      affirmCnt: 2,
+       recCnt: 3
+    };
+    sort.value = sortIndex[item.prop];
+    sortType.value = sortTypeNum[item.order];
+  } else {
+    //不存在排序
+    sort.value = null;
+    sortType.value = null;
+  }
+
+  loadGetSafetySupervisionAccumulated()
+};
 onMounted(async () => {
   let obj = {
     type: 1,
@@ -413,7 +619,7 @@ onMounted(async () => {
   getAlarmLevelAndTypeByTime(obj);
   getAlarmLevelAndTypeByTIme();
   getOnlineStatusData(3);
-  scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.list || [];
+  scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.dataList || [];
 });
 </script>
 
@@ -444,9 +650,9 @@ onMounted(async () => {
   }
   .pie-wrap {
     margin-top: 18px;
-    :deep(.legend-wrap){
+    :deep(.legend-wrap) {
       margin-left: 24px;
-      .right-info{
+      .right-info {
         width: 45px;
       }
     }
@@ -463,20 +669,26 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
   }
-  :deep(.num-wrap>.ball-active){
+  :deep(.num-wrap > .ball-active) {
     img {
       transform: scale(1.2);
     }
   }
-  :deep(.num-wrap>.cursor){
+  :deep(.num-wrap > .cursor) {
     cursor: pointer;
   }
-
 }
 .realtime-trend {
   margin-top: 23px;
   .ec-wrap {
     margin-top: 14px;
   }
+}
+.filter {
+  cursor: pointer;
+}
+.detail {
+  color: #4bdeff;
+  text-decoration: none;
 }
 </style>
