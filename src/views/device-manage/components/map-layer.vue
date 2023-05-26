@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import CirBar4 from '@/components/map-layer/cir-bar4.vue';
-import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
 import { useMapStore } from '@/stores/map';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
 import bus from '@/utils/bus';
@@ -27,8 +27,8 @@ let quRef = ref(null);
 let cirBar4Ref = ref(null);
 const buttomTabCode = ref(1);
 
-const legendNameData = buttomTabCode.value == 1 ? '充电桩数/个' : '充电枪数/个';
-let legendListData = [
+let legendNameData = ref('充电桩数/个');
+let legendListData = reactive([
   {
     color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
     name: '快充桩',
@@ -49,7 +49,15 @@ let legendListData = [
     name: 'V2G桩',
     type: false
   }
-];
+]);
+
+const setLegendData = (code: 1 | 2) => {
+  let type = code == 1 ? '桩' : '枪';
+  (legendNameData.value = `充电${type}数/个`),
+    legendListData.forEach((item) => {
+      item.name = item.name.slice(0, -1) + type;
+    });
+};
 
 const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
   value
@@ -59,27 +67,72 @@ const setObjVisibility = async (type: string, idPre: string, value: boolean) => 
 const buttomTabChange = async (code: 1 | 2) => {
   await quRef.value.deleteJdData();
   buttomTabCode.value = code;
+  setLegendData(code);
   let value = code === 1 ? true : false;
   await setObjVisibility('customTag', 'rectBar1', value);
   let info = await __g.customTag.get('rectBar2-南山区');
   if (info.result === 0) {
     await setObjVisibility('customTag', 'rectBar2', !value);
   } else {
-    await cirBar4Ref.value.addBar(buttomTabCode.value, 'qu');
+    // await __g.marker.delete(layerNameQuNameArr(`rectBar${buttomTabCode.value}`));
+    await cirBar4Ref.value.addBar({
+      code: buttomTabCode.value,
+      type: 'qu',
+      chargeType: Array.from(chargeTypeCollet)
+    });
   }
   await quRef.value.resetSz();
 };
+
+let chargeTypeCollet = new Set([1, 2, 3, 4]);
+type ChargeType = { name: string; isChoose: boolean; code: number };
+const handleChargeTypeChange = async (item: ChargeType) => {
+  legendListData.forEach((ele) => {
+    if (ele.name === item.name) {
+      ele.type = !item.isChoose;
+      item.isChoose ? chargeTypeCollet.add(item.code) : chargeTypeCollet.delete(item.code);
+    }
+  });
+  await __g.marker.delete(layerNameQuNameArr(`rectBar${buttomTabCode.value}`));
+  // if (currentPosition.value.includes('区')) {
+  cirBar4Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'qu',
+    chargeType: Array.from(chargeTypeCollet)
+  });
+  // } else if (currentPosition.value.includes('街道')) {
+  //   // cirBar4Ref.value.addBar({
+  //   //   code: buttomTabCode.value,
+  //   //   type: 'jd',
+  //   //   chargeType: chargeTypeCollet
+  //   // });
+  // }
+};
 defineExpose({ buttomTabChange });
 onMounted(async () => {
-  cirBar4Ref.value.addBar(buttomTabCode.value, 'qu');
+  cirBar4Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'qu',
+    chargeType: Array.from(chargeTypeCollet)
+  });
   bus.on('addBar', (e) => {
-    cirBar4Ref.value.addBar(buttomTabCode.value, e.type, e.quCode);
+    //加载街道的柱状图
+    cirBar4Ref.value.addBar({
+      code: buttomTabCode.value,
+      type: e.type,
+      quCode: e.quCode,
+      chargeType: Array.from(chargeTypeCollet)
+    });
+  });
+  bus.on('chargeTypeChange', (e: ChargeType) => {
+    handleChargeTypeChange(e);
   });
 });
 
 onBeforeUnmount(() => {
   // __g.polygon.delete(["polygon1"]);
   bus.off('addBar');
+  bus.off('chargeTypeChange');
 });
 </script>
 <style lang="less" scoped></style>

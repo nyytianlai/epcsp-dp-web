@@ -21,6 +21,7 @@
     const yMax = Number(urlParams.get("yMax"));
     const colorType = Number(urlParams.get("colorType")) - 1;
     console.log("最大值", yMax);
+    const areaCode = urlParams.get("areaCode");
     var xData = ["递铺街道"];
     var data1 = [Number(paramsValue[0])]; //下部数据
     var data2 = [Number(paramsValue[1])]; //中
@@ -230,6 +231,11 @@
 
     if (option && typeof option === "object") {
       myChart.setOption(option);
+      myChart.on("click", function (params) {
+	       console.log('获取点击的数据',params);
+         ue.dtspoi.postevent(`click-${areaCode}`)
+	       //在这里可以拿到数据然后调用需要调用的方法
+        });
     }
 
     function getItemStyle(colorArr) {

@@ -16,6 +16,7 @@
       var app = {};
       var urlParams = new URLSearchParams(location.search);
       let paramsValue = urlParams.get("value");
+      const areaCode = urlParams.get("areaCode");
       var xData = ["递铺街道"];
       var data1 = [Number(paramsValue)]; //下面实体部分
       var data2 = [100 - Number(paramsValue)]; //上面虚体部分
@@ -272,6 +273,11 @@
 
       if (option && typeof option === "object") {
         myChart.setOption(option);
+        myChart.on("click", function (params) {
+	       console.log('获取点击的数据',params);
+         ue.dtspoi.postevent(`click-${areaCode}`)
+	       //在这里可以拿到数据然后调用需要调用的方法
+        });
       }
     </script>
   </body>

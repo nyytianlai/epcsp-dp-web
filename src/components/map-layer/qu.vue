@@ -227,9 +227,12 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 };
 
 const setQuVisibility = async (value: boolean) => {
-  value
-    ? await __g.marker.show(layerNameQuNameArr('rectBar' + props.buttomTabCode))
-    : await __g.marker.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+  if (value) {
+    await __g.marker.show(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+    await __g.marker.showAllPopupWindow();
+  } else {
+    await __g.marker.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+  }
 };
 const deleteJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);

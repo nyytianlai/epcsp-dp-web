@@ -21,7 +21,9 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady"></base-ac>
+        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
+          <hawk-eye></hawk-eye>
+        </base-ac>
         <expand-btn />
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
@@ -47,6 +49,7 @@ import { ref, computed, onMounted, provide, nextTick } from 'vue';
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
+import HawkEye from '@/components/map-layer/hawk-eye.vue';
 import TimeWeather from './components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';

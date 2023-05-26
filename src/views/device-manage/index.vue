@@ -17,7 +17,7 @@
       />
       <pie-chart
         :data="chargingStationPieData"
-        totalName="充电桩总数"
+        :totalName='bottomBtnCur === 1 ?"充电桩总数":"充电枪总数"'
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
       />
@@ -176,6 +176,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import bus from '@/utils/bus';
+
 const storeVisible = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
@@ -331,6 +333,7 @@ const changeButtomTab = (item) => {
 const handleChoose = (item) => {
   console.log('充电设施总量', item);
   // todo
+  bus.emit('chargeTypeChange',item);
 };
 // 充电设施总量详情
 const handleDetailClick = () => {

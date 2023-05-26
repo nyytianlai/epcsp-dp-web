@@ -8,44 +8,51 @@ import { getHtmlUrl } from '@/global/config/map';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 
-const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
+const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quCode?: string }) => {
   let res;
-  if (type === 'qu') {
+  console.log('chargeTypeCollet', obj.chargeType);
+
+  if (obj.type === 'qu') {
     res = await getEquipmentBar({
-      chargeType: null,
-      equipmentType: code //1桩 2枪
+      chargeType: obj.chargeType,
+      equipmentType: obj.code //1桩 2枪
     });
   } else {
     res = await getEquipmentBarByStreet({
-      areaCode: quCode,
-      equipmentType: code //1桩 2枪
+      areaCode: obj.quCode,
+      chargeType: obj.chargeType,
+      equipmentType: obj.code //1桩 2枪
     });
   }
   console.log('柱状图接口', res.data);
   let count = [];
   res.data.forEach((element) => {
-    element.v2GCount = element.v2GCount * 300;
-    let countItem =
-      element.noQuickCount + element.quickCount + element.superCount + element.v2GCount;
+    let countItem=0
+    element.v2GCount = element.v2GCount ? element.v2GCount * 300 : 0;
+    ['noQuickCount','quickCount','superCount','v2GCount'].forEach((i)=>{
+      if(element[i]){
+        countItem=countItem+element[i]
+      }
+    })
     count.push(countItem);
   });
 
   console.log('count', count);
 
   let yMax = Math.max(...count);
-  const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
+  const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
-  if (type === 'jd') {
+  if (obj.type === 'jd') {
     res1.features = res1.features.filter((item) => {
-      return item.properties.QUCODE === quCode;
+      return item.properties.QUCODE === obj.quCode;
     });
   }
   let barArr = [];
   res1.features.forEach((item, index) => {
     let countObj;
-    if (type == 'qu') {
+    if (obj.type == 'qu') {
       countObj = res.data.filter((i) => {
         return i.areaCode == item.properties.QUCODE;
       });
@@ -54,14 +61,16 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
         return i.streetId == item.properties.JDCODE;
       });
     }
-    console.log('countObj', countObj);
+    console.log('countObj', JSON.stringify(
+        countObj[0]
+      ));
 
     let contentHeight = 190;
-    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
-    let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+    let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    let areaCode = obj.type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
 
     let o = {
-      id: `rectBar${code}-${idEnd}`,
+      id: `rectBar${obj.code}-${idEnd}`,
       groupId: 'rectBar',
       userData: areaCode,
       coordinate: item.geometry.coordinates,

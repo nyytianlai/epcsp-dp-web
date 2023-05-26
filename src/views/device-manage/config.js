@@ -58,10 +58,10 @@ export const chargingStationPieDataFun = (code = 1,data={},maintab = 1)=>{
     // 充电桩
     if(code === 1){
       return [
-        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩',  unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩', unit: '个',isChoose: true },
-        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩',  unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩',  unit: '个',isChoose: true }
+        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩', code:1, unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩',code:2, unit: '个',isChoose: true },
+        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩', code:3, unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩', code:4, unit: '个',isChoose: true }
       ]
     }else{
       return [
@@ -76,10 +76,10 @@ export const chargingStationPieDataFun = (code = 1,data={},maintab = 1)=>{
     // 充电枪
     if(code === 1){
       return [
-        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充枪',  unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充枪', unit: '个',isChoose: true },
-        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充枪',  unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G枪',  unit: '个',isChoose: true }
+        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充枪', code:1, unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充枪',code:2, unit: '个',isChoose: true },
+        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充枪', code:3, unit: '个',isChoose: true },
+        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G枪', code:4, unit: '个',isChoose: true }
       ]
     }else{
       return [

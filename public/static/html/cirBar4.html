@@ -140,6 +140,27 @@
           itemStyle: getItemStyle(colorCollection[0]),
         },
         {
+          name: "下部底部圆",
+          data: [1],
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolOffset: [0, "50%"],
+          symbolSize: [40, 15],
+          zlevel: 1,
+          itemStyle: getItemStyle(colorCollection[4]),
+        },
+        {
+          name: "下部顶部圆",
+          data: data1Cir,
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolPosition: "end",
+          symbolOffset: [0, "-50%"],
+          symbolSize: [40, 12],
+          zlevel: 1,
+          itemStyle: getItemStyle(colorCollection[5]),
+        },
+        {
           name: "中底部柱子",
           data: data2,
           stack: "zs",
@@ -165,27 +186,6 @@
           barMaxWidth: "auto",
           barWidth: 40,
           itemStyle: getItemStyle(colorCollection[3]),
-        },
-        {
-          name: "下部底部圆",
-          data: [1],
-          type: "pictorialBar",
-          barMaxWidth: "20",
-          symbolOffset: [0, "50%"],
-          symbolSize: [40, 15],
-          zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[4]),
-        },
-        {
-          name: "下部顶部圆",
-          data: data1Cir,
-          type: "pictorialBar",
-          barMaxWidth: "20",
-          symbolPosition: "end",
-          symbolOffset: [0, "-50%"],
-          symbolSize: [40, 12],
-          zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[5]),
         },
         {
           name: "中底部底部圆",
@@ -276,6 +276,42 @@
          ue.dtspoi.postevent(`click-${areaCode}`)
 	       //在这里可以拿到数据然后调用需要调用的方法
         });
+    }
+
+    function createSingalCirBar(){
+      return
+      [
+        {
+          name: "底部柱子",
+          data: data1,
+          stack: "zs",
+          type: "bar",
+          barMaxWidth: "auto",
+          barWidth: 40,
+          itemStyle: getItemStyle(colorCollection[0]),
+        },
+        {
+          name: "下部底部圆",
+          data: [1],
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolOffset: [0, "50%"],
+          symbolSize: [40, 15],
+          zlevel: 1,
+          itemStyle: getItemStyle(colorCollection[4]),
+        },
+        {
+          name: "下部顶部圆",
+          data: data1Cir,
+          type: "pictorialBar",
+          barMaxWidth: "20",
+          symbolPosition: "end",
+          symbolOffset: [0, "-50%"],
+          symbolSize: [40, 12],
+          zlevel: 1,
+          itemStyle: getItemStyle(colorCollection[5]),
+        },
+      ]
     }
 
     function getItemStyle(colorArr) {
