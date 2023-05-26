@@ -176,8 +176,8 @@ provide('aircityObj', aircityObj);
 }
 .time-weather-wrap {
   position: absolute;
-  top: 52px;
-  right: 40px;
+  top: 38px;
+  right: 20px;
   z-index: 999;
 }
 

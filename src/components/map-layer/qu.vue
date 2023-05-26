@@ -29,13 +29,15 @@ import {
   getTreeLayerIdByName,
   hideAllStation3dt
 } from '@/global/config/map';
-import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
+import { pointIsInPolygon, Cartesian2D, GCJ02_2_4547 } from '@/utils/index';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
+import { getHtmlUrl } from '@/global/config/map';
+
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
 interface Props {
@@ -64,31 +66,37 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
   console.log('事件监听', e);
-  if (e.eventtype === 'MarkerCallBack' && e.Data.includes('click')) {
-    let areaCode = e.Data.split('-')[1];
-    if (e.ID?.includes('区')) {
-      let quName = e.ID.split('-')[1];
-      if (quName === currentQu.value) {
-        return;
-      }
-      store.changeLastQu(currentQu.value);
-      store.changeCurrentQu(quName);
-      store.changeCurrentPosition(quName);
-      __g.camera.set(...quView[currentQu.value]);
-      setQuVisibility(false);
-      addJdData(quName);
-      setTimeout(async () => {
-        await __g.settings.setEnableCameraMovingEvent(true);
-      }, 2000);
+  if (e.eventtype === 'MarkerCallBack') {
+    if (e.Data == 'closeStationHighLight') {
+      //关闭 点击非高渲染站点添加的动态圈圈
+      __g.radiationPoint.clear();
     }
-    if (e.ID?.includes('街道')) {
-      let jdName = e.ID.split('-')[1];
-      store.changeLastJd(currentJd.value);
-      store.changeCurrentJd(jdName);
-      store.changeCurrentPosition(jdName);
-      __g.polygon.focus('jd-' + currentJd.value, 1500);
-      deleteSingleJdData();
-      addStationPoint(areaCode);
+    if (e.Data.includes('click')) {
+      let areaCode = e.Data.split('-')[1];
+      if (e.ID?.includes('区')) {
+        let quName = e.ID.split('-')[1];
+        if (quName === currentQu.value) {
+          return;
+        }
+        store.changeLastQu(currentQu.value);
+        store.changeCurrentQu(quName);
+        store.changeCurrentPosition(quName);
+        __g.camera.set(...quView[currentQu.value]);
+        setQuVisibility(false);
+        addJdData(quName);
+        setTimeout(async () => {
+          await __g.settings.setEnableCameraMovingEvent(true);
+        }, 2000);
+      }
+      if (e.ID?.includes('街道')) {
+        let jdName = e.ID.split('-')[1];
+        store.changeLastJd(currentJd.value);
+        store.changeCurrentJd(jdName);
+        store.changeCurrentPosition(jdName);
+        __g.polygon.focus('jd-' + currentJd.value, 1500);
+        deleteSingleJdData();
+        addStationPoint(areaCode);
+      }
     }
   }
   if (e.eventtype === 'LeftMouseButtonClick') {
@@ -99,6 +107,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       if (stationInfo.isHr !== 0) {
         //普通站点
         __g.marker.focus(e.Id, 100);
+        highLightNormalStation(JSON.parse(e.UserData));
         enterStationInfo(stationInfo);
         return;
       }
@@ -144,6 +153,22 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'MouseHovered' && (e.Id?.includes('区') || e.Id?.includes('街道'))) {
   }
 });
+
+const highLightNormalStation = async (obj) => {
+  __g.radiationPoint.clear();
+  let o = {
+    id: '1',
+    coordinate: [obj.lng, obj.lat], //辐射圈坐标位置
+    coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
+    radius: 300, //辐射半径
+    rippleNumber: 3, //波纹数量
+    color: [0, 1, 1, 0.5], //颜色
+    intensity: 0.1, //亮度
+    autoHeight: false //自动判断下方是否有物体
+  };
+  await __g.radiationPoint.add(o);
+  __g.radiationPoint.focus(o.id, 200, 1);
+};
 
 const addCenterPoint = async (point) => {
   __g.marker.clear();
@@ -353,6 +378,13 @@ const addJdStation = async (jdCode: string) => {
       imageSize: [55, 150], //图片的尺寸
       range: [1, 150000], //可视范围
       imagePath: getImageByCloud('chargeStation50'),
+      popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
+        item.stationName
+      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
+      popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
+      popupSize: [425, 57], //弹窗大小
+      popupOffset: [-210, -157], //弹窗偏移
+      autoHidePopupWindow: false,
       text: item.stationName, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
@@ -361,13 +393,9 @@ const addJdStation = async (jdCode: string) => {
       fontSize: 16, //字体大小
       fontOutlineSize: 1, //字体轮廓线大小
       fontColor: '#FFFFFF', //字体颜色
-      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
       displayMode: 2,
       autoDisplayModeSwitchFirstRatio: 0.5,
       autoDisplayModeSwitchSecondRatio: 0.5,
-      // displayMode: 4,
-      // autoDisplayModeSwitchFirstRatio: 0.5,
-      // autoDisplayModeSwitchSecondRatio: 0.5,
       autoHeight: true
     };
     if (item.isHr == 0) {
