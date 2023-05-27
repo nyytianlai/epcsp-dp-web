@@ -4,7 +4,7 @@
       frameborder="0"
       v-show="showIframe"
       scrolling="no"
-      src="http://localhost:10011/"
+      src="http://10.10.2.63:9109/"
       :onload="handleIframeLoaded"
     ></iframe>
     <div class="charging-station" @click="routerChange('/overall/allView')"></div>
