@@ -13,9 +13,10 @@ const timeParams = () => ({
   endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
 });
 // 热门充电站TOP10
-export const hotCharging = () => {
-  return request.get({
-    url: '/massService/queryStatisticsLeftOperatorToMonthChargingSum'
+export const hotCharging = (data) => {
+  return request.post({
+    url: '/massService/stationRanking',
+    data
   });
 };
 // 地图街道柱状图
@@ -36,7 +37,7 @@ export const monthRate = () => {
 // 大屏-公众服务-市民反馈，调取/personFeedback/query 中台默认接口
 export const personFeedback = () => {
   return request.post({
-    url: '/personFeedback/query'
+    url: '/massService/citizenFeedback'
   });
 };
 // 设备管理/标题下四个统计数 实时设备信息统计
@@ -63,3 +64,19 @@ export const getChargeStatus = (type) => {
     }
   });
 };
+
+// 热门列表
+export const stationRankingDetail = (data) => {
+  return request.post({
+    url: '/massService/stationRankingDetail',
+    data
+  });
+};
+// 热门列表
+export const feedbackDetail = (data) => {
+  return request.post({
+    url: '/massService/feedbackDetail',
+    data
+  });
+};
+

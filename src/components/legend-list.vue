@@ -9,6 +9,7 @@
         class="legend"
         v-for="(item, index) in legendList"
         :key="index"
+        :class="{ isGray: item?.type }"
       >
         <span class="icon" :style="{ background: item.color }"></span>
         <span class="name">{{ item?.name }}</span>
@@ -22,12 +23,13 @@
 </template>
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
-const store = useVisibleComponentStore()
+const store = useVisibleComponentStore();
 interface ILegendList {
   color: string;
   name: string;
+  type?: boolean;
 }
 type ILegendType = 'normal' | 'hot';
 interface Props {
@@ -116,6 +118,9 @@ const panelShow = computed(() => store.panelShow);
         margin-left: 8px;
       }
     }
+  }
+  .isGray {
+    filter: grayscale(100%);
   }
 }
 </style>

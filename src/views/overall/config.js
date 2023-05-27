@@ -93,15 +93,35 @@ export const projectListFun = () => {
   ];
 };
 
-export const tabDataFun = () => {
+export const chargingStationTabsFun = () => {
   return [
     {
-      code: 'pile',
-      label: '充电桩总量'
+      code: 1,
+      chargingType: 'speed',
+      typeCharge: 'pile',
+      label: '充电桩类型'
     },
     {
-      code: 'gun',
-      label: '充电枪总量'
+      code: 2,
+      chargingType: 'electricity',
+      typeCharge: 'pile',
+      label: '充电桩电流类型'
+    }
+  ];
+};
+export const chargingStationGunTabsFun = () => {
+  return [
+    {
+      code: 1,
+      chargingType: 'speed',
+      typeCharge: 'gun',
+      label: '充电枪类型'
+    },
+    {
+      code: 2,
+      chargingType: 'electricity',
+      typeCharge: 'gun',
+      label: '充电枪电流类型'
     }
   ];
 };
@@ -131,86 +151,134 @@ export const pageNumFun = (data = {}) => {
   ];
 };
 
-export const pileChargerFun = (code = 'pile',data={}) => {
-  if (code === 'pile') {
-    return [
-      {
-        img: zlcd,
-        num: data?.directEquCount,
-        unit: '个',
-        name: '直流桩总量'
-      },
-      {
-        img: jlcd,
-        num: data?.exchangeEquCount,
-        unit: '个',
-        name: '交流桩总量'
-      },
-      {
-        img: fast,
-        num: data?.fastChargeEquCount,
-        unit: '个',
-        name: '快充桩总量'
-      },
-      {
-        img: slow,
-        num: data?.slowChargeEquCount,
-        unit: '个',
-        name: '慢充桩总量'
-      },
-      {
-        img: speed,
-        num: data?.overchargeEquCount,
-        unit: '个',
-        name: '超充桩总量'
-      },
-      {
-        img: v2g,
-        num: data?.v2GEquCount,
-        unit: '个',
-        name: 'V2G桩总量'
-      }
-    ];
-  } else {
-    return [
-      {
-        img: zlcd,
-        num: data?.directEquCount,
-        unit: '个',
-        name: '直流枪总量'
-      },
-      {
-        img: jlcd,
-        num: data?.exchangeEquCount,
-        unit: '个',
-        name: '交流枪总量'
-      },
-      {
-        img: fast,
-        num: data?.fastChargeEquCount,
-        unit: '个',
-        name: '快充枪总量'
-      },
-      {
-        img: slow,
-        num: data?.slowChargeEquCount,
-        unit: '个',
-        name: '慢充枪总量'
-      },
-      {
-        img: speed,
-        num: data?.overchargeEquCount,
-        unit: '个',
-        name: '超充枪总量'
-      },
-      {
-        img: v2g,
-        num: data?.v2GEquCount,
-        unit: '个',
-        name: 'V2G枪总量'
-      }
-    ];
+export const pileChargerFun = (code = 1,data={},maintab = 1) => {
+  if(maintab === 1) {
+    // 充电桩
+    if(code === 1){
+      return [
+        {
+          img: fast,
+          num: data?.fastChargeEquCount,
+          unit: '个',
+          name: '快充桩总量'
+        },
+        {
+          img: slow,
+          num: data?.slowChargeEquCount,
+          unit: '个',
+          name: '慢充桩总量'
+        },
+        {
+          img: speed,
+          num: data?.overchargeEquCount,
+          unit: '个',
+          name: '超充桩总量'
+        },
+        {
+          img: v2g,
+          num: data?.v2GEquCount,
+          unit: '个',
+          name: 'V2G桩总量'
+        },
+      ]
+    }else {
+      return [
+        {
+          img: zlcd,
+          num: data?.directEquCount,
+          unit: '个',
+          name: '直流桩总量'
+        },
+        {
+          img: jlcd,
+          num: data?.exchangeEquCount,
+          unit: '个',
+          name: '交流桩总量'
+        },
+        {
+          img: jlcd,
+          num: data?.ACAndDCCount,
+          unit: '个',
+          name: '直交流桩总量'
+        },
+        {
+          img: jlcd,
+          num: data?.othersCount,
+          unit: '个',
+          name: '其他桩总量'
+        },
+        {
+          img: v2g,
+          num: data?.v2GEquCount,
+          unit: '个',
+          name: 'V2G桩总量'
+        },
+      ]
+    }
+  }else {
+    if(code === 1){
+      return [
+        {
+          img: fast,
+          num: data?.fastChargeEquCount,
+          unit: '个',
+          name: '快充枪总量'
+        },
+        {
+          img: slow,
+          num: data?.slowChargeEquCount,
+          unit: '个',
+          name: '慢充枪总量'
+        },
+        {
+          img: speed,
+          num: data?.overchargeEquCount,
+          unit: '个',
+          name: '超充枪总量'
+        },
+        {
+          img: v2g,
+          num: data?.v2GEquCount,
+          unit: '个',
+          name: 'V2G枪总量'
+        },
+      ]
+    }else {
+      return [
+        {
+          img: zlcd,
+          num: data?.directEquCount,
+          unit: '个',
+          name: '直流枪总量'
+        },
+        {
+          img: jlcd,
+          num: data?.exchangeEquCount,
+          unit: '个',
+          name: '交流枪总量'
+        },
+        {
+          img: jlcd,
+          num: data?.ACAndDCCount,
+          unit: '个',
+          name: '直交流枪总量'
+        },
+        {
+          img: jlcd,
+          num: data?.othersCount,
+          unit: '个',
+          name: '其他枪总量'
+        },
+        {
+          img: v2g,
+          num: data?.v2GEquCount,
+          unit: '个',
+          name: 'V2G枪总量'
+        },
+      ]
+    }
   }
+
 };
 
 export const operatingTabsFun = () => {
@@ -266,13 +334,13 @@ export const powerInfoNumDataFun = (data={}) => {
     {
       img: zgl,
       num: data?.totalPower,
-      name: '总功率/kw',
+      name: '额定总功率/kw',
       classStyleType:'leftRightStyleGreen'
     },
     {
       img: ssgl,
       num: data?.realTimePower,
-      name: '实时功率/kw',
+      name: '实时总功率/kw',
       classStyleType:'leftRightStyleYellow'
     }
   ];
@@ -299,21 +367,21 @@ export const warningTabsDataFun = (data={}) => {
       label: '一级人身安全',
       icon: 'first-level',
       num: data?.firstLevel,
-      code: 1,
+      code: '1',
       color: '#FA2A2D'
     },
     {
       label: '二级设备安全',
       icon: 'second-level',
       num: data?.secondLevel,
-      code: 2,
+      code: '2',
       color: '#FF7500'
     },
     {
       label: '三级告警提示',
       icon: 'third-level',
       num: data?.thirdLevel,
-      code: 3,
+      code: '3',
       color: '#FFBF00'
     },
   ]
@@ -378,7 +446,7 @@ export const bottomTabDataFun = () => {
   return [
     {
       code: 1,
-      label: '充电设施'
+      label: '充电站'
     },
     {
       code: 2,
@@ -402,17 +470,18 @@ export const columnDataFun = () => {
     {
       prop: 'alarmLevelName',
       label: '告警级别',
-      minWidth:1
-    },
-    {
-      prop: 'alarmDesc',
-      label: '告警描述',
-      minWidth:'2'
+      minWidth:1,
+      filterMultiple: true
     },
     {
       prop: 'alarmTypeName',
       label: '告警类型',
       minWidth:'1'
+    },
+    {
+      prop: 'alarmDesc',
+      label: '告警描述',
+      minWidth:'2'
     },
     {
       prop: 'alarmTime',
@@ -431,3 +500,117 @@ export const columnDataFun = () => {
     },
   ]
 }
+// 运营商详情弹窗
+export const columnDataRankFun = () => {
+  return [
+    // {
+    //   type: 'index',
+    //   label: '序号',
+    //   index:(index)=>(pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
+    //   minWidth:1
+    // },
+    {
+      prop: 'operatorName',
+      label: '运营商名称',
+      minWidth:2.8
+    },
+    {
+      prop: 'stationNumber',
+      label: '充电站',
+      minWidth:2,
+      sortable: 'custom',
+      sortOrders: ['ascending','descending']
+    },
+    {
+      prop: 'pileNumber',
+      label: '充电桩',
+      minWidth:2,
+      sortable: 'custom',
+      sortOrders: ['ascending','descending']
+    },
+    {
+      prop: 'gunNumber',
+      label: '充电枪',
+      minWidth:2,
+      sortable: 'custom',
+      sortOrders: ['ascending','descending']
+    },
+    {
+      prop: 'principal',
+      label: '负责人',
+      minWidth:1,
+    },
+    {
+      prop: 'phone',
+      label: '联系电话',
+      minWidth:2,
+    },
+  ]
+}
+// 充电设施
+export const columnDataChargeFun = () => {
+  return [
+    {
+      prop: 'stationName',
+      label: '充电站名称',
+      minWidth:2.8
+    },
+    {
+      prop: 'pileNumber',
+      label: '充电桩/个',
+      minWidth:1.5,
+    },
+    {
+      prop: 'gunNumber',
+      label: '充电枪/个',
+      minWidth:1.5,
+    },
+    {
+      prop: 'alarmNumber',
+      label: '今日告警/次',
+      minWidth:1.5,
+    },
+  ]
+}
+// 数据过滤的选项
+export const  filtersAlarmLevelName =[
+  {
+    id: 'all',
+    label: '全部',
+    children:[
+      {
+        id: '1',
+        label: '一级人身安全',
+      },
+      {
+        id: '2',
+        label: '二级设备安全',
+      },
+      {
+        id: '3',
+        label: '三级告警提示',
+      },
+    ]
+  }
+]
+// 警告类型数据过滤的选项
+export const  filtersAlarmTypeName =[
+  {
+    id: 'all',
+    label: '全部',
+    children:[
+      {
+        id: '1',
+        label: '充电系统',
+      },
+      {
+        id: '2',
+        label: '电池系统',
+      },
+      {
+        id: '3',
+        label: '配电系统',
+      },
+    ]
+  }
+]

@@ -18,7 +18,22 @@
       </div>
     </div>
     <div class="pile-charger">
-      <tabs :data="tabsData" @changeTab="(data) => handleChangeTab(data, 'charger')" />
+      <div class="pile-charger-header">
+        <tabs
+          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="(data) => handleChangeTab(data, 'charger')"
+        />
+        <div class="right-tab-btn">
+          <div
+            v-for="item in tabList"
+            class="tab-btn"
+            :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
       <div class="num-wrap">
         <template v-for="(item, index) in pileChargerData" :key="index">
           <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
@@ -26,7 +41,7 @@
       </div>
     </div>
     <div class="operating-company">
-      <title-column title="运营企业年度TOP10" />
+      <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
       <rank-list :data="projectList" :totalNum="projectTotalNum" height="2.76rem" />
     </div>
@@ -62,6 +77,18 @@
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+    <template #titleSearch>
+      <el-input
+        v-model="inputWarn"
+        placeholder="请输入"
+        class="search-input"
+        @change="handleSearchWarn"
+      >
+        <template #suffix>
+          <icon :size="12" icon="svg-icon:search" />
+        </template>
+      </el-input>
+    </template>
     <el-table
       :data="alarmTableData"
       height="6.34rem"
@@ -75,7 +102,58 @@
         :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
       >
+        <template #header v-if="item.prop === 'alarmLevelName'">
+          <div class="alarmLevelName">
+            {{ item.label }}
+            <el-popover placement="bottom" trigger="click">
+              <template #reference>
+                <icon :size="12" icon="svg-icon:filter" class="filter" />
+              </template>
+              <div class="checkbox">
+                <el-tree
+                  :data="filtersAlarmLevelName"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false"
+                  @check="handleFilter"
+                  class="table-filter"
+                  :indent="0.00001"
+                  :default-checked-keys="defaultAreaWarm"
+                />
+              </div>
+            </el-popover>
+          </div>
+        </template>
+        <template #header v-if="item.prop === 'alarmTypeName'">
+          <div class="alarmTypeName">
+            {{ item.label }}
+            <el-popover placement="bottom" trigger="click">
+              <template #reference>
+                <icon :size="12" icon="svg-icon:filter" class="filter" />
+              </template>
+              <div class="checkbox">
+                <el-tree
+                  :data="filtersAlarmTypeName"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false"
+                  @check="handleFilterType"
+                  class="table-filter"
+                  :indent="0.00001"
+                  :default-checked-keys="defaultAreaWarmType"
+                />
+              </div>
+            </el-popover>
+          </div>
+        </template>
         <template #default="scope"></template>
+      </el-table-column>
+      <el-table-column label="操作" key="operation" minWidth="2">
+        <template #default="scope">
+          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -87,13 +165,68 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
+  <custom-dialog
+    v-model:visible="dialogRankVisible"
+    title="运营企业排名列表"
+    @closed="handleDialogClosed"
+  >
+    <template #titleSearch>
+      <el-input
+        v-model="inputRank"
+        placeholder="请输入"
+        class="search-input"
+        @change="handleSearch"
+      >
+        <template #suffix>
+          <icon :size="12" icon="svg-icon:search" />
+        </template>
+      </el-input>
+    </template>
+    <el-table
+      :data="rankTableData"
+      height="6.34rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+      @sort-change="handleSort"
+      :default-sort="{ prop: 'stationNumber', order: 'descending' }"
+    >
+      <el-table-column
+        v-for="(item, index) in columnDataRank"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+        :sortable="item.sortable"
+        :sort-orders="item.sortOrders"
+      >
+        <template #default="scope"></template>
+      </el-table-column>
+      <el-table-column label="操作" key="operation" minWidth="2">
+        <template #default="scope">
+          <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      :page-size="pageObjRank.pageSize"
+      layout="prev, pager, next"
+      :total="pageObjRank.total"
+      :background="true"
+      :current-page="pageObjRank.currentPage"
+      @current-change="handPageChangeRank"
+    />
+  </custom-dialog>
+  <RankDetail v-model="rankDetailVisible" ref="rankDetail" @goDetail="handleGoDetail"></RankDetail>
 </template>
 <script setup>
-import { onMounted, ref, reactive, inject, watch, nextTick } from 'vue';
+import Icon from '@sutpc/vue3-svg-icon';
+
+import { onMounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
+import RankDetail from './components/rank-detail.vue';
 import {
   overTotalCount,
   totalFacilities,
@@ -103,12 +236,12 @@ import {
   dayPower,
   alarmInfo,
   timePowerGraph,
-  alarmCount
+  alarmCount,
+  operatorInfoList
 } from './api.js';
 import {
   pageNumFun,
   cdsszlFun,
-  tabDataFun,
   pileChargerFun,
   operatingTabsFun,
   projectListFun,
@@ -119,16 +252,34 @@ import {
   warningTabsDataFun,
   warningListFun,
   bottomTabDataFun,
-  columnDataFun
+  columnDataFun,
+  columnDataRankFun,
+  chargingStationTabsFun,
+  chargingStationGunTabsFun,
+  filtersAlarmLevelName,
+  filtersAlarmTypeName
 } from './config.js';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+// 左二图的tab
+const curBtn = ref(1);
+const storeVisible = useVisibleComponentStore();
+const tabList = ref([
+  { value: 1, name: '桩', index: 'pile' },
+  { value: 2, name: '枪', index: 'gun' }
+]);
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
+const rankDetail = ref();
+// 充电类型
+const chargingStationTabs = ref(chargingStationTabsFun());
+const chargingStationGunTabs = ref(chargingStationGunTabsFun());
+const totalChargerIndex = ref(1);
+const chargingType = ref('speed');
+const typeCharge = ref('pile');
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 //充电设施总量数据
 const cardData = ref(cdsszlFun());
-//充电桩总量和充电枪总量切换
-const tabsData = ref(tabDataFun());
 // 切换充电桩总量和充电枪总量数据
 const pileChargerData = ref(pileChargerFun());
 // 运营企业全年TOP10类型切换tab
@@ -157,10 +308,47 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 警告默认筛选
+const defaultAreaWarm = ref(['1', '2', '3']);
+const defaultAreaWarmType = ref(['1', '2', '3']);
+// 运营商数据
+const rankTableData = ref([]);
+// 运营企业排名弹窗显示标识
+const dialogRankVisible = ref(false);
+// 运营企业排名搜索
+const inputRank = ref();
+// 运营商分页
+const pageObjRank = reactive({
+  pageSize: 8,
+  total: 0,
+  currentPage: 1
+});
+// 运营商排序
+const sortRank = ref('station');
+// 排序类型
+const sortTypeRank = ref('desc');
+// 详情弹窗
+const rankDetailVisible = ref(false);
+// 告警搜索
+const inputWarn = ref();
+// 运营商id和name
+const operatorId = ref();
+const operatorName = ref();
+provide('operatorId', operatorId);
+provide('operatorName', operatorName);
+// 警告筛选
+const alarmLevel = ref();
+const alarmType = ref();
+// 弹窗列名
+const columnDataRank = ref(columnDataRankFun());
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
-    getTotalEquipment(data.code);
+    console.log('data', data);
+    totalChargerIndex.value = data.code;
+    chargingType.value = data.chargingType;
+    typeCharge.value = data.typeCharge;
+    getTotalEquipment();
   } else if (type === 'operating') {
     // 切换运营企业全年TOP10类型
     getStationOpeTop10(data.code);
@@ -168,7 +356,7 @@ const handleChangeTab = (data, type) => {
     // 今日充电设施数据信息tab切换
     getDayEquInfo(data.code);
   } else if (type === 'warning') {
-    getAlarmInfo(data.code);
+    getAlarmInfo([data.code]);
   }
 };
 
@@ -193,9 +381,9 @@ const getTotalFacilities = async () => {
   cardData.value = cdsszlFun(res.data);
 };
 //充电桩总量：pile，充电枪总量：gun
-const getTotalEquipment = async (type) => {
-  const res = await totalEquipment(type);
-  pileChargerData.value = pileChargerFun(type, res?.data);
+const getTotalEquipment = async () => {
+  const res = await totalEquipment({ chargingType: chargingType.value, type: typeCharge.value });
+  pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data, curBtn.value);
 };
 
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
@@ -215,6 +403,29 @@ const getStationOpeTop10 = async (type) => {
     projectList.value = [];
     projectTotalNum.value = 0;
   }
+};
+// 获取运营企业信息
+const loadOperatorInfoList = async () => {
+  if (columnDataRank.value.findIndex((i) => i.type === 'index') === -1) {
+    const temp = {
+      type: 'index',
+      label: '序号',
+      index: (index) => (pageObjRank.currentPage - 1) * pageObjRank.pageSize + index + 1,
+      minWidth: 1
+    };
+    columnDataRank.value.unshift(temp);
+  }
+  const obj = {
+    operatorName: inputRank.value,
+    pageNum: pageObjRank.currentPage,
+    pageSize: pageObjRank.pageSize,
+    sortField: sortRank.value,
+    sort: sortTypeRank.value
+  };
+  const res = await operatorInfoList(obj);
+  rankTableData.value = res.data.list;
+  pageObjRank.total = res.data.totalPage;
+  console.log('res', res);
 };
 //今日-充电桩/充电枪信息
 const getDayEquInfo = async (type) => {
@@ -256,11 +467,13 @@ const getTimePowerGraph = async () => {
   lineTimeData.value = lineTimeDataFun(res.data);
 };
 
-const getTableAlarm = async (level) => {
+const getTableAlarm = async () => {
   const params = {
-    alarmLevel: level,
+    alarmLevel: alarmLevel.value,
+    alarmType: alarmType.value,
     pageNum: pageObj.currentPage,
-    pageSize: pageObj.pageSize
+    pageSize: pageObj.pageSize,
+    searchContent: inputWarn.value
   };
   const res = await alarmInfo(params);
   if (res.data && res.data.list) {
@@ -276,8 +489,121 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getTableAlarm();
 };
-const handleDialogClosed = () => {
-  console.log('handleDialogClosed');
+// const handleDialogClosed = () => {
+//   console.log('handleDialogClosed');
+// }
+// 运营企业排名详情点击
+const handleDetailClick = (item) => {
+  dialogRankVisible.value = true;
+};
+// 运营商分页
+const handPageChangeRank = (value) => {
+  pageObjRank.currentPage = value;
+  loadOperatorInfoList();
+};
+// 运营商排序
+const handleSort = (item) => {
+  console.log('item', item);
+  if (item.order) {
+    // 存在排序
+    const sortTypeNum = {
+      ascending: 'asc',
+      descending: 'desc'
+    };
+    const sortIndex = {
+      pileNumber: 'pile',
+      gunNumber: 'gun',
+      stationNumber: 'station'
+    };
+    sortRank.value = sortIndex[item.prop];
+    sortTypeRank.value = sortTypeNum[item.order];
+  } else {
+    sortRank.value = null;
+    sortTypeRank.value = null;
+  }
+  loadOperatorInfoList();
+};
+// 点击详情
+const handleDetail = (item) => {
+  console.log('item', item);
+  operatorId.value = item.row.operatorId;
+  operatorName.value = item.row.operatorName;
+  nextTick(() => {
+    rankDetail.value.init();
+    rankDetailVisible.value = true;
+  });
+};
+// 充电设施跳转详情
+const handleGoDetail = (item) => {
+  // 关闭弹窗
+  dialogRankVisible.value = false;
+  rankDetailVisible.value = false;
+  // 展示站点
+  storeVisible.changeShowComponent(false);
+  storeVisible.changeShowDetail({
+    show: true,
+    params: {
+      operatorId: operatorId.value,
+      stationId: item.row.stationId,
+      isHr: item.row.isHr
+    }
+  });
+};
+
+// 左二的右侧tab切换
+const handleTabBtn = (item) => {
+  console.log('item');
+  curBtn.value = item.value;
+  typeCharge.value = item.index;
+  getTotalEquipment();
+};
+
+// 警告级别筛选
+const handleFilter = (value, data) => {
+  const temp = data.checkedKeys;
+  // 全部
+  if (temp.includes('all')) {
+    alarmLevel.value = [];
+    getTableAlarm();
+  } else {
+    // 存在筛选
+    alarmLevel.value = temp;
+    getTableAlarm();
+  }
+};
+// 警告类型筛选
+const handleFilterType = (value, data) => {
+  const temp = data.checkedKeys;
+  // 全部
+  if (temp.includes('all')) {
+    alarmType.value = [];
+    getTableAlarm();
+  } else {
+    // 存在筛选
+    alarmType.value = temp;
+    getTableAlarm();
+  }
+};
+
+// 告警搜索
+const handleSearchWarn = () => {
+  getTableAlarm();
+};
+// 告警详情
+const handleDetailWarn = (item) => {
+  console.log('item', item);
+  dialogTableVisible.value = false;
+  // 展示站点
+  storeVisible.changeShowComponent(false);
+  storeVisible.changeShowDetail({
+    show: true,
+    params: {
+      operatorId: item.row.operatorId,
+      stationId: item.row.stationId,
+      isHr: item.row.isHr,
+      equipmentId: item.row.equipmentId
+    }
+  });
 };
 onMounted(() => {
   getOverTotalCount();
@@ -286,10 +612,11 @@ onMounted(() => {
   getStationOpeTop10('station');
   getDayEquInfo('pile');
   getDayPower();
-  getAlarmInfo(1);
+  getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
   getTableAlarm();
+  loadOperatorInfoList();
 });
 </script>
 <style lang="less" scoped>
@@ -315,8 +642,10 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
     .num-card {
       margin-bottom: 20px;
       &:nth-last-of-type(1),
@@ -423,5 +752,38 @@ onMounted(() => {
       }
     }
   }
+}
+.detail {
+  color: #4bdeff;
+  text-decoration: none;
+}
+.right-tab-btn {
+  display: flex;
+  background: rgba(21, 69, 105, 0.5);
+  border: 1px solid #486785;
+  .tab-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    border-left: 1px solid #486785;
+    &:nth-of-type(1) {
+      border: none;
+    }
+  }
+}
+.active {
+  background: rgba(84, 181, 255, 0.8);
+  color: #ffffff;
+}
+.pile-charger-header {
+  display: flex;
+  justify-content: space-between;
+}
+.filter {
+  cursor: pointer;
 }
 </style>
