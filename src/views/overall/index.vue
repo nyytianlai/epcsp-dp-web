@@ -77,7 +77,7 @@
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
-      <template #titleSearch>
+    <template #titleSearch>
       <el-input
         v-model="inputWarn"
         placeholder="请输入"
@@ -221,12 +221,12 @@
 <script setup>
 import Icon from '@sutpc/vue3-svg-icon';
 
-import { onMounted, ref, reactive, inject, watch,provide, nextTick } from 'vue';
+import { onMounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
-import RankDetail from './components/rank-detail.vue'
+import RankDetail from './components/rank-detail.vue';
 import {
   overTotalCount,
   totalFacilities,
@@ -254,25 +254,28 @@ import {
   bottomTabDataFun,
   columnDataFun,
   columnDataRankFun,
-    chargingStationTabsFun,
+  chargingStationTabsFun,
   chargingStationGunTabsFun,
   filtersAlarmLevelName,
   filtersAlarmTypeName
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 // 左二图的tab
-const curBtn = ref(1)
+const curBtn = ref(1);
 const storeVisible = useVisibleComponentStore();
-const tabList = ref([{value:1,name:'桩',index:'pile'},{value:2,name:'枪',index:'gun'}])
+const tabList = ref([
+  { value: 1, name: '桩', index: 'pile' },
+  { value: 2, name: '枪', index: 'gun' }
+]);
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-const rankDetail = ref()
+const rankDetail = ref();
 // 充电类型
-const chargingStationTabs = ref(chargingStationTabsFun())
-const chargingStationGunTabs = ref(chargingStationGunTabsFun())
-const totalChargerIndex = ref(1)
-const chargingType = ref('speed')
-const typeCharge = ref('pile')
+const chargingStationTabs = ref(chargingStationTabsFun());
+const chargingStationGunTabs = ref(chargingStationGunTabsFun());
+const totalChargerIndex = ref(1);
+const chargingType = ref('speed');
+const typeCharge = ref('pile');
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 //充电设施总量数据
@@ -306,14 +309,14 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 警告默认筛选
-const defaultAreaWarm = ref(['1','2','3'])
-const defaultAreaWarmType = ref(['1','2','3'])
+const defaultAreaWarm = ref(['1', '2', '3']);
+const defaultAreaWarmType = ref(['1', '2', '3']);
 // 运营商数据
 const rankTableData = ref([]);
 // 运营企业排名弹窗显示标识
-const dialogRankVisible = ref(false)
+const dialogRankVisible = ref(false);
 // 运营企业排名搜索
-const inputRank = ref()
+const inputRank = ref();
 // 运营商分页
 const pageObjRank = reactive({
   pageSize: 8,
@@ -321,30 +324,30 @@ const pageObjRank = reactive({
   currentPage: 1
 });
 // 运营商排序
-const sortRank = ref('station')
+const sortRank = ref('station');
 // 排序类型
-const sortTypeRank = ref('desc')
+const sortTypeRank = ref('desc');
 // 详情弹窗
-const rankDetailVisible = ref(false)
+const rankDetailVisible = ref(false);
 // 告警搜索
-const inputWarn = ref()
+const inputWarn = ref();
 // 运营商id和name
-const operatorId = ref()
-const operatorName = ref()
-provide('operatorId',operatorId)
-provide('operatorName',operatorName)
+const operatorId = ref();
+const operatorName = ref();
+provide('operatorId', operatorId);
+provide('operatorName', operatorName);
 // 警告筛选
-const alarmLevel = ref()
-const alarmType = ref()
+const alarmLevel = ref();
+const alarmType = ref();
 // 弹窗列名
 const columnDataRank = ref(columnDataRankFun());
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
-    console.log('data',data)
-    totalChargerIndex.value = data.code
-    chargingType.value =  data.chargingType
-    typeCharge.value = data.typeCharge
+    console.log('data', data);
+    totalChargerIndex.value = data.code;
+    chargingType.value = data.chargingType;
+    typeCharge.value = data.typeCharge;
     getTotalEquipment();
   } else if (type === 'operating') {
     // 切换运营企业全年TOP10类型
@@ -379,8 +382,8 @@ const getTotalFacilities = async () => {
 };
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async () => {
-  const res = await totalEquipment({chargingType: chargingType.value,type:typeCharge.value});
-  pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data,curBtn.value);
+  const res = await totalEquipment({ chargingType: chargingType.value, type: typeCharge.value });
+  pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data, curBtn.value);
 };
 
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
@@ -402,28 +405,28 @@ const getStationOpeTop10 = async (type) => {
   }
 };
 // 获取运营企业信息
-const loadOperatorInfoList = async()=>{
-  if(columnDataRank.value.findIndex(i=>i.type === 'index') === -1){
-      const temp =         {
+const loadOperatorInfoList = async () => {
+  if (columnDataRank.value.findIndex((i) => i.type === 'index') === -1) {
+    const temp = {
       type: 'index',
       label: '序号',
-      index:(index)=>(pageObjRank.currentPage - 1) * pageObjRank.pageSize + index + 1,
-      minWidth:1
-    }
-  columnDataRank.value.unshift(temp)
+      index: (index) => (pageObjRank.currentPage - 1) * pageObjRank.pageSize + index + 1,
+      minWidth: 1
+    };
+    columnDataRank.value.unshift(temp);
   }
-    const obj = {
+  const obj = {
     operatorName: inputRank.value,
-    pageNum:pageObjRank.currentPage,
-    pageSize:pageObjRank.pageSize,
+    pageNum: pageObjRank.currentPage,
+    pageSize: pageObjRank.pageSize,
     sortField: sortRank.value,
-    sort: sortTypeRank.value,
-  }
-  const res = await operatorInfoList(obj)
-  rankTableData.value = res.data.list
-  pageObjRank.total = res.data.totalPage
-  console.log('res',res)
-}
+    sort: sortTypeRank.value
+  };
+  const res = await operatorInfoList(obj);
+  rankTableData.value = res.data.list;
+  pageObjRank.total = res.data.totalPage;
+  console.log('res', res);
+};
 //今日-充电桩/充电枪信息
 const getDayEquInfo = async (type) => {
   const res = await dayEquInfo(type);
@@ -470,7 +473,7 @@ const getTableAlarm = async () => {
     alarmType: alarmType.value,
     pageNum: pageObj.currentPage,
     pageSize: pageObj.pageSize,
-    searchContent:inputWarn.value
+    searchContent: inputWarn.value
   };
   const res = await alarmInfo(params);
   if (res.data && res.data.list) {
@@ -490,53 +493,51 @@ const handPageChange = (value) => {
 //   console.log('handleDialogClosed');
 // }
 // 运营企业排名详情点击
-const handleDetailClick = (item)=>{
-  dialogRankVisible.value = true
-}
+const handleDetailClick = (item) => {
+  dialogRankVisible.value = true;
+};
 // 运营商分页
 const handPageChangeRank = (value) => {
   pageObjRank.currentPage = value;
   loadOperatorInfoList();
 };
 // 运营商排序
-const handleSort = (item)=>{
-  console.log('item',item)
-  if(item.order){
-          // 存在排序
-  const sortTypeNum = {
-    ascending: 'asc',
-    descending: 'desc'
+const handleSort = (item) => {
+  console.log('item', item);
+  if (item.order) {
+    // 存在排序
+    const sortTypeNum = {
+      ascending: 'asc',
+      descending: 'desc'
+    };
+    const sortIndex = {
+      pileNumber: 'pile',
+      gunNumber: 'gun',
+      stationNumber: 'station'
+    };
+    sortRank.value = sortIndex[item.prop];
+    sortTypeRank.value = sortTypeNum[item.order];
+  } else {
+    sortRank.value = null;
+    sortTypeRank.value = null;
   }
-  const sortIndex = {
-    pileNumber: 'pile',
-    gunNumber: 'gun',
-    stationNumber:'station'
-  }
-  sortRank.value = sortIndex[item.prop]
-  sortTypeRank.value = sortTypeNum[item.order]
-
-  }else {
-    sortRank.value =null
-    sortTypeRank.value = null
-  }
-  loadOperatorInfoList()
-}
+  loadOperatorInfoList();
+};
 // 点击详情
-const handleDetail = (item) =>{
-  console.log('item',item)
-  operatorId.value = item.row.operatorId
-   operatorName.value = item.row.operatorName
-   nextTick(()=>{
-      rankDetail.value.init()
-      rankDetailVisible.value = true
-   })
-
-}
+const handleDetail = (item) => {
+  console.log('item', item);
+  operatorId.value = item.row.operatorId;
+  operatorName.value = item.row.operatorName;
+  nextTick(() => {
+    rankDetail.value.init();
+    rankDetailVisible.value = true;
+  });
+};
 // 充电设施跳转详情
-const handleGoDetail = (item)=>{
+const handleGoDetail = (item) => {
   // 关闭弹窗
-  dialogRankVisible.value = false
-  rankDetailVisible.value = false
+  dialogRankVisible.value = false;
+  rankDetailVisible.value = false;
   // 展示站点
   storeVisible.changeShowComponent(false);
   storeVisible.changeShowDetail({
@@ -547,51 +548,51 @@ const handleGoDetail = (item)=>{
       isHr: item.row.isHr
     }
   });
-}
+};
 
 // 左二的右侧tab切换
-const handleTabBtn = (item)=>{
-  console.log('item')
-  curBtn.value = item.value
-  typeCharge.value = item.index
-  getTotalEquipment()
-}
+const handleTabBtn = (item) => {
+  console.log('item');
+  curBtn.value = item.value;
+  typeCharge.value = item.index;
+  getTotalEquipment();
+};
 
 // 警告级别筛选
-const handleFilter = (value,data)=>{
-  const temp = data.checkedKeys
+const handleFilter = (value, data) => {
+  const temp = data.checkedKeys;
   // 全部
-  if(temp.includes('all')){
-    alarmLevel.value = []
-    getTableAlarm()
-  }else {
+  if (temp.includes('all')) {
+    alarmLevel.value = [];
+    getTableAlarm();
+  } else {
     // 存在筛选
-    alarmLevel.value = temp
-    getTableAlarm()
+    alarmLevel.value = temp;
+    getTableAlarm();
   }
-} 
+};
 // 警告类型筛选
-const handleFilterType = (value,data)=>{
-  const temp = data.checkedKeys
+const handleFilterType = (value, data) => {
+  const temp = data.checkedKeys;
   // 全部
-  if(temp.includes('all')){
-    alarmType.value = []
-    getTableAlarm()
-  }else {
+  if (temp.includes('all')) {
+    alarmType.value = [];
+    getTableAlarm();
+  } else {
     // 存在筛选
-    alarmType.value = temp
-    getTableAlarm()
+    alarmType.value = temp;
+    getTableAlarm();
   }
-} 
+};
 
 // 告警搜索
-const handleSearchWarn = ()=>{
+const handleSearchWarn = () => {
   getTableAlarm();
-}
+};
 // 告警详情
-const handleDetailWarn = (item)=>{
-  console.log('item',item)
-  dialogTableVisible.value = false
+const handleDetailWarn = (item) => {
+  console.log('item', item);
+  dialogTableVisible.value = false;
   // 展示站点
   storeVisible.changeShowComponent(false);
   storeVisible.changeShowDetail({
@@ -603,7 +604,7 @@ const handleDetailWarn = (item)=>{
       equipmentId: item.row.equipmentId
     }
   });
-}
+};
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
