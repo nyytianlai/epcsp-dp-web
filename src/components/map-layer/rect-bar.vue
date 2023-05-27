@@ -65,8 +65,8 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
-      id: 'rectBar-' + idEnd,
-      groupId: 'rectBar',
+      id: 'rectBar1-' + idEnd,
+      groupId: `rectBar-${type}`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height

@@ -178,7 +178,6 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import bus from '@/utils/bus';
 
 const storeVisible = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
@@ -335,7 +334,7 @@ const changeButtomTab = (item) => {
 const handleChoose = (item) => {
   console.log('充电设施总量', item);
   // todo
-  bus.emit('chargeTypeChange',item);
+  mapLayerRef.value.handleChargeTypeChange(item);
 };
 // 充电设施总量详情
 const handleDetailClick = () => {

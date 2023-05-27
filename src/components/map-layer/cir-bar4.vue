@@ -11,7 +11,6 @@ const __g = aircityObj.value?.acApi;
 const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quCode?: string }) => {
   let res;
   console.log('chargeTypeCollet', obj.chargeType);
-
   if (obj.type === 'qu') {
     res = await getEquipmentBar({
       chargeType: obj.chargeType,
@@ -71,7 +70,7 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
 
     let o = {
       id: `rectBar${obj.code}-${idEnd}`,
-      groupId: 'rectBar',
+      groupId: `rectBar-${obj.type}`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height

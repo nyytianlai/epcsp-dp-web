@@ -2,88 +2,92 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { districtAlarmLevelStatics, getMapAreaStationByPower } from './api.js';
+import { districtAlarmLevelStatics, getMapStationStatistic } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
+const addBar = async (obj: {
+  code: 1 | 2;
+  type: 'qu' | 'jd';
+  stationType: [];
+  quCode?: string;
+}) => {
   let res;
-  let valueField: string; //从哪个字段取值
-  if (code === 1) {
-    res = await districtAlarmLevelStatics(quCode);
-    valueField = 'cnt';
+  let count = [];
+  if (obj.code === 1) {
+    res = await districtAlarmLevelStatics(obj.quCode, obj.stationType);
+    for (const key in res.data) {
+      const element = res.data[key];
+      let countItem = element
+        .map((item) => {
+          return item.cnt;
+        })
+        .reduce(function (prev, cur) {
+          return prev + cur;
+        }, 0);
+      count.push(countItem);
+    }
     console.log('11--districtAlarmLevelStatics');
   } else {
-    res = await getMapAreaStationByPower(quCode ? [quCode] : quCode);
-    valueField = 'alarmStatusSize';
+    res = await getMapStationStatistic(obj.quCode, obj.stationType);
+    res.data.forEach((element) => {
+      let countItem = 0;
+      ['normalCount', 'warningCount', 'offlineCount'].forEach((i) => {
+        if (element[i]) {
+          countItem = countItem + element[i];
+        }
+      });
+      count.push(countItem);
+    });
     console.log('22--getMapAreaStationByPower');
   }
   let barArr = [];
   console.log('柱状图接口', res.data);
-  let count = [];
-  for (const key in res.data) {
-    const element = res.data[key];
-    let countItem = element
-      .map((item) => {
-        return item[valueField];
-      })
-      .reduce(function (prev, cur) {
-        return prev + cur;
-      }, 0);
-    count.push(countItem);
-  }
-  console.log('count', count);
-
   let yMax = Math.max(...count);
-  const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
+  const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
-  if (type === 'jd') {
+  if (obj.type === 'jd') {
     res1.features = res1.features.filter((item) => {
-      return item.properties.QUCODE === quCode;
+      return item.properties.QUCODE === obj.quCode;
     });
   }
   res1.features.forEach((item, index) => {
     let countObj;
-    if (type == 'qu') {
-      countObj =
-        code == 1 ? res.data[item.properties.QUCODE] : res.data[item.properties.QUCODE].reverse();
+    let field = obj.type == 'qu' ? 'QUCODE' : 'JDCODE';
+    let value;
+    if (obj.code == 1) {
+      countObj = res.data[item.properties[field]];
+      if (!countObj) {
+        return;
+      }
+      let data1 = countObj[0] ? countObj[0].cnt : 0;
+      let data2 = countObj[1] ? countObj[1].cnt : 0;
+      let data3 = countObj[2] ? countObj[2].cnt : 0;
+      value = `${data1},${data2},${data3},`;
     } else {
-      countObj =
-        code == 1 ? res.data[item.properties.JDCODE] : res.data[item.properties.JDCODE].reverse();
+      countObj = res.data.filter((i) => {
+        return i.areaCode == item.properties[field] ||i.streetCode == item.properties[field];
+      });
+      if (!countObj) {
+        return;
+      }
+      let data1 = countObj[0] ? countObj[0].normalCount : 0;
+      let data2 = countObj[0] ? countObj[0].warningCount : 0;
+      let data3 = countObj[0] ? countObj[0].offlineCount : 0;
+      value = `${data1},${data2},${data3},`;
     }
-    let sum = countObj
-      .map((item) => {
-        return item[valueField];
-      })
-      .reduce(function (prev, cur) {
-        return prev + cur;
-      }, 0);
-    // console.log('sum', sum);
-
-    // let contentHeight = (sum / yMax) * 180 + 83;
+    console.log(value);
+    
     let contentHeight = 190;
-    // console.log('countObj', countObj);
-    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
-    let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
-    // let o = {
-    //   id: `rectBar${code}-${idEnd}`,
-    //   groupId: 'rectBar',
-    //   userData: userData,
-    //   coordinate: item.geometry.coordinates,
-    //   contentURL: `${import.meta.env.VITE_FD_URL}/data/html/cirBar3.html?value=${
-    //     countObj[0][valueField]
-    //   },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}`,
-    //   contentSize: [88, contentHeight], //网页窗口宽高 [width, height] 263
-    //   pivot: [0.5, 1], // 中心点
-    //   range: [1, 150000] //显示范围：[min, max]
-    //   // autoHidePopupWindow: true //失去焦点后是否自动关闭弹出窗口
-    // };
+    let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    let areaCode = obj.type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+
     let o = {
-      id: `rectBar${code}-${idEnd}`,
-      groupId: 'rectBar',
+      id: `rectBar${obj.code}-${idEnd}`,
+      groupId: `rectBar-${obj.type}`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
@@ -91,19 +95,19 @@ const addBar = async (code: 1 | 2, type: 'qu' | 'jd', quCode?: string) => {
       range: [1, 1000000], //可视范围
       imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: `${getHtmlUrl()}/static/html/cirBar3.html?value=${
-         countObj[0][valueField]
-       },${countObj[1][valueField]},${countObj[2][valueField]}&yMax=${yMax}&colorType=${code}&areaCode=${areaCode}`, //弹窗HTML链接
+      popupURL: `${getHtmlUrl()}/static/html/cirBar3.html?value=${value}&yMax=${yMax}&colorType=${
+        obj.code
+      }&areaCode=${areaCode}`, //弹窗HTML链接
       autoHidePopupWindow: false,
       popupSize: [88, contentHeight],
-      popupOffset:[-88, -80], //弹窗偏移
+      popupOffset: [-88, -80], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
     barArr.push(o);
   });
-  await  __g.marker.add(barArr);
-  await  __g.marker.showAllPopupWindow();
+  await __g.marker.add(barArr);
+  await __g.marker.showAllPopupWindow();
 };
 defineExpose({ addBar });
 onMounted(async () => {});

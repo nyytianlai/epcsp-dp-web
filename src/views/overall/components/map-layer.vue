@@ -29,6 +29,7 @@ import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
+const buttomTabCode = computed(() => store.buttomTabCode);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
@@ -40,12 +41,13 @@ const legendName = ref('充电数量(个)');
 const isHeatMap = ref(false);
 
 const setRectBarVisibility = (value: boolean) => {
+  value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
   value
-    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar'));
+    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar1'))
+    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar1'));
 };
 const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');

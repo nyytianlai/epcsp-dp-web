@@ -119,9 +119,30 @@ export const warningMonitorTabsFun = () => {
 export const warningMonitorPieDataFun = (code = 1, data = {}) => {
   if (code === 1) {
     return [
-      { value: data['1'], name: '一级人身安全', extraName: '人身安全', unit: '个', isChoose: true },
-      { value: data['2'], name: '二级设备安全', extraName: '设备安全', unit: '个', isChoose: true },
-      { value: data['3'], name: '三级告警提示', extraName: '告警提示', unit: '个', isChoose: true }
+      {
+        value: data['1'],
+        name: '一级人身安全',
+        extraName: '人身安全',
+        unit: '个',
+        isChoose: true,
+        typeCode: 1
+      },
+      {
+        value: data['2'],
+        name: '二级设备安全',
+        extraName: '设备安全',
+        unit: '个',
+        isChoose: true,
+        typeCode: 2
+      },
+      {
+        value: data['3'],
+        name: '三级告警提示',
+        extraName: '告警提示',
+        unit: '个',
+        isChoose: true,
+        typeCode: 3
+      }
     ];
   } else {
     return [
@@ -181,13 +202,19 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         num: data?.safeWarningStationStatisticVo?.normalCount,
         name: '正常/个',
         ...formatStyle(),
-        isChoose: true
+        isChoose: true,
+        typeCode: 1,
+        extraName:'正常',
+        positionCode:2
       },
       {
         img: stateYellowB,
         num: data?.safeWarningStationStatisticVo?.warningCount,
         name: '预警/个',
         isChoose: true,
+        typeCode: 2,
+        extraName:'预警',
+        positionCode:2,
         ...formatStyle({
           numStyle: {
             color: '#FFB713'
@@ -199,6 +226,9 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         num: data?.safeWarningStationStatisticVo?.offlineCount,
         name: '未上线/个',
         isChoose: true,
+        typeCode: 3,
+        positionCode:2,
+        extraName:'未上线',
         ...formatStyle({
           numStyle: {
             color: '#FFFFFF'
@@ -348,7 +378,6 @@ export const realtimeTrendFun = (data = [], type = 1) => {
       }
     ];
   }
-
 };
 
 export const bottomTabDataFun = () => {
@@ -406,9 +435,9 @@ export const columnDataFun = () => {
       prop: 'contactTel',
       label: '联系电话',
       minWidth: 1.8
-    },
-  ]
-}
+    }
+  ];
+};
 // 数据过滤的选项
 export const filtersAlarmLevelName = [
   {
@@ -417,19 +446,19 @@ export const filtersAlarmLevelName = [
     children: [
       {
         id: '1',
-        label: '一级人身安全',
+        label: '一级人身安全'
       },
       {
         id: '2',
-        label: '二级设备安全',
+        label: '二级设备安全'
       },
       {
         id: '3',
-        label: '三级告警提示',
-      },
+        label: '三级告警提示'
+      }
     ]
   }
-]
+];
 // 警告类型数据过滤的选项
 export const filtersAlarmTypeName = [
   {
@@ -438,19 +467,19 @@ export const filtersAlarmTypeName = [
     children: [
       {
         id: '1',
-        label: '充电系统',
+        label: '充电系统'
       },
       {
         id: '2',
-        label: '电池系统',
+        label: '电池系统'
       },
       {
         id: '3',
-        label: '配电系统',
-      },
+        label: '配电系统'
+      }
     ]
   }
-]
+];
 export const columnKeyListFun = (type = 1) => {
   return [
     {
@@ -472,19 +501,31 @@ export const messageColumnKeyListFun = (type = 1) => {
       minWidth: 4
     },
     {
-      prop: 'cnt', label: '告警总数', minWidth: 1.5, sortable: 'custom',
+      prop: 'cnt',
+      label: '告警总数',
+      minWidth: 1.5,
+      sortable: 'custom',
       sortOrders: ['ascending', 'descending']
     },
     {
-      prop: 'unAffirmCnt', label: '未确认', minWidth: 1.5, sortable: 'custom',
+      prop: 'unAffirmCnt',
+      label: '未确认',
+      minWidth: 1.5,
+      sortable: 'custom',
       sortOrders: ['ascending', 'descending']
     },
     {
-      prop: 'affirmCnt', label: '已确认', minWidth: 1.5, sortable: 'custom',
+      prop: 'affirmCnt',
+      label: '已确认',
+      minWidth: 1.5,
+      sortable: 'custom',
       sortOrders: ['ascending', 'descending']
     },
     {
-      prop: 'recCnt', label: '已恢复', minWidth: 1.5, sortable: 'custom',
+      prop: 'recCnt',
+      label: '已恢复',
+      minWidth: 1.5,
+      sortable: 'custom',
       sortOrders: ['ascending', 'descending']
     },
     { prop: 'contactPerson', label: '负责人', minWidth: 1.5 },
