@@ -12,21 +12,22 @@ import defaultDemo from './default-demo';
 import type { NProgressOptions } from 'nprogress';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import Layout from '@/components/layout/index.vue'
+import Layout from '@/components/layout/index.vue';
+import Layout2 from '@/components/layout2/index.vue';
 
 export const routes = [
   {
     path: '/overall',
     name: 'overall',
-    meta: { title: '总览' },
+    meta: { title: '充电站' },
     component: Layout,
     children: [
       {
         name: 'overallAllView',
         path: '/overall/allView',
-        meta: { title: '总览', keepAlive: false },
-        component: () =>import('@/views/overall/index.vue')
-      },
+        meta: { title: '充电站', keepAlive: false },
+        component: () => import('@/views/overall/index.vue')
+      }
     ]
   },
   {
@@ -39,8 +40,8 @@ export const routes = [
         name: 'deviceManage',
         path: '/device/manage',
         meta: { title: '设备管理', keepAlive: false },
-        component: () =>import('@/views/device-manage/index.vue')
-      },
+        component: () => import('@/views/device-manage/index.vue')
+      }
     ]
   },
   {
@@ -53,8 +54,8 @@ export const routes = [
         name: 'safetySupervision',
         path: '/safety/supervision',
         meta: { title: '安全监管', keepAlive: false },
-        component: () =>import('@/views/safety-supervision/index.vue')
-      },
+        component: () => import('@/views/safety-supervision/index.vue')
+      }
     ]
   },
   {
@@ -67,16 +68,29 @@ export const routes = [
         name: 'publicService',
         path: '/public/service',
         meta: { title: '公众服务', keepAlive: false },
-        component: () =>import('@/views/public-service/index.vue')
-      },
+        component: () => import('@/views/public-service/index.vue')
+      }
     ]
   },
-
+  {
+    path: '/overview',
+    name: 'overview',
+    meta: { title: '总览' },
+    component: Layout2,
+    children: [
+      {
+        name: 'overviewAll',
+        path: '/overview/all',
+        meta: { title: '总览', keepAlive: false },
+        component: () => import('@/views/iframe/index.vue')
+      }
+    ]
+  }
 ];
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'overallAllView' }
+    redirect: { name: 'overviewAll' }
   },
   ...routes,
   {
@@ -89,15 +103,14 @@ let routesMap = [
         name: 'stationDetail',
         path: '/station/detail',
         meta: { title: '', keepAlive: false },
-        component: () =>import('@/views/station-detail/index.vue')
-      },
+        component: () => import('@/views/station-detail/index.vue')
+      }
     ]
   }
-]
+];
 if (import.meta.env.DEV) {
-  routesMap = [...routesMap,...defaultDemo]
+  routesMap = [...routesMap, ...defaultDemo];
 }
-
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -112,13 +125,10 @@ setTimeout(() => {
   if (bar) {
     bar.style.background = `var(--el-text-color-primary)`;
   }
-})
-
+});
 
 export const setupRouter = (app) => {
-
   router.beforeEach((to, from, next) => {
-    
     NProgress.start();
 
     Loading.clear();
