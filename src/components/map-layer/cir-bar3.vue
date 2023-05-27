@@ -60,27 +60,38 @@ const addBar = async (obj: {
     let value;
     if (obj.code == 1) {
       countObj = res.data[item.properties[field]];
+      console.log(countObj);
+
       if (!countObj) {
         return;
       }
-      let data1 = countObj[0] ? countObj[0].cnt : 0;
-      let data2 = countObj[1] ? countObj[1].cnt : 0;
-      let data3 = countObj[2] ? countObj[2].cnt : 0;
+      let a = countObj.filter((ele) => {
+        return ele.alarmLevel === '1';
+      });
+      let b = countObj.filter((ele) => {
+        return ele.alarmLevel === '2';
+      });
+      let c = countObj.filter((ele) => {
+        return ele.alarmLevel === '3';
+      });
+      let data1 = a.length ? a[0].cnt : 0; //1级
+      let data2 = b.length? b[0].cnt : 0; //2级
+      let data3 = c.length ? c[0].cnt : 0; //3级
       value = `${data1},${data2},${data3},`;
     } else {
       countObj = res.data.filter((i) => {
-        return i.areaCode == item.properties[field] ||i.streetCode == item.properties[field];
+        return i.areaCode == item.properties[field] || i.streetCode == item.properties[field];
       });
       if (!countObj) {
         return;
       }
-      let data1 = countObj[0] ? countObj[0].normalCount : 0;
-      let data2 = countObj[0] ? countObj[0].warningCount : 0;
-      let data3 = countObj[0] ? countObj[0].offlineCount : 0;
+      let data1 = countObj[0].normalCount ? countObj[0].normalCount : 0;
+      let data2 = countObj[0].warningCount ? countObj[0].warningCount : 0;
+      let data3 = countObj[0].offlineCount ? countObj[0].offlineCount : 0;
       value = `${data1},${data2},${data3},`;
     }
     console.log(value);
-    
+
     let contentHeight = 190;
     let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = obj.type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';

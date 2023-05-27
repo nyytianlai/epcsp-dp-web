@@ -97,18 +97,14 @@ const buttomTabChange = async (code: 1 | 2) => {
   store.changeButtomTabCode(code);
   store.changeStationType([1, 2, 3]);
   setLegendData(code);
-  let value = code === 1 ? true : false;
-  await setObjVisibility('marker', 'rectBar1', value);
-  let info = await __g.marker.get('rectBar2-南山区');
-  if (info.data.length) {
-    await setObjVisibility('marker', 'rectBar2', !value);
-  } else {
-    await cirBar3Ref.value.addBar({
-      code: buttomTabCode.value,
-      stationType: [1, 2, 3],
-      type: 'qu'
-    });
-  }
+  await __g.marker.deleteByGroupId('rectBar-qu');
+  await __g.marker.deleteByGroupId('rectBar-jd');
+  await cirBar3Ref.value.addBar({
+    code: buttomTabCode.value,
+    stationType: [1, 2, 3],
+    type: 'qu'
+  });
+
   await quRef.value.resetSz();
 };
 

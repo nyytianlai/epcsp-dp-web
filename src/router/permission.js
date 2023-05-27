@@ -24,5 +24,7 @@ router.beforeEach(async (to, from, next) => {
   store.changeCurrentHrStationId('');
   store.changeCurrentQu('');
   store.changeCurrentJd('');
+  store.changeStationType([]);
+  store.changeButtomTabCode(1);
   next();
 });

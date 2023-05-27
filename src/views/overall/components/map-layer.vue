@@ -8,7 +8,7 @@
 -->
 <template>
   <qu ref="quRef" :module="1"></qu>
-  <rect-bar></rect-bar>
+  <rect-bar ref="rectBarRef"></rect-bar>
   <!-- <heat-map v-if="isHeatMap"></heat-map> -->
   <legend-list
     :legendType="legendType"
@@ -36,6 +36,7 @@ const aircityObj = inject('aircityObj');
 aircityObj.value?.acApi.reset();
 
 let quRef = ref(null);
+let rectBarRef = ref(null);
 const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 const isHeatMap = ref(false);
@@ -45,9 +46,7 @@ const setRectBarVisibility = (value: boolean) => {
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
-  value
-    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar1'))
-    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar1'));
+  value ? rectBarRef.value.addBar('qu') : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
 };
 const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');

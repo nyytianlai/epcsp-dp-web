@@ -27,9 +27,9 @@
     var data2 = [Number(paramsValue[1])]; //中
     var data3 = [Number(paramsValue[2])]; //上
     
-    var data1Cir = data1[0] ? data1 : [1]; //下部数据
-    var data2Cir = data2[0] ? data2 : [1]; //中
-    var data3Cir = data3[0] ? data3 : [1]; //上
+    var data1Cir = data1[0]; //下部数据
+    var data2Cir = data2[0]; //中
+    var data3Cir = data3[0]; //上
     var data4 = [];
     for (let i = 0; i < data1.length; i++) {
       data4.push(data1[i] + data2[i] + data3[i]);
@@ -46,6 +46,20 @@
       [["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"], ['#6D6D6D', '#797979', '#B5B5B5', '#FFFFFF', '#E8EBEB']],
       [["#FFEE54", "#F6FF95"], ['#EEEEEE', '#CECECE']],
     ];
+    if(Number(paramsValue[2])){
+    }else if(Number(paramsValue[1])){
+      colorCollection[8]=colorCollection[6]
+    }else if(Number(paramsValue[0])){
+      colorCollection[8]=colorCollection[4]
+    }
+
+    if(Number(paramsValue[0])){
+    }else if(Number(paramsValue[1])){
+      colorCollection[3]=colorCollection[5]
+    }else if(Number(paramsValue[2])){
+      colorCollection[3]=colorCollection[7]
+    }
+
     var option = {
       animation: false,
       // backgroundColor: '#030446',
@@ -209,7 +223,7 @@
           barMaxWidth: "20",
           symbolPosition: "end",
           symbolOffset: [0, "-50%"],
-          symbolSize: [40, 12],
+          symbolSize: [40, 15],
           zlevel: 2,
           itemStyle: getItemStyle(colorCollection[8][colorType]),
           label: {

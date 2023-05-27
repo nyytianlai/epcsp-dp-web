@@ -66,7 +66,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
     let o = {
       id: 'rectBar1-' + idEnd,
-      groupId: `rectBar-${type}`,
+      groupId: `rectBar`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
@@ -93,6 +93,8 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
 const changeXzqhColor = (polygonId: string, newVal: [number, number, number, number]) => {
   aircityObj.value.acApi.polygon.setColor(polygonId, newVal);
 };
+defineExpose({ addBar });
+
 onMounted(async () => {
   addBar('qu');
   bus.on('addBar', (e) => {
