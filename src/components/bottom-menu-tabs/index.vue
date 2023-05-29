@@ -11,7 +11,7 @@
           <div
             class="tab"
             v-for="(item, index) in data"
-            :class="[{ active: item.code === activeTab }]"
+            :class="[{ active: activeValue?item.code === activeValue:item.code === activeTab }]"
             @click="handleSelect(item)"
             :key="index"
           >
@@ -30,6 +30,7 @@
   interface Props {
     data: Idata[];
     modelValue: string | number;
+    activeValue: string | number
   }
   const props = withDefaults(defineProps<Props>(), {});
   const emit = defineEmits(['update:modelValue', 'changeTab']);

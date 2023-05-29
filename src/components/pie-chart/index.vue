@@ -254,7 +254,7 @@ const handleCanChoose = (item)=>{
     background: transparent;
     top: 4px;
     right: 1px;
-    border: 2px solid white;
+    border: 2px solid grey;
     border-top: none;
     border-right: none;
     -webkit-transform: rotate(-55deg);
@@ -277,7 +277,7 @@ const handleCanChoose = (item)=>{
 }
 .can-choose-active {
   &::before{
-    border-color: green;
+    border-color: white;
     // color: greenyellow;
   }
 }

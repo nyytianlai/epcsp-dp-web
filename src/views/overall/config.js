@@ -512,26 +512,26 @@ export const columnDataRankFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      minWidth:2.8
+      minWidth:3.8
     },
     {
       prop: 'stationNumber',
       label: '充电站',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },
     {
       prop: 'pileNumber',
       label: '充电桩',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },
     {
       prop: 'gunNumber',
       label: '充电枪',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },
