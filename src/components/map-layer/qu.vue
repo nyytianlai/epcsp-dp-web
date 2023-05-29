@@ -61,6 +61,7 @@ const __g = aircityObj.value.acApi;
 const { useEmitt, player: aircityPlay } = aircityObj.value;
 const currentPosition = computed(() => store.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const currentJd = computed(() => store.currentJd);
+const currentJdCode = computed(() => store.currentJdCode);
 const currentQu = computed(() => store.currentQu);
 
 const lastJd = computed(() => store.lastJd);
@@ -96,6 +97,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       if (e.ID?.includes('街道')) {
         let jdName = e.ID.split('-')[1];
         store.changeCurrentJd(jdName);
+        store.changeCurrentJdCode(areaCode);
         store.changeCurrentPosition(jdName);
         __g.polygon.focus('jd-' + currentJd.value, 1500);
         deleteSingleJdData();
@@ -150,6 +152,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         addStationPoint(cameraJdInfo.JDCODE);
         store.changeCurrentPositionBak(currentPosition.value);
         store.changeCurrentJd(cameraJdInfo.JDNAME);
+        store.changeCurrentJdCode(cameraJdInfo.JDCODE);
         store.changeCurrentPosition(cameraJdInfo.JDNAME);
       }
     }
@@ -228,6 +231,7 @@ const handleQuChange = (quName: string, cameraJdInfo: {}) => {
     addStationPoint(cameraJdInfo.JDCODE);
     store.changeCurrentPosition(cameraJdInfo.JDNAME);
     store.changeCurrentJd(cameraJdInfo.JDNAME);
+    store.changeCurrentJdCode(cameraJdInfo.JDCODE);
   }
   store.changeCurrentQu(quName);
 };
@@ -343,6 +347,7 @@ const resetQu = async () => {
   store.changeCurrentPosition(currentQu.value);
   __g.camera.set(...quView[currentQu.value]);
   store.changeCurrentJd('');
+  store.changeCurrentJdCode('');
 };
 //重置到深圳
 const resetSz = async (value = true) => {
@@ -356,6 +361,7 @@ const resetSz = async (value = true) => {
   store.changeCurrentHrStationId('');
   store.changeCurrentQu('');
   store.changeCurrentJd('');
+  store.changeCurrentJdCode('');
 };
 
 const addStationPoint = (jdCode: string) => {
@@ -675,7 +681,7 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz, deleteJdData });
+defineExpose({ pointInWhichDistrict, resetSz, deleteJdData,addStationPoint});
 onMounted(async () => {
   await __g.reset();
   hideAllStation3dt(__g, store.treeInfo);

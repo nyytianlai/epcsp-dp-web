@@ -30,6 +30,7 @@ import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
+const currentJdCode = computed(() => store.currentJdCode);
 const stationType = computed(() => new Set(store.stationType));
 store.changeStationType([1, 2, 3]);
 const buttomTabCode = computed(() => store.buttomTabCode);
@@ -147,6 +148,7 @@ const alarmTypeChange = async (item: AlarmType) => {
       stationType: Array.from(stationType.value)
     });
   } else if (currentPosition.value.includes('街道')) {
+    quRef.value.addStationPoint(currentJdCode.value);
   }
 };
 
