@@ -237,7 +237,6 @@ const enterStationInfo = (stationInfo) => {
     store.changeCurrentPositionBak(currentPosition.value);
     store.changeCurrentPosition('');
   }
-
   storeVisible.changeShowComponent(false);
   storeVisible.changeShowDetail({
     show: true,
@@ -420,8 +419,8 @@ const addQuStationWithAlarmInfo = async (jdCode: string) => {
       return trans[item + ''];
     });
   }
-  console.log("params",Array.from(stationType.value),params);
-  
+  console.log('params', Array.from(stationType.value), params);
+
   const { data: res } = await getQuStationWithAlarm(params);
   let pointArr = [];
   res.forEach((item, index) => {
@@ -705,11 +704,20 @@ onMounted(async () => {
   bus.on(
     'searchEnterStation',
     async (e: { isHr: 0 | 1; operatorId: string; stationId: string; lng: number; lat: number }) => {
-      enterStationInfo(e);
       if (e.isHr) {
+        enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);
         highLightNormalStation({ lng: e.lng, lat: e.lat });
       } else {
+        storeVisible.changeShowComponent(false);
+        storeVisible.changeShowDetail({
+          show: true,
+          params: {
+            operatorId: e.operatorId,
+            stationId: e.stationId,
+            isHr: e.isHr
+          }
+        });
         bus.emit('toHr', e);
       }
     }

@@ -36,7 +36,7 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
     count.push(countItem);
   });
 
-  console.log('count', count);
+  // console.log('count', count);
 
   let yMax = Math.max(...count);
   const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';

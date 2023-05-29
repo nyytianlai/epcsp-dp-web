@@ -1,3 +1,4 @@
+import bus from '@/utils/bus';
 const quNameArr = [
   '盐田区',
   '南山区',
@@ -145,7 +146,13 @@ export const hideAllStation3dt = (__g, treeInfo) => {
   __g.infoTree.hide(ids);
 };
 
-export const returnStationPointConfig = (item:{stationId:string,lng:number,lat:number,stationName:string,xoffset:number}) => {
+export const returnStationPointConfig = (item: {
+  stationId: string;
+  lng: number;
+  lat: number;
+  stationName: string;
+  xoffset: number;
+}) => {
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
@@ -176,4 +183,23 @@ export const returnStationPointConfig = (item:{stationId:string,lng:number,lat:n
     autoDisplayModeSwitchSecondRatio: 0.5,
     autoHeight: true
   };
+};
+
+export const toSingleStation = async (
+  __g,
+  value: { stationId: string; stationLng: string; stationLat: string; stationName: string }
+) => {
+  let info = await __g.marker.get('station-' + value.stationId);
+  console.log('获取站点信息', info);
+  value['lng'] = Number(value.stationLng);
+  value['lat'] = Number(value.stationLat);
+  //普通站点
+  if (!info.data.length) {
+    //不存在
+    let xoffset = value.stationName.length * 12;
+    value['xoffset'] = xoffset;
+    let o = returnStationPointConfig(value);
+    await __g.marker.add([o], null);
+  }
+  bus.emit('searchEnterStation', value);
 };

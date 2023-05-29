@@ -92,16 +92,16 @@ const setLegendData = (code: 1 | 2) => {
   });
 };
 
-const buttomTabChange = async (code: 1 | 2,) => {
+const buttomTabChange = async (code: 1 | 2, type = [1, 2, 3]) => {
   await quRef.value.deleteJdData();
   store.changeButtomTabCode(code);
-  store.changeStationType([1, 2, 3]);
+  store.changeStationType(type);
   setLegendData(code);
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
   await cirBar3Ref.value.addBar({
     code: buttomTabCode.value,
-    stationType: [1, 2, 3],
+    stationType: Array.from(stationType.value),
     type: 'qu'
   });
 
@@ -113,12 +113,12 @@ type AlarmType = {
   isChoose: boolean;
   extraName: string;
   typeCode: number;
-  positionCode?: number;
+  positionCode?: 1 | 2;
 };
 const alarmTypeChange = async (item: AlarmType) => {
   console.log('类型改变参数', item);
-  if (item.positionCode && item.positionCode !== buttomTabCode.value) {
-    buttomTabChange(2);
+  if (item.positionCode !== buttomTabCode.value) {
+    buttomTabChange(item.positionCode, [item.typeCode]);
     return;
   }
   let legendListData = buttomTabCode.value == 1 ? legendListData1 : legendListData2;
@@ -133,13 +133,13 @@ const alarmTypeChange = async (item: AlarmType) => {
   });
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
-  if (currentPosition.value.includes('市')) {
+  if (currentPosition.value.includes('市') && stationType.value.size) {
     cirBar3Ref.value.addBar({
       code: buttomTabCode.value,
       type: 'qu',
       stationType: Array.from(stationType.value)
     });
-  } else if (currentPosition.value.includes('区')) {
+  } else if (currentPosition.value.includes('区') && stationType.value.size) {
     cirBar3Ref.value.addBar({
       code: buttomTabCode.value,
       type: 'jd',

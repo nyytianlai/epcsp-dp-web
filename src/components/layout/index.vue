@@ -67,7 +67,6 @@ const mapStore = useMapStore()
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
-const currentPosition = computed(() => useMapStore().currentPosition);
 const ifHawkEye=computed(()=>currentPosition.value.includes('市')||currentPosition.value.includes('区'))
 const wrapperMap = new Map();
 const router = useRouter()
