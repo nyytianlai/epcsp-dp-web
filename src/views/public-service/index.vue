@@ -310,6 +310,16 @@ const loadStationRankingDetail =async()=>{
 }
 // 获取市民列表
 const loadFeedbackDetail = async()=>{
+    // 在第一次请求的时候，生成序号
+  if (columnDataDetail.value.findIndex((i) => i.type === 'index') === -1) {
+    const temp = {
+      type: 'index',
+      label: '序号',
+      index: (index) => (pageObjDetail.currentPage - 1) * pageObjDetail.pageSize + index + 1,
+      minWidth: 1
+    };
+    columnDataDetail.value.unshift(temp);
+  }
   const res = await feedbackDetail({
     pageNum: pageObjDetail.currentPage,
     pageSize: pageObjDetail.pageSize,

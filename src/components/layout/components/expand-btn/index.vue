@@ -13,18 +13,26 @@
     <icon :icon="`svg-icon:${isCollapsed ? 'expand' : 'collapse'}`" />
     <span class="text">{{ isCollapsed ? '一键展开' : '一键收起' }}</span>
   </div>
-  <div class="expand-btn-search">
+  <div class="expand-btn-search expand-btn-right" 
+    @mouseenter="()=>isSearchCollapsed = true"
+    @mouseleave="()=>isSearchCollapsed = false"
+  >
+    <div class="down-wrap"></div>
+    <div class="up-wrap"></div>
     <el-autocomplete
+      v-if="isSearchCollapsed"
       v-model="searchInput"
       :fetch-suggestions="querySearchAsync"
       placeholder="请输入站点名称"
       @select="handleSearch"
       placement="bottom-end"
+      class="autocomplete"
     >
-      <template #suffix>
-        <Icon icon="ep:search" />
-      </template>
+      <!-- <template #suffix>
+        <Icon icon="ep:search" color="#fff"/>
+      </template> -->
     </el-autocomplete>
+    <Icon icon="ep:search" class="search-icon" v-else/>
     <!-- <el-input v-model="searchInput" placeholder="请输入站点名称" /> -->
     <!-- <el-button type="primary" @click="handleSearch">搜索</el-button> -->
   </div>
@@ -41,7 +49,7 @@ const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
 const searchInput = ref('');
-
+const isSearchCollapsed = ref(false)
 const handleClick = () => {
   const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
@@ -137,8 +145,30 @@ const handleSearch = async (value) => {
     transform: translate(-3px, -29px);
   }
 }
+.expand-btn-right {
+  .expand-btn();
+  &:hover {
+    width: 180px;
+  }
+  right: 0;
+  left: unset;
+  .down-wrap {
+    background-size: 180px 32px;
+    transform:  rotateY(180deg) ;
+  }
+  .up-wrap{
+    background-size: 177px 32px;
+    transform: rotateY(180deg) translate(-3px, -29px);
+  }
+  .search-icon {
+    position: absolute;
+    right: -10px;
+    top:50%;
+    font-size: 18px;
+    transform: translateY(-14px);
+  }
+}
 .expand-btn-search {
-  width: 163px;
   // height: auto;
   position: absolute;
   top: 67px;
@@ -149,4 +179,11 @@ const handleSearch = async (value) => {
   cursor: pointer;
   transition: all 0.5s;
 }
+.autocomplete {
+  width: 145px;
+  position: absolute;
+  top: 2px;
+  right: 5px;
+}
+
 </style>

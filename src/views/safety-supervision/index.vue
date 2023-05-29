@@ -50,6 +50,7 @@
         :data="warningMonitorPieData"
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
+        :colors="['#E10105', '#DD6701', '#FAF102']"
       />
     </div>
     <div class="realtime-state">
@@ -87,7 +88,7 @@
       />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
     <template #titleSearch>
@@ -294,10 +295,24 @@ const dayTypeAlarm = ref(1)
 // 警告默认筛选
 const defaultAreaWarm = ref(['1','2','3'])
 const defaultAreaWarmType = ref(['1','2','3'])
+// 左侧球的数据
+const realtimeState = ref([])
+// 底部icon的code
+const  bottomCode  = ref(1)
 //地图底部tab切换
 const changeButtomTab = (item) => {
+  bottomCode.value = item.code
   console.log('底部切换', item);
   mapLayerRef.value.buttomTabChange(item.code);
+  warningMonitorPieData.value.forEach(i=>{
+    // 切换底部icon饼图全部高亮
+    i.isChoose = item.code === 1
+  })
+    // 切换为充电站状态则全部高亮
+    realtimeStateData.value.forEach(i=>{
+      i.isChoose = item.code === 2
+    })
+
 };
 // 排序
 const sort = ref(0);
@@ -388,26 +403,6 @@ const getAlarmLevelAndTypeByTime = async (param) => {
     }
   })
   newData = warningMonitorPieDataFun(param.type,dataObj);
-  // if (data?.length !== 0) {
-  //   newData = data?.map((item) => {
-  //     if (param.type === 1) {
-  //       return {
-  //         value: item.cnt || 0,
-  //         name: type1[item.alarmLevel],
-  //         extraName: extraName[item.alarmLevel],
-  //         unit: '个'
-  //       };
-  //     } else {
-  //       return {
-  //         value: item.cnt || 0,
-  //         name: type2[item.alarmType],
-  //         unit: '个'
-  //       };
-  //     }
-  //   });
-  // } else {
-  //   newData = warningMonitorPieDataFun(param.type);
-  // }
 
   warningMonitorPieData.value = newData;
 };
@@ -452,6 +447,7 @@ const handleChangeTab = async (data, type) => {
 const getOnlineStatusData = async (type) => {
   const res = await getOnlineStatus(type);
   console.log(res, '------online');
+  realtimeState.value = res.data
   realtimeStateData.value = realtimeStateDataFun(type, res.data);
 };
 
@@ -519,6 +515,11 @@ const handleWarmYearBtn = (value) =>{
 // 告警选中
 const handleChoose = (item)=>{
   console.log('告警选中',item)
+  bottomCode.value = 1
+  // 今日设备告警交互，实时状态变false
+    realtimeStateData.value.forEach(i=>{
+      i.isChoose = false
+    })
   //todo
   mapLayerRef.value.alarmTypeChange(item);
 }
@@ -527,6 +528,11 @@ const handleBall = (item)=>{
   
   if(nowStatus.value !==3) return
   item.isChoose = !item.isChoose
+  bottomCode.value = 2
+   // 实时状态情况交互，今日设备告警监控变false
+  warningMonitorPieData.value.forEach(i=>{
+    i.isChoose = false
+  })
   console.log('ball',item)
   // todo
   mapLayerRef.value.alarmTypeChange(item);
