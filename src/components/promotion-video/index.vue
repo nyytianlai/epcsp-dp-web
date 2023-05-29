@@ -1,19 +1,36 @@
 <template>
   <div class="video-box">
-    <video class="video" ref="videoRef" :src="videoUrl" autoplay muted></video>
+    <!-- <video class="video" ref="videoRef" autoplay :muted="muted">
+      <source :src="videoUrl" type="video/mp4" />
+    </video> -->
+    <video class="video" ref="videoRef" autoplay muted @click="play">
+      <source :src="videoUrl" type="video/mp4" />
+    </video>
+    <div id="test"></div>
     <div class="close" @click="handleCloseVideo">x</div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, nextTick } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 const videoRef = ref();
+const muted = ref(true);
 const videoUrl = ref('http://10.10.2.63:9109/lx/videos/home_video.mp4');
 const store = useVisibleComponentStore();
 const handleCloseVideo = () => {
   store.changeShowPromitionVideo(false);
 };
+const play = () => {
+  videoRef.value.muted = false;
+  videoRef.value.play();
+};
 onMounted(() => {
+  nextTick(() => {
+    if (videoRef.value.muted) {
+      // videoRef.value.muted = false;
+      // videoRef.value.play();
+    }
+  });
   // 监听视频播放结束
   videoRef.value.addEventListener('ended', () => {
     console.log('播放结束');
