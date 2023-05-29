@@ -4,12 +4,12 @@
   <legend-list
     :legendList="legendListData1"
     :legendName="legendNameData1"
-    v-show="currentPosition == '深圳市' && buttomTabCode == 1"
+    v-show="(currentPosition == '深圳市' || currentPosition.includes('区')) && buttomTabCode == 1"
   />
   <legend-list
     :legendList="legendListData2"
     :legendName="legendNameData2"
-    v-show="currentPosition == '深圳市' && buttomTabCode == 2"
+    v-show="(currentPosition == '深圳市' || currentPosition.includes('区')) && buttomTabCode == 2"
   />
 </template>
 <script setup lang="ts">
