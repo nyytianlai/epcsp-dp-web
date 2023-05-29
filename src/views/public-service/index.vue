@@ -526,6 +526,7 @@ watch([aircityObj,mapData],async()=>{
 
 <style lang="less" scoped>
 .hot-charging {
+  margin-top: 24px;
   .rank-list-wrap {
     margin-top: 16px;
   }
