@@ -277,7 +277,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
       textStyle: {
         fontFamily: 'Source Han Sans CN',
         fontSize: 14,
-        color: '#C6D1DB'
+        color: '#FFF',
       },
       itemStyle:{
         color: 'rgba(19,171,194, 0.8)'
@@ -312,7 +312,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         fontFamily: 'Source Han Sans CN',
         fontSize: 12,
         lineHeight: 18,
-        color: '#B4C0CC',
+        color: '#FFF',
         interval:0,
       },
       splitLine: {
@@ -347,6 +347,13 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         data: data,
         type: 'bar',
         name: '问题数量',
+        label: {
+          show: true,
+          position: 'top',
+          fontSize: 14,
+          fontfamily: 'Helvetica',
+          color: '#fff'
+        },
         itemStyle: {
           color:()=>{
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
