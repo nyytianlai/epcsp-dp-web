@@ -75,12 +75,9 @@ export const getMapStationStatistic = (areaCode,statusType) => {
 };
 
 // 地图区级下钻撒点
-export const getQuStationWithAlarm = (areaCode,stationStreet) => {
+export const getQuStationWithAlarm = (data) => {
   return request.post({
     url: '/safetySupervision/selectStationAlarmInfoByArea',
-    data: {
-      areaCode,
-      stationStreet
-    }
+    data
   });
 };

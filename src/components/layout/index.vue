@@ -22,7 +22,7 @@
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
         <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
-          <hawk-eye></hawk-eye>
+          <hawk-eye v-if="ifHawkEye"></hawk-eye>
         </base-ac>
         <expand-btn />
         <div class="backBox">
@@ -65,6 +65,8 @@ import { h } from 'vue';
 import {useRouter} from 'vue-router'
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
+const currentPosition = computed(() => useMapStore().currentPosition);
+const ifHawkEye=computed(()=>currentPosition.value.includes('市')||currentPosition.value.includes('区'))
 const wrapperMap = new Map();
 const router = useRouter()
 const props = defineProps({

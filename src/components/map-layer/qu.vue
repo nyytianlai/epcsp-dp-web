@@ -360,9 +360,7 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.module !== 3 || buttomTabCode.value == 2
-    ? addJdStation(jdCode)
-    : addQuStationWithAlarmInfo(jdCode);
+  props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否
@@ -403,12 +401,28 @@ const addJdStation = async (jdCode: string) => {
 };
 
 //安全监管模块撒点
+let trans = {
+  1: 50,
+  2: 255,
+  3: 5
+};
 const addQuStationWithAlarmInfo = async (jdCode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
-  const { data: res } = await getQuStationWithAlarm(
-    quNameCodeInterTrans('name', currentQu.value),
-    jdCode
-  );
+  let params = {
+    apiType: buttomTabCode.value,
+    areaCode: quNameCodeInterTrans('name', currentQu.value),
+    stationStreet: jdCode
+  };
+  if (buttomTabCode.value == 1) {
+    params['alarmLevel'] = Array.from(stationType.value);
+  } else {
+    params['statusType'] = Array.from(stationType.value).map((item: Number) => {
+      return trans[item + ''];
+    });
+  }
+  console.log("params",Array.from(stationType.value),params);
+  
+  const { data: res } = await getQuStationWithAlarm(params);
   let pointArr = [];
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;

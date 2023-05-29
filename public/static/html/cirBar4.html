@@ -16,6 +16,7 @@
     var myChart = echarts.init(dom);
     var option;
     var app = {};
+    var v2GCountMultiple=300
     var urlParams = new URLSearchParams(location.search);
     let paramsValue = JSON.parse(urlParams.get("value"));
     console.log("value",paramsValue)
@@ -24,19 +25,11 @@
     const areaCode = urlParams.get("areaCode");
     var xData = ["递铺街道"];
 
-    var data1 = paramsValue.v2GCount?[paramsValue.v2GCount ]:[0]; //底部数据
+    var data1 = paramsValue.v2GCount?[paramsValue.v2GCount]:[0]; //底部数据
     var data2 = paramsValue.superCount?[paramsValue.superCount]:[0]; //中底
     var data3 = paramsValue.noQuickCount?[paramsValue.noQuickCount]:[0]; //中顶
     var data4 = paramsValue.quickCount?[paramsValue.quickCount]:[0]; //顶部
-    
-    var data1Cir = data1; //底部数据
-    var data2Cir = data2; //中底
-    var data3Cir = data3; //中顶
-    var data4Cir = data4; //顶
-    var data5 = [];
-    for (let i = 0; i < data1.length; i++) {
-      data5.push(data1[i] + data2[i] + data3[i]+ data4[i]);
-    }
+    var data5 = [data1[0] + data2[0] + data3[0]+ data4[0]];
 
     const colorCollection = [
       ["#1D7A79", "#1F7F80", "#2DB8B9", "#22FAFB", "#3CF1F2"],//底 柱子
@@ -169,7 +162,7 @@
         },
         {
           name: "下部顶部圆",
-          data: data1Cir,
+          data: data1,
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -207,7 +200,7 @@
         },
         {
           name: "中底部底部圆",
-          data: data1Cir,
+          data: data1,
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -218,7 +211,7 @@
         },
         {
           name: "中底部顶部圆",
-          data: [data1Cir[0] + data2Cir[0]],
+          data: [data1[0] + data2[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -229,7 +222,7 @@
         },
         {
           name: "中顶部底部圆",
-          data: [data1Cir[0] + data2Cir[0]],
+          data: [data1[0] + data2[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -240,7 +233,7 @@
         },
         {
           name: "中顶部顶部圆",
-          data: [data1Cir[0] + data2Cir[0]+ data3Cir[0]],
+          data: [data1[0] + data2[0]+ data3[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -251,7 +244,7 @@
         },
         {
           name: "上部底部圆",
-          data: [data1Cir[0] + data2Cir[0]+ data3Cir[0]],
+          data: [data1[0] + data2[0]+ data3[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -274,6 +267,9 @@
             normal: {
               show: true,
               position: "top",
+              formatter: (e) => {
+                    return data1[0]/300 + data2[0] + data3[0]+ data4[0];
+                  },
               fontSize: 14,
               color: "#E6F7FF",
               backgroundColor: {
@@ -294,42 +290,6 @@
          ue.dtspoi.postevent(`click-${areaCode}`)
 	       //在这里可以拿到数据然后调用需要调用的方法
         });
-    }
-
-    function createSingalCirBar(){
-      return
-      [
-        {
-          name: "底部柱子",
-          data: data1,
-          stack: "zs",
-          type: "bar",
-          barMaxWidth: "auto",
-          barWidth: 40,
-          itemStyle: getItemStyle(colorCollection[0]),
-        },
-        {
-          name: "下部底部圆",
-          data: [1],
-          type: "pictorialBar",
-          barMaxWidth: "20",
-          symbolOffset: [0, "50%"],
-          symbolSize: [40, 15],
-          zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[4]),
-        },
-        {
-          name: "下部顶部圆",
-          data: data1Cir,
-          type: "pictorialBar",
-          barMaxWidth: "20",
-          symbolPosition: "end",
-          symbolOffset: [0, "-50%"],
-          symbolSize: [40, 12],
-          zlevel: 1,
-          itemStyle: getItemStyle(colorCollection[5]),
-        },
-      ]
     }
 
     function getItemStyle(colorArr) {

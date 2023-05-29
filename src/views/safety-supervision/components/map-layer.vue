@@ -92,7 +92,7 @@ const setLegendData = (code: 1 | 2) => {
   });
 };
 
-const buttomTabChange = async (code: 1 | 2) => {
+const buttomTabChange = async (code: 1 | 2,) => {
   await quRef.value.deleteJdData();
   store.changeButtomTabCode(code);
   store.changeStationType([1, 2, 3]);
