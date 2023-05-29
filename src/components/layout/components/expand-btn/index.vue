@@ -13,9 +13,10 @@
     <icon :icon="`svg-icon:${isCollapsed ? 'expand' : 'collapse'}`" />
     <span class="text">{{ isCollapsed ? '一键展开' : '一键收起' }}</span>
   </div>
-  <div class="expand-btn-search expand-btn-right" 
-    @mouseenter="()=>isSearchCollapsed = true"
-    @mouseleave="()=>isSearchCollapsed = false"
+  <div
+    class="expand-btn-search expand-btn-right"
+    @mouseenter="() => (isSearchCollapsed = true)"
+    @mouseleave="() => (isSearchCollapsed = false)"
   >
     <div class="down-wrap"></div>
     <div class="up-wrap"></div>
@@ -27,12 +28,14 @@
       @select="handleSearch"
       placement="bottom-end"
       class="autocomplete"
+      :teleported="false"
+      popper-class="popper"
     >
       <!-- <template #suffix>
         <Icon icon="ep:search" color="#fff"/>
       </template> -->
     </el-autocomplete>
-    <Icon icon="ep:search" class="search-icon" v-else/>
+    <Icon icon="ep:search" class="search-icon" v-else />
     <!-- <el-input v-model="searchInput" placeholder="请输入站点名称" /> -->
     <!-- <el-button type="primary" @click="handleSearch">搜索</el-button> -->
   </div>
@@ -154,16 +157,16 @@ const handleSearch = async (value) => {
   left: unset;
   .down-wrap {
     background-size: 180px 32px;
-    transform:  rotateY(180deg) ;
+    transform: rotateY(180deg);
   }
-  .up-wrap{
+  .up-wrap {
     background-size: 177px 32px;
     transform: rotateY(180deg) translate(-3px, -29px);
   }
   .search-icon {
     position: absolute;
     right: -10px;
-    top:50%;
+    top: 50%;
     font-size: 18px;
     transform: translateY(-14px);
   }
@@ -174,7 +177,7 @@ const handleSearch = async (value) => {
   top: 67px;
   right: 0;
   z-index: 999;
-  overflow-x: hidden;
+  overflow-x: visible;
   overflow-y: visible;
   cursor: pointer;
   transition: all 0.5s;
@@ -185,5 +188,7 @@ const handleSearch = async (value) => {
   top: 2px;
   right: 5px;
 }
-
+.popper {
+  width: fit-content;
+}
 </style>
