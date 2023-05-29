@@ -22,7 +22,7 @@
     </div>
     <div class="area-warning-num">
       <title-column
-        title="行政区告警数据"
+        title="行政区告警数据情况"
         :showTabBtn="true"
         :tabList="[
           { value: 1, name: '日' },

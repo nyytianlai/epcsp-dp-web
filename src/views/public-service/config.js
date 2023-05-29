@@ -410,7 +410,7 @@ export const columnDataDetailFun = ()=>{
     {
       prop: 'problemDescribe',
       label: '问题描述',
-      minWidth: '2',
+      minWidth: '1.5',
     },
     {
       prop: 'principal',
@@ -425,7 +425,7 @@ export const columnDataDetailFun = ()=>{
     {
       prop: 'timeDim',
       label: '时间',
-      minWidth: 1.2,
+      minWidth: 2,
     },
   ]
 }

@@ -462,6 +462,7 @@ const handleSort = (item) => {
 //热门详情
 const handleDetailClick = ()=>{
   dialogTableVisibleHot.value = true
+  loadStationRankingDetail()
 }
 // 点击详情
 const handleDetailHot = (item) => {
@@ -513,7 +514,6 @@ onMounted(() => {
   getPersonFeedback()
   getChargeEquipmentStatistics()
   getChargeStatusData('pile')
-  loadStationRankingDetail()
   loadFeedbackDetail()
 })
 
