@@ -168,7 +168,6 @@
   <custom-dialog
     v-model:visible="dialogRankVisible"
     title="运营企业排名列表"
-    @closed="handleDialogClosed"
   >
     <template #titleSearch>
       <el-input
@@ -426,7 +425,7 @@ const loadOperatorInfoList = async () => {
   };
   const res = await operatorInfoList(obj);
   rankTableData.value = res.data.list;
-  pageObjRank.total = res.data.totalPage;
+  pageObjRank.total = res.data.total;
   console.log('res', res);
 };
 //今日-充电桩/充电枪信息
@@ -598,6 +597,10 @@ const handleDetailWarn = (item) => {
   // 展示站点
   toSingleStation(aircityObj.value?.acApi,item.row)
 };
+// 运营商排名搜索
+const handleSearch = ()=>{
+  loadOperatorInfoList()
+}
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
