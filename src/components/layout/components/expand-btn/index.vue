@@ -43,7 +43,7 @@
 <script setup>
 import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { infoObj, returnStationPointConfig } from '@/global/config/map';
+import { infoObj, returnStationPointConfig,toSingleStation } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
 import bus from '@/utils/bus';
@@ -83,19 +83,7 @@ const handleSearch = async (value) => {
     return;
   }
   console.log('搜索框选择数据', value);
-  let info = await __g.marker.get('station-' + value.stationId);
-  console.log('获取站点信息', info);
-  value['lng']=Number(value.stationLng); 
-  value['lat']=Number(value.stationLat);
-  //普通站点
-  if (!info.data.length) {
-    //不存在
-    let xoffset = value.stationName.length * 12;
-    value['xoffset'] = xoffset;
-    let o = returnStationPointConfig(value);
-    await __g.marker.add([o], null);
-  }
-  bus.emit('searchEnterStation', value);
+  toSingleStation(value)
 };
 </script>
 <style lang="less">

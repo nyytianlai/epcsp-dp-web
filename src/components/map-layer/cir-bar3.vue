@@ -90,7 +90,6 @@ const addBar = async (obj: {
       let data3 = countObj[0].offlineCount ? countObj[0].offlineCount : 0;
       value = `${data1},${data2},${data3},`;
     }
-    console.log(value);
 
     let contentHeight = 190;
     let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;

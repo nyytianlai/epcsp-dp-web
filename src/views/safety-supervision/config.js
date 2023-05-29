@@ -125,7 +125,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '人身安全',
         unit: '个',
         isChoose: true,
-        typeCode: 1
+        typeCode: 1,
+        positionCode:1
       },
       {
         value: data['2'],
@@ -133,7 +134,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '设备安全',
         unit: '个',
         isChoose: true,
-        typeCode: 2
+        typeCode: 2,
+        positionCode:1
       },
       {
         value: data['3'],
@@ -141,7 +143,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '告警提示',
         unit: '个',
         isChoose: true,
-        typeCode: 3
+        typeCode: 3,
+        positionCode:1
       }
     ];
   } else {

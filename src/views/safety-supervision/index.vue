@@ -264,6 +264,7 @@ import {
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
 
 const storeVisible = useVisibleComponentStore();
 
@@ -572,17 +573,7 @@ const handleDetailWarn = (item)=>{
   console.log('item',item)
   dialogTableVisible.value = false
   // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr,
-      equipmentId: item.row.equipmentId
-
-    }
-  });
+  toSingleStation(aircityObj.value?.acApi,item.row)
 }
 
 // 左一详情搜索

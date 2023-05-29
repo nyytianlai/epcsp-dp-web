@@ -259,6 +259,8 @@ import {
   filtersAlarmTypeName
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
+
 // 左二图的tab
 const curBtn = ref(1);
 const storeVisible = useVisibleComponentStore();
@@ -593,16 +595,7 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   dialogTableVisible.value = false;
   // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr,
-      equipmentId: item.row.equipmentId
-    }
-  });
+  toSingleStation(aircityObj.value?.acApi,item.row)
 };
 // 运营商排名搜索
 const handleSearch = ()=>{
