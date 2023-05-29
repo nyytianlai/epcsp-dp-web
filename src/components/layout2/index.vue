@@ -31,6 +31,8 @@
         </Transition>
       </div>
     </div>
+    <PromotionVideo v-if="showPromitionVideo" />
+    <UeVideo v-if="showUeVideo" />
   </div>
 </template>
 
@@ -38,6 +40,8 @@
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
 import HeaderArea from '@/components/layout/components/header.vue';
 import NavTab from '@/components/layout/components/nav-tab/index.vue';
+import PromotionVideo from '@/components/promotion-video/index.vue';
+import UeVideo from '@/components/ue-video/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
 import TimeWeather from '@/components/layout/components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
@@ -89,6 +93,8 @@ const includeViews = ref([]);
 const cloudHost = ref(import.meta.env.VITE_FD_URL);
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
+const showPromitionVideo = computed(() => store.showPromitionVideo);
+const showUeVideo = computed(() => store.showUeVideo);
 const showDetail = computed(() => store.showDetail);
 onMounted(async () => {
   await nextTick();

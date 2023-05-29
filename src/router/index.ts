@@ -71,6 +71,12 @@ export const routes = [
         component: () => import('@/views/public-service/index.vue')
       }
     ]
+  }
+];
+let routesMap = [
+  {
+    path: '/',
+    redirect: { name: 'overviewAll' }
   },
   {
     path: '/overview',
@@ -85,12 +91,6 @@ export const routes = [
         component: () => import('@/views/iframe/index.vue')
       }
     ]
-  }
-];
-let routesMap = [
-  {
-    path: '/',
-    redirect: { name: 'overviewAll' }
   },
   ...routes,
   {
