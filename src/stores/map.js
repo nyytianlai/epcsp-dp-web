@@ -14,6 +14,7 @@ export const useMapStore = defineStore('map', () => {
   const currentPositionBak = ref('');
   const currentHrStationID = ref('');
   const currentJd = ref('');
+  const currentJdCode = ref('');
   const currentQu = ref('');
   const stationType = ref([]);
   const buttomTabCode = ref(1);
@@ -30,6 +31,9 @@ export const useMapStore = defineStore('map', () => {
   }
   function changeCurrentJd(data) {
     currentJd.value = data;
+  }
+  function changeCurrentJdCode(data) {
+    currentJdCode.value = data;
   }
   function changeCurrentQu(data) {
     currentQu.value = data;
@@ -52,6 +56,7 @@ export const useMapStore = defineStore('map', () => {
     stationType,
     buttomTabCode,
     treeInfo,
+    currentJdCode,
     changeCurrentPosition,
     changeCurrentPositionBak,
     changeCurrentHrStationId,
@@ -59,6 +64,7 @@ export const useMapStore = defineStore('map', () => {
     changeCurrentQu,
     changeStationType,
     changeButtomTabCode,
-    changeTreeInfo
+    changeTreeInfo,
+    changeCurrentJdCode
   };
 });
