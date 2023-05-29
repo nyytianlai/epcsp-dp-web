@@ -71,7 +71,7 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -175,7 +175,7 @@ const highLightNormalStation = async (obj) => {
 };
 
 const addCenterPoint = async (point) => {
-  __g.marker.clear();
+  __g.marker.delete('m1');
   //支持经纬度坐标和普通投影坐标两种类型
   let o1 = {
     id: 'm1',
