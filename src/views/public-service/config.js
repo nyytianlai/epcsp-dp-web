@@ -347,6 +347,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         data: data,
         type: 'bar',
         name: '问题数量',
+        barWidth: 16,
         label: {
           show: true,
           position: 'top',
@@ -380,7 +381,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
             color: '#13ABC2'
           },
           symbol: 'rect',
-          symbolSize: ['100%', '3'],
+          symbolSize: ['16', '3'],
           symbolPosition: 'end',
           data: data,
           z: 3
