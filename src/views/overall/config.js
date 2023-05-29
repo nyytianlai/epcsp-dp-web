@@ -197,7 +197,7 @@ export const pileChargerFun = (code = 1,data={},maintab = 1) => {
         },
         {
           img: jlcd,
-          num: data?.ACAndDCCount,
+          num: data?.acandDCCount,
           unit: '个',
           name: '直交流桩总量'
         },
@@ -259,7 +259,7 @@ export const pileChargerFun = (code = 1,data={},maintab = 1) => {
         },
         {
           img: jlcd,
-          num: data?.ACAndDCCount,
+          num: data?.acandDCCount,
           unit: '个',
           name: '直交流枪总量'
         },
@@ -512,26 +512,26 @@ export const columnDataRankFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      minWidth:2.8
+      minWidth:3.8
     },
     {
       prop: 'stationNumber',
       label: '充电站',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },
     {
       prop: 'pileNumber',
       label: '充电桩',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },
     {
       prop: 'gunNumber',
       label: '充电枪',
-      minWidth:2,
+      minWidth:1,
       sortable: 'custom',
       sortOrders: ['ascending','descending']
     },

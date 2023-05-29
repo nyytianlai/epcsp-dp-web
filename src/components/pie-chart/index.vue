@@ -11,7 +11,7 @@
     <div class="pie-chart-wrap">
       <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
       <div class="total-content" v-if="!selectIndex && selectIndex !== 0">
-        <span class="value" style="fontsize: 28px; lineheight: 32px">{{ totalNum }}</span>
+        <span class="value" style="fontsize: 40px; lineheight: 32px">{{ totalNum }}</span>
         <span class="name" style="fontsize: 14px; lineheight: 20px">{{ totalName }}</span>
       </div>
     </div>
@@ -104,7 +104,8 @@ const ecOption = computed(() => {
         avoidLabelOverlap: false,
         label: {
           show: false,
-          position: 'center'
+          position: 'center',
+          
         },
         emphasis: {
           label: {
@@ -186,7 +187,8 @@ const handleCanChoose = (item)=>{
     .value {
       font-family: 'DIN Alternate';
       font-style: normal;
-      font-weight: 700;
+      font-weight: bold;
+      font-size: 32px;
     }
     .name {
       color: rgba(255, 255, 255, 0.7);
@@ -254,7 +256,7 @@ const handleCanChoose = (item)=>{
     background: transparent;
     top: 4px;
     right: 1px;
-    border: 2px solid white;
+    border: 2px solid grey;
     border-top: none;
     border-right: none;
     -webkit-transform: rotate(-55deg);
@@ -277,7 +279,7 @@ const handleCanChoose = (item)=>{
 }
 .can-choose-active {
   &::before{
-    border-color: green;
+    border-color: white;
     // color: greenyellow;
   }
 }

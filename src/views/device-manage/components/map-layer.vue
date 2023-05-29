@@ -101,13 +101,13 @@ const handleChargeTypeChange = async (item: ChargeType) => {
   });
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
-  if (currentPosition.value.includes('市')) {
+  if (currentPosition.value.includes('市') && stationType.value.size) {
     cirBar4Ref.value.addBar({
       code: buttomTabCode.value,
       type: 'qu',
       chargeType: Array.from(stationType.value)
     });
-  } else if (currentPosition.value.includes('区')) {
+  } else if (currentPosition.value.includes('区') && stationType.value.size) {
     cirBar4Ref.value.addBar({
       code: buttomTabCode.value,
       type: 'jd',

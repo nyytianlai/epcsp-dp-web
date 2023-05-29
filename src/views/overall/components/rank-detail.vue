@@ -109,8 +109,8 @@ const BASE_MSG_SEETING = {
   companyType: '企业类型',
   contactEmail: '联系人邮箱',
   contactPerson: '安全负责人',
-  contactTel: '企业注册行政区',
-  foundDate: '联系人电话',
+  contactTel: '联系人电话',
+  foundDate: '成立日期',
   operatorId: '社会信用码',
   operatorName: '运营商名称',
   operatorRegAddress: '注册地',
@@ -176,7 +176,7 @@ const loadStationInfoList = async () => {
     pageSize: pageObj.pageSize
   });
   tableData.value = res.data.list;
-  pageObj.total = res.data.totalPage;
+  pageObj.total = res.data.total;
   console.log('pageres', res);
 };
 // 点击tab

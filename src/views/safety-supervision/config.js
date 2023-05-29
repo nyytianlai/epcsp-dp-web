@@ -125,7 +125,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '人身安全',
         unit: '个',
         isChoose: true,
-        typeCode: 1
+        typeCode: 1,
+        positionCode:1
       },
       {
         value: data['2'],
@@ -133,7 +134,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '设备安全',
         unit: '个',
         isChoose: true,
-        typeCode: 2
+        typeCode: 2,
+        positionCode:1
       },
       {
         value: data['3'],
@@ -141,7 +143,8 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         extraName: '告警提示',
         unit: '个',
         isChoose: true,
-        typeCode: 3
+        typeCode: 3,
+        positionCode:1
       }
     ];
   } else {
@@ -202,7 +205,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         num: data?.safeWarningStationStatisticVo?.normalCount,
         name: '正常/个',
         ...formatStyle(),
-        isChoose: true,
+        isChoose: false,
         typeCode: 1,
         extraName:'正常',
         positionCode:2
@@ -211,7 +214,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateYellowB,
         num: data?.safeWarningStationStatisticVo?.warningCount,
         name: '预警/个',
-        isChoose: true,
+        isChoose: false,
         typeCode: 2,
         extraName:'预警',
         positionCode:2,
@@ -225,7 +228,7 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         img: stateGrayB,
         num: data?.safeWarningStationStatisticVo?.offlineCount,
         name: '未上线/个',
-        isChoose: true,
+        isChoose: false,
         typeCode: 3,
         positionCode:2,
         extraName:'未上线',

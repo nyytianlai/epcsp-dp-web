@@ -13,18 +13,29 @@
     <icon :icon="`svg-icon:${isCollapsed ? 'expand' : 'collapse'}`" />
     <span class="text">{{ isCollapsed ? '一键展开' : '一键收起' }}</span>
   </div>
-  <div class="expand-btn-search">
+  <div
+    class="expand-btn-search expand-btn-right"
+    @mouseenter="() => (isSearchCollapsed = true)"
+    @mouseleave="() => (isSearchCollapsed = false)"
+  >
+    <div class="down-wrap"></div>
+    <div class="up-wrap"></div>
     <el-autocomplete
+      v-if="isSearchCollapsed"
       v-model="searchInput"
       :fetch-suggestions="querySearchAsync"
       placeholder="请输入站点名称"
       @select="handleSearch"
       placement="bottom-end"
+      class="autocomplete"
+      :teleported="false"
+      popper-class="popper"
     >
-      <template #suffix>
-        <Icon icon="ep:search" />
-      </template>
+      <!-- <template #suffix>
+        <Icon icon="ep:search" color="#fff"/>
+      </template> -->
     </el-autocomplete>
+    <Icon icon="ep:search" class="search-icon" v-else />
     <!-- <el-input v-model="searchInput" placeholder="请输入站点名称" /> -->
     <!-- <el-button type="primary" @click="handleSearch">搜索</el-button> -->
   </div>
@@ -32,7 +43,7 @@
 <script setup>
 import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { infoObj, returnStationPointConfig } from '@/global/config/map';
+import { infoObj, returnStationPointConfig,toSingleStation } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
 import bus from '@/utils/bus';
@@ -41,7 +52,7 @@ const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
 const searchInput = ref('');
-
+const isSearchCollapsed = ref(false)
 const handleClick = () => {
   const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
@@ -72,19 +83,7 @@ const handleSearch = async (value) => {
     return;
   }
   console.log('搜索框选择数据', value);
-  let info = await __g.marker.get('station-' + value.stationId);
-  console.log('获取站点信息', info);
-  value['lng']=Number(value.stationLng); 
-  value['lat']=Number(value.stationLat);
-  //普通站点
-  if (!info.data.length) {
-    //不存在
-    let xoffset = value.stationName.length * 12;
-    value['xoffset'] = xoffset;
-    let o = returnStationPointConfig(value);
-    await __g.marker.add([o], null);
-  }
-  bus.emit('searchEnterStation', value);
+  toSingleStation(value)
 };
 </script>
 <style lang="less">
@@ -137,16 +136,47 @@ const handleSearch = async (value) => {
     transform: translate(-3px, -29px);
   }
 }
+.expand-btn-right {
+  .expand-btn();
+  &:hover {
+    width: 180px;
+  }
+  right: 0;
+  left: unset;
+  .down-wrap {
+    background-size: 180px 32px;
+    transform: rotateY(180deg);
+  }
+  .up-wrap {
+    background-size: 177px 32px;
+    transform: rotateY(180deg) translate(-3px, -29px);
+  }
+  .search-icon {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    font-size: 18px;
+    transform: translateY(-14px);
+  }
+}
 .expand-btn-search {
-  width: 163px;
   // height: auto;
   position: absolute;
   top: 67px;
   right: 0;
   z-index: 999;
-  overflow-x: hidden;
+  overflow-x: visible;
   overflow-y: visible;
   cursor: pointer;
   transition: all 0.5s;
+}
+.autocomplete {
+  width: 145px;
+  position: absolute;
+  top: 2px;
+  right: 5px;
+}
+.popper {
+  width: fit-content;
 }
 </style>

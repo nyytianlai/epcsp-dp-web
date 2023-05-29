@@ -168,7 +168,6 @@
   <custom-dialog
     v-model:visible="dialogRankVisible"
     title="运营企业排名列表"
-    @closed="handleDialogClosed"
   >
     <template #titleSearch>
       <el-input
@@ -201,7 +200,7 @@
       >
         <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
         </template>
@@ -260,6 +259,8 @@ import {
   filtersAlarmTypeName
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
+
 // 左二图的tab
 const curBtn = ref(1);
 const storeVisible = useVisibleComponentStore();
@@ -424,7 +425,7 @@ const loadOperatorInfoList = async () => {
   };
   const res = await operatorInfoList(obj);
   rankTableData.value = res.data.list;
-  pageObjRank.total = res.data.totalPage;
+  pageObjRank.total = res.data.total;
   console.log('res', res);
 };
 //今日-充电桩/充电枪信息
@@ -594,17 +595,12 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   dialogTableVisible.value = false;
   // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr,
-      equipmentId: item.row.equipmentId
-    }
-  });
+  toSingleStation(aircityObj.value?.acApi,item.row)
 };
+// 运营商排名搜索
+const handleSearch = ()=>{
+  loadOperatorInfoList()
+}
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();

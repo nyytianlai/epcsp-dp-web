@@ -259,6 +259,9 @@ export const  filters =[
   }
 ]
 export const ecOptionFun = (data=[], xaxis = [])=>{
+  xaxis = xaxis.map(i=>{
+     return {value: i,textStyle: { overflow:'break',width: 100}}
+    })
   return {
     grid: {
       top: 30,
@@ -277,7 +280,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         color: '#C6D1DB'
       },
       itemStyle:{
-        color: 'rgba(0, 163, 255, 0.5)'
+        color: 'rgba(19,171,194, 0.8)'
       }
     },
     tooltip: {
@@ -294,6 +297,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
     xAxis: {
       type: 'category',
       data: xaxis,
+      
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -309,6 +313,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         fontSize: 12,
         lineHeight: 18,
         color: '#B4C0CC',
+        interval:0,
       },
       splitLine: {
         show: false
@@ -317,6 +322,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
     yAxis: {
       type: 'value',
       name: '单位/个',
+      minInterval:1,
       axisLine: {
         show: false
       },
@@ -345,17 +351,33 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
           color:()=>{
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
-                offset: 0,
-                color: 'rgba(0, 163, 255, 0.0001)',
-              },
-              {
                 offset: 1,
                 color: '#13ABC2',
+              },
+              {
+                offset: 0,
+                color: 'rgba(0, 163, 255, 0.000001)',
               },
             ])
           }
         }
       },
+        {
+          // 顶部
+          tooltip: {
+            show: false
+          },
+          type: 'pictorialBar',
+          itemStyle: {
+            // 顶部
+            color: '#13ABC2'
+          },
+          symbol: 'rect',
+          symbolSize: ['100%', '3'],
+          symbolPosition: 'end',
+          data: data,
+          z: 3
+        },
     ]
   }
 }
