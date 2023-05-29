@@ -23,12 +23,10 @@ export const getRectBarByStreet = (areaCode) => {
   });
 };
 // 地图区级下钻撒点 总览 设备管理 公众服务
-export const getJdStation = (streetId) => {
+export const getJdStation = (data) => {
     return request.post({
       url: '/dp/api/v1/equipmentManage/selectStationInfoByStreetId',
-      data: {
-        streetId
-      }
+      data: data
     });
 };
   
@@ -58,20 +56,21 @@ export const jdMonthRate = (areacode) => {
 };
   
 //地图告警柱状图
-export const districtAlarmLevelStatics = (areaCode) => {
-  return request.get({
+export const districtAlarmLevelStatics = (areaCode,alarmLevel) => {
+  return request.post({
     url: '/safetySupervision/districtAlarmLevelStatics',
     data: {
-      areaCode
+      areaCode,
+      alarmLevel
     }
   });
 };
 
 //地图站点状态柱状图
-export const getMapAreaStationByPower = (areaCodeList) => {
+export const getMapStationStatistic = (areaCode,statusType) => {
   return request.post({
-    url: '/safetySupervision/getMapAreaStationByPower',
-    data: { areaCodeList }
+    url: '/safetySupervision/mapStationStatistic',
+    data: { areaCode,statusType }
   });
 };
 

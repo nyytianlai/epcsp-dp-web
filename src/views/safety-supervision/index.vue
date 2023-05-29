@@ -519,7 +519,8 @@ const handleWarmYearBtn = (value) =>{
 // 告警选中
 const handleChoose = (item)=>{
   console.log('告警选中',item)
-  // todo
+  //todo
+  mapLayerRef.value.alarmTypeChange(item);
 }
 // 实时状态球选中
 const handleBall = (item)=>{
@@ -528,6 +529,7 @@ const handleBall = (item)=>{
   item.isChoose = !item.isChoose
   console.log('ball',item)
   // todo
+  mapLayerRef.value.alarmTypeChange(item);
 }
 // 告警搜索
 const handleSearchWarn = ()=>{

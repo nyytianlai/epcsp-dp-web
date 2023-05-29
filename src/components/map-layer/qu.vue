@@ -27,7 +27,9 @@ import {
   delete3dt,
   control3dts,
   getTreeLayerIdByName,
-  hideAllStation3dt
+  hideAllStation3dt,
+  returnStationPointConfig,
+  getHtmlUrl
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D, GCJ02_2_4547 } from '@/utils/index';
 import bus from '@/utils/bus';
@@ -36,17 +38,21 @@ import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
-import { getHtmlUrl } from '@/global/config/map';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
+
+const stationType = computed(() => new Set(store.stationType));
+// store.changeStationType([1,2,3]);
+const buttomTabCode = computed(() => store.buttomTabCode);
+
 interface Props {
-  buttomTabCode?: number | string;
+  // buttomTabCode?: number | string;
   module: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  buttomTabCode: '',
+  // buttomTabCode: '',
   module: 0
 });
 
@@ -78,7 +84,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         if (quName === currentQu.value) {
           return;
         }
-        store.changeLastQu(currentQu.value);
         store.changeCurrentQu(quName);
         store.changeCurrentPosition(quName);
         __g.camera.set(...quView[currentQu.value]);
@@ -90,7 +95,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       }
       if (e.ID?.includes('街道')) {
         let jdName = e.ID.split('-')[1];
-        store.changeLastJd(currentJd.value);
         store.changeCurrentJd(jdName);
         store.changeCurrentPosition(jdName);
         __g.polygon.focus('jd-' + currentJd.value, 1500);
@@ -106,7 +110,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
       if (stationInfo.isHr !== 0) {
         //普通站点
-        __g.marker.focus(e.Id, 100);
+        // __g.marker.focus(e.Id, 100);
         highLightNormalStation(JSON.parse(e.UserData));
         enterStationInfo(stationInfo);
         return;
@@ -253,10 +257,10 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 
 const setQuVisibility = async (value: boolean) => {
   if (value) {
-    await __g.marker.show(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+    await __g.marker.show(layerNameQuNameArr('rectBar' + buttomTabCode.value));
     await __g.marker.showAllPopupWindow();
   } else {
-    await __g.marker.hide(layerNameQuNameArr('rectBar' + props.buttomTabCode));
+    await __g.marker.hide(layerNameQuNameArr('rectBar' + buttomTabCode.value));
   }
 };
 const deleteJdData = async () => {
@@ -273,16 +277,16 @@ const deleteJdData = async () => {
   );
   await __g.marker.delete(
     ids.map((i) => {
-      return `rectBar${props.buttomTabCode}-` + i;
+      return `rectBar${buttomTabCode.value}-` + i;
     })
   );
-  console.log(`rectBar${props.buttomTabCode}-`, ids);
+  console.log(`rectBar${buttomTabCode.value}-`, ids);
 };
 const deleteSingleJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
   await __g.marker.delete(
     ids.map((i) => {
-      return `rectBar${props.buttomTabCode}-` + i;
+      return `rectBar${buttomTabCode.value}-` + i;
     })
   );
   await __g.marker.deleteByGroupId('jdStation');
@@ -308,6 +312,7 @@ const back = async () => {
     await resetQu();
   } else if (currentPosition.value === '') {
     //此种情况返回哪一级需根据上一个位置
+    __g.radiationPoint.clear();
     hideAllStation3dt(__g, store.treeInfo);
     beforeAddOrExitHrStation(false);
     if (currentPositionBak.value.includes('街道')) {
@@ -338,7 +343,6 @@ const resetQu = async () => {
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
   __g.camera.set(...quView[currentQu.value]);
-  store.changeLastJd(currentJd.value);
   store.changeCurrentJd('');
 };
 //重置到深圳
@@ -356,48 +360,26 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  props.module !== 3 || buttomTabCode.value == 2
+    ? addJdStation(jdCode)
+    : addQuStationWithAlarmInfo(jdCode);
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addJdStation = async (jdCode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
-  const { data: res } = await getJdStation(jdCode);
+  const { data: res } = await getJdStation({
+    chargeType: Array.from(stationType.value),
+    equipmentType: buttomTabCode.value,
+    streetId: jdCode
+  });
   let pointArr = [];
   console.log('station接口', res);
 
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
-    let o1 = {
-      id: 'station-' + item.stationId,
-      groupId: 'jdStation',
-      userData: JSON.stringify(item),
-      coordinateType: 2,
-      coordinate: [item.lng, item.lat], //坐标位置
-      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [55, 150], //图片的尺寸
-      range: [1, 150000], //可视范围
-      imagePath: getImageByCloud('chargeStation50'),
-      popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
-        item.stationName
-      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
-      popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
-      popupSize: [425, 57], //弹窗大小
-      popupOffset: [-210, -157], //弹窗偏移
-      autoHidePopupWindow: false,
-      text: item.stationName, //显示的文字
-      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-20 - xoffset, -85], // 文本偏移
-      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
-      fontSize: 16, //字体大小
-      fontOutlineSize: 1, //字体轮廓线大小
-      fontColor: '#FFFFFF', //字体颜色
-      displayMode: 2,
-      autoDisplayModeSwitchFirstRatio: 0.5,
-      autoDisplayModeSwitchSecondRatio: 0.5,
-      autoHeight: true
-    };
+    item['xoffset'] = xoffset;
+    let o1 = returnStationPointConfig(item);
     if (item.isHr == 0) {
       let o = {
         id: 'station-' + index + '-' + item.isHr,
@@ -705,13 +687,25 @@ onMounted(async () => {
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
     back();
-    // bus.emit('resetTab3dt');
   });
+  bus.on(
+    'searchEnterStation',
+    async (e: { isHr: 0 | 1; operatorId: string; stationId: string; lng: number; lat: number }) => {
+      enterStationInfo(e);
+      if (e.isHr) {
+        __g.marker.showPopupWindow('station-' + e.stationId);
+        highLightNormalStation({ lng: e.lng, lat: e.lat });
+      } else {
+        bus.emit('toHr', e);
+      }
+    }
+  );
 });
 
 onBeforeUnmount(async () => {
   bus.off('toHr');
   bus.off('hrBackSz');
+  bus.off('searchEnterStation');
   await __g.reset();
 });
 </script>

@@ -33,20 +33,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     envDir: pathResolve('config'),
     base: env.VITE_BASE_PATH,
     build: {
-      target: 'esnext', //browsers can handle the latest ES features
+      target: 'esnext' //browsers can handle the latest ES features
     },
     plugins: [
       vue(),
-      vitePluginSutpcLibStaticImport({
-        libs: [{
-          name: 'element-plus',
-          var: 'ElementPlus',
-          path: 'dist/index.full.min.js',
-          style: '',
-          styleInsertTo: 'preHead',
-          autoLoad: true
-        }]
-      }),
+      vitePluginSutpcLibStaticImport(),
       vitePluginSutpcLessDeep(),
       vitePluginPurgeIcons(),
       vitePluginSutpcIconPark(),
@@ -58,7 +49,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
             title: env.VITE_APP_TITLE
           }
         }
-      }),
+      })
       // AutoImport({//注册
       //   imports: ['vue', 'vue-router'],
       //   dts: 'src/auto-import.d.ts'
@@ -78,7 +69,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         [env.VITE_API_BASEPATH]: {
           target: env.VITE_BASE_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, ''),
+          rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
         }
       }
     }
