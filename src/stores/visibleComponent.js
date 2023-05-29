@@ -8,25 +8,27 @@
  */
 import { ref } from 'vue';
 
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useVisibleComponentStore = defineStore('visibleComponent', () => {
-  const showComponent = ref(true)
-  const showDetail = ref(false)
-  const detailParams = ref({})
-  const isInDetail = ref(false)
-  const panelShow = ref(true)
+  const showComponent = ref(true);
+  const showDetail = ref(false);
+  const detailParams = ref({});
+  const isInDetail = ref(false);
+  const panelShow = ref(true);
+  const showPromitionVideo = ref(true);
+  const showUeVideo = ref(false);
 
   function changeShowComponent(data) {
-    showComponent.value = data
+    showComponent.value = data;
     if (data) {
-      isInDetail.value = false
+      isInDetail.value = false;
     }
   }
 
   function changeShowDetail({ show, params }) {
     showDetail.value = show;
-    detailParams.value = {...params};
+    detailParams.value = { ...params };
     if (show) {
       isInDetail.value = true;
     }
@@ -35,9 +37,27 @@ export const useVisibleComponentStore = defineStore('visibleComponent', () => {
   function changeShowPanel(data) {
     panelShow.value = data;
   }
-  return { showComponent, showDetail,detailParams,isInDetail,panelShow,changeShowComponent,changeShowDetail,changeShowPanel }
-})
-
+  function changeShowPromitionVideo(data) {
+    showPromitionVideo.value = data;
+  }
+  function changeShowUeVideo(data) {
+    showUeVideo.value = data;
+  }
+  return {
+    showComponent,
+    showDetail,
+    detailParams,
+    isInDetail,
+    panelShow,
+    showPromitionVideo,
+    showUeVideo,
+    changeShowComponent,
+    changeShowDetail,
+    changeShowPanel,
+    changeShowPromitionVideo,
+    changeShowUeVideo
+  };
+});
 
 // const state = {
 //   showComponent: true,
