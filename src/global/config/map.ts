@@ -97,8 +97,10 @@ export const quNameCodeInterTrans = (key: 'name' | 'code', value: string) => {
 //获取屏幕中心点的坐标
 export const getMapCenterCoord = (aircityObj) => {
   const x = aircityObj.player.rect.width; //视频流的宽度
-  const y = aircityObj.player.rect.height + 40; //视频流的高度
-  const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
+  const y = aircityObj.player.rect.height; //视频流的高度 + 40
+  // console.log('宽度：', x, '高度：', y);
+  // const screen2World_result = aircityObj.acApi.coord.screen2World(x / 2, y / 2); //屏幕坐标转三维坐标
+  const screen2World_result = aircityObj.acApi.coord.screen2World(2560 / 2, 1440 / 2); //屏幕坐标转三维坐标
   return screen2World_result;
 };
 
@@ -163,9 +165,8 @@ export const returnStationPointConfig = (item: {
     imageSize: [55, 150], //图片的尺寸
     range: [1, 150000], //可视范围
     imagePath: getImageByCloud('chargeStation50'),
-    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
-      item.stationName
-    }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
+    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${item.stationName
+      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
     popupSize: [425, 57], //弹窗大小
     popupOffset: [-210, -157], //弹窗偏移
@@ -187,7 +188,7 @@ export const returnStationPointConfig = (item: {
 
 export const toSingleStation = async (
   __g,
-  value: { stationId: string; stationLng: string; stationLat: string; stationName: string }
+  value: { stationId: string; stationLng: string; stationLat: string; stationName: string;[key: string]: any; }
 ) => {
   let info = await __g.marker.get('station-' + value.stationId);
   console.log('获取站点信息', info);

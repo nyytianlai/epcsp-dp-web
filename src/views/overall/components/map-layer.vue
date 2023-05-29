@@ -13,7 +13,7 @@
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
-    v-show="currentPosition == '深圳市'"
+    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
 <script setup lang="ts">

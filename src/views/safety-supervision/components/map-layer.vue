@@ -4,12 +4,12 @@
   <legend-list
     :legendList="legendListData1"
     :legendName="legendNameData1"
-    v-show="currentPosition == '深圳市' && buttomTabCode == 1"
+    v-show="(currentPosition == '深圳市' || currentPosition.includes('区')) && buttomTabCode == 1"
   />
   <legend-list
     :legendList="legendListData2"
     :legendName="legendNameData2"
-    v-show="currentPosition == '深圳市' && buttomTabCode == 2"
+    v-show="(currentPosition == '深圳市' || currentPosition.includes('区')) && buttomTabCode == 2"
   />
 </template>
 <script setup lang="ts">
@@ -30,6 +30,7 @@ import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
+const currentJdCode = computed(() => store.currentJdCode);
 const stationType = computed(() => new Set(store.stationType));
 store.changeStationType([1, 2, 3]);
 const buttomTabCode = computed(() => store.buttomTabCode);
@@ -147,6 +148,7 @@ const alarmTypeChange = async (item: AlarmType) => {
       stationType: Array.from(stationType.value)
     });
   } else if (currentPosition.value.includes('街道')) {
+    quRef.value.addStationPoint(currentJdCode.value);
   }
 };
 

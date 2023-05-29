@@ -5,7 +5,7 @@
   <legend-list
     :legendList="legendListData"
     :legendName="legendNameData"
-    v-show="currentPosition == '深圳市'"
+    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
 <script setup lang="ts">
@@ -29,6 +29,7 @@ __g.reset();
 const store = useMapStore();
 //所在位置 深圳市 xx区 xx站(取值'')
 const currentPosition = computed(() => store.currentPosition);
+const currentJdCode = computed(() => store.currentJdCode);
 const buttomTabCode = computed(() => store.buttomTabCode);
 const stationType = computed(() => new Set(store.stationType));
 store.changeStationType([1, 2, 3, 4]);
@@ -115,6 +116,7 @@ const handleChargeTypeChange = async (item: ChargeType) => {
       chargeType: Array.from(stationType.value)
     });
   } else if (currentPosition.value.includes('街道')) {
+    quRef.value.addStationPoint(currentJdCode.value);
   }
 };
 defineExpose({ buttomTabChange, handleChargeTypeChange });

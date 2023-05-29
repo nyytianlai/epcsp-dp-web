@@ -128,8 +128,10 @@ const getEquipmentInfoByEquipmentIdData = async () => {
     pileData.value = res?.data
   }
 }
-watch(visible, (newVal) => {
+watch(()=>visible.value, (newVal) => {
+  console.log('newValnewVal',newVal)
   if (newVal){
+    console.log('monitor',type.value)
     if (type.value !== 'monitor') {
       getEquipmentInfoByEquipmentIdData()
     } else {
@@ -143,6 +145,8 @@ watch(visible, (newVal) => {
       }
     }
   }
+},{
+  immediate:true
 })
 provide('pileData',pileData)
 </script>
