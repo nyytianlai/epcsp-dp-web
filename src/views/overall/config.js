@@ -197,7 +197,7 @@ export const pileChargerFun = (code = 1,data={},maintab = 1) => {
         },
         {
           img: jlcd,
-          num: data?.ACAndDCCount,
+          num: data?.acandDCCount,
           unit: '个',
           name: '直交流桩总量'
         },
@@ -259,7 +259,7 @@ export const pileChargerFun = (code = 1,data={},maintab = 1) => {
         },
         {
           img: jlcd,
-          num: data?.ACAndDCCount,
+          num: data?.acandDCCount,
           unit: '个',
           name: '直交流枪总量'
         },

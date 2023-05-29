@@ -21,9 +21,9 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
+        <!-- <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
           <hawk-eye></hawk-eye>
-        </base-ac>
+        </base-ac> -->
         <expand-btn />
         <div class="backBox" v-show="currentPosition === '深圳市'">
           <img src="./images/back.png" alt="" @click="router.go(-1)" />
