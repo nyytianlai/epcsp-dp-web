@@ -176,7 +176,10 @@ const getButtomMenuData = async () => {
   const { data: res } = await viewMenuData({ stationId: store.detailParams?.stationId });
   console.log('底部菜单栏数据', res);
   tabData.value.length = 0;
-  tabData.value.push(...res);
+  if(res.length){
+    tabData.value.push(...res);
+  }
+  
 };
 // 统计数据
 const getStationStatistics = async () => {
@@ -289,6 +292,7 @@ useEmitt &&
   });
 // 定位到桩弹窗
 const focusToPile = (eid, status) => {
+  console.log('pileVisiblepileVisible',pileVisible.value)
   handleClickFocus(__g, eid, status);
   pileParams.value = {
     eid: eid
@@ -328,7 +332,9 @@ watch(()=>store.detailParams,() => {
   getStationRealTimePowerByStationId();
   getWarningStatisticByStationId();
   getButtomMenuData()
+  console.log('store.detailParams?.equipmentId',store.detailParams?.equipmentId)
   if(store.detailParams?.equipmentId){
+      console.log('pileVisible',pileVisible.value)
       focusToPile(store.detailParams.equipmentId,255)
   }
 

@@ -20,6 +20,7 @@
         :totalName='bottomBtnCur === 1 ?"充电桩总数":"充电枪总数"'
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
+        :color="['#E5CC48','#3254DD','#4BDEFF','#BEE5FB']"
       />
     </div>
     <div class="charging-peak-area">

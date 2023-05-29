@@ -703,7 +703,7 @@ onMounted(async () => {
   });
   bus.on(
     'searchEnterStation',
-    async (e: { isHr: 0 | 1; operatorId: string; stationId: string; lng: number; lat: number }) => {
+    async (e: { isHr: 0 | 1; operatorId: string; stationId: string; lng: number; lat: number;[key:string]:any }) => {
       if (e.isHr) {
         enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);
@@ -715,7 +715,8 @@ onMounted(async () => {
           params: {
             operatorId: e.operatorId,
             stationId: e.stationId,
-            isHr: e.isHr
+            isHr: e.isHr,
+            equipmentId:e.equipmentId
           }
         });
         bus.emit('toHr', e);

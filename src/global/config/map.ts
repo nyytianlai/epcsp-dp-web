@@ -163,9 +163,8 @@ export const returnStationPointConfig = (item: {
     imageSize: [55, 150], //图片的尺寸
     range: [1, 150000], //可视范围
     imagePath: getImageByCloud('chargeStation50'),
-    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
-      item.stationName
-    }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
+    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${item.stationName
+      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
     popupSize: [425, 57], //弹窗大小
     popupOffset: [-210, -157], //弹窗偏移
@@ -187,7 +186,7 @@ export const returnStationPointConfig = (item: {
 
 export const toSingleStation = async (
   __g,
-  value: { stationId: string; stationLng: string; stationLat: string; stationName: string }
+  value: { stationId: string; stationLng: string; stationLat: string; stationName: string;[key: string]: any; }
 ) => {
   let info = await __g.marker.get('station-' + value.stationId);
   console.log('获取站点信息', info);
