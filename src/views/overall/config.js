@@ -159,29 +159,29 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
       return [
         {
           img: fast,
-          num:29982,
-          // num: data?.fastChargeEquCount,
+          // num:29982,
+          num: data?.fastChargeEquCount,
           unit: '个',
           name: '快充桩总量'
         },
         {
           img: slow,
-          num:142337,
-          // num: data?.slowChargeEquCount,
+          // num:142337,
+          num: data?.slowChargeEquCount,
           unit: '个',
           name: '慢充桩总量'
         },
         {
           img: speed,
-          num:26,
-          // num: data?.overchargeEquCount,
+          // num:26,
+          num: data?.overchargeEquCount,
           unit: '个',
           name: '超充桩总量'
         },
         {
           img: v2g,
-          num:21,
-          // num: data?.v2GEquCount,
+          // num:21,
+          num: data?.v2GEquCount,
           unit: '个',
           name: 'V2G桩总量'
         }
@@ -190,21 +190,20 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
       return [
         {
           img: zlcd,
-          // num: data?.directEquCount,
-          num: 30008,
+          num: data?.directEquCount,
+          // num: 30008,
           unit: '个',
           name: '直流桩总量'
         },
         {
           img: jlcd,
-          num: 142337,
-          // num: data?.exchangeEquCount,
+          // num: 142337,
+          num: data?.exchangeEquCount,
           unit: '个',
           name: '交流桩总量'
         },
         {
           img: jlcd,
-        
           num: data?.acandDCCount,
           unit: '个',
           name: '直交流桩总量'
@@ -217,8 +216,8 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         },
         {
           img: v2g,
-          num: 21,
-          // num: data?.v2GEquCount,
+          // num: 21,
+          num: data?.v2GEquCount,
           unit: '个',
           name: 'V2G桩总量'
         }
