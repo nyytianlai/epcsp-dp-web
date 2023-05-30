@@ -722,7 +722,7 @@ onMounted(async () => {
             operatorId: e.operatorId,
             stationId: e.stationId,
             isHr: e.isHr,
-            equipmentId:e.equipmentId
+            equipmentId:e.eid
           }
         });
         bus.emit('toHr', e);

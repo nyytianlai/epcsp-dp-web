@@ -15,6 +15,7 @@ const addBar = async (obj: {
 }) => {
   let res;
   let count = [];
+  let countIsZero = []; //存储值都是0的区域 都是0的话 不在图上展示柱状图
   if (obj.code === 1) {
     res = await districtAlarmLevelStatics(obj.quCode, obj.stationType);
     for (const key in res.data) {
@@ -27,6 +28,11 @@ const addBar = async (obj: {
           return prev + cur;
         }, 0);
       count.push(countItem);
+      if (obj.type === 'jd') {
+        countItem ? '' : countIsZero.push(element[0].streetCode);
+      } else {
+        countItem ? '' : countIsZero.push(element[0].areaCode + '');
+      }
     }
     console.log('11--districtAlarmLevelStatics');
   } else {
@@ -38,6 +44,11 @@ const addBar = async (obj: {
           countItem = countItem + element[i];
         }
       });
+      if (obj.type === 'jd') {
+        countItem ? '' : countIsZero.push(element.streetCode);
+      } else {
+        countItem ? '' : countIsZero.push(element.areaCode + '');
+      }
       count.push(countItem);
     });
     console.log('22--getMapAreaStationByPower');
@@ -58,6 +69,13 @@ const addBar = async (obj: {
     let countObj;
     let field = obj.type == 'qu' ? 'QUCODE' : 'JDCODE';
     let value;
+    console.log('gggggggg', countIsZero, item.properties.QUCODE);
+    if (
+      countIsZero.includes(item.properties.QUCODE) ||
+      countIsZero.includes(item.properties.JDCODE+'')
+    ) {
+      return;
+    }
     if (obj.code == 1) {
       countObj = res.data[item.properties[field]];
       console.log(countObj);
@@ -75,7 +93,7 @@ const addBar = async (obj: {
         return ele.alarmLevel === '3';
       });
       let data1 = a.length ? a[0].cnt : 0; //1级
-      let data2 = b.length? b[0].cnt : 0; //2级
+      let data2 = b.length ? b[0].cnt : 0; //2级
       let data3 = c.length ? c[0].cnt : 0; //3级
       value = `${data1},${data2},${data3},`;
     } else {
