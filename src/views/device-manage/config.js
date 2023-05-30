@@ -8,17 +8,20 @@ export const pageNumFun = (data={}) => {
   return [
     {
       name: '充电站总量',
-      num: data?.stationCount,
+      num: 7257,
+      // num: data?.stationCount,
       unit: '个'
     },
     {
       name: '充电桩总量',
-      num: data?.equipmentCount,
+      num: 172319,
+      // num: data?.equipmentCount,
       unit: '个'
     },
     {
       name: '充电枪总量',
-      num: data?.gunCount,
+      num: 198963,
+      // num: data?.gunCount,
       unit: '个'
     },
     {
@@ -58,10 +61,21 @@ export const chargingStationPieDataFun = (code = 1,data={},maintab = 1)=>{
     // 充电桩
     if(code === 1){
       return [
-        { value: data?.chargeCountByChargeTypeDto?.quickCount, name: '快充桩', code:1, unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.noQuickCount, name: '慢充桩',code:2, unit: '个',isChoose: true },
-        { value:  data?.chargeCountByChargeTypeDto?.superCount, name: '超充桩', code:3, unit: '个',isChoose: true },
-        { value: data?.chargeCountByChargeTypeDto?.v2GCount, name: 'V2G桩', code:4, unit: '个',isChoose: true }
+        {
+          //  value: data?.chargeCountByChargeTypeDto?.quickCount, 
+          value: 29982,
+          name: '快充桩', code:1, unit: '个',isChoose: true },
+        {
+          //  value: data?.chargeCountByChargeTypeDto?.noQuickCount,
+          value: 142337,
+            name: '慢充桩',code:2, unit: '个',isChoose: true },
+        { 
+          // value:  data?.chargeCountByChargeTypeDto?.superCount,
+          
+          value: 26,name: '超充桩', code:3, unit: '个',isChoose: true },
+        { 
+          value: data?.chargeCountByChargeTypeDto?.v2GCount,
+          value: 21, name: 'V2G桩', code:4, unit: '个',isChoose: true }
       ]
     }else{
       return [
