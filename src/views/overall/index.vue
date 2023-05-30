@@ -25,7 +25,8 @@
         />
         <div class="right-tab-btn">
           <div
-            v-for="item in tabList"
+            v-for="(item, index) in tabList"
+            :key="index"
             class="tab-btn"
             :class="{ active: curBtn === item.value }"
             @click="handleTabBtn(item)"
@@ -76,7 +77,7 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
@@ -165,10 +166,7 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
-  <custom-dialog
-    v-model:visible="dialogRankVisible"
-    title="运营企业排名列表"
-  >
+  <custom-dialog v-model:visible="dialogRankVisible" title="运营企业排名列表">
     <template #titleSearch>
       <el-input
         v-model="inputRank"
@@ -490,9 +488,6 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getTableAlarm();
 };
-// const handleDialogClosed = () => {
-//   console.log('handleDialogClosed');
-// }
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {
   dialogRankVisible.value = true;
@@ -595,12 +590,12 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   dialogTableVisible.value = false;
   // 展示站点
-  toSingleStation(aircityObj.value?.acApi,item.row)
+  toSingleStation(aircityObj.value?.acApi, item.row);
 };
 // 运营商排名搜索
-const handleSearch = ()=>{
-  loadOperatorInfoList()
-}
+const handleSearch = () => {
+  loadOperatorInfoList();
+};
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();

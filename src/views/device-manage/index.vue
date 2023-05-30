@@ -17,10 +17,14 @@
       />
       <pie-chart
         :data="chargingStationPieData"
-        :totalName='bottomBtnCur === 1 ?"充电桩总数":"充电枪总数"'
+        :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
-        :colors="totalCurCode === 1 ?['#E5CC48','#3254DD','#4BDEFF','#BEE5FB']:['#E5CC48','#3254DD','#4BDEFF','#ED8ECA','#BEE5FB']"
+        :colors="
+          totalCurCode === 1
+            ? ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB']
+            : ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB']
+        "
       />
     </div>
     <div class="charging-peak-area">
@@ -90,7 +94,6 @@
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
-      
       :default-sort="{ prop: 'equipmentPower', order: 'descending' }"
     >
       <el-table-column
@@ -320,7 +323,7 @@ const getSelectStationInfoByPage = async () => {
   };
   const res = await selectStationInfoByPage(obj);
   totalTableData.value = res.data.dataList;
-  pageObj.total = res.data.totalPage;
+  pageObj.total = res.data.total;
   console.log('res', res);
 };
 // 底部按钮点击
@@ -426,11 +429,10 @@ onMounted(() => {
   getSelectStationInfoByPage();
 });
 const handleChangeTab = (data, type) => {
-  
   if (type === 'charging-station') {
     //切换充电桩数量信息
-    totalCurCode.value = data.code
-    getSelectChargeCount(data.code,bottomBtnCur.value)
+    totalCurCode.value = data.code;
+    getSelectChargeCount(data.code, bottomBtnCur.value);
   } else if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态
     getSelectChargeEquipmentStatus(data.code);
