@@ -1,11 +1,11 @@
 <template>
-  <el-dialog v-model="visible" class="pile-dialog" destroy-on-close width="8.45rem">
+  <el-dialog class="pile-dialog" destroy-on-close width="8.45rem">
     <template #header>
       <div class="detail-header">
         <icon icon="svg-icon:house" class="house" />
         <div class="detail-info">
-          <div class="info-name">{{baseMsg?.operatorName}}</div>
-          <div class="inifo-code">统一社会信用码：{{baseMsg?.operatorId}}</div>
+          <div class="info-name">{{ baseMsg?.operatorName }}</div>
+          <div class="inifo-code">统一社会信用码：{{ baseMsg?.operatorId }}</div>
         </div>
       </div>
     </template>
@@ -65,7 +65,7 @@
           </el-table-column>
         </el-table>
         <el-pagination
-        class="pagiantion"
+          class="pagiantion"
           :page-size="pageObj.pageSize"
           layout="prev, pager, next"
           :total="pageObj.total"
@@ -83,7 +83,7 @@ import { ref, inject, reactive } from 'vue';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { columnDataChargeFun } from '../config';
 import { operatorBasicInfo, equInfo, stationInfoList } from '../api';
-const emit = defineEmits(['goDetail'])
+const emit = defineEmits(['goDetail']);
 // 当前tab
 const current = ref('msg');
 const operatorId = inject('operatorId');
@@ -196,10 +196,10 @@ const init = async () => {
   loadStationInfoList();
 };
 // 点击详情
-const handleDetail = (item)=>{
-  console.log('item',item)
-  emit('goDetail',item)
-}
+const handleDetail = (item) => {
+  console.log('item', item);
+  emit('goDetail', item);
+};
 defineExpose({
   init
 });

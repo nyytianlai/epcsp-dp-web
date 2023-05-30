@@ -3,7 +3,9 @@
     <img class="icon" :src="data.img" alt="" :style="styleImgFont?.icon" />
     <div class="info">
       <span class="num">
-        <span class="value" :style="styleImgFont?.num">{{ formatWithToLocalString(data.num) }}</span>
+        <span class="value" :style="styleImgFont?.num">
+          {{ formatWithToLocalString(data.num) }}
+        </span>
         <span class="unit">&nbsp;{{ data.unit }}</span>
       </span>
       <span class="name" :style="styleImgFont?.name">{{ data.name }}</span>
@@ -11,17 +13,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import {toRefs,computed } from 'vue'
-import type { CSSProperties } from 'vue'
-import { formatWithToLocalString } from '@/global/commonFun.js'
+import { toRefs, computed } from 'vue';
+import type { CSSProperties } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
 interface Idata {
   img: string;
   name: string;
   num: string | number;
   unit?: string;
-  iconStyle?:object;
-  numStyle?:object;
-  nameStyle?:object;
+  iconStyle?: object;
+  numStyle?: object;
+  nameStyle?: object;
 }
 type Itype = 'top-down' | 'left-right';
 
@@ -29,11 +31,11 @@ interface IimageSize {
   width: string;
   height: string;
 }
-type IclassStyleType = 'bottomDown'|'leftRightStyleYellow';
+type IclassStyleType = 'bottomDown' | 'leftRightStyleYellow';
 
 interface Props {
   data: Idata;
-  type: Itype;
+  type?: Itype;
   classStyleType: IclassStyleType;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -49,11 +51,11 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const styleObj = {
-  bottomDown:{
+  bottomDown: {
     num: {
       background: 'linear-gradient(180deg, #0080ff 0%, #ffffff 52.08%, #007cf8 100%)',
       textFillColor: 'transparent',
-      '-webkit-background-clip': 'text',
+      '-webkit-background-clip': 'text'
     }
   },
   leftRightStyleYellow: {
@@ -63,14 +65,14 @@ const styleObj = {
     },
     num: {
       lineHeight: '0.32rem',
-      fontSize:'0.32rem',
+      fontSize: '0.32rem',
       background: 'linear-gradient(180deg, #F9E900 0%, #FFFFFF 52.08%, #F9E900 100%)',
       textFillColor: 'transparent',
-      '-webkit-background-clip': 'text',
+      '-webkit-background-clip': 'text'
     },
     name: {
       fontSize: '0.16rem',
-      lineHeight:'0.22rem'
+      lineHeight: '0.22rem'
     }
   },
   leftRightStyleGreen: {
@@ -80,14 +82,14 @@ const styleObj = {
     },
     num: {
       lineHeight: '0.32rem',
-      fontSize:'0.32rem',
+      fontSize: '0.32rem',
       background: 'linear-gradient(180deg, #00F7FF 0%, #D5FEFF 52.08%, #00F7FF 100%)',
       textFillColor: 'transparent',
-      '-webkit-background-clip': 'text',
+      '-webkit-background-clip': 'text'
     },
     name: {
       fontSize: '0.16rem',
-      lineHeight:'0.22rem'
+      lineHeight: '0.22rem'
     }
   },
   leftRightStyleGreen6656: {
@@ -97,14 +99,14 @@ const styleObj = {
     },
     num: {
       lineHeight: '0.32rem',
-      fontSize:'0.32rem',
+      fontSize: '0.32rem',
       background: 'linear-gradient(180deg, #00F7FF 0%, #D5FEFF 52.08%, #00F7FF 100%)',
       textFillColor: 'transparent',
-      '-webkit-background-clip': 'text',
+      '-webkit-background-clip': 'text'
     },
     name: {
       fontSize: '0.16rem',
-      lineHeight:'0.22rem'
+      lineHeight: '0.22rem'
     }
   },
   leftRightStyleGray6656: {
@@ -114,37 +116,35 @@ const styleObj = {
     },
     num: {
       lineHeight: '0.32rem',
-      fontSize:'0.32rem',
+      fontSize: '0.32rem',
       background: 'linear-gradient(180deg, #BFBFBF 0%, #FFFFFF 52.08%, #BFBFBF 100%)',
       textFillColor: 'transparent',
-      '-webkit-background-clip': 'text',
+      '-webkit-background-clip': 'text'
     },
     name: {
       fontSize: '0.16rem',
-      lineHeight:'0.22rem'
+      lineHeight: '0.22rem'
     }
   }
 };
 
 const { data, type, classStyleType } = toRefs(props);
-interface IStyleImgFont{
+interface IStyleImgFont {
   icon?: Partial<CSSStyleDeclaration>;
   num?: Partial<CSSStyleDeclaration>;
   name?: Partial<CSSStyleDeclaration>;
 }
-const styleImgFont = computed<IStyleImgFont>(()=>{
-  
-  if(classStyleType.value){
-    return styleObj[classStyleType.value]
-  }else{
+const styleImgFont = computed<IStyleImgFont>(() => {
+  if (classStyleType.value) {
+    return styleObj[classStyleType.value];
+  } else {
     return {
-      icon:data.value?.iconStyle,
-      num:data.value?.numStyle,
-      name:data.value?.nameStyle
-    }
+      icon: data.value?.iconStyle,
+      num: data.value?.numStyle,
+      name: data.value?.nameStyle
+    };
   }
-
-})
+});
 </script>
 <style lang="less" scoped>
 .num-card {

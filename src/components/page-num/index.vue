@@ -10,36 +10,43 @@
   <transition>
     <div class="page-num-wrap" :class="bgcType" v-if="panelShow">
       <div class="num-wrap" v-for="(item, index) in data" :key="index">
-        <span class="name" :style="{color:item.nameColor}">{{ item.name }}</span>
+        <span class="name" :style="{ color: item.nameColor }">{{ item.name }}</span>
         <span class="num-unit">
-          <span class="num">{{ formatWithToLocalString(item.num) }}</span>
+          <span class="num">
+            {{
+              item.digits
+                ? formatWithToLocalString(item.num, item.digits)
+                : formatWithToLocalString(item.num)
+            }}
+          </span>
           <span class="unit">{{ item.unit }}</span>
         </span>
       </div>
     </div>
-    </transition>
+  </transition>
 </template>
 <script setup lang="ts">
-import {onMounted,ref,computed,toRefs } from 'vue'
-import { formatWithToLocalString } from '@/global/commonFun.js'
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
+import { onMounted, ref, computed, toRefs } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
-const store = useVisibleComponentStore()
+const store = useVisibleComponentStore();
 interface Idata {
   num: string | number;
   name: string;
   unit: string;
   nameColor?: string;
+  digits?: string | number;
 }
 interface Props {
   data: Idata[];
-  bgcType:string
+  bgcType?: string;
 }
 const props = withDefaults(defineProps<Props>(), {});
 const { data } = toRefs(props);
 const panelShow = computed(() => {
-  return store.panelShow
-})
+  return store.panelShow;
+});
 </script>
 <style lang="less" scoped>
 .page-num-wrap {

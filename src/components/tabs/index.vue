@@ -11,18 +11,18 @@
         {{ item.label }}
       </span>
     </div>
-    <slot/>
+    <slot />
   </div>
 </template>
 <script setup lang="ts">
-import {toRefs,ref } from 'vue'
+import { toRefs, ref } from 'vue';
 interface Idata {
   code: string | number;
   label: string;
 }
 interface Props {
   data: Idata[];
-  modelValue: string | number;
+  modelValue?: string | number;
 }
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(['update:modelValue', 'changeTab']);

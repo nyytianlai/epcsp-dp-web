@@ -5,13 +5,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import './peer-stream';
+import { ref, onMounted, nextTick } from 'vue';
+import { useUeStore } from '@/stores/ue';
+import './peer-stream.js';
+// import { PeerStream } from './peer-stream.js';
+interface Props {
+  station?: string;
+}
 const ueView = ref(null);
 const ueRef = ref(null);
-
-const store = useVisibleComponentStore();
+const props = defineProps<Props>();
+// console.log(PeerStream);
+// const ps = new PeerStream();
+const store = useUeStore();
 const handleCloseVideo = () => {
   store.changeShowUeVideo(false);
 };
@@ -22,8 +28,13 @@ const WsConfig = {
 // 测试加载时间
 let startLoadTime = new Date().getTime();
 const isUEReady = () => {
-  if (ps.readyState == 4) {
+  console.log('ps.readyState:' + ps.readyState);
+  if (ps.readyState === 4) {
     console.log('time', 'isUEReady', new Date().getTime() - startLoadTime);
+    store.changeReady(true);
+    if (props.station) {
+      ps.emitMessage(props.station);
+    }
   } else {
     setTimeout(() => {
       isUEReady();
@@ -39,6 +50,7 @@ const initUE_Module = () => {
     ueView.value = ps;
     ps.id = WsConfig.TunnelWS;
     appendUEVideo();
+    resolve(true);
   });
 };
 // 挂载ue video dom
@@ -49,10 +61,10 @@ const appendUEVideo = () => {
     resolve();
   });
 };
+// ps.emitMessage(message);
 // 挂载
 onMounted(() => {
   console.log('time', 'startLoadTime onMounted', new Date().getTime() - startLoadTime);
-  console.log('time', 'initTimelineBar', new Date().getTime() - startLoadTime);
   initUE_Module().then(() => {
     console.log('time', 'initUE_Module', new Date().getTime() - startLoadTime);
     nextTick(() => {

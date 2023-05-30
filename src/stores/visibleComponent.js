@@ -17,7 +17,6 @@ export const useVisibleComponentStore = defineStore('visibleComponent', () => {
   const isInDetail = ref(false);
   const panelShow = ref(true);
   const showPromitionVideo = ref(true);
-  const showUeVideo = ref(false);
 
   function changeShowComponent(data) {
     showComponent.value = data;
@@ -40,9 +39,6 @@ export const useVisibleComponentStore = defineStore('visibleComponent', () => {
   function changeShowPromitionVideo(data) {
     showPromitionVideo.value = data;
   }
-  function changeShowUeVideo(data) {
-    showUeVideo.value = data;
-  }
   return {
     showComponent,
     showDetail,
@@ -50,12 +46,10 @@ export const useVisibleComponentStore = defineStore('visibleComponent', () => {
     isInDetail,
     panelShow,
     showPromitionVideo,
-    showUeVideo,
     changeShowComponent,
     changeShowDetail,
     changeShowPanel,
-    changeShowPromitionVideo,
-    changeShowUeVideo
+    changeShowPromitionVideo
   };
 });
 

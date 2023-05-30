@@ -9,7 +9,12 @@
 <template>
   <div class="warning-list" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">
-      <li class="warning-info" v-for="(item, index) in data" :key="index" @click="handleClick(item)">
+      <li
+        class="warning-info"
+        v-for="(item, index) in data"
+        :key="index"
+        @click="handleClick(item)"
+      >
         <span class="date">{{ item.date ? dayjs(item.date).format('HH:mm:ss') : '--' }}</span>
         <span class="message text-ellipsis-1">
           <el-tooltip :content="item.message || ''" placement="top">
@@ -23,7 +28,7 @@
         </span>
       </li>
     </ul>
-    <no-data v-else/>
+    <no-data v-else />
   </div>
 </template>
 <script setup lang="ts">
@@ -37,16 +42,16 @@ interface Idata {
 }
 interface Props {
   data: Idata[];
-  height: string;
+  height?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   height: '1.72rem'
 });
-const emit = defineEmits(['handleClick'])
+const emit = defineEmits(['handleClick']);
 const { data } = toRefs(props);
 const handleClick = (item) => {
-  emit('handleClick',item)
-}
+  emit('handleClick', item);
+};
 </script>
 <style lang="less" scoped>
 .warning-list {

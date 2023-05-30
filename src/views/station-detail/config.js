@@ -115,7 +115,7 @@ export const currentLabel = () => {
     {
       value: '220V 45HZ',
       position: [504640.77125, 2499718.08, 94.609931640625]
-    },
+    }
   ];
 };
 //民乐站棚顶的id
@@ -167,21 +167,21 @@ export const deviceInfoDataFun = (data = {}) => {
       num: data?.equipmentCount,
       name: '充电桩/个'
     },
-    {
-      img: camera,
-      num: data?.cameraCount || 63279,
-      name: '摄像头/个'
-    },
+    // {
+    //   img: camera,
+    //   num: data?.cameraCount || 63279,
+    //   name: '摄像头/个'
+    // },
     {
       img: charging,
       num: data?.gunCount,
       name: '充电枪/个'
-    },
-    {
-      img: dLock,
-      num: data?.lockCount || 58552,
-      name: '地锁/个'
     }
+    // {
+    //   img: dLock,
+    //   num: data?.lockCount || 58552,
+    //   name: '地锁/个'
+    // }
   ];
 };
 
@@ -318,42 +318,42 @@ export const columnDataFun = () => {
     {
       prop: 'operatorName',
       label: '运营商名称',
-      minWidth:2.8
+      minWidth: 2.8
     },
     {
       prop: 'stationName',
       label: '充电站名称',
-      minWidth:'1'
+      minWidth: '1'
     },
     {
       prop: 'alarmLevelName',
       label: '告警级别',
-      minWidth:1
+      minWidth: 1
     },
     {
       prop: 'alarmDesc',
       label: '告警描述',
-      minWidth:'2'
+      minWidth: '2'
     },
     {
       prop: 'alarmTypeName',
       label: '告警类型',
-      minWidth:'1'
+      minWidth: '1'
     },
     {
       prop: 'alarmTime',
       label: '告警时间',
-      minWidth:2
+      minWidth: 2
     },
     {
       prop: 'stationPrincipal',
       label: '安全负责人',
-      minWidth:1
+      minWidth: 1
     },
     {
       prop: 'serviceTel',
       label: '联系电话',
-      minWidth:1.8
-    },
-  ]
-}
+      minWidth: 1.8
+    }
+  ];
+};
