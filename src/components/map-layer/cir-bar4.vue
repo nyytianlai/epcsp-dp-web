@@ -25,14 +25,20 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
   }
   console.log('柱状图接口', res.data);
   let count = [];
+  let countIsZero = []; //存储值都是0的区域 都是0的话 不在图上展示柱状图
   res.data.forEach((element) => {
-    let countItem=0
+    let countItem = 0;
     element.v2GCount = element.v2GCount ? element.v2GCount * 300 : 0;
-    ['noQuickCount','quickCount','superCount','v2GCount'].forEach((i)=>{
-      if(element[i]){
-        countItem=countItem+element[i]
+    ['noQuickCount', 'quickCount', 'superCount', 'v2GCount'].forEach((i) => {
+      if (element[i]) {
+        countItem = countItem + element[i];
       }
-    })
+    });
+    if(obj.type === 'jd'){
+      countItem ? '' : countIsZero.push(element.streetId);
+    }else{
+      countItem ? '' : countIsZero.push(element.areaCode+'');
+    }
     count.push(countItem);
   });
 
@@ -60,9 +66,10 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
         return i.streetId == item.properties.JDCODE;
       });
     }
-    console.log('countObj', JSON.stringify(
-        countObj[0]
-      ));
+    console.log('countObj',countIsZero,item.properties.JDCODE, JSON.stringify(countObj[0]));
+    if (countIsZero.includes(item.properties.QUCODE) || countIsZero.includes(item.properties.JDCODE)) {
+      return;
+    }
 
     let contentHeight = 190;
     let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;

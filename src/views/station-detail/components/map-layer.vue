@@ -174,8 +174,8 @@ const currentPath = async (isShow: boolean) => {
   let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
   await control3dts(__g, [id], isShow);
   // currentPathCameraTour();
-  isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), false); //设置棚顶的样式
   addCurrentLabel();
+  isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), false); //设置棚顶的样式
 };
 
 const addCurrentLabel = async () => {
@@ -239,9 +239,9 @@ const resetTab3dt = async () => {
   delete3dt(__g, ['NewYYSFB']);
   isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), true); //设置棚顶的样式
   await __g.marker.deleteByGroupId('stationCurrentLabel');
+  await __g.marker.deleteByGroupId('stationCameras');
 };
 onMounted(() => {
-  getCameraData();
   addFacilitiesLabel();
   addChageingIcon(chargeIcon());
   bus.on('handleTabSelect', async (e) => {
@@ -249,6 +249,7 @@ onMounted(() => {
     await resetTab3dt();
     if (e?.viewOrder === 2) {
       //站内设施
+      getCameraData();
     } else if (e?.viewOrder === 3) {
       //车辆充电
       carChargingAnimation();
@@ -263,8 +264,8 @@ onMounted(() => {
   });
 });
 onBeforeUnmount(() => {
-  __g.marker.deleteByGroupId('stationCameras');
-  __g.marker.deleteByGroupId('warningPointGroup');
+  __g.marker.deleteByGroupId('stationFacilitiesLabel');
+  __g.marker.deleteByGroupId('warningPointGroup'); 
   bus.off('handleTabSelect');
   resetTab3dt();
 });

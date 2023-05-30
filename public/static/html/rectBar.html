@@ -66,6 +66,7 @@
       
       var urlParams = new URLSearchParams(location.search);
       let paramsValue = urlParams.get("value")?urlParams.get("value").split(","):[44,55,66];
+
       const VALUE = [
         { value: Number(paramsValue[1]), label: { offset: [0, -10] } },
       ];
@@ -358,6 +359,11 @@
                   show: true,
                   position: "top",
                   formatter: (e) => {
+                    if(areaCode=='440305'){
+                      e.value=1500
+                    }else if(areaCode=='440304'){
+                      e.value=1318
+                    }
                     return e.value;
                   },
                   fontSize: 14,
@@ -372,7 +378,6 @@
               itemStyle: {
                 color: "transparent",
               },
-              // tooltip: {},
               data: VALUE,
             },
           ],

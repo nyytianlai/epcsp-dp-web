@@ -377,11 +377,17 @@ const getOverTotalCount = async () => {
 //充电设施总量
 const getTotalFacilities = async () => {
   const res = await totalFacilities();
-  cardData.value = cdsszlFun(res.data);
+  const data= {
+    totalChargingStations: 7257,
+    totalOperating:139,
+    totalNewEnergyVehicles:76.6
+  }
+  cardData.value = cdsszlFun(data);
 };
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async () => {
   const res = await totalEquipment({ chargingType: chargingType.value, type: typeCharge.value });
+  
   pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data, curBtn.value);
 };
 
