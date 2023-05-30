@@ -132,23 +132,22 @@ export const pageNumFun = (data = {}) => {
     {
       name: '累计充电量',
       num: data?.cumulativeCharge,
-      unit: '亿度'
+      unit: data?.cumulativeChargeUnit || '亿度'
     },
     {
       name: '累计充电次数',
       num: data?.cumChargeCount,
-      unit: '万次'
+      unit: data?.cumChargeCountUnit || '万次'
     },
     {
       name: '累计充电时长',
       num: data?.cumChargeTime,
-      unit: '万小时',
-      digits: 0
+      unit: data?.cumChargeTimeUnit || '小时'
     },
     {
       name: '本年充电总量',
       num: data?.yearTotalCharge,
-      unit: '亿度'
+      unit: data?.yearTotalChargeUnit || '亿度'
     }
   ];
 };
