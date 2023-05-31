@@ -71,7 +71,7 @@ export const alarmLevelAndTypeByTime = (param) => {
 // 实时告警趋势情况
 export const alarmLevelAndTypeByTIme = (param) => {
   return request.get({
-    url: '/safetySupervision/alarmLevelAndTypeByTIme',
+    url: '/safetySupervision/periodAlarmStaticsByTime',
     data: {
       ...param
     }

@@ -7,41 +7,42 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-        <div class="bottom-menu-tabs">
-          <div
-            class="tab"
-            v-for="(item, index) in data"
-            :class="[{ active: item.code === activeTab }]"
-            @click="handleSelect(item)"
-            :key="index"
-          >
-            <span class="label">
-              {{ item.label }}
-            </span>
-          </div>
-        </div>
-  </template>
-  <script setup lang="ts">
-  import {toRefs,ref } from 'vue'
-  interface Idata {
-    code: string | number;
-    label: string;
-  }
-  interface Props {
-    data: Idata[];
-    modelValue: string | number;
-  }
-  const props = withDefaults(defineProps<Props>(), {});
-  const emit = defineEmits(['update:modelValue', 'changeTab']);
-  const { data, modelValue } = toRefs(props);
-  const activeTab = ref(data.value[0]?.code);
-  const handleSelect = (item) => {
-    activeTab.value = item.code;
-    emit('update:modelValue', item.code);
-    emit('changeTab', item);
-  };
-  </script>
-  <style lang="less" scoped>
+  <div class="bottom-menu-tabs">
+    <div
+      class="tab"
+      v-for="(item, index) in data"
+      :class="[{ active: activeValue ? item.code === activeValue : item.code === activeTab }]"
+      @click="handleSelect(item)"
+      :key="index"
+    >
+      <span class="label">
+        {{ item.label }}
+      </span>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import { toRefs, ref } from 'vue';
+interface Idata {
+  code: string | number;
+  label: string;
+}
+interface Props {
+  data: Idata[];
+  modelValue?: string | number;
+  activeValue?: string | number;
+}
+const props = withDefaults(defineProps<Props>(), {});
+const emit = defineEmits(['update:modelValue', 'changeTab']);
+const { data, modelValue } = toRefs(props);
+const activeTab = ref(data.value[0]?.code);
+const handleSelect = (item) => {
+  activeTab.value = item.code;
+  emit('update:modelValue', item.code);
+  emit('changeTab', item);
+};
+</script>
+<style lang="less" scoped>
 .bottom-menu-tabs {
   position: absolute;
   bottom: 10px;
@@ -70,7 +71,7 @@
     position: relative;
     &.active {
       background-image: url(./images/active.png);
-      &::before{
+      &::before {
         content: '';
         width: 90px;
         height: 0;
@@ -79,7 +80,7 @@
         transform: translateX(-50%);
         bottom: 26px;
         background: linear-gradient(180deg, rgba(9, 226, 245, 0) 5.08%, rgba(9, 226, 245) 86%);
-        clip-path: polygon(0 0,100% 0,calc(100% - 18px) 100%,18px 100%,0 0);
+        clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 18px 100%, 0 0);
         animation: activeAnimate 1s infinite alternate;
         z-index: -1;
       }
@@ -102,7 +103,7 @@
       line-height: 30px;
       transform: translateY(18px);
       transition: all 0.5s;
-      color: #E7E7E7;
+      color: #e7e7e7;
     }
   }
 }
@@ -119,4 +120,3 @@
   }
 }
 </style>
-  

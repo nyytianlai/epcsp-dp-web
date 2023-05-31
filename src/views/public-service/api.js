@@ -72,11 +72,12 @@ export const stationRankingDetail = (data) => {
     data
   });
 };
-// 热门列表
+// 反馈列表
 export const feedbackDetail = (data) => {
   return request.post({
     url: '/massService/feedbackDetail',
     data
   });
 };
+
 

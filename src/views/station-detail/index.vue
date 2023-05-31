@@ -70,7 +70,7 @@
     @close="handleClose"
   />
   <map-layer v-if="aircityObj" />
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <el-table
       :data="alarmTableData"
       height="6.34rem"
@@ -84,7 +84,7 @@
         :show-overflow-tooltip="true"
         :formatter="tableColumnFun"
       >
-        <template #default="scope"></template>
+        <!-- <template #default="scope"></template> -->
       </el-table-column>
     </el-table>
     <el-pagination
@@ -176,7 +176,9 @@ const getButtomMenuData = async () => {
   const { data: res } = await viewMenuData({ stationId: store.detailParams?.stationId });
   console.log('底部菜单栏数据', res);
   tabData.value.length = 0;
-  tabData.value.push(...res);
+  if (res && res.length) {
+    tabData.value.push(...res);
+  }
 };
 // 统计数据
 const getStationStatistics = async () => {
@@ -289,6 +291,7 @@ useEmitt &&
   });
 // 定位到桩弹窗
 const focusToPile = (eid, status) => {
+  console.log('pileVisiblepileVisible', pileVisible.value);
   handleClickFocus(__g, eid, status);
   pileParams.value = {
     eid: eid
@@ -313,29 +316,34 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getWarningInfoByStationId(undefined, pageObj.currentPage, pageObj.pageSize, 'table');
 };
-watch(()=>store.detailParams,() => {
-  const paramsDefault = {
-    operatorId: store.detailParams?.operatorId,
-    stationId: store.detailParams?.stationId
+watch(
+  () => store.detailParams,
+  () => {
+    const paramsDefault = {
+      operatorId: store.detailParams?.operatorId,
+      stationId: store.detailParams?.stationId
+    };
+    params.value = paramsDefault;
+    getStationStatistics();
+    getStationInfoByStationId();
+    getEquipmentCountByStationId();
+    getWarningInfoByStationId(1);
+    getEquipmentStatusByStationId();
+    getEquipmentUseRateByStationId(1);
+    getStationRealTimePowerByStationId();
+    getWarningStatisticByStationId();
+    getButtomMenuData();
+    console.log('store.detailParams?.equipmentId', store.detailParams?.equipmentId);
+    if (store.detailParams?.equipmentId) {
+      console.log('pileVisible', pileVisible.value);
+      focusToPile(store.detailParams.equipmentId, 255);
+    }
+  },
+  {
+    deep: true,
+    immediate: true
   }
-  params.value = paramsDefault
-  getStationStatistics();
-  getStationInfoByStationId();
-  getEquipmentCountByStationId();
-  getWarningInfoByStationId(1);
-  getEquipmentStatusByStationId();
-  getEquipmentUseRateByStationId(1);
-  getStationRealTimePowerByStationId();
-  getWarningStatisticByStationId();
-  getButtomMenuData()
-  if(store.detailParams?.equipmentId){
-      focusToPile(store.detailParams.equipmentId,255)
-  }
-
-}, {
-  deep: true,
-  immediate:true
-})
+);
 // onMounted(() => {
 //   getStationStatistics();
 //   getStationInfoByStationId();

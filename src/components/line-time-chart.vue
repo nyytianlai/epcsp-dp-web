@@ -21,12 +21,12 @@ interface IChartStyle {
 }
 interface Props {
   data: Idata[];
-  chartStyle: IChartStyle;
+  chartStyle?: IChartStyle;
   unit?: string;
   colors?: string[];
   customOption?: object;
   // 模式
-  mode?: string|boolean
+  mode?: string | boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -181,7 +181,6 @@ function simplifyNum(number) {
   if (!number && number != 0) return number;
   var str_num;
   if (number >= 1e3 && number < 1e4) {
-
     str_num = number / 1e3;
     return str_num + '千';
   } else if (number >= 1e4 && number < 1e7) {
@@ -309,7 +308,7 @@ const ecOptionFun = () => {
       ...data.value,
       {
         type: 'line',
-        data:  timeData(),
+        data: timeData(),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {
@@ -350,7 +349,7 @@ const ecOptionFunMode = () => {
     xAxis: {
       name: '',
       type: 'category',
-      data: data.value[0].data?.map(i=>i[0]),
+      data: data.value[0].data?.map((i) => i[0]),
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -366,11 +365,11 @@ const ecOptionFunMode = () => {
         fontFamily: 'Source Han Sans CN',
         fontSize: 12,
         lineHeight: 18,
-        color: '#B4C0CC',
+        color: '#B4C0CC'
       },
       splitLine: {
         show: false
-      },
+      }
     },
     yAxis: {
       name: '',
@@ -427,7 +426,7 @@ const ecOptionFunMode = () => {
       ...data.value,
       {
         type: 'line',
-        data:  timeData(),
+        data: timeData(),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {
@@ -449,8 +448,8 @@ const ecOptionFunMode = () => {
 watch(
   data,
   () => {
-    console.log('data111',data.value)
-    ecOption.value = props.mode?ecOptionFunMode():ecOptionFun();
+    console.log('data111', data.value);
+    ecOption.value = props.mode ? ecOptionFunMode() : ecOptionFun();
   },
   {
     immediate: true

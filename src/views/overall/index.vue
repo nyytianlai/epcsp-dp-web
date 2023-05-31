@@ -25,7 +25,8 @@
         />
         <div class="right-tab-btn">
           <div
-            v-for="item in tabList"
+            v-for="(item, index) in tabList"
+            :key="index"
             class="tab-btn"
             :class="{ active: curBtn === item.value }"
             @click="handleTabBtn(item)"
@@ -76,7 +77,7 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
@@ -148,9 +149,8 @@
             </el-popover>
           </div>
         </template>
-        <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
         </template>
@@ -165,11 +165,7 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
-  <custom-dialog
-    v-model:visible="dialogRankVisible"
-    title="运营企业排名列表"
-    @closed="handleDialogClosed"
-  >
+  <custom-dialog v-model:visible="dialogRankVisible" title="运营企业排名列表">
     <template #titleSearch>
       <el-input
         v-model="inputRank"
@@ -201,7 +197,7 @@
       >
         <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
         </template>
@@ -260,6 +256,8 @@ import {
   filtersAlarmTypeName
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
+
 // 左二图的tab
 const curBtn = ref(1);
 const storeVisible = useVisibleComponentStore();
@@ -378,11 +376,17 @@ const getOverTotalCount = async () => {
 //充电设施总量
 const getTotalFacilities = async () => {
   const res = await totalFacilities();
-  cardData.value = cdsszlFun(res.data);
+  const data = {
+    totalChargingStations: 7257,
+    totalOperating: 139,
+    totalNewEnergyVehicles: 76.6
+  };
+  cardData.value = cdsszlFun(data);
 };
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async () => {
   const res = await totalEquipment({ chargingType: chargingType.value, type: typeCharge.value });
+
   pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data, curBtn.value);
 };
 
@@ -424,7 +428,7 @@ const loadOperatorInfoList = async () => {
   };
   const res = await operatorInfoList(obj);
   rankTableData.value = res.data.list;
-  pageObjRank.total = res.data.totalPage;
+  pageObjRank.total = res.data.total;
   console.log('res', res);
 };
 //今日-充电桩/充电枪信息
@@ -489,9 +493,6 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getTableAlarm();
 };
-// const handleDialogClosed = () => {
-//   console.log('handleDialogClosed');
-// }
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {
   dialogRankVisible.value = true;
@@ -594,16 +595,11 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   dialogTableVisible.value = false;
   // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr,
-      equipmentId: item.row.equipmentId
-    }
-  });
+  toSingleStation(aircityObj.value?.acApi, item.row);
+};
+// 运营商排名搜索
+const handleSearch = () => {
+  loadOperatorInfoList();
 };
 onMounted(() => {
   getOverTotalCount();

@@ -11,7 +11,7 @@
     <div class="pie-chart-wrap">
       <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
       <div class="total-content" v-if="!selectIndex && selectIndex !== 0">
-        <span class="value" style="fontsize: 28px; lineheight: 32px">{{ totalNum }}</span>
+        <span class="value" style="fontsize: 40px; lineheight: 32px">{{ totalNum }}</span>
         <span class="name" style="fontsize: 14px; lineheight: 20px">{{ totalName }}</span>
       </div>
     </div>
@@ -36,7 +36,13 @@
       </div>
     </div>
     <div class="legend-wrap" v-if="mode === 'canChoose'">
-      <div class="legend can-choose" :class="{'can-choose-active': item.isChoose}" v-for="(item, index) in data" :key="index" @click="handleCanChoose(item)">
+      <div
+        class="legend can-choose"
+        :class="{ 'can-choose-active': item.isChoose }"
+        v-for="(item, index) in data"
+        :key="index"
+        @click="handleCanChoose(item)"
+      >
         <span class="left-info">
           <span
             class="icon"
@@ -70,8 +76,8 @@ interface Idata {
 }
 interface Props {
   data: Idata[];
-  colors: string[];
-  totalName: string;
+  colors?: string[];
+  totalName?: string;
   mode?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -80,12 +86,12 @@ const props = withDefaults(defineProps<Props>(), {
     { value: 735, name: '二级设备安全', extraName: '设备安全', unit: '个' },
     { value: 580, name: '三级告警提示', extraName: '告警提示', unit: '个' }
   ],
-  colors: () => ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA','#BEE5FB'],
+  colors: () => ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'],
   totalName: '合计',
   mode: 'default'
 });
 const { data, colors, totalName } = toRefs(props);
-const emits = defineEmits(['choose'])
+const emits = defineEmits(['choose']);
 const selectIndex = ref();
 const ecOption = computed(() => {
   return {
@@ -158,10 +164,10 @@ const watchInstanceReady = (myChart) => {
   });
 };
 // 选中
-const handleCanChoose = (item)=>{
-  item.isChoose = !item.isChoose
-  emits('choose',item)
-}
+const handleCanChoose = (item) => {
+  item.isChoose = !item.isChoose;
+  emits('choose', item);
+};
 </script>
 
 <style lang="less" scoped>
@@ -186,7 +192,8 @@ const handleCanChoose = (item)=>{
     .value {
       font-family: 'DIN Alternate';
       font-style: normal;
-      font-weight: 700;
+      font-weight: bold;
+      font-size: 32px;
     }
     .name {
       color: rgba(255, 255, 255, 0.7);
@@ -254,7 +261,7 @@ const handleCanChoose = (item)=>{
     background: transparent;
     top: 4px;
     right: 1px;
-    border: 2px solid white;
+    border: 2px solid grey;
     border-top: none;
     border-right: none;
     -webkit-transform: rotate(-55deg);
@@ -276,8 +283,8 @@ const handleCanChoose = (item)=>{
   }
 }
 .can-choose-active {
-  &::before{
-    border-color: green;
+  &::before {
+    border-color: white;
     // color: greenyellow;
   }
 }

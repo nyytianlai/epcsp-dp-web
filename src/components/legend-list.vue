@@ -9,10 +9,9 @@
         class="legend"
         v-for="(item, index) in legendList"
         :key="index"
-        :class="{ isGray: item?.type }"
       >
         <span class="icon" :style="{ background: item.color }"></span>
-        <span class="name">{{ item?.name }}</span>
+        <span class="name" :class="{ isGray: item?.type }">{{ item?.name }}</span>
       </li>
       <div class="hot-bar" v-else>
         <span class="min-num">{{ hotRange[0] }}</span>
@@ -120,7 +119,8 @@ const panelShow = computed(() => store.panelShow);
     }
   }
   .isGray {
-    filter: grayscale(100%);
+    // filter: grayscale(100%);
+    color: #808080;
   }
 }
 </style>

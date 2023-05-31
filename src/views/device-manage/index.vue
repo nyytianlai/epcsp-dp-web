@@ -17,14 +17,19 @@
       />
       <pie-chart
         :data="chargingStationPieData"
-        :totalName='bottomBtnCur === 1 ?"充电桩总数":"充电枪总数"'
+        :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
+        :colors="
+          totalCurCode === 1
+            ? ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB']
+            : ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB']
+        "
       />
     </div>
     <div class="charging-peak-area">
       <title-column
-        title="充电高峰区域情况"
+        title="行政区充电次数情况"
         :showTabBtn="true"
         :tabList="[
           { value: 1, name: '日' },
@@ -89,7 +94,6 @@
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
-      
       :default-sort="{ prop: 'equipmentPower', order: 'descending' }"
     >
       <el-table-column
@@ -178,7 +182,6 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import bus from '@/utils/bus';
 
 const storeVisible = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
@@ -320,7 +323,7 @@ const getSelectStationInfoByPage = async () => {
   };
   const res = await selectStationInfoByPage(obj);
   totalTableData.value = res.data.dataList;
-  pageObj.total = res.data.totalPage;
+  pageObj.total = res.data.total;
   console.log('res', res);
 };
 // 底部按钮点击
@@ -335,7 +338,7 @@ const changeButtomTab = (item) => {
 const handleChoose = (item) => {
   console.log('充电设施总量', item);
   // todo
-  bus.emit('chargeTypeChange',item);
+  mapLayerRef.value.handleChargeTypeChange(item);
 };
 // 充电设施总量详情
 const handleDetailClick = () => {
@@ -426,11 +429,10 @@ onMounted(() => {
   getSelectStationInfoByPage();
 });
 const handleChangeTab = (data, type) => {
-  
   if (type === 'charging-station') {
     //切换充电桩数量信息
-    totalCurCode.value = data.code
-    getSelectChargeCount(data.code,bottomBtnCur.value)
+    totalCurCode.value = data.code;
+    getSelectChargeCount(data.code, bottomBtnCur.value);
   } else if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态
     getSelectChargeEquipmentStatus(data.code);

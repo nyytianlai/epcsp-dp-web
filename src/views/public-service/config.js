@@ -53,27 +53,27 @@ export const hotChargingDataFun = () => {
       unit: 'KW',
       name: '新能源汽车总量'
     }
-  ]; 
-}
+  ];
+};
 
-export const deviceDataFun = (data={}) => {
+export const deviceDataFun = (data = {}) => {
   return [
     {
       img: ztsyl,
       num: data?.equipmentCount,
       name: '充电桩总数/个',
-      classStyleType:'leftRightStyleGreen6656'
+      classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: ztsyl,
       num: data?.gunCount,
       name: '充电枪总数/个',
-      classStyleType:'leftRightStyleGreen6656'
+      classStyleType: 'leftRightStyleGreen6656'
     }
   ];
-}
+};
 
-export const chargingTypesTabsFun = ()=>{
+export const chargingTypesTabsFun = () => {
   return [
     {
       code: 'pile',
@@ -84,25 +84,25 @@ export const chargingTypesTabsFun = ()=>{
       label: '充电枪'
     }
   ];
-}
+};
 
-export const chargingTypePieDataFun = (code = 'pile',data={})=>{
-  if(code === 'pile'){
+export const chargingTypePieDataFun = (code = 'pile', data = {}) => {
+  if (code === 'pile') {
     return [
-      { value: data?.offLine, name: '离线',extraName:'离线充电桩', unit: '个' },
-      { value: data?.occupy, name: '占用', extraName:'占用充电桩',unit: '个' },
-      { value: data?.malfunction, name: '故障',  extraName:'故障充电桩',unit: '个' },
-      { value: data?.free, name: '闲置',  extraName:'闲置充电桩',unit: '个' }
-    ]
-  }else{
+      { value: data?.offLine, name: '离线', extraName: '离线充电桩', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName: '占用充电桩', unit: '个' },
+      { value: data?.malfunction, name: '故障', extraName: '故障充电桩', unit: '个' },
+      { value: data?.free, name: '闲置', extraName: '闲置充电桩', unit: '个' }
+    ];
+  } else {
     return [
-      { value: data?.offLine, name: '离线',extraName:'离线充电枪', unit: '个' },
-      { value: data?.occupy, name: '占用', extraName:'占用充电枪',unit: '个' },
-      { value: data?.malfunction, name: '故障',  extraName:'故障充电枪',unit: '个' },
-      { value: data?.free, name: '闲置',  extraName:'闲置充电枪',unit: '个' }
-    ]
+      { value: data?.offLine, name: '离线', extraName: '离线充电枪', unit: '个' },
+      { value: data?.occupy, name: '占用', extraName: '占用充电枪', unit: '个' },
+      { value: data?.malfunction, name: '故障', extraName: '故障充电枪', unit: '个' },
+      { value: data?.free, name: '闲置', extraName: '闲置充电枪', unit: '个' }
+    ];
   }
-}
+};
 
 export const monthRateDataFun = () => {
   return [
@@ -155,9 +155,9 @@ export const monthRateDataFun = () => {
       num: 48,
       unit: '个',
       name: '大鹏新区'
-    },
+    }
   ];
-}
+};
 export const chargingStationTabsFun = () => {
   return [
     {
@@ -181,12 +181,12 @@ export const columnDataHotFun = () => {
     {
       prop: 'operatorName',
       label: '运营企业名称',
-      minWidth: 2,
+      minWidth: 2
     },
     {
       prop: 'areaName',
       label: '所属区域',
-      minWidth:1,
+      minWidth: 1,
       filterMultiple: true
     },
     {
@@ -194,71 +194,74 @@ export const columnDataHotFun = () => {
       label: '充电功率',
       minWidth: '2',
       sortable: 'custom',
-      sortOrders: ['ascending','descending']
+      sortOrders: ['ascending', 'descending']
     },
     {
       prop: 'amount',
       label: '充电次数',
       minWidth: 2,
       sortable: 'custom',
-      sortOrders: ['ascending','descending']
-    },
-  ]
-}
+      sortOrders: ['ascending', 'descending']
+    }
+  ];
+};
 // 数据过滤的选项
-export const  filters =[
+export const filters = [
   {
     id: 1,
     label: '全部',
-    children:[
+    children: [
       {
         id: 440303,
-        label: '罗湖区',
+        label: '罗湖区'
       },
       {
         id: 440304,
-        label: '福田区',
+        label: '福田区'
       },
       {
         id: 440305,
-        label: '南山区',
+        label: '南山区'
       },
       {
         id: 440306,
-        label: '宝安区',
+        label: '宝安区'
       },
       {
         id: 440307,
-        label: '龙岗区',
+        label: '龙岗区'
       },
       {
         id: 440308,
-        label: '盐田区',
+        label: '盐田区'
       },
       {
         id: 440309,
-        label: '龙华区',
+        label: '龙华区'
       },
       {
         id: 440310,
-        label: '坪山区',
+        label: '坪山区'
       },
       {
         id: 440311,
-        label: '光明区',
+        label: '光明区'
       },
       {
         id: 440343,
-        label: '大鹏新区',
+        label: '大鹏新区'
       },
       {
         id: 441521,
-        label: '深汕特别合作区',
-      },
+        label: '深汕特别合作区'
+      }
     ]
   }
-]
-export const ecOptionFun = (data=[], xaxis = [])=>{
+];
+export const ecOptionFun = (data = [], xaxis = []) => {
+  xaxis = xaxis.map((i) => {
+    return { value: i, textStyle: { overflow: 'break', width: 100 } };
+  });
   return {
     grid: {
       top: 30,
@@ -274,10 +277,10 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
       textStyle: {
         fontFamily: 'Source Han Sans CN',
         fontSize: 14,
-        color: '#C6D1DB'
+        color: '#FFF'
       },
-      itemStyle:{
-        color: 'rgba(0, 163, 255, 0.5)'
+      itemStyle: {
+        color: 'rgba(19,171,194, 0.8)'
       }
     },
     tooltip: {
@@ -294,6 +297,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
     xAxis: {
       type: 'category',
       data: xaxis,
+
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -301,22 +305,26 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         }
       },
       axisTick: {
-        show:false,
-
+        show: false
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
         fontSize: 12,
         lineHeight: 18,
-        color: '#B4C0CC',
+        color: '#D0DEEE',
+        interval: 0
       },
       splitLine: {
         show: false
-      },
+      }
     },
     yAxis: {
       type: 'value',
       name: '单位/个',
+      nameTextStyle: {
+        color: '#B4C0CC'
+      },
+      minInterval: 1,
       axisLine: {
         show: false
       },
@@ -327,7 +335,7 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         fontFamily: 'Helvetica',
         fontSize: 12,
         lineHeight: 16,
-        color: '#B4C0CC',
+        color: '#B4C0CC'
       },
       splitLine: {
         lineStyle: {
@@ -341,25 +349,49 @@ export const ecOptionFun = (data=[], xaxis = [])=>{
         data: data,
         type: 'bar',
         name: '问题数量',
+        barWidth: 16,
+        label: {
+          show: true,
+          position: 'top',
+          fontSize: 14,
+          fontfamily: 'Helvetica',
+          color: '#fff'
+        },
         itemStyle: {
-          color:()=>{
+          color: () => {
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
-                offset: 0,
-                color: 'rgba(0, 163, 255, 0.0001)',
+                offset: 1,
+                color: '#13ABC2'
               },
               {
-                offset: 1,
-                color: '#13ABC2',
-              },
-            ])
+                offset: 0,
+                color: 'rgba(0, 163, 255, 0.000001)'
+              }
+            ]);
           }
         }
       },
+      {
+        // 顶部
+        tooltip: {
+          show: false
+        },
+        type: 'pictorialBar',
+        itemStyle: {
+          // 顶部
+          color: '#13ABC2'
+        },
+        symbol: 'rect',
+        symbolSize: ['16', '3'],
+        symbolPosition: 'end',
+        data: data,
+        z: 3
+      }
     ]
-  }
-}
-export const columnDataDetailFun = ()=>{
+  };
+};
+export const columnDataDetailFun = () => {
   return [
     {
       prop: 'stationName',
@@ -369,62 +401,62 @@ export const columnDataDetailFun = ()=>{
     {
       prop: 'operatorName',
       label: '运营企业名称',
-      minWidth: 2,
+      minWidth: 2
     },
     {
       prop: 'problemType',
       label: '问题类型',
-      minWidth:1,
+      minWidth: 1,
       filterMultiple: true
     },
     {
       prop: 'problemDescribe',
       label: '问题描述',
-      minWidth: '2',
+      minWidth: '1.5'
     },
     {
       prop: 'principal',
       label: '负责人',
-      minWidth: 1,
+      minWidth: 1
     },
     {
       prop: 'phone',
       label: '联系电话',
-      minWidth: 1.5,
+      minWidth: 1.5
     },
     {
       prop: 'timeDim',
       label: '时间',
-      minWidth: 1.2,
-    },
-  ]
-}
+      minWidth: 2
+    }
+  ];
+};
 // 市民问题类型
-export const  filtersDetail =[
+export const filtersDetail = [
   {
     id: 'all',
     label: '全部',
-    children:[
+    children: [
       {
         id: '有车站位',
-        label: '有车站位',
+        label: '有车站位'
       },
       {
         id: '桩位不放开',
-        label: '桩位不放开',
+        label: '桩位不放开'
       },
       {
         id: '无法充电',
-        label: '无法充电',
+        label: '无法充电'
       },
       {
         id: '找不到电桩',
-        label: '找不到电桩',
+        label: '找不到电桩'
       },
       {
         id: '其他',
-        label: '其他',
-      },
+        label: '其他'
+      }
     ]
   }
-]
+];

@@ -22,7 +22,7 @@
     </div>
     <div class="area-warning-num">
       <title-column
-        title="行政区告警数据"
+        title="行政区告警数据情况"
         :showTabBtn="true"
         :tabList="[
           { value: 1, name: '日' },
@@ -50,6 +50,7 @@
         :data="warningMonitorPieData"
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
+        :colors="['#E10105', '#DD6701', '#FAF102']"
       />
     </div>
     <div class="realtime-state">
@@ -87,9 +88,9 @@
       />
     </div>
   </panel>
-  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表" @closed="handleDialogClosed">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
@@ -161,9 +162,8 @@
             </el-popover>
           </div>
         </template>
-        <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
         </template>
@@ -215,9 +215,7 @@
         :formatter="tableColumnFun"
         :sortable="item.sortable"
         :sort-orders="item.sortOrders"
-      >
-        <template #default="scope"></template>
-      </el-table-column>
+      ></el-table-column>
     </el-table>
     <el-pagination
       :page-size="pageObj.pageSize"
@@ -263,6 +261,7 @@ import {
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
 
 const storeVisible = useVisibleComponentStore();
 
@@ -277,12 +276,12 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 左一搜索
-const inputWarnLeft = ref()
+const inputWarnLeft = ref();
 // 警告筛选
-const alarmLevel = ref()
-const alarmType = ref()
+const alarmLevel = ref();
+const alarmType = ref();
 // 告警级别tab高亮
-const totalCurCode = ref(1)
+const totalCurCode = ref(1);
 // 累计告警数据信息弹窗显隐
 const dialogTableMessageVisible = ref(false);
 const messageDialogTitle = ref('运营商告警列表');
@@ -290,23 +289,36 @@ const messageColumnData = ref(messageColumnKeyListFun());
 const messageTableData = ref([]);
 const messageWarningType = ref(1);
 // 告警趋势
-const dayTypeAlarm = ref(1)
+const dayTypeAlarm = ref(1);
 // 警告默认筛选
-const defaultAreaWarm = ref(['1','2','3'])
-const defaultAreaWarmType = ref(['1','2','3'])
+const defaultAreaWarm = ref(['1', '2', '3']);
+const defaultAreaWarmType = ref(['1', '2', '3']);
+// 左侧球的数据
+const realtimeState = ref([]);
+// 底部icon的code
+const bottomCode = ref(1);
 //地图底部tab切换
 const changeButtomTab = (item) => {
+  bottomCode.value = item.code;
   console.log('底部切换', item);
   mapLayerRef.value.buttomTabChange(item.code);
+  warningMonitorPieData.value.forEach((i) => {
+    // 切换底部icon饼图全部高亮
+    i.isChoose = item.code === 1;
+  });
+  // 切换为充电站状态则全部高亮
+  realtimeStateData.value.forEach((i) => {
+    i.isChoose = item.code === 2;
+  });
 };
 // 排序
 const sort = ref(0);
 // 排序类型
 const sortType = ref(2);
 // 充电桩实时按钮
-const nowStatus  = ref(3)
+const nowStatus = ref(3);
 // 告警搜索
-const inputWarn = ref()
+const inputWarn = ref();
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const getAlarmUpStaticsData = async () => {
@@ -317,7 +329,14 @@ const getAlarmUpStaticsData = async () => {
 const totalWarningTabs = ref(totalWarningTabsFun());
 const scrollTableData = ref([]);
 const columnKeyList = ref(columnKeyListFun());
-const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 10000,input =null,sort=null,sortType=null) => {
+const getSafetySupervisionAccumulated = async (
+  type,
+  pageOffset = 1,
+  pageSize = 10000,
+  input = null,
+  sort = null,
+  sortType = null
+) => {
   const params = {
     type,
     pageOffset,
@@ -330,22 +349,22 @@ const getSafetySupervisionAccumulated = async (type, pageOffset = 1, pageSize = 
   return data;
 };
 // 左二的时间类型
-const dayTypeWarn = ref(1)
+const dayTypeWarn = ref(1);
 const handleClickMessageBtn = async () => {
   pageObj.currentPage = 1;
   messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
   dialogTableMessageVisible.value = true;
   messageColumnData.value = messageColumnKeyListFun(messageWarningType.value);
-  loadGetSafetySupervisionAccumulated()
+  loadGetSafetySupervisionAccumulated();
 };
 
 //行政区告警数据
 // const areaRankData = ref(areaRankDataFun())
-const areaRankData = ref();
+const areaRankData = ref([]);
 // const areaTotalNum = ref(6399);
-const areaTotalNum = ref();
+const areaTotalNum = ref(0);
 const getDistrictAlarmStatics = async () => {
-  let { data } = await districtAlarmStatics({dayType:dayTypeWarn.value});
+  let { data } = await districtAlarmStatics({ dayType: dayTypeWarn.value });
   let newData = data?.map((item) => {
     return {
       ...item,
@@ -379,35 +398,15 @@ const getAlarmLevelAndTypeByTime = async (param) => {
   };
 
   let newData = null;
-  const dataObj = {}
-  data?.map(item => {
-    if (param.type === 1) { 
-      dataObj[item.alarmLevel] = item.cnt
+  const dataObj = {};
+  data?.map((item) => {
+    if (param.type === 1) {
+      dataObj[item.alarmLevel] = item.cnt;
     } else {
-      dataObj[item.alarmType] = item.cnt
+      dataObj[item.alarmType] = item.cnt;
     }
-  })
-  newData = warningMonitorPieDataFun(param.type,dataObj);
-  // if (data?.length !== 0) {
-  //   newData = data?.map((item) => {
-  //     if (param.type === 1) {
-  //       return {
-  //         value: item.cnt || 0,
-  //         name: type1[item.alarmLevel],
-  //         extraName: extraName[item.alarmLevel],
-  //         unit: '个'
-  //       };
-  //     } else {
-  //       return {
-  //         value: item.cnt || 0,
-  //         name: type2[item.alarmType],
-  //         unit: '个'
-  //       };
-  //     }
-  //   });
-  // } else {
-  //   newData = warningMonitorPieDataFun(param.type);
-  // }
+  });
+  newData = warningMonitorPieDataFun(param.type, dataObj);
 
   warningMonitorPieData.value = newData;
 };
@@ -417,10 +416,10 @@ const realtimeStateData = ref(realtimeStateDataFun());
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
 const getAlarmLevelAndTypeByTIme = async () => {
-  let { data } = await alarmLevelAndTypeByTIme({dayType:dayTypeAlarm.value});
-  console.log('data',data)
-  console.log('dayTypeAlarm',dayTypeAlarm.value)
-  realtimeTrend.value = realtimeTrendFun(data || [],dayTypeAlarm.value);
+  let { data } = await alarmLevelAndTypeByTIme({ dayType: dayTypeAlarm.value });
+  console.log('data', data);
+  console.log('dayTypeAlarm', dayTypeAlarm.value);
+  realtimeTrend.value = realtimeTrendFun(data || [], dayTypeAlarm.value);
 };
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
@@ -433,18 +432,19 @@ const handleChangeTab = async (data, type) => {
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
-    totalCurCode.value = data.code
+    totalCurCode.value = data.code;
     let obj = {
       type: data.code,
       // startTime:'2023-04-03 14:22:34',
       // endTime: '2023-04-06 14:22:34'
       startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     };
     getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
     // 实时状态情况
-    nowStatus.value = data.code
+    nowStatus.value = data.code;
     getOnlineStatusData(data.code);
   }
 };
@@ -452,6 +452,7 @@ const handleChangeTab = async (data, type) => {
 const getOnlineStatusData = async (type) => {
   const res = await getOnlineStatus(type);
   console.log(res, '------online');
+  realtimeState.value = res.data;
   realtimeStateData.value = realtimeStateDataFun(type, res.data);
 };
 
@@ -467,7 +468,7 @@ const getTableAlarm = async (level) => {
     alarmType: alarmType.value,
     pageNum: pageObj.currentPage,
     pageSize: pageObj.pageSize,
-    searchContent:inputWarn.value
+    searchContent: inputWarn.value
   };
   const res = await alarmInfo(params);
   if (res.data && res.data.list) {
@@ -479,8 +480,8 @@ const getTableAlarm = async (level) => {
   }
 };
 // 获取左一警告信息
-const loadGetSafetySupervisionAccumulated = async()=>{
-    const data = await getSafetySupervisionAccumulated(
+const loadGetSafetySupervisionAccumulated = async () => {
+  const data = await getSafetySupervisionAccumulated(
     messageWarningType.value,
     pageObj.currentPage,
     pageObj.pageSize,
@@ -490,97 +491,97 @@ const loadGetSafetySupervisionAccumulated = async()=>{
   );
   messageTableData.value = data?.dataList || [];
   pageObj.total = data?.total || 0;
-}
+};
 // table数据
 const handPageChange = async (value, type) => {
   if (type === 'total-message') {
     pageObj.currentPage = value;
-    loadGetSafetySupervisionAccumulated()
+    loadGetSafetySupervisionAccumulated();
   } else {
     pageObj.currentPage = value;
     getTableAlarm();
   }
 };
 // 右三日周年点击
-const handleYearBtn = (value)=>{
-  console.log(value)
-  dayTypeAlarm.value = value.value
+const handleYearBtn = (value) => {
+  console.log(value);
+  dayTypeAlarm.value = value.value;
   getAlarmLevelAndTypeByTIme();
-
-}
+};
 // 左二行政区
-const handleWarmYearBtn = (value) =>{
-  console.log(value)
-  dayTypeWarn.value = value.value
-  console.log('dataType.value',dayTypeWarn.value)
-  getDistrictAlarmStatics()
-}
+const handleWarmYearBtn = (value) => {
+  console.log(value);
+  dayTypeWarn.value = value.value;
+  console.log('dataType.value', dayTypeWarn.value);
+  getDistrictAlarmStatics();
+};
 
 // 告警选中
-const handleChoose = (item)=>{
-  console.log('告警选中',item)
-  // todo
-}
-// 实时状态球选中
-const handleBall = (item)=>{
-  
-  if(nowStatus.value !==3) return
-  item.isChoose = !item.isChoose
-  console.log('ball',item)
-  // todo
-}
-// 告警搜索
-const handleSearchWarn = ()=>{
-  getTableAlarm();
-}
-// 警告级别筛选
-const handleFilter = (value,data)=>{
-  const temp = data.checkedKeys
-  // 全部
-  if(temp.includes('all')){
-    alarmLevel.value = []
-    getTableAlarm()
-  }else {
-    // 存在筛选
-    alarmLevel.value = temp
-    getTableAlarm()
-  }
-} 
-// 警告类型筛选
-const handleFilterType = (value,data)=>{
-  const temp = data.checkedKeys
-  // 全部
-  if(temp.includes('all')){
-    alarmType.value = []
-    getTableAlarm()
-  }else {
-    // 存在筛选
-    alarmType.value = temp
-    getTableAlarm()
-  }
-} 
-// 告警详情
-const handleDetailWarn = (item)=>{
-  console.log('item',item)
-  dialogTableVisible.value = false
-  // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr,
-      equipmentId: item.row.equipmentId
-
-    }
+const handleChoose = (item) => {
+  console.log('告警选中', item);
+  bottomCode.value = 1;
+  // 今日设备告警交互，实时状态变false
+  realtimeStateData.value.forEach((i) => {
+    i.isChoose = false;
   });
-}
+  //todo
+  mapLayerRef.value.alarmTypeChange(item);
+};
+// 实时状态球选中
+const handleBall = (item) => {
+  if (nowStatus.value !== 3) return;
+  item.isChoose = !item.isChoose;
+  bottomCode.value = 2;
+  // 实时状态情况交互，今日设备告警监控变false
+  warningMonitorPieData.value.forEach((i) => {
+    i.isChoose = false;
+  });
+  console.log('ball', item);
+  // todo
+  mapLayerRef.value.alarmTypeChange(item);
+};
+// 告警搜索
+const handleSearchWarn = () => {
+  getTableAlarm();
+};
+// 警告级别筛选
+const handleFilter = (value, data) => {
+  const temp = data.checkedKeys;
+  // 全部
+  if (temp.includes('all')) {
+    alarmLevel.value = [];
+    getTableAlarm();
+  } else {
+    // 存在筛选
+    alarmLevel.value = temp;
+    getTableAlarm();
+  }
+};
+// 警告类型筛选
+const handleFilterType = (value, data) => {
+  const temp = data.checkedKeys;
+  // 全部
+  if (temp.includes('all')) {
+    alarmType.value = [];
+    getTableAlarm();
+  } else {
+    // 存在筛选
+    alarmType.value = temp;
+    getTableAlarm();
+  }
+};
+// 告警详情
+const handleDetailWarn = (item) => {
+  console.log('item', item);
+  dialogTableVisible.value = false;
+  // 展示站点
+  toSingleStation(aircityObj.value?.acApi, item.row);
+};
 
 // 左一详情搜索
-const handleSearchWarnLeft =()=>{
-  loadGetSafetySupervisionAccumulated()
-}
+const handleSearchWarnLeft = () => {
+  loadGetSafetySupervisionAccumulated();
+};
 // 左一排序
 const handleSort = (item) => {
   console.log('item', item);
@@ -594,7 +595,7 @@ const handleSort = (item) => {
       cnt: 0,
       unAffirmCnt: 1,
       affirmCnt: 2,
-       recCnt: 3
+      recCnt: 3
     };
     sort.value = sortIndex[item.prop];
     sortType.value = sortTypeNum[item.order];
@@ -604,7 +605,7 @@ const handleSort = (item) => {
     sortType.value = null;
   }
 
-  loadGetSafetySupervisionAccumulated()
+  loadGetSafetySupervisionAccumulated();
 };
 onMounted(async () => {
   let obj = {
@@ -612,7 +613,8 @@ onMounted(async () => {
     // startTime:'2023-04-03 14:22:34',
     // endTime: '2023-04-06 14:22:34'
     startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   };
   getAlarmUpStaticsData();
   getDistrictAlarmStatics();

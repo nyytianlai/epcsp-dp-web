@@ -8,19 +8,19 @@
 -->
 <template>
   <div class="border-out button-base" @click="handleClick">
-      <slot />
+    <slot />
   </div>
 </template>
 <script setup lang="ts">
-import {toRefs,ref } from 'vue'
+import { toRefs, ref } from 'vue';
 interface IYearData {
   label: string | number;
   value: string | number;
 }
 type Itype = 'primary' | 'year';
 interface Props {
-  type: Itype;
-  yearData: IYearData[];
+  type?: Itype;
+  yearData?: IYearData[];
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'primary'

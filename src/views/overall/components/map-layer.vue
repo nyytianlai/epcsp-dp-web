@@ -8,12 +8,12 @@
 -->
 <template>
   <qu ref="quRef" :module="1"></qu>
-  <rect-bar></rect-bar>
+  <rect-bar ref="rectBarRef"></rect-bar>
   <!-- <heat-map v-if="isHeatMap"></heat-map> -->
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
-    v-show="currentPosition == '深圳市'"
+    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
 <script setup lang="ts">
@@ -29,23 +29,24 @@ import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
+store.changeStationType([1, 2, 3, 4]);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
 aircityObj.value?.acApi.reset();
 
 let quRef = ref(null);
+let rectBarRef = ref(null);
 const legendType = ref('normal');
 const legendName = ref('充电数量(个)');
 const isHeatMap = ref(false);
 
 const setRectBarVisibility = (value: boolean) => {
+  value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
   legendName.value = value ? '充电数量(个)' : '图例-充电功率(KW)';
-  value
-    ? aircityObj.value?.acApi.marker.show(layerNameQuNameArr('rectBar'))
-    : aircityObj.value?.acApi.marker.hide(layerNameQuNameArr('rectBar'));
+  value ? rectBarRef.value.addBar('qu') : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
 };
 const setHeatMapVisibility = async (value: boolean) => {
   let info = await aircityObj.value?.acApi.heatmap.get('heatmap1');

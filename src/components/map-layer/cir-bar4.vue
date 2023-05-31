@@ -11,7 +11,6 @@ const __g = aircityObj.value?.acApi;
 const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quCode?: string }) => {
   let res;
   console.log('chargeTypeCollet', obj.chargeType);
-
   if (obj.type === 'qu') {
     res = await getEquipmentBar({
       chargeType: obj.chargeType,
@@ -26,18 +25,24 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
   }
   console.log('柱状图接口', res.data);
   let count = [];
+  let countIsZero = []; //存储值都是0的区域 都是0的话 不在图上展示柱状图
   res.data.forEach((element) => {
-    let countItem=0
+    let countItem = 0;
     element.v2GCount = element.v2GCount ? element.v2GCount * 300 : 0;
-    ['noQuickCount','quickCount','superCount','v2GCount'].forEach((i)=>{
-      if(element[i]){
-        countItem=countItem+element[i]
+    ['noQuickCount', 'quickCount', 'superCount', 'v2GCount'].forEach((i) => {
+      if (element[i]) {
+        countItem = countItem + element[i];
       }
-    })
+    });
+    if(obj.type === 'jd'){
+      countItem ? '' : countIsZero.push(element.streetId);
+    }else{
+      countItem ? '' : countIsZero.push(element.areaCode+'');
+    }
     count.push(countItem);
   });
 
-  console.log('count', count);
+  // console.log('count', count);
 
   let yMax = Math.max(...count);
   const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
@@ -61,9 +66,10 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
         return i.streetId == item.properties.JDCODE;
       });
     }
-    console.log('countObj', JSON.stringify(
-        countObj[0]
-      ));
+    console.log('countObj',countIsZero,item.properties.JDCODE, JSON.stringify(countObj[0]));
+    if (countIsZero.includes(item.properties.QUCODE) || countIsZero.includes(item.properties.JDCODE)) {
+      return;
+    }
 
     let contentHeight = 190;
     let idEnd = obj.type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
@@ -71,7 +77,7 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
 
     let o = {
       id: `rectBar${obj.code}-${idEnd}`,
-      groupId: 'rectBar',
+      groupId: `rectBar-${obj.type}`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height

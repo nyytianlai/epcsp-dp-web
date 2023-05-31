@@ -12,7 +12,7 @@
   <legend-list
     legendName="图例"
     :legendList="legendListData"
-    v-show="currentPosition == '深圳市'"
+    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
 <script setup lang="ts">
@@ -25,6 +25,7 @@ import bus from '@/utils/bus';
 import { jdMonthRate } from '../api.js';
 const store = useMapStore()
 const currentPosition = computed(() => store.currentPosition);
+store.changeStationType([1, 2, 3, 4]);
 const legendListData = [
   {
     color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #067471 95.4%)',

@@ -31,23 +31,31 @@
         </Transition>
       </div>
     </div>
+    <PromotionVideo v-if="showPromitionVideo" />
+    <UeVideo v-if="showUeVideo" :station="station" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, provide, nextTick } from 'vue';
+import { ref, computed, onMounted,onUnmounted, provide, nextTick } from 'vue';
 import HeaderArea from '@/components/layout/components/header.vue';
 import NavTab from '@/components/layout/components/nav-tab/index.vue';
+import PromotionVideo from '@/components/promotion-video/index.vue';
+import UeVideo from '@/components/ue-video/index.vue';
 import BaseAc from '@sutpc/vue3-aircity';
 import TimeWeather from '@/components/layout/components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from '@/components/layout/components/expand-btn/index.vue';
+import bus from '@/utils/bus';
 import { routes } from '@/router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useUeStore } from '@/stores/ue';
 import { useMapStore } from '@/stores/map';
 import { storeToRefs } from 'pinia';
 import { h } from 'vue';
+
 const store = useVisibleComponentStore();
+const uestore = useUeStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const wrapperMap = new Map();
 const props = defineProps({
@@ -89,10 +97,20 @@ const includeViews = ref([]);
 const cloudHost = ref(import.meta.env.VITE_FD_URL);
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
+const showPromitionVideo = computed(() => store.showPromitionVideo);
+const showUeVideo = computed(() => uestore.showUeVideo);
 const showDetail = computed(() => store.showDetail);
+const station = ref('');
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
+  bus.on('changeStation', (val) => {
+    console.log(val);
+    station.value = val;
+  });
+});
+onUnmounted(() => {
+  bus.off('changeStation');
 });
 const getkeepAliveList = (list, flag = false) => {
   list.forEach((item) => {
@@ -182,8 +200,6 @@ provide('aircityObj', aircityObj);
 .main-content {
   height: 100%;
   width: 100%;
-}
-.vaf-page-wrapper {
 }
 .my-tab-wrap {
   position: absolute;
