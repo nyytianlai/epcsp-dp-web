@@ -375,7 +375,6 @@ const getDistrictAlarmStatics = async () => {
   });
   areaRankData.value = newData || [];
   areaTotalNum.value = newData[0]?.cnt || 0;
-  console.log(areaTotalNum);
 };
 //今日设备告警监控
 const warningMonitorTabs = ref(warningMonitorTabsFun());
@@ -439,7 +438,8 @@ const handleChangeTab = async (data, type) => {
       // startTime:'2023-04-03 14:22:34',
       // endTime: '2023-04-06 14:22:34'
       startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     };
     getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
@@ -613,7 +613,8 @@ onMounted(async () => {
     // startTime:'2023-04-03 14:22:34',
     // endTime: '2023-04-06 14:22:34'
     startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   };
   getAlarmUpStaticsData();
   getDistrictAlarmStatics();
