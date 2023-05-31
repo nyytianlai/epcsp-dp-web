@@ -329,6 +329,7 @@ const back = async () => {
 };
 //重置到街道
 const resetJd = async () => {
+  __g.polygon.focus('jd-' + currentJd.value, 1500);
   __g.marker.showByGroupId('jdStation');
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentJd.value);
@@ -336,26 +337,25 @@ const resetJd = async () => {
   // if (currentHrStationID.value !== '') {
   //   __g.marker.focus(currentHrStationID.value, 200, 0.2);
   // } else {
-  __g.polygon.focus('jd-' + currentJd.value, 1500);
   // }
 };
 //重置到区
 const resetQu = async () => {
   await __g.marker.deleteByGroupId('jdStation');
+  await __g.camera.set(...quView[currentQu.value]);
   await addJdData(currentQu.value);
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
-  __g.camera.set(...quView[currentQu.value]);
   store.changeCurrentJd('');
   store.changeCurrentJdCode('');
 };
 //重置到深圳
 const resetSz = async (value = true) => {
   await __g.settings.setEnableCameraMovingEvent(false);
+  await __g.camera.set(infoObj.szView, 0.2);
   await deleteJdData();
   await __g.marker.deleteByGroupId('jdStation');
   value ? await setQuVisibility(true) : '';
-  await __g.camera.set(infoObj.szView, 0.2);
   store.changeCurrentPosition('深圳市');
   store.changeCurrentPositionBak('');
   store.changeCurrentHrStationId('');

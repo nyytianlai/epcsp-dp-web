@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, provide, nextTick } from 'vue';
+import { ref, computed, onMounted,onUnmounted, provide, nextTick } from 'vue';
 import HeaderArea from '@/components/layout/components/header.vue';
 import NavTab from '@/components/layout/components/nav-tab/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
