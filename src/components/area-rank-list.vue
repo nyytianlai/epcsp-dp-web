@@ -13,16 +13,13 @@
         <span class="rank-name">
           <span class="rank-num">{{ index + 1 }}</span>
           <span class="name text-ellipsis-1">
-            
             <el-tooltip :content="item.name || ''" placement="top">
               {{ item.name }}
             </el-tooltip>
           </span>
         </span>
         <div class="bottom-bar">
-            
-
-          <div class="line" v-for="(item,i) in new Array(5)" :key="i"></div>
+          <div class="line" v-for="(item, i) in new Array(5)" :key="i"></div>
           <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }"></div>
         </div>
         <span class="num" :style="numMaxWidth">
@@ -31,12 +28,12 @@
         </span>
       </li>
     </ul>
-    <no-data v-else/>
+    <no-data v-else />
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs,computed } from 'vue';
-import { formatWithToLocalString } from '@/global/commonFun.js'
+import { toRefs, computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
 interface Idata {
   name: string;
   num: number;
@@ -54,11 +51,10 @@ const props = withDefaults(defineProps<Props>(), {
 const { data, totalNum } = toRefs(props);
 const numMaxWidth = computed(() => {
   return {
-    maxWidth: (formatWithToLocalString(totalNum.value).length + 1) * 12 / 100 + 'rem',
-    minWidth:(formatWithToLocalString(totalNum.value).length + 1) * 12 /100 + 'rem'
-  }
-  
-})
+    maxWidth: ((formatWithToLocalString(totalNum.value).length + 1) * 12) / 100 + 'rem',
+    minWidth: ((formatWithToLocalString(totalNum.value).length + 1) * 12) / 100 + 'rem'
+  };
+});
 </script>
 <style lang="less" scoped>
 .area-rank-wrap {
@@ -93,7 +89,6 @@ const numMaxWidth = computed(() => {
       margin-right: 4px;
     }
     .name {
-
     }
   }
   .num {

@@ -162,9 +162,8 @@
             </el-popover>
           </div>
         </template>
-        <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
         </template>
@@ -216,9 +215,7 @@
         :formatter="tableColumnFun"
         :sortable="item.sortable"
         :sort-orders="item.sortOrders"
-      >
-        <template #default="scope"></template>
-      </el-table-column>
+      ></el-table-column>
     </el-table>
     <el-pagination
       :page-size="pageObj.pageSize"
@@ -363,9 +360,9 @@ const handleClickMessageBtn = async () => {
 
 //行政区告警数据
 // const areaRankData = ref(areaRankDataFun())
-const areaRankData = ref();
+const areaRankData = ref([]);
 // const areaTotalNum = ref(6399);
-const areaTotalNum = ref();
+const areaTotalNum = ref(0);
 const getDistrictAlarmStatics = async () => {
   let { data } = await districtAlarmStatics({ dayType: dayTypeWarn.value });
   let newData = data?.map((item) => {
@@ -441,7 +438,8 @@ const handleChangeTab = async (data, type) => {
       // startTime:'2023-04-03 14:22:34',
       // endTime: '2023-04-06 14:22:34'
       startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     };
     getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
@@ -615,7 +613,8 @@ onMounted(async () => {
     // startTime:'2023-04-03 14:22:34',
     // endTime: '2023-04-06 14:22:34'
     startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
   };
   getAlarmUpStaticsData();
   getDistrictAlarmStatics();

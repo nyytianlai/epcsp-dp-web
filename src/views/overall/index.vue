@@ -149,9 +149,8 @@
             </el-popover>
           </div>
         </template>
-        <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
         </template>
@@ -377,17 +376,17 @@ const getOverTotalCount = async () => {
 //充电设施总量
 const getTotalFacilities = async () => {
   const res = await totalFacilities();
-  const data= {
+  const data = {
     totalChargingStations: 7257,
-    totalOperating:139,
-    totalNewEnergyVehicles:76.6
-  }
+    totalOperating: 139,
+    totalNewEnergyVehicles: 76.6
+  };
   cardData.value = cdsszlFun(data);
 };
 //充电桩总量：pile，充电枪总量：gun
 const getTotalEquipment = async () => {
   const res = await totalEquipment({ chargingType: chargingType.value, type: typeCharge.value });
-  
+
   pileChargerData.value = pileChargerFun(totalChargerIndex.value, res?.data, curBtn.value);
 };
 

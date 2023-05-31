@@ -36,7 +36,7 @@ type IclassStyleType = 'bottomDown' | 'leftRightStyleYellow';
 interface Props {
   data: Idata;
   type?: Itype;
-  classStyleType: IclassStyleType;
+  classStyleType?: IclassStyleType;
 }
 const props = withDefaults(defineProps<Props>(), {
   data: () => {

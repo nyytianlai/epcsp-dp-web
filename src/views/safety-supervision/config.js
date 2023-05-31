@@ -126,7 +126,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         unit: '个',
         isChoose: true,
         typeCode: 1,
-        positionCode:1
+        positionCode: 1
       },
       {
         value: data['2'],
@@ -135,7 +135,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         unit: '个',
         isChoose: true,
         typeCode: 2,
-        positionCode:1
+        positionCode: 1
       },
       {
         value: data['3'],
@@ -144,7 +144,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         unit: '个',
         isChoose: true,
         typeCode: 3,
-        positionCode:1
+        positionCode: 1
       }
     ];
   } else {
@@ -207,8 +207,8 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         ...formatStyle(),
         isChoose: false,
         typeCode: 1,
-        extraName:'正常',
-        positionCode:2
+        extraName: '正常',
+        positionCode: 2
       },
       {
         img: stateYellowB,
@@ -216,8 +216,8 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         name: '预警/个',
         isChoose: false,
         typeCode: 2,
-        extraName:'预警',
-        positionCode:2,
+        extraName: '预警',
+        positionCode: 2,
         ...formatStyle({
           numStyle: {
             color: '#FFB713'
@@ -230,8 +230,8 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
         name: '未上线/个',
         isChoose: false,
         typeCode: 3,
-        positionCode:2,
-        extraName:'未上线',
+        positionCode: 2,
+        extraName: '未上线',
         ...formatStyle({
           numStyle: {
             color: '#FFFFFF'
@@ -406,7 +406,7 @@ export const columnDataFun = () => {
     {
       prop: 'stationName',
       label: '充电站名称',
-      minWidth: '1'
+      minWidth: '2'
     },
     {
       prop: 'alarmLevelName',
