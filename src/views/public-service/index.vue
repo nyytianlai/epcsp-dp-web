@@ -58,77 +58,13 @@
     </div>
   </panel>
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisibleHot" title="热门充电站排名">
-    <template #titleSearch>
-      <el-input
-        v-model="inputHot"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearchHot"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="hotTableData"
-      height="6.34rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-      @sort-change="handleSort"
-      :default-sort="{ prop: 'power', order: 'descending' }"
-    >
-      <el-table-column
-        v-for="(item, index) in columnDataHot"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-        :sortable="item.sortable"
-        :sort-orders="item.sortOrders"
-      >
-        <template #header v-if="item.prop === 'areaName'">
-          <div class="areaName">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filters"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilter"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultArea"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-        <template #default="scope"></template>
-      </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
-        <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetailHot(scope)">详情</a>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="handPageChange"
-    />
-  </custom-dialog>
-    <custom-dialog v-model:visible="dialogTableVisibleDetail" title="市民反馈情况列表">
+  <hot-station-rank
+    v-if="dialogTableVisibleHot"
+    :visible="dialogTableVisibleHot"
+    :timeType="timeType"
+    @closed="handleCloseHotDialog"
+  />
+  <custom-dialog v-model:visible="dialogTableVisibleDetail" title="市民反馈情况列表">
     <template #titleSearch>
       <el-input
         v-model="inputDetail"
@@ -177,7 +113,6 @@
             </el-popover>
           </div>
         </template>
-        <template #default="scope"></template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -192,9 +127,10 @@
 </template>
 <script setup>
 import Icon from '@sutpc/vue3-svg-icon';
-import { ref, onMounted,reactive,inject,watch,nextTick } from 'vue';
-import ScrollTable from './components/scroll-table.vue'
+import { ref, onMounted, reactive, inject, watch, nextTick } from 'vue';
+import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
+import HotStationRank from './components/hot-station-rank.vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
@@ -207,7 +143,7 @@ import {
   getChargeStatus,
   stationRankingDetail,
   feedbackDetail
-} from './api.js'
+} from './api.js';
 import {
   pageNumFun,
   chargingStationTabsFun,
@@ -216,22 +152,17 @@ import {
   chargingTypesTabsFun,
   chargingTypePieDataFun,
   monthRateDataFun,
-  columnDataHotFun,
-  filters,
   ecOptionFun,
   filtersDetail,
   columnDataDetailFun
-} from './config.js'
+} from './config.js';
 const storeVisible = useVisibleComponentStore();
-const aircityObj = inject('aircityObj')
+const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-const mapData = ref([])
+const mapData = ref([]);
 // 热门弹窗
-const dialogTableVisibleHot = ref(false)
-const  inputHot = ref()
-const hotTableData = ref([])
-const columnDataHot = ref(columnDataHotFun());
-const ecOption = ref(ecOptionFun())
+const dialogTableVisibleHot = ref(false);
+const ecOption = ref(ecOptionFun());
 // 默认区
 const defaultDetail = ref(['有车站位', '桩位不放开', '无法充电', '找不到电桩', '其他']);
 // 默认区
@@ -245,12 +176,12 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 年月日
-const timeType = ref('day')
+const timeType = ref('day');
 // 市民弹窗
-const dialogTableVisibleDetail = ref(false)
-const inputDetail = ref()
-const detailTableData = ref([])
-const columnDataDetail = ref(columnDataDetailFun())
+const dialogTableVisibleDetail = ref(false);
+const inputDetail = ref();
+const detailTableData = ref([]);
+const columnDataDetail = ref(columnDataDetailFun());
 const detailList = ref([]);
 // 市民分页
 const pageObjDetail = reactive({
@@ -259,22 +190,18 @@ const pageObjDetail = reactive({
   currentPage: 1
 });
 // 充电tab
-const chargingStationTabs = ref(chargingStationTabsFun())
-// 排序
-const sort = ref('power');
-// 排序类型
-const sortType = ref('desc');
+const chargingStationTabs = ref(chargingStationTabsFun());
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 实时设备信息
-const deviceData = ref(deviceDataFun())
-const chargingTypesTabs = ref(chargingTypesTabsFun())
+const deviceData = ref(deviceDataFun());
+const chargingTypesTabs = ref(chargingTypesTabsFun());
 const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
-const monthRateData = ref([])
-const totalMonthRateNum = ref(0)
+const monthRateData = ref([]);
+const totalMonthRateNum = ref(0);
 
-const feedBackData = ref([])
+const feedBackData = ref([]);
 // 区域数据
 const areaList = ref([]);
 // 总览上面4个指标
@@ -283,34 +210,19 @@ const getOverTotalCount = async () => {
   pageNumData.value = pageNumFun(res.data);
 };
 // 充电功率
-const chargePower= ref([])
+const chargePower = ref([]);
 // 充电次数
-const chargeTimes = ref([])
+const chargeTimes = ref([]);
 // 充电功率总量
-const chargePowerTotal= ref(0)
+const chargePowerTotal = ref(0);
 // 充电次数总量
-const chargeTimesTotal = ref(0)
+const chargeTimesTotal = ref(0);
 // 充电tab
-const codeCharge = ref(1)
+const codeCharge = ref(1);
 
-// 获取热门列表
-const loadStationRankingDetail =async()=>{
-  const res = await stationRankingDetail({
-    area:areaList.value,
-    pageNum: pageObj.currentPage,
-    pageSize: pageObj.pageSize,
-    sortField: sort.value,
-    sort: sortType.value,
-    timeType:timeType.value,
-    searchContent: inputHot.value
-  })
-  hotTableData.value = res.data.list
-  pageObj.total = res.data.total
-  console.log('res',res)
-}
 // 获取市民列表
-const loadFeedbackDetail = async()=>{
-    // 在第一次请求的时候，生成序号
+const loadFeedbackDetail = async () => {
+  // 在第一次请求的时候，生成序号
   if (columnDataDetail.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
       type: 'index',
@@ -325,203 +237,140 @@ const loadFeedbackDetail = async()=>{
     pageSize: pageObjDetail.pageSize,
     problemType: detailList.value,
     searchContent: inputDetail.value
-  })
-  detailTableData.value = res.data?.list
-  pageObjDetail.total = res.data?.total
-  console.log('rrrrrr',res)
-}
+  });
+  detailTableData.value = res.data?.list;
+  pageObjDetail.total = res.data?.total;
+  console.log('rrrrrr', res);
+};
 // 热门充电站TOP10
 const getHotCharging = async () => {
-  const res = await hotCharging({timeType:timeType.value,
+  const res = await hotCharging({
+    timeType: timeType.value,
     sort: 'desc',
-  sortField: codeCharge.value===1?'power':'amount',})
+    sortField: codeCharge.value === 1 ? 'power' : 'amount'
+  });
   if (res?.data) {
-    chargePower.value = res?.data.map(item => {
+    chargePower.value = res?.data.map((item) => {
       return {
-        num: item.power,
+        num: Number(item.power),
         unit: 'KW',
         name: item.name
-      }
-    })
-    chargePowerTotal.value = chargePower.value[0].num
-    chargeTimes.value = res?.data.map(item => {
+      };
+    });
+    chargePowerTotal.value = Number(chargePower.value[0].num);
+    chargeTimes.value = res?.data.map((item) => {
       return {
         num: item.amount,
         unit: '次',
         name: item.name
-      }
-    })
-    chargeTimesTotal.value = chargeTimes.value[0].num
-
+      };
+    });
+    chargeTimesTotal.value = chargeTimes.value[0].num;
   } else {
-    chargePower.value = []
-    chargeTimes.value = []
+    chargePower.value = [];
+    chargeTimes.value = [];
   }
-}
+};
 // 右下-本月日均利用率
 const getMonthRate = async () => {
-  const res = await monthRate()
+  const res = await monthRate();
   if (res?.data && res?.data?.data) {
-    mapData.value = res?.data?.data
-    monthRateData.value = res?.data?.data.map(item => {
+    mapData.value = res?.data?.data;
+    monthRateData.value = res?.data?.data.map((item) => {
       return {
         num: item.useRatio,
         unit: '%',
         name: item.area_name
-      }
-    })
-    totalMonthRateNum.value = res?.data?.data[0].useRatio
+      };
+    });
+    totalMonthRateNum.value = Number(res?.data?.data[0].useRatio);
   } else {
-    monthRateData.value = []
-    totalMonthRateNum.value = 0
+    monthRateData.value = [];
+    totalMonthRateNum.value = 0;
   }
-}
+};
 const getChargeEquipmentStatistics = async () => {
-  const res = await selectChargeEquipmentStatistics()
-  deviceData.value = deviceDataFun(res.data)
-}
+  const res = await selectChargeEquipmentStatistics();
+  deviceData.value = deviceDataFun(res.data);
+};
 // 实时设备信息饼图
-const getChargeStatusData = async(type) => {
-  const res = await getChargeStatus(type)
-  chargingTypePieData.value = chargingTypePieDataFun(type,res?.data?.data)
-  
-}
+const getChargeStatusData = async (type) => {
+  const res = await getChargeStatus(type);
+  chargingTypePieData.value = chargingTypePieDataFun(type, res?.data?.data);
+};
 const handleChangeTab = (data, type) => {
   if (type === 'charging-types') {
     //实时设备信息
-    getChargeStatusData(data.code)
-  } 
+    getChargeStatusData(data.code);
+  }
 };
-const getPersonFeedback = async() => {
-  const res = await personFeedback()
-  feedBackData.value = res?.data || []
-  const data = feedBackData.value.map(i=>i.amount)
-   const axis = feedBackData.value.map(i=>i.name)
-  ecOption.value = ecOptionFun(data,axis)
-}
+const getPersonFeedback = async () => {
+  const res = await personFeedback();
+  feedBackData.value = res?.data || [];
+  const data = feedBackData.value.map((i) => i.amount);
+  const axis = feedBackData.value.map((i) => i.name);
+  ecOption.value = ecOptionFun(data, axis);
+};
 // 左一tab切换
-const handleChangeTabCharge = (data)=>{
-  codeCharge.value = data.code
-  getHotCharging()
-}
+const handleChangeTabCharge = (data) => {
+  codeCharge.value = data.code;
+  getHotCharging();
+};
 // 左一年月日切换
-const handleYearBtn =(item)=>{
-  console.log('item',item)
-  timeType.value = item.value
-  getHotCharging()
-
-}
-// 热门搜索
-const handleSearchHot = ()=>{
-  loadStationRankingDetail()
-}
-
-
-// 热门筛选
-const handleFilter = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes(1)) {
-    areaList.value = [];
-    loadStationRankingDetail()
-  } else {
-    // 存在筛选
-    areaList.value = temp;
-    loadStationRankingDetail()
-  }
+const handleYearBtn = (item) => {
+  timeType.value = item.value;
+  getHotCharging();
 };
-// 热门table数据
-const handPageChange = (value) => {
-  pageObj.currentPage = value;
-  loadStationRankingDetail()
+//热门充电站详情
+const handleDetailClick = () => {
+  dialogTableVisibleHot.value = true;
 };
 
-// 排序
-const handleSort = (item) => {
-  console.log('item', item);
-  if (item.order) {
-    // 存在排序
-    const sortTypeNum = {
-      ascending: 'asc',
-      descending: 'desc'
-    };
-    const sortIndex = {
-      power: 'power',
-      amount: 'amount',
-    };
-    sort.value = sortIndex[item.prop];
-    sortType.value = sortTypeNum[item.order];
-  } else {
-    //不存在排序
-    sort.value = null;
-    sortType.value = null;
-  }
-
-  loadStationRankingDetail()
-};
-//热门详情
-const handleDetailClick = ()=>{
-  dialogTableVisibleHot.value = true
-  loadStationRankingDetail()
-}
-// 点击详情
-const handleDetailHot = (item) => {
-  console.log('item', item);
-  // 关闭弹窗
+const handleCloseHotDialog = () => {
   dialogTableVisibleHot.value = false;
-  // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: item.row.operatorId,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr
-    }
-  });
 };
+
 // 打开市民反馈问题详情
-const handleDetailClickDetail = ()=>{
-  dialogTableVisibleDetail.value = true
-}
+const handleDetailClickDetail = () => {
+  dialogTableVisibleDetail.value = true;
+};
 // 市民搜索
-const handleSearchDetail = ()=>{
+const handleSearchDetail = () => {
   // 接口
-  loadFeedbackDetail()
-}
+  loadFeedbackDetail();
+};
 // 市民筛选
-const handleFilterDetail = (value, data)=>{
+const handleFilterDetail = (value, data) => {
   const temp = data.checkedKeys;
   // 全部
   if (temp.includes('all')) {
     detailList.value = [];
-    loadFeedbackDetail()
+    loadFeedbackDetail();
   } else {
     // 存在筛选
     detailList.value = temp;
-   loadFeedbackDetail()
+    loadFeedbackDetail();
   }
-}
+};
 // 市民分页
-const handPageChangeDetail = (value)=>{
+const handPageChangeDetail = (value) => {
   pageObjDetail.currentPage = value;
-  loadFeedbackDetail()
-}
+  loadFeedbackDetail();
+};
 onMounted(() => {
-  getOverTotalCount()
-  getHotCharging()
-  getMonthRate()
-  getPersonFeedback()
-  getChargeEquipmentStatistics()
-  getChargeStatusData('pile')
-  loadFeedbackDetail()
-})
+  getOverTotalCount();
+  getHotCharging();
+  getMonthRate();
+  getPersonFeedback();
+  getChargeEquipmentStatistics();
+  getChargeStatusData('pile');
+  loadFeedbackDetail();
+});
 
-watch([aircityObj,mapData],async()=>{
-  await nextTick()
-  mapLayerRef.value?.sendBarData(mapData.value)
-})
-
+watch([aircityObj, mapData], async () => {
+  await nextTick();
+  mapLayerRef.value?.sendBarData(mapData.value);
+});
 </script>
 
 <style lang="less" scoped>

@@ -76,7 +76,7 @@ interface Idata {
 }
 interface Props {
   data: Idata[];
-  colors: string[];
+  colors?: string[];
   totalName?: string;
   mode?: string;
 }
