@@ -46,7 +46,7 @@ interface Idata {
 }
 interface Props {
   data: Idata[];
-  modelValue: string | number;
+  modelValue?: string | number;
 }
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(['update:modelValue', 'changeTab']);

@@ -1,4 +1,4 @@
-"5.0.4";
+'5.0.4';
 
 // Must be kept in sync with JavaScriptKeyCodeToFKey C++ array.
 // special keycodes different from KeyboardEvent.keyCode
@@ -84,11 +84,11 @@ const SEND = {
 const iceServers = [
   {
     urls: [
-      "stun:stun.l.google.com:19302",
-      "stun:stun1.l.google.com:19302",
-      "stun:stun2.l.google.com:19302",
-      "stun:stun3.l.google.com:19302",
-      "stun:stun4.l.google.com:19302"
+      'stun:stun.l.google.com:19302',
+      'stun:stun1.l.google.com:19302',
+      'stun:stun2.l.google.com:19302',
+      'stun:stun3.l.google.com:19302',
+      'stun:stun4.l.google.com:19302'
     ]
   }
 ];
@@ -108,7 +108,7 @@ class PeerStream extends HTMLVideoElement {
     this.registerFakeMouseEvents();
 
     document.addEventListener(
-      "pointerlockchange",
+      'pointerlockchange',
       () => {
         if (document.pointerLockElement === this) {
           this.registerPointerLockEvents();
@@ -119,8 +119,8 @@ class PeerStream extends HTMLVideoElement {
       false
     );
 
-    this.addEventListener("loadeddata", () => {
-      this.style["aspect-ratio"] = this.videoWidth / this.videoHeight;
+    this.addEventListener('loadeddata', () => {
+      this.style['aspect-ratio'] = this.videoWidth / this.videoHeight;
     });
 
     // this.setupPeerConnection();
@@ -130,7 +130,7 @@ class PeerStream extends HTMLVideoElement {
   async connectedCallback() {
     // This will happen each time the node is moved, and may happen before the element"s contents have been fully parsed. may be called once your element is no longer connected
     if (!this.isConnected) return;
-    if (this.pc.connectionState === "connected" && this.dc.readyState === "open") {
+    if (this.pc.connectionState === 'connected' && this.dc.readyState === 'open') {
       // this.pc.restartIce();
       this.play();
       return;
@@ -138,7 +138,7 @@ class PeerStream extends HTMLVideoElement {
 
     // await new Promise((res) => setTimeout(res, 1000));
     this.ws.close(1000);
-    this.ws = new WebSocket(this.id || location.href.replace(/^http/, "ws"), "peer-stream");
+    this.ws = new WebSocket(this.id || location.href.replace(/^http/, 'ws'), 'peer-stream');
 
     this.ws.onerror;
 
@@ -154,7 +154,7 @@ class PeerStream extends HTMLVideoElement {
       let timeout = 3000;
       if (e.code === 3333) {
         this.id = e.reason;
-        console.log("redirect =>", e.reason);
+        console.log('redirect =>', e.reason);
         timeout = 500;
       } else {
         console.warn(e);
@@ -171,14 +171,14 @@ class PeerStream extends HTMLVideoElement {
       if (this.isConnected) return;
       this.ws.close(1000);
       this.pc.close();
-      console.log("❌ peer connection closing");
+      console.log('❌ peer connection closing');
       // this.dc.close();
     }, 5 * 1000);
   }
 
   adoptedCallback() {}
 
-  static observedAttributes = ["id"];
+  static observedAttributes = ['id'];
   attributeChangedCallback() {
     if (!this.isConnected) return;
     // fired before connectedCallback when startup
@@ -189,10 +189,10 @@ class PeerStream extends HTMLVideoElement {
     try {
       msg = JSON.parse(msg);
     } catch {
-      console.debug("↓↓", msg);
+      console.debug('↓↓', msg);
       return;
     }
-    if (msg.type === "offer") {
+    if (msg.type === 'offer') {
       this.setupPeerConnection();
 
       const offer = new RTCSessionDescription(msg);
@@ -201,7 +201,7 @@ class PeerStream extends HTMLVideoElement {
       await this.pc.setRemoteDescription(offer);
 
       // Setup a transceiver for getting UE video
-      this.pc.addTransceiver("video", { direction: "recvonly" });
+      this.pc.addTransceiver('video', { direction: 'recvonly' });
 
       const answer = await this.pc.createAnswer();
       await this.pc.setLocalDescription(answer);
@@ -212,20 +212,20 @@ class PeerStream extends HTMLVideoElement {
       for (let receiver of this.pc.getReceivers()) {
         receiver.playoutDelayHint = 0;
       }
-    } else if (msg.type === "iceCandidate") {
+    } else if (msg.type === 'iceCandidate') {
       const candidate = new RTCIceCandidate(msg.candidate);
       // console.log("↓↓ candidate:", candidate);
       await this.pc.addIceCandidate(candidate);
-    } else if (msg.type === "answer") {
+    } else if (msg.type === 'answer') {
       // deprecated
     } else {
-      console.warn("↓↓", msg);
+      console.warn('↓↓', msg);
     }
   }
 
   onDataChannelMessage(data) {
     data = new Uint8Array(data);
-    const utf16 = new TextDecoder("utf-16");
+    const utf16 = new TextDecoder('utf-16');
     switch (data[0]) {
       case RECEIVE.VideoEncoderAvgQP: {
         this.VideoEncoderQP = +utf16.decode(data.slice(1));
@@ -235,36 +235,36 @@ class PeerStream extends HTMLVideoElement {
       case RECEIVE.Response: {
         // user custom message
         const detail = utf16.decode(data.slice(1));
-        this.dispatchEvent(new CustomEvent("message", { detail }));
+        this.dispatchEvent(new CustomEvent('message', { detail }));
         console.info(detail);
         break;
       }
       case RECEIVE.Command: {
         const command = JSON.parse(utf16.decode(data.slice(1)));
-        console.info("↓↓ command:", command);
-        if (command.command === "onScreenKeyboard") {
-          console.info("You should setup a on-screen keyboard");
+        console.info('↓↓ command:', command);
+        if (command.command === 'onScreenKeyboard') {
+          console.info('You should setup a on-screen keyboard');
         }
         break;
       }
       case RECEIVE.FreezeFrame: {
         const size = new DataView(data.slice(1, 5).buffer).getInt32(0, true);
         const jpeg = data.slice(1 + 4);
-        console.info("↓↓ freezed frame:", jpeg);
+        console.info('↓↓ freezed frame:', jpeg);
         break;
       }
       case RECEIVE.UnfreezeFrame: {
-        console.info("↓↓ 【unfreeze frame】");
+        console.info('↓↓ 【unfreeze frame】');
         break;
       }
       case RECEIVE.LatencyTest: {
         const latencyTimings = JSON.parse(utf16.decode(data.slice(1)));
-        console.info("↓↓ latency timings:", latencyTimings);
+        console.info('↓↓ latency timings:', latencyTimings);
         break;
       }
       case RECEIVE.QualityControlOwnership: {
         this.QualityControlOwnership = data[1] !== 0;
-        console.info("↓↓ Quality Control Ownership:", this.QualityControlOwnership);
+        console.info('↓↓ Quality Control Ownership:', this.QualityControlOwnership);
         break;
       }
       case RECEIVE.InitialSettings: {
@@ -273,7 +273,7 @@ class PeerStream extends HTMLVideoElement {
         break;
       }
       default: {
-        console.error("↓↓ invalid data:", data);
+        console.error('↓↓ invalid data:', data);
       }
     }
   }
@@ -292,8 +292,8 @@ class PeerStream extends HTMLVideoElement {
     // this.onresize
     // this.requestPointerLock();
 
-    this.style["pointer-events"] = "none";
-    this.style["object-fit"] = "fill";
+    this.style['pointer-events'] = 'none';
+    this.style['object-fit'] = 'fill';
   }
 
   setupDataChannel(e) {
@@ -303,11 +303,11 @@ class PeerStream extends HTMLVideoElement {
     this.dc = e.channel;
 
     // Inform browser we would like binary data as an ArrayBuffer (FF chooses Blob by default!)
-    this.dc.binaryType = "arraybuffer";
+    this.dc.binaryType = 'arraybuffer';
 
     this.dc.onopen = () => {
       // console.log("✅", this.dc);
-      this.style.pointerEvents = "auto";
+      this.style.pointerEvents = 'auto';
 
       setTimeout(() => {
         this.dc.send(new Uint8Array([SEND.RequestInitialSettings]));
@@ -316,8 +316,8 @@ class PeerStream extends HTMLVideoElement {
     };
 
     this.dc.onclose = () => {
-      console.info("❌ data channel closed");
-      this.style.pointerEvents = "none";
+      console.info('❌ data channel closed');
+      this.style.pointerEvents = 'none';
       this.blur();
     };
 
@@ -331,17 +331,17 @@ class PeerStream extends HTMLVideoElement {
   setupPeerConnection() {
     this.pc.close();
     this.pc = new RTCPeerConnection({
-      sdpSemantics: "unified-plan",
-      bundlePolicy: "balanced"
+      sdpSemantics: 'unified-plan',
+      bundlePolicy: 'balanced'
       // iceServers
     });
 
     this.pc.ontrack = (e) => {
       console.log(`↓↓ ${e.track.kind} track:`, e);
-      if (e.track.kind === "video") {
+      if (e.track.kind === 'video') {
         this.srcObject = e.streams[0];
-      } else if (e.track.kind === "audio") {
-        this.audio = document.createElement("audio");
+      } else if (e.track.kind === 'audio') {
+        this.audio = document.createElement('audio');
         this.audio.autoplay = true;
         this.audio.srcObject = e.streams[0];
       }
@@ -350,7 +350,7 @@ class PeerStream extends HTMLVideoElement {
       // firefox
       if (e.candidate?.candidate) {
         // console.log("↑↑ candidate:", e.candidate);
-        this.ws.send(JSON.stringify({ type: "iceCandidate", candidate: e.candidate }));
+        this.ws.send(JSON.stringify({ type: 'iceCandidate', candidate: e.candidate }));
       } else {
         // Notice that the end of negotiation is detected here when the event"s candidate property is null.
       }
@@ -377,10 +377,12 @@ class PeerStream extends HTMLVideoElement {
   registerKeyboardEvents() {
     this.onkeydown = (e) => {
       // whether to prevent browser"s default behavior when keyboard/mouse have inputs, like F1~F12 and Tab
-      if (e.code == "F5") {
+      if (e.code == 'F5') {
         // e.preventDefault();
       } else {
-        this.dc.send(new Uint8Array([SEND.KeyDown, SpecialKeyCodes[e.code] || e.keyCode, e.repeat]));
+        this.dc.send(
+          new Uint8Array([SEND.KeyDown, SpecialKeyCodes[e.code] || e.keyCode, e.repeat])
+        );
       }
     };
 
@@ -410,7 +412,7 @@ class PeerStream extends HTMLVideoElement {
         // remember touch
         const finger = fingers.pop();
         if (finger === undefined) {
-          console.info("exhausted touch indentifiers");
+          console.info('exhausted touch indentifiers');
         }
         fingerIds[touch.identifier] = finger;
       }
@@ -555,7 +557,7 @@ class PeerStream extends HTMLVideoElement {
 
     this.onmouseleave = () => {
       this.emitMouseUp(this.sButton, this.sX, this.sY);
-      if (this.dc.readyState === "open") this.dc.send(new Uint8Array([SEND.MouseLeave]));
+      if (this.dc.readyState === 'open') this.dc.send(new Uint8Array([SEND.MouseLeave]));
     };
   }
 
@@ -629,7 +631,7 @@ class PeerStream extends HTMLVideoElement {
 
   // emit string
   emitMessage(msg, messageType = SEND.UIInteraction) {
-    if (typeof msg !== "string") msg = JSON.stringify(msg);
+    if (typeof msg !== 'string') msg = JSON.stringify(msg);
 
     // Add the UTF-16 JSON string to the array byte buffer, going two bytes at a time.
     const data = new DataView(new ArrayBuffer(1 + 2 + 2 * msg.length));
@@ -645,7 +647,7 @@ class PeerStream extends HTMLVideoElement {
     }
     this.dc.send(data);
 
-    return "↑↑ sent";
+    return '↑↑ sent';
   }
 
   normalize(x, y) {
@@ -667,4 +669,5 @@ class PeerStream extends HTMLVideoElement {
   }
 }
 
-customElements.define("peer-stream", PeerStream, { extends: "video" });
+customElements.define('peer-stream', PeerStream, { extends: 'video' });
+export { PeerStream };

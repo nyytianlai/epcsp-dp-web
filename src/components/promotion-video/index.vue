@@ -1,11 +1,17 @@
 <template>
   <div class="video-box">
-    <!-- <video class="video" ref="videoRef" autoplay :muted="muted">
-      <source :src="videoUrl" type="video/mp4" />
-    </video> -->
-    <video class="video" ref="videoRef" autoplay muted @click="play">
+    <video class="video" ref="videoRef" autoplay loop :muted="muted" @click="play">
       <source :src="videoUrl" type="video/mp4" />
     </video>
+    <!-- <video-player
+      ref="videoRef"
+      :src="videoUrl"
+      :loop="true"
+      :volume="0.6"
+      :autoplay="true"
+      :muted="muted"
+      @ready="play"
+    /> -->
     <div id="test"></div>
     <div class="close" @click="handleCloseVideo">x</div>
   </div>
@@ -17,25 +23,41 @@ const videoRef = ref();
 const muted = ref(true);
 const videoUrl = ref('http://10.10.2.63:9109/lx/videos/home_video.mp4');
 const store = useVisibleComponentStore();
+// 视频播放状态
+let playStatus = '';
+// 第一次点击更改静音状态，视频不暂停
+let initNum = 0;
 const handleCloseVideo = () => {
   store.changeShowPromitionVideo(false);
 };
 const play = () => {
   videoRef.value.muted = false;
-  videoRef.value.play();
+  if (!initNum) {
+    initNum += 1;
+    return;
+  }
+  if (playStatus === 'playing') {
+    videoRef.value.pause();
+  } else if (playStatus === 'pause') {
+    videoRef.value.play();
+  }
 };
 onMounted(() => {
-  nextTick(() => {
-    if (videoRef.value.muted) {
-      // videoRef.value.muted = false;
-      // videoRef.value.play();
-    }
+  videoRef.value.addEventListener('playing', function () {
+    playStatus = 'playing';
+    //播放中的函数
+    console.log('播放中');
+  });
+  videoRef.value.addEventListener('pause', function () {
+    playStatus = 'pause';
+    //播放暂停执行的函数
+    console.log('暂停播放');
   });
   // 监听视频播放结束
-  videoRef.value.addEventListener('ended', () => {
-    console.log('播放结束');
-    handleCloseVideo();
-  });
+  // videoRef.value.addEventListener('ended', () => {
+  //   console.log('播放结束');
+  //   handleCloseVideo();
+  // });
 });
 </script>
 <style lang="less" scoped>
