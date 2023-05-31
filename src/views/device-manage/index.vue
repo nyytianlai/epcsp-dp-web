@@ -29,7 +29,7 @@
     </div>
     <div class="charging-peak-area">
       <title-column
-        title="充电高峰区域情况"
+        title="行政区充电次数情况"
         :showTabBtn="true"
         :tabList="[
           { value: 1, name: '日' },
