@@ -109,6 +109,9 @@ onMounted(async () => {
     station.value = val;
   });
 });
+onUnmounted(() => {
+  bus.off('changeStation');
+});
 const getkeepAliveList = (list, flag = false) => {
   list.forEach((item) => {
     const isDropChildren = flag || item?.meta?.isDropChildren;
