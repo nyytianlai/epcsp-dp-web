@@ -29,7 +29,7 @@ import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
-const buttomTabCode = computed(() => store.buttomTabCode);
+store.changeStationType([1, 2, 3, 4]);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
