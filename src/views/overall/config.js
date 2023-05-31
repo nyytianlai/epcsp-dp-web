@@ -478,7 +478,7 @@ export const columnDataFun = () => {
     {
       prop: 'stationName',
       label: '充电站名称',
-      minWidth: '1'
+      minWidth: '2'
     },
     {
       prop: 'alarmLevelName',
