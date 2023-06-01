@@ -43,7 +43,7 @@
 <script setup>
 import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { infoObj, returnStationPointConfig,toSingleStation } from '@/global/config/map';
+import { infoObj, returnStationPointConfig, toSingleStation } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
 import bus from '@/utils/bus';
@@ -52,7 +52,7 @@ const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
 const searchInput = ref('');
-const isSearchCollapsed = ref(false)
+const isSearchCollapsed = ref(false);
 const handleClick = () => {
   const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
@@ -83,7 +83,7 @@ const handleSearch = async (value) => {
     return;
   }
   console.log('搜索框选择数据', value);
-  toSingleStation(value)
+  toSingleStation(__g, value);
 };
 </script>
 <style lang="less">
