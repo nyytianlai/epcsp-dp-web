@@ -90,7 +90,7 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
+  <custom-dialog v-model:visible="dialogTableVisible" title="告警信息列表">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
