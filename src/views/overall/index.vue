@@ -82,62 +82,15 @@
     :visible="dialogTableVisible"
     @closed="handleCloseTodayWarnDialog"
   />
-  <custom-dialog v-model:visible="dialogRankVisible" title="运营企业排名列表">
-    <template #titleSearch>
-      <el-input
-        v-model="inputRank"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearch"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="rankTableData"
-      height="6.34rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-      @sort-change="handleSort"
-      :default-sort="{ prop: 'stationNumber', order: 'descending' }"
-    >
-      <el-table-column
-        v-for="(item, index) in columnDataRank"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-        :sortable="item.sortable"
-        :sort-orders="item.sortOrders"
-      ></el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="1">
-        <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObjRank.pageSize"
-      layout="prev, pager, next"
-      :total="pageObjRank.total"
-      :background="true"
-      :current-page="pageObjRank.currentPage"
-      @current-change="handPageChangeRank"
-    />
-  </custom-dialog>
-  <RankDetail v-model="rankDetailVisible" ref="rankDetail" @goDetail="handleGoDetail"></RankDetail>
+  <enterprise-rank-list-dialog
+    v-if="dialogRankVisible"
+    :visible="dialogRankVisible"
+    @closed="handleCloseRankDialog"
+  />
+  <!-- <RankDetail v-model="rankDetailVisible" ref="rankDetail" @goDetail="handleGoDetail"></RankDetail> -->
 </template>
 <script setup>
 import { onMounted, onUnmounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
-import MapLayer from './components/map-layer.vue';
-import PageNum from '@/components/page-num/index.vue';
-import Panel from '@/components//panel/index.vue';
-import { tableColumnFun } from '@/global/commonFun.js';
-import Icon from '@sutpc/vue3-svg-icon';
-import TodayWarnDialog from './components/today-warn-dialog.vue';
-import RankDetail from './components/rank-detail.vue';
 import {
   overTotalCount,
   totalFacilities,
@@ -163,12 +116,18 @@ import {
   warningTabsDataFun,
   warningListFun,
   bottomTabDataFun,
-  columnDataRankFun,
   chargingStationTabsFun,
   chargingStationGunTabsFun
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
+import MapLayer from './components/map-layer.vue';
+import PageNum from '@/components/page-num/index.vue';
+import Panel from '@/components//panel/index.vue';
+import Icon from '@sutpc/vue3-svg-icon';
+import TodayWarnDialog from './components/today-warn-dialog.vue';
+import EnterpriseRankListDialog from './components/enterprise-rank-list-dialog.vue';
+// import RankDetail from './components/rank-detail.vue';
 
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
@@ -212,31 +171,8 @@ const warningListData = ref([]);
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false);
-// 运营商数据
-const rankTableData = ref([]);
 // 运营企业排名弹窗显示标识
 const dialogRankVisible = ref(false);
-// 运营企业排名搜索
-const inputRank = ref();
-// 运营商分页
-const pageObjRank = reactive({
-  pageSize: 8,
-  total: 0,
-  currentPage: 1
-});
-// 运营商排序
-const sortRank = ref('station');
-// 排序类型
-const sortTypeRank = ref('desc');
-// 详情弹窗
-const rankDetailVisible = ref(false);
-// 运营商id和name
-const operatorId = ref();
-const operatorName = ref();
-provide('operatorId', operatorId);
-provide('operatorName', operatorName);
-// 弹窗列名
-const columnDataRank = ref(columnDataRankFun());
 const handleChangeTab = (data, type) => {
   if (type === 'charger') {
     //切换充电桩总量和充电枪总量
@@ -311,29 +247,6 @@ const getStationOpeTop10 = async (type) => {
     projectTotalNum.value = 0;
   }
 };
-// 获取运营企业信息
-const loadOperatorInfoList = async () => {
-  if (columnDataRank.value.findIndex((i) => i.type === 'index') === -1) {
-    const temp = {
-      type: 'index',
-      label: '序号',
-      index: (index) => (pageObjRank.currentPage - 1) * pageObjRank.pageSize + index + 1,
-      minWidth: 1
-    };
-    columnDataRank.value.unshift(temp);
-  }
-  const obj = {
-    operatorName: inputRank.value,
-    pageNum: pageObjRank.currentPage,
-    pageSize: pageObjRank.pageSize,
-    sortField: sortRank.value,
-    sort: sortTypeRank.value
-  };
-  const res = await operatorInfoList(obj);
-  rankTableData.value = res.data.list;
-  pageObjRank.total = res.data.total;
-  console.log('res', res);
-};
 //今日-充电桩/充电枪信息
 const getDayEquInfo = async (type) => {
   const res = await dayEquInfo(type);
@@ -378,58 +291,8 @@ const getTimePowerGraph = async () => {
 const handleDetailClick = (item) => {
   dialogRankVisible.value = true;
 };
-// 运营商分页
-const handPageChangeRank = (value) => {
-  pageObjRank.currentPage = value;
-  loadOperatorInfoList();
-};
-// 运营商排序
-const handleSort = (item) => {
-  console.log('item', item);
-  if (item.order) {
-    // 存在排序
-    const sortTypeNum = {
-      ascending: 'asc',
-      descending: 'desc'
-    };
-    const sortIndex = {
-      pileNumber: 'pile',
-      gunNumber: 'gun',
-      stationNumber: 'station'
-    };
-    sortRank.value = sortIndex[item.prop];
-    sortTypeRank.value = sortTypeNum[item.order];
-  } else {
-    sortRank.value = null;
-    sortTypeRank.value = null;
-  }
-  loadOperatorInfoList();
-};
-// 点击详情
-const handleDetail = (item) => {
-  console.log('item', item);
-  operatorId.value = item.row.operatorId;
-  operatorName.value = item.row.operatorName;
-  nextTick(() => {
-    rankDetail.value.init();
-    rankDetailVisible.value = true;
-  });
-};
-// 充电设施跳转详情
-const handleGoDetail = (item) => {
-  // 关闭弹窗
+const handleCloseRankDialog = () => {
   dialogRankVisible.value = false;
-  rankDetailVisible.value = false;
-  // 展示站点
-  storeVisible.changeShowComponent(false);
-  storeVisible.changeShowDetail({
-    show: true,
-    params: {
-      operatorId: operatorId.value,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr
-    }
-  });
 };
 
 // 左二的右侧tab切换
@@ -440,10 +303,6 @@ const handleTabBtn = (item) => {
   getTotalEquipment();
 };
 
-// 运营商排名搜索
-const handleSearch = () => {
-  loadOperatorInfoList();
-};
 let timer = null;
 onMounted(() => {
   getOverTotalCount();
@@ -455,7 +314,6 @@ onMounted(() => {
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
-  loadOperatorInfoList();
   timer = setInterval(() => {
     getDayEquInfo(realtimeCode.value);
     getDayPower();
@@ -601,10 +459,7 @@ onUnmounted(() => {
     }
   }
 }
-.detail {
-  color: #4bdeff;
-  text-decoration: none;
-}
+
 .right-tab-btn {
   display: flex;
   background: rgba(21, 69, 105, 0.5);
@@ -630,8 +485,5 @@ onUnmounted(() => {
 .pile-charger-header {
   display: flex;
   justify-content: space-between;
-}
-.filter {
-  cursor: pointer;
 }
 </style>

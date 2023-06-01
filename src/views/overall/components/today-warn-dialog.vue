@@ -1,5 +1,5 @@
 <template>
-  <custom-dialog v-model:visible="props.visible" @closed="handleClosed" title="告警信息列表">
+  <custom-dialog title="告警信息列表" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
@@ -98,7 +98,6 @@ import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 interface Props {
   visible: boolean;
-  timeType: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   visible: false
