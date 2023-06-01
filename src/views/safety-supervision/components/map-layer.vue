@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef" :buttomTabCode="buttomTabCode" :module="3"></qu>
+  <qu ref="quRef" :module="3" @addQuBar="addQuBar"></qu>
   <cir-bar3 ref="cirBar3Ref"></cir-bar3>
   <legend-list
     :legendList="legendListData1"
@@ -94,19 +94,14 @@ const setLegendData = (code: 1 | 2) => {
 };
 
 const buttomTabChange = async (code: 1 | 2, type = [1, 2, 3]) => {
+  console.log('底部按钮切换');
   await quRef.value.deleteJdData();
   store.changeButtomTabCode(code);
   store.changeStationType(type);
   setLegendData(code);
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
-  await cirBar3Ref.value.addBar({
-    code: buttomTabCode.value,
-    stationType: Array.from(stationType.value),
-    type: 'qu'
-  });
-
-  await quRef.value.resetSz();
+  await quRef.value.resetSz(); //此函数调用了addQuBar
 };
 
 type AlarmType = {
@@ -135,11 +130,7 @@ const alarmTypeChange = async (item: AlarmType) => {
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
   if (currentPosition.value.includes('市') && stationType.value.size) {
-    cirBar3Ref.value.addBar({
-      code: buttomTabCode.value,
-      type: 'qu',
-      stationType: Array.from(stationType.value)
-    });
+    addQuBar()
   } else if (currentPosition.value.includes('区') && stationType.value.size) {
     cirBar3Ref.value.addBar({
       code: buttomTabCode.value,
@@ -152,16 +143,20 @@ const alarmTypeChange = async (item: AlarmType) => {
   }
 };
 
+const addQuBar = async () => {
+  await cirBar3Ref.value.addBar({
+    code: buttomTabCode.value,
+    stationType: Array.from(stationType.value),
+    type: 'qu'
+  });
+};
+
 defineExpose({ buttomTabChange, alarmTypeChange });
 
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  cirBar3Ref.value.addBar({
-    code: buttomTabCode.value,
-    stationType: Array.from(stationType.value),
-    type: 'qu'
-  });
+  addQuBar()
   bus.on('addBar', (e) => {
     cirBar3Ref.value.addBar({
       code: buttomTabCode.value,

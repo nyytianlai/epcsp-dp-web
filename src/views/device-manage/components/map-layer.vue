@@ -1,6 +1,5 @@
 <template>
-  <qu ref="quRef" :module="2"></qu>
-  <!-- :buttomTabCode="buttomTabCode" -->
+  <qu ref="quRef" :module="2" @addQuBar="addQuBar"></qu>
   <cir-bar4 ref="cirBar4Ref"></cir-bar4>
   <legend-list
     :legendList="legendListData"
@@ -15,10 +14,7 @@ import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue
 import { useMapStore } from '@/stores/map';
 import {
   layerNameQuNameArr,
-  quNameCodeInterTrans,
-  infoObj,
-  getImageUrl,
-  getImageByCloud
+  quNameCodeInterTrans
 } from '@/global/config/map';
 import bus from '@/utils/bus';
 
@@ -82,12 +78,7 @@ const buttomTabChange = async (code: 1 | 2) => {
   setLegendData(code);
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
-  await cirBar4Ref.value.addBar({
-    code: buttomTabCode.value,
-    type: 'qu',
-    chargeType: Array.from(stationType.value)
-  });
-
+  // await addQuBar()
   await quRef.value.resetSz();
 };
 
@@ -103,11 +94,7 @@ const handleChargeTypeChange = async (item: ChargeType) => {
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
   if (currentPosition.value.includes('市') && stationType.value.size) {
-    cirBar4Ref.value.addBar({
-      code: buttomTabCode.value,
-      type: 'qu',
-      chargeType: Array.from(stationType.value)
-    });
+    addQuBar()
   } else if (currentPosition.value.includes('区') && stationType.value.size) {
     cirBar4Ref.value.addBar({
       code: buttomTabCode.value,
@@ -119,13 +106,17 @@ const handleChargeTypeChange = async (item: ChargeType) => {
     quRef.value.addStationPoint(currentJdCode.value);
   }
 };
-defineExpose({ buttomTabChange, handleChargeTypeChange });
-onMounted(async () => {
-  cirBar4Ref.value.addBar({
+
+const addQuBar = async () => {
+  await cirBar4Ref.value.addBar({
     code: buttomTabCode.value,
     type: 'qu',
     chargeType: Array.from(stationType.value)
   });
+};
+defineExpose({ buttomTabChange, handleChargeTypeChange });
+onMounted(async () => {
+  await addQuBar();
   bus.on('addBar', (e) => {
     //加载街道的柱状图
     cirBar4Ref.value.addBar({

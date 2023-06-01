@@ -26,10 +26,6 @@
     var data1 = [Number(paramsValue[0])]; //下部数据
     var data2 = [Number(paramsValue[1])]; //中
     var data3 = [Number(paramsValue[2])]; //上
-    
-    var data1Cir = data1[0]; //下部数据
-    var data2Cir = data2[0]; //中
-    var data3Cir = data3[0]; //上
     var data4 = [data1[0] + data2[0] + data3[0]];
 
 
@@ -172,7 +168,7 @@
         },
         {
           name: "下部顶部圆",
-          data: data1Cir,
+          data: data1,
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -183,18 +179,18 @@
         },
         {
           name: "中部底部圆",
-          data: data1Cir,
+          data: data1,
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
           symbolOffset: [0, "-60%"],
-          symbolSize: [40, 12],
+          symbolSize: [40, 15],
           zlevel: 2,
           itemStyle: getItemStyle(colorCollection[5][colorType]),
         },
         {
           name: "中部顶部圆",
-          data: [data1Cir[0] + data2Cir[0]],
+          data: [data1[0] + data2[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
@@ -205,7 +201,7 @@
         },
         {
           name: "上部底部圆",
-          data: [data1Cir[0] + data2Cir[0]],
+          data: [data1[0] + data2[0]],
           type: "pictorialBar",
           barMaxWidth: "20",
           symbolPosition: "end",
