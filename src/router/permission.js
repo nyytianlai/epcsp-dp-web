@@ -14,45 +14,27 @@ const whiteList = ['/login'];
 router.beforeEach(async (to, from, next) => {
   const hasToken = getToken();
   if (hasToken) {
+    const storeVisible = useVisibleComponentStore();
+    const store = useMapStore();
+
+    storeVisible.changeShowComponent(true);
+    storeVisible.changeShowPanel(true);
+    storeVisible.changeShowDetail({
+      show: false,
+      params: {}
+    });
+    store.changeCurrentPosition('深圳市');
+    store.changeCurrentPositionBak('');
+    store.changeCurrentHrStationId('');
+    store.changeCurrentQu('');
+    store.changeCurrentJd('');
+    store.changeStationType([]);
+    store.changeButtomTabCode(1);
+    store.changeCurrentJdCode('');
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-
-      const storeVisible = useVisibleComponentStore();
-      const store = useMapStore();
-
-      storeVisible.changeShowComponent(true);
-      storeVisible.changeShowPanel(true);
-      storeVisible.changeShowDetail({
-        show: false,
-        params: {}
-      });
-      store.changeCurrentPosition('深圳市');
-      store.changeCurrentPositionBak('');
-      store.changeCurrentHrStationId('');
-      store.changeCurrentQu('');
-      store.changeCurrentJd('');
-      store.changeStationType([]);
-      store.changeButtomTabCode(1);
-      store.changeCurrentJdCode('');
       next({ path: '/' });
     } else {
-      const storeVisible = useVisibleComponentStore();
-      const store = useMapStore();
-
-      storeVisible.changeShowComponent(true);
-      storeVisible.changeShowPanel(true);
-      storeVisible.changeShowDetail({
-        show: false,
-        params: {}
-      });
-      store.changeCurrentPosition('深圳市');
-      store.changeCurrentPositionBak('');
-      store.changeCurrentHrStationId('');
-      store.changeCurrentQu('');
-      store.changeCurrentJd('');
-      store.changeStationType([]);
-      store.changeButtomTabCode(1);
-      store.changeCurrentJdCode('');
       next();
     }
   } else {
