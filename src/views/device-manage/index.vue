@@ -29,7 +29,7 @@
     </div>
     <div class="charging-peak-area">
       <title-column
-        title="充电高峰区域情况"
+        title="行政区充电次数情况"
         :showTabBtn="true"
         :tabList="[
           { value: 1, name: '日' },
@@ -227,8 +227,8 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
-// 高峰区域时间
-const dayType = ref(0);
+// 行政区充电次数情况时间
+const dayType = ref(1);
 // 排序
 const sort = ref(0);
 // 排序类型
@@ -249,7 +249,7 @@ const getSelectChargeCount = async (type, maintab) => {
   const res = await selectChargeCount({ type: bottomBtnCur.value });
   chargingStationPieData.value = chargingStationPieDataFun(type, res.data, maintab);
 };
-//设备管理/充电高峰区域情况
+//设备管理/行政区充电次数情况
 const getSelectChargeCountByArea = async () => {
   const res = await selectChargeCountByArea({ dayType: dayType.value });
   if (res?.data) {
@@ -410,7 +410,7 @@ const handleDetail = (item) => {
   });
 };
 
-// 高峰区域情况tab点击
+// 行政区充电次数情况tab点击
 const handleYearBtn = (item) => {
   console.log('item', item);
   dayType.value = item.value;
