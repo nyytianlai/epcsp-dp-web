@@ -53,10 +53,12 @@ import { ref, reactive, watch, onMounted } from 'vue';
 import { setToken } from '@/utils/auth';
 import { useRouter, useRoute } from 'vue-router';
 import { login, getProfile } from './api';
+import { useUserStore } from '@/stores/user';
 import md5 from 'md5';
 import Icon from '@sutpc/vue3-svg-icon';
-import Cookies from 'js-cookie';
+
 const route = useRoute();
+const store = useUserStore();
 const loginFormRef = ref();
 const passwordRef = ref();
 const router = useRouter();
@@ -85,10 +87,15 @@ const handleLogin = async (formEl) => {
       login({ accountName: loginForm.accountName, password: md5(String(loginForm.password)) })
         .then(async (res) => {
           const data = res.data || {};
-          sessionStorage.setItem('login-username', data.data);
+          sessionStorage.setItem('login-username', data);
           const profile = await getProfile();
-          if (profile.data) {
-            sessionStorage.setItem('profile', JSON.stringify(profile.data.data.profile));
+          console.log(profile);
+          if (profile) {
+            const token = profile.data.profile.__token;
+            setToken(token);
+            store.changeToken(token);
+            store.changeProfile(profile.data.profile);
+            sessionStorage.setItem('profile', JSON.stringify(profile.data.profile));
           }
           router.push({ path: state.redirect || '/', query: state.otherQuery });
           state.loading = false;

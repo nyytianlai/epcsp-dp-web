@@ -1,4 +1,4 @@
-import { getToken, removeToken, setToken } from '@/utils/auth';
+import { getToken, removeToken } from '@/utils/auth';
 import { reactive } from 'vue';
 import { defineStore } from 'pinia';
 
@@ -26,12 +26,19 @@ export const useUserStore = defineStore('user', () => {
   function changeProfile(profile) {
     state.profile = profile;
   }
+  function removeTokens() {
+    return new Promise((resolve) => {
+      removeToken();
+      resolve();
+    });
+  }
   return {
     state,
     changeToken,
     changeName,
     changePhone,
     changeTenant,
-    changeProfile
+    changeProfile,
+    removeTokens
   };
 });
