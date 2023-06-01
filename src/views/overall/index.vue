@@ -215,7 +215,7 @@
 <script setup>
 import Icon from '@sutpc/vue3-svg-icon';
 
-import { onMounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
+import { onMounted, onUnmounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
@@ -256,6 +256,8 @@ import {
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
 
+// 今日充电设施数据信息code
+const realtimeCode = ref('pile');
 // 左二图的tab
 const curBtn = ref(1);
 const storeVisible = useVisibleComponentStore();
@@ -350,6 +352,7 @@ const handleChangeTab = (data, type) => {
     getStationOpeTop10(data.code);
   } else if (type === 'today') {
     // 今日充电设施数据信息tab切换
+    realtimeCode.value = data.code;
     getDayEquInfo(data.code);
   } else if (type === 'warning') {
     getAlarmInfo([data.code]);
@@ -600,18 +603,28 @@ const handleDetailWarn = (item) => {
 const handleSearch = () => {
   loadOperatorInfoList();
 };
+let timer = null;
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
   getTotalEquipment('pile');
   getStationOpeTop10('station');
-  getDayEquInfo('pile');
+  getDayEquInfo(realtimeCode.value);
   getDayPower();
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
   getTableAlarm();
   loadOperatorInfoList();
+  timer = setInterval(() => {
+    getDayEquInfo(realtimeCode.value);
+    getDayPower();
+    getAlarmCount();
+  }, 1000 * 60);
+});
+onUnmounted(() => {
+  clearInterval(timer);
+  timer = null;
 });
 </script>
 <style lang="less" scoped>
