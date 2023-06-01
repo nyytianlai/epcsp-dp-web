@@ -90,7 +90,7 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警信息列表">
+  <!-- <custom-dialog v-model:visible="dialogTableVisible" title="告警信息列表">
     <template #titleSearch>
       <el-input
         v-model="inputWarn"
@@ -177,7 +177,12 @@
       :current-page="pageObj.currentPage"
       @current-change="handPageChange"
     />
-  </custom-dialog>
+  </custom-dialog> -->
+  <warn-info-list-dialog
+    v-if="dialogTableVisible"
+    :visible="dialogTableVisible"
+    @closed="handleCloseWarnInfoDialog"
+  />
   <custom-dialog
     v-model:visible="dialogTableMessageVisible"
     :title="messageDialogTitle"
@@ -228,11 +233,7 @@
   </custom-dialog>
 </template>
 <script setup>
-import Icon from '@sutpc/vue3-svg-icon';
 import { ref, onMounted, reactive, inject } from 'vue';
-import ScrollTable from './components/scroll-table.vue';
-import MapLayer from './components/map-layer.vue';
-import dayjs from 'dayjs';
 import { tableColumnFun } from '@/global/commonFun.js';
 import {
   pageNumFun,
@@ -262,7 +263,11 @@ import {
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
-
+import Icon from '@sutpc/vue3-svg-icon';
+import ScrollTable from './components/scroll-table.vue';
+import MapLayer from './components/map-layer.vue';
+import WarnInfoListDialog from './components/warn-info-list-dialog.vue';
+import dayjs from 'dayjs';
 const storeVisible = useVisibleComponentStore();
 
 const aircityObj = inject('aircityObj');
@@ -457,9 +462,12 @@ const getOnlineStatusData = async (type) => {
 };
 
 const handleClick = () => {
-  pageObj.currentPage = 1;
+  // pageObj.currentPage = 1;
   dialogTableVisible.value = true;
-  getTableAlarm();
+  // getTableAlarm();
+};
+const handleCloseWarnInfoDialog = () => {
+  dialogTableVisible.value = false;
 };
 
 const getTableAlarm = async (level) => {
