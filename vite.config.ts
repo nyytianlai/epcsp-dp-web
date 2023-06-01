@@ -70,6 +70,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: env.VITE_BASE_URL,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
+        },
+        ['/web']: {
+          target: 'http://dev-tpaas.sutpc.com:8080',
+          changeOrigin: true
+          // rewrite: (path) => path.replace(/^\/web/, '')
         }
       }
     }

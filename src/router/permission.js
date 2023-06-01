@@ -7,25 +7,81 @@
  * @Description: FilePath
  */
 import router from './index';
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
-import { useMapStore } from '@/stores/map'
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useMapStore } from '@/stores/map';
+import { getToken } from '@/utils/auth';
+const whiteList = ['/login'];
 router.beforeEach(async (to, from, next) => {
-  const storeVisible = useVisibleComponentStore()
-  const store = useMapStore()
+  const hasToken = getToken();
+  if (hasToken) {
+    if (to.path === '/login') {
+      // if is logged in, redirect to the home page
 
-  storeVisible.changeShowComponent(true);
-  storeVisible.changeShowPanel(true);
-  storeVisible.changeShowDetail({
-    show: false,
-    params: {}
-  });
-  store.changeCurrentPosition('深圳市');
-  store.changeCurrentPositionBak('');
-  store.changeCurrentHrStationId('');
-  store.changeCurrentQu('');
-  store.changeCurrentJd('');
-  store.changeStationType([]);
-  store.changeButtomTabCode(1);
-  store.changeCurrentJdCode('')
-  next();
+      const storeVisible = useVisibleComponentStore();
+      const store = useMapStore();
+
+      storeVisible.changeShowComponent(true);
+      storeVisible.changeShowPanel(true);
+      storeVisible.changeShowDetail({
+        show: false,
+        params: {}
+      });
+      store.changeCurrentPosition('深圳市');
+      store.changeCurrentPositionBak('');
+      store.changeCurrentHrStationId('');
+      store.changeCurrentQu('');
+      store.changeCurrentJd('');
+      store.changeStationType([]);
+      store.changeButtomTabCode(1);
+      store.changeCurrentJdCode('');
+      next({ path: '/' });
+    } else {
+      const storeVisible = useVisibleComponentStore();
+      const store = useMapStore();
+
+      storeVisible.changeShowComponent(true);
+      storeVisible.changeShowPanel(true);
+      storeVisible.changeShowDetail({
+        show: false,
+        params: {}
+      });
+      store.changeCurrentPosition('深圳市');
+      store.changeCurrentPositionBak('');
+      store.changeCurrentHrStationId('');
+      store.changeCurrentQu('');
+      store.changeCurrentJd('');
+      store.changeStationType([]);
+      store.changeButtomTabCode(1);
+      store.changeCurrentJdCode('');
+      next();
+    }
+  } else {
+    /* has no token*/
+    if (whiteList.indexOf(to.path) !== -1) {
+      // in the free login whitelist, go directly
+      next();
+    } else {
+      // other pages that do not have permission to access are redirected to the login page.
+      next(`/login?redirect=${to.path}`);
+    }
+  }
+
+  // const storeVisible = useVisibleComponentStore();
+  // const store = useMapStore();
+
+  // storeVisible.changeShowComponent(true);
+  // storeVisible.changeShowPanel(true);
+  // storeVisible.changeShowDetail({
+  //   show: false,
+  //   params: {}
+  // });
+  // store.changeCurrentPosition('深圳市');
+  // store.changeCurrentPositionBak('');
+  // store.changeCurrentHrStationId('');
+  // store.changeCurrentQu('');
+  // store.changeCurrentJd('');
+  // store.changeStationType([]);
+  // store.changeButtomTabCode(1);
+  // store.changeCurrentJdCode('');
+  // next();
 });
