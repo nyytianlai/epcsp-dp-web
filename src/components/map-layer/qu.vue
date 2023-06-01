@@ -47,12 +47,10 @@ const stationType = computed(() => new Set(store.stationType));
 const buttomTabCode = computed(() => store.buttomTabCode);
 
 interface Props {
-  // buttomTabCode?: number | string;
   module: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  // buttomTabCode: '',
   module: 0
 });
 
@@ -64,8 +62,7 @@ const currentJd = computed(() => store.currentJd);
 const currentJdCode = computed(() => store.currentJdCode);
 const currentQu = computed(() => store.currentQu);
 
-const lastJd = computed(() => store.lastJd);
-const lastQu = computed(() => store.lastQu);
+const emits = defineEmits(['addQuBar']);
 
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
@@ -85,6 +82,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         if (quName === currentQu.value) {
           return;
         }
+        __g.polygon.setColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
         store.changeCurrentQu(quName);
         store.changeCurrentPosition(quName);
         __g.camera.set(...quView[currentQu.value]);
@@ -260,10 +258,16 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 
 const setQuVisibility = async (value: boolean) => {
   if (value) {
-    await __g.marker.show(layerNameQuNameArr('rectBar' + buttomTabCode.value));
-    await __g.marker.showAllPopupWindow();
+    if (props.module !== 4) {
+      emits('addQuBar');
+    } else {
+      await __g.marker.show(layerNameQuNameArr('rectBar' + buttomTabCode.value));
+      await __g.marker.showAllPopupWindow();
+    }
   } else {
-    await __g.marker.hide(layerNameQuNameArr('rectBar' + buttomTabCode.value));
+    props.module !== 4
+      ? await __g.marker.delete(layerNameQuNameArr('rectBar' + buttomTabCode.value))
+      : await __g.marker.hide(layerNameQuNameArr('rectBar' + buttomTabCode.value));
   }
 };
 const deleteJdData = async () => {

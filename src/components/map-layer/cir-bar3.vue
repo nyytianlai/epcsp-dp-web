@@ -69,7 +69,7 @@ const addBar = async (obj: {
     let countObj;
     let field = obj.type == 'qu' ? 'QUCODE' : 'JDCODE';
     let value;
-    console.log('gggggggg', countIsZero, item.properties.QUCODE);
+    // console.log('gggggggg', countIsZero, item.properties.QUCODE);
     if (
       countIsZero.includes(item.properties.QUCODE) ||
       countIsZero.includes(item.properties.JDCODE+'')
@@ -78,7 +78,7 @@ const addBar = async (obj: {
     }
     if (obj.code == 1) {
       countObj = res.data[item.properties[field]];
-      console.log(countObj);
+      // console.log(countObj);
 
       if (!countObj) {
         return;

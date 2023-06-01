@@ -96,7 +96,6 @@ const changeXzqhColor = (polygonId: string, newVal: [number, number, number, num
 defineExpose({ addBar });
 
 onMounted(async () => {
-  addBar('qu');
   bus.on('addBar', (e) => {
     addBar(e.type, e.quCode);
   });
