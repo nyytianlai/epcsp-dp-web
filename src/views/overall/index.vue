@@ -77,94 +77,11 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <template #titleSearch>
-      <el-input
-        v-model="inputWarn"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearchWarn"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="alarmTableData"
-      height="6.34rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-    >
-      <el-table-column
-        v-for="(item, index) in columnData"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-      >
-        <template #header v-if="item.prop === 'alarmLevelName'">
-          <div class="alarmLevelName">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filtersAlarmLevelName"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilter"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultAreaWarm"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-        <template #header v-if="item.prop === 'alarmTypeName'">
-          <div class="alarmTypeName">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filtersAlarmTypeName"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilterType"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultAreaWarmType"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="1">
-        <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="handPageChange"
-    />
-  </custom-dialog>
+  <today-warn-dialog
+    v-if="dialogTableVisible"
+    :visible="dialogTableVisible"
+    @closed="handleCloseTodayWarnDialog"
+  />
   <custom-dialog v-model:visible="dialogRankVisible" title="运营企业排名列表">
     <template #titleSearch>
       <el-input
@@ -213,13 +130,13 @@
   <RankDetail v-model="rankDetailVisible" ref="rankDetail" @goDetail="handleGoDetail"></RankDetail>
 </template>
 <script setup>
-import Icon from '@sutpc/vue3-svg-icon';
-
 import { onMounted, onUnmounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
+import Icon from '@sutpc/vue3-svg-icon';
+import TodayWarnDialog from './components/today-warn-dialog.vue';
 import RankDetail from './components/rank-detail.vue';
 import {
   overTotalCount,
@@ -246,12 +163,9 @@ import {
   warningTabsDataFun,
   warningListFun,
   bottomTabDataFun,
-  columnDataFun,
   columnDataRankFun,
   chargingStationTabsFun,
-  chargingStationGunTabsFun,
-  filtersAlarmLevelName,
-  filtersAlarmTypeName
+  chargingStationGunTabsFun
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
@@ -298,17 +212,6 @@ const warningListData = ref([]);
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const dialogTableVisible = ref(false);
-// 弹窗列名
-const columnData = ref(columnDataFun());
-const alarmTableData = ref([]);
-const pageObj = reactive({
-  pageSize: 8,
-  total: 0,
-  currentPage: 1
-});
-// 警告默认筛选
-const defaultAreaWarm = ref(['1', '2', '3']);
-const defaultAreaWarmType = ref(['1', '2', '3']);
 // 运营商数据
 const rankTableData = ref([]);
 // 运营企业排名弹窗显示标识
@@ -327,16 +230,11 @@ const sortRank = ref('station');
 const sortTypeRank = ref('desc');
 // 详情弹窗
 const rankDetailVisible = ref(false);
-// 告警搜索
-const inputWarn = ref();
 // 运营商id和name
 const operatorId = ref();
 const operatorName = ref();
 provide('operatorId', operatorId);
 provide('operatorName', operatorName);
-// 警告筛选
-const alarmLevel = ref();
-const alarmType = ref();
 // 弹窗列名
 const columnDataRank = ref(columnDataRankFun());
 const handleChangeTab = (data, type) => {
@@ -369,6 +267,9 @@ const handleClick = () => {
   console.log('handleClick');
   dialogTableVisible.value = true;
 };
+const handleCloseTodayWarnDialog = () => {
+  dialogTableVisible.value = false;
+};
 // 总览上面4个指标
 const getOverTotalCount = async () => {
   const res = await overTotalCount();
@@ -394,7 +295,7 @@ const getTotalEquipment = async () => {
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
 const getStationOpeTop10 = async (type) => {
   const res = await stationOpeTop10(type);
-  console.log(res);
+  // console.log(res);
   if (res?.data) {
     const data = res.data.map((item) => {
       return {
@@ -473,28 +374,6 @@ const getTimePowerGraph = async () => {
   lineTimeData.value = lineTimeDataFun(res.data);
 };
 
-const getTableAlarm = async () => {
-  const params = {
-    alarmLevel: alarmLevel.value,
-    alarmType: alarmType.value,
-    pageNum: pageObj.currentPage,
-    pageSize: pageObj.pageSize,
-    searchContent: inputWarn.value
-  };
-  const res = await alarmInfo(params);
-  if (res.data && res.data.list) {
-    alarmTableData.value = res.data.list;
-    pageObj.total = res?.data?.total;
-  } else {
-    alarmTableData.value = [];
-    pageObj.total = 0;
-  }
-};
-// table数据
-const handPageChange = (value) => {
-  pageObj.currentPage = value;
-  getTableAlarm();
-};
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {
   dialogRankVisible.value = true;
@@ -561,44 +440,6 @@ const handleTabBtn = (item) => {
   getTotalEquipment();
 };
 
-// 警告级别筛选
-const handleFilter = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes('all')) {
-    alarmLevel.value = [];
-    getTableAlarm();
-  } else {
-    // 存在筛选
-    alarmLevel.value = temp;
-    getTableAlarm();
-  }
-};
-// 警告类型筛选
-const handleFilterType = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes('all')) {
-    alarmType.value = [];
-    getTableAlarm();
-  } else {
-    // 存在筛选
-    alarmType.value = temp;
-    getTableAlarm();
-  }
-};
-
-// 告警搜索
-const handleSearchWarn = () => {
-  getTableAlarm();
-};
-// 告警详情
-const handleDetailWarn = (item) => {
-  console.log('item', item);
-  dialogTableVisible.value = false;
-  // 展示站点
-  toSingleStation(aircityObj.value?.acApi, item.row);
-};
 // 运营商排名搜索
 const handleSearch = () => {
   loadOperatorInfoList();
@@ -614,7 +455,6 @@ onMounted(() => {
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
-  getTableAlarm();
   loadOperatorInfoList();
   timer = setInterval(() => {
     getDayEquInfo(realtimeCode.value);
