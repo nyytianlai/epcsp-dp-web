@@ -525,10 +525,14 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     __g.infoTree.focus('FF75D7BF4BBD3C2CC3C30BA362A7A6DA');
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
-    __g.infoTree.focus('506123D84C2F3ED94B67EFB36FB794D1');
+    isShow
+      ? __g.camera.set(529641.505938, 2520221.205625, 104.135469, -24.341509, -121.81752, 3)
+      : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
-    __g.infoTree.focus('AFCEFF9249C56F2CB113B5A6A9FCFFE3');
+    isShow
+      ? __g.camera.set(497294.072324, 2493997.410078, 119.62833, -38.835747, -131.93457, 3)
+      : '';
   }
 };
 
@@ -681,7 +685,7 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz, deleteJdData,addStationPoint});
+defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint });
 onMounted(async () => {
   await __g.reset();
   hideAllStation3dt(__g, store.treeInfo);
@@ -709,7 +713,14 @@ onMounted(async () => {
   });
   bus.on(
     'searchEnterStation',
-    async (e: { isHr: 0 | 1; operatorId: string; stationId: string; lng: number; lat: number;[key:string]:any }) => {
+    async (e: {
+      isHr: 0 | 1;
+      operatorId: string;
+      stationId: string;
+      lng: number;
+      lat: number;
+      [key: string]: any;
+    }) => {
       if (e.isHr) {
         enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);
@@ -722,7 +733,7 @@ onMounted(async () => {
             operatorId: e.operatorId,
             stationId: e.stationId,
             isHr: e.isHr,
-            equipmentId:e.eid
+            equipmentId: e.eid
           }
         });
         bus.emit('toHr', e);

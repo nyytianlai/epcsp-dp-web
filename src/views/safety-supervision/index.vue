@@ -90,94 +90,11 @@
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <template #titleSearch>
-      <el-input
-        v-model="inputWarn"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearchWarn"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="alarmTableData"
-      height="6.34rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-    >
-      <el-table-column
-        v-for="(item, index) in columnData"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-      >
-        <template #header v-if="item.prop === 'alarmLevelName'">
-          <div class="alarmLevelName">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filtersAlarmLevelName"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilter"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultAreaWarm"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-        <template #header v-if="item.prop === 'alarmTypeName'">
-          <div class="alarmTypeName">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filtersAlarmTypeName"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilterType"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultAreaWarmType"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="1">
-        <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="handPageChange"
-    />
-  </custom-dialog>
+  <warn-info-list-dialog
+    v-if="dialogTableVisible"
+    :visible="dialogTableVisible"
+    @closed="handleCloseWarnInfoDialog"
+  />
   <custom-dialog
     v-model:visible="dialogTableMessageVisible"
     :title="messageDialogTitle"
@@ -223,16 +140,12 @@
       :total="pageObj.total"
       :background="true"
       :current-page="pageObj.currentPage"
-      @current-change="(value) => handPageChange(value, 'total-message')"
+      @current-change="(value) => handPageChange(value)"
     />
   </custom-dialog>
 </template>
 <script setup>
-import Icon from '@sutpc/vue3-svg-icon';
 import { ref, onMounted, reactive, inject } from 'vue';
-import ScrollTable from './components/scroll-table.vue';
-import MapLayer from './components/map-layer.vue';
-import dayjs from 'dayjs';
 import { tableColumnFun } from '@/global/commonFun.js';
 import {
   pageNumFun,
@@ -244,11 +157,8 @@ import {
   realtimeStateDataFun,
   realtimeTrendFun,
   bottomTabDataFun,
-  columnDataFun,
   columnKeyListFun,
-  messageColumnKeyListFun,
-  filtersAlarmLevelName,
-  filtersAlarmTypeName
+  messageColumnKeyListFun
 } from './config.js';
 import {
   getAlarmUpStatics,
@@ -262,14 +172,16 @@ import {
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
-
+import Icon from '@sutpc/vue3-svg-icon';
+import ScrollTable from './components/scroll-table.vue';
+import MapLayer from './components/map-layer.vue';
+import WarnInfoListDialog from './components/warn-info-list-dialog.vue';
+import dayjs from 'dayjs';
 const storeVisible = useVisibleComponentStore();
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const dialogTableVisible = ref(false);
-const columnData = ref(columnDataFun());
-const alarmTableData = ref([]);
 const pageObj = reactive({
   pageSize: 8,
   total: 0,
@@ -277,9 +189,6 @@ const pageObj = reactive({
 });
 // 左一搜索
 const inputWarnLeft = ref();
-// 警告筛选
-const alarmLevel = ref();
-const alarmType = ref();
 // 告警级别tab高亮
 const totalCurCode = ref(1);
 // 累计告警数据信息弹窗显隐
@@ -290,9 +199,6 @@ const messageTableData = ref([]);
 const messageWarningType = ref(1);
 // 告警趋势
 const dayTypeAlarm = ref(1);
-// 警告默认筛选
-const defaultAreaWarm = ref(['1', '2', '3']);
-const defaultAreaWarmType = ref(['1', '2', '3']);
 // 左侧球的数据
 const realtimeState = ref([]);
 // 底部icon的code
@@ -317,8 +223,6 @@ const sort = ref(0);
 const sortType = ref(2);
 // 充电桩实时按钮
 const nowStatus = ref(3);
-// 告警搜索
-const inputWarn = ref();
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const getAlarmUpStaticsData = async () => {
@@ -457,28 +361,13 @@ const getOnlineStatusData = async (type) => {
 };
 
 const handleClick = () => {
-  pageObj.currentPage = 1;
+  // pageObj.currentPage = 1;
   dialogTableVisible.value = true;
-  getTableAlarm();
+};
+const handleCloseWarnInfoDialog = () => {
+  dialogTableVisible.value = false;
 };
 
-const getTableAlarm = async (level) => {
-  const params = {
-    alarmLevel: alarmLevel.value,
-    alarmType: alarmType.value,
-    pageNum: pageObj.currentPage,
-    pageSize: pageObj.pageSize,
-    searchContent: inputWarn.value
-  };
-  const res = await alarmInfo(params);
-  if (res.data && res.data.list) {
-    alarmTableData.value = res.data.list;
-    pageObj.total = res?.data?.total;
-  } else {
-    alarmTableData.value = [];
-    pageObj.total = 0;
-  }
-};
 // 获取左一警告信息
 const loadGetSafetySupervisionAccumulated = async () => {
   const data = await getSafetySupervisionAccumulated(
@@ -493,14 +382,9 @@ const loadGetSafetySupervisionAccumulated = async () => {
   pageObj.total = data?.total || 0;
 };
 // table数据
-const handPageChange = async (value, type) => {
-  if (type === 'total-message') {
-    pageObj.currentPage = value;
-    loadGetSafetySupervisionAccumulated();
-  } else {
-    pageObj.currentPage = value;
-    getTableAlarm();
-  }
+const handPageChange = async (value) => {
+  pageObj.currentPage = value;
+  loadGetSafetySupervisionAccumulated();
 };
 // 右三日周年点击
 const handleYearBtn = (value) => {
@@ -539,43 +423,6 @@ const handleBall = (item) => {
   console.log('ball', item);
   // todo
   mapLayerRef.value.alarmTypeChange(item);
-};
-// 告警搜索
-const handleSearchWarn = () => {
-  getTableAlarm();
-};
-// 警告级别筛选
-const handleFilter = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes('all')) {
-    alarmLevel.value = [];
-    getTableAlarm();
-  } else {
-    // 存在筛选
-    alarmLevel.value = temp;
-    getTableAlarm();
-  }
-};
-// 警告类型筛选
-const handleFilterType = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes('all')) {
-    alarmType.value = [];
-    getTableAlarm();
-  } else {
-    // 存在筛选
-    alarmType.value = temp;
-    getTableAlarm();
-  }
-};
-// 告警详情
-const handleDetailWarn = (item) => {
-  console.log('item', item);
-  dialogTableVisible.value = false;
-  // 展示站点
-  toSingleStation(aircityObj.value?.acApi, item.row);
 };
 
 // 左一详情搜索

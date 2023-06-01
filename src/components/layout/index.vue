@@ -68,7 +68,7 @@ const currentPosition = computed(() => mapStore.currentPosition); //所在位置
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const ifHawkEye = computed(
-  () => currentPosition.value.includes('市') || currentPosition.value.includes('区')
+  () => currentPosition.value.includes('市')
 );
 const wrapperMap = new Map();
 const router = useRouter();

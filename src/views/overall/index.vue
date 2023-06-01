@@ -194,9 +194,7 @@
         :formatter="tableColumnFun"
         :sortable="item.sortable"
         :sort-orders="item.sortOrders"
-      >
-        <template #default="scope"></template>
-      </el-table-column>
+      ></el-table-column>
       <el-table-column label="操作" key="operation" minWidth="1">
         <template #default="scope">
           <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
@@ -393,6 +391,7 @@ const getTotalEquipment = async () => {
 //运营企业年度TOP10-充电桩:pile,充电枪:gun,充电站:station
 const getStationOpeTop10 = async (type) => {
   const res = await stationOpeTop10(type);
+  console.log(res);
   if (res?.data) {
     const data = res.data.map((item) => {
       return {
