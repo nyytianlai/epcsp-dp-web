@@ -61,9 +61,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         {
           find: /\@\//,
           replacement: `${pathResolve('src')}/`
-        },
-        {
-          "vue":"https://esm.sh/vue@3.2.41",
         }
       ]
     },
