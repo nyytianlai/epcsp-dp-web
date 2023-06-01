@@ -215,9 +215,9 @@ const getOverTotalCount = async () => {
 const getTotalFacilities = async () => {
   const res = await totalFacilities();
   const data = {
-    totalChargingStations: 7257,
-    totalOperating: 139,
-    totalNewEnergyVehicles: 76.6
+    totalChargingStations: res.data.totalChargingStations,
+    totalOperating: res.data.totalOperating,
+    totalNewEnergyVehicles: res.data.totalNewEnergyVehicles
   };
   cardData.value = cdsszlFun(data);
 };
