@@ -78,6 +78,7 @@ let routesMap = [
     path: '/',
     redirect: { name: 'overviewAll' }
   },
+
   {
     path: '/overview',
     name: 'overview',
@@ -93,6 +94,14 @@ let routesMap = [
     ]
   },
   ...routes,
+  {
+    path: '/login',
+    name: 'Login',
+    meta: {
+      title: '登录'
+    },
+    component: () => import(/* webpackChunkName: "user" */ '@/views/user/login.vue')
+  },
   {
     path: '/station',
     name: 'station',
