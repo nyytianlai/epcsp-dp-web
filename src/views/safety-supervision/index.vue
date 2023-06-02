@@ -413,9 +413,12 @@ const handleChoose = (item) => {
 };
 // 实时状态球选中
 const handleBall = (item) => {
+  if (bottomCode.value !== 2) {
+    return;
+  }
   if (nowStatus.value !== 3) return;
   item.isChoose = !item.isChoose;
-  bottomCode.value = 2;
+  // bottomCode.value = 2;
   // 实时状态情况交互，今日设备告警监控变false
   warningMonitorPieData.value.forEach((i) => {
     i.isChoose = false;
