@@ -10,7 +10,7 @@
   <page-num :data="pageNumData" />
   <panel>
     <div class="citizens-feedback">
-      <title-column title="市民反馈情况" :showBtn="true" @handleClick="handleDetailClickDetail" />
+      <title-column title="市民反馈情况" :showBtn="true" @handleClick="handleOpenCityzensDialog" />
       <div class="ec-box">
         <ec-resize :option="ecOption" />
       </div>
@@ -58,13 +58,18 @@
     </div>
   </panel>
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <hot-station-rank
+  <hot-station-rank-dialog
     v-if="dialogTableVisibleHot"
     :visible="dialogTableVisibleHot"
     :timeType="timeType"
     @closed="handleCloseHotDialog"
   />
-  <custom-dialog v-model:visible="dialogTableVisibleDetail" title="市民反馈情况列表">
+  <citizens-feedback-dialog
+    v-if="dialogVisibleCitizens"
+    :visible="dialogVisibleCitizens"
+    @closed="handleCloseCitizensDialog"
+  />
+  <!-- <custom-dialog v-model:visible="dialogVisibleCitizens" title="市民反馈情况列表">
     <template #titleSearch>
       <el-input
         v-model="inputDetail"
@@ -123,72 +128,42 @@
       :current-page="pageObjDetail.currentPage"
       @current-change="handPageChangeDetail"
     />
-  </custom-dialog>
+  </custom-dialog> -->
 </template>
-<script setup>
-import Icon from '@sutpc/vue3-svg-icon';
-import { ref, onMounted, reactive, inject, watch, nextTick } from 'vue';
-import ScrollTable from './components/scroll-table.vue';
-import MapLayer from './components/map-layer.vue';
-import HotStationRank from './components/hot-station-rank.vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import EcResize from '@sutpc/vue3-ec-resize';
-import { tableColumnFun } from '@/global/commonFun.js';
+<script lang="ts" setup>
+import { ref, onMounted, inject, watch, nextTick } from 'vue';
 import {
   hotCharging,
   monthRate,
   personFeedback,
   selectChargeEquipmentStatistics,
   overTotalCount,
-  getChargeStatus,
-  stationRankingDetail,
-  feedbackDetail
+  getChargeStatus
 } from './api.js';
 import {
   pageNumFun,
   chargingStationTabsFun,
-  hotChargingDataFun,
   deviceDataFun,
   chargingTypesTabsFun,
   chargingTypePieDataFun,
-  monthRateDataFun,
-  ecOptionFun,
-  filtersDetail,
-  columnDataDetailFun
+  ecOptionFun
 } from './config.js';
-const storeVisible = useVisibleComponentStore();
+// import ScrollTable from './components/scroll-table.vue';
+import MapLayer from './components/map-layer.vue';
+import HotStationRankDialog from './components/hot-station-rank-dialog.vue';
+import CitizensFeedbackDialog from './components/citizens-feedback-dialog.vue';
+import EcResize from '@sutpc/vue3-ec-resize';
+
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const mapData = ref([]);
 // 热门弹窗
 const dialogTableVisibleHot = ref(false);
 const ecOption = ref(ecOptionFun());
-// 默认区
-const defaultDetail = ref(['有车站位', '桩位不放开', '无法充电', '找不到电桩', '其他']);
-// 默认区
-const defaultArea = ref([
-  440303, 440304, 440305, 440306, 440307, 440308, 440309, 440310, 440311, 440343, 441521
-]);
-// 充电设施列表分页
-const pageObj = reactive({
-  pageSize: 8,
-  total: 0,
-  currentPage: 1
-});
 // 年月日
 const timeType = ref('day');
 // 市民弹窗
-const dialogTableVisibleDetail = ref(false);
-const inputDetail = ref();
-const detailTableData = ref([]);
-const columnDataDetail = ref(columnDataDetailFun());
-const detailList = ref([]);
-// 市民分页
-const pageObjDetail = reactive({
-  pageSize: 8,
-  total: 0,
-  currentPage: 1
-});
+const dialogVisibleCitizens = ref(false);
 // 充电tab
 const chargingStationTabs = ref(chargingStationTabsFun());
 // 头部累计数据
@@ -202,8 +177,6 @@ const monthRateData = ref([]);
 const totalMonthRateNum = ref(0);
 
 const feedBackData = ref([]);
-// 区域数据
-const areaList = ref([]);
 // 总览上面4个指标
 const getOverTotalCount = async () => {
   const res = await overTotalCount();
@@ -220,28 +193,6 @@ const chargeTimesTotal = ref(0);
 // 充电tab
 const codeCharge = ref(1);
 
-// 获取市民列表
-const loadFeedbackDetail = async () => {
-  // 在第一次请求的时候，生成序号
-  if (columnDataDetail.value.findIndex((i) => i.type === 'index') === -1) {
-    const temp = {
-      type: 'index',
-      label: '序号',
-      index: (index) => (pageObjDetail.currentPage - 1) * pageObjDetail.pageSize + index + 1,
-      minWidth: 1
-    };
-    columnDataDetail.value.unshift(temp);
-  }
-  const res = await feedbackDetail({
-    pageNum: pageObjDetail.currentPage,
-    pageSize: pageObjDetail.pageSize,
-    problemType: detailList.value,
-    searchContent: inputDetail.value
-  });
-  detailTableData.value = res.data?.list;
-  pageObjDetail.total = res.data?.total;
-  console.log('rrrrrr', res);
-};
 // 热门充电站TOP10
 const getHotCharging = async () => {
   const res = await hotCharging({
@@ -330,33 +281,14 @@ const handleCloseHotDialog = () => {
   dialogTableVisibleHot.value = false;
 };
 
-// 打开市民反馈问题详情
-const handleDetailClickDetail = () => {
-  dialogTableVisibleDetail.value = true;
+// 打开/关闭市民反馈问题详情
+const handleOpenCityzensDialog = () => {
+  dialogVisibleCitizens.value = true;
 };
-// 市民搜索
-const handleSearchDetail = () => {
-  // 接口
-  loadFeedbackDetail();
+const handleCloseCitizensDialog = () => {
+  dialogVisibleCitizens.value = false;
 };
-// 市民筛选
-const handleFilterDetail = (value, data) => {
-  const temp = data.checkedKeys;
-  // 全部
-  if (temp.includes('all')) {
-    detailList.value = [];
-    loadFeedbackDetail();
-  } else {
-    // 存在筛选
-    detailList.value = temp;
-    loadFeedbackDetail();
-  }
-};
-// 市民分页
-const handPageChangeDetail = (value) => {
-  pageObjDetail.currentPage = value;
-  loadFeedbackDetail();
-};
+
 onMounted(() => {
   getOverTotalCount();
   getHotCharging();
@@ -364,7 +296,6 @@ onMounted(() => {
   getPersonFeedback();
   getChargeEquipmentStatistics();
   getChargeStatusData('pile');
-  loadFeedbackDetail();
 });
 
 watch([aircityObj, mapData], async () => {
