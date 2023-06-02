@@ -23,7 +23,7 @@ const handleCloseVideo = () => {
 };
 // 默认ip配置
 const WsConfig = {
-  TunnelWS: 'ws://10.10.50.11'
+  TunnelWS: 'ws://10.10.50.11:1514'
 };
 // 测试加载时间
 let startLoadTime = new Date().getTime();

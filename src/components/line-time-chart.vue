@@ -448,7 +448,7 @@ const ecOptionFunMode = () => {
 watch(
   data,
   () => {
-    console.log('data111', data.value);
+    // console.log('data111', data.value);
     ecOption.value = props.mode ? ecOptionFunMode() : ecOptionFun();
   },
   {

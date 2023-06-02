@@ -147,7 +147,7 @@
   </custom-dialog>
 </template>
 <script setup>
-import { ref, onMounted, reactive, inject } from 'vue';
+import { ref, onMounted, onUnmounted, reactive, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import MapLayer from './components/map-layer.vue';
 import ChargingNumImages from './components/charging-num-images.vue';
@@ -416,18 +416,6 @@ const handleYearBtn = (item) => {
   dayType.value = item.value;
   getSelectChargeCountByArea();
 };
-onMounted(() => {
-  getSelectChargeCount(1);
-  getSelectChargeCountByArea();
-  getSelectChargeEquipmentStatistics();
-  getSelectHrStationInfo();
-  getSelectPowerSumByDayTime();
-  getSelectChargeEquipmentStatus(1);
-  getChargeEquipmentStatusByTime(1);
-  getChargeEquipmentUseRate(1);
-  getChargeEquipmentUseRateByTime(1);
-  getSelectStationInfoByPage();
-});
 const handleChangeTab = (data, type) => {
   if (type === 'charging-station') {
     //切换充电桩数量信息
@@ -443,6 +431,28 @@ const handleChangeTab = (data, type) => {
     getChargeEquipmentUseRateByTime(data.code);
   }
 };
+
+let timer = null;
+onMounted(() => {
+  getSelectChargeCount(1);
+  getSelectChargeCountByArea();
+  getSelectChargeEquipmentStatistics();
+  getSelectHrStationInfo();
+  getSelectPowerSumByDayTime();
+  getSelectChargeEquipmentStatus(1);
+  getChargeEquipmentStatusByTime(1);
+  getChargeEquipmentUseRate(1);
+  getChargeEquipmentUseRateByTime(1);
+  getSelectStationInfoByPage();
+  timer = setInterval(() => {
+    getSelectPowerSumByDayTime();
+  }, 1000 * 60);
+});
+
+onUnmounted(() => {
+  clearInterval(timer);
+  timer = null;
+});
 </script>
 <style lang="less" scoped>
 .charging-station-num {

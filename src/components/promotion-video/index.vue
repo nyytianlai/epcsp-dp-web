@@ -21,7 +21,7 @@ import { ref, onMounted, nextTick } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 const videoRef = ref();
 const muted = ref(true);
-const videoUrl = ref('http://10.10.2.63:9109/lx/videos/home_video.mp4');
+const videoUrl = ref('/promotion/lx/videos/home_video.mp4');
 const store = useVisibleComponentStore();
 // 视频播放状态
 let playStatus = '';

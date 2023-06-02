@@ -321,8 +321,8 @@ const realtimeStateData = ref(realtimeStateDataFun());
 const realtimeTrend = ref(realtimeTrendFun());
 const getAlarmLevelAndTypeByTIme = async () => {
   let { data } = await alarmLevelAndTypeByTIme({ dayType: dayTypeAlarm.value });
-  console.log('data', data);
-  console.log('dayTypeAlarm', dayTypeAlarm.value);
+  // console.log('data', data);
+  // console.log('dayTypeAlarm', dayTypeAlarm.value);
   realtimeTrend.value = realtimeTrendFun(data || [], dayTypeAlarm.value);
 };
 //底部button
@@ -355,7 +355,7 @@ const handleChangeTab = async (data, type) => {
 
 const getOnlineStatusData = async (type) => {
   const res = await getOnlineStatus(type);
-  console.log(res, '------online');
+  // console.log(res, '------online');
   realtimeState.value = res.data;
   realtimeStateData.value = realtimeStateDataFun(type, res.data);
 };
@@ -379,7 +379,7 @@ const loadGetSafetySupervisionAccumulated = async () => {
     sortType.value
   );
   messageTableData.value = data?.dataList || [];
-  pageObj.total = data?.total || 0;
+  pageObj.total = data?.totalData || 0;
 };
 // table数据
 const handPageChange = async (value) => {
@@ -413,9 +413,12 @@ const handleChoose = (item) => {
 };
 // 实时状态球选中
 const handleBall = (item) => {
+  if (bottomCode.value !== 2) {
+    return;
+  }
   if (nowStatus.value !== 3) return;
   item.isChoose = !item.isChoose;
-  bottomCode.value = 2;
+  // bottomCode.value = 2;
   // 实时状态情况交互，今日设备告警监控变false
   warningMonitorPieData.value.forEach((i) => {
     i.isChoose = false;
