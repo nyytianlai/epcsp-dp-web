@@ -49,6 +49,7 @@ axios.interceptors.request.use(
 // 允许业务自定义返回的拦截器
 // axios.interceptors.request.use();
 const err = (error) => {
+  console.log(error);
   if (error.response) {
     const data = error.response.data;
     // const token = getToken()
