@@ -166,8 +166,7 @@ import {
   districtAlarmStatics,
   alarmLevelAndTypeByTime,
   alarmLevelAndTypeByTIme,
-  getOnlineStatus,
-  alarmInfo
+  getOnlineStatus
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
