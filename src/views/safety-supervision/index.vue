@@ -321,8 +321,8 @@ const realtimeStateData = ref(realtimeStateDataFun());
 const realtimeTrend = ref(realtimeTrendFun());
 const getAlarmLevelAndTypeByTIme = async () => {
   let { data } = await alarmLevelAndTypeByTIme({ dayType: dayTypeAlarm.value });
-  console.log('data', data);
-  console.log('dayTypeAlarm', dayTypeAlarm.value);
+  // console.log('data', data);
+  // console.log('dayTypeAlarm', dayTypeAlarm.value);
   realtimeTrend.value = realtimeTrendFun(data || [], dayTypeAlarm.value);
 };
 //底部button
@@ -355,7 +355,7 @@ const handleChangeTab = async (data, type) => {
 
 const getOnlineStatusData = async (type) => {
   const res = await getOnlineStatus(type);
-  console.log(res, '------online');
+  // console.log(res, '------online');
   realtimeState.value = res.data;
   realtimeStateData.value = realtimeStateDataFun(type, res.data);
 };
