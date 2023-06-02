@@ -75,6 +75,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'http://dev-tpaas.sutpc.com:8080',
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
+        },
+        ['/promotion']: {
+          target: 'http://10.10.2.63:9109',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/promotion/, '')
         }
       }
     }

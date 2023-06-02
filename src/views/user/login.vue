@@ -89,7 +89,6 @@ const handleLogin = async (formEl) => {
           const data = res.data || {};
           sessionStorage.setItem('login-username', data);
           const profile = await getProfile();
-          console.log(profile);
           if (profile) {
             const token = profile.data.profile.__token;
             setToken(token);
