@@ -114,7 +114,7 @@ type AlarmType = {
 const alarmTypeChange = async (item: AlarmType) => {
   console.log('类型改变参数', item);
   if (item.positionCode !== buttomTabCode.value) {
-    buttomTabChange(item.positionCode, [item.typeCode]);
+    // buttomTabChange(item.positionCode, [item.typeCode]);
     return;
   }
   let legendListData = buttomTabCode.value == 1 ? legendListData1 : legendListData2;
