@@ -379,7 +379,7 @@ const loadGetSafetySupervisionAccumulated = async () => {
     sortType.value
   );
   messageTableData.value = data?.dataList || [];
-  pageObj.total = data?.total || 0;
+  pageObj.total = data?.totalData || 0;
 };
 // table数据
 const handPageChange = async (value) => {
