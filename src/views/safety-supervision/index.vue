@@ -48,7 +48,7 @@
       />
       <pie-chart
         :data="warningMonitorPieData"
-        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        :mode="totalCurCode === 1 && bottomCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="['#E10105', '#DD6701', '#FAF102']"
       />
@@ -403,7 +403,10 @@ const handleWarmYearBtn = (value) => {
 // 告警选中
 const handleChoose = (item) => {
   console.log('告警选中', item);
-  bottomCode.value = 1;
+  if (bottomCode.value !== 1) {
+    return;
+  }
+  // bottomCode.value = 1;
   // 今日设备告警交互，实时状态变false
   realtimeStateData.value.forEach((i) => {
     i.isChoose = false;
