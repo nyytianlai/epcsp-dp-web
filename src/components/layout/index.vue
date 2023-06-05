@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
@@ -61,17 +61,17 @@ import { routes } from '@/router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { storeToRefs } from 'pinia';
 import { h } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useMapStore } from '@/stores/map';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
 const { treeInfo } = storeToRefs(useMapStore());
-const ifHawkEye = computed(
-  () => currentPosition.value.includes('市')
-);
+const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
 const router = useRouter();
+const route = useRoute();
+console.log(route);
 const props = defineProps({
   title: {
     type: String,

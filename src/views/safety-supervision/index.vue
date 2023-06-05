@@ -48,7 +48,7 @@
       />
       <pie-chart
         :data="warningMonitorPieData"
-        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        :mode="totalCurCode === 1 && bottomCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="['#E10105', '#DD6701', '#FAF102']"
       />
@@ -166,8 +166,7 @@ import {
   districtAlarmStatics,
   alarmLevelAndTypeByTime,
   alarmLevelAndTypeByTIme,
-  getOnlineStatus,
-  alarmInfo
+  getOnlineStatus
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
@@ -379,7 +378,7 @@ const loadGetSafetySupervisionAccumulated = async () => {
     sortType.value
   );
   messageTableData.value = data?.dataList || [];
-  pageObj.total = data?.total || 0;
+  pageObj.total = data?.totalData || 0;
 };
 // table数据
 const handPageChange = async (value) => {
@@ -403,7 +402,10 @@ const handleWarmYearBtn = (value) => {
 // 告警选中
 const handleChoose = (item) => {
   console.log('告警选中', item);
-  bottomCode.value = 1;
+  if (bottomCode.value !== 1) {
+    return;
+  }
+  // bottomCode.value = 1;
   // 今日设备告警交互，实时状态变false
   realtimeStateData.value.forEach((i) => {
     i.isChoose = false;
@@ -413,9 +415,12 @@ const handleChoose = (item) => {
 };
 // 实时状态球选中
 const handleBall = (item) => {
+  if (bottomCode.value !== 2) {
+    return;
+  }
   if (nowStatus.value !== 3) return;
   item.isChoose = !item.isChoose;
-  bottomCode.value = 2;
+  // bottomCode.value = 2;
   // 实时状态情况交互，今日设备告警监控变false
   warningMonitorPieData.value.forEach((i) => {
     i.isChoose = false;

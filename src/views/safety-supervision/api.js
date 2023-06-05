@@ -89,7 +89,7 @@ export const getOnlineStatus = (type) => {
 };
 const timeParams = () => ({
   startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-  endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
 });
 //今日告警信息 /dp/api/v1/overview/alarmInfo
 export const alarmInfo = (params) => {

@@ -70,7 +70,7 @@ const querySearchAsync = async (queryString, cb) => {
   console.log('搜索返回的数据', rep);
   if (rep.length) {
     rep.forEach((item) => {
-      item.value = item.stationName;
+      item.value = `${item.stationName}-${item.operatorName}`;
     });
   } else {
     rep = [{ value: '无匹配结果' }];
@@ -83,6 +83,8 @@ const handleSearch = async (value) => {
     return;
   }
   console.log('搜索框选择数据', value);
+  searchInput.value = ''
+  isSearchCollapsed.value = false
   toSingleStation(__g, value);
 };
 </script>
