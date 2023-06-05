@@ -78,20 +78,6 @@ let routesMap = [
     path: '/',
     redirect: { name: 'overviewAll' }
   },
-  // {
-  //   path: '/',
-  //   name: 'Layout',
-  //   meta: { title: '总览' },
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       name: 'Home',
-  //       path: '/home',
-  //       meta: { title: '首页', keepAlive: false },
-  //       component: () => import('@/views/home/index.vue')
-  //     }
-  //   ]
-  // },
   {
     path: '/overview',
     name: 'overview',
