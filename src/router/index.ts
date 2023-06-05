@@ -76,22 +76,37 @@ export const routes = [
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'overviewAll' }
+    redirect: { name: 'Home' }
   },
   {
-    path: '/overview',
-    name: 'overview',
+    path: '/',
+    name: 'Layout',
     meta: { title: '总览' },
-    component: Layout2,
+    component: Layout,
     children: [
       {
-        name: 'overviewAll',
-        path: '/overview/all',
-        meta: { title: '总览', keepAlive: false },
-        component: () => import('@/views/iframe/index.vue')
+        name: 'Home',
+        path: '/home',
+        meta: { title: '首页', keepAlive: false },
+        component: () => import('@/views/home/index.vue')
       }
     ]
   },
+
+  // {
+  //   path: '/overview',
+  //   name: 'overview',
+  //   meta: { title: '总览' },
+  //   component: Layout2,
+  //   children: [
+  //     {
+  //       name: 'overviewAll',
+  //       path: '/overview/all',
+  //       meta: { title: '总览', keepAlive: false },
+  //       component: () => import('@/views/iframe/index.vue')
+  //     }
+  //   ]
+  // },
   ...routes,
   {
     path: '/login',

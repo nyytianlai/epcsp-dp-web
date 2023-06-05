@@ -1,3 +1,5 @@
+import ztsyl from '@/views/charging-station/images/ztsyl.png';
+import ncd from './images/ncd.png';
 export const pageNumFun = (data = {}) => {
   return {
     overview: [
@@ -21,4 +23,23 @@ export const pageNumFun = (data = {}) => {
       }
     ]
   };
+};
+
+export const chargingStationsFun = (data = {}) => {
+  return [
+    {
+      img: ztsyl,
+      num: 6399,
+      unit: '个',
+      name: '充电站总数',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ncd,
+      num: 2.66,
+      unit: '亿KWh',
+      name: '年充电量',
+      classStyleType: 'leftRightStyleYellow5858'
+    }
+  ];
 };
