@@ -17,16 +17,16 @@ import Layout2 from '@/components/layout2/index.vue';
 
 export const routes = [
   {
-    path: '/overall',
-    name: 'overall',
+    path: '/charging',
+    name: 'Charging',
     meta: { title: '充电站' },
     component: Layout,
     children: [
       {
-        name: 'overallAllView',
-        path: '/overall/allView',
+        name: 'ChargingStation',
+        path: '/charging/station',
         meta: { title: '充电站', keepAlive: false },
-        component: () => import('@/views/overall/index.vue')
+        component: () => import('@/views/charging-station/index.vue')
       }
     ]
   },
@@ -78,7 +78,6 @@ let routesMap = [
     path: '/',
     redirect: { name: 'overviewAll' }
   },
-
   {
     path: '/overview',
     name: 'overview',
