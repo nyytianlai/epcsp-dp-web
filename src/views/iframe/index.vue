@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="play-btn" @click="handlePlayVideo"></div>
-    <div class="charging-station" @click="routerChange('/overall/allView')"></div>
+    <div class="charging-station" @click="routerChange('/charging/station')"></div>
   </div>
 </template>
 <script lang="ts" setup>
