@@ -12,12 +12,14 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useSystemStore } from '@/stores/system';
 interface Tab {
   type: string;
   text?: string;
   path?: string;
 }
+const router = useRouter();
 const tabs = [
   {
     text: '总览',
@@ -45,6 +47,9 @@ const store = useSystemStore();
 const activeTab = computed(() => store.homeTab);
 const handleTabClick = (tab: Tab) => {
   store.changeHomeTab(tab.type);
+  if (tab.path) {
+    router.push(tab.path);
+  }
 };
 </script>
 
