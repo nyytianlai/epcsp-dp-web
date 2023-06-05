@@ -83,6 +83,8 @@ const handleSearch = async (value) => {
     return;
   }
   console.log('搜索框选择数据', value);
+  searchInput.value = ''
+  isSearchCollapsed.value = false
   toSingleStation(__g, value);
 };
 </script>
