@@ -16,7 +16,7 @@
       <div class="bgc"></div>
       <icon icon="svg-icon:arrow" class="arrow" />
       <span class="title">{{ title }}</span>
-      <icon icon="svg-icon:car" class="car" />
+      <icon :icon="`svg-icon:${icon}`" class="car" />
     </div>
     <div class="right-bgc">
       <div class="bevel-edge"></div>
@@ -42,6 +42,7 @@ interface Props {
   showBtn?: boolean;
   showTabBtn?: boolean;
   tabList?: TabList[];
+  icon?: string
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '我是标题',
@@ -49,7 +50,8 @@ const props = withDefaults(defineProps<Props>(), {
   showBtn: false,
   showTabBtn: false,
   // 按钮 [{value:'xxx',name:'xxx'}]
-  tabList: ()=>[]
+  tabList: ()=>[],
+  icon: 'car'
 });
 const curBtn = ref(props.showTabBtn?props.tabList?.[0].value:'')
 const emit = defineEmits(['handleClick','handleTabBtn']);
