@@ -75,6 +75,23 @@ const styleObj = {
       lineHeight: '0.22rem'
     }
   },
+  leftRightStyleYellow5858: {
+    icon: {
+      width: '0.58rem',
+      height: '0.58rem'
+    },
+    num: {
+      lineHeight: '0.32rem',
+      fontSize: '0.32rem',
+      background: 'linear-gradient(180deg, #F9E900 0%, #FFFFFF 52.08%, #F9E900 100%)',
+      textFillColor: 'transparent',
+      '-webkit-background-clip': 'text'
+    },
+    name: {
+      fontSize: '0.16rem',
+      lineHeight: '0.22rem'
+    }
+  },
   leftRightStyleGreen: {
     icon: {
       width: '0.78rem',
