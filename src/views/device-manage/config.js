@@ -299,20 +299,20 @@ export const chargingRunDataFun = (data = {}) => {
   ];
 };
 
-export const lineRunDataFun = (data = []) => {
+export const lineRunDataFun = (data = [],code = 1 ) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
-      name: '桩使用率'
+      name: code===1?'桩使用率':'枪使用率'
     },
     {
       data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
-      name: '桩故障率'
+      name: code===1?'桩故障率':'枪故障率'
     }
   ];
 };

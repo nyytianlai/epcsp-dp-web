@@ -227,6 +227,8 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+// 运行情况tab
+const runing = ref(1)
 // 行政区充电次数情况时间
 const dayType = ref(1);
 // 排序
@@ -298,7 +300,7 @@ const getChargeEquipmentUseRate = async (type) => {
 //设备管理/充电桩-枪运行情况分时列表
 const getChargeEquipmentUseRateByTime = async (type) => {
   const res = await selectChargeEquipmentUseRateByTime(type);
-  lineRunData.value = lineRunDataFun(res.data);
+  lineRunData.value = lineRunDataFun(res.data,runing.value);
 };
 // 获取充电站设施列表
 const getSelectStationInfoByPage = async () => {
@@ -427,6 +429,7 @@ const handleChangeTab = (data, type) => {
     getChargeEquipmentStatusByTime(data.code);
   } else if (type === 'charging-runing') {
     // 运行情况
+    runing.value = data.code
     getChargeEquipmentUseRate(data.code);
     getChargeEquipmentUseRateByTime(data.code);
   }
