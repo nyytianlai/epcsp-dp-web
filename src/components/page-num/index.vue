@@ -26,7 +26,7 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, computed, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
