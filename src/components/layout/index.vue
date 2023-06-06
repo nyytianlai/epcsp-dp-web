@@ -22,12 +22,12 @@
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <!-- <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
+        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
           <hawk-eye v-if="ifHawkEye"></hawk-eye>
-        </base-ac> -->
+        </base-ac>
         <expand-btn />
         <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
-          <img src="./images/back.png" alt="" @click="router.push('/overview')" />
+          <img src="./images/back.png" alt="" @click="router.push('/overview/all')" />
         </div>
         <div class="name" v-show="currentPosition === '深圳市' && isShowMenu">充电站</div>
         <router-view v-slot="{ Component, route }">
