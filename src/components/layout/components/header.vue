@@ -44,13 +44,13 @@ onBeforeUnmount(() => {
     180deg,
     #000f2b 0%,
     #001428 45%,
-    rgba(0, 20, 41, 0.5) 65%,
+    rgba(0, 20, 41, 0.5) 85%,
     rgba(0, 15, 43, 0) 100%
   );
   border-radius: 4px;
   position: absolute;
   width: 100%;
-  height: 100px;
+  height: 120px;
   top: 0;
   left: 0;
   z-index: 19;
