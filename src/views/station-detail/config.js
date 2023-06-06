@@ -274,11 +274,11 @@ export const chargingTypesTabsFun = () => {
   return [
     {
       code: 1,
-      label: '充电桩状态'
+      label: '充电桩使用情况'
     },
     {
       code: 2,
-      label: '充电枪状态'
+      label: '充电枪使用情况'
     }
   ];
 };
@@ -288,7 +288,7 @@ export const chargingTypesFun = (data = {}) => {
     {
       img: rate,
       num: data?.useRate + '%',
-      name: '整体使用率',
+      name: '当前使用率',
       classStyleType: 'leftRightStyleGreen'
     },
     {
