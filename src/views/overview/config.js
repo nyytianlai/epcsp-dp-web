@@ -1,52 +1,6 @@
 import ztsyl from '@/views/charging-station/images/ztsyl.png';
 import ncd from './images/ncd.png';
 
-// 'photovoltaic-station': [
-//   {
-//     name: '年累计发电量',
-//     // num: data?.cumulativeCharge,
-//     num: 5.06,
-//     unit: '亿kWh'
-//   },
-//   {
-//     name: '年累计生产绿证',
-//     // num: data?.cumChargeCount,
-//     num: 50.6,
-//     unit: '万个'
-//   },
-//   {
-//     name: '全社会用电量比例',
-//     // num: data?.cumChargeTime,
-//     num: 0.95,
-//     unit: '%'
-//   }
-// ],
-// 'chargings-replacement-cabinet': [
-//   {
-//     name: '年累计充电量',
-//     // num: data?.cumulativeCharge,
-//     num: 1.25,
-//     unit: '亿kWh'
-//   },
-//   {
-//     name: '年累计充电次数',
-//     // num: data?.cumChargeCount,
-//     num: 1.14,
-//     unit: '亿次'
-//   },
-//   {
-//     name: '年累计充电时长',
-//     // num: data?.cumChargeTime,
-//     num: 7.39,
-//     unit: '亿h'
-//   },
-//   {
-//     name: '年累计换电次数',
-//     // num: data?.cumChargeTime,
-//     num: 5641,
-//     unit: '万次'
-//   }
-// ]
 export const pageNumFun = (data = {}) => {
   return [
     {
