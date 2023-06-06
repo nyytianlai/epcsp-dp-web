@@ -23,18 +23,25 @@
       <div class="line"></div>
       <span class="detail-btn" v-if="showBtn" @click="handleClick">详情</span>
     </div>
-    <div class="right-tab-btn" v-if="showTabBtn" >
-      <div v-for="item in tabList" class="tab-btn" :class="{active: curBtn === item.value}"  @click="handleTabBtn(item)">{{item.name}}</div>
+    <div class="right-tab-btn" v-if="showTabBtn">
+      <div
+        v-for="item in tabList"
+        class="tab-btn"
+        :class="{ active: curBtn === item.value }"
+        @click="handleTabBtn(item)"
+      >
+        {{ item.name }}
+      </div>
     </div>
     <!-- <button-base v-if="showBtn" @handleClick="handleClick">{{btnText}}</button-base> -->
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount, toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 interface TabList {
-  value: string|number;
-  name: string
+  value: string | number;
+  name: string;
 }
 interface Props {
   title: string;
@@ -42,7 +49,7 @@ interface Props {
   showBtn?: boolean;
   showTabBtn?: boolean;
   tabList?: TabList[];
-  icon?: string
+  icon?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   title: '我是标题',
@@ -50,19 +57,19 @@ const props = withDefaults(defineProps<Props>(), {
   showBtn: false,
   showTabBtn: false,
   // 按钮 [{value:'xxx',name:'xxx'}]
-  tabList: ()=>[],
+  tabList: () => [],
   icon: 'car'
 });
-const curBtn = ref(props.showTabBtn?props.tabList?.[0].value:'')
-const emit = defineEmits(['handleClick','handleTabBtn']);
+const curBtn = ref(props.showTabBtn ? props.tabList?.[0].value : '');
+const emit = defineEmits(['handleClick', 'handleTabBtn']);
 const { title, btnText } = toRefs(props);
 const handleClick = () => {
   emit('handleClick');
 };
-const handleTabBtn = (item)=>{
-  curBtn.value = item.value
-  emit('handleTabBtn',item)
-}
+const handleTabBtn = (item) => {
+  curBtn.value = item.value;
+  emit('handleTabBtn', item);
+};
 </script>
 <style lang="less" scoped>
 .title-column {
@@ -168,7 +175,7 @@ const handleTabBtn = (item)=>{
     margin-left: 8px;
   }
 }
-.right-tab-btn{
+.right-tab-btn {
   display: flex;
   background: rgba(21, 69, 105, 0.5);
   border: 1px solid #486785;
@@ -180,16 +187,16 @@ const handleTabBtn = (item)=>{
     font-size: 14px;
     line-height: 28px;
     text-align: center;
-    color: rgba(255,255,255,.8);
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     border-left: 1px solid #486785;
-    &:nth-of-type(1){
+    &:nth-of-type(1) {
       border: none;
     }
   }
 }
 .active {
   background: rgba(84, 181, 255, 0.8);
-  color: #FFFFFF;
+  color: #ffffff;
 }
 </style>

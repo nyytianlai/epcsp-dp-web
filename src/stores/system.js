@@ -12,15 +12,10 @@ import { defineStore } from 'pinia';
 export const useSystemStore = defineStore('system', () => {
   const rootFontSize = ref(100);
   const vHeight = ref(1080);
-  const homeTab = ref('overview');
   function changeRootFontSize({ fontSize, height }) {
     rootFontSize.value = fontSize;
     vHeight.value = height;
   }
 
-  function changeHomeTab(tab) {
-    homeTab.value = tab;
-  }
-
-  return { rootFontSize, vHeight, homeTab, changeRootFontSize, changeHomeTab };
+  return { rootFontSize, vHeight, changeRootFontSize };
 });

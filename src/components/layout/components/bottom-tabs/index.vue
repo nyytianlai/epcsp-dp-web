@@ -2,7 +2,7 @@
   <div class="bottom-tabs">
     <div
       class="tab"
-      :class="[tab.type, { active: activeTab === tab.type }]"
+      :class="[tab.type, { active: activeTab === tab.name }]"
       v-for="tab in tabs"
       :key="tab.type"
       @click="handleTabClick(tab)"
@@ -12,41 +12,49 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useSystemStore } from '@/stores/system';
+import { useRouter, useRoute } from 'vue-router';
 interface Tab {
   type: string;
   text?: string;
   path?: string;
 }
 const router = useRouter();
+const route = useRoute();
 const tabs = [
   {
     text: '总览',
-    type: 'overview'
+    name: 'Overview',
+    type: 'overview',
+    path: '/overview'
   },
   {
     text: '充电站',
+    name: 'ChargingStation',
     type: 'charging-station',
     path: '/charging/station'
   },
   {
     text: '储能站',
-    type: 'energy-station'
+    name: 'EnergyStation',
+    type: 'energy-station',
+    path: '/energy-station'
   },
   {
     text: '光伏站',
-    type: 'photovoltaic-station'
+    name: 'PhotovoltaicStation',
+    type: 'photovoltaic-station',
+    path: '/photovoltaic-station'
   },
   {
     text: '充换电柜',
-    type: 'chargings-replacement-cabinet'
+    name: 'ChargingsReplacementCabinet',
+    type: 'chargings-replacement-cabinet',
+    path: '/chargings-replacement-cabinet'
   }
 ];
-const store = useSystemStore();
-const activeTab = computed(() => store.homeTab);
+const activeTab = computed(() => route.name);
 const handleTabClick = (tab: Tab) => {
-  store.changeHomeTab(tab.type);
+  // store.changeHomeTab(tab.type);
   if (tab.path) {
     router.push(tab.path);
   }
