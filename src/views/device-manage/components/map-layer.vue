@@ -12,10 +12,7 @@ import Qu from '@/components/map-layer/qu.vue';
 import CirBar4 from '@/components/map-layer/cir-bar4.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
 import { useMapStore } from '@/stores/map';
-import {
-  layerNameQuNameArr,
-  quNameCodeInterTrans
-} from '@/global/config/map';
+import { layerNameQuNameArr, quNameCodeInterTrans } from '@/global/config/map';
 import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');
@@ -81,7 +78,7 @@ const buttomTabChange = async (code: 1 | 2) => {
   // await addQuBar()
   await quRef.value.resetSz();
 };
-
+let time = null;
 type ChargeType = { name: string; isChoose: boolean; code: number };
 const handleChargeTypeChange = async (item: ChargeType) => {
   legendListData.forEach((ele) => {
@@ -94,7 +91,13 @@ const handleChargeTypeChange = async (item: ChargeType) => {
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
   if (currentPosition.value.includes('市') && stationType.value.size) {
-    addQuBar()
+    //防抖语句
+    if (time !== null) {
+      clearTimeout(time);
+    }
+    time = setTimeout(() => {
+      addQuBar();
+    }, 1000);
   } else if (currentPosition.value.includes('区') && stationType.value.size) {
     cirBar4Ref.value.addBar({
       code: buttomTabCode.value,
