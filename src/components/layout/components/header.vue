@@ -18,9 +18,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted,onBeforeUnmount} from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 const step = ref(0);
-const timeId = ref()
+const timeId = ref();
 const moveImg = () => {
   if (step.value >= 19) {
     step.value = 0;
@@ -34,8 +34,8 @@ onMounted(() => {
   }, 100);
 });
 onBeforeUnmount(() => {
-  clearInterval(timeId.value)
-})
+  clearInterval(timeId.value);
+});
 </script>
 
 <style lang="less" scoped>
@@ -43,14 +43,14 @@ onBeforeUnmount(() => {
   background: linear-gradient(
     180deg,
     #000f2b 0%,
-    #001428 22.32%,
-    rgba(0, 20, 41, 0.5) 44.46%,
-    rgba(0, 15, 43, 0) 95.21%
+    #001428 45%,
+    rgba(0, 20, 41, 0.5) 65%,
+    rgba(0, 15, 43, 0) 100%
   );
   border-radius: 4px;
   position: absolute;
   width: 100%;
-  height: 240px;
+  height: 100px;
   top: 0;
   left: 0;
   z-index: 19;
