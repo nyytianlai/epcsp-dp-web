@@ -16,7 +16,7 @@
         @click="handleClick(item)"
       >
         <img :src="item.stationPic" alt="" />
-        <span class="type">{{ item.stationType }}</span>
+        <!-- <span class="type">{{ item.stationType }}</span> -->
         <span class="name text-ellipsis-1">
           <el-tooltip class="box-item" :content="item.stationName" placement="top">
             {{ item.stationName }}
@@ -27,7 +27,7 @@
     <no-data v-else />
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import gmdPng from './images/gmd.png';
 import fwqPng from './images/fwq.png';
 import gccPng from './images/gcc.png';
@@ -69,8 +69,9 @@ const handleClick = (item) => {
     margin-right: 8px;
     align-items: center;
     margin-bottom: 12px;
-    width: 128px;
-    &:nth-child(3n) {
+    // width: 128px;
+    width: 48%;
+    &:nth-child(2n) {
       margin-right: 0;
     }
     &:nth-child(n + 4) {
