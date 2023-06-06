@@ -13,7 +13,10 @@
         <ul class="device-info">
           <li class="list-item" v-for="(item, index) in listData" :key="index">
             <label for="">{{ item.label }}</label>
-            <span class="value">{{ item.value }}</span>
+            <span class="value">
+              {{ item.value }}
+              <span v-if="item.unit">{{ item.unit }}</span>
+            </span>
           </li>
         </ul>
       </el-collapse-item>
@@ -42,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, inject,watch } from 'vue';
+import { ref, inject, watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 const activeNames = ref(['1', '2']);
 const pileData = inject('pileData');
@@ -93,7 +96,7 @@ const equipmentTypeFun = (type) => {
     4: '无线充电',
     5: '充放电设备',
     255: '其他'
-  }[type]
+  }[type];
 };
 const listDataFun = (data) => {
   return [
@@ -119,7 +122,8 @@ const listDataFun = (data) => {
     },
     {
       label: '设备总功率：',
-      value: data?.power || '--'
+      value: data?.power || '--',
+      unit: 'kW'
     },
     {
       label: '总枪数：',
@@ -127,7 +131,8 @@ const listDataFun = (data) => {
     },
     {
       label: '额定功率：',
-      value: data?.equipmentPower || '--'
+      value: data?.equipmentPower || '--',
+      unit: 'kW'
     }
   ];
 };
@@ -145,9 +150,9 @@ const handleChange = (val) => {
   console.log(val);
 };
 watch(pileData, (newVal) => {
-  scrollTableData.value = newVal?.gunInfoVoList || []
-  listData.value = listDataFun(newVal)
-})
+  scrollTableData.value = newVal?.gunInfoVoList || [];
+  listData.value = listDataFun(newVal);
+});
 </script>
 <style lang="less" scoped>
 .custom-collapse {

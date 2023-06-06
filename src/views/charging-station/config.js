@@ -136,7 +136,7 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '累计充电次数',
-      num: data?.cumChargeCount,
+      num: parseInt(data?.cumChargeCount),
       unit: data?.cumChargeCountUnit || '万次'
     },
     {
@@ -344,13 +344,13 @@ export const powerInfoNumDataFun = (data = {}) => {
     {
       img: zgl,
       num: data?.totalPower,
-      name: '额定总功率/kw',
+      name: '额定功率/万kW',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ssgl,
       num: data?.realTimePower,
-      name: '实时总功率/kw',
+      name: '实时功率/万kW',
       classStyleType: 'leftRightStyleYellow'
     }
   ];

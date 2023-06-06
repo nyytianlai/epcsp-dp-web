@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="today-power-info">
-      <title-column title="今日充电功率信息" />
+      <title-column title="今日充电实时功率信息" />
       <div class="num-wrap">
         <template v-for="(item, index) in powerInfoNumData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -72,7 +72,7 @@
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning')"
       />
-      <warning-list :data="warningListData" />
+      <warning-list :data="warningListData" @handleClick="handleWarnClick" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
@@ -87,10 +87,9 @@
     :visible="dialogRankVisible"
     @closed="handleCloseRankDialog"
   />
-  <!-- <RankDetail v-model="rankDetailVisible" ref="rankDetail" @goDetail="handleGoDetail"></RankDetail> -->
 </template>
-<script setup>
-import { onMounted, onUnmounted, ref, reactive, inject, watch, provide, nextTick } from 'vue';
+<script lang="ts" setup>
+import { onMounted, onUnmounted, ref, inject } from 'vue';
 import {
   overTotalCount,
   totalFacilities,
@@ -100,21 +99,18 @@ import {
   dayPower,
   alarmInfo,
   timePowerGraph,
-  alarmCount,
-  operatorInfoList
+  alarmCount
 } from './api.js';
 import {
   pageNumFun,
   cdsszlFun,
   pileChargerFun,
   operatingTabsFun,
-  projectListFun,
   todayTabsFun,
   todayInfoNumDataFun,
   powerInfoNumDataFun,
   lineTimeDataFun,
   warningTabsDataFun,
-  warningListFun,
   bottomTabDataFun,
   chargingStationTabsFun,
   chargingStationGunTabsFun
@@ -124,11 +120,11 @@ import { toSingleStation } from '@/global/config/map';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
-import Icon from '@sutpc/vue3-svg-icon';
 import TodayWarnDialog from './components/today-warn-dialog.vue';
 import EnterpriseRankListDialog from './components/enterprise-rank-list-dialog.vue';
-// import RankDetail from './components/rank-detail.vue';
-
+interface Aircity {
+  value: object;
+}
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
 // 左二图的tab
@@ -138,9 +134,8 @@ const tabList = ref([
   { value: 1, name: '桩', index: 'pile' },
   { value: 2, name: '枪', index: 'gun' }
 ]);
-const aircityObj = inject('aircityObj');
+const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
-const rankDetail = ref();
 // 充电类型
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
@@ -270,7 +265,9 @@ const getAlarmInfo = async (level) => {
       return {
         date: item.alarmTime,
         message: item.alarmDesc,
-        area: item.stationName
+        area: item.stationName,
+        isClick: true,
+        ...item
       };
     });
   } else {
@@ -287,6 +284,12 @@ const getTimePowerGraph = async () => {
   lineTimeData.value = lineTimeDataFun(res.data);
 };
 
+// 今日告警信息点击
+const handleWarnClick = (station: object) => {
+  console.log(station);
+  // 告警详情
+  toSingleStation(aircityObj.value?.acApi, station);
+};
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {
   dialogRankVisible.value = true;
@@ -307,7 +310,7 @@ let timer = null;
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
-  getTotalEquipment('pile');
+  getTotalEquipment();
   getStationOpeTop10('station');
   getDayEquInfo(realtimeCode.value);
   getDayPower();

@@ -50,7 +50,7 @@
         :data="warningMonitorPieData"
         :mode="totalCurCode === 1 && bottomCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
-        :colors="['#E10105', '#DD6701', '#FAF102']"
+        :colors="warningMonitorColors"
       />
     </div>
     <div class="realtime-state">
@@ -144,7 +144,7 @@
     />
   </custom-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, reactive, inject } from 'vue';
 import { tableColumnFun } from '@/global/commonFun.js';
 import {
@@ -188,6 +188,7 @@ const pageObj = reactive({
 });
 // 左一搜索
 const inputWarnLeft = ref();
+const warningMonitorColors = ['#E10105', '#DD6701', '#FAF102'];
 // 告警级别tab高亮
 const totalCurCode = ref(1);
 // 累计告警数据信息弹窗显隐

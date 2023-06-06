@@ -1,6 +1,11 @@
 <template>
   <div class="active-message">
-    <el-tabs v-model="activeName" class="beveled-tabs" @tab-click="handleClick" :class="`tabs-length${tabList.length}`">
+    <el-tabs
+      v-model="activeName"
+      class="beveled-tabs"
+      @tab-click="handleClick"
+      :class="`tabs-length${tabList.length}`"
+    >
       <el-tab-pane :name="item.name" v-for="(item, index) in tabList" :key="index">
         <template #label>
           <span class="custom-tabs-label">
@@ -44,10 +49,7 @@
 import { ref, inject, onMounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
-import {
-  selectEquipmentDynamicInfo,
-  selectEquipmentDynamicInfoGroupByTime
-} from './api.js';
+import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
 const pileData = inject('pileData');
 const activeName = ref('充电桩');
 const customOption = {
@@ -56,7 +58,7 @@ const customOption = {
     right: 20
   }
 };
-const selectTabData = ref()
+const selectTabData = ref();
 const infoListFun = (data = {}) => {
   return [
     {
@@ -64,14 +66,14 @@ const infoListFun = (data = {}) => {
       name: '充电量',
       value: data?.chargeElectricity || '--',
       dynamicType: 1,
-      unit: 'kw/h'
+      unit: 'kW/h'
     },
     {
       icon: 'fdl',
       name: '放电量',
       value: data?.disChargeElectricity || '--',
       dynamicType: 2,
-      unit: 'kw/h'
+      unit: 'kW/h'
     },
     {
       icon: 'cdsc',
@@ -92,7 +94,7 @@ const infoListFun = (data = {}) => {
       name: '实时功率',
       value: data?.power || '--',
       dynamicType: 5,
-      unit: 'kw'
+      unit: 'kW'
     },
     {
       icon: 'gzl',
@@ -198,31 +200,31 @@ const getParams = (data) => {
 };
 const getEquipmentDynamicInfo = async (index = 0) => {
   const params = getParams(tabList.value[index]);
-  selectTabData.value = params
+  selectTabData.value = params;
   const res = await selectEquipmentDynamicInfo(params);
   if (res?.data) {
     infoList.value = infoListFun(res?.data);
-    dynamicActive.value = infoList.value[0]
-    getEquipmentDynamicInfoGroupByTime()
+    dynamicActive.value = infoList.value[0];
+    getEquipmentDynamicInfoGroupByTime();
   }
 };
 // 设备详情/桩枪动态信息分时列表
 const getEquipmentDynamicInfoGroupByTime = async () => {
   const params = {
-    "dynamicType": dynamicActive.value?.dynamicType,
+    dynamicType: dynamicActive.value?.dynamicType,
     ...selectTabData.value
-  }
-  const res = await selectEquipmentDynamicInfoGroupByTime(params)
+  };
+  const res = await selectEquipmentDynamicInfoGroupByTime(params);
   if (res?.data) {
-    linePowerData.value = linePowerDataFun(res?.data)
+    linePowerData.value = linePowerDataFun(res?.data);
   } else {
-    linePowerData.value = linePowerDataFun([])
+    linePowerData.value = linePowerDataFun([]);
   }
-}
+};
 const handleClickDynamic = (item) => {
-  dynamicActive.value = item
-  getEquipmentDynamicInfoGroupByTime()
-}
+  dynamicActive.value = item;
+  getEquipmentDynamicInfoGroupByTime();
+};
 onMounted(() => {
   getEquipmentDynamicInfo();
 });
@@ -236,12 +238,12 @@ onMounted(() => {
     .el-tabs__nav {
       width: 100%;
     }
-    &.tabs-length1{
+    &.tabs-length1 {
       .el-tabs__item:nth-child(2) {
         clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%, 0 0);
       }
     }
-    &.tabs-length2{
+    &.tabs-length2 {
       .el-tabs__item:nth-child(3) {
         clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
         margin-left: -15px;
@@ -287,10 +289,10 @@ onMounted(() => {
           border: 1px solid #aa0505;
           color: #ff6b4b;
         }
-        &.offline{
+        &.offline {
           background: rgba(159, 159, 159, 0.3);
-          border-color: #E8E8E8;
-          color: #FFFFFF;
+          border-color: #e8e8e8;
+          color: #ffffff;
         }
       }
     }
@@ -308,7 +310,7 @@ onMounted(() => {
       align-items: center;
       border: 1px solid transparent;
       cursor: pointer;
-      &.active{
+      &.active {
         background: #255886;
         border: 1px solid rgba(75, 222, 255, 0.7);
       }

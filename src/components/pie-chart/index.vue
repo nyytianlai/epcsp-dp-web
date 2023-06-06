@@ -65,14 +65,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRefs } from 'vue';
-import EcResize from '@sutpc/vue3-ec-resize';
+import { computed, ref, toRefs, watch } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import EcResize from '@sutpc/vue3-ec-resize';
 interface Idata {
   name: string;
   value: number;
   extraName?: string;
   unit: string;
+  isChoose?: boolean;
 }
 interface Props {
   data: Idata[];
