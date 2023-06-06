@@ -1,61 +1,79 @@
 <template>
-    <div class="station-info">
-        <div class="name-wrap">
-            <div class="icon"></div>
-            <div class="name">
-                <span class="station-name">
-                    {{ data?.stationName || '--' }}
-                </span>
-                <span class="company-name">
-                    {{ data?.propertyUnit || '--' }}
-                </span>
-            </div>
-        </div>
-        <ul class="info-list">
-            <li v-for="(item,index) in infoListData" :key="index">
-                <label for="">{{item.label}}</label>
-                <span class="value text-ellipsis-1"> 
-                  <el-tooltip :content="item.value || ''" placement="top">
-                    {{item.value}}
-                  </el-tooltip>
-                </span>
-            </li>    
-        </ul>
+  <div class="station-info">
+    <div class="name-wrap">
+      <div class="icon"></div>
+      <div class="name">
+        <span class="station-name">
+          {{ data?.stationName || '--' }}
+        </span>
+        <span class="company-name">
+          {{ data?.propertyUnit || '--' }}
+        </span>
+      </div>
     </div>
+    <ul class="info-list">
+      <li v-for="(item, index) in infoListData" :key="index">
+        <label for="">{{ item.label }}</label>
+        <span class="value text-ellipsis-1">
+          <el-tooltip :content="item.value || ''" placement="top">
+            {{ item.value }}
+          </el-tooltip>
+        </span>
+      </li>
+    </ul>
+  </div>
 </template>
-<script setup>
-import { ref, onMounted,toRefs,watch } from 'vue';
+<script lang="ts" setup>
+import { ref, toRefs, watch } from 'vue';
+interface Data {
+  areaName: string;
+  address: string;
+  nature?: string;
+  types?: string;
+  stationPrincipal: string;
+  telephone: string;
+}
 const props = defineProps({
   data: {
-    type: Object,
-    default:{}
+    type: Object as PropType<Data>,
+    default() {
+      return {};
+    }
   }
-})
-const {data} = toRefs(props)
-const infoListFun = (data={}) => {
-    return [
-        {
-            label: '具体地址：',
-            value:data?.address || '--'
-        },
-        {
-            label: '站点区域：',
-            value:data?.areaName || '--'
-        },
-        {
-            label: '负责人：',
-            value:data?.stationPrincipal || '--'
-        },
-        {
-            label: '联系方式：',
-            value:data?.telephone || '--'
-        },
-    ]
-}
-const infoListData = ref(infoListFun())
+});
+const { data } = toRefs(props);
+const infoListFun = (data: Data) => {
+  return [
+    {
+      label: '站点区域：',
+      value: data?.areaName || '--'
+    },
+    {
+      label: '具体地址：',
+      value: data?.address || '--'
+    },
+    {
+      label: '站点性质：',
+      value: data?.nature || '--'
+    },
+    {
+      label: '站点类型：',
+      value: data?.types || '--'
+    },
+    {
+      label: '负责人：',
+      value: data?.stationPrincipal || '--'
+    },
+    {
+      label: '联系方式：',
+      value: data?.telephone || '--'
+    }
+  ];
+};
+const infoListData = ref(infoListFun());
 watch(data, () => {
-  infoListData.value = infoListFun(data.value)
-})
+  infoListData.value = infoListFun(data.value);
+});
 </script>
 <style lang="less" scoped>
 .station-info {

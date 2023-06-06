@@ -98,7 +98,6 @@ import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 interface Props {
   visible: boolean;
-  timeType: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   visible: false

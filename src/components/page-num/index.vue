@@ -26,7 +26,7 @@
   </transition>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, computed, toRefs } from 'vue';
+import { computed, toRefs } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
@@ -58,7 +58,7 @@ const panelShow = computed(() => {
   width: 746px;
   height: 79px;
   background: url(./images/bottom-bgc.png) no-repeat;
-  background-size: 100% 63px;
+  background-size: 100% 70px;
   background-position: bottom left;
   padding: 0 64px 30px 76px;
   display: flex;

@@ -24,6 +24,7 @@ import PageNum from '@/components/page-num/index.vue';
 import CustomDialog from '@/components/custom-dialog/index.vue'
 import LegendList from '@/components/legend-list.vue'
 import noData from '@/components/no-data/index.vue'
+import numTileCard from '@/components/num-tile-card.vue'
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
 } = {
@@ -43,7 +44,8 @@ const components: {
     PageNum,
     CustomDialog,
     LegendList,
-    noData
+    noData,
+    numTileCard
 }
   
    

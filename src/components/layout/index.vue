@@ -50,11 +50,21 @@
         </div>
       </div>
     </div>
+
+    <PromotionVideo v-if="showPromitionVideo" />
+    <UeVideo v-if="showUeVideo" :station="station" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
+import { routes } from '@/router';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { storeToRefs } from 'pinia';
+import { h } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useMapStore } from '@/stores/map';
+import { useUeStore } from '@/stores/ue';
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BottomTabs from './components/bottom-tabs/index.vue';
@@ -63,15 +73,12 @@ import HawkEye from '@/components/map-layer/hawk-eye.vue';
 import TimeWeather from './components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
-import { routes } from '@/router';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { storeToRefs } from 'pinia';
-import { h } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useMapStore } from '@/stores/map';
+import PromotionVideo from '@/components/promotion-video/index.vue';
+import UeVideo from '@/components/ue-video/index.vue';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
+const uestore = useUeStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
@@ -117,6 +124,9 @@ const cloudHost = ref(import.meta.env.VITE_FD_URL);
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showDetail = computed(() => store.showDetail);
+const showPromitionVideo = computed(() => store.showPromitionVideo);
+const showUeVideo = computed(() => uestore.showUeVideo);
+const station = ref('');
 const getkeepAliveList = (list, flag = false) => {
   list.forEach((item) => {
     const isDropChildren = flag || item?.meta?.isDropChildren;
@@ -161,7 +171,7 @@ const handleMapReady = async (obj) => {
   window.aircityObj = obj;
   const ref = await aircityObj.value.acApi.infoTree.get();
   treeInfo.value = ref.infotree;
-  console.log('图层树数据', treeInfo.value);
+  // console.log('图层树数据', treeInfo.value);
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
 const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));
@@ -205,8 +215,7 @@ provide('aircityObj', aircityObj);
   height: 100%;
   width: 100%;
 }
-.vaf-page-wrapper {
-}
+
 .my-tab-wrap {
   position: absolute;
   top: 68px;

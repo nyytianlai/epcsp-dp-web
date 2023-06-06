@@ -7,29 +7,27 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-    <div class="charging-realtime-power">
-        <icon icon="svg-icon:power"/>
-        <div class="num-info">
-            <span class="num">
-                {{ formatWithToLocalString(data) }}
-            </span>
-            <span class="unit-info">
-                充电实时功率/kw
-            </span>
-        </div>
+  <div class="charging-realtime-power">
+    <icon icon="svg-icon:power" />
+    <div class="num-info">
+      <span class="num">
+        {{ formatWithToLocalString(data) }}
+      </span>
+      <span class="unit-info">充电实时功率/kW</span>
     </div>
+  </div>
 </template>
 <script setup>
-  import { toRefs, onMounted,reactive } from 'vue';
+import { toRefs, onMounted, reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import {formatWithToLocalString} from '@/global/commonFun.js'
+import { formatWithToLocalString } from '@/global/commonFun.js';
 const props = defineProps({
-    data:{
-        type:String || Number,
-        default: 0
-    }
-})
-const {data} = toRefs(props)
+  data: {
+    type: String || Number,
+    default: 0
+  }
+});
+const { data } = toRefs(props);
 </script>
 <style lang="less" scoped>
 .charging-realtime-power {

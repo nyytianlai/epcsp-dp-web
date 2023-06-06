@@ -16,15 +16,12 @@
         @changeTab="(data) => handleChangeTab(data, 'charging-station')"
       />
       <pie-chart
+        class="device-total-pie"
         :data="chargingStationPieData"
         :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
         :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
-        :colors="
-          totalCurCode === 1
-            ? ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB']
-            : ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB']
-        "
+        :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
       />
     </div>
     <div class="charging-peak-area">
@@ -146,7 +143,7 @@
     />
   </custom-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, onUnmounted, reactive, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import MapLayer from './components/map-layer.vue';
@@ -182,7 +179,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-
+const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
+const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const storeVisible = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
@@ -192,6 +190,7 @@ const pageNumData = ref(pageNumFun());
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
 const chargingStationPieData = ref(chargingStationPieDataFun());
+const chargingStationData = ref(null);
 //充电高峰区域情况
 const areaRankData = ref([]);
 const areaTotalNum = ref(0);
@@ -228,7 +227,7 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 运行情况tab
-const runing = ref(1)
+const runing = ref(1);
 // 行政区充电次数情况时间
 const dayType = ref(1);
 // 排序
@@ -248,8 +247,16 @@ const getSelectChargeEquipmentStatistics = async () => {
 };
 // 设备管理/充电桩数量
 const getSelectChargeCount = async (type, maintab) => {
-  const res = await selectChargeCount({ type: bottomBtnCur.value });
-  chargingStationPieData.value = chargingStationPieDataFun(type, res.data, maintab);
+  if (!chargingStationData.value) {
+    const res = await selectChargeCount({ type: bottomBtnCur.value });
+    console.log('res', res);
+    chargingStationData.value = res.data;
+  }
+  chargingStationPieData.value = chargingStationPieDataFun(
+    type,
+    chargingStationData.value,
+    maintab
+  );
 };
 //设备管理/行政区充电次数情况
 const getSelectChargeCountByArea = async () => {
@@ -300,7 +307,7 @@ const getChargeEquipmentUseRate = async (type) => {
 //设备管理/充电桩-枪运行情况分时列表
 const getChargeEquipmentUseRateByTime = async (type) => {
   const res = await selectChargeEquipmentUseRateByTime(type);
-  lineRunData.value = lineRunDataFun(res.data,runing.value);
+  lineRunData.value = lineRunDataFun(res.data, runing.value);
 };
 // 获取充电站设施列表
 const getSelectStationInfoByPage = async () => {
@@ -326,7 +333,6 @@ const getSelectStationInfoByPage = async () => {
   const res = await selectStationInfoByPage(obj);
   totalTableData.value = res.data.dataList;
   pageObj.total = res.data.total;
-  console.log('res', res);
 };
 // 底部按钮点击
 const changeButtomTab = (item) => {
@@ -429,7 +435,7 @@ const handleChangeTab = (data, type) => {
     getChargeEquipmentStatusByTime(data.code);
   } else if (type === 'charging-runing') {
     // 运行情况
-    runing.value = data.code
+    runing.value = data.code;
     getChargeEquipmentUseRate(data.code);
     getChargeEquipmentUseRateByTime(data.code);
   }
@@ -542,5 +548,11 @@ onUnmounted(() => {
 }
 .filter {
   cursor: pointer;
+}
+
+.device-total-pie {
+  :deep(.legend-wrap) {
+    height: 164px;
+  }
 }
 </style>
