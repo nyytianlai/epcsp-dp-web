@@ -76,7 +76,7 @@ export const routes = [
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'Home' }
+    redirect: { name: 'Overview' }
   },
   {
     path: '/',
@@ -85,10 +85,28 @@ let routesMap = [
     component: Layout,
     children: [
       {
-        name: 'Home',
-        path: '/home',
-        meta: { title: '首页', keepAlive: false },
-        component: () => import('@/views/home/index.vue')
+        path: '/overview',
+        name: 'Overview',
+        meta: { title: '总览', keepAlive: false },
+        component: () => import('@/views/overview/index.vue')
+      },
+      {
+        path: '/energy-station',
+        name: 'EnergyStation',
+        meta: { title: '储能站', keepAlive: false },
+        component: () => import('@/views/energy-station/index.vue')
+      },
+      {
+        path: '/photovoltaic-station',
+        name: 'PhotovoltaicStation',
+        meta: { title: '光伏站', keepAlive: false },
+        component: () => import('@/views/photovoltaic-station/index.vue')
+      },
+      {
+        path: '/chargings-replacement-cabinet',
+        name: 'ChargingsReplacementCabinet',
+        meta: { title: '充换电柜', keepAlive: false },
+        component: () => import('@/views/chargings-replacement-cabinet/index.vue')
       }
     ]
   },

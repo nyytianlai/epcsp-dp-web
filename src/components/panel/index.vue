@@ -9,27 +9,27 @@
 <template>
   <div class="mask-bgc" :class="type" v-if="panelShow"></div>
   <transition>
-      <div class="panel" :class="type" v-if="panelShow">
-        <slot />
-        <!-- <div class="circle-bg"></div> -->
-      </div>
-    </transition>
+    <div class="panel" :class="type" v-if="panelShow">
+      <slot />
+      <!-- <div class="circle-bg"></div> -->
+    </div>
+  </transition>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, computed, toRefs } from 'vue'
-import { useVisibleComponentStore } from '@/stores/visibleComponent'
-const store = useVisibleComponentStore()
+import { onMounted, ref, computed, toRefs } from 'vue';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+const store = useVisibleComponentStore();
 type Itype = 'left' | 'right';
 interface Props {
-  type: Itype;
+  type?: Itype;
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'left'
 });
 const { type } = toRefs(props);
 const panelShow = computed(() => {
-  return store.panelShow
-})
+  return store.panelShow;
+});
 </script>
 <style lang="less" scoped>
 .mask-bgc {
