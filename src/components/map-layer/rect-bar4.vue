@@ -37,13 +37,10 @@ const getBarPositionByQuName = (quName: string) => {
 
 const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
   let barArr = [];
-  const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
+  // const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
-  let gunCount = res.map((item) => {
-    return item.gunCount;
-  });
 
-  let yMax = Math.max(...gunCount);
+  let yMax = 34785
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
@@ -54,11 +51,11 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
     });
   }
   res1.features.forEach((item, index) => {
-    let countObj = res.filter((i) => {
-      return type === 'qu'
-        ? i.areaCode == item.properties.QUCODE
-        : i.streetId == item.properties.JDCODE;
-    });
+    // let countObj = res.filter((i) => {
+    //   return type === 'qu'
+    //     ? i.areaCode == item.properties.QUCODE
+    //     : i.streetId == item.properties.JDCODE;
+    // });
     let contentHeight = 190;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
@@ -73,7 +70,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
       range: [1, 1000000], //可视范围
       imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: `${getHtmlUrl()}/static/html/rectBar4.html?value=${countObj[0].gunCount},11000,${countObj[0].equipmentCount},7800&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
+      popupURL: `${getHtmlUrl()}/static/html/rectBar4.html?value=34785,11000,22755,7800&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       autoHidePopupWindow: false,
       // popupSize: [80, contentHeight], //弹窗大小
       // popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移

@@ -21,7 +21,10 @@
 <script setup>
 import { ref, onMounted, toRefs, inject,watch,onBeforeUnmount} from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { getImageByCloud } from '@/global/config/map';
+import { getImageByCloud,getTreeLayerIdByName } from '@/global/config/map';
+import { useMapStore } from '@/stores/map';
+
+const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt = aircityObj.value?.useEmitt;
@@ -173,9 +176,10 @@ const customFun = async(data) => {
     //添加前清空所有customObject 防止id重复
   await __g.customObject.clear();
   const arr = []
+  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   __g?.tileLayer?.getActorInfo(
     {
-      id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+      id: layerId,
       objectIds: data
     }, async (res) => {
       console.log('getActorInfo',res);
@@ -221,6 +225,16 @@ watch([data, aircityObj], (newVal) => {
       }
     }).filter(item=>item)
     customFun(warningDataId.value)
+    //场站车辆和右侧桩的状态保持一致
+    let noUseEquipment=newVal[0].map(item => {
+      if (item.status === 1) {
+        return item.eid
+      }
+    }).filter(item=>item)
+    let layerId = getTreeLayerIdByName('带ID的静态汽车', mapStore.treeInfo);
+    console.log("layerId",layerId);
+    __g.tileLayer.hideActors([{ "id":layerId, "objectIds": noUseEquipment }])
+
   }
 })
 onBeforeUnmount(() => {

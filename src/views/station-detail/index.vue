@@ -100,6 +100,7 @@
 <script setup>
 import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue';
@@ -129,8 +130,10 @@ import {
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate.ts';
+import { getTreeLayerIdByName } from '@/global/config/map';
 
 const store = useVisibleComponentStore();
+const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt = aircityObj.value?.useEmitt;
@@ -284,7 +287,7 @@ useEmitt &&
       focusToPile(eid, 255);
     }
     //正常桩
-    if (e.PropertyName === 'station') {
+    if (e.PropertyName === '118Station') {
       if (!chargingStateDataObj.value[e.ObjectID]) return;
       focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
     }
@@ -292,7 +295,8 @@ useEmitt &&
 // 定位到桩弹窗
 const focusToPile = (eid, status) => {
   console.log('pileVisiblepileVisible', pileVisible.value);
-  handleClickFocus(__g, eid, status);
+  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+  handleClickFocus(__g, layerId, eid, status);
   pileParams.value = {
     eid: eid
   };
@@ -305,7 +309,8 @@ const handleClose = () => {
 };
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;
-  handleClickFocus(__g, item.eid, +chargingStateDataObj.value[item.eid].status);
+  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+  handleClickFocus(__g, layerId,item.eid, +chargingStateDataObj.value[item.eid].status);
 };
 const handleShowWarning = () => {
   dialogTableVisible.value = true;

@@ -160,12 +160,18 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 const highLightNormalStation = async (obj) => {
+  let res = await __g.radiationPoint.get('1');
+  if (res.resultMessage == 'OK') {
+    let id = 'station-' + res.data[0].userData;
+    __g.marker.hidePopupWindow(id);
+  }
   __g.radiationPoint.clear();
   let o = {
     id: '1',
+    userData: obj.stationId,
     coordinate: [obj.lng, obj.lat], //辐射圈坐标位置
     coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
-    radius: 300, //辐射半径
+    radius: 60, //辐射半径
     rippleNumber: 3, //波纹数量
     color: [0, 1, 1, 0.5], //颜色
     intensity: 0.1, //亮度
@@ -526,11 +532,13 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
       : '';
   } else if (stationId === '20') {
     //红荔西5G示范站
-    __g.infoTree.focus('FF75D7BF4BBD3C2CC3C30BA362A7A6DA');
+    isShow
+      ? __g.camera.set(502336.126,2494157.449,32.645,-19.399999,-101.400130, 3)
+      : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
-    isShow
-      ? __g.camera.set(529641.505938, 2520221.205625, 104.135469, -24.341509, -121.81752, 3)
+    isShow   
+      ? __g.camera.set(529405.624,2520340.663,79.013, -19.599998,-18.199905, 3)
       : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站

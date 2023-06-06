@@ -6,7 +6,8 @@
       #pop-panel{
         height:131px; 
         width: 180px;
-        background: url('../images/rectbarPop.png') no-repeat;
+        background: url('../images/rectbarPop.png') no-repeat ;
+        background-size:180px 130px;
         position: fixed;
         /* z-index: 99999; */
       }
@@ -35,7 +36,7 @@
            font-style: normal;
           font-weight: 400;
           font-size: 12px;
-          line-height: 32px;
+          line-height: 24px;
           color: rgba(255, 255, 255, 0.8);
           }
           .liRight{
@@ -45,7 +46,7 @@
           font-style: normal;
           font-weight: 700;
           font-size: 20px;
-          line-height: 32px;
+          line-height: 18px;
           display: flex;
           align-items: center;
           text-align: center;
@@ -154,22 +155,22 @@
       const yMax=Number(urlParams.get("yMax"))
       console.log('最大值',yMax);
       const barColor = [
-        [//蓝色
+        [//蓝色 充电站
           ["#0091B0", "#00529D"],
           ["#4AD9FC", "#096FA8"],
           ["#B6F2FF", "#B6F2FF"],
         ],
-        [//高亮色
+        [//高亮色 充换电柜
           ["#267A7B", "#03817D"],
           ["#59FFFF", "#117370"],
           ["#B6F2FF", "#B6F2FF"],
         ],
-        [//黄色
+        [//黄色 储能站
           ["#FBFF3E", "#6D6F1A"],
           ["#86881A", "#EAE110"],
           ["#FEFFA4", "#FEFFA4"],
         ],
-        [//紫色
+        [//紫色 光伏站
           ["#4D6BD8","#301CA8"],
           ["#88A1FF","#3532AF"],
           ["#A2B7EE","#A2B7EE"]
@@ -177,7 +178,7 @@
       ];
 
       option = {
-         backgroundColor: '#030446',
+        //  backgroundColor: '#030446',
         tooltip: {
             trigger: "axis",
             axisPointer: {

@@ -11,14 +11,20 @@
         </div>
       </div>
     </panel>
+    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted,inject,ref} from 'vue';
 import { pageNumFun, chargingStationsFun } from './config.js';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
+import MapLayer from './components/map-layer.vue';
+
+const aircityObj = inject('aircityObj');
+let mapLayerRef = ref(null);
+
 const state = reactive({
   activeBottomMenu: 'overview',
   pageNumData: [],
