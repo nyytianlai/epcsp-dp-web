@@ -287,8 +287,9 @@ export const chargingTypesFun = (data = {}) => {
   return [
     {
       img: rate,
-      num: data?.useRate + '%',
+      num: data.useRate ? data.useRate.toFixed(2) + '%' : '0%',
       name: '当前使用率',
+      digits: 2,
       classStyleType: 'leftRightStyleGreen'
     },
     {
