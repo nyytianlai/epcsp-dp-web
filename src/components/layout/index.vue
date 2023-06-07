@@ -310,6 +310,7 @@ provide('aircityObj', aircityObj);
   width: 100%;
   position: absolute;
   bottom: 0;
+  z-index: 11;
   .bottom-tabs-bg {
     width: 100%;
     height: 41px;
