@@ -64,7 +64,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" unit="KW" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineTimeData" unit="万kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
@@ -160,6 +160,7 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
+const lineTimeColors = ['green', 'blue'];
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);

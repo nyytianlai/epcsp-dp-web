@@ -344,13 +344,13 @@ export const powerInfoNumDataFun = (data = {}) => {
     {
       img: zgl,
       num: data?.totalPower,
-      name: '额定功率/万kWh',
+      name: '额定功率/万kW',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ssgl,
       num: data?.realTimePower,
-      name: '实时功率/万kWh',
+      name: '实时功率/万kW',
       classStyleType: 'leftRightStyleYellow'
     }
   ];
@@ -360,13 +360,19 @@ export const lineTimeDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.timeDim, item.ratedPower]),
+      data: data.map((item) => [
+        yearMonthDay + item.timeDim,
+        Math.round(Number(item.ratedPower) / 10000)
+      ]),
       type: 'line',
       smooth: true,
       name: '额定功率'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.timeDim, item.realTimePower]),
+      data: data.map((item) => [
+        yearMonthDay + item.timeDim,
+        Math.round(Number(item.realTimePower) / 10000)
+      ]),
       type: 'line',
       smooth: true,
       name: '实时功率'
