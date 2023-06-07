@@ -286,8 +286,8 @@ const getTimePowerGraph = async () => {
   if (res.data.length) {
     const data = res.data;
     const info = {
-      totalPower: Math.round(Number(data[data.length - 1].ratedPower) / 10000),
-      realTimePower: Math.round(Number(data[data.length - 1].realTimePower) / 10000)
+      totalPower: Number(data[data.length - 1].ratedPower) / 10000,
+      realTimePower: Number(data[data.length - 1].realTimePower) / 10000
     };
     powerInfoNumData.value = powerInfoNumDataFun(info);
   }

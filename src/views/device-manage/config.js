@@ -26,8 +26,9 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '充电总功率',
-      num: data?.chargeTotalRate,
-      unit: 'kW'
+      num: data?.chargeTotalRate / 10000,
+      digits: 2,
+      unit: '万kW'
     }
   ];
 };
