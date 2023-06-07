@@ -542,8 +542,8 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
       : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
-    isShow
-      ? __g.camera.set(497294.072324, 2493997.410078, 119.62833, -38.835747, -131.93457, 3)
+    isShow  
+      ? __g.camera.set(497235.795,2494003.925,63.319,-30.799998,-123.799998, 3)
       : '';
   }
 };

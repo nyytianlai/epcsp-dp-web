@@ -65,14 +65,14 @@ const addCameraPoint = async (data) => {
 const carChargingAnimation = async () => {
   setTimeout(async () => {
     await resetCarChargingAnimation();
-    await __g.misc.callBPFunction({
+    await __g.misc.callBPFunction({ //车辆移动
       objectName: 'BP_Taxi_backUp_2',
       functionName: 'Event_Move_Car'
     });
     setTimeout(async () => {
-      await __g.misc.callBPFunction({
-        objectName: 'BP_MoveA_4',
-        functionName: 'SetMoveA',
+      await __g.misc.callBPFunction({ //桩充电插上车
+        objectName: 'BP_GroupActor2',
+        functionName: 'SetMeshHidden',
         paramType: 0,
         paramValue: false
       });
@@ -83,8 +83,8 @@ const carChargingAnimation = async () => {
 };
 const resetCarChargingAnimation = async () => {
   await __g.misc.callBPFunction({
-    objectName: 'BP_MoveA_4',
-    functionName: 'SetMoveA',
+    objectName: 'BP_GroupActor2',
+    functionName: 'SetMeshHidden',
     paramType: 0,
     paramValue: true
   });
@@ -247,15 +247,15 @@ onMounted(() => {
   bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
     await resetTab3dt();
-    if (e?.viewOrder === 2) {
+    if (e?.viewCode === "v2") {
       //站内设施
       getCameraData();
-    } else if (e?.viewOrder === 3) {
+    } else if (e?.viewCode === "v3") {
       //车辆充电
       carChargingAnimation();
-    } else if (e?.viewOrder === 4) {
+    } else if (e?.viewCode === "v4") {
       currentPath(true);
-    } else if (e?.viewOrder === 5) {
+    } else if (e?.viewCode === "v5") {
       operatorDistribution(true);
     }
   });
