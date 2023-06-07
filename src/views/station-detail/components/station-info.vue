@@ -29,6 +29,8 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
 interface Data {
+  stationName: string;
+  propertyUnit: string;
   areaName: string;
   address: string;
   stationProperty?: string | number;
