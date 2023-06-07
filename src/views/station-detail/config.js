@@ -140,7 +140,7 @@ export const pageNumFun = (data = {}) => {
     {
       name: '站点充电量',
       num: data?.stationChargeCapacity,
-      unit: 'kwh'
+      unit: 'kWh'
     },
     {
       name: '站点充电次数',
