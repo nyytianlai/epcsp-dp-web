@@ -27,7 +27,7 @@
         </base-ac>
         <expand-btn />
         <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
-          <img src="./images/back.png" alt="" @click="router.push('/overview')" />
+          <img src="./images/back.png" alt="" @click="router.push('/overview/all')" />
         </div>
         <div class="name" v-show="currentPosition === '深圳市' && isShowMenu">充电站</div>
         <router-view v-slot="{ Component, route }">
