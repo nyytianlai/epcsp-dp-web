@@ -149,7 +149,7 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '站点充电时长',
-      num: data?.stationChargeDuration,
+      num: Math.round(data?.stationChargeDuration),
       unit: '小时'
     },
     {
