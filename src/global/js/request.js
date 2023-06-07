@@ -7,7 +7,8 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { useUserStore } from '@/stores/user';
-import { ElMessage } from 'element-plus';
+// import { ElMessage } from 'element-plus';
+import { Message } from './message';
 import { getToken } from '@/utils/auth';
 import Cookies from 'js-cookie';
 import request, {
@@ -56,16 +57,16 @@ const err = (error) => {
     console.log('------异常响应------', error.response.status);
     switch (error.response.status) {
       case 403:
-        ElMessage.error({ message: '用户得到授权，但是访问是被禁止的' });
+        Message({ type: 'error', message: '用户得到授权，但是访问是被禁止的' });
         break;
       case 500:
         console.log('------error.response------', error.response);
-        ElMessage.error({ message: '服务器错误,请联系管理员' });
+        Message({ type: 'error', message: '服务器错误,请联系管理员' });
         break;
       case 510:
         console.log('------error.response------', error.response);
         if (data.message.includes('认证权限异常')) {
-          ElMessage.error('很抱歉，登录已过期，请重新登录!');
+          Message({ type: 'error', message: '很抱歉，登录已过期，请重新登录!' });
           setTimeout(() => {
             sessionStorage.removeItem('profile');
             // removeToken()
@@ -74,30 +75,30 @@ const err = (error) => {
             });
           }, 1000);
         } else {
-          ElMessage.error(error.message);
+          Message({ type: 'error', message: error.message });
         }
         break;
       case 404:
-        ElMessage.error('很抱歉，资源未找到!');
+        Message({ type: 'error', message: '很抱歉，资源未找到!' });
         break;
       case 504:
-        ElMessage.error('网络超时');
+        Message({ type: 'error', message: '网络超时' });
         break;
       case 401:
-        ElMessage.error({ message: '用户没有权限（令牌、用户名、密码错误），请重新登录！' });
+        Message({ type: 'error', message: '用户没有权限（令牌、用户名、密码错误），请重新登录！' });
         store.removeTokens().then(() => {
           location.reload();
         });
         break;
       default:
-        ElMessage.error(data.message);
+        Message({ type: 'error', message: data.message });
         break;
     }
   } else if (error.message) {
     if (error.message.includes('timeout')) {
-      ElMessage.error('网络超时');
+      Message({ type: 'error', message: '网络超时' });
     } else {
-      ElMessage.error(error.message);
+      Message({ type: 'error', message: error.message });
     }
   }
   return Promise.reject(error);
@@ -110,14 +111,14 @@ axios.interceptors.response.use((response) => {
       return res;
     }
     if (res.status === 510 && res.message.includes('认证权限异常')) {
-      ElMessage.error('很抱歉，登录已过期，请重新登录!');
+      Message({ type: 'error', message: '很抱歉，登录已过期，请重新登录!' });
       setTimeout(() => {
         store.removeTokens().then(() => {
           location.reload();
         });
       }, 100);
     } else {
-      ElMessage.error(res.message || 'Error');
+      Message({ type: 'error', message: res.message || 'Error' });
     }
     return Promise.reject(new Error(res.message || 'Error'));
   } else {

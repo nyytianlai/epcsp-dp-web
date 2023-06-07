@@ -174,12 +174,45 @@ import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
+import LineChart from './components/line-chart.vue';
 import WarnInfoListDialog from './components/warn-info-list-dialog.vue';
 import dayjs from 'dayjs';
 const storeVisible = useVisibleComponentStore();
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
+const realtimeTrendOption = reactive({
+  grid: {
+    top: '10%',
+    left: '10%',
+    right: '5%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    data: [],
+    axisLabel: {
+      color: '#fff'
+    },
+    axisTick: {
+      show: false
+    }
+  },
+  yAxis: {
+    type: 'value',
+    splitLine: {
+      lineStyle: {
+        color: '#062B58',
+        type: 'dashed'
+      }
+    },
+    axisLabel: {
+      color: '#fff'
+    }
+  },
+  series: []
+});
 const dialogTableVisible = ref(false);
 const pageObj = reactive({
   pageSize: 8,
@@ -324,6 +357,8 @@ const getAlarmLevelAndTypeByTIme = async () => {
   // console.log('data', data);
   // console.log('dayTypeAlarm', dayTypeAlarm.value);
   realtimeTrend.value = realtimeTrendFun(data || [], dayTypeAlarm.value);
+  // realtimeTrendOption.series = realtimeTrend.value;
+  // console.log(realtimeTrend);
 };
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());

@@ -21,6 +21,9 @@
         </span>
       </li>
     </ul>
+    <div class="status" :class="stationStatusClass[props.data.stationStatus]">
+      {{ stationStatus[props.data.stationStatus] }}
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -28,8 +31,9 @@ import { ref, toRefs, watch } from 'vue';
 interface Data {
   areaName: string;
   address: string;
-  nature?: string;
-  types?: string;
+  stationProperty?: string | number;
+  stationType?: string | number;
+  stationStatus?: string | number;
   stationPrincipal: string;
   telephone: string;
 }
@@ -41,6 +45,34 @@ const props = defineProps({
     }
   }
 });
+
+const stationProperty = {
+  1: '公用',
+  2: '专用'
+};
+const stationStatus = {
+  0: '未知',
+  1: '建设中',
+  5: '关闭下线',
+  6: '维护中',
+  50: '正常使用'
+};
+const stationStatusClass = {
+  0: 'gray',
+  1: 'yellow',
+  5: 'gray',
+  6: 'yellow',
+  50: 'blue'
+};
+const stationType = {
+  1: '公共',
+  50: '个人',
+  100: '公交（专用）',
+  101: '环卫（专用）',
+  102: '物流（专用）',
+  103: '出租车（专用）',
+  255: '其他'
+};
 const { data } = toRefs(props);
 const infoListFun = (data: Data) => {
   return [
@@ -54,11 +86,11 @@ const infoListFun = (data: Data) => {
     },
     {
       label: '站点性质：',
-      value: data?.nature || '--'
+      value: stationProperty[data?.stationProperty] || '--'
     },
     {
       label: '站点类型：',
-      value: data?.types || '--'
+      value: stationType[data?.stationType] || '--'
     },
     {
       label: '负责人：',
@@ -70,7 +102,7 @@ const infoListFun = (data: Data) => {
     }
   ];
 };
-const infoListData = ref(infoListFun());
+const infoListData = ref();
 watch(data, () => {
   infoListData.value = infoListFun(data.value);
 });
@@ -127,6 +159,39 @@ watch(data, () => {
       color: rgba(238, 253, 255, 0.6);
       min-width: 70px;
     }
+  }
+}
+
+.status {
+  font-size: 14px;
+  padding: 4px 17px;
+  border-radius: 4px 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  &.blue {
+    background: linear-gradient(
+      93.04deg,
+      #04a1cf 0.63%,
+      #bae7ff 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
+  }
+  &.gray {
+    background: linear-gradient(
+      93.04deg,
+      #a8a7a5 0.63%,
+      #dddddd 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
+  }
+  &.yellow {
+    background: linear-gradient(
+      93.04deg,
+      #cfa204 0.63%,
+      #fffcba 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 }
 </style>

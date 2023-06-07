@@ -76,55 +76,55 @@ export const routes = [
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'Overview' }
+    redirect: { name: 'overviewAll' }
   },
-  {
-    path: '/',
-    name: 'Layout',
-    meta: { title: '总览' },
-    component: Layout,
-    children: [
-      {
-        path: '/overview',
-        name: 'Overview',
-        meta: { title: '总览', keepAlive: false },
-        component: () => import('@/views/overview/index.vue')
-      },
-      {
-        path: '/energy-station',
-        name: 'EnergyStation',
-        meta: { title: '储能站', keepAlive: false },
-        component: () => import('@/views/energy-station/index.vue')
-      },
-      {
-        path: '/photovoltaic-station',
-        name: 'PhotovoltaicStation',
-        meta: { title: '光伏站', keepAlive: false },
-        component: () => import('@/views/photovoltaic-station/index.vue')
-      },
-      {
-        path: '/chargings-replacement-cabinet',
-        name: 'ChargingsReplacementCabinet',
-        meta: { title: '充换电柜', keepAlive: false },
-        component: () => import('@/views/chargings-replacement-cabinet/index.vue')
-      }
-    ]
-  },
-
   // {
-  //   path: '/overview',
-  //   name: 'overview',
+  //   path: '/',
+  //   name: 'Layout',
   //   meta: { title: '总览' },
-  //   component: Layout2,
+  //   component: Layout,
   //   children: [
   //     {
-  //       name: 'overviewAll',
-  //       path: '/overview/all',
+  //       path: '/overview',
+  //       name: 'Overview',
   //       meta: { title: '总览', keepAlive: false },
-  //       component: () => import('@/views/iframe/index.vue')
+  //       component: () => import('@/views/overview/index.vue')
+  //     },
+  //     {
+  //       path: '/energy-station',
+  //       name: 'EnergyStation',
+  //       meta: { title: '储能站', keepAlive: false },
+  //       component: () => import('@/views/energy-station/index.vue')
+  //     },
+  //     {
+  //       path: '/photovoltaic-station',
+  //       name: 'PhotovoltaicStation',
+  //       meta: { title: '光伏站', keepAlive: false },
+  //       component: () => import('@/views/photovoltaic-station/index.vue')
+  //     },
+  //     {
+  //       path: '/chargings-replacement-cabinet',
+  //       name: 'ChargingsReplacementCabinet',
+  //       meta: { title: '充换电柜', keepAlive: false },
+  //       component: () => import('@/views/chargings-replacement-cabinet/index.vue')
   //     }
   //   ]
   // },
+
+  {
+    path: '/overview',
+    name: 'overview',
+    meta: { title: '总览' },
+    component: Layout2,
+    children: [
+      {
+        name: 'overviewAll',
+        path: '/overview/all',
+        meta: { title: '总览', keepAlive: false },
+        component: () => import('@/views/iframe/index.vue')
+      }
+    ]
+  },
   ...routes,
   {
     path: '/login',
