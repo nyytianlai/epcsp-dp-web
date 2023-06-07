@@ -98,6 +98,7 @@ const equipmentTypeFun = (type) => {
     255: '其他'
   }[type];
 };
+
 const listDataFun = (data) => {
   return [
     {

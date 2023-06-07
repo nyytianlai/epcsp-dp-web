@@ -27,7 +27,7 @@
         </base-ac>
         <expand-btn />
         <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
-          <img src="./images/back.png" alt="" @click="router.push('/overview')" />
+          <img src="./images/back.png" alt="" @click="router.push('/overview/all')" />
         </div>
         <div class="name" v-show="currentPosition === '深圳市' && isShowMenu">充电站</div>
         <router-view v-slot="{ Component, route }">
@@ -310,6 +310,7 @@ provide('aircityObj', aircityObj);
   width: 100%;
   position: absolute;
   bottom: 0;
+  z-index: 11;
   .bottom-tabs-bg {
     width: 100%;
     height: 41px;

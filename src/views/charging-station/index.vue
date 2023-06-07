@@ -282,6 +282,14 @@ const getAlarmCount = async () => {
 const getTimePowerGraph = async () => {
   const res = await timePowerGraph();
   lineTimeData.value = lineTimeDataFun(res.data);
+  if (res.data.length) {
+    const data = res.data;
+    const info = {
+      totalPower: Math.round(Number(data[data.length - 1].ratedPower) / 10000),
+      realTimePower: Math.round(Number(data[data.length - 1].realTimePower) / 10000)
+    };
+    powerInfoNumData.value = powerInfoNumDataFun(info);
+  }
 };
 
 // 今日告警信息点击
@@ -313,13 +321,13 @@ onMounted(() => {
   getTotalEquipment();
   getStationOpeTop10('station');
   getDayEquInfo(realtimeCode.value);
-  getDayPower();
+  // getDayPower();
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
   timer = setInterval(() => {
     getDayEquInfo(realtimeCode.value);
-    getDayPower();
+    // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
 });

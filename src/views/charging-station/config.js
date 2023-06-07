@@ -344,13 +344,13 @@ export const powerInfoNumDataFun = (data = {}) => {
     {
       img: zgl,
       num: data?.totalPower,
-      name: '额定功率/万kW',
+      name: '额定功率/万kWh',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ssgl,
       num: data?.realTimePower,
-      name: '实时功率/万kW',
+      name: '实时功率/万kWh',
       classStyleType: 'leftRightStyleYellow'
     }
   ];
