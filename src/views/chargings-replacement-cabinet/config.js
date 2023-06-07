@@ -4,6 +4,7 @@ import ztsyl from './images/ztsyl.png'
 import zxzl from './images/zxzl.png'
 import edzgl from './images/edzgl.png'
 import sszgl from './images/sszgl.png'
+import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -129,15 +130,16 @@ export const powerTodayCardFun = (data = {}) => {
   ];
 };
 export const linePowerDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.onlineCount]),
       type: 'line',
       smooth: true,
       name: '额定功率'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.onlineCount]),
       type: 'line',
       smooth: true,
       name: '实时功率'

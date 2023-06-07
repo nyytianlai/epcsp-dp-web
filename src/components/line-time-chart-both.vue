@@ -1,11 +1,23 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
-    <div class="unit" v-if="unit">单位: {{ unit }}</div>
+    <div class="unit-box">
+      <div class="unit" v-if="unit">
+        <icon :size="12" :icon="`svg-icon:${colors[0]}`" class="filter" />
+        单位: {{ unit }}
+      </div>
+      <div class="unit-right" v-if="unit">
+        <icon :size="12" :icon="`svg-icon:${colors[1]}`" class="filter" />
+        单位: {{ unit }}
+      </div>
+    </div>
+
     <ec-resize :option="ecOption" />
   </div>
 </template>
 
 <script setup lang="ts">
+import Icon from '@sutpc/vue3-svg-icon';
+
 import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
@@ -25,8 +37,6 @@ interface Props {
   unit?: string;
   colors?: string[];
   customOption?: object;
-  // 模式
-  mode?: string | boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -70,51 +80,51 @@ const colorMap = {
     }
   },
   blue: {
-    areaStyle: {
-      color: {
-        type: 'linear',
-        x: 0,
-        y: 0,
-        x2: 0,
-        y2: 1,
-        colorStops: [
-          {
-            offset: 0,
-            color: 'rgba(98, 177, 255)' // 0% 处的颜色
-          },
-          {
-            offset: 1,
-            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-          }
-        ],
-        global: false // 缺省为 false
-      }
-    },
+    // areaStyle: {
+    //   color: {
+    //     type: 'linear',
+    //     x: 0,
+    //     y: 0,
+    //     x2: 0,
+    //     y2: 1,
+    //     colorStops: [
+    //       {
+    //         offset: 0,
+    //         color: 'rgba(98, 177, 255)' // 0% 处的颜色
+    //       },
+    //       {
+    //         offset: 1,
+    //         color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+    //       }
+    //     ],
+    //     global: false // 缺省为 false
+    //   }
+    // },
     itemStyle: {
       color: '#0053FF'
     }
   },
   '#FF7723': {
-    areaStyle: {
-      color: {
-        type: 'linear',
-        x: 0,
-        y: 0,
-        x2: 0,
-        y2: 1,
-        colorStops: [
-          {
-            offset: 0,
-            color: 'rgba(255, 119, 35)' // 0% 处的颜色
-          },
-          {
-            offset: 1,
-            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-          }
-        ],
-        global: false // 缺省为 false
-      }
-    },
+    // areaStyle: {
+    //   color: {
+    //     type: 'linear',
+    //     x: 0,
+    //     y: 0,
+    //     x2: 0,
+    //     y2: 1,
+    //     colorStops: [
+    //       {
+    //         offset: 0,
+    //         color: 'rgba(255, 119, 35)' // 0% 处的颜色
+    //       },
+    //       {
+    //         offset: 1,
+    //         color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+    //       }
+    //     ],
+    //     global: false // 缺省为 false
+    //   }
+    // },
     itemStyle: {
       color: '#FF7723'
     }
@@ -203,12 +213,14 @@ function simplifyNum(number) {
     return number;
   }
 }
-const ecOptionFun = () => {
+
+const ecOptionBothSideFun = () => {
+  console.log('data', data.value);
   let option = {
     grid: {
-      top: 30,
+      top: 43,
       bottom: 24,
-      right: 15,
+      right: 50,
       left: 42
     },
     legend: {
@@ -218,7 +230,7 @@ const ecOptionFun = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 14,
+        fontSize: 12,
         color: '#C6D1DB'
       }
     },
@@ -253,148 +265,53 @@ const ecOptionFun = () => {
         return value.max + 1;
       }
     },
-    yAxis: {
-      name: '',
-      axisLine: {
-        show: false
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        fontFamily: 'Helvetica',
-        fontSize: 12,
-        lineHeight: 16,
-        color: '#B4C0CC',
-        formatter: (value) => {
-          return value ? simplifyNum(value) : '';
-        }
-      },
-      splitLine: {
-        lineStyle: {
-          color: 'rgba(230, 247, 255, 0.2)',
-          type: 'dashed'
-        }
-      }
-    },
-    tooltip: {
-      backgroundColor: 'transparent',
-      borderWidth: 0,
-      padding: 0,
-      trigger: 'axis',
-      formatter: (params) => {
-        const dataTime = params[0].axisValueLabel;
-        let str = `<div class="time-tooltip">`;
-        str += `<div class="time">${dataTime}</div>`;
-        params.map((item) => {
-          str += `<div class="item-data">
-            <span class="left-data">
-              ${item?.marker}
-              <span class="name">${item?.seriesName}</span>
-            </span>
-            <span class="right-data">
-              <span class="value">${
-                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
-              }</span>
-              <span class="unit">${unit.value}</span>
-            </span>
-          </div>`;
-        });
-        str += '</div>';
-        return str;
-      }
-    },
-    series: [
-      ...data.value,
+    yAxis: [
       {
-        type: 'line',
-        data: timeData(),
-        symbolSize: 0,
-        showSymbol: false,
-        lineStyle: {
-          color: 'transparent'
+        name: '',
+        axisLine: {
+          show: false
         },
-        tooltip: {
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontFamily: 'Helvetica',
+          fontSize: 12,
+          lineHeight: 16,
+          color: '#B4C0CC',
+          formatter: (value) => {
+            return value ? simplifyNum(value) : '';
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(230, 247, 255, 0.2)',
+            type: 'dashed'
+          }
+        }
+      },
+      {
+        name: '',
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontFamily: 'Helvetica',
+          fontSize: 12,
+          lineHeight: 16,
+          color: '#B4C0CC',
+          formatter: (value) => {
+            return value ? simplifyNum(value) : '';
+          }
+        },
+        splitLine: {
           show: false
         }
       }
-    ]
-  };
-  option = merge(option, {
-    series: colors.value.map((item) => colorMap[item]),
-    ...customOption.value
-  });
-
-  return option;
-};
-const ecOptionFunMode = () => {
-  let option = {
-    grid: {
-      top: 30,
-      bottom: 24,
-      right: 15,
-      left: 42
-    },
-    legend: {
-      itemWidth: 16,
-      itemHeight: 10,
-      right: 0,
-      top: 0,
-      textStyle: {
-        fontFamily: 'Source Han Sans CN',
-        fontSize: 14,
-        color: '#C6D1DB'
-      }
-    },
-    xAxis: {
-      name: '',
-      type: 'category',
-      data: data.value[0].data?.map((i) => i[0]),
-      boundaryGap: ['2%', '2%'],
-      axisLine: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
-      axisTick: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
-      axisLabel: {
-        fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
-        lineHeight: 18,
-        color: '#B4C0CC'
-      },
-      splitLine: {
-        show: false
-      }
-    },
-    yAxis: {
-      name: '',
-      axisLine: {
-        show: false
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        fontFamily: 'Helvetica',
-        fontSize: 12,
-        lineHeight: 16,
-        color: '#B4C0CC',
-        formatter: (value) => {
-          return value ? simplifyNum(value) : '';
-        }
-      },
-      splitLine: {
-        lineStyle: {
-          color: 'rgba(230, 247, 255, 0.2)',
-          type: 'dashed'
-        }
-      }
-    },
+    ],
     tooltip: {
       backgroundColor: 'transparent',
       borderWidth: 0,
@@ -449,12 +366,8 @@ watch(
   data,
   () => {
     // console.log('data111', data.value);
-    if (props.mode === 'haveTab') {
-      ecOption.value = ecOptionFunMode();
-    } else if (props.mode === 'onlyLine') {
-    } else {
-      ecOption.value = ecOptionFun();
-    }
+    ecOption.value = ecOptionBothSideFun();
+    console.log('ecOption.value', ecOption.value);
   },
   {
     immediate: true
@@ -469,13 +382,15 @@ watch(
   height: 189px;
   position: relative;
   .unit {
-    position: absolute;
-    top: 6px;
-    left: 2px;
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
     color: #b4c0cc;
+  }
+  .unit-right {
+    .unit();
+    left: unset;
+    right: 0;
   }
 }
 :deep(.time-tooltip) {
@@ -523,5 +438,13 @@ watch(
       }
     }
   }
+}
+
+.unit-box {
+  display: flex;
+  position: absolute;
+  top: 22px;
+  width: 100%;
+  justify-content: space-between;
 }
 </style>

@@ -84,7 +84,7 @@
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
         :colors="['#FF6B4B']"
-        :mode="true"
+        mode="haveTab"
       />
     </div>
   </panel>

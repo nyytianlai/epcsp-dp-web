@@ -8,6 +8,7 @@ import jrssgl from './images/jrssgl.png'
 import jrzdgl from './images/jrzdgl.png'
 import nscgfld from './images/nscgfld.png'
 import nco2jpl from './images/nco2jpl.png'
+import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -151,9 +152,10 @@ export const powerTodayCardFun = (data = {}) => {
   ];
 };
 export const linePowerDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.timeDim, item.ratedPower]),
       type: 'line',
       smooth: true,
       name: '实时功率'
