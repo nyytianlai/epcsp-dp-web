@@ -12,7 +12,7 @@ export const setMoveCarSpeed = async (__g, value:number) => {
   );
 };
 
-export const handleClickFocus = (__g, eid, status) => {
+export const handleClickFocus = (__g,layerId, eid, status) => {
   //清除绿色高亮
   __g.tileLayer.stopHighlightAllActors();
   //删除红色
@@ -24,7 +24,7 @@ export const handleClickFocus = (__g, eid, status) => {
   // 查询充电桩信息
   __g?.tileLayer?.getActorInfo(
     {
-      id: '7CED6A4A4F00FFA1B7273C9511B55B85',
+      id: layerId,
       objectIds: [eid]
     },
     (res) => {
@@ -32,7 +32,7 @@ export const handleClickFocus = (__g, eid, status) => {
       const rotation = res?.data[0].rotation;
       //定位过去
       // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", eid, 3.5, 2, [-18, 140, 0])
-      __g?.tileLayer?.focusActor('7CED6A4A4F00FFA1B7273C9511B55B85', eid, 3, 2, [
+      __g?.tileLayer?.focusActor(layerId, eid, 3, 2, [
         rotation[0] - 12,
         rotation[1] - 92,
         0
@@ -56,7 +56,7 @@ export const handleClickFocus = (__g, eid, status) => {
       } else {
         //设置高亮颜色（全局生效）
         __g.settings.highlightColor(Color.Green);
-        __g.tileLayer.highlightActor('7CED6A4A4F00FFA1B7273C9511B55B85', eid);
+        __g.tileLayer.highlightActor(layerId, eid);
       }
     }
   );

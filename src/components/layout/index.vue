@@ -15,6 +15,7 @@
         :nav-drop-list="navDropList"
         :active-name="activeName"
         :nav-tab-name="navTabName"
+        v-if="isShowMenu"
       />
     </div>
     <time-weather />
@@ -25,10 +26,10 @@
           <hawk-eye v-if="ifHawkEye"></hawk-eye>
         </base-ac>
         <expand-btn />
-        <div class="backBox" v-show="currentPosition === '深圳市'">
+        <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
           <img src="./images/back.png" alt="" @click="router.push('/overview/all')" />
         </div>
-        <div class="name" v-show="currentPosition === '深圳市'">充电站</div>
+        <div class="name" v-show="currentPosition === '深圳市' && isShowMenu">充电站</div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -43,35 +44,46 @@
         <Transition>
           <station-detail v-if="showDetail" />
         </Transition>
+        <div class="bottom-tabs-box" v-if="!isShowMenu">
+          <bottom-tabs />
+          <div class="bottom-tabs-bg"></div>
+        </div>
       </div>
     </div>
+
+    <PromotionVideo v-if="showPromitionVideo" />
+    <UeVideo v-if="showUeVideo" :station="station" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
-import HeaderArea from './components/header.vue';
-import NavTab from './components/nav-tab/index.vue';
-import BaseAc from '@sutpc/vue3-aircity';
-import HawkEye from '@/components/map-layer/hawk-eye.vue';
-import TimeWeather from './components/time-weather.vue';
-import StationDetail from '@/views/station-detail/index.vue';
-import ExpandBtn from './components/expand-btn/index.vue';
 import { routes } from '@/router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { storeToRefs } from 'pinia';
 import { h } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useMapStore } from '@/stores/map';
+import { useUeStore } from '@/stores/ue';
+import HeaderArea from './components/header.vue';
+import NavTab from './components/nav-tab/index.vue';
+import BottomTabs from './components/bottom-tabs/index.vue';
+import BaseAc from '@sutpc/vue3-aircity';
+import HawkEye from '@/components/map-layer/hawk-eye.vue';
+import TimeWeather from './components/time-weather.vue';
+import StationDetail from '@/views/station-detail/index.vue';
+import ExpandBtn from './components/expand-btn/index.vue';
+import PromotionVideo from '@/components/promotion-video/index.vue';
+import UeVideo from '@/components/ue-video/index.vue';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
+const uestore = useUeStore();
 const { treeInfo } = storeToRefs(useMapStore());
 const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
 const router = useRouter();
-const route = useRoute();
-console.log(route);
+const routed = useRoute();
 const props = defineProps({
   title: {
     type: String,
@@ -112,10 +124,9 @@ const cloudHost = ref(import.meta.env.VITE_FD_URL);
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showDetail = computed(() => store.showDetail);
-onMounted(async () => {
-  await nextTick();
-  getkeepAliveList(routes);
-});
+const showPromitionVideo = computed(() => store.showPromitionVideo);
+const showUeVideo = computed(() => uestore.showUeVideo);
+const station = ref('');
 const getkeepAliveList = (list, flag = false) => {
   list.forEach((item) => {
     const isDropChildren = flag || item?.meta?.isDropChildren;
@@ -160,8 +171,14 @@ const handleMapReady = async (obj) => {
   window.aircityObj = obj;
   const ref = await aircityObj.value.acApi.infoTree.get();
   treeInfo.value = ref.infotree;
-  console.log('图层树数据', treeInfo.value);
+  // console.log('图层树数据', treeInfo.value);
 };
+const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
+const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));
+onMounted(async () => {
+  await nextTick();
+  getkeepAliveList(routes);
+});
 provide('aircityObj', aircityObj);
 </script>
 
@@ -198,8 +215,7 @@ provide('aircityObj', aircityObj);
   height: 100%;
   width: 100%;
 }
-.vaf-page-wrapper {
-}
+
 .my-tab-wrap {
   position: absolute;
   top: 68px;
@@ -288,5 +304,24 @@ provide('aircityObj', aircityObj);
   z-index: 20;
   padding: 7px 16px;
   color: #fff;
+}
+
+.bottom-tabs-box {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  z-index: 11;
+  .bottom-tabs-bg {
+    width: 100%;
+    height: 41px;
+    background-image: url('./images/bottom-tabs-bg.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  :deep(.bottom-tabs) {
+    margin: auto;
+    position: relative;
+    bottom: -4px;
+  }
 }
 </style>

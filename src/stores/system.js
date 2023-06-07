@@ -7,16 +7,15 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { ref } from 'vue';
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useSystemStore = defineStore('system', () => {
-  const rootFontSize = ref(100)
-  const vHeight = ref(1080)
+  const rootFontSize = ref(100);
+  const vHeight = ref(1080);
   function changeRootFontSize({ fontSize, height }) {
     rootFontSize.value = fontSize;
     vHeight.value = height;
   }
 
-  return { rootFontSize, vHeight,changeRootFontSize }
-})
-
+  return { rootFontSize, vHeight, changeRootFontSize };
+});

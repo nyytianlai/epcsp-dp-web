@@ -9,6 +9,7 @@
 <template>
   <qu ref="quRef" :module="1" @addQuBar="addQuBar"></qu>
   <rect-bar ref="rectBarRef"></rect-bar>
+  <!-- <rect-bar4 ref="rectBarRef"></rect-bar4> -->
   <!-- <heat-map v-if="isHeatMap"></heat-map> -->
   <legend-list
     :legendType="legendType"
@@ -19,6 +20,7 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
+import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import HeatMap from '@/components/map-layer/heat-map.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import request from '@sutpc/axios';
@@ -87,7 +89,7 @@ const addHeatMap = async () => {
   let heightStart = Math.min(...realTimePower);
   let heightEnd = Math.max(...realTimePower);
   console.log(heightStart, heightEnd);
-  let bbox = [474542.44, 2483371.45, 5.7, 564130.59, 2529557.43, 344.58];
+  let bbox = [474542.44, 2483371.45, -20, 564130.59, 2529557.43, 344.58];
   let range = [0, 6000];
   let data = [];
   res.forEach((element) => {

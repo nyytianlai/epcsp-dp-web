@@ -11,15 +11,16 @@
     <ul class="content" v-if="data && data.length">
       <li
         class="warning-info"
+        :class="{ 'click-item': item.isClick }"
         v-for="(item, index) in data"
         :key="index"
         @click="handleClick(item)"
       >
         <span class="date">{{ item.date ? dayjs(item.date).format('HH:mm:ss') : '--' }}</span>
         <span class="message text-ellipsis-1">
-          <el-tooltip :content="item.message || ''" placement="top">
-            {{ item.message || '' }}
-          </el-tooltip>
+          <!-- <el-tooltip :content="item.message || ''" placement="top"> -->
+          {{ item.message || '' }}
+          <!-- </el-tooltip> -->
         </span>
         <span class="area text-ellipsis-1">
           <el-tooltip :content="item.area || ''" placement="top">
@@ -32,13 +33,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { toRefs, ref } from 'vue';
+import { toRefs } from 'vue';
 import dayjs from 'dayjs';
 
 interface Idata {
   date: string;
   message: string;
   area: string;
+  isClick?: boolean;
 }
 interface Props {
   data: Idata[];
@@ -90,6 +92,14 @@ const handleClick = (item) => {
       height: 4px;
       background: #f5af5f;
       border-radius: 50%;
+    }
+    &.click-item {
+      .message {
+        cursor: pointer;
+        &:hover {
+          color: #42aff8;
+        }
+      }
     }
     .date {
       font-family: 'Helvetica';

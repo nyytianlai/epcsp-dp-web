@@ -26,8 +26,9 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '充电总功率',
-      num: data?.chargeTotalRate,
-      unit: 'KW'
+      num: data?.chargeTotalRate / 10000,
+      digits: 2,
+      unit: '万kW'
     }
   ];
 };
@@ -287,32 +288,34 @@ export const chargingRunDataFun = (data = {}) => {
     {
       img: dqsyl,
       num: data?.useRate,
+      unit: '%',
       name: '当前使用率',
       classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
       num: data?.troubleRate,
+      unit: '%',
       name: '当前故障率',
       classStyleType: 'leftRightStyleGray6656'
     }
   ];
 };
 
-export const lineRunDataFun = (data = [],code = 1 ) => {
+export const lineRunDataFun = (data = [], code = 1) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
-      name: code===1?'桩使用率':'枪使用率'
+      name: code === 1 ? '桩使用率' : '枪使用率'
     },
     {
       data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
-      name: code===1?'桩故障率':'枪故障率'
+      name: code === 1 ? '桩故障率' : '枪故障率'
     }
   ];
 };

@@ -16,7 +16,7 @@
         @click="handleClick(item)"
       >
         <img :src="item.stationPic" alt="" />
-        <span class="type">{{ item.stationType }}</span>
+        <!-- <span class="type">{{ item.stationType }}</span> -->
         <span class="name text-ellipsis-1">
           <el-tooltip class="box-item" :content="item.stationName" placement="top">
             {{ item.stationName }}
@@ -27,7 +27,7 @@
     <no-data v-else />
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import gmdPng from './images/gmd.png';
 import fwqPng from './images/fwq.png';
 import gccPng from './images/gcc.png';
@@ -57,7 +57,7 @@ const handleClick = (item) => {
 .images-wrap {
   display: flex;
   flex-wrap: wrap;
-  height: 220px;
+  // height: 220px;
   width: 434px;
   overflow: hidden auto;
   position: relative;
@@ -66,11 +66,13 @@ const handleClick = (item) => {
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-right: 8px;
+    margin-right: 12px;
     align-items: center;
     margin-bottom: 12px;
-    width: 128px;
-    &:nth-child(3n) {
+    // width: 128px;
+    width: 194px;
+    height: 120px;
+    &:nth-child(2n) {
       margin-right: 0;
     }
     &:nth-child(n + 4) {
@@ -78,7 +80,7 @@ const handleClick = (item) => {
     }
     img {
       width: 100%;
-      height: 80px;
+      height: 100%;
     }
     .type {
       position: absolute;
@@ -92,13 +94,16 @@ const handleClick = (item) => {
       padding-left: 8px;
     }
     .name {
+      width: 100%;
+      height: 36px;
       font-weight: 600;
       font-size: 12px;
-      line-height: 20px;
-      /* identical to box height, or 167% */
+      line-height: 36px;
       color: #4bdeff;
-      margin-top: 4px;
-      max-width: 100%;
+      text-align: center;
+      background: linear-gradient(10.77deg, #11467b 33.72%, rgba(17, 70, 123, 0) 102.11%);
+      position: absolute;
+      bottom: 0;
     }
   }
 }

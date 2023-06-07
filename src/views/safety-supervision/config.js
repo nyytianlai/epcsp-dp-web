@@ -242,25 +242,6 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
   } else if (+code === 1) {
     return [
       {
-        img: stateBlueS,
-        num: data?.safeWarningEquipmentStatisticVo?.onlineCount,
-        name: '在线/个',
-        ...formatStyle({
-          iconStyle: iconStyleS
-        })
-      },
-      {
-        img: stateGrayS,
-        num: data?.safeWarningEquipmentStatisticVo?.offlineCount,
-        name: '离线/个',
-        ...formatStyle({
-          iconStyle: iconStyleS,
-          numStyle: {
-            color: '#FFFFFF'
-          }
-        })
-      },
-      {
         img: stateGreenS,
         num: data?.safeWarningEquipmentStatisticVo?.normalCount,
         name: '正常/个',
@@ -281,18 +262,29 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
             color: '#FFB713'
           }
         })
-      }
-    ];
-  } else {
-    return [
+      },
       {
         img: stateBlueS,
-        num: data?.safeWarningGunStatisticVo?.notUseCount,
-        name: '空闲/个',
+        num: data?.safeWarningEquipmentStatisticVo?.onlineCount,
+        name: '在线/个',
         ...formatStyle({
           iconStyle: iconStyleS
         })
       },
+      {
+        img: stateGrayS,
+        num: data?.safeWarningEquipmentStatisticVo?.offlineCount,
+        name: '离线/个',
+        ...formatStyle({
+          iconStyle: iconStyleS,
+          numStyle: {
+            color: '#FFFFFF'
+          }
+        })
+      }
+    ];
+  } else {
+    return [
       {
         img: stateGreenS,
         num: data?.safeWarningGunStatisticVo?.useCount,
@@ -313,6 +305,14 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
           numStyle: {
             color: '#FFB713'
           }
+        })
+      },
+      {
+        img: stateBlueS,
+        num: data?.safeWarningGunStatisticVo?.notUseCount,
+        name: '空闲/个',
+        ...formatStyle({
+          iconStyle: iconStyleS
         })
       },
       {
@@ -360,10 +360,12 @@ export const realtimeTrendFun = (data = [], type = 1) => {
     ];
   } else if (type === 2) {
     // 周
-
     return [
       {
-        data: data.map((item) => [item.time, item.cnt]),
+        data: data.map((item) => [
+          item.time.length >= 10 ? item.time.substr(5) : item.time,
+          item.cnt
+        ]),
         type: 'line',
         smooth: true,
         name: '告警数'
@@ -374,7 +376,7 @@ export const realtimeTrendFun = (data = [], type = 1) => {
     const yearMonthDay = dayjs().format('YYYY-');
     return [
       {
-        data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
+        data: data.map((item) => [item.time, item.cnt]),
         type: 'line',
         smooth: true,
         name: '告警数'
