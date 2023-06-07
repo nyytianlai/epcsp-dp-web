@@ -25,21 +25,20 @@ const videoUrl = ref('/promotion/lx/videos/home_video.mp4');
 const store = useVisibleComponentStore();
 // 视频播放状态
 let playStatus = '';
-// 第一次点击更改静音状态，视频不暂停
-let initNum = 0;
 const handleCloseVideo = () => {
   store.changeShowPromitionVideo(false);
 };
 const play = () => {
-  videoRef.value.muted = false;
-  if (!initNum) {
-    initNum += 1;
-    return;
-  }
-  if (playStatus === 'playing') {
-    videoRef.value.pause();
-  } else if (playStatus === 'pause') {
-    videoRef.value.play();
+  // 第一次点击更改静音状态，视频不暂停
+  if (sessionStorage.getItem('promition')) {
+    if (playStatus === 'playing') {
+      videoRef.value.pause();
+    } else if (playStatus === 'pause') {
+      videoRef.value.play();
+    }
+  } else {
+    videoRef.value.muted = false;
+    sessionStorage.setItem('promition', 'promition');
   }
 };
 onMounted(() => {
@@ -53,11 +52,9 @@ onMounted(() => {
     //播放暂停执行的函数
     console.log('暂停播放');
   });
-  // 监听视频播放结束
-  // videoRef.value.addEventListener('ended', () => {
-  //   console.log('播放结束');
-  //   handleCloseVideo();
-  // });
+  if (sessionStorage.getItem('promition')) {
+    videoRef.value.muted = false;
+  }
 });
 </script>
 <style lang="less" scoped>

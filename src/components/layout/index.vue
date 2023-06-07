@@ -178,6 +178,11 @@ const isShowMenu = computed(() => routed.name && routesName.includes(routed.name
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
+  if (sessionStorage.getItem('promition')) {
+    store.changeShowPromitionVideo(false);
+  } else {
+    store.changeShowPromitionVideo(true);
+  }
 });
 provide('aircityObj', aircityObj);
 </script>
