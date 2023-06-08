@@ -541,7 +541,6 @@ onMounted(async () => {
   .pie-wrap {
     margin-top: 18px;
     :deep(.legend-wrap) {
-      margin-left: 24px;
       .right-info {
         width: 45px;
       }

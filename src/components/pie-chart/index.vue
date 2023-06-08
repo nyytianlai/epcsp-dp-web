@@ -39,10 +39,20 @@
       <div
         class="legend can-choose"
         :class="{ 'can-choose-active': item.isChoose }"
+        :style="{
+          borderColor: item.isChoose ? colors[index] : 'transparent'
+        }"
         v-for="(item, index) in data"
         :key="index"
         @click="handleCanChoose(item)"
+        :data-color="item.isChoose ? colors[index] : 'rgba(255, 255, 255, 0.18)'"
       >
+        <div
+          class="right-top"
+          :style="{
+            borderTopColor: item.isChoose ? colors[index] : 'rgba(255, 255, 255, 0.18)'
+          }"
+        ></div>
         <span class="left-info">
           <span
             class="icon"
@@ -202,8 +212,8 @@ const handleCanChoose = (item) => {
   }
 }
 .legend-wrap {
-  margin-left: 30px;
-  width: 188px;
+  margin-left: 10px;
+  width: 208px;
   display: flex;
   flex-direction: column;
   .legend {
@@ -211,6 +221,8 @@ const handleCanChoose = (item) => {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    width: 100%;
+    padding-right: 29px;
     &:last-of-type {
       margin-bottom: 0;
     }
@@ -253,6 +265,7 @@ const handleCanChoose = (item) => {
   padding: 11px;
   position: relative;
   padding-right: 20px;
+  border: 1px solid;
   cursor: pointer;
   &::before {
     content: '';
@@ -270,7 +283,7 @@ const handleCanChoose = (item) => {
     transform: rotate(-55deg);
     z-index: 9;
   }
-  &::after {
+  .right-top {
     width: 0;
     height: 0;
     border-left: 25px solid transparent;
