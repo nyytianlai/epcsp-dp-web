@@ -20,7 +20,12 @@
       <div class="company-rank">
         <title-column title="运营企业排名" icon="energy-station" />
         <tabs :data="rankTabType" @changeTab="handleRank" />
-        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" />
+        <area-rank-list
+          :data="companyRankData"
+          :totalNum="companyRankTotal"
+          height="2.54rem"
+          :showPer="false"
+        />
       </div>
     </panel>
     <panel type="right">
@@ -68,9 +73,40 @@ const cardData = ref(cndzyxzlFun());
 const tabTypeData = ref(tabTypeDataFun());
 const tabPie = ref(1);
 // 企业排名
-const companyRankData = ref([]);
+const companyRankData = ref([
+  {
+    num: 85,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 80,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 77,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 72,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+    {
+    num: 50,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+    {
+    num: 40,
+    unit: '%',
+    name: '运营商名称名称名'
+  }
+]);
 // 企业排名总量
-const companyRankTotal = ref<number>(0);
+const companyRankTotal = ref<number>(85);
 //今日最大顶峰能力
 const chargingRealPower = ref(1246);
 // 储能电站运行信息
@@ -78,7 +114,7 @@ const runingData = ref(runingFun());
 // 折线图
 const lineStateData = ref(linePowerDataFun());
 // 社会效益信息
-const socialBenefit = ref(socialBenefitFun())
+const socialBenefit = ref(socialBenefitFun());
 
 // 左二tab点击
 const handleRuning = (item) => {
@@ -135,6 +171,12 @@ const handleRank = (item) => {
   :deep(.tabs) {
     margin-top: 22px;
   }
+  :deep(.area-rank-wrap) {
+    margin-top: 20px;
+    .unit {
+      color: #fff;
+    }
+  }
 }
 .today-runing {
   .charging-realtime-power {
@@ -164,7 +206,7 @@ const handleRank = (item) => {
 }
 .social-benefit {
   margin-top: 29px;
-    .num-wrap {
+  .num-wrap {
     display: flex;
     justify-content: space-between;
     height: 160px;

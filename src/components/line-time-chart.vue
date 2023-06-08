@@ -10,6 +10,7 @@ import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
+import { deepClone } from '@/utils';
 interface Idata {
   x: number;
   y: number;
@@ -27,6 +28,7 @@ interface Props {
   customOption?: object;
   // 模式
   mode?: string | boolean;
+  yaxisName?:string
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -37,7 +39,8 @@ const props = withDefaults(defineProps<Props>(), {
   colors: () => ['green', 'blue'],
   data: () => [],
   customOption: () => ({}),
-  mode: ''
+  mode: '',
+  yaxisName: ''
 });
 
 const { data, chartStyle, unit, colors, customOption } = toRefs(props);
@@ -167,6 +170,16 @@ const colorMap = {
     },
     itemStyle: {
       color: '#00FFF9'
+    }
+  },
+  '#979797': {
+    itemStyle: {
+      color: '#979797'
+    }
+  },
+  '#F9E900': {
+    itemStyle: {
+      color: '#F9E900'
     }
   }
 };
@@ -445,6 +458,131 @@ const ecOptionFunMode = () => {
 
   return option;
 };
+const ecOptionFunOnlyLine = () => {
+  let option = {
+    grid: {
+      top: 50,
+      bottom: 24,
+      right: 15,
+      left: 42
+    },
+    legend: {
+      itemWidth: 16,
+      itemHeight: 10,
+      right: 0,
+      top: 0,
+      textStyle: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        color: '#C6D1DB'
+      }
+    },
+    xAxis: {
+      name: '',
+      type: 'category',
+      data: data.value[0].data?.map((i) => i[0]),
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+      },
+      splitLine: {
+        show: false
+      }
+    },
+    yAxis: {
+      name: `单位：${props.yaxisName}`,
+      nameTextStyle: {
+        color: '#B4C0CC'
+      },
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
+      }
+    },
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const dataTime = params[0].axisValueLabel;
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${dataTime}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
+              <span class="unit">${unit.value}</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
+      }
+    },
+    series: [
+      ...data.value,
+      {
+        type: 'line',
+        data: timeData(),
+        symbolSize: 0,
+        showSymbol: false,
+        lineStyle: {
+          color: 'transparent'
+        },
+        tooltip: {
+          show: false
+        }
+      }
+    ]
+  };
+  option = merge(option, {
+    series: colors.value.map((item) => {
+      const color = deepClone(colorMap[item]);
+      color.areaStyle = null;
+      return color;
+    }),
+    ...customOption.value
+  });
+  
+  return option;
+};
 watch(
   data,
   () => {
@@ -452,6 +590,8 @@ watch(
     if (props.mode === 'haveTab') {
       ecOption.value = ecOptionFunMode();
     } else if (props.mode === 'onlyLine') {
+      ecOption.value = ecOptionFunOnlyLine();
+      console.log('ecOption.value',ecOption.value)
     } else {
       ecOption.value = ecOptionFun();
     }
