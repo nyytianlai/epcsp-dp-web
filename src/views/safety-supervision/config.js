@@ -360,10 +360,12 @@ export const realtimeTrendFun = (data = [], type = 1) => {
     ];
   } else if (type === 2) {
     // 周
-
     return [
       {
-        data: data.map((item) => [item.time, item.cnt]),
+        data: data.map((item) => [
+          item.time.length >= 10 ? item.time.substr(5) : item.time,
+          item.cnt
+        ]),
         type: 'line',
         smooth: true,
         name: '告警数'
@@ -374,7 +376,7 @@ export const realtimeTrendFun = (data = [], type = 1) => {
     const yearMonthDay = dayjs().format('YYYY-');
     return [
       {
-        data: data.map((item) => [yearMonthDay + item.time, item.cnt]),
+        data: data.map((item) => [item.time, item.cnt]),
         type: 'line',
         smooth: true,
         name: '告警数'

@@ -26,8 +26,9 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '充电总功率',
-      num: data?.chargeTotalRate,
-      unit: 'kW'
+      num: data?.chargeTotalRate / 10000,
+      digits: 2,
+      unit: '万kW'
     }
   ];
 };
@@ -286,15 +287,15 @@ export const chargingRunDataFun = (data = {}) => {
   return [
     {
       img: dqsyl,
-      num: data?.useRate,
-      unit: '%',
+      num: data?.useRate + '%',
+      // unit: '%',
       name: '当前使用率',
       classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
-      num: data?.troubleRate,
-      unit: '%',
+      num: data?.troubleRate + '%',
+      // unit: '%',
       name: '当前故障率',
       classStyleType: 'leftRightStyleGray6656'
     }

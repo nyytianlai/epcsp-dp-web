@@ -285,7 +285,7 @@ export const pageNumFun = (data = {}) => {
     {
       name: '站点充电量',
       num: data?.stationChargeCapacity,
-      unit: 'kwh'
+      unit: 'kWh'
     },
     {
       name: '站点充电次数',
@@ -294,7 +294,7 @@ export const pageNumFun = (data = {}) => {
     },
     {
       name: '站点充电时长',
-      num: data?.stationChargeDuration,
+      num: Math.round(data?.stationChargeDuration),
       unit: '小时'
     },
     {
@@ -432,8 +432,9 @@ export const chargingTypesFun = (data = {}) => {
   return [
     {
       img: rate,
-      num: data?.useRate + '%',
+      num: data.useRate ? data.useRate.toFixed(2) + '%' : '0%',
       name: '当前使用率',
+      digits: 2,
       classStyleType: 'leftRightStyleGreen'
     },
     {

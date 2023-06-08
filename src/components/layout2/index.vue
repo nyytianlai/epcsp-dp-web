@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted,onUnmounted, provide, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, provide, nextTick } from 'vue';
 import HeaderArea from '@/components/layout/components/header.vue';
 import NavTab from '@/components/layout/components/nav-tab/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
@@ -98,12 +98,18 @@ const cloudHost = ref(import.meta.env.VITE_FD_URL);
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showPromitionVideo = computed(() => store.showPromitionVideo);
+// const showPromitionVideo = ref(true);
 const showUeVideo = computed(() => uestore.showUeVideo);
 const showDetail = computed(() => store.showDetail);
 const station = ref('');
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
+  if (sessionStorage.getItem('promition')) {
+    store.changeShowPromitionVideo(false);
+  } else {
+    store.changeShowPromitionVideo(true);
+  }
   bus.on('changeStation', (val) => {
     console.log(val);
     station.value = val;

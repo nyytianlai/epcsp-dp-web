@@ -64,7 +64,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" unit="KW" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineTimeData" unit="万kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
@@ -160,6 +160,7 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
+const lineTimeColors = ['green', 'blue'];
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
@@ -282,6 +283,14 @@ const getAlarmCount = async () => {
 const getTimePowerGraph = async () => {
   const res = await timePowerGraph();
   lineTimeData.value = lineTimeDataFun(res.data);
+  if (res.data.length) {
+    const data = res.data;
+    const info = {
+      totalPower: Number(data[data.length - 1].ratedPower) / 10000,
+      realTimePower: Number(data[data.length - 1].realTimePower) / 10000
+    };
+    powerInfoNumData.value = powerInfoNumDataFun(info);
+  }
 };
 
 // 今日告警信息点击
@@ -313,13 +322,13 @@ onMounted(() => {
   getTotalEquipment();
   getStationOpeTop10('station');
   getDayEquInfo(realtimeCode.value);
-  getDayPower();
+  // getDayPower();
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
   timer = setInterval(() => {
     getDayEquInfo(realtimeCode.value);
-    getDayPower();
+    // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
 });

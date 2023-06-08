@@ -76,7 +76,7 @@ export const routes = [
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'Overview' }
+    redirect: { name: 'overviewsAll' }
   },
   {
     path: '/',
@@ -111,20 +111,20 @@ let routesMap = [
     ]
   },
 
-  // {
-  //   path: '/overview',
-  //   name: 'overview',
-  //   meta: { title: '总览' },
-  //   component: Layout2,
-  //   children: [
-  //     {
-  //       name: 'overviewAll',
-  //       path: '/overview/all',
-  //       meta: { title: '总览', keepAlive: false },
-  //       component: () => import('@/views/iframe/index.vue')
-  //     }
-  //   ]
-  // },
+  {
+    path: '/overviews',
+    name: 'Overviews',
+    meta: { title: '总览' },
+    component: Layout2,
+    children: [
+      {
+        name: 'overviewsAll',
+        path: '/overviews/all',
+        meta: { title: '总览', keepAlive: false },
+        component: () => import('@/views/iframe/index.vue')
+      }
+    ]
+  },
   ...routes,
   {
     path: '/login',

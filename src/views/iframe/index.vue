@@ -4,7 +4,7 @@
       frameborder="0"
       v-show="showIframe"
       scrolling="no"
-      src="http://10.10.2.63:9109/"
+      :src="iframeUrl"
       :onload="handleIframeLoaded"
     ></iframe>
     <div class="ue-list-box">
@@ -31,6 +31,7 @@ const router = useRouter();
 const store = useVisibleComponentStore();
 const uestore = useUeStore();
 const showIframe = ref(false);
+const iframeUrl = 'http://10.10.2.63:9109/';
 const stationList = [
   {
     id: 1,
