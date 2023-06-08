@@ -25,6 +25,7 @@ import { Data } from '@icon-park/vue-next';
 import { useMapStore } from '@/stores/map';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
+const currentHrStationID = computed(() => mapStore.currentHrStationID.split('-')[1]); //当前点击的高渲染站点id
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
@@ -65,12 +66,14 @@ const addCameraPoint = async (data) => {
 const carChargingAnimation = async () => {
   setTimeout(async () => {
     await resetCarChargingAnimation();
-    await __g.misc.callBPFunction({ //车辆移动
+    await __g.misc.callBPFunction({
+      //车辆移动
       objectName: 'BP_Taxi_backUp_2',
       functionName: 'Event_Move_Car'
     });
     setTimeout(async () => {
-      await __g.misc.callBPFunction({ //桩充电插上车
+      await __g.misc.callBPFunction({
+        //桩充电插上车
         objectName: 'BP_GroupActor2',
         functionName: 'SetMeshHidden',
         paramType: 0,
@@ -208,11 +211,11 @@ const operatorDistribution = async (isShow: boolean) => {
   add3dt(__g, 'NewYYSFB');
 };
 //站内设施加点
-const addFacilitiesLabel = async () => {
+const addFacilitiesLabel = async (id) => {
   const pointArr = [];
-  facilitiesLabel().forEach((item, index) => {
+  facilitiesLabel(id).forEach((item, index) => {
     let o1 = {
-      id: 'facilitiesLabel-' + index,
+      id: item.id,
       groupId: 'stationFacilitiesLabel',
       coordinate: item.position, //坐标位置
       anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
@@ -232,6 +235,7 @@ const addFacilitiesLabel = async () => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr, null);
+  await __g.marker.hideByGroupId('stationFacilitiesLabel');
 };
 const resetTab3dt = async () => {
   let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
@@ -242,20 +246,21 @@ const resetTab3dt = async () => {
   await __g.marker.deleteByGroupId('stationCameras');
 };
 onMounted(() => {
-  addFacilitiesLabel();
+  addFacilitiesLabel(currentHrStationID.value);
   addChageingIcon(chargeIcon());
   bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
     await resetTab3dt();
-    if (e?.viewCode === "v2") {
+    if (e?.viewCode === 'v2') {
       //站内设施
-      getCameraData();
-    } else if (e?.viewCode === "v3") {
+      currentHrStationID.value == '118' ? getCameraData() : '';
+      __g.marker.showByGroupId('stationFacilitiesLabel');
+    } else if (e?.viewCode === 'v3') {
       //车辆充电
       carChargingAnimation();
-    } else if (e?.viewCode === "v4") {
+    } else if (e?.viewCode === 'v4') {
       currentPath(true);
-    } else if (e?.viewCode === "v5") {
+    } else if (e?.viewCode === 'v5') {
       operatorDistribution(true);
     }
   });
@@ -265,7 +270,7 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
   __g.marker.deleteByGroupId('stationFacilitiesLabel');
-  __g.marker.deleteByGroupId('warningPointGroup'); 
+  __g.marker.deleteByGroupId('warningPointGroup');
   bus.off('handleTabSelect');
   resetTab3dt();
 });

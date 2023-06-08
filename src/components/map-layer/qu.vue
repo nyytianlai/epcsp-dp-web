@@ -69,7 +69,7 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  // console.log('事件监听', e);
+  console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -110,7 +110,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
       if (stationInfo.isHr !== 0) {
         //普通站点
-        // __g.marker.focus(e.Id, 100);
         highLightNormalStation(JSON.parse(e.UserData));
         enterStationInfo(stationInfo);
         return;
@@ -173,9 +172,9 @@ const highLightNormalStation = async (obj) => {
     coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
     radius: 60, //辐射半径
     rippleNumber: 3, //波纹数量
-    color: [0, 1, 1, 0.5], //颜色
+    color: [0, 1, 1, 0.8], //颜色
     intensity: 0.1, //亮度
-    autoHeight: false //自动判断下方是否有物体
+    autoHeight: true //自动判断下方是否有物体
   };
   await __g.radiationPoint.add(o);
   __g.radiationPoint.focus(o.id, 200, 1);
@@ -514,14 +513,7 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
-      ? __g.camera.set(
-          504944.50832031254,
-          2499761.401875,
-          388.7284765625,
-          -39.981967,
-          147.698425,
-          3
-        )
+      ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, - 44.205788, 146.805252, 3)
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
     isShow ? '' : __g.marker.deleteByGroupId('stationChargeIcon');
@@ -532,19 +524,13 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
       : '';
   } else if (stationId === '20') {
     //红荔西5G示范站
-    isShow
-      ? __g.camera.set(502336.126,2494157.449,32.645,-19.399999,-101.400130, 3)
-      : '';
+    isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
-    isShow   
-      ? __g.camera.set(529405.624,2520340.663,79.013, -19.599998,-18.199905, 3)
-      : '';
+    isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
-    isShow  
-      ? __g.camera.set(497235.795,2494003.925,63.319,-30.799998,-123.799998, 3)
-      : '';
+    isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   }
 };
 
