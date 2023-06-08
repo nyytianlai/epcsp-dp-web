@@ -87,7 +87,7 @@ const tourFun = async (viewArr: []) => {
   await __g.cameraTour.add(o);
   __g.cameraTour.play('1');
 };
-const handleRoaming = (value) => {
+const handleRoaming =async (value) => {
   // if (value.viewOrder === 5) {
   //   __g.camera.set(...JSON.parse(value.viewInfo), 6); //休息区
   // } else if (value.viewOrder === 4) {
@@ -99,6 +99,10 @@ const handleRoaming = (value) => {
   // } else if (value.viewOrder === 1) {
   //   tourFun(JSON.parse(value.viewInfo));
   // }
+  // console.log('ffffffff',JSON.parse(value.iconIdList));
+  
+  // console.log(111111111,await __g.marker.get(JSON.parse(value.iconIdList)))
+  value.iconIdList?await __g.marker.show(JSON.parse(value.iconIdList)):'';
   if (value.viewInfoType === 't1') {
     let time = value.viewName == '车辆充电' ? 3 : 6;
     __g.camera.set(...JSON.parse(value.viewInfo), time);
@@ -107,6 +111,7 @@ const handleRoaming = (value) => {
   }
 };
 const handleClick = async (item, sub) => {
+  await __g.marker.hideByGroupId('stationFacilitiesLabel');
   await __g.cameraTour.pause();
   if (sub) {
     item.isHover = false;
@@ -120,7 +125,6 @@ const handleClick = async (item, sub) => {
       activeTab.value = item.viewOrder;
       handleRoaming(sub);
     }
-    // emit('handleSelect', sub);
     bus.emit('handleTabSelect');
   } else {
     if (item.secondMenuList && item.secondMenuList.length) return;
