@@ -20,49 +20,194 @@ export const chargeIcon = () => {
 };
 
 //民乐站配套设施标签
-export const facilitiesLabel = () => {
-  return [
-    {
-      value: '配电房',
-      position: [504774.168125, 2499575.52, 96.99998046875],
-      img: 'electricalRoom'
-    },
-    {
-      value: '配电房',
-      position: [504753.5603125, 2499558.88, 97.00000976562501],
-      img: 'electricalRoom'
-    },
-    {
-      value: '配电房',
-      position: [504741.674375, 2499550.24, 97.00000976562501],
-      img: 'electricalRoom'
-    },
-    {
-      value: '卫生间',
-      position: [504675.3878125, 2499607.36, 98.3817578125],
-      img: 'toilet'
-    },
-    {
-      value: '便利店',
-      position: [504672.74375, 2499624.8000000003, 96.959091796875],
-      img: 'store'
-    },
-    {
-      value: '休息区',
-      position: [504657.135625, 2499639.04, 98.2],
-      img: 'rest'
-    },
-    {
-      value: '维修区',
-      position: [504635.49562500004, 2499664.96, 98.5],
-      img: 'maintenance'
-    },
-    {
-      value: '配电房',
-      position: [504684.1375, 2499708.64, 97],
-      img: 'electricalRoom'
-    }
-  ];
+export const facilitiesLabel = (stationId) => {
+  if(stationId=='118'){ //民乐
+    return [
+      {
+        value: '配电房',
+        position: [504774.168125, 2499575.52, 96.99998046875],
+        id: '配电房1',
+        img: 'electricalRoom',
+      },
+      {
+        value: '配电房',
+        position: [504753.5603125, 2499558.88, 97.00000976562501],
+        id: '配电房2',
+        img: 'electricalRoom'
+      },
+      {
+        value: '配电房',
+        position: [504741.674375, 2499550.24, 97.00000976562501],
+        id: '配电房3',
+        img: 'electricalRoom'
+      },
+      {
+        value: '卫生间',
+        position: [504675.3878125, 2499607.36, 98.3817578125],
+        id: '卫生间',
+        img: 'toilet'
+      },
+      {
+        value: '便利店',
+        position: [504672.74375, 2499624.8000000003, 96.959091796875],
+        id: '便利店',
+        img: 'store'
+      },
+      {
+        value: '休息区',
+        position: [504657.135625, 2499639.04, 98.2],
+        id: '休息区',
+        img: 'rest'
+      },
+      {
+        value: '维修区',
+        position: [504635.49562500004, 2499664.96, 98.5],
+        id: '维修区',
+        img: 'maintenance'
+      },
+      {
+        value: '配电房',
+        position: [504684.1375, 2499708.64, 97],
+        id: '配电房4',
+        img: 'electricalRoom'
+      }
+    ];
+  }else if(stationId=='4403070124'){ //国际低碳城
+    return [
+      {
+        value: '展示馆',
+        id: '展示馆',
+        position: [529572.4125, 2520471.52, 51.9294921875],
+        img: 'electricalRoom'
+      },
+      {
+        value: '会议馆',
+        id: '会议馆',
+        position: [529603.1675, 2520417.6, 52.0587109375],
+        img: 'electricalRoom'
+      },
+      {
+        value: '交易馆',
+        id: '交易馆',
+        position: [529523.8875, 2520364.8000000003, 51.9294921875],
+        img: 'electricalRoom'
+      },
+      {
+        value: '实时监测中心',
+        id: '实时监测展示中心',
+        position: [529466.175, 2520360.16, 42.725927734375],
+        img: 'toilet'
+      },
+      {
+        value: '微网箱变',
+        id: '微网箱变',
+        position: [529477.495, 2520360.96, 34.2319580078125],
+        img: 'store'
+      },
+      {
+        value: '储能箱',
+        id: '储能箱',
+        position: [529476.49, 2520356.48, 34.22337646484375],
+        img: 'rest'
+      },
+      {
+        value: '充电终端',
+        id: '充电终端',
+        position: [529477.8025, 2520351.84, 32.137705078125],
+        img: 'maintenance'
+      },
+      {
+        value: '光伏电池板',
+        id: '光伏电池板',
+        position: [529473.83, 2520347.68, 35.1907373046875],
+        img: 'electricalRoom'
+      },
+      {
+        value: '充电站',
+        id: '充电站',
+        position: [529477.7975, 2520344.8000000003, 34.6154541015625],
+        img: 'electricalRoom'
+      }
+    ];
+  }else if(stationId=='440202003'){//奥特迅
+    return [
+      {
+        value: '充电集控终端',
+        id: '充电集控终端',
+        position: [494455.70875, 2495552, 25.17718994140625],
+        img: 'electricalRoom'
+      },
+      {
+        value: '充放电一体机',
+        id: '充放电一体机',
+        position: [494458.6175, 2495536, 25.014765625],
+        img: 'electricalRoom'
+      },
+      {
+        value: '液冷大功率充电终端',
+        id: '液冷大功率充电终端',
+        position: [494451.98125, 2495572.48, 25.0986181640625],
+        img: 'electricalRoom'
+      },
+      {
+        value: '充电堆',
+        id: '充电堆',
+        position: [494452.72375, 2495578.24, 26.920390625],
+        img: 'toilet'
+      },
+      {
+        value: '电池设备室',
+        id: '电池设备室',
+        position: [494450.11875, 2495589.6, 27.641760253906252],
+        img: 'store'
+      },
+      {
+        value: '储能柜',
+        id: '储能柜',
+        position: [494448.366875, 2495595.2, 26.2085498046875],
+        img: 'rest'
+      }
+    ];
+  }else if(stationId=='144'){//欢乐谷
+    return [
+      {
+        value: '休息室',
+        id: '休息室',
+        position: [497134.126875, 2494086.56, 22.56550537109375],
+        img: 'rest'
+      },
+      {
+        value: '1#箱变',
+        id: '1#箱变',
+        position: [497201.15375, 2494072.16, 23.0725341796875],
+        img: 'electricalRoom'
+      },
+      {
+        value: '2#箱变',
+        id: '2#箱变',
+        position: [497200.9596875, 2494068, 23.090380859375],
+        img: 'electricalRoom'
+      },
+      {
+        value: '3#箱变',
+        id: '3#箱变',
+        position: [497201.195625, 2494064, 23.084296875],
+        img: 'electricalRoom'
+      },
+      {
+        value: '4#箱变',
+        id: '4#箱变',
+        position: [497207.43, 2494064, 23.0889501953125],
+        img: 'electricalRoom'
+      },
+      {
+        value: '5#箱变',
+        id: '5#箱变',
+        position: [497207.631875, 2494067.68, 23.069404296875],
+        img: 'electricalRoom'
+      }
+    ];
+  }
 };
 //民乐站电流标签
 export const currentLabel = () => {
@@ -140,7 +285,7 @@ export const pageNumFun = (data = {}) => {
     {
       name: '站点充电量',
       num: data?.stationChargeCapacity,
-      unit: 'kwh'
+      unit: 'kWh'
     },
     {
       name: '站点充电次数',
@@ -287,8 +432,9 @@ export const chargingTypesFun = (data = {}) => {
   return [
     {
       img: rate,
-      num: data?.useRate + '%',
+      num: data.useRate ? data.useRate.toFixed(2) + '%' : '0%',
       name: '当前使用率',
+      digits: 2,
       classStyleType: 'leftRightStyleGreen'
     },
     {

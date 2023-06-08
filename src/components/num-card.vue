@@ -4,7 +4,12 @@
     <div class="info">
       <span class="num">
         <span class="value" :style="styleImgFont?.num">
-          {{ formatWithToLocalString(data.num) }}
+          <!-- {{ formatWithToLocalString(data.num) }} -->
+          {{
+            data.digits
+              ? formatWithToLocalString(data.num, data.digits)
+              : formatWithToLocalString(data.num)
+          }}
         </span>
         <span class="unit">&nbsp;{{ data.unit }}</span>
       </span>
@@ -14,13 +19,13 @@
 </template>
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
-import type { CSSProperties } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 interface Idata {
   img: string;
   name: string;
   num: string | number;
   unit?: string;
+  digits?: number;
   iconStyle?: object;
   numStyle?: object;
   nameStyle?: object;
