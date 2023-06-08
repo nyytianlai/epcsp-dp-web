@@ -195,7 +195,7 @@ const customFun = async(data) => {
             coordinateType: 0,// 坐标系类型 
             rotation: [0, 0, 0],// 世界坐标系旋转
             localRotation: [0, 0, 0],//模型自身旋转
-            scale: [5, 5, 5],//模型缩放
+            scale: [1,1, 1],//模型缩放
             smoothMotion: 1   //1: 平滑移动，0: 跳跃移动
         };
         arr.push(top)
