@@ -24,7 +24,7 @@
         </div>
         <span class="num" :style="numMaxWidth">
           <span>{{ formatWithToLocalString(item.num) }}</span>
-          <span class="unit">/{{ item.unit }}</span>
+          <span class="unit"><span v-if="showPer">/</span>{{ item.unit }}</span>
         </span>
       </li>
     </ul>
@@ -44,9 +44,11 @@ interface Props {
   data: Idata[];
   totalNum: number;
   height: string;
+  showPer?: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-  height: '2.12rem'
+  height: '2.12rem',
+  showPer: true
 });
 const { data, totalNum } = toRefs(props);
 const numMaxWidth = computed(() => {

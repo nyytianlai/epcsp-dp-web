@@ -22,7 +22,12 @@
       <div class="company-rank">
         <title-column title="企业排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
-        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" />
+        <area-rank-list
+          :data="companyRankData"
+          :totalNum="companyRankTotal"
+          height="2.54rem"
+          :showPer="false"
+        />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -76,9 +81,40 @@ const cardData = ref(cdzzlFun());
 // 上网方式分类
 const surfSortPieData = ref(surfSortPieDataFun());
 // 企业排名
-const companyRankData = ref([]);
+const companyRankData = ref([
+  {
+    num: 85,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 80,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 77,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 72,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 50,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 40,
+    unit: '%',
+    name: '运营商名称名称名'
+  }
+]);
 // 企业排名总量
-const companyRankTotal = ref<number>(0);
+const companyRankTotal = ref<number>(85);
 // 今日光伏电站数据
 const cardTodayData = ref(jrgfdzFun());
 // 今日功率信息卡片
@@ -120,6 +156,12 @@ const handleCompany = (item) => {
   margin-top: 20px;
   :deep(.tabs) {
     margin-top: 16px;
+  }
+  :deep(.area-rank-wrap) {
+    margin-top: 20px;
+    .unit {
+      color: #fff;
+    }
   }
 }
 .photovoltaic-station-overview-today {
@@ -175,8 +217,8 @@ const handleCompany = (item) => {
   margin-top: 24px;
   .num-wrap {
     margin-top: 16px;
-    :deep(.num-tile-card){
-      &:nth-of-type(n+1){
+    :deep(.num-tile-card) {
+      &:nth-of-type(n + 1) {
         margin-top: 12px;
       }
     }

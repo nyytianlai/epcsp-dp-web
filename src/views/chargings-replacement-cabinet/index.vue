@@ -25,6 +25,7 @@
           :data="facilitiesRankData"
           :totalNum="facilitiesRankTotal"
           height="2.54rem"
+          :showPer="false"
         />
       </div>
     </panel>
@@ -48,15 +49,16 @@
         </div>
         <line-time-chart :data="lineStateData" :colors="['green', 'blue']" unit="KW" />
       </div>
-        <div class="today-warning-message">
-      <title-column title="今日告警信息" icon="chargings-replacement" />
-      <warning-list :data="warningListData" />
-    </div>
+      <div class="today-warning-message">
+        <title-column title="今日告警信息" icon="chargings-replacement" />
+        <warning-list :data="warningListData" @handleClick="handleWarnClick" />
+      </div>
     </panel>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
+import { toSingleStation } from '@/global/config/map';
 import {
   pageNumFun,
   chdsszlFun,
@@ -65,7 +67,8 @@ import {
   todayFacilities,
   todayFacilitiesCardFun,
   powerTodayCardFun,
-  linePowerDataFun
+  linePowerDataFun,
+  warnData
 } from './config';
 // 顶部数据
 const pageNumData = ref(pageNumFun());
@@ -74,9 +77,40 @@ const cardData = ref(chdsszlFun());
 // 充换电设施类型
 const chargingTypeData = ref(chargingTypeDataFun());
 // 企业排名
-const facilitiesRankData = ref([]);
+const facilitiesRankData = ref([
+  {
+    num: 85,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 80,
+    unit: '%',
+    name: '运营商名称名称名称名称'
+  },
+  {
+    num: 77,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 72,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 50,
+    unit: '%',
+    name: '运营商名称名称名'
+  },
+  {
+    num: 40,
+    unit: '%',
+    name: '运营商名称名称名'
+  }
+]);
 // 企业排名总量
-const facilitiesRankTotal = ref<number>(0);
+const facilitiesRankTotal = ref<number>(85);
 // 今日设施数据信息卡片
 const todayFacilitiesCard = ref(todayFacilitiesCardFun());
 // 今日功率信息卡片
@@ -89,6 +123,26 @@ const warningListData = ref([]);
 const handleFacilities = (item) => {
   console.log('item', item);
 };
+// 今日告警信息点击
+const handleWarnClick = (station: object) => {
+  console.log(station);
+};
+
+// 告警信息初始化
+const init = () => {
+  warningListData.value = warnData.map((item) => {
+    return {
+      date: item.alarmTime,
+      message: item.alarmDesc,
+      area: item.stationName,
+      isClick: true,
+      ...item
+    };
+  });
+};
+onMounted(()=>{
+  init()
+})
 </script>
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
@@ -116,6 +170,12 @@ const handleFacilities = (item) => {
 }
 .company-facilities-rank {
   margin-top: 20px;
+  :deep(.area-rank-wrap) {
+    margin-top: 20px;
+    .unit {
+      color: #fff;
+    }
+  }
 }
 .today-facilities {
   :deep(.tabs) {
@@ -190,5 +250,9 @@ const handleFacilities = (item) => {
 }
 .today-warning-message {
   margin-top: 26px;
+  :deep(.warning-list){
+    margin-top: 16px;
+  }
+
 }
 </style>

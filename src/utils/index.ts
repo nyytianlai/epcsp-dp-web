@@ -48,3 +48,31 @@ export const deepClone = (obj) => {
   }
   return res;
 };
+// 数值转换
+export function simplifyNum(number) {
+  console.log('nu',number)
+  if (!number && number != 0) return number;
+  var str_num;
+  if (number >= 1e3 && number < 1e4) {
+    str_num = number / 1e3;
+    return str_num + '千';
+  } else if (number >= 1e4 && number < 1e7) {
+    str_num = number / 1e4;
+    return str_num + '万';
+  } else if (number >= 1e7 && number < 1e10) {
+    str_num = number / 1e8;
+    return str_num + '亿';
+  } else if (number >= 1e10 && number < 1e11) {
+    str_num = number / 1e10;
+    return str_num + '百亿';
+  } else if (number >= 1e11 && number < 1e12) {
+    str_num = number / 1e11;
+    return str_num + '千亿';
+  } else if (number >= 1e12) {
+    str_num = number / 1e12;
+    return str_num + '万亿';
+  } else {
+    //一千以下
+    return number;
+  }
+}
