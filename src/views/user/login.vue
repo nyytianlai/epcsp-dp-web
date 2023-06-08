@@ -95,8 +95,8 @@ const handleLogin = async (formEl) => {
             store.changeToken(token);
             store.changeProfile(profile.data.profile);
             sessionStorage.setItem('profile', JSON.stringify(profile.data.profile));
+            router.push({ path: state.redirect || '/', query: state.otherQuery });
           }
-          router.push({ path: state.redirect || '/', query: state.otherQuery });
           state.loading = false;
         })
         .catch(() => {
