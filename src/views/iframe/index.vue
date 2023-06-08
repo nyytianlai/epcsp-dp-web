@@ -34,8 +34,8 @@ const showIframe = ref(false);
 const iframeUrl = 'http://10.10.2.63:9109/';
 const stationList = [
   {
-    id: 1,
-    name: '民乐站'
+    id: 6,
+    name: '南方电网深圳宝能储能电站'
   },
   {
     id: 2,
@@ -46,16 +46,16 @@ const stationList = [
     name: '红荔西5g站'
   },
   {
-    id: 4,
-    name: '特来电深圳国际低碳城站'
+    id: 1,
+    name: '民乐站'
   },
   {
     id: 5,
     name: '奥特迅综合性充电站'
   },
   {
-    id: 6,
-    name: '南方电网深圳宝能储能电站'
+    id: 4,
+    name: '特来电深圳国际低碳城站'
   }
 ];
 const routerChange = (path: string) => {
