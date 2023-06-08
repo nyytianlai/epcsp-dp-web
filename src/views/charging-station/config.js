@@ -362,19 +362,13 @@ export const lineTimeDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data.map((item) => [
-        yearMonthDay + item.timeDim,
-        Math.round(Number(item.ratedPower) / 10000)
-      ]),
+      data: data.map((item) => [yearMonthDay + item.timeDim, item.ratedPower]),
       type: 'line',
       smooth: true,
       name: '额定功率'
     },
     {
-      data: data.map((item) => [
-        yearMonthDay + item.timeDim,
-        Math.round(Number(item.realTimePower) / 10000)
-      ]),
+      data: data.map((item) => [yearMonthDay + item.timeDim, item.realTimePower]),
       type: 'line',
       smooth: true,
       name: '实时功率'

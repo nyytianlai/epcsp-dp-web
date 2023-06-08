@@ -21,13 +21,14 @@ export const chargeIcon = () => {
 
 //民乐站配套设施标签
 export const facilitiesLabel = (stationId) => {
-  if(stationId=='118'){ //民乐
+  if (stationId == '118') {
+    //民乐
     return [
       {
         value: '配电房',
         position: [504774.168125, 2499575.52, 96.99998046875],
         id: '配电房1',
-        img: 'electricalRoom',
+        img: 'electricalRoom'
       },
       {
         value: '配电房',
@@ -72,7 +73,8 @@ export const facilitiesLabel = (stationId) => {
         img: 'electricalRoom'
       }
     ];
-  }else if(stationId=='4403070124'){ //国际低碳城
+  } else if (stationId == '4403070124') {
+    //国际低碳城
     return [
       {
         value: '展示馆',
@@ -129,7 +131,8 @@ export const facilitiesLabel = (stationId) => {
         img: 'electricalRoom'
       }
     ];
-  }else if(stationId=='440202003'){//奥特迅
+  } else if (stationId == '440202003') {
+    //奥特迅
     return [
       {
         value: '充电集控终端',
@@ -168,7 +171,8 @@ export const facilitiesLabel = (stationId) => {
         img: 'rest'
       }
     ];
-  }else if(stationId=='144'){//欢乐谷
+  } else if (stationId == '144') {
+    //欢乐谷
     return [
       {
         value: '休息室',
@@ -429,10 +433,11 @@ export const chargingTypesTabsFun = () => {
 };
 
 export const chargingTypesFun = (data = {}) => {
+  console.log(data);
   return [
     {
       img: rate,
-      num: data.useRate ? data.useRate.toFixed(2) + '%' : '0%',
+      num: data && data.useRate ? data.useRate.toFixed(2) + '%' : '0%',
       name: '当前使用率',
       digits: 2,
       classStyleType: 'leftRightStyleGreen'
