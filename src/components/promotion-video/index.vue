@@ -26,6 +26,7 @@ const store = useVisibleComponentStore();
 // 视频播放状态
 let playStatus = '';
 const handleCloseVideo = () => {
+  sessionStorage.setItem('promition', 'promition');
   store.changeShowPromitionVideo(false);
 };
 const play = () => {
