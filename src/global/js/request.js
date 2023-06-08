@@ -122,6 +122,10 @@ axios.interceptors.response.use((response) => {
     }
     return Promise.reject(new Error(res.message || 'Error'));
   } else {
-    return res.data;
+    if (res.data.resultCode === 'TCM-101') {
+      Message({ type: 'error', message: '租户信息有误，请联系管理员!' || 'Error' });
+    } else {
+      return res.data;
+    }
   }
 }, err);
