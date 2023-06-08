@@ -246,8 +246,10 @@ const resetTab3dt = async () => {
   await __g.marker.deleteByGroupId('stationCameras');
 };
 onMounted(() => {
-  addFacilitiesLabel(currentHrStationID.value);
-  addChageingIcon(chargeIcon());
+  if (mapStore.currentHrStationID !== '') {
+    addFacilitiesLabel(currentHrStationID.value);
+    addChageingIcon(chargeIcon());
+  }
   bus.on('handleTabSelect', async (e) => {
     //一级菜单栏切换
     await resetTab3dt();

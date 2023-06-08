@@ -8,6 +8,7 @@ import jrssgl from './images/jrssgl.png'
 import jrzdgl from './images/jrzdgl.png'
 import nscgfld from './images/nscgfld.png'
 import nco2jpl from './images/nco2jpl.png'
+import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -151,9 +152,67 @@ export const powerTodayCardFun = (data = {}) => {
   ];
 };
 export const linePowerDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  data = [
+    {
+      "time": "01",
+      "useRate": 181.34,
+      "troubleRate": 0
+    },
+    {
+      "time": "02",
+      "useRate": 282.34,
+      "troubleRate": 0
+    },
+    {
+      "time": "03",
+      "useRate": 300,
+      "troubleRate": 0
+    },
+    {
+      "time": "04",
+      "useRate": 18.34,
+      "troubleRate": 0
+    },
+    {
+      "time": "05",
+      "useRate": 800,
+      "troubleRate": 0
+    },
+    {
+      "time": "06",
+      "useRate": 400,
+      "troubleRate": 0
+    },
+    {
+      "time": "07",
+      "useRate": 100,
+      "troubleRate": 0
+    },
+    {
+      "time": "08",
+      "useRate": 900,
+      "troubleRate": 0
+    },
+    {
+      "time": "09",
+      "useRate":632,
+      "troubleRate": 0.12
+    },
+    {
+      "time": "10",
+      "useRate": 561,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "11",
+      "useRate": 73,
+      "troubleRate": 0.13
+    }
+  ]
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '实时功率'

@@ -159,12 +159,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 const highLightNormalStation = async (obj) => {
-  let res = await __g.radiationPoint.get('1');
-  if (res.resultMessage == 'OK') {
-    let id = 'station-' + res.data[0].userData;
-    __g.marker.hidePopupWindow(id);
-  }
-  __g.radiationPoint.clear();
+  await hideHighLightNormalStation();
   let o = {
     id: '1',
     userData: obj.stationId,
@@ -172,12 +167,22 @@ const highLightNormalStation = async (obj) => {
     coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
     radius: 60, //辐射半径
     rippleNumber: 3, //波纹数量
-    color: [0, 1, 1, 0.8], //颜色
-    intensity: 0.1, //亮度
+    color: [255 / 255, 191 / 255, 0 / 255, 1], //颜色
+    intensity: 0.5, //亮度
     autoHeight: true //自动判断下方是否有物体
   };
   await __g.radiationPoint.add(o);
   __g.radiationPoint.focus(o.id, 200, 1);
+};
+
+//隐藏辐射圈以及橙色popup
+const hideHighLightNormalStation = async () => {
+  let res = await __g.radiationPoint.get('1');
+  if (res.resultMessage == 'OK') {
+    let id = 'station-' + res.data[0].userData;
+    __g.marker.hidePopupWindow(id);
+  }
+  __g.radiationPoint.clear();
 };
 
 const addCenterPoint = async (point) => {
@@ -324,7 +329,7 @@ const back = async () => {
     await resetQu();
   } else if (currentPosition.value === '') {
     //此种情况返回哪一级需根据上一个位置
-    __g.radiationPoint.clear();
+    hideHighLightNormalStation()
     hideAllStation3dt(__g, store.treeInfo);
     beforeAddOrExitHrStation(false);
     if (currentPositionBak.value.includes('街道')) {
@@ -513,7 +518,7 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
-      ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, - 44.205788, 146.805252, 3)
+      ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, -44.205788, 146.805252, 3)
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
     isShow ? '' : __g.marker.deleteByGroupId('stationChargeIcon');

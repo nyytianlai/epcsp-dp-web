@@ -48,14 +48,20 @@
     </panel>
     <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
     <panel type="right">
-      <div class="box">
+      <div class="box station">
         <title-column title="充电站/设施数量统计" />
+        <tabs :data="stationTabType" @changeTab="handleStation" />
+        <div class="ec-box">
+          <ec-resize :option="ecOption" />
+        </div>
       </div>
-      <div class="box">
+      <div class="box carbon-sort">
         <title-column title="本月分类碳减排量" />
+        <line-time-chart :data="lineCarbonData" :colors="['#FF7723','#00FFF9','#979797','#F9E900','blue']" yaxisName="万吨" mode="onlyLine" unit=''/>
       </div>
       <div class="box">
         <title-column title="本月发用电量数据" />
+        <line-time-chart :data="lineElectricData" :colors="['#FF7723','#979797','#F9E900','blue']" yaxisName="万kwh" mode="onlyLine" unit=''/>
       </div>
     </panel>
     <div class="play-btn" @click="handlePlayVideo"></div>
@@ -63,14 +69,18 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted,inject,ref } from 'vue';
+import { reactive, onMounted, inject, ref } from 'vue';
 import {
   pageNumFun,
   chargingStationsFun,
   energyStationFun,
   photovoltaicStationFun,
   chargingsReplacementCabinetFun,
-  digitalTwinSiteFun
+  digitalTwinSiteFun,
+  stationTabType,
+  ecOptionFun,
+  lineCarbonDataFun,
+  lineElectricDataFun
 } from './config.js';
 import { useUeStore } from '@/stores/ue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
@@ -78,6 +88,7 @@ import bus from '@/utils/bus';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
+import EcResize from '@sutpc/vue3-ec-resize';
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
@@ -91,6 +102,14 @@ const state = reactive({
   chargingsReplacementCabinetStations: [],
   digitalTwinSites: []
 });
+// 左一柱状图
+const ecOption = ref(
+  ecOptionFun([2001, 2811, 4011, 5910, 6399], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+);
+// 左二折线图
+const lineCarbonData = ref(lineCarbonDataFun());
+// 左三折线图
+const lineElectricData = ref(lineElectricDataFun());
 const store = useVisibleComponentStore();
 const uestore = useUeStore();
 // 头部累计数据
@@ -105,6 +124,11 @@ const handlePlayUeVideo = (station: string) => {
 };
 const handlePlayVideo = () => {
   store.changeShowPromitionVideo(true);
+};
+
+// 充电站tab点击
+const handleStation = (item) => {
+  console.log('item', item);
 };
 onMounted(() => {
   state.pageNumData = pageNumFun();
@@ -174,5 +198,15 @@ onMounted(() => {
   top: 148px;
   right: 452px;
   z-index: 10;
+}
+.station {
+  :deep(.tabs) {
+    margin-top: 16px;
+  }
+}
+.ec-box {
+  height: 230px;
+  width: 100%;
+  margin-top: 12px;
 }
 </style>
