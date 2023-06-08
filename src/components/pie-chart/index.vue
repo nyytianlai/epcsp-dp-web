@@ -45,7 +45,6 @@
         v-for="(item, index) in data"
         :key="index"
         @click="handleCanChoose(item)"
-        :data-color="item.isChoose ? colors[index] : 'rgba(255, 255, 255, 0.18)'"
       >
         <div
           class="right-top"
