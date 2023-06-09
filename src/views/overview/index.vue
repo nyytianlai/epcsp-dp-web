@@ -41,8 +41,15 @@
             class="ue-item"
             v-for="item in state.digitalTwinSites"
             :key="item.id"
-            @click="handlePlayUeVideo(item.name)"
-          ></div>
+            @click="handlePlayUeVideo(item)"
+          >
+            <div class="card-type">{{ item.type }}</div>
+            <img :src="item.img" alt="" />
+
+            <el-tooltip :content="item.name || ''" placement="top">
+              <div class="card-name">{{ item.name }}</div>
+            </el-tooltip>
+          </div>
         </div>
       </div>
     </panel>
@@ -57,11 +64,25 @@
       </div>
       <div class="box carbon-sort">
         <title-column title="本月分类碳减排量" />
-        <line-time-chart :data="lineCarbonData" :colors="['#FF7723','#00FFF9','#979797','#F9E900','blue']" yaxisName="万吨" mode="onlyLine" unit=''/>
+        <line-time-chart
+          :data="lineCarbonData"
+          :colors="['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']"
+          yaxisName="万吨"
+          mode="onlyLine"
+          unit=""
+          :chartStyle="{height: '2.3rem'}"
+        />
       </div>
       <div class="box">
         <title-column title="本月发用电量数据" />
-        <line-time-chart :data="lineElectricData" :colors="['#FF7723','#979797','#F9E900','blue']" yaxisName="万kwh" mode="onlyLine" unit=''/>
+        <line-time-chart
+          :data="lineElectricData"
+          :colors="['#FF7723', '#979797', '#F9E900', 'blue']"
+          yaxisName="万kwh"
+          mode="onlyLine"
+          unit=""
+          :chartStyle="{height: '2.3rem'}"
+        />
       </div>
     </panel>
     <div class="play-btn" @click="handlePlayVideo"></div>
@@ -89,7 +110,6 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 
@@ -118,9 +138,15 @@ const getOverTotalCount = async () => {
   // const res = await overTotalCount();
   // pageNumData.value = pageNumFun(res.data);
 };
-const handlePlayUeVideo = (station: string) => {
-  uestore.changeShowUeVideo(true);
-  bus.emit('changeStation', station);
+const handlePlayUeVideo = (item) => {
+  
+  item['isHr'] = 0;
+  store.changeShowComponent(false);
+  store.changeShowDetail({
+    show: true,
+    params: item
+  });
+  bus.emit('toHr', item);
 };
 const handlePlayVideo = () => {
   store.changeShowPromitionVideo(true);
@@ -171,19 +197,50 @@ onMounted(() => {
   &:last-child {
     margin-bottom: 0;
   }
+  .ec-wrap {
+    margin-top: 16px;
+  }
 }
 .ue-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 16px;
 }
 .ue-item {
   width: 128px;
   height: 104px;
   margin-right: 8px;
   margin-bottom: 12px;
+  position: relative;
   cursor: pointer;
   &:nth-child(3n) {
     margin-right: 0;
+  }
+  img {
+    width: 128px;
+    height: 80px;
+  }
+  .card-type {
+    position: absolute;
+    background: linear-gradient(90deg, #11467b 0%, rgba(17, 70, 123, 0) 100%);
+    font-family: 'PingFang SC';
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 8px;
+    color: #ffffff;
+    width: 100%;
+  }
+  .card-name {
+    width: 100%;
+    text-align: center;
+    color: #4bdeff;
+    font-size: 12px;
+    font-family: 'PingFang SC';
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -197,7 +254,7 @@ onMounted(() => {
   position: absolute;
   top: 148px;
   right: 452px;
-  z-index: 10;
+  z-index: 999;
 }
 .station {
   :deep(.tabs) {

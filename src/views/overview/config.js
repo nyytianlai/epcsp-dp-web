@@ -4,7 +4,13 @@ import nfdl from './images/nfdl.png';
 import gfzzs from './images/gfzzs.png';
 import cnzzs from './images/cnzzs.png';
 import sszs from './images/sszs.png';
-import {simplifyNum} from '@/utils/index'
+import aotexun from './images/aotexun.png';
+import baoqing from './images/baoqing.png';
+import honglixi from './images/honglixi.png';
+import telaidian from './images/telaidian.png';
+import lianhuaxi from './images/lianhuaxi.png';
+import minle from './images/minle.png';
+import { simplifyNum } from '@/utils/index'
 import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
@@ -106,37 +112,77 @@ export const digitalTwinSiteFun = () => {
   return [
     {
       id: 1,
-      img: '',
+      img: minle,
       type: '充电站',
-      name: '民乐充电站'
+      name: '民乐充电站',
+      "createdBy": null,
+      "creationTime": null,
+      "lastUpdatedBy": null,
+      "lastUpdateTime": null,
+      "hrId": 2,
+      "operatorId": "398461164",
+      "stationId": "118",
+      "stationName": "比亚迪民乐P+R电动汽车充电站",
+      "stationType": "全球最大",
+      "stationPic": "http://10.226.0.231:9000/hr-station-pic/118.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3c0d97235d390bc5b31b2530dc76734caf69f5449245985ad8dd30b5fdf7ec86",
+      "path3dt": null,
+      "sort": 2
+
     },
     {
       id: 2,
-      img: '',
+      img: lianhuaxi,
       type: '光伏',
       name: '莲花西地铁光伏站'
     },
     {
       id: 3,
-      img: '',
+      img: honglixi,
       type: '5G',
       name: '红荔西5G示范站'
     },
     {
       id: 4,
-      img: '',
+      img: telaidian,
       type: '充电站',
-      name: '特来电深圳国际低碳城站'
+      name: '特来电深圳国际低碳城站',
+      "createdBy": null,
+      "creationTime": null,
+      "lastUpdatedBy": null,
+      "lastUpdateTime": null,
+      "hrId": 4,
+      "operatorId": "395815801",
+      "stationId": "4403070124",
+      "stationName": "深圳国际低碳城光储充放一体化示范站",
+      "stationType": "V2G",
+      "stationPic": "http://10.226.0.231:9000/hr-station-pic/4403070124.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0057756d8a74cb4fc1449884727f85b7aeb7fc5cb7c24c46313ea833bb199a26",
+      "path3dt": null,
+      "sort": 4
+
     },
     {
       id: 5,
-      img: '',
+      img: aotexun,
       type: '光储充放',
-      name: '奥特迅电力大厦充电站'
+      name: '奥特迅电力大厦充电站',
+
+      "createdBy": null,
+      "creationTime": null,
+      "lastUpdatedBy": null,
+      "lastUpdateTime": null,
+      "hrId": 1,
+      "operatorId": "061402628",
+      "stationId": "440202003",
+      "stationName": "奥特迅电力大厦后广场充电站",
+      "stationType": "光储充放",
+      "stationPic": "http://10.226.0.231:9000/hr-station-pic/440202003.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d20cb7f662543ea11cf511abc6d3d20b9c9689ebb215b22cceee7179790712d4",
+      "path3dt": null,
+      "sort": 1
+
     },
     {
       id: 6,
-      img: '',
+      img: baoqing,
       type: '储能站',
       name: '深圳宝清储能站'
     }
@@ -269,7 +315,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
               {
                 offset: 1,
                 color: '#88C6FF'
-              }, 
+              },
               {
                 offset: 0,
                 color: 'rgba(0, 58, 255, 0.0001)'
@@ -297,7 +343,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
     ]
   };
 };
-export const lineCarbonDataFun = (data = [],xaxis = []) => {
+export const lineCarbonDataFun = (data = [], xaxis = []) => {
   data = [
     {
       "time": "01",
