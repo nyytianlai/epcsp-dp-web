@@ -64,56 +64,56 @@ const infoListFun = (data = {}) => {
     {
       icon: 'cdl',
       name: '充电量',
-      value: data?.chargeElectricity || '--',
+      value: data?.chargeElectricity || 0,
       dynamicType: 1,
       unit: 'kWh'
     },
     {
       icon: 'fdl',
       name: '放电量',
-      value: data?.disChargeElectricity || '--',
+      value: data?.disChargeElectricity || 0,
       dynamicType: 2,
       unit: 'kWh'
     },
     {
       icon: 'cdsc',
       name: '充电时长',
-      value: data?.chargeLastTime || '--',
+      value: data?.chargeLastTime || 0,
       dynamicType: 3,
       unit: 'h'
     },
     {
       icon: 'cdcs',
       name: '充电次数',
-      value: data?.chargeCount || '--',
+      value: data?.chargeCount || 0,
       dynamicType: 4,
       unit: '次'
     },
     {
       icon: 'ssgl',
       name: '实时功率',
-      value: data?.power || '--',
+      value: data?.power || 0,
       dynamicType: 5,
       unit: 'kW'
     },
     {
       icon: 'gzl',
       name: '故障率',
-      value: data?.troubleRate || '--',
+      value: data?.troubleRate || 0,
       dynamicType: 6,
       unit: '%'
     },
     {
       icon: 'lyl',
       name: '利用率',
-      value: data?.useRate || '--',
+      value: data?.useRate || 0,
       dynamicType: 7,
       unit: '%'
     },
     {
       icon: 'nbwd',
       name: '内部温度',
-      value: data?.equipmentTemp || '--',
+      value: data?.equipmentTemp || 0,
       dynamicType: 8,
       unit: 'C⁰'
     }
@@ -254,7 +254,7 @@ onMounted(() => {
       background: rgba(84, 181, 255, 0.12);
       font-weight: 400;
       font-size: 18px;
-      line-height: 28px;
+      line-height: 40px;
       color: #d6f8ff;
       &:nth-child(2) {
         clip-path: polygon(0% 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 0 0);
@@ -271,6 +271,7 @@ onMounted(() => {
     }
     .el-tabs__item.is-active {
       font-size: 18px;
+      line-height: 40px;
       color: #fff;
       background: rgba(84, 181, 255, 0.4);
     }

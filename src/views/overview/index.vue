@@ -70,7 +70,7 @@
           yaxisName="万吨"
           mode="onlyLine"
           unit=""
-          :chartStyle="{height: '2.3rem'}"
+          :chartStyle="{ height: '2.3rem' }"
         />
       </div>
       <div class="box">
@@ -81,7 +81,7 @@
           yaxisName="万kwh"
           mode="onlyLine"
           unit=""
-          :chartStyle="{height: '2.3rem'}"
+          :chartStyle="{ height: '2.3rem' }"
         />
       </div>
     </panel>
@@ -139,7 +139,6 @@ const getOverTotalCount = async () => {
   // pageNumData.value = pageNumFun(res.data);
 };
 const handlePlayUeVideo = (item) => {
-  
   item['isHr'] = 0;
   store.changeShowComponent(false);
   store.changeShowDetail({

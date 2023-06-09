@@ -10,7 +10,7 @@ import honglixi from './images/honglixi.png';
 import telaidian from './images/telaidian.png';
 import lianhuaxi from './images/lianhuaxi.png';
 import minle from './images/minle.png';
-import { simplifyNum } from '@/utils/index'
+import { simplifyNum } from '@/utils/index';
 import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
@@ -95,8 +95,8 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
     {
       img: sszs,
       num: 12431,
-      unit: '个',
-      name: '设施总数',
+      unit: '万个',
+      name: '充换电柜总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -115,19 +115,19 @@ export const digitalTwinSiteFun = () => {
       img: minle,
       type: '充电站',
       name: '民乐充电站',
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 2,
-      "operatorId": "398461164",
-      "stationId": "118",
-      "stationName": "比亚迪民乐P+R电动汽车充电站",
-      "stationType": "全球最大",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/118.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3c0d97235d390bc5b31b2530dc76734caf69f5449245985ad8dd30b5fdf7ec86",
-      "path3dt": null,
-      "sort": 2
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 2,
+      operatorId: '398461164',
+      stationId: '118',
+      stationName: '比亚迪民乐P+R电动汽车充电站',
+      stationType: '全球最大',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/118.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3c0d97235d390bc5b31b2530dc76734caf69f5449245985ad8dd30b5fdf7ec86',
+      path3dt: null,
+      sort: 2
     },
     {
       id: 2,
@@ -146,19 +146,19 @@ export const digitalTwinSiteFun = () => {
       img: telaidian,
       type: '充电站',
       name: '特来电深圳国际低碳城站',
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 4,
-      "operatorId": "395815801",
-      "stationId": "4403070124",
-      "stationName": "深圳国际低碳城光储充放一体化示范站",
-      "stationType": "V2G",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/4403070124.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0057756d8a74cb4fc1449884727f85b7aeb7fc5cb7c24c46313ea833bb199a26",
-      "path3dt": null,
-      "sort": 4
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 4,
+      operatorId: '395815801',
+      stationId: '4403070124',
+      stationName: '深圳国际低碳城光储充放一体化示范站',
+      stationType: 'V2G',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/4403070124.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0057756d8a74cb4fc1449884727f85b7aeb7fc5cb7c24c46313ea833bb199a26',
+      path3dt: null,
+      sort: 4
     },
     {
       id: 5,
@@ -166,19 +166,19 @@ export const digitalTwinSiteFun = () => {
       type: '光储充放',
       name: '奥特迅电力大厦充电站',
 
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 1,
-      "operatorId": "061402628",
-      "stationId": "440202003",
-      "stationName": "奥特迅电力大厦后广场充电站",
-      "stationType": "光储充放",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/440202003.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d20cb7f662543ea11cf511abc6d3d20b9c9689ebb215b22cceee7179790712d4",
-      "path3dt": null,
-      "sort": 1
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 1,
+      operatorId: '061402628',
+      stationId: '440202003',
+      stationName: '奥特迅电力大厦后广场充电站',
+      stationType: '光储充放',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/440202003.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d20cb7f662543ea11cf511abc6d3d20b9c9689ebb215b22cceee7179790712d4',
+      path3dt: null,
+      sort: 1
     },
     {
       id: 6,
@@ -205,7 +205,7 @@ export const stationTabType = [
     code: 4,
     label: '充换设施'
   }
-]
+];
 
 export const ecOptionFun = (data = [], xaxis = []) => {
   xaxis = xaxis.map((i) => {
@@ -275,7 +275,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       },
       minInterval: 1,
       axisLine: {
-        show: false,
+        show: false
       },
       axisTick: {
         show: false
@@ -346,41 +346,41 @@ export const ecOptionFun = (data = [], xaxis = []) => {
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   data = [
     {
-      "time": "01",
-      "onlineCount": 82303,
-      "offlineCount": 10646
+      time: '01',
+      onlineCount: 82303,
+      offlineCount: 10646
     },
     {
-      "time": "02",
-      "onlineCount": 12303,
-      "offlineCount": 11646
+      time: '02',
+      onlineCount: 12303,
+      offlineCount: 11646
     },
     {
-      "time": "03",
-      "onlineCount": 32303,
-      "offlineCount": 16646
+      time: '03',
+      onlineCount: 32303,
+      offlineCount: 16646
     },
     {
-      "time": "04",
-      "onlineCount": 62303,
-      "offlineCount": 19646
+      time: '04',
+      onlineCount: 62303,
+      offlineCount: 19646
     },
     {
-      "time": "05",
-      "onlineCount": 42303,
-      "offlineCount": 12646
+      time: '05',
+      onlineCount: 42303,
+      offlineCount: 12646
     },
     {
-      "time": "06",
-      "onlineCount": 22303,
-      "offlineCount": 11646
+      time: '06',
+      onlineCount: 22303,
+      offlineCount: 11646
     },
     {
-      "time": "07",
-      "onlineCount": 32303,
-      "offlineCount": 13646
-    },
-  ]
+      time: '07',
+      onlineCount: 32303,
+      offlineCount: 13646
+    }
+  ];
   return [
     {
       data: data.map((item) => [item.time, item.onlineCount]),
@@ -411,47 +411,47 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       name: '合计'
-    },
+    }
   ];
 };
 export const lineElectricDataFun = (data = []) => {
   data = [
     {
-      "time": "01",
-      "onlineCount": 823,
-      "offlineCount": 106
+      time: '01',
+      onlineCount: 823,
+      offlineCount: 106
     },
     {
-      "time": "02",
-      "onlineCount": 123,
-      "offlineCount": 116
+      time: '02',
+      onlineCount: 123,
+      offlineCount: 116
     },
     {
-      "time": "03",
-      "onlineCount": 323,
-      "offlineCount": 166
+      time: '03',
+      onlineCount: 323,
+      offlineCount: 166
     },
     {
-      "time": "04",
-      "onlineCount": 623,
-      "offlineCount": 196
+      time: '04',
+      onlineCount: 623,
+      offlineCount: 196
     },
     {
-      "time": "05",
-      "onlineCount": 423,
-      "offlineCount": 126
+      time: '05',
+      onlineCount: 423,
+      offlineCount: 126
     },
     {
-      "time": "06",
-      "onlineCount": 223,
-      "offlineCount": 116
+      time: '06',
+      onlineCount: 223,
+      offlineCount: 116
     },
     {
-      "time": "07",
-      "onlineCount": 323,
-      "offlineCount": 136
-    },
-  ]
+      time: '07',
+      onlineCount: 323,
+      offlineCount: 136
+    }
+  ];
   return [
     {
       data: data.map((item) => [item.time, item.onlineCount]),
@@ -476,6 +476,6 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       name: '汽车充电'
-    },
+    }
   ];
 };
