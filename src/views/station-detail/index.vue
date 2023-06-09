@@ -296,12 +296,13 @@ useEmitt &&
 const focusToPile = (eid, status) => {
   console.log('pileVisiblepileVisible', pileVisible.value);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  handleClickFocus(__g, layerId, eid, status);
-  pileParams.value = {
+    pileParams.value = {
     eid: eid
   };
   pileType.value = 'pile';
   pileVisible.value = true;
+  handleClickFocus(__g, layerId, eid, status);
+
 };
 const handleClose = () => {
   //清除绿色高亮
