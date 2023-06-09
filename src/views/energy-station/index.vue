@@ -38,7 +38,7 @@
           </template>
         </div>
         <tabs :data="todayLine" />
-        <line-time-chart-both :data="lineStateData" :colors="['blue', '#FF7723']" unit="MW" />
+        <line-time-chart-both :data="lineStateData" :colors="['green', '#FF7723']" unit="MW" mode="noneArea"/>
       </div>
       <div class="social-benefit">
         <title-column title="社会效益信息" icon="energy-station" />
