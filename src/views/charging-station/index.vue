@@ -44,7 +44,7 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list :data="projectList" :totalNum="projectTotalNum" height="2.76rem" />
+      <rank-list :data="projectList" :totalNum="projectTotalNum" :height="totalChargerIndex === 1?'3.4rem':'2.4rem'" />
     </div>
   </panel>
   <panel type="right">

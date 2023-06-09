@@ -35,7 +35,7 @@
         ]"
         @handleTabBtn="handleYearBtn"
       />
-      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.54rem" />
+      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.2rem" />
     </div>
     <div class="charging-num-images">
       <title-column title="充电站数字孪生" />
@@ -87,7 +87,7 @@
     </template>
     <el-table
       :data="totalTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"

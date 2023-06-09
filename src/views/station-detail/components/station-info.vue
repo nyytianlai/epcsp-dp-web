@@ -122,7 +122,10 @@ watch(data, () => {
   /* Note: backdrop-filter has minimal browser support */
 
   border-radius: 4px;
-  padding: 18px 20px 20px;
+  padding-top: 18px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 16px;
   .name-wrap {
     display: flex;
     align-items: flex-start;
@@ -156,6 +159,9 @@ watch(data, () => {
       margin-bottom: 6px;
       display: flex;
       white-space: nowrap;
+      &:nth-last-of-type(1){
+        margin-bottom: 0;
+      }
     }
     label {
       color: rgba(238, 253, 255, 0.6);

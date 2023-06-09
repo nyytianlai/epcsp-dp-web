@@ -45,7 +45,7 @@
         </div>
         <el-table
           :data="tableData"
-          height="4.26rem"
+          height="2.67rem"
           style="width: 100%"
           class="custom-dialog-table"
         >
@@ -208,7 +208,7 @@ defineExpose({
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
-  min-height: 542px;
+  height: 582px;
   clip-path: polygon(
     0 0,
     100% 0,
@@ -314,6 +314,9 @@ defineExpose({
 }
 .custom-dialog-table {
   margin-top: 16px;
+  :deep(td.el-table__cell){
+    padding: 11px 0 ;
+  }
 }
 .detail {
   color: #4bdeff;
@@ -322,5 +325,7 @@ defineExpose({
 .pagiantion {
   display: flex;
   justify-content: flex-end;
+  margin-top: 10px;
 }
+
 </style>

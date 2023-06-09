@@ -177,6 +177,9 @@ const handleSearch = async (value) => {
   position: absolute;
   top: 2px;
   right: 5px;
+  background: rgba(84, 181, 255, 0.1);
+  border: 1px solid rgba(84, 181, 255, 0.8);
+  border-radius: 2px;
 }
 .popper {
   width: fit-content;

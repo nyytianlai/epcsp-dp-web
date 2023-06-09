@@ -73,7 +73,7 @@
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <el-table
       :data="alarmTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
     >
