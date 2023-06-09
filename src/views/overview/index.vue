@@ -110,7 +110,7 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import {selectHrStationInfoForOverview} from './api.js'
+import {selectHrStationInfoForOverview,chargingStation} from './api.js'
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const co2Color = ['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']
@@ -143,8 +143,12 @@ const getOverTotalCount = async () => {
 // 获取数字孪生站点信息
 const loadSelectHrStationInfoForOverview = async()=>{
   const res = await selectHrStationInfoForOverview()
-  console.log('res',res)
   state.digitalTwinSites = res.data;
+}
+// 获取新能源充电站
+const loadChargingStation = async()=>{
+  const res = await chargingStation()
+  state.chargingStations = chargingStationsFun(res.data);
 }
 const handlePlayUeVideo = (item) => {
   
@@ -166,12 +170,11 @@ const handleStation = (item) => {
 };
 onMounted(async() => {
   state.pageNumData = pageNumFun();
-  state.chargingStations = chargingStationsFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
   state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun();
   await loadSelectHrStationInfoForOverview()
-  
+  await loadChargingStation()
 });
 </script>
 
