@@ -508,13 +508,12 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
 };
 //添加站点
 const addHrStation = async (stationId: string, isShow: boolean) => {
-  console.log(1111111, stationId, isShow);
-
   await beforeAddOrExitHrStation(isShow);
   let ids = getTreeLayerIdByName(stationId + '默认展示', store.treeInfo);
   isShow ? __g.infoTree.show(ids) : __g.infoTree.hide(ids);
   if (stationId === '118') {
     //比亚迪民乐P+R电动汽车充电站
+    //站内移动的车
     isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
