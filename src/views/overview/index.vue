@@ -43,11 +43,11 @@
             :key="item.id"
             @click="handlePlayUeVideo(item)"
           >
-            <div class="card-type">{{ item.type }}</div>
-            <img :src="item.img" alt="" />
+            <div class="card-type">{{ item.stationType }}</div>
+            <img :src="item.stationPic" alt="" />
 
-            <el-tooltip :content="item.name || ''" placement="top">
-              <div class="card-name">{{ item.name }}</div>
+            <el-tooltip :content="item.stationName || ''" placement="top">
+              <div class="card-name">{{ item.stationName }}</div>
             </el-tooltip>
           </div>
         </div>
@@ -110,6 +110,7 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
+import {selectHrStationInfoForOverview} from './api.js'
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 
@@ -138,6 +139,12 @@ const getOverTotalCount = async () => {
   // const res = await overTotalCount();
   // pageNumData.value = pageNumFun(res.data);
 };
+// 获取数字孪生站点信息
+const loadSelectHrStationInfoForOverview = async()=>{
+  const res = await selectHrStationInfoForOverview()
+  console.log('res',res)
+  state.digitalTwinSites = res.data;
+}
 const handlePlayUeVideo = (item) => {
   item['isHr'] = 0;
   store.changeShowComponent(false);
@@ -155,13 +162,14 @@ const handlePlayVideo = () => {
 const handleStation = (item) => {
   console.log('item', item);
 };
-onMounted(() => {
+onMounted(async() => {
   state.pageNumData = pageNumFun();
   state.chargingStations = chargingStationsFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
   state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun();
-  state.digitalTwinSites = digitalTwinSiteFun();
+  await loadSelectHrStationInfoForOverview()
+  
 });
 </script>
 
