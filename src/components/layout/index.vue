@@ -44,8 +44,8 @@
         <Transition>
           <station-detail v-if="showDetail" />
         </Transition>
-        <div class="bottom-tabs-box" v-if="!isShowMenu">
-          <bottom-tabs />
+        <div class="bottom-tabs-box" v-if="!isShowMenu&&!showDetail">
+          <bottom-tabs/>
           <div class="bottom-tabs-bg"></div>
         </div>
       </div>

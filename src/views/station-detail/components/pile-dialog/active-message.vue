@@ -66,14 +66,14 @@ const infoListFun = (data = {}) => {
       name: '充电量',
       value: data?.chargeElectricity || '--',
       dynamicType: 1,
-      unit: 'kW/h'
+      unit: 'kWh'
     },
     {
       icon: 'fdl',
       name: '放电量',
       value: data?.disChargeElectricity || '--',
       dynamicType: 2,
-      unit: 'kW/h'
+      unit: 'kWh'
     },
     {
       icon: 'cdsc',

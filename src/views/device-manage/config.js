@@ -306,12 +306,14 @@ export const lineRunDataFun = (data = [], code = 1) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
+      
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: code === 1 ? '桩使用率' : '枪使用率'
     },
     {
+      yAxisIndex: 1,
       data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,

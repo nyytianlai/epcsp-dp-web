@@ -2,11 +2,11 @@
   <div class="ec-wrap" :style="chartStyle">
     <div class="unit-box">
       <div class="unit" v-if="unit">
-        <icon :size="12" :icon="`svg-icon:${colors[0]}`" class="filter" />
+        <icon :icon="`svg-icon:${colors[0]}`" class="filter" />
         单位: {{ unit }}
       </div>
       <div class="unit-right" v-if="unit">
-        <icon :size="12" :icon="`svg-icon:${colors[1]}`" class="filter" />
+        <icon :icon="`svg-icon:${colors[1]}`" class="filter" />
         单位: {{ unit }}
       </div>
     </div>
@@ -22,6 +22,7 @@ import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
+import { deepClone } from '@/utils';
 interface Idata {
   x: number;
   y: number;
@@ -37,6 +38,7 @@ interface Props {
   unit?: string;
   colors?: string[];
   customOption?: object;
+  mode?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -80,51 +82,51 @@ const colorMap = {
     }
   },
   blue: {
-    // areaStyle: {
-    //   color: {
-    //     type: 'linear',
-    //     x: 0,
-    //     y: 0,
-    //     x2: 0,
-    //     y2: 1,
-    //     colorStops: [
-    //       {
-    //         offset: 0,
-    //         color: 'rgba(98, 177, 255)' // 0% 处的颜色
-    //       },
-    //       {
-    //         offset: 1,
-    //         color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-    //       }
-    //     ],
-    //     global: false // 缺省为 false
-    //   }
-    // },
+    areaStyle: {
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: 'rgba(98, 177, 255)' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
+    },
     itemStyle: {
       color: '#0053FF'
     }
   },
   '#FF7723': {
-    // areaStyle: {
-    //   color: {
-    //     type: 'linear',
-    //     x: 0,
-    //     y: 0,
-    //     x2: 0,
-    //     y2: 1,
-    //     colorStops: [
-    //       {
-    //         offset: 0,
-    //         color: 'rgba(255, 119, 35)' // 0% 处的颜色
-    //       },
-    //       {
-    //         offset: 1,
-    //         color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
-    //       }
-    //     ],
-    //     global: false // 缺省为 false
-    //   }
-    // },
+    areaStyle: {
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 0,
+        y2: 1,
+        colorStops: [
+          {
+            offset: 0,
+            color: 'rgba(255, 119, 35)' // 0% 处的颜色
+          },
+          {
+            offset: 1,
+            color: 'rgba(52, 89, 155, 0)' // 100% 处的颜色
+          }
+        ],
+        global: false // 缺省为 false
+      }
+    },
     itemStyle: {
       color: '#FF7723'
     }
@@ -180,12 +182,12 @@ const colorMap = {
     }
   }
 };
-const timeData = () =>
+const timeData = (max = 100) =>
   new Array(25)
     .fill(0)
     .map((item, index) => [
       dayjs().hour(index).format('YYYY-MM-DD HH:00'),
-      Math.ceil(Math.random() * 100)
+      Math.ceil(Math.random() * max)
     ]);
 function simplifyNum(number) {
   if (!number && number != 0) return number;
@@ -352,11 +354,30 @@ const ecOptionBothSideFun = () => {
         tooltip: {
           show: false
         }
+      },
+      {
+        yAxisIndex: 1,
+        type: 'line',
+        data: timeData(30),
+        symbolSize: 0,
+        showSymbol: false,
+        lineStyle: {
+          color: 'transparent'
+        },
+        tooltip: {
+          show: false
+        }
       }
     ]
   };
   option = merge(option, {
-    series: colors.value.map((item) => colorMap[item]),
+    series: colors.value.map((item) => {
+      const color = deepClone(colorMap[item]);
+      if (props.mode === 'noneArea') {
+        color.areaStyle = null;
+      }
+      return color;
+    }),
     ...customOption.value
   });
 
@@ -367,7 +388,6 @@ watch(
   () => {
     // console.log('data111', data.value);
     ecOption.value = ecOptionBothSideFun();
-    console.log('ecOption.value', ecOption.value);
   },
   {
     immediate: true

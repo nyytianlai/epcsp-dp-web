@@ -67,7 +67,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineRunData" unit="%" :colors="['green', '#FF7723']" />
+      <line-time-chart-both :data="lineRunData" unit="%" :colors="['green', '#FF7723']" />
     </div>
   </panel>
   <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
