@@ -527,7 +527,7 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     isShow
       ? __g.camera.set(494480.218672, 2495531.893906, 29.262388, -10.561944, -147.549225, 3)
       : '';
-  } else if (stationId === '20') {
+  } else if (stationId === '-3') {
     //红荔西5G示范站
     isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
   } else if (stationId === '4403070124') {
@@ -536,6 +536,10 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
+  }else if (stationId === '-2') {
+    //莲花西
+  }else if (stationId === '-1') {
+    //宝清储能站
   }
 };
 
