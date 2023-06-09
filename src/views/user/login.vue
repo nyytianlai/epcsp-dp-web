@@ -41,7 +41,7 @@
           shape="round"
           @click="handleLogin(loginFormRef)"
         >
-          登陆
+          登录
         </el-button>
       </el-form>
     </div>

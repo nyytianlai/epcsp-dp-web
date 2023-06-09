@@ -1,11 +1,6 @@
 <template>
   <div class="active-message">
-    <el-tabs
-      v-model="activeName"
-      class="beveled-tabs"
-      @tab-click="handleClick"
-      :class="`tabs-length${tabList.length}`"
-    >
+    <el-tabs v-model="activeName" class="beveled-tabs" @tab-click="handleClick" :class="`tabs-length${tabList.length}`">
       <el-tab-pane :name="item.name" v-for="(item, index) in tabList" :key="index">
         <template #label>
           <span class="custom-tabs-label">
@@ -18,13 +13,8 @@
       </el-tab-pane>
     </el-tabs>
     <ul class="info-content">
-      <li
-        class="info-item"
-        v-for="(item, index) in infoList"
-        :key="index"
-        :class="[{ active: item.dynamicType === dynamicActive.dynamicType }]"
-        @click="handleClickDynamic(item)"
-      >
+      <li class="info-item" v-for="(item, index) in infoList" :key="index"
+        :class="[{ active: item.dynamicType === dynamicActive.dynamicType }]" @click="handleClickDynamic(item)">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
           <span class="name">{{ item.name }}</span>
@@ -36,13 +26,8 @@
         </div>
       </li>
     </ul>
-    <line-time-chart
-      :unit="dynamicActive.unit"
-      :data="linePowerData"
-      :colors="['#00FFF9']"
-      :chartStyle="{ height: '1.8rem' }"
-      :customOption="customOption"
-    />
+    <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
+      :chartStyle="{ height: '1.8rem' }" :customOption="customOption" />
   </div>
 </template>
 <script setup>
@@ -64,56 +49,56 @@ const infoListFun = (data = {}) => {
     {
       icon: 'cdl',
       name: '充电量',
-      value: data?.chargeElectricity || '--',
+      value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
       dynamicType: 1,
       unit: 'kWh'
     },
     {
       icon: 'fdl',
       name: '放电量',
-      value: data?.disChargeElectricity || '--',
+      value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
       dynamicType: 2,
       unit: 'kWh'
     },
     {
       icon: 'cdsc',
       name: '充电时长',
-      value: data?.chargeLastTime || '--',
+      value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
       dynamicType: 3,
       unit: 'h'
     },
     {
       icon: 'cdcs',
       name: '充电次数',
-      value: data?.chargeCount || '--',
+      value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
       dynamicType: 4,
       unit: '次'
     },
     {
       icon: 'ssgl',
       name: '实时功率',
-      value: data?.power || '--',
+      value: data?.power === 0 ? data.power : data.power || '--',
       dynamicType: 5,
       unit: 'kW'
     },
     {
       icon: 'gzl',
       name: '故障率',
-      value: data?.troubleRate || '--',
+      value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
       dynamicType: 6,
       unit: '%'
     },
     {
       icon: 'lyl',
       name: '利用率',
-      value: data?.useRate || '--',
+      value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       dynamicType: 7,
       unit: '%'
     },
     {
       icon: 'nbwd',
       name: '内部温度',
-      value: data?.equipmentTemp || '--',
+      value: data?.equipmentTemp === 0 ? data.equipmentTemp : data.equipmentTemp || '--',
       dynamicType: 8,
       unit: 'C⁰'
     }
@@ -235,20 +220,24 @@ onMounted(() => {
     .el-tabs__active-bar {
       display: none;
     }
+
     .el-tabs__nav {
       width: 100%;
     }
+
     &.tabs-length1 {
       .el-tabs__item:nth-child(2) {
         clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%, 0 0);
       }
     }
+
     &.tabs-length2 {
       .el-tabs__item:nth-child(3) {
         clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
         margin-left: -15px;
       }
     }
+
     .el-tabs__item {
       flex: 1;
       background: rgba(84, 181, 255, 0.12);
@@ -256,24 +245,29 @@ onMounted(() => {
       font-size: 18px;
       line-height: 28px;
       color: #d6f8ff;
+
       &:nth-child(2) {
         clip-path: polygon(0% 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 0 0);
       }
+
       &:nth-child(3) {
         clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 20px 0);
         flex: 1.05;
         margin-left: -15px;
       }
+
       &:nth-child(4) {
         clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
         margin-left: -15px;
       }
     }
+
     .el-tabs__item.is-active {
       font-size: 18px;
       color: #fff;
       background: rgba(84, 181, 255, 0.4);
     }
+
     .custom-tabs-label {
       .status {
         background: rgba(0, 255, 143, 0.3);
@@ -284,11 +278,13 @@ onMounted(() => {
         font-size: 12px;
         line-height: 20px;
         margin-left: 6px;
+
         &.warning {
           background: rgba(170, 5, 5, 0.3);
           border: 1px solid #aa0505;
           color: #ff6b4b;
         }
+
         &.offline {
           background: rgba(159, 159, 159, 0.3);
           border-color: #e8e8e8;
@@ -297,9 +293,11 @@ onMounted(() => {
       }
     }
   }
+
   .info-content {
     display: flex;
     flex-wrap: wrap;
+
     .info-item {
       background: #375374;
       display: flex;
@@ -310,24 +308,30 @@ onMounted(() => {
       align-items: center;
       border: 1px solid transparent;
       cursor: pointer;
+
       &.active {
         background: #255886;
         border: 1px solid rgba(75, 222, 255, 0.7);
       }
+
       &:nth-child(4n) {
         margin-right: 0;
       }
+
       .el-icon {
         font-size: 36px;
         margin-right: 12px;
       }
+
       .right {
         display: flex;
         flex-direction: column;
+
         .name {
           font-size: 14px;
           line-height: 20px;
         }
+
         .value {
           font-family: 'DIN Alternate';
           font-style: normal;
@@ -337,6 +341,7 @@ onMounted(() => {
           color: #00fff9;
           text-shadow: 0px 2px 10px rgba(75, 222, 255, 0.5);
         }
+
         .unit {
           font-size: 14px;
           line-height: 20px;
