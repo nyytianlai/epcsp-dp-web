@@ -55,7 +55,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineStateData" :colors="lineStateColor" />
     </div>
     <div class="charging-runing">
       <tabs
@@ -67,7 +67,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineRunData" unit="%" :colors="['green', '#FF7723']" />
+      <line-time-chart-both :data="lineRunData" unit="%" :colors="lineRunColor" />
     </div>
   </panel>
   <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
@@ -179,6 +179,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+const lineStateColor = ['green', 'blue']
+const lineRunColor = ['green', '#FF7723']
 const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
 const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const storeVisible = useVisibleComponentStore();

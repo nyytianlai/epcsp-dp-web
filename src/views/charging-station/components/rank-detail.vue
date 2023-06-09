@@ -43,19 +43,9 @@
             </div>
           </div>
         </div>
-        <el-table
-          :data="tableData"
-          height="4.26rem"
-          style="width: 100%"
-          class="custom-dialog-table"
-        >
-          <el-table-column
-            v-for="(item, index) in columnData"
-            :key="index"
-            v-bind="item"
-            :show-overflow-tooltip="true"
-            :formatter="tableColumnFun"
-          >
+        <el-table :data="tableData" height="4.26rem" style="width: 100%" class="custom-dialog-table">
+          <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
+            :formatter="tableColumnFun">
             <template #default="scope"></template>
           </el-table-column>
           <el-table-column label="操作" key="operation" minWidth="1.5">
@@ -64,15 +54,8 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          class="pagiantion"
-          :page-size="pageObj.pageSize"
-          layout="prev, pager, next"
-          :total="pageObj.total"
-          :background="true"
-          :current-page="pageObj.currentPage"
-          @current-change="handPageChange"
-        />
+        <el-pagination class="pagiantion" :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total"
+          :background="true" :current-page="pageObj.currentPage" @current-change="handPageChange" />
       </div>
     </div>
   </el-dialog>
@@ -209,38 +192,50 @@ defineExpose({
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   min-height: 542px;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    20px 100%,
-    0 calc(100% - 20px),
-    0 0
-  );
+  clip-path: polygon(0 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      20px 100%,
+      0 calc(100% - 20px),
+      0 0);
+
 }
+
+.charge-container {
+  :deep(.el-pagination) {
+    margin-top: -20px;
+  }
+}
+
 .house {
   font-size: 56px;
 }
+
 .detail-header {
   display: flex;
+
   .detail-info {
     margin-left: 16px;
   }
+
   .info-name {
     color: #ffffff;
     font-size: 20px;
     font-weight: bold;
   }
+
   .inifo-code {
     color: rgba(166, 214, 249, 0.7);
     font-size: 16px;
   }
 }
+
 .maintain-tab {
   display: flex;
   width: 200px;
   justify-content: space-between;
+
   .tab {
     color: rgba(166, 214, 249, 0.5);
     padding-bottom: 4px;
@@ -248,15 +243,18 @@ defineExpose({
     font-size: 20px;
     cursor: pointer;
   }
+
   .tab.active {
     color: #ffffff;
     border-bottom: 2px solid #0aa7ff;
   }
 }
+
 .msg-container {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+
   .base-msg {
     margin-top: 20px;
     width: 380px;
@@ -264,12 +262,15 @@ defineExpose({
     color: rgba(255, 255, 255, 1);
     display: flex;
   }
+
   .msg-box {
     display: flex;
   }
+
   .msg-name {
     color: rgba(255, 255, 255, 0.7);
   }
+
   .msg {
     white-space: nowrap;
     overflow: hidden;
@@ -277,11 +278,13 @@ defineExpose({
     width: 230px;
   }
 }
+
 .charge-top-box {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-top: 26px;
+
   .charge-top {
     background: #375374;
     width: 186px;
@@ -289,21 +292,25 @@ defineExpose({
     display: flex;
     align-items: center;
     padding-left: 12px;
+
     .charge-icon {
       font-size: 36px;
       margin-right: 12px;
     }
+
     .charge-detail {
       .charge-detail-name {
         color: #ffffff;
         font-size: 14px;
       }
+
       .charge-detail-num {
         color: #00fff9;
         font-size: 24px;
         font-weight: bold;
         font-family: 'DIN Alternate';
       }
+
       .unit {
         font-size: 14px;
         font-weight: 400;
@@ -312,15 +319,17 @@ defineExpose({
     }
   }
 }
+
 .custom-dialog-table {
   margin-top: 16px;
 }
+
 .detail {
   color: #4bdeff;
   text-decoration: none;
 }
+
 .pagiantion {
   display: flex;
   justify-content: flex-end;
-}
-</style>
+}</style>

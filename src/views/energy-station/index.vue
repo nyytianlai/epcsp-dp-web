@@ -14,7 +14,7 @@
         <pie-chart
           :data="tabTypeData"
           :totalName="tabPie === 1 ? '电网位置总量' : '能源类型总量'"
-          :colors="['#E5CC48', '#3254DD', '#4BDEFF']"
+          :colors="tabTypeColor"
         />
       </div>
       <div class="company-rank">
@@ -38,7 +38,7 @@
           </template>
         </div>
         <tabs :data="todayLine" />
-        <line-time-chart-both :data="lineStateData" :colors="['blue', '#FF7723']" unit="MW" />
+        <line-time-chart-both :data="lineStateData" :colors="lineStateColor" unit="MW" mode="noneArea"/>
       </div>
       <div class="social-benefit">
         <title-column title="社会效益信息" icon="energy-station" />
@@ -65,6 +65,8 @@ import {
   linePowerDataFun,
   socialBenefitFun
 } from './config.js';
+const lineStateColor = ['green', '#FF7723']
+const tabTypeColor = ['#E5CC48', '#3254DD', '#4BDEFF']
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 // 储能电站运行总览

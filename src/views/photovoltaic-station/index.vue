@@ -16,7 +16,7 @@
         <pie-chart
           :data="surfSortPieData"
           totalName="上网总量"
-          :colors="['#E5CC48', '#3254DD', '#4BDEFF']"
+          :colors="surfSortColor"
         />
       </div>
       <div class="company-rank">
@@ -47,7 +47,7 @@
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
           </template>
         </div>
-        <line-time-chart :data="lineStateData" :colors="['blue']" unit="MW" />
+        <line-time-chart :data="lineStateData" :colors="lineStateColor" unit="MW" />
       </div>
       <div class="social-benefit">
         <title-column title="社会效益信息" icon="photovoltaic" />
@@ -74,6 +74,8 @@ import {
   linePowerDataFun,
   socialBenefitFun
 } from './config';
+const lineStateColor = ['blue']
+const surfSortColor = ['#E5CC48', '#3254DD', '#4BDEFF']
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
