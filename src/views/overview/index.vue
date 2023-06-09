@@ -66,7 +66,7 @@
         <title-column title="本月分类碳减排量" />
         <line-time-chart
           :data="lineCarbonData"
-          :colors="['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']"
+          :colors="co2Color"
           yaxisName="万吨"
           mode="onlyLine"
           unit=""
@@ -77,7 +77,7 @@
         <title-column title="本月发用电量数据" />
         <line-time-chart
           :data="lineElectricData"
-          :colors="['#FF7723', '#979797', '#F9E900', 'blue']"
+          :colors="ElectricColor"
           yaxisName="万kwh"
           mode="onlyLine"
           unit=""
@@ -113,7 +113,8 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import {selectHrStationInfoForOverview} from './api.js'
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-
+const co2Color = ['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']
+const ElectricColor = ['#FF7723', '#979797', '#F9E900', 'blue']
 const state = reactive({
   activeBottomMenu: 'overview',
   pageNumData: [],

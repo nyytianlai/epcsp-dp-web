@@ -16,7 +16,7 @@
         <pie-chart
           :data="chargingTypeData"
           totalName="设施类型总量"
-          :colors="['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']"
+          :colors="chargingColor"
         />
       </div>
       <div class="company-facilities-rank">
@@ -47,7 +47,7 @@
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
           </template>
         </div>
-        <line-time-chart :data="lineStateData" :colors="['green', 'blue']" unit="KW" />
+        <line-time-chart :data="lineStateData" :colors="stateColor" unit="KW" />
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
@@ -70,6 +70,8 @@ import {
   linePowerDataFun,
   warnData
 } from './config';
+const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']
+const stateColor = ['green', 'blue']
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据
