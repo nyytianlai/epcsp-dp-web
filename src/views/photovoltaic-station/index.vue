@@ -58,10 +58,11 @@
         </div>
       </div>
     </panel>
+    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject } from 'vue';
 import {
   pageNumFun,
   cdzzlFun,
@@ -74,6 +75,14 @@ import {
   linePowerDataFun,
   socialBenefitFun
 } from './config';
+import MapLayer from './components/map-layer.vue';
+
+interface Aircity {
+  value: object;
+}
+const aircityObj: Aircity = inject('aircityObj');
+let mapLayerRef = ref(null);
+
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //光伏电站总览数据

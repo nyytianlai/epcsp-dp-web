@@ -231,10 +231,10 @@ watch([data, aircityObj], (newVal) => {
         return item.eid
       }
     }).filter(item=>item)
-    let layerId = getTreeLayerIdByName('带ID的静态汽车', mapStore.treeInfo);
-    console.log("layerId",layerId);
-    __g.tileLayer.hideActors([{ "id":layerId, "objectIds": noUseEquipment }])
-
+    let layerId1 = getTreeLayerIdByName('带ID充电中静态车辆', mapStore.treeInfo);
+    let layerId2 = getTreeLayerIdByName('带ID的静态车辆', mapStore.treeInfo);
+    __g.tileLayer.hideActors([{ "id":layerId1, "objectIds": noUseEquipment }])
+    __g.tileLayer.hideActors([{ "id":layerId2, "objectIds": noUseEquipment }])
   }
 })
 onBeforeUnmount(() => {

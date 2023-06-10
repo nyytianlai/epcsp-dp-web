@@ -54,10 +54,11 @@
         <warning-list :data="warningListData" @handleClick="handleWarnClick" />
       </div>
     </panel>
+    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject} from 'vue';
 import { toSingleStation } from '@/global/config/map';
 import {
   pageNumFun,
@@ -70,6 +71,13 @@ import {
   linePowerDataFun,
   warnData
 } from './config';
+import MapLayer from './components/map-layer.vue';
+
+interface Aircity {
+  value: object;
+}
+const aircityObj: Aircity = inject('aircityObj');
+let mapLayerRef = ref(null);
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据

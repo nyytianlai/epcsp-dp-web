@@ -62,7 +62,7 @@ const currentJd = computed(() => store.currentJd);
 const currentJdCode = computed(() => store.currentJdCode);
 const currentQu = computed(() => store.currentQu);
 
-const emits = defineEmits(['addQuBar']);
+const emits = defineEmits(['addQuBar', 'addOutStation']);
 
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
@@ -329,7 +329,7 @@ const back = async () => {
     await resetQu();
   } else if (currentPosition.value === '') {
     //此种情况返回哪一级需根据上一个位置
-    hideHighLightNormalStation()
+    hideHighLightNormalStation();
     hideAllStation3dt(__g, store.treeInfo);
     beforeAddOrExitHrStation(false);
     if (currentPositionBak.value.includes('街道')) {
@@ -379,7 +379,11 @@ const resetSz = async (value = true) => {
 };
 
 const addStationPoint = (jdCode: string) => {
-  props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  if (props.module > 10) {
+    emits('addOutStation', props.module);
+  } else {
+    props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
+  }
 };
 
 //添加区的点 isHr 0-是高渲染站点；1-否
@@ -396,6 +400,7 @@ const addJdStation = async (jdCode: string) => {
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
     item['xoffset'] = xoffset;
+    item['stationType'] = 50;
     let o1 = returnStationPointConfig(item);
     if (item.isHr == 0) {
       let o = {
@@ -415,7 +420,6 @@ const addJdStation = async (jdCode: string) => {
     }
     pointArr.push(o1);
   });
-  //批量添加polygon
   await __g.marker.add(pointArr, null);
 };
 
@@ -445,34 +449,10 @@ const addQuStationWithAlarmInfo = async (jdCode: string) => {
   let pointArr = [];
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
-    let text = item.stationName + '(' + item.warningCount + ')';
-    let o1 = {
-      id: 'station-' + item.stationId,
-      groupId: 'jdStation',
-      userData: JSON.stringify(item),
-      coordinateType: 2,
-      coordinate: [item.lng, item.lat], //坐标位置
-      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [55, 150], //图片的尺寸
-      range: [1, 150000], //可视范围
-      imagePath: getImageByCloud('chargeStation' + item.status),
-      text: text, //显示的文字
-      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-20 - xoffset, -85], // 文本偏移
-      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
-      fontSize: 16, //字体大小
-      fontOutlineSize: 1, //字体轮廓线大小
-      fontColor: '#FFFFFF', //字体颜色
-      // fontOutlineColor: '#1b4863', //字体轮廓线颜色
-      displayMode: 2,
-      autoDisplayModeSwitchFirstRatio: 0.5,
-      autoDisplayModeSwitchSecondRatio: 0.5,
-      // displayMode: 4,
-      // autoDisplayModeSwitchFirstRatio: 0.5,
-      // autoDisplayModeSwitchSecondRatio: 0.5,
-      autoHeight: true
-    };
+    item['xoffset'] = xoffset;
+    item['stationType'] = item.status;
+    item.stationName = item.stationName + '(' + item.warningCount + ')';
+    let o1 = returnStationPointConfig(item);
     if (item.isHr == 0) {
       let o = {
         id: 'station-' + index + '-' + item.isHr,
@@ -514,8 +494,8 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
   if (stationId === '118') {
     //比亚迪民乐P+R电动汽车充电站
     //站内移动的车
-    isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
-    setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
+    // isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
+    // setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
     isShow
       ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, -44.205788, 146.805252, 3)
       : '';

@@ -7,8 +7,8 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <qu ref="quRef" :module="100" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
-  <rect-bar4 ref="rectBar4Ref"></rect-bar4>
+  <qu ref="quRef" :module="400" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
+  <rect-bar-out ref="rectBarOutRef"></rect-bar-out>
   <legend-list
     :legendList="legendListData"
     :legendName="legendNameData"
@@ -17,18 +17,13 @@
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
-import RectBar4 from '@/components/map-layer/rect-bar4.vue';
-import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
+import RectBarOut from '@/components/map-layer/rect-barOut.vue';
+import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
 import request from '@sutpc/axios';
-import { projectCGCS2000_2_GK114 } from '@/utils/index';
-import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
-import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
+import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { returnStationPointConfig } from '@/global/config/map';
-
-import bus from '@/utils/bus';
-
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3, 4]);
@@ -37,24 +32,9 @@ const aircityObj = inject('aircityObj');
 aircityObj.value?.acApi.reset();
 
 let quRef = ref(null);
-let rectBar4Ref = ref(null);
+let rectBarOutRef = ref(null);
 let legendNameData = ref('站点数/个');
 let legendListData = reactive([
-  {
-    color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
-    name: '储能站',
-    type: false
-  },
-  {
-    color: 'linear-gradient(178.21deg, #6182FF 6.05%, #063273 94.76%)',
-    name: '光伏站',
-    type: false
-  },
-  {
-    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
-    name: '充电站',
-    type: false
-  },
   {
     color: 'linear-gradient(178.17deg, #2EFFFF 4.74%, #0F6765 95.4%)',
     name: '充换电柜',
@@ -62,9 +42,17 @@ let legendListData = reactive([
   }
 ]);
 
+// const setRectBarVisibility = (value: boolean) => {
+//   value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
+//   quRef.value.resetSz(false);
+//   legendType.value = value ? 'normal' : 'hot';
+//   legendName.value = value ? '充电数量(个)' : '充电功率(KW)';
+//   value ? addQuBar() : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
+// };
+
 const addQuBar = async () => {
   let data = mapQuBar();
-  await rectBar4Ref.value.addBar('qu',data);
+  await rectBarOutRef.value.addBar('qu', '充换电柜', data);
 };
 
 const addOutStation = async (module: number) => {
@@ -76,19 +64,18 @@ const addOutStation = async (module: number) => {
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
     item['xoffset'] = xoffset;
+    item['stationType'] = module;
     let o1 = returnStationPointConfig(item);
     pointArr.push(o1);
   });
   await aircityObj.value?.acApi.marker.add(pointArr, null);
 };
 
-defineExpose({});
-
 onMounted(async () => {
   addQuBar();
   bus.on('addBar', (e) => {
     let data=mapJdBar()
-    rectBar4Ref.value.addBar(e.type, data, e.quCode);
+    rectBarOutRef.value.addBar(e.type, '充换电柜', data, e.quCode);
   });
 });
 
