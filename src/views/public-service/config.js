@@ -30,27 +30,27 @@ export const hotChargingDataFun = () => {
   return [
     {
       num: 6399,
-      unit: 'KW',
+      unit: 'kW',
       name: '充电站总量'
     },
     {
       num: 201,
-      unit: 'KW',
+      unit: 'kW',
       name: '已接入运营企业总量'
     },
     {
       num: 48,
-      unit: 'KW',
+      unit: 'kW',
       name: '新能源汽车总量'
     },
     {
       num: 201,
-      unit: 'KW',
+      unit: 'kW',
       name: '已接入运营企业总量'
     },
     {
       num: 48,
-      unit: 'KW',
+      unit: 'kW',
       name: '新能源汽车总量'
     }
   ];

@@ -344,70 +344,254 @@ export const ecOptionFun = (data = [], xaxis = []) => {
   };
 };
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
+  
+  const yearMonthDay = dayjs('2023-05').format('MM-');
   data = [
     {
       "time": "01",
-      "onlineCount": 82303,
-      "offlineCount": 10646
+      "ddqc": 11250,
+      "llddc": 900,
+      cn: 1515,
+      gf: 2854
     },
     {
       "time": "02",
-      "onlineCount": 12303,
-      "offlineCount": 11646
+      "ddqc": 11028,
+      "llddc": 832,
+      cn: 1485,
+      gf: 3006
     },
     {
       "time": "03",
-      "onlineCount": 32303,
-      "offlineCount": 16646
+      "ddqc": 10582,
+      "llddc": 794,
+      cn: 1425,
+      gf: 3127
     },
     {
       "time": "04",
-      "onlineCount": 62303,
-      "offlineCount": 19646
+      "ddqc": 7797,
+      "llddc": 623,
+      cn: 1515,
+      gf: 3066
     },
     {
       "time": "05",
-      "onlineCount": 42303,
-      "offlineCount": 12646
+      "ddqc": 8354,
+      "llddc": 668,
+      cn: 1485,
+      gf: 3218
     },
     {
       "time": "06",
-      "onlineCount": 22303,
-      "offlineCount": 11646
+      "ddqc": 8195,
+      "llddc": 655,
+      cn: 1425,
+      gf: 2884
     },
     {
       "time": "07",
-      "onlineCount": 32303,
-      "offlineCount": 13646
+      "ddqc": 9929,
+      "llddc": 794,
+      cn: 1455,
+      gf: 936
+    },
+    {
+      "time": "08",
+      "ddqc": 7718,
+      "llddc": 617,
+      cn: 1470,
+      gf: 850
+    },
+    {
+      "time": "09",
+      "ddqc": 7758,
+      "llddc": 642,
+      cn: 1485,
+      gf: 1223
+    },
+    {
+      "time": "10",
+      "ddqc": 8115,
+      "llddc": 649,
+      cn: 1545,
+      gf: 1288
+    },
+    {
+      "time": "11",
+      "ddqc": 8354,
+      "llddc": 688,
+      cn: 1560,
+      gf: 1340
+    },
+    {
+      "time": "12",
+      "ddqc": 7718,
+      "llddc": 617,
+      cn: 1455,
+      gf: 876
+    },
+    {
+      "time": "13",
+      "ddqc": 9166,
+      "llddc": 740,
+      cn: 1440,
+      gf: 919
+    },
+    {
+      "time": "14",
+      "ddqc": 9739,
+      "llddc": 771,
+      cn: 1530,
+      gf: 824
+    },
+    {
+      "time": "15",
+      "ddqc": 8354,
+      "llddc": 668,
+      cn: 1410,
+      gf: 3097
+    },
+    {
+      "time": "16",
+      "ddqc": 7797,
+      "llddc": 623,
+      cn: 1485,
+      gf: 2732
+    },
+    {
+      "time": "17",
+      "ddqc": 8354,
+      "llddc": 617,
+      cn: 1545,
+      gf: 425
+    },
+    {
+      "time": "18",
+      "ddqc": 8354,
+      "llddc": 611,
+      cn: 1515,
+      gf: 910
+    },
+    {
+      "time": "19",
+      "ddqc": 8195,
+      "llddc": 649,
+      cn: 1590,
+      gf: 3188
+    },
+    {
+      "time": "20",
+      "ddqc": 9929,
+      "llddc": 736,
+      cn: 1425,
+      gf: 2904
+    },
+    {
+      "time": "21",
+      "ddqc": 9261,
+      "llddc": 793,
+      cn: 1455,
+      gf: 3157
+    },
+    {
+      "time": "22",
+      "ddqc": 7638,
+      "llddc": 611,
+      cn: 1440,
+      gf: 841
+    },
+    {
+      "time": "23",
+      "ddqc": 8115,
+      "llddc": 598,
+      cn: 1530,
+      gf: 663
+    },
+    {
+      "time": "24",
+      "ddqc": 7797,
+      "llddc": 630,
+      cn: 1560,
+      gf: 425
+    },
+    {
+      "time": "25",
+      "ddqc": 7718,
+      "llddc": 655,
+      cn: 1575,
+      gf: 3643
+    },
+    {
+      "time": "26",
+      "ddqc": 7638,
+      "llddc": 642,
+      cn: 1530,
+      gf: 910
+    },
+    {
+      "time": "27",
+      "ddqc": 9739,
+      "llddc": 742,
+      cn: 1575,
+      gf: 3669
+    },
+    {
+      "time": "28",
+      "ddqc": 9929,
+      "llddc": 740,
+      cn: 1470,
+      gf: 858
+    },
+    {
+      "time": "29",
+      "ddqc": 8354,
+      "llddc": 668,
+      cn: 1575,
+      gf: 3574
+    },
+    {
+      "time": "30",
+      "ddqc": 7718,
+      "llddc": 668,
+      cn: 1575,
+      gf: 3066
+    },
+    {
+      "time": "31",
+      "ddqc": 7638,
+      "llddc": 655,
+      cn: 1545,
+      gf: 459
     },
   ]
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.llddc]),
       type: 'line',
       smooth: true,
       name: '两轮动车'
     },
     {
-      data: data.map((item) => [item.time, item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.ddqc]),
       type: 'line',
       smooth: true,
       name: '电动汽车'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount - item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.cn]),
       type: 'line',
       smooth: true,
       name: '储能'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.gf]),
       type: 'line',
       smooth: true,
       name: '光伏'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount + item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.llddc + item.ddqc+item.cn+item.gf]),
       type: 'line',
       smooth: true,
       name: '合计'
@@ -415,64 +599,247 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   ];
 };
 export const lineElectricDataFun = (data = []) => {
+  const yearMonthDay = dayjs('2023-05').format('MM-');
   data = [
     {
       "time": "01",
-      "onlineCount": 823,
-      "offlineCount": 106
+      "ddqc": 1400,
+      "llddc": 112,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "02",
-      "onlineCount": 123,
-      "offlineCount": 116
+      "ddqc": 1400,
+      "llddc": 96,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "03",
-      "onlineCount": 323,
-      "offlineCount": 166
+      "ddqc": 1400,
+      "llddc": 96,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "04",
-      "onlineCount": 623,
-      "offlineCount": 196
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "05",
-      "onlineCount": 423,
-      "offlineCount": 126
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "06",
-      "onlineCount": 223,
-      "offlineCount": 116
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
     },
     {
       "time": "07",
-      "onlineCount": 323,
-      "offlineCount": 136
+      "ddqc": 1200,
+      "llddc": 96,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "08",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "09",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      "time": "10",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      "time": "11",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      "time": "12",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "13",
+      "ddqc": 1200,
+      "llddc": 97,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "14",
+      "ddqc": 1200,
+      "llddc": 95,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "15",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      "time": "16",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 408
+    },
+    {
+      "time": "17",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 68
+    },
+    {
+      "time": "18",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "19",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      "time": "20",
+      "ddqc": 1200,
+      "llddc": 89,
+      cn: 300,
+      gf: 442
+    },
+    {
+      "time": "21",
+      "ddqc": 1200,
+      "llddc": 95,
+      cn: 300,
+      gf: 476
+    },
+    {
+      "time": "22",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "23",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 102
+    },
+    {
+      "time": "24",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 68
+    },
+    {
+      "time": "25",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 544
+    },
+    {
+      "time": "26",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "27",
+      "ddqc": 1200,
+      "llddc": 88,
+      cn: 300,
+      gf: 612
+    },
+    {
+      "time": "28",
+      "ddqc": 1200,
+      "llddc": 98,
+      cn: 300,
+      gf: 136
+    },
+    {
+      "time": "29",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 544
+    },
+    {
+      "time": "30",
+      "ddqc": 1000,
+      "llddc": 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      "time": "31",
+      "ddqc": 1000,
+      "llddc": 82,
+      cn: 300,
+      gf: 68
     },
   ]
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.llddc]),
       type: 'line',
       smooth: true,
       name: '两轮电动车'
     },
     {
-      data: data.map((item) => [item.time, item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.cn]),
       type: 'line',
       smooth: true,
       name: '储能放电'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount - item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.gf]),
       type: 'line',
       smooth: true,
       name: '光伏发电'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount + item.offlineCount]),
+      data: data.map((item) => [yearMonthDay+item.time, item.ddqc]),
       type: 'line',
       smooth: true,
       name: '汽车充电'

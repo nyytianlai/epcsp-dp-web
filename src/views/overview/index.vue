@@ -37,12 +37,7 @@
       <div class="box">
         <title-column title="数字孪生站点" />
         <div class="ue-list">
-          <div
-            class="ue-item"
-            v-for="item in state.digitalTwinSites"
-            :key="item.id"
-            @click="handlePlayUeVideo(item)"
-          >
+          <div class="ue-item" v-for="item in state.digitalTwinSites" :key="item.id" @click="handlePlayUeVideo(item)">
             <div class="card-type">{{ item.stationType }}</div>
             <img :src="item.stationPic" alt="" />
 
@@ -64,25 +59,13 @@
       </div>
       <div class="box carbon-sort">
         <title-column title="本月分类碳减排量" />
-        <line-time-chart
-          :data="lineCarbonData"
-          :colors="co2Color"
-          yaxisName="万吨"
-          mode="onlyLine"
-          unit=""
-          :chartStyle="{height: '2.3rem'}"
-        />
+        <line-time-chart :data="lineCarbonData" :colors="co2Color" yaxisName="吨" mode="onlyLine" unit=""
+          :chartStyle="{ height: '2.3rem' }" />
       </div>
       <div class="box">
         <title-column title="本月发用电量数据" />
-        <line-time-chart
-          :data="lineElectricData"
-          :colors="ElectricColor"
-          yaxisName="万kwh"
-          mode="onlyLine"
-          unit=""
-          :chartStyle="{height: '2.3rem'}"
-        />
+        <line-time-chart :data="lineElectricData" :colors="ElectricColor" yaxisName="万kwh" mode="onlyLine" unit=""
+          :chartStyle="{ height: '2.3rem',width: '103%'}" />
       </div>
     </panel>
     <div class="play-btn" @click="handlePlayVideo"></div>
@@ -110,7 +93,7 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import {selectHrStationInfoForOverview,chargingStation} from './api.js'
+import { selectHrStationInfoForOverview, chargingStation } from './api.js'
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const co2Color = ['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']
@@ -141,17 +124,17 @@ const getOverTotalCount = async () => {
   // pageNumData.value = pageNumFun(res.data);
 };
 // 获取数字孪生站点信息
-const loadSelectHrStationInfoForOverview = async()=>{
+const loadSelectHrStationInfoForOverview = async () => {
   const res = await selectHrStationInfoForOverview()
   state.digitalTwinSites = res.data;
 }
 // 获取新能源充电站
-const loadChargingStation = async()=>{
+const loadChargingStation = async () => {
   const res = await chargingStation()
   state.chargingStations = chargingStationsFun(res.data);
 }
 const handlePlayUeVideo = (item) => {
-  
+
   item['isHr'] = 0;
   store.changeShowComponent(false);
   store.changeShowDetail({
@@ -167,8 +150,23 @@ const handlePlayVideo = () => {
 // 充电站tab点击
 const handleStation = (item) => {
   console.log('item', item);
+  switch (item.code) {
+    case 1:
+      ecOption.value = ecOptionFun([2001, 2811, 4011, 5910, 6399], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      break
+    case 2:
+      ecOption.value = ecOptionFun([793, 974, 1121, 1546, 2036], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      break
+    case 3:
+      ecOption.value = ecOptionFun([793, 1103, 1593, 1837, 1952], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      break
+    case 4:
+      ecOption.value = ecOptionFun([872, 1156, 1323, 1426, 1517], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      break
+  }
+
 };
-onMounted(async() => {
+onMounted(async () => {
   state.pageNumData = pageNumFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
@@ -183,42 +181,48 @@ onMounted(async() => {
   display: flex;
   justify-content: space-between;
   margin-top: 16px;
+
   :deep(.num-card) {
     width: 49%;
     padding: 24px 0 11px;
-    background: linear-gradient(
-      258.38deg,
-      rgba(37, 177, 255, 0.1) 2.46%,
-      rgba(37, 177, 255, 0) 100%
-    );
+    background: linear-gradient(258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%);
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
     justify-content: center;
+
     .info {
       flex-direction: column;
+
       .name {
         margin-bottom: 0;
       }
     }
   }
 }
+
 .box {
   margin-bottom: 20px;
+
   &:last-child {
     margin-bottom: 0;
   }
+
   .ec-wrap {
     margin-top: 16px;
   }
 }
+
 .ue-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 16px;
 }
+
 .ue-item {
   width: 128px;
   height: 104px;
@@ -226,13 +230,16 @@ onMounted(async() => {
   margin-bottom: 12px;
   position: relative;
   cursor: pointer;
+
   &:nth-child(3n) {
     margin-right: 0;
   }
+
   img {
     width: 128px;
     height: 80px;
   }
+
   .card-type {
     position: absolute;
     background: linear-gradient(90deg, #11467b 0%, rgba(17, 70, 123, 0) 100%);
@@ -243,6 +250,7 @@ onMounted(async() => {
     color: #ffffff;
     width: 100%;
   }
+
   .card-name {
     width: 100%;
     text-align: center;
@@ -268,11 +276,13 @@ onMounted(async() => {
   right: 452px;
   z-index: 999;
 }
+
 .station {
   :deep(.tabs) {
     margin-top: 16px;
   }
 }
+
 .ec-box {
   height: 230px;
   width: 100%;

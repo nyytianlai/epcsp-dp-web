@@ -13,21 +13,12 @@
       </div>
       <div class="surf-sort">
         <tabs :data="surfTitle" />
-        <pie-chart
-          :data="surfSortPieData"
-          totalName="上网总量"
-          :colors="surfSortColor"
-        />
+        <pie-chart :data="surfSortPieData" totalName="上网总量" :colors="surfSortColor" />
       </div>
       <div class="company-rank">
         <title-column title="企业排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
-        <area-rank-list
-          :data="companyRankData"
-          :totalNum="companyRankTotal"
-          height="2.54rem"
-          :showPer="false"
-        />
+        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -85,38 +76,43 @@ const surfSortPieData = ref(surfSortPieDataFun());
 // 企业排名
 const companyRankData = ref([
   {
-    num: 85,
-    unit: '%',
-    name: '运营商名称名称名称名称'
+    num: 10,
+    unit: '',
+    name: '中广核深圳机场一期屋顶光伏电站'
   },
   {
-    num: 80,
-    unit: '%',
-    name: '运营商名称名称名称名称'
+    num: 8,
+    unit: '',
+    name: '开沃新能源汽车深圳生产基地分布式光伏电站'
   },
   {
-    num: 77,
-    unit: '%',
-    name: '运营商名称名称名'
+    num: 5.99,
+    unit: '',
+    name: '深圳艾杰旭分布式光伏电站'
   },
   {
-    num: 72,
-    unit: '%',
-    name: '运营商名称名称名'
+    num: 4.6,
+    unit: '',
+    name: '中广核深圳机场二期屋顶光伏电站'
   },
   {
-    num: 50,
-    unit: '%',
-    name: '运营商名称名称名'
+    num: 4.25,
+    unit: '',
+    name: '深汕盛腾科技有限公司屋顶光伏'
   },
   {
-    num: 40,
-    unit: '%',
-    name: '运营商名称名称名'
+    num: 3.7,
+    unit: '',
+    name: '盐田港分布式光伏发电项目'
+  },
+  {
+    num: 3.5,
+    unit: '',
+    name: '前海保税物流园区二期分布式光伏'
   }
 ]);
 // 企业排名总量
-const companyRankTotal = ref<number>(85);
+const companyRankTotal = ref<number>(10);
 // 今日光伏电站数据
 const cardTodayData = ref(jrgfdzFun());
 // 今日功率信息卡片
@@ -128,6 +124,82 @@ const socialBenefit = ref(socialBenefitFun());
 // 企业排名tab点击
 const handleCompany = (item) => {
   console.log('item', item);
+  switch (item.code) {
+    case 1:
+      companyRankData.value = [
+        {
+          num: 10,
+          unit: '',
+          name: '中广核深圳机场一期屋顶光伏电站'
+        },
+        {
+          num: 8,
+          unit: '',
+          name: '开沃新能源汽车深圳生产基地分布式光伏电站'
+        },
+        {
+          num: 5.99,
+          unit: '',
+          name: '深圳艾杰旭分布式光伏电站'
+        },
+        {
+          num: 4.6,
+          unit: '',
+          name: '中广核深圳机场二期屋顶光伏电站'
+        },
+        {
+          num: 4.25,
+          unit: '',
+          name: '深汕盛腾科技有限公司屋顶光伏'
+        },
+        {
+          num: 3.7,
+          unit: '',
+          name: '盐田港分布式光伏发电项目'
+        },
+        {
+          num: 3.5,
+          unit: '',
+          name: '前海保税物流园区二期分布式光伏'
+        }
+      ]
+      break
+    case 2:
+      companyRankData.value = [
+        {
+          num: 11,
+          unit: '',
+          name: '深圳市燃气集团股份有限公司'
+        },
+        {
+          num: 7,
+          unit: '',
+          name: '广东粤电电力销售有限公司'
+        },
+        {
+          num: 5,
+          unit: '',
+          name: '国家能源投资集团有限责任公司'
+        },
+        {
+          num: 5,
+          unit: '',
+          name: '国电电力广东新能源开发有限公司'
+        },
+        {
+          num: 3,
+          unit: '',
+          name: '深电能科技集团有限公司'
+        },
+        {
+          num: 2,
+          unit: '',
+          name: '中广核太阳能公司深圳项目公司'
+        }
+      ]
+      break
+  }
+  companyRankTotal.value = companyRankData.value[0].num
 };
 </script>
 <style lang="less" scoped>
@@ -138,34 +210,39 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(
-      255.75deg,
-      rgba(37, 177, 255, 0.02) 23.33%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
+    background: linear-gradient(255.75deg,
+        rgba(37, 177, 255, 0.02) 23.33%,
+        rgba(37, 177, 255, 0.2) 100%);
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
   }
 }
+
 .surf-sort {
   margin-top: 26px;
+
   :deep(.pie-wrap) {
     margin-top: 22px;
   }
 }
+
 .company-rank {
   margin-top: 20px;
+
   :deep(.tabs) {
     margin-top: 16px;
   }
+
   :deep(.area-rank-wrap) {
     margin-top: 20px;
+
     .unit {
       color: #fff;
     }
   }
 }
+
 .photovoltaic-station-overview-today {
   .num-wrap {
     display: flex;
@@ -173,41 +250,42 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(
-      258.38deg,
-      rgba(37, 177, 255, 0.1) 2.46%,
-      rgba(37, 177, 255, 0) 100%
-    );
+    background: linear-gradient(258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%);
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
   }
 }
+
 .power-msg-today {
   margin-top: 26px;
 }
+
 .power-msg-today {
   .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
     margin-bottom: 20px;
+
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
+
       .info {
         flex-direction: column;
+
         .name {
           margin-bottom: 0;
         }
@@ -215,10 +293,13 @@ const handleCompany = (item) => {
     }
   }
 }
+
 .social-benefit {
   margin-top: 24px;
+
   .num-wrap {
     margin-top: 16px;
+
     :deep(.num-tile-card) {
       &:nth-of-type(n + 1) {
         margin-top: 12px;

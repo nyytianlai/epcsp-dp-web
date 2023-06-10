@@ -204,7 +204,7 @@ const getHotCharging = async () => {
     chargePower.value = res?.data.map((item) => {
       return {
         num: Number(item.power),
-        unit: 'KW',
+        unit: 'kW',
         name: item.name
       };
     });

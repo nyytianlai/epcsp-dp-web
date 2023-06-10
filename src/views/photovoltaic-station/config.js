@@ -14,19 +14,19 @@ export const pageNumFun = (data = {}) => {
     {
       name: '年累计发电量',
       // num: data?.cumulativeCharge,
-      num: 5.06,
+      num: 2.06,
       unit: '亿kWh'
     },
     {
       name: '年累计生产绿证',
       // num: data?.cumChargeCount,
-      num: 50.6,
+      num: 20.6,
       unit: '万个'
     },
     {
       name: '全社会用电量比例',
       // num: data?.cumChargeTime,
-      num: 0.95,
+      num: 0.41,
       unit: '%'
     }
   ]
@@ -35,19 +35,19 @@ export const cdzzlFun = (data = {}) => {
   return [
     {
       img: gfzzl,
-      num: 1952,
+      num: 229,
       unit: '个',
       name: '光伏站总量'
     },
     {
       img: zjzrl,
-      num: 910.52,
+      num: 39.82,
       unit: 'MW',
       name: '装机总容量'
     },
     {
       img: jrqyzs,
-      num: 201,
+      num: 106,
       unit: '个',
       name: '接入企业总数'
     }
@@ -56,17 +56,17 @@ export const cdzzlFun = (data = {}) => {
 export const surfSortPieDataFun = (data={})=>{
   return [
     {
-      value: 985,
+      value: 161,
       name: '余电上网',
       unit: '个'
     },
     {
-      value: 752,
+      value: 50,
       name: '全额上网',
       unit: '个'
     },
     {
-      value: 215,
+      value: 18,
       name: '全额自用',
       unit: '个'
     },
@@ -82,11 +82,11 @@ export const surfTitle = [
 export const  companyRank = [
   {
     code: 1,
-    label: '光伏站数量'
+    label: '项目装机容量排名'
   },
   {
     code: 2,
-    label: '装机总容量'
+    label: '光伏站数量'
   },
 ]
 export const jrgfdzFun =(data = {}) => {
@@ -156,59 +156,119 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       "time": "01",
-      "useRate": 181.34,
+      "useRate": 0,
       "troubleRate": 0
     },
     {
       "time": "02",
-      "useRate": 282.34,
+      "useRate": 0,
       "troubleRate": 0
     },
     {
       "time": "03",
-      "useRate": 300,
+      "useRate": 0,
       "troubleRate": 0
     },
     {
       "time": "04",
-      "useRate": 18.34,
+      "useRate": 0,
       "troubleRate": 0
     },
     {
       "time": "05",
-      "useRate": 800,
+      "useRate": 0,
       "troubleRate": 0
     },
     {
       "time": "06",
-      "useRate": 400,
+      "useRate": 25.29,
       "troubleRate": 0
     },
     {
       "time": "07",
-      "useRate": 100,
+      "useRate": 95.29,
       "troubleRate": 0
     },
     {
       "time": "08",
-      "useRate": 900,
+      "useRate": 175.88,
       "troubleRate": 0
     },
     {
       "time": "09",
-      "useRate":632,
+      "useRate":244.41,
       "troubleRate": 0.12
     },
     {
       "time": "10",
-      "useRate": 561,
+      "useRate": 312.94,
       "troubleRate": 0.13
     },
     {
       "time": "11",
-      "useRate": 73,
+      "useRate": 363.24,
       "troubleRate": 0.13
-    }
+    },
+    {
+      "time": "12",
+      "useRate": 376.18,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "13",
+      "useRate": 371.76,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "14",
+      "useRate": 338.82,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "15",
+      "useRate": 312.06,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "16",
+      "useRate": 254.12,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "17",
+      "useRate": 148.82,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "18",
+      "useRate": 68.82,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "19",
+      "useRate": 25.29,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "20",
+      "useRate": 0,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "21",
+      "useRate": 0,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "22",
+      "useRate": 0,
+      "troubleRate": 0.13
+    },
+    {
+      "time": "23",
+      "useRate": 0,
+      "troubleRate": 0.13
+    },
   ]
   return [
     {
@@ -223,13 +283,13 @@ export const socialBenefitFun = (data={})=>{
   return [
     {
       img: nscgfld,
-      num: 12.29,
+      num: 4.29,
       unit: '/亿度',
       name: '年生产光伏绿电',
     },
     {
       img: nco2jpl,
-      num: 122.53,
+      num: 42.77,
       unit: '/万吨',
       name: '年CO2减排量',
     }

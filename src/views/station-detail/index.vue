@@ -50,7 +50,7 @@
     <div class="station-power">
       <title-column title="站点实时功率" />
       <line-time-chart
-        unit="KW"
+        unit="kW"
         :data="linePowerData"
         :colors="['#00FFF9']"
         :chartStyle="{ height: '2.22rem' }"

@@ -16,7 +16,7 @@
         <div class="info">
           <span class="top">
             <span class="name-pile">{{ headerData?.name }}</span>
-            <span class="power" v-if="headerData?.power">{{headerData?.power}}KW</span>
+            <span class="power" v-if="headerData?.power">{{headerData?.power}}kW</span>
             <span class="status" v-if="headerData?.status" :class="headerData?.class" >{{ headerData?.status }}</span>
           </span>
           <span class="pile-code">

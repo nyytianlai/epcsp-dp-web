@@ -47,7 +47,7 @@ const setRectBarVisibility = (value: boolean) => {
   value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
-  legendName.value = value ? '充电数量(个)' : '充电功率(KW)';
+  legendName.value = value ? '充电数量(个)' : '充电功率(kW)';
   value ? addQuBar() : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
 };
 const setHeatMapVisibility = async (value: boolean) => {

@@ -47,7 +47,7 @@
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
           </template>
         </div>
-        <line-time-chart :data="lineStateData" :colors="stateColor" unit="KW" />
+        <line-time-chart :data="lineStateData" :colors="stateColor" unit="kW" />
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
@@ -82,32 +82,32 @@ const chargingTypeData = ref(chargingTypeDataFun());
 const facilitiesRankData = ref([
   {
     num: 85,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名称名称'
   },
   {
     num: 80,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名称名称'
   },
   {
     num: 77,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 72,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 50,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 40,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   }
 ]);
