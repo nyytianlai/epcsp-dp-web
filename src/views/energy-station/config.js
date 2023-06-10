@@ -50,7 +50,7 @@ export const cndzyxzlFun = (data = {}) => {
     },
     {
       img: zjzrl,
-      num: 1253.75,
+      num: 1309.75,
       unit: '/MW',
       name: '装机总容量',
       classStyleType: 'leftRightStyleYellow'
@@ -118,10 +118,6 @@ export const rankTabType = [
     code: 2,
     label: '储能站数量'
   },
-  {
-    code: 3,
-    label: '设施总容量'
-  }
 ]
 export const runingFun = (data = {}) => {
   return [
@@ -162,89 +158,124 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       "timeDim": "00:00",
-      "ratedPower": "587752.0",
-      "realTimePower": "187289.0"
+      "ratedPower": 14382,
+      "realTimePower": -943
     },
     {
       "timeDim": "01:00",
-      "ratedPower": "1548010.0",
-      "realTimePower": "788756.0"
+      "ratedPower": 14258,
+      "realTimePower": -933
     },
     {
       "timeDim": "02:00",
-      "ratedPower": "1491980.0",
-      "realTimePower": "726431.0"
+      "ratedPower": 13597,
+      "realTimePower": -900
     },
     {
       "timeDim": "03:00",
-      "ratedPower": "1291225.0",
-      "realTimePower": "612471.0"
+      "ratedPower": 13060,
+      "realTimePower": -900
     },
     {
       "timeDim": "04:00",
-      "ratedPower": "1165234.0",
-      "realTimePower": "525091.0"
+      "ratedPower": 12874,
+      "realTimePower": -900
     },
     {
       "timeDim": "05:00",
-      "ratedPower": "1064558.0",
-      "realTimePower": "462325.0"
+      "ratedPower": 12719,
+      "realTimePower": 0
     },
     {
       "timeDim": "06:00",
-      "ratedPower": "1045687.0",
-      "realTimePower": "445308.0"
+      "ratedPower": 13053,
+      "realTimePower": 0
     },
     {
       "timeDim": "07:00",
-      "ratedPower": "1085661.0",
-      "realTimePower": "463517.0"
+      "ratedPower": 14202,
+      "realTimePower": 0
     },
     {
       "timeDim": "08:00",
-      "ratedPower": "1011866.0",
-      "realTimePower": "410014.0"
+      "ratedPower": 16922,
+      "realTimePower": 0
     },
     {
       "timeDim": "09:00",
-      "ratedPower": "717681.0",
-      "realTimePower": "256866.0"
+      "ratedPower": 18879,
+      "realTimePower": 943
     },
     {
       "timeDim": "10:00",
-      "ratedPower": "566300.0",
-      "realTimePower": "224534.0"
+      "ratedPower": 19116,
+      "realTimePower": 943
     },
     {
       "timeDim": "11:00",
-      "ratedPower": "467443.0",
-      "realTimePower": "177009.0"
+      "ratedPower": 19153,
+      "realTimePower": 0
     },
     {
       "timeDim": "12:00",
-      "ratedPower": "514927.0",
-      "realTimePower": "187412.0"
+      "ratedPower": 17053,
+      "realTimePower": -10
     },
     {
       "timeDim": "13:00",
-      "ratedPower": "1219001.0",
-      "realTimePower": "522279.0"
+      "ratedPower": 16354,
+      "realTimePower": 0
     },
     {
       "timeDim": "14:00",
-      "ratedPower": "1118604.0",
-      "realTimePower": "439943.0"
+      "ratedPower": 17689,
+      "realTimePower": 0
     },
     {
       "timeDim": "15:00",
-      "ratedPower": "668244.0",
-      "realTimePower": "244702.0"
+      "ratedPower": 17919,
+      "realTimePower": 0
     },
     {
       "timeDim": "16:00",
-      "ratedPower": "375617.0",
-      "realTimePower": "133412.0"
-    }
+      "ratedPower": 18585,
+      "realTimePower": 1
+    },
+    {
+      "timeDim": "17:00",
+      "ratedPower": 19581,
+      "realTimePower": 5
+    },
+    {
+      "timeDim": "18:00",
+      "ratedPower": 19902,
+      "realTimePower": 900
+    },
+    {
+      "timeDim": "19:00",
+      "ratedPower": 20401,
+      "realTimePower": 900
+    },
+    {
+      "timeDim": "20:00",
+      "ratedPower": 20045,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "21:00",
+      "ratedPower": 19368,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "22:00",
+      "ratedPower": 17822,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "23:00",
+      "ratedPower": 15890,
+      "realTimePower": 0
+    },
   ]
   return [
     {

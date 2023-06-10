@@ -80,7 +80,6 @@ const { visible, columnData, data } = toRefs(props);
     }
   }
   .el-dialog__header {
-    border-bottom: 1px solid rgba(84, 181, 255, 0.4);
     margin-left: 20px;
     padding-left: 0;
     display: flex;
@@ -92,7 +91,10 @@ const { visible, columnData, data } = toRefs(props);
     font-weight: 600px;
   }
   .el-dialog__body {
-    padding: 18px 20px 28px;
+    padding-top: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 0;
   }
   .el-pagination {
     margin-top: 20px;

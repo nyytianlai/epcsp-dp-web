@@ -199,6 +199,7 @@ const handleCanChoose = (item) => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    
     .value {
       font-family: 'DIN Alternate';
       font-style: normal;
@@ -244,6 +245,8 @@ const handleCanChoose = (item) => {
   .right-info {
     width: 65px;
     white-space: nowrap;
+    text-align: right;
+
     .value {
       font-family: 'DIN Alternate';
       font-style: normal;

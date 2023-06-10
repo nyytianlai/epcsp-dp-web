@@ -16,7 +16,7 @@
         <div class="info">
           <span class="top">
             <span class="name-pile">{{ headerData?.name }}</span>
-            <span class="power" v-if="headerData?.power">{{headerData?.power}}KW</span>
+            <span class="power" v-if="headerData?.power">{{headerData?.power}}kW</span>
             <span class="status" v-if="headerData?.status" :class="headerData?.class" >{{ headerData?.status }}</span>
           </span>
           <span class="pile-code">
@@ -151,10 +151,12 @@ watch(()=>visible.value, (newVal) => {
 provide('pileData',pileData)
 </script>
 <style lang="less">
+
+
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
-  min-height: 542px;
+  height: 582px;
   clip-path: polygon(
     0 0,
     100% 0,
@@ -177,6 +179,7 @@ provide('pileData',pileData)
       /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
     box-shadow: inset 0px 0px 42px rgba(255, 54, 10, 0.51);
     .my-header {
+
       .info .top .status {
         background: rgba(170, 5, 5, 0.3);
         border: 1px solid #aa0505;
@@ -192,6 +195,7 @@ provide('pileData',pileData)
   }
   .my-header {
     display: flex;
+
     .el-icon {
       font-size: 55px;
     }
@@ -250,5 +254,14 @@ provide('pileData',pileData)
     padding-left: 24px;
     padding-right: 34px;
   }
+
+}
+.warning-pile {
+  height: 482px;
+  :deep(.el-dialog__headerbtn){
+      color: #C0E5FF;
+      font-size: 21px;
+      font-weight: bold;
+    }
 }
 </style>

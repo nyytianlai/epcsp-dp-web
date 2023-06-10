@@ -8,7 +8,7 @@
 -->
 <template>
   <page-num :data="pageNumData" />
-  <panel>
+  <panel v-if="isShowBoth">
     <div class="station-info">
       <title-column title="充电站点信息" />
       <station-info :data="stationInfoData" />
@@ -30,7 +30,7 @@
       <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" />
     </div>
   </panel>
-  <panel type="right">
+  <panel type="right" v-if="isShowBoth">
     <div class="charging-bar-state">
       <title-column title="站点充电桩状态" />
       <charging-state :data="chargingStateData" @handleClickState="focusToPile" />
@@ -50,7 +50,7 @@
     <div class="station-power">
       <title-column title="站点实时功率" />
       <line-time-chart
-        unit="KW"
+        unit="kW"
         :data="linePowerData"
         :colors="['#00FFF9']"
         :chartStyle="{ height: '2.22rem' }"
@@ -73,7 +73,7 @@
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <el-table
       :data="alarmTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
     >
@@ -147,7 +147,8 @@ const deviceInfoData = ref(deviceInfoDataFun());
 
 const isHr = computed(() => store.detailParams?.isHr);
 const tabData = ref([]);
-
+// 是否展示两边
+const isShowBoth = ref(true)
 //告警弹窗分页
 const columnData = ref(columnDataFun());
 const alarmTableData = ref([]);
@@ -325,25 +326,33 @@ const handPageChange = (value) => {
 watch(
   () => store.detailParams,
   () => {
-    const paramsDefault = {
-      operatorId: store.detailParams?.operatorId,
-      stationId: store.detailParams?.stationId
-    };
-    params.value = paramsDefault;
-    getStationStatistics();
-    getStationInfoByStationId();
-    getEquipmentCountByStationId();
-    getWarningInfoByStationId(1);
-    getEquipmentStatusByStationId();
-    getEquipmentUseRateByStationId(1);
-    getStationRealTimePowerByStationId();
-    getWarningStatisticByStationId();
-    getButtomMenuData();
-    console.log('store.detailParams?.equipmentId', store.detailParams?.equipmentId);
-    if (store.detailParams?.equipmentId) {
-      console.log('pileVisible', pileVisible.value);
-      focusToPile(store.detailParams.equipmentId, 255);
+    if(store.detailParams.trueStation){
+      // 非真实站点
+      isShowBoth.value = false
+    }else{
+      // 真实站点
+      isShowBoth.value = true
+      const paramsDefault = {
+        operatorId: store.detailParams?.operatorId,
+        stationId: store.detailParams?.stationId
+      };
+      params.value = paramsDefault;
+      getStationStatistics();
+      getStationInfoByStationId();
+      getEquipmentCountByStationId();
+      getWarningInfoByStationId(1);
+      getEquipmentStatusByStationId();
+      getEquipmentUseRateByStationId(1);
+      getStationRealTimePowerByStationId();
+      getWarningStatisticByStationId();
+      getButtomMenuData();
+      console.log('store.detailParams', store.detailParams);
+      if (store.detailParams?.equipmentId) {
+        console.log('pileVisible', pileVisible.value);
+        focusToPile(store.detailParams.equipmentId, 255);
+      }
     }
+
   },
   {
     deep: true,

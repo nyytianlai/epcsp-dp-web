@@ -16,7 +16,7 @@
         <pie-chart
           :data="chargingTypeData"
           totalName="设施类型总量"
-          :colors="['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']"
+          :colors="chargingColor"
         />
       </div>
       <div class="company-facilities-rank">
@@ -47,7 +47,7 @@
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
           </template>
         </div>
-        <line-time-chart :data="lineStateData" :colors="['green', 'blue']" unit="KW" />
+        <line-time-chart :data="lineStateData" :colors="stateColor" unit="kW" />
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
@@ -78,6 +78,8 @@ interface Aircity {
 }
 const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
+const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']
+const stateColor = ['green', 'blue']
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据
@@ -88,32 +90,32 @@ const chargingTypeData = ref(chargingTypeDataFun());
 const facilitiesRankData = ref([
   {
     num: 85,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名称名称'
   },
   {
     num: 80,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名称名称'
   },
   {
     num: 77,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 72,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 50,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   },
   {
     num: 40,
-    unit: '%',
+    unit: '',
     name: '运营商名称名称名'
   }
 ]);
