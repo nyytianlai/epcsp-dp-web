@@ -2,8 +2,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import { getRectBar, getRectBarByStreet } from './api.js';
-import bus from '@/utils/bus';
+// import { getRectBar, getRectBarByStreet } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
@@ -20,10 +19,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Data === 'mouseover') {
       //鼠标悬浮事件
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.6]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
     } else if (e.Data === 'mouseout') {
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.0]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
     }
   }
 });
@@ -35,14 +34,20 @@ const getBarPositionByQuName = (quName: string) => {
   return quItem[0].geometry.coordinates;
 };
 
-const addBar = async (type: 'qu' | 'jd',res:[], streetId?: string) => {
+const addBar = async (
+  type: 'qu' | 'jd',
+  moudleName: '储能站' | '光伏站' | '充换电柜',
+  res:[],
+  streetId?: string
+) => {
   let barArr = [];
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   let stationCount = res.map((item) => {
-    return item.charge;
+    return item.stationCount;
   });
 
-  let yMax = Math.max(...stationCount)
+  let yMax = Math.max(...stationCount);
+
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
   });
@@ -58,7 +63,7 @@ const addBar = async (type: 'qu' | 'jd',res:[], streetId?: string) => {
         ? i.areaCode == item.properties.QUCODE
         : i.streetId == item.properties.JDCODE;
     });
-    let contentHeight = 160;
+    let contentHeight = 190;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
@@ -72,9 +77,11 @@ const addBar = async (type: 'qu' | 'jd',res:[], streetId?: string) => {
       range: [1, 1000000], //可视范围
       imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: `${getHtmlUrl()}/static/html/rectBar4.html?value=${JSON.stringify(countObj[0])}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
+      popupURL: `${getHtmlUrl()}/static/html/rectBarOut.html?value=${
+        countObj[0].stationCount
+      }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}&moudleName=${moudleName}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [200, contentHeight + 131],
+      popupSize: [200, contentHeight + 100],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
@@ -89,10 +96,6 @@ const changeXzqhColor = (polygonId: string, newVal: [number, number, number, num
 };
 defineExpose({ addBar });
 
-onMounted(async () => {
-});
-
-onBeforeUnmount(() => {
-});
+onBeforeUnmount(() => {});
 </script>
 <style lang="less" scoped></style>

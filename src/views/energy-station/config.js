@@ -330,3 +330,154 @@ export const socialBenefitFun =(data = {}) => {
     }
   ];
 };
+//区级的柱状图
+export const mapQuBar = () => {
+  return [
+    {
+      areaCode: 440303,
+      stationCount: 561
+    },
+    {
+      areaCode: 440304,
+      stationCount: 983
+    },
+    {
+      areaCode: 440305,
+      stationCount: 1187
+    },
+    {
+      areaCode: 440306,
+      stationCount: 1330
+    },
+    {
+      areaCode: 440307,
+      stationCount: 1712
+    },
+    {
+      areaCode: 440308,
+      stationCount: 234
+    },
+    {
+      areaCode: 440309,
+      stationCount: 771
+    },
+    {
+      areaCode: 440310,
+      stationCount: 227
+    },
+    {
+      areaCode: 440311,
+      stationCount: 211
+    },
+    {
+      areaCode: 440343,
+      stationCount: 64
+    },
+    {
+      areaCode: 441521,
+      stationCount: 5
+    }
+  ];
+};
+//街道级的柱状图
+export const mapJdBar = () => {
+  return [
+    {
+      streetId: 21,
+      stationCount: 14
+    },
+    {
+      streetId: 22,
+      stationCount: 24
+    },
+    {
+      streetId: 23,
+      stationCount: 8
+    },
+    {
+      streetId: 24,
+      stationCount: 11
+    },
+    {
+      streetId: 25,
+      stationCount: 17
+    },
+    {
+      streetId: 26,
+      stationCount: 20
+    },
+    {
+      streetId: 27,
+      stationCount: 15
+    },
+    {
+      streetId: 28,
+      stationCount: 29
+    },
+    {
+      streetId: 52,
+      stationCount: 1
+    }
+  ];
+};
+//南山区的撒点数据
+export const mapJdStationPoint = () => {
+  return [
+    {
+      stationId: '765',
+      stationName: '充电有道万利达科技大厦储能站',
+      lng: 113.94028,
+      lat: 22.546255,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 37,
+      superCount: 0,
+      sid: '008527',
+      v2GCount: 0
+    },
+    {
+      stationId: '630',
+      stationName: '充电有道万海大厦停车场储能站',
+      lng: 113.95,
+      lat: 22.54,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 35,
+      superCount: 0,
+      sid: '008470',
+      v2GCount: 0
+    },
+    {
+      stationId: '809',
+      stationName: '充电有道新一代国际公寓储能站',
+      lng: 113.95,
+      lat: 22.53,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 7,
+      superCount: 0,
+      sid: '008457',
+      v2GCount: 0
+    },
+    {
+      stationId: '440307004006',
+      stationName: '丰华集祥-深圳特发信息大厦储能站',
+      lng: 113.94925,
+      lat: 22.52,
+      operatorId: 'MA5ED7CT2',
+      isHr: 1,
+      status: 200,
+      quickCount: 27,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005759',
+      v2GCount: 0
+    }
+  ];
+};

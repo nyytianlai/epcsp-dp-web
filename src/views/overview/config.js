@@ -10,7 +10,7 @@ import honglixi from './images/honglixi.png';
 import telaidian from './images/telaidian.png';
 import lianhuaxi from './images/lianhuaxi.png';
 import minle from './images/minle.png';
-import { simplifyNum } from '@/utils/index'
+import { simplifyNum } from '@/utils/index';
 import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
@@ -115,19 +115,19 @@ export const digitalTwinSiteFun = () => {
       img: minle,
       type: '充电站',
       name: '民乐充电站',
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 2,
-      "operatorId": "398461164",
-      "stationId": "118",
-      "stationName": "比亚迪民乐P+R电动汽车充电站",
-      "stationType": "全球最大",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/118.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3c0d97235d390bc5b31b2530dc76734caf69f5449245985ad8dd30b5fdf7ec86",
-      "path3dt": null,
-      "sort": 2
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 2,
+      operatorId: '398461164',
+      stationId: '118',
+      stationName: '比亚迪民乐P+R电动汽车充电站',
+      stationType: '全球最大',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/118.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=3c0d97235d390bc5b31b2530dc76734caf69f5449245985ad8dd30b5fdf7ec86',
+      path3dt: null,
+      sort: 2
     },
     {
       id: 2,
@@ -146,19 +146,19 @@ export const digitalTwinSiteFun = () => {
       img: telaidian,
       type: '充电站',
       name: '特来电深圳国际低碳城站',
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 4,
-      "operatorId": "395815801",
-      "stationId": "4403070124",
-      "stationName": "深圳国际低碳城光储充放一体化示范站",
-      "stationType": "V2G",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/4403070124.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0057756d8a74cb4fc1449884727f85b7aeb7fc5cb7c24c46313ea833bb199a26",
-      "path3dt": null,
-      "sort": 4
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 4,
+      operatorId: '395815801',
+      stationId: '4403070124',
+      stationName: '深圳国际低碳城光储充放一体化示范站',
+      stationType: 'V2G',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/4403070124.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0057756d8a74cb4fc1449884727f85b7aeb7fc5cb7c24c46313ea833bb199a26',
+      path3dt: null,
+      sort: 4
     },
     {
       id: 5,
@@ -166,19 +166,19 @@ export const digitalTwinSiteFun = () => {
       type: '光储充放',
       name: '奥特迅电力大厦充电站',
 
-      "createdBy": null,
-      "creationTime": null,
-      "lastUpdatedBy": null,
-      "lastUpdateTime": null,
-      "hrId": 1,
-      "operatorId": "061402628",
-      "stationId": "440202003",
-      "stationName": "奥特迅电力大厦后广场充电站",
-      "stationType": "光储充放",
-      "stationPic": "http://10.226.0.231:9000/hr-station-pic/440202003.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d20cb7f662543ea11cf511abc6d3d20b9c9689ebb215b22cceee7179790712d4",
-      "path3dt": null,
-      "sort": 1
-
+      createdBy: null,
+      creationTime: null,
+      lastUpdatedBy: null,
+      lastUpdateTime: null,
+      hrId: 1,
+      operatorId: '061402628',
+      stationId: '440202003',
+      stationName: '奥特迅电力大厦后广场充电站',
+      stationType: '光储充放',
+      stationPic:
+        'http://10.226.0.231:9000/hr-station-pic/440202003.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20230609%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230609T021313Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=d20cb7f662543ea11cf511abc6d3d20b9c9689ebb215b22cceee7179790712d4',
+      path3dt: null,
+      sort: 1
     },
     {
       id: 6,
@@ -205,7 +205,7 @@ export const stationTabType = [
     code: 4,
     label: '充换设施'
   }
-]
+];
 
 export const ecOptionFun = (data = [], xaxis = []) => {
   xaxis = xaxis.map((i) => {
@@ -275,7 +275,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       },
       minInterval: 1,
       axisLine: {
-        show: false,
+        show: false
       },
       axisTick: {
         show: false
@@ -595,7 +595,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       name: '合计'
-    },
+    }
   ];
 };
 export const lineElectricDataFun = (data = []) => {
@@ -843,6 +843,484 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       name: '汽车充电'
+    }
+  ];
+};
+
+//区级的柱状图
+export const mapQuBar = () => {
+  return [
+    {
+      areaCode: 440303,
+      charge: 561,
+      energyStorage: 51,
+      photovoltaic: 9,
+      chargingCabinet: 20
     },
+    {
+      areaCode: 440304,
+      charge: 983,
+      energyStorage: 77,
+      photovoltaic: 18,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440305,
+      charge: 1187,
+      energyStorage: 31,
+      photovoltaic: 15,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440306,
+      charge: 1330,
+      energyStorage: 67,
+      photovoltaic: 32,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440307,
+      charge: 1712,
+      energyStorage: 49,
+      photovoltaic: 42,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440308,
+      charge: 234,
+      energyStorage: 26,
+      photovoltaic: 12,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440309,
+      charge: 771,
+      energyStorage: 81,
+      photovoltaic: 27,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440310,
+      charge: 227,
+      energyStorage: 58,
+      photovoltaic: 13,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440311,
+      charge: 211,
+      energyStorage: 47,
+      photovoltaic: 16,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440343,
+      charge: 64,
+      energyStorage: 98,
+      photovoltaic: 7,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 441521,
+      charge: 5,
+      energyStorage: 16,
+      photovoltaic: 37,
+      chargingCabinet: 20
+    }
+  ];
+};
+//街道级的柱状图
+export const mapJdBar = () => {
+  return [
+    {
+      streetId: 21,
+      charge: 14,
+      energyStorage: 2,
+      photovoltaic: 10,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 22,
+      charge: 24,
+      energyStorage: 2,
+      photovoltaic: 1,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 23,
+      charge: 8,
+      energyStorage: 3,
+      photovoltaic: 5,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 24,
+      charge: 11,
+      energyStorage: 1,
+      photovoltaic: 3,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 25,
+      charge: 17,
+      energyStorage: 8,
+      photovoltaic: 6,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 26,
+      charge: 20,
+      energyStorage: 3,
+      photovoltaic: 9,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 27,
+      charge: 15,
+      energyStorage: 7,
+      photovoltaic: 1,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 28,
+      charge: 29,
+      energyStorage: 8,
+      photovoltaic: 13,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 52,
+      charge: 1,
+      energyStorage: 4,
+      photovoltaic: 4,
+      chargingCabinet: 8
+    }
+  ];
+};
+//南山区的撒点数据
+export const mapJdStationPoint = () => {
+  return [
+    {
+      stationId: '735',
+      stationName: '充电有道航天科技大厦慢充站',
+      lng: 113.94853,
+      lat: 22.52521,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 90,
+      superCount: 0,
+      sid: '010478',
+      v2GCount: 0
+    },
+    {
+      stationId: '0246',
+      stationName: '高新西站',
+      lng: 113.936015,
+      lat: 22.543873,
+      operatorId: '552132052',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 0,
+      superCount: 3,
+      sid: '009092',
+      v2GCount: 0
+    },
+    {
+      stationId: '772',
+      stationName: '充电有道四达大厦慢充站',
+      lng: 113.93167,
+      lat: 22.515621,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 11,
+      superCount: 0,
+      sid: '009006',
+      v2GCount: 0
+    },
+    {
+      stationId: '725',
+      stationName: '充电有道紫光信息港慢充站',
+      lng: 113.95462,
+      lat: 22.561201,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 60,
+      superCount: 0,
+      sid: '008565',
+      v2GCount: 0
+    },
+    {
+      stationId: '765',
+      stationName: '充电有道万利达科技大厦储能站',
+      lng: 113.94028,
+      lat: 22.546255,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 37,
+      superCount: 0,
+      sid: '008527',
+      v2GCount: 0
+    },
+    {
+      stationId: '630',
+      stationName: '充电有道万海大厦停车场储能站',
+      lng: 113.923,
+      lat: 22.49787,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 35,
+      superCount: 0,
+      sid: '008470',
+      v2GCount: 0
+    },
+    {
+      stationId: '809',
+      stationName: '充电有道新一代国际公寓储能站',
+      lng: 113.93135,
+      lat: 22.511007,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 7,
+      superCount: 0,
+      sid: '008457',
+      v2GCount: 0
+    },
+    {
+      stationId: '440307004006',
+      stationName: '丰华集祥-深圳特发信息大厦储能站',
+      lng: 113.94925,
+      lat: 22.550663,
+      operatorId: 'MA5ED7CT2',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 27,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005759',
+      v2GCount: 0
+    },
+    {
+      stationId: '120',
+      stationName: '怡化金融大厦交流光伏站',
+      lng: 113.942336,
+      lat: 22.531837,
+      operatorId: 'MA5FGLRY4',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 3,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005476',
+      v2GCount: 0
+    },
+    {
+      stationId: '87',
+      stationName: '三诺大厦交流充光伏站',
+      lng: 113.943899,
+      lat: 22.527977,
+      operatorId: 'MA5FGLRY4',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 0,
+      noQuickCount: 20,
+      superCount: 0,
+      sid: '005474',
+      v2GCount: 0
+    },
+    {
+      stationId: '536107916714987520',
+      stationName: '中山大学光伏站',
+      lng: 113.94332,
+      lat: 22.527021,
+      operatorId: '326400952',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 21,
+      noQuickCount: 4,
+      superCount: 0,
+      sid: '004896',
+      v2GCount: 0
+    },
+    {
+      stationId: '574497300803493888',
+      stationName: '赛百诺大厦光伏站',
+      lng: 113.936067,
+      lat: 22.548526,
+      operatorId: '326400952',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 0,
+      noQuickCount: 32,
+      superCount: 0,
+      sid: '004894',
+      v2GCount: 0
+    },
+    {
+      stationId: '12',
+      stationName: '南山区高新园充换电柜',
+      lng: 113.949528,
+      lat: 22.544476,
+      operatorId: '192417563',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 20,
+      noQuickCount: 0,
+      superCount: 20,
+      sid: '004396',
+      v2GCount: 0
+    },
+    {
+      stationId: '000000001042',
+      stationName: '德维森电动汽车充换电柜',
+      lng: 113.946449,
+      lat: 22.534182,
+      operatorId: 'MA5DA0053',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 2,
+      noQuickCount: 10,
+      superCount: 0,
+      sid: '004041',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202014',
+      stationName: '数字技术园充换电柜',
+      lng: 113.948948,
+      lat: 22.533942,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 4,
+      noQuickCount: 10,
+      superCount: 0,
+      sid: '002618',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-YTDS-0755-0039',
+      stationName: '英唐大厦充电站',
+      lng: 113.946915,
+      lat: 22.535107,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 12,
+      superCount: 0,
+      sid: '002476',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-YJYY-0755-0054',
+      stationName: '深圳软件园一期②充电站（交流）',
+      lng: 113.939557,
+      lat: 22.544454,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 63,
+      superCount: 0,
+      sid: '002462',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-WDCX-0755-0038',
+      stationName: '武大产学研基地充电站',
+      lng: 113.944756,
+      lat: 22.530485,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 18,
+      superCount: 0,
+      sid: '002458',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-RJYY-0755-0043',
+      stationName: '深圳软件园一期①充电站（直流）',
+      lng: 113.939034,
+      lat: 22.544621,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 2,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '002447',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-SZDX-0755-0045',
+      stationName: '深圳大学充电站',
+      lng: 113.942762,
+      lat: 22.529076,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 6,
+      noQuickCount: 2,
+      superCount: 0,
+      sid: '002446',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202017',
+      stationName: '南山软件大厦充电站',
+      lng: 113.940452,
+      lat: 22.549209,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 3,
+      noQuickCount: 21,
+      superCount: 16,
+      sid: '001817',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202011',
+      stationName: '联想大厦停车场充电站',
+      lng: 113.947683,
+      lat: 22.538778,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 12,
+      noQuickCount: 0,
+      superCount: 8,
+      sid: '001802',
+      v2GCount: 0
+    },
+    {
+      stationId: '866904192231677952',
+      stationName: '致联航天科技充电站',
+      lng: 113.954124,
+      lat: 22.53712,
+      operatorId: 'MA5DM667X',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 10,
+      noQuickCount: 5,
+      superCount: 0,
+      sid: '000257',
+      v2GCount: 0
+    }
   ];
 };

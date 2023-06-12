@@ -60,16 +60,16 @@
 
   <body style="height: 100%; width: 100%; margin: 0;">
     <!-- background-color: #D5FEFF; -->
-    <div id="chart-panel" style="height: 100%; width: 100%;position: absolute;bottom: 0px;left: 50px;"></div>
+    <div id="chart-panel" style="height: 190px; width: 80px;position: absolute;bottom: 0px;left: 50px;"></div>
     <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
     <script type="text/javascript">
       
       var urlParams = new URLSearchParams(location.search);
-      let paramsValue = urlParams.get("value")?urlParams.get("value").split(","):[44,55,66];
-
+      let paramsValue = urlParams.get("value");
       const VALUE = [
-        { value: Number(paramsValue[1]), label: { offset: [0, -10] } },
+        { value: Number(paramsValue), label: { offset: [0, -10] } },
       ];
+      const moudleName=urlParams.get("moudleName");
       const yMax = Number(urlParams.get("yMax"));
       const quName = urlParams.get("quName");
       const areaCode = urlParams.get("areaCode");
@@ -157,50 +157,27 @@
       echarts.graphic.registerShape("CubeRight", CubeRight);
       echarts.graphic.registerShape("CubeTop", CubeTop);
 
-
-      const barColor = [
-        [  //非高亮 蓝色
-          ["#0091B0", "#00529D"],
-          ["#4AD9FC", "#096FA8"],
-          ["#B6F2FF", "#B6F2FF"],
+      const barColor = {
+        '储能站':[ //黄色 储能站
+          ["#FBFF3E", "#6D6F1A"],//左侧
+          ["#EAE110", "#A6A92C"],
+          ["#FEFFA4", "#FEFFA4"],
         ],
-        [ //高亮 绿色
+        '光伏站':[ //紫色 光伏站
+          ["#4D6BD8","#301CA8"],
+          ["#88A1FF","#3532AF"],
+          ["#A2B7EE","#A2B7EE"]
+        ],
+        '充换电柜':[ //高亮色 充换电柜
           ["#267A7B", "#03817D"],
           ["#59FFFF", "#117370"],
           ["#B6F2FF", "#B6F2FF"],
-        ],
-      ];
+        ]
+      }
 
-      function setOptionColor(num) {
+      function setOptionColor() {
         return {
           // backgroundColor: '#030446',
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "shadow",
-            },
-            backgroundColor: "rgba(9, 24, 48, 0.0)",
-            borderColor: "rgba(75, 253, 238, 0.0)",
-            textStyle: {
-              color: "#CFE3FC",
-            },
-            // confine:false,
-            borderWidth: 0,
-            position: [-50, -131+190-(Number(paramsValue[1])*140)/yMax-20],//(Number(paramsValue[1])*120)/yMax 柱子高度
-            formatter: function (params) {
-              let item = "";
-              item += params[0].name;
-              return `    <div id="pop-panel">
-     <div class="title">${quName}</div>
-     <div class="content">
-      <li>充电站<div class="liRight"><sapn class="num">${paramsValue[1]}</sapn>个</div></li>
-      <li>充电桩<div class="liRight"><span class="num">${paramsValue[2]}</span>个</div></li>
-      <li>充电枪<div class="liRight"><span class="num">${paramsValue[0]}</span>个</div></li>
-     </div>
-    </div>`
-              //  paramsValue[1];
-            },
-          },
           grid: {
             left: "6px",
             right: "0%",
@@ -277,11 +254,11 @@
                         fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                           {
                             offset: 0,
-                            color: barColor[params.dataIndex + num][0][0],
+                            color: barColor[moudleName][0][0],
                           },
                           {
                             offset: 1,
-                            color: barColor[params.dataIndex + num][0][1],
+                            color: barColor[moudleName][0][1],
                           },
                         ]),
                       },
@@ -305,11 +282,11 @@
                         fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                           {
                             offset: 0,
-                            color: barColor[params.dataIndex + num][1][0],
+                            color: barColor[moudleName][1][0],
                           },
                           {
                             offset: 1,
-                            color: barColor[params.dataIndex + num][1][1],
+                            color: barColor[moudleName][1][1],
                           },
                         ]),
                       },
@@ -333,11 +310,11 @@
                         fill: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                           {
                             offset: 0,
-                            color: barColor[params.dataIndex + num][2][0],
+                            color: barColor[moudleName][2][0],
                           },
                           {
                             offset: 1,
-                            color: barColor[params.dataIndex + num][2][1],
+                            color: barColor[moudleName][2][1],
                           },
                         ]),
                       },
@@ -378,17 +355,9 @@
           ],
         };
       }
-      option = setOptionColor(0);
+      option = setOptionColor();
       if (option && typeof option === "object") {
         myChart.setOption(option);
-        myChart.on("mouseover", function (params) {
-            myChart.setOption(setOptionColor(1));
-            ue.dtspoi.postevent(`mouseover`)
-        });
-        myChart.on("mouseout", function (params) {
-          myChart.setOption(setOptionColor(0));
-          ue.dtspoi.postevent(`mouseout`)
-        });
         myChart.on("click", function (params) {
 	       console.log('获取点击的数据',params);
          ue.dtspoi.postevent(`click-${areaCode}`)

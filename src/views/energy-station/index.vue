@@ -40,11 +40,12 @@
         </div>
       </div>
     </panel>
+    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   </div>
 </template>
 <script lang="ts" setup>
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,inject } from 'vue';
 import {
   runingFun,
   pageNumFun,
@@ -56,6 +57,13 @@ import {
   linePowerDataFun,
   socialBenefitFun
 } from './config.js';
+import MapLayer from './components/map-layer.vue';
+
+interface Aircity {
+  value: object;
+}
+const aircityObj: Aircity = inject('aircityObj');
+let mapLayerRef = ref(null);
 const lineStateColor = ['green', '#FF7723']
 const tabTypeColor = ['#E5CC48', '#3254DD', '#4BDEFF']
 // 顶部数据
