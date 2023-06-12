@@ -25,7 +25,13 @@ import { Data } from '@icon-park/vue-next';
 import { useMapStore } from '@/stores/map';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
-const currentHrStationID = computed(() => mapStore.currentHrStationID.split('-')[1]); //当前点击的高渲染站点id
+const currentHrStationID = computed(() => {
+  if (mapStore.currentHrStationID.split('-').length === 3) {
+    return '-'+mapStore.currentHrStationID.split('-')[2];
+  } else {
+    return mapStore.currentHrStationID.split('-')[1];
+  }
+}); //当前点击的高渲染站点id
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
