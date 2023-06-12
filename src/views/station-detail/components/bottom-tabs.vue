@@ -131,7 +131,7 @@ const handleClick = async (item, sub) => {
 .bottom-tabs {
   width: 1537px;
   height: 65px;
-  background: url(./images/bottom-bgc.png) no-repeat;
+  background: none no-repeat;
   background-size: 100% 100%;
   position: absolute;
   bottom: 0px;

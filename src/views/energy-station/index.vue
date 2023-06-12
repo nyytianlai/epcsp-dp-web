@@ -11,7 +11,7 @@
           </template>
         </div>
         <tabs :data="tabType" @changeTab="handleRuning" />
-        <pie-chart :data="tabTypeData" :totalName="tabPie === 1 ? '电网位置总量' : '能源类型总量'" :colors="tabTypeColor" />
+        <pie-chart :data="tabTypeData" totalName="储能站/个" :colors="tabTypeColor" />
       </div>
       <div class="company-rank">
         <title-column title="运营企业排名" icon="energy-station" />
@@ -45,7 +45,7 @@
 </template>
 <script lang="ts" setup>
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
-import { ref, onMounted,inject } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import {
   runingFun,
   pageNumFun,
@@ -76,38 +76,38 @@ const tabPie = ref(1);
 // 企业排名
 const companyRankData = ref([
   {
-    num: 85,
+    num: 95.72,
     unit: '%',
-    name: '运营商名称名称名称名称'
+    name: '110kV潭头变电站电化学储能电站'
   },
   {
-    num: 80,
+    num: 94.26,
     unit: '%',
-    name: '运营商名称名称名称名称'
+    name: '永泰数能光储充城市驿站'
   },
   {
-    num: 77,
+    num: 93.85,
     unit: '%',
-    name: '运营商名称名称名'
+    name: '福田区委大院光储充柔一体化停车场项目'
   },
   {
-    num: 72,
+    num: 93.1,
     unit: '%',
-    name: '运营商名称名称名'
+    name: '泰豪深圳工业园光储充一体化电站'
   },
   {
-    num: 50,
+    num: 92.87,
     unit: '%',
-    name: '运营商名称名称名'
+    name: '深圳公明南“光储充检”一体化电站概况'
   },
   {
-    num: 40,
+    num: 92.72,
     unit: '%',
-    name: '运营商名称名称名'
+    name: '欧姆龙电子部件（深圳）有限公司储能电站'
   }
 ]);
 // 企业排名总量
-const companyRankTotal = ref<number>(85);
+const companyRankTotal = ref<number>(companyRankData.value[0].num);
 //今日最大顶峰能力
 const chargingRealPower = ref(1246);
 // 储能电站运行信息
@@ -130,38 +130,38 @@ const handleRank = (item) => {
     case 1:
       companyRankData.value = [
         {
-          num: 85,
+          num: 95.72,
           unit: '%',
-          name: '运营商名称名称名称名称'
+          name: '110kV潭头变电站电化学储能电站'
         },
         {
-          num: 80,
+          num: 94.26,
           unit: '%',
-          name: '运营商名称名称名称名称'
+          name: '永泰数能光储充城市驿站'
         },
         {
-          num: 77,
+          num: 93.85,
           unit: '%',
-          name: '运营商名称名称名'
+          name: '福田区委大院光储充柔一体化停车场项目'
         },
         {
-          num: 72,
+          num: 93.1,
           unit: '%',
-          name: '运营商名称名称名'
+          name: '泰豪深圳工业园光储充一体化电站'
         },
         {
-          num: 50,
+          num: 92.87,
           unit: '%',
-          name: '运营商名称名称名'
+          name: '深圳公明南“光储充检”一体化电站概况'
         },
         {
-          num: 40,
+          num: 92.72,
           unit: '%',
-          name: '运营商名称名称名'
+          name: '欧姆龙电子部件（深圳）有限公司储能电站'
         }
       ]
       break
-      case 2:
+    case 2:
       companyRankData.value = [
         {
           num: 1200,
@@ -176,7 +176,7 @@ const handleRank = (item) => {
         {
           num: 20,
           unit: '',
-          name: '坪山新区比亚迪厂区'
+          name: '坪山新区比亚迪厂区用户侧储能'
         },
         {
           num: 12,
@@ -306,4 +306,5 @@ const handleRank = (item) => {
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
   }
-}</style>
+}
+</style>

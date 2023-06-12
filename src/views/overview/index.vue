@@ -58,12 +58,12 @@
         </div>
       </div>
       <div class="box carbon-sort">
-        <title-column title="本月分类碳减排量" />
+        <title-column title="分类碳减排量" />
         <line-time-chart :data="lineCarbonData" :colors="co2Color" yaxisName="吨" mode="onlyLine" unit=""
           :chartStyle="{ height: '2.3rem' }" />
       </div>
       <div class="box">
-        <title-column title="本月发用电量数据" />
+        <title-column title="发用电量数据" />
         <line-time-chart :data="lineElectricData" :colors="ElectricColor" yaxisName="万kwh" mode="onlyLine" unit=""
           :chartStyle="{ height: '2.3rem',width: '103%'}" />
       </div>
@@ -109,7 +109,7 @@ const state = reactive({
 });
 // 左一柱状图
 const ecOption = ref(
-  ecOptionFun([2001, 2811, 4011, 5910, 6399], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+  ecOptionFun([2001, 2811, 4011, 5910, 7302], ['2019年', '2020年', '2021年', '2022年', '2023年'])
 );
 // 左二折线图
 const lineCarbonData = ref(lineCarbonDataFun());
@@ -152,16 +152,16 @@ const handleStation = (item) => {
   console.log('item', item);
   switch (item.code) {
     case 1:
-      ecOption.value = ecOptionFun([2001, 2811, 4011, 5910, 6399], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      ecOption.value = ecOptionFun([2001, 2811, 4011, 5910, 7302], ['2019年', '2020年', '2021年', '2022年', '2023年'])
       break
     case 2:
-      ecOption.value = ecOptionFun([793, 974, 1121, 1546, 2036], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      ecOption.value = ecOptionFun([3, 6, 1509, 2021, 2036], ['2019年', '2020年', '2021年', '2022年', '2023年'])
       break
     case 3:
-      ecOption.value = ecOptionFun([793, 1103, 1593, 1837, 1952], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      ecOption.value = ecOptionFun([7,19, 35, 132, 229], ['2019年', '2020年', '2021年', '2022年', '2023年'])
       break
     case 4:
-      ecOption.value = ecOptionFun([872, 1156, 1323, 1426, 1517], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+      ecOption.value = ecOptionFun([24372, 92065, 15866, 198020, 232343], ['2019年', '2020年', '2021年', '2022年', '2023年'])
       break
   }
 
