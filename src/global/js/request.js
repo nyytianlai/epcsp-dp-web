@@ -95,6 +95,7 @@ const err = (error) => {
         break;
     }
   } else if (error.message) {
+    console.log('error.message',error.message);
     if (error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
     } else {

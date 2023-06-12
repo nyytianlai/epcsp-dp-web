@@ -19,7 +19,7 @@ export const chargeIcon = () => {
   ];
 };
 
-//民乐站配套设施标签
+//各站点配套设施标签
 export const facilitiesLabel = (stationId) => {
   if (stationId == '118') {
     //民乐
@@ -141,15 +141,15 @@ export const facilitiesLabel = (stationId) => {
         img: 'electricalRoom'
       },
       {
-        value: '充放电一体机',
-        id: '充放电一体机',
+        value: 'V2G桩',
+        id: 'V2G桩',
         position: [494458.6175, 2495536, 25.014765625],
         img: 'electricalRoom'
       },
       {
         value: '液冷大功率充电终端',
         id: '液冷大功率充电终端',
-        position: [494451.98125, 2495572.48, 25.0986181640625],
+        position: [494452.315, 2495571.52, 25.58055908203125],
         img: 'electricalRoom'
       },
       {
@@ -208,6 +208,64 @@ export const facilitiesLabel = (stationId) => {
         value: '5#箱变',
         id: '5#箱变',
         position: [497207.631875, 2494067.68, 23.069404296875],
+        img: 'electricalRoom'
+      }
+    ];
+  } else if (stationId == '-2') {
+    //莲花村
+    return [
+      {
+        value: '风机',
+        id: '风机',
+        position: [506401.55625, 2494983.84, 18.51548095703125],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'A1',
+        id: 'A1',
+        position: [506375.833125, 2494823.68, 10.55826171875],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'A2',
+        id: 'A2',
+        position: [506413.631875, 2494782.08, 17.473076171875],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'B1',
+        id: 'B1',
+        position: [506479.97500000003, 2494780.16, 17.0259130859375],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'B2',
+        id: 'B2',
+        position: [506549, 2494833.44, 17.6691015625],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'C1',
+        id: 'C1',
+        position: [506516.78875, 2494895.84, 17.999814453125],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'C2',
+        id: 'C2',
+        position: [506473.3137, 2494977.76, 18.95273],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'D',
+        id: 'D',
+        position: [506389.108125, 2494895.2, 17.91951171875],
+        img: 'electricalRoom'
+      },
+      {
+        value: 'E',
+        id: 'E',
+        position: [506406.7, 2494957.6, 17.934033203125],
         img: 'electricalRoom'
       }
     ];

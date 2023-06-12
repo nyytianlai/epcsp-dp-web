@@ -34,6 +34,7 @@ const currentJdCode = computed(() => store.currentJdCode);
 const stationType = computed(() => new Set(store.stationType));
 store.changeStationType([1, 2, 3]);
 const buttomTabCode = computed(() => store.buttomTabCode);
+const requestTimer = computed(() => store.requestTimer);
 const legendNameData1 = '告警级别（个）';
 const legendListData1 = reactive([
   {
@@ -76,15 +77,6 @@ let quRef = ref(null);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
-
-const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
-  if (value) {
-    await __g[type].show(layerNameQuNameArr(idPre));
-    await __g[type].showAllPopupWindow();
-  } else {
-    await __g[type].hide(layerNameQuNameArr(idPre));
-  }
-};
 
 const setLegendData = (code: 1 | 2) => {
   let legendListData = code == 1 ? legendListData1 : legendListData2;
@@ -130,16 +122,11 @@ const alarmTypeChange = async (item: AlarmType) => {
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
   if (currentPosition.value.includes('市') && stationType.value.size) {
-    addQuBar()
+    debounce(addQuBar);
   } else if (currentPosition.value.includes('区') && stationType.value.size) {
-    cirBar3Ref.value.addBar({
-      code: buttomTabCode.value,
-      type: 'jd',
-      quCode: quNameCodeInterTrans('name', currentPosition.value),
-      stationType: Array.from(stationType.value)
-    });
+    debounce(addJdBar);
   } else if (currentPosition.value.includes('街道')) {
-    quRef.value.addStationPoint(currentJdCode.value);
+    debounce(addJdPoint);
   }
 };
 
@@ -151,12 +138,36 @@ const addQuBar = async () => {
   });
 };
 
+const addJdBar = async () => {
+  await cirBar3Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'jd',
+    quCode: quNameCodeInterTrans('name', currentPosition.value),
+    stationType: Array.from(stationType.value)
+  });
+};
+
+const addJdPoint = async () => {
+  quRef.value.addStationPoint(currentJdCode.value);
+};
+
+const debounce = (fn) => {
+  if (requestTimer.value !== null) {
+    clearTimeout(requestTimer.value);
+  }
+  store.changeRequestTimer(
+    setTimeout(() => {
+      fn();
+    }, 1000)
+  );
+};
+
 defineExpose({ buttomTabChange, alarmTypeChange });
 
 onMounted(async () => {
   // await __g.tileLayer.setCollision(infoObj.terrainId, false, true, false, true);
   // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
-  addQuBar()
+  addQuBar();
   bus.on('addBar', (e) => {
     cirBar3Ref.value.addBar({
       code: buttomTabCode.value,

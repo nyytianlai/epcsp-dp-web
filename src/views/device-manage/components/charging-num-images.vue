@@ -45,12 +45,12 @@ const props = defineProps({
 });
 const handleClick = (item) => {
   item['isHr'] = 0;
+  bus.emit('toHr', item);
   store.changeShowComponent(false);
   store.changeShowDetail({
     show: true,
     params: item
   });
-  bus.emit('toHr', item);
 };
 </script>
 <style lang="less" scoped>
