@@ -6,7 +6,9 @@
  * @FilePath: \epcsp-dp-web\src\views\station-detail\components\map-layer.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
-<template></template>
+<template>
+  <BaoQing v-if="currentHrStationID === '-1'" />
+</template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
@@ -21,11 +23,11 @@ import {
 import { selectCameraByStationId } from '../api.js';
 import bus from '@/utils/bus';
 import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
-import { Data } from '@icon-park/vue-next';
 import { useMapStore } from '@/stores/map';
+import BaoQing from './baiqing.vue';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
-const currentHrStationID = computed(() => mapStore.currentHrStationID.split('-')[1]); //当前点击的高渲染站点id
+const currentHrStationID = computed(() => mapStore.currentHrStationID.split('station-')[1]); //当前点击的高渲染站点id
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
@@ -251,19 +253,23 @@ onMounted(() => {
     addChageingIcon(chargeIcon());
   }
   bus.on('handleTabSelect', async (e) => {
-    //一级菜单栏切换
-    await resetTab3dt();
-    if (e?.viewCode === 'v2') {
-      //站内设施
-      currentHrStationID.value == '118' ? getCameraData() : '';
-      __g.marker.showByGroupId('stationFacilitiesLabel');
-    } else if (e?.viewCode === 'v3') {
-      //车辆充电
-      carChargingAnimation();
-    } else if (e?.viewCode === 'v4') {
-      currentPath(true);
-    } else if (e?.viewCode === 'v5') {
-      operatorDistribution(true);
+    console.log(e);
+    if (currentHrStationID.value === '-1') {
+    } else {
+      //一级菜单栏切换
+      await resetTab3dt();
+      if (e?.viewCode === 'v2') {
+        //站内设施
+        currentHrStationID.value == '118' ? getCameraData() : '';
+        __g.marker.showByGroupId('stationFacilitiesLabel');
+      } else if (e?.viewCode === 'v3') {
+        //车辆充电
+        carChargingAnimation();
+      } else if (e?.viewCode === 'v4') {
+        currentPath(true);
+      } else if (e?.viewCode === 'v5') {
+        operatorDistribution(true);
+      }
     }
   });
   bus.on('resetTab3dt', () => {

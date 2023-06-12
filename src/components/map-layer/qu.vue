@@ -446,7 +446,7 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
 const addHrStation = async (stationId: string, isShow: boolean) => {
   await beforeAddOrExitHrStation(isShow);
   let ids = getTreeLayerIdByName(stationId + '默认展示', store.treeInfo);
-  isShow ? await __g.infoTree.show(ids) :  __g.infoTree.hide(ids);
+  isShow ? await __g.infoTree.show(ids) : __g.infoTree.hide(ids);
   if (stationId === '118') {
     //比亚迪民乐P+R电动汽车充电站
     //站内移动的车
@@ -463,20 +463,34 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
       ? __g.camera.set(494480.218672, 2495531.893906, 29.262388, -10.561944, -147.549225, 3)
       : '';
   } else if (stationId === '-3') {
-    //红荔西5G示范站 
-    isShow ? __g.camera.set(502336.126,2494157.449,32.645,-19.399999,-101.400130, 3) : '';
+    //红荔西5G示范站
+    isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
-  }else if (stationId === '-2') {
+  } else if (stationId === '-2') {
     //莲花村
-    isShow ? __g.camera.set(506445.060625,2494943.585625,81.798667,-65.807396,179.735062, 3) : '';
-  }else if (stationId === '-1') {
+    isShow
+      ? __g.camera.set(506445.060625, 2494943.585625, 81.798667, -65.807396, 179.735062, 3)
+      : '';
+  } else if (stationId === '-1') {
     //宝清储能站
-    isShow ? __g.camera.set(529839.682,2510134.377,152.545,-33.399998,89.800003, 3) : '';
+    // isShow
+    //   ? __g.camera.set(529839.682, 2510134.377, 152.545, -33.399998, 89.800003, -0.000003)
+    //   : '';
+    isShow
+      ? await __g.camera.set(
+          529799.333953,
+          2510087.387759,
+          148.986729,
+          -33.399971,
+          89.799957,
+          -0.000002
+        )
+      : '';
   }
 };
 
