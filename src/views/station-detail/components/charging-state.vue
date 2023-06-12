@@ -48,20 +48,20 @@ const stateFormate = (state) => {
       name: '空闲'
     },
     2: {
-      code: 'charging-work',
-      name: '占用'
+      code: 'no-work',
+      name: '空闲'
     },
     3: {
       code: 'charging-work',
       name: '占用'
     },
     4: {
-      code: 'charging-work',
-      name: '占用'
+      code: 'no-work',
+      name: '空闲'
     },
     5: {
-      code: 'charging-work',
-      name: '占用'
+      code: 'no-work',
+      name: '空闲'
     },
     255: {
       code: 'error-work',

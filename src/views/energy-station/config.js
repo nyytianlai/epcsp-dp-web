@@ -158,122 +158,122 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       "timeDim": "00:00",
-      "ratedPower": 14382,
-      "realTimePower": -943
+      "ratedPower": 14382.1029082774,
+      "realTimePower": -16.5
     },
     {
       "timeDim": "01:00",
-      "ratedPower": 14258,
-      "realTimePower": -933
+      "ratedPower": 14258.4340044743,
+      "realTimePower": -16.5
     },
     {
       "timeDim": "02:00",
-      "ratedPower": 13597,
-      "realTimePower": -900
+      "ratedPower": 13597.2035794183,
+      "realTimePower": -6.5
     },
     {
       "timeDim": "03:00",
-      "ratedPower": 13060,
-      "realTimePower": -900
+      "ratedPower": 13059.5525727069,
+      "realTimePower": 0
     },
     {
       "timeDim": "04:00",
-      "ratedPower": 12874,
-      "realTimePower": -900
+      "ratedPower": 12874.0715883669,
+      "realTimePower": 0
     },
     {
       "timeDim": "05:00",
-      "ratedPower": 12719,
+      "ratedPower": 12718.8590604027,
       "realTimePower": 0
     },
     {
       "timeDim": "06:00",
-      "ratedPower": 13053,
+      "ratedPower": 13052.6845637584,
       "realTimePower": 0
     },
     {
       "timeDim": "07:00",
-      "ratedPower": 14202,
+      "ratedPower": 14201.8791946309,
       "realTimePower": 0
     },
     {
       "timeDim": "08:00",
-      "ratedPower": 16922,
+      "ratedPower": 16922.4608501119,
       "realTimePower": 0
     },
     {
       "timeDim": "09:00",
-      "ratedPower": 18879,
-      "realTimePower": 943
+      "ratedPower": 18879.0604026846,
+      "realTimePower": 16.5
     },
     {
       "timeDim": "10:00",
-      "ratedPower": 19116,
-      "realTimePower": 943
+      "ratedPower": 19116.2863534676,
+      "realTimePower": 16.5
     },
     {
       "timeDim": "11:00",
-      "ratedPower": 19153,
-      "realTimePower": 0
+      "ratedPower": 19153.4004474272,
+      "realTimePower": 13.6
     },
     {
       "timeDim": "12:00",
-      "ratedPower": 17053,
-      "realTimePower": -10
-    },
-    {
-      "timeDim": "13:00",
-      "ratedPower": 16354,
+      "ratedPower": 17053.4675615213,
       "realTimePower": 0
     },
     {
+      "timeDim": "13:00",
+      "ratedPower": 16354.451901566,
+      "realTimePower": -10
+    },
+    {
       "timeDim": "14:00",
-      "ratedPower": 17689,
+      "ratedPower": 17689.3512304251,
       "realTimePower": 0
     },
     {
       "timeDim": "15:00",
-      "ratedPower": 17919,
+      "ratedPower": 17919.4630872483,
       "realTimePower": 0
     },
     {
       "timeDim": "16:00",
-      "ratedPower": 18585,
+      "ratedPower": 18585.4138702461,
       "realTimePower": 1
     },
     {
       "timeDim": "17:00",
-      "ratedPower": 19581,
+      "ratedPower": 19580.9172259508,
       "realTimePower": 5
     },
     {
       "timeDim": "18:00",
-      "ratedPower": 19902,
-      "realTimePower": 900
+      "ratedPower": 19902.4384787472,
+      "realTimePower": 0
     },
     {
       "timeDim": "19:00",
-      "ratedPower": 20401,
-      "realTimePower": 900
+      "ratedPower": 20401.4765100671,
+      "realTimePower": 0
     },
     {
       "timeDim": "20:00",
-      "ratedPower": 20045,
+      "ratedPower": 20044.9888143177,
       "realTimePower": 0
     },
     {
       "timeDim": "21:00",
-      "ratedPower": 19368,
+      "ratedPower": 19368.4787472036,
       "realTimePower": 0
     },
     {
       "timeDim": "22:00",
-      "ratedPower": 17822,
+      "ratedPower": 17821.7673378076,
       "realTimePower": 0
     },
     {
       "timeDim": "23:00",
-      "ratedPower": 15890,
+      "ratedPower": 15889.6868008949,
       "realTimePower": 0
     },
   ]
@@ -319,7 +319,7 @@ export const socialBenefitFun =(data = {}) => {
     },
     {
       img: nco2jpl,
-      num: 103.79,
+      num: 51.89,
       unit: '万吨',
       name: '年CO2减排量',
       numStyle: {

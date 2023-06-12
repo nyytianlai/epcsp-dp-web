@@ -18,7 +18,7 @@
       <div class="company-rank">
         <title-column title="企业排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
-        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" />
+        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false"/>
       </div>
     </panel>
     <!-- 右侧 -->
@@ -53,7 +53,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted,inject } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import {
   pageNumFun,
   cdzzlFun,
@@ -86,42 +86,42 @@ const surfSortPieData = ref(surfSortPieDataFun());
 const companyRankData = ref([
   {
     num: 10,
-    unit: '',
+    unit: 'MW',
     name: '中广核深圳机场一期屋顶光伏电站'
   },
   {
     num: 8,
-    unit: '',
+    unit: 'MW',
     name: '开沃新能源汽车深圳生产基地分布式光伏电站'
   },
   {
     num: 5.99,
-    unit: '',
+    unit: 'MW',
     name: '深圳艾杰旭分布式光伏电站'
   },
   {
     num: 4.6,
-    unit: '',
+    unit: 'MW',
     name: '中广核深圳机场二期屋顶光伏电站'
   },
   {
     num: 4.25,
-    unit: '',
+    unit: 'MW',
     name: '深汕盛腾科技有限公司屋顶光伏'
   },
   {
     num: 3.7,
-    unit: '',
+    unit: 'MW',
     name: '盐田港分布式光伏发电项目'
   },
   {
     num: 3.5,
-    unit: '',
+    unit: 'MW',
     name: '前海保税物流园区二期分布式光伏'
   }
 ]);
 // 企业排名总量
-const companyRankTotal = ref<number>(10);
+const companyRankTotal = ref<number>(companyRankData.value[0].num);
 // 今日光伏电站数据
 const cardTodayData = ref(jrgfdzFun());
 // 今日功率信息卡片
@@ -138,37 +138,37 @@ const handleCompany = (item) => {
       companyRankData.value = [
         {
           num: 10,
-          unit: '',
+          unit: 'MW',
           name: '中广核深圳机场一期屋顶光伏电站'
         },
         {
           num: 8,
-          unit: '',
+          unit: 'MW',
           name: '开沃新能源汽车深圳生产基地分布式光伏电站'
         },
         {
           num: 5.99,
-          unit: '',
+          unit: 'MW',
           name: '深圳艾杰旭分布式光伏电站'
         },
         {
           num: 4.6,
-          unit: '',
+          unit: 'MW',
           name: '中广核深圳机场二期屋顶光伏电站'
         },
         {
           num: 4.25,
-          unit: '',
+          unit: 'MW',
           name: '深汕盛腾科技有限公司屋顶光伏'
         },
         {
           num: 3.7,
-          unit: '',
+          unit: 'MW',
           name: '盐田港分布式光伏发电项目'
         },
         {
           num: 3.5,
-          unit: '',
+          unit: 'MW',
           name: '前海保税物流园区二期分布式光伏'
         }
       ]
@@ -245,7 +245,7 @@ const handleCompany = (item) => {
 
   :deep(.area-rank-wrap) {
     margin-top: 20px;
-
+    width: 430px;
     .unit {
       color: #fff;
     }
