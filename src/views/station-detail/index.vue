@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <page-num :data="pageNumData" />
+  <page-num :data="pageNumData" v-if="pageNumData?.length !==0"/>
   <panel v-if="isShowBoth">
     <div class="station-info">
       <title-column title="充电站点信息" />
@@ -27,7 +27,7 @@
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
       />
-      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" />
+      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" mode="year"/>
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -329,6 +329,7 @@ watch(
     if(store.detailParams.trueStation){
       // 非真实站点
       isShowBoth.value = false
+      pageNumData.value = []
     }else{
       // 真实站点
       isShowBoth.value = true
