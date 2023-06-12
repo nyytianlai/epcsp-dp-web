@@ -215,7 +215,7 @@ const operatorDistribution = async (isShow: boolean) => {
 //站内设施加点
 const addFacilitiesLabel = async (id) => {
   const pointArr = [];
-  facilitiesLabel(id)?.forEach((item, index) => {
+  facilitiesLabel(id).forEach((item, index) => {
     let o1 = {
       id: item.id,
       groupId: 'stationFacilitiesLabel',

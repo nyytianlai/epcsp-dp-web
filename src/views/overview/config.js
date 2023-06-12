@@ -12,24 +12,25 @@ import lianhuaxi from './images/lianhuaxi.png';
 import minle from './images/minle.png';
 import { simplifyNum } from '@/utils/index';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils';
 export const pageNumFun = (data = {}) => {
   return [
     {
       name: '年累计生产绿电',
       // num: data?.cumulativeCharge,
-      num: 5.06,
+      num: 4.29,
       unit: data?.cumulativeChargeUnit || '亿kWh'
     },
     {
       name: '年累计CO²减排量',
       // num: data?.cumChargeCount,
-      num: 56.96,
+      num: 195.42,
       unit: data?.cumChargeCountUnit || '万吨'
     },
     {
       name: '本年累计削峰电量',
       // num: data?.cumChargeTime,
-      num: 6.94,
+      num: 4.58,
       unit: data?.cumChargeTimeUnit || '亿kWh'
     }
   ];
@@ -76,14 +77,14 @@ export const photovoltaicStationFun = (data = {}) => {
   return [
     {
       img: gfzzs,
-      num: 1952,
+      num: 229,
       unit: '个',
       name: '光伏站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: nfdl,
-      num: 5.06,
+      num: 4.29,
       unit: '亿KWh',
       name: '年发电量',
       classStyleType: 'leftRightStyleYellow5858'
@@ -94,14 +95,14 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
       img: sszs,
-      num: 12431,
+      num: 23.23,
       unit: '万个',
-      name: '充换电柜总数',
+      name: '设施总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
-      num: 7.49,
+      num: 1.25,
       unit: '亿KWh',
       name: '年充电量',
       classStyleType: 'leftRightStyleYellow5858'
@@ -343,256 +344,591 @@ export const ecOptionFun = (data = [], xaxis = []) => {
     ]
   };
 };
+const carbon = [
+  {
+    date: '2023/5/10',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1485',
+    photovoltaic: '1366',
+    emissionReduction: '11874'
+  },
+  {
+    date: '2023/5/11',
+    electricVehicleNum: '8195',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1425',
+    photovoltaic: '1065',
+    emissionReduction: '11341'
+  },
+  {
+    date: '2023/5/12',
+    electricVehicleNum: '8100',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1455',
+    photovoltaic: '1186',
+    emissionReduction: '11536'
+  },
+  {
+    date: '2023/5/13',
+    electricVehicleNum: '6922',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1470',
+    photovoltaic: '1282',
+    emissionReduction: '10292'
+  },
+  {
+    date: '2023/5/14',
+    electricVehicleNum: '6763',
+    twoWheeledElectricCarNum: '643',
+    storedEnergy: '1485',
+    photovoltaic: '1410',
+    emissionReduction: '10301'
+  },
+  {
+    date: '2023/5/15',
+    electricVehicleNum: '8116',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1545',
+    photovoltaic: '203',
+    emissionReduction: '10513'
+  },
+  {
+    date: '2023/5/16',
+    electricVehicleNum: '7893',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1560',
+    photovoltaic: '139',
+    emissionReduction: '10260'
+  },
+  {
+    date: '2023/5/17',
+    electricVehicleNum: '7718',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1455',
+    photovoltaic: '327',
+    emissionReduction: '10117'
+  },
+  {
+    date: '2023/5/18',
+    electricVehicleNum: '8116',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1545',
+    photovoltaic: '203',
+    emissionReduction: '10513'
+  },
+  {
+    date: '2023/5/19',
+    electricVehicleNum: '7893',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1560',
+    photovoltaic: '139',
+    emissionReduction: '10260'
+  },
+  {
+    date: '2023/5/20',
+    electricVehicleNum: '6493',
+    twoWheeledElectricCarNum: '900',
+    storedEnergy: '1515',
+    photovoltaic: '1366',
+    emissionReduction: '10274'
+  },
+  {
+    date: '2023/5/21',
+    electricVehicleNum: '6556',
+    twoWheeledElectricCarNum: '833',
+    storedEnergy: '1485',
+    photovoltaic: '1333',
+    emissionReduction: '10207'
+  },
+  {
+    date: '2023/5/22',
+    electricVehicleNum: '8187',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1425',
+    photovoltaic: '1366',
+    emissionReduction: '11773'
+  },
+  {
+    date: '2023/5/23',
+    electricVehicleNum: '7798',
+    twoWheeledElectricCarNum: '624',
+    storedEnergy: '1515',
+    photovoltaic: '1263',
+    emissionReduction: '11199'
+  },
+  {
+    date: '2023/5/24',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1485',
+    photovoltaic: '1366',
+    emissionReduction: '11874'
+  },
+  {
+    date: '2023/5/25',
+    electricVehicleNum: '8195',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1425',
+    photovoltaic: '1065',
+    emissionReduction: '11341'
+  },
+  {
+    date: '2023/5/26',
+    electricVehicleNum: '8100',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1455',
+    photovoltaic: '1186',
+    emissionReduction: '11536'
+  },
+  {
+    date: '2023/5/27',
+    electricVehicleNum: '6922',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1470',
+    photovoltaic: '1282',
+    emissionReduction: '10292'
+  },
+  {
+    date: '2023/5/28',
+    electricVehicleNum: '6763',
+    twoWheeledElectricCarNum: '643',
+    storedEnergy: '1485',
+    photovoltaic: '1410',
+    emissionReduction: '10301'
+  },
+  {
+    date: '2023/5/29',
+    electricVehicleNum: '8116',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1545',
+    photovoltaic: '203',
+    emissionReduction: '10513'
+  },
+  {
+    date: '2023/5/30',
+    electricVehicleNum: '7893',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1560',
+    photovoltaic: '139',
+    emissionReduction: '10260'
+  },
+  {
+    date: '2023/5/31',
+    electricVehicleNum: '7718',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1455',
+    photovoltaic: '327',
+    emissionReduction: '10117'
+  },
+  {
+    date: '2023/6/1',
+    electricVehicleNum: '7806',
+    twoWheeledElectricCarNum: '741',
+    storedEnergy: '1440',
+    photovoltaic: '287',
+    emissionReduction: '10274'
+  },
+  {
+    date: '2023/6/2',
+    electricVehicleNum: '7949',
+    twoWheeledElectricCarNum: '771',
+    storedEnergy: '1530',
+    photovoltaic: '390',
+    emissionReduction: '10640'
+  },
+  {
+    date: '2023/6/3',
+    electricVehicleNum: '7089',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1410',
+    photovoltaic: '134',
+    emissionReduction: '9302'
+  },
+  {
+    date: '2023/6/4',
+    electricVehicleNum: '6851',
+    twoWheeledElectricCarNum: '624',
+    storedEnergy: '1485',
+    photovoltaic: '1171',
+    emissionReduction: '10131'
+  },
+  {
+    date: '2023/6/5',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1545',
+    photovoltaic: '195',
+    emissionReduction: '10712'
+  },
+  {
+    date: '2023/6/6',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '611',
+    storedEnergy: '1515',
+    photovoltaic: '390',
+    emissionReduction: '10871'
+  },
+  {
+    date: '2023/6/7',
+    electricVehicleNum: '8195',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1590',
+    photovoltaic: '1366',
+    emissionReduction: '11801'
+  },
+  {
+    date: '2023/6/8',
+    electricVehicleNum: '7543',
+    twoWheeledElectricCarNum: '736',
+    storedEnergy: '1425',
+    photovoltaic: '1269',
+    emissionReduction: '10973'
+  },
+  {
+    date: '2023/6/9',
+    electricVehicleNum: '7670',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1455',
+    photovoltaic: '1366',
+    emissionReduction: '11285'
+  },
+  {
+    date: '2023/6/10',
+    electricVehicleNum: '6843',
+    twoWheeledElectricCarNum: '611',
+    storedEnergy: '1440',
+    photovoltaic: '390',
+    emissionReduction: '9284'
+  },
+  {
+    date: '2023/6/11',
+    electricVehicleNum: '7320',
+    twoWheeledElectricCarNum: '598',
+    storedEnergy: '1530',
+    photovoltaic: '293',
+    emissionReduction: '9741'
+  },
+  {
+    date: '2023/6/12',
+    electricVehicleNum: '7798',
+    twoWheeledElectricCarNum: '630',
+    storedEnergy: '1560',
+    photovoltaic: '195',
+    emissionReduction: '10183'
+  },
+  {
+    date: '2023/6/13',
+    electricVehicleNum: '7718',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1575',
+    photovoltaic: '1562',
+    emissionReduction: '11510'
+  },
+  {
+    date: '2023/6/14',
+    electricVehicleNum: '7638',
+    twoWheeledElectricCarNum: '643',
+    storedEnergy: '1530',
+    photovoltaic: '390',
+    emissionReduction: '10202'
+  },
+  {
+    date: '2023/6/15',
+    electricVehicleNum: '8148',
+    twoWheeledElectricCarNum: '742',
+    storedEnergy: '1575',
+    photovoltaic: '1757',
+    emissionReduction: '12222'
+  },
+  {
+    date: '2023/6/16',
+    electricVehicleNum: '7861',
+    twoWheeledElectricCarNum: '741',
+    storedEnergy: '1470',
+    photovoltaic: '390',
+    emissionReduction: '10462'
+  },
+  {
+    date: '2023/6/17',
+    electricVehicleNum: '7559',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1575',
+    photovoltaic: '1562',
+    emissionReduction: '11364'
+  },
+  {
+    date: '2023/6/18',
+    electricVehicleNum: '7161',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1575',
+    photovoltaic: '1366',
+    emissionReduction: '10771'
+  },
+  {
+    date: '2023/6/19',
+    electricVehicleNum: '7638',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1545',
+    photovoltaic: '195',
+    emissionReduction: '10034'
+  },
+  {
+    date: '2023/6/20',
+    electricVehicleNum: '8068',
+    twoWheeledElectricCarNum: '900',
+    storedEnergy: '1515',
+    photovoltaic: '1366',
+    emissionReduction: '11850'
+  },
+  {
+    date: '2023/6/21',
+    electricVehicleNum: '7845',
+    twoWheeledElectricCarNum: '833',
+    storedEnergy: '1485',
+    photovoltaic: '1366',
+    emissionReduction: '11529'
+  },
+  {
+    date: '2023/6/22',
+    electricVehicleNum: '8195',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1425',
+    photovoltaic: '1366',
+    emissionReduction: '11781'
+  },
+  {
+    date: '2023/6/23',
+    electricVehicleNum: '7798',
+    twoWheeledElectricCarNum: '624',
+    storedEnergy: '1515',
+    photovoltaic: '1366',
+    emissionReduction: '11303'
+  },
+  {
+    date: '2023/6/24',
+    electricVehicleNum: '6763',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1485',
+    photovoltaic: '1366',
+    emissionReduction: '10283'
+  },
+  {
+    date: '2023/6/25',
+    electricVehicleNum: '6286',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1425',
+    photovoltaic: '1366',
+    emissionReduction: '9733'
+  },
+  {
+    date: '2023/6/26',
+    electricVehicleNum: '7782',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1455',
+    photovoltaic: '390',
+    emissionReduction: '10421'
+  },
+  {
+    date: '2023/6/27',
+    electricVehicleNum: '7718',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1470',
+    photovoltaic: '390',
+    emissionReduction: '10196'
+  },
+  {
+    date: '2023/6/28',
+    electricVehicleNum: '7559',
+    twoWheeledElectricCarNum: '643',
+    storedEnergy: '1485',
+    photovoltaic: '586',
+    emissionReduction: '10272'
+  },
+  {
+    date: '2023/6/29',
+    electricVehicleNum: '8116',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1545',
+    photovoltaic: '586',
+    emissionReduction: '10896'
+  },
+  {
+    date: '2023/6/30',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1560',
+    photovoltaic: '586',
+    emissionReduction: '11169'
+  },
+  {
+    date: '2023/7/1',
+    electricVehicleNum: '7002',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1455',
+    photovoltaic: '390',
+    emissionReduction: '9465'
+  },
+  {
+    date: '2023/7/2',
+    electricVehicleNum: '6779',
+    twoWheeledElectricCarNum: '741',
+    storedEnergy: '1440',
+    photovoltaic: '390',
+    emissionReduction: '9350'
+  },
+  {
+    date: '2023/7/3',
+    electricVehicleNum: '8148',
+    twoWheeledElectricCarNum: '771',
+    storedEnergy: '1530',
+    photovoltaic: '390',
+    emissionReduction: '10839'
+  },
+  {
+    date: '2023/7/4',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '668',
+    storedEnergy: '1410',
+    photovoltaic: '1366',
+    emissionReduction: '11799'
+  },
+  {
+    date: '2023/7/5',
+    electricVehicleNum: '7798',
+    twoWheeledElectricCarNum: '624',
+    storedEnergy: '1485',
+    photovoltaic: '1171',
+    emissionReduction: '11078'
+  },
+  {
+    date: '2023/7/6',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '617',
+    storedEnergy: '1545',
+    photovoltaic: '195',
+    emissionReduction: '10712'
+  },
+  {
+    date: '2023/7/7',
+    electricVehicleNum: '8355',
+    twoWheeledElectricCarNum: '611',
+    storedEnergy: '1515',
+    photovoltaic: '390',
+    emissionReduction: '10871'
+  },
+  {
+    date: '2023/7/8',
+    electricVehicleNum: '6604',
+    twoWheeledElectricCarNum: '649',
+    storedEnergy: '1590',
+    photovoltaic: '1366',
+    emissionReduction: '10210'
+  },
+  {
+    date: '2023/7/9',
+    electricVehicleNum: '6906',
+    twoWheeledElectricCarNum: '736',
+    storedEnergy: '1425',
+    photovoltaic: '1269',
+    emissionReduction: '10337'
+  },
+  {
+    date: '2023/7/10',
+    electricVehicleNum: '7670',
+    twoWheeledElectricCarNum: '794',
+    storedEnergy: '1455',
+    photovoltaic: '1366',
+    emissionReduction: '11285'
+  },
+  {
+    date: '2023/7/11',
+    electricVehicleNum: '7638',
+    twoWheeledElectricCarNum: '611',
+    storedEnergy: '1440',
+    photovoltaic: '390',
+    emissionReduction: '10080'
+  },
+  {
+    date: '2023/7/12',
+    electricVehicleNum: '8116',
+    twoWheeledElectricCarNum: '598',
+    storedEnergy: '1530',
+    photovoltaic: '293',
+    emissionReduction: '10537'
+  },
+  {
+    date: '2023/7/13',
+    electricVehicleNum: '7798',
+    twoWheeledElectricCarNum: '630',
+    storedEnergy: '1560',
+    photovoltaic: '195',
+    emissionReduction: '10183'
+  },
+  {
+    date: '2023/7/14',
+    electricVehicleNum: '7718',
+    twoWheeledElectricCarNum: '656',
+    storedEnergy: '1575',
+    photovoltaic: '1562',
+    emissionReduction: '11510'
+  },
+  {
+    date: '2023/7/15',
+    electricVehicleNum: '6357',
+    twoWheeledElectricCarNum: '643',
+    storedEnergy: '1530',
+    photovoltaic: '390',
+    emissionReduction: '8921'
+  }
+];
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
-  const yearMonthDay = dayjs('2023-05').format('MM-');
-  data = [
-    {
-      time: '01',
-      ddqc: 11250,
-      llddc: 900,
-      cn: 1515,
-      gf: 2854
-    },
-    {
-      time: '02',
-      ddqc: 11028,
-      llddc: 832,
-      cn: 1485,
-      gf: 3006
-    },
-    {
-      time: '03',
-      ddqc: 10582,
-      llddc: 794,
-      cn: 1425,
-      gf: 3127
-    },
-    {
-      time: '04',
-      ddqc: 7797,
-      llddc: 623,
-      cn: 1515,
-      gf: 3066
-    },
-    {
-      time: '05',
-      ddqc: 8354,
-      llddc: 668,
-      cn: 1485,
-      gf: 3218
-    },
-    {
-      time: '06',
-      ddqc: 8195,
-      llddc: 655,
-      cn: 1425,
-      gf: 2884
-    },
-    {
-      time: '07',
-      ddqc: 9929,
-      llddc: 794,
-      cn: 1455,
-      gf: 936
-    },
-    {
-      time: '08',
-      ddqc: 7718,
-      llddc: 617,
-      cn: 1470,
-      gf: 850
-    },
-    {
-      time: '09',
-      ddqc: 7758,
-      llddc: 642,
-      cn: 1485,
-      gf: 1223
-    },
-    {
-      time: '10',
-      ddqc: 8115,
-      llddc: 649,
-      cn: 1545,
-      gf: 1288
-    },
-    {
-      time: '11',
-      ddqc: 8354,
-      llddc: 688,
-      cn: 1560,
-      gf: 1340
-    },
-    {
-      time: '12',
-      ddqc: 7718,
-      llddc: 617,
-      cn: 1455,
-      gf: 876
-    },
-    {
-      time: '13',
-      ddqc: 9166,
-      llddc: 740,
-      cn: 1440,
-      gf: 919
-    },
-    {
-      time: '14',
-      ddqc: 9739,
-      llddc: 771,
-      cn: 1530,
-      gf: 824
-    },
-    {
-      time: '15',
-      ddqc: 8354,
-      llddc: 668,
-      cn: 1410,
-      gf: 3097
-    },
-    {
-      time: '16',
-      ddqc: 7797,
-      llddc: 623,
-      cn: 1485,
-      gf: 2732
-    },
-    {
-      time: '17',
-      ddqc: 8354,
-      llddc: 617,
-      cn: 1545,
-      gf: 425
-    },
-    {
-      time: '18',
-      ddqc: 8354,
-      llddc: 611,
-      cn: 1515,
-      gf: 910
-    },
-    {
-      time: '19',
-      ddqc: 8195,
-      llddc: 649,
-      cn: 1590,
-      gf: 3188
-    },
-    {
-      time: '20',
-      ddqc: 9929,
-      llddc: 736,
-      cn: 1425,
-      gf: 2904
-    },
-    {
-      time: '21',
-      ddqc: 9261,
-      llddc: 793,
-      cn: 1455,
-      gf: 3157
-    },
-    {
-      time: '22',
-      ddqc: 7638,
-      llddc: 611,
-      cn: 1440,
-      gf: 841
-    },
-    {
-      time: '23',
-      ddqc: 8115,
-      llddc: 598,
-      cn: 1530,
-      gf: 663
-    },
-    {
-      time: '24',
-      ddqc: 7797,
-      llddc: 630,
-      cn: 1560,
-      gf: 425
-    },
-    {
-      time: '25',
-      ddqc: 7718,
-      llddc: 655,
-      cn: 1575,
-      gf: 3643
-    },
-    {
-      time: '26',
-      ddqc: 7638,
-      llddc: 642,
-      cn: 1530,
-      gf: 910
-    },
-    {
-      time: '27',
-      ddqc: 9739,
-      llddc: 742,
-      cn: 1575,
-      gf: 3669
-    },
-    {
-      time: '28',
-      ddqc: 9929,
-      llddc: 740,
-      cn: 1470,
-      gf: 858
-    },
-    {
-      time: '29',
-      ddqc: 8354,
-      llddc: 668,
-      cn: 1575,
-      gf: 3574
-    },
-    {
-      time: '30',
-      ddqc: 7718,
-      llddc: 668,
-      cn: 1575,
-      gf: 3066
-    },
-    {
-      time: '31',
-      ddqc: 7638,
-      llddc: 655,
-      cn: 1545,
-      gf: 459
-    }
-  ];
+  const yearMonthDay = dayjs().format('YYYY/M/D');
+  console.log('carbon', carbon);
+  let list = deepClone(carbon);
+  const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
+  list.splice(index + 1);
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.llddc]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.twoWheeledElectricCarNum.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '两轮动车'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.ddqc]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.electricVehicleNum.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '电动汽车'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.cn]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.storedEnergy.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '储能'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.gf]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.photovoltaic.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '光伏'
     },
     {
-      data: data.map((item) => [
-        yearMonthDay + item.time,
-        item.llddc + item.ddqc + item.cn + item.gf
+      data: list.map((item) => [
+        dayjs(item.date).format('MM/DD').toString(),
+        item.emissionReduction.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -600,248 +936,517 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
     }
   ];
 };
+const Electric = [
+  {
+    date: '2023/5/10',
+    electricVehicleNum: '1050',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '297 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/5/11',
+    electricVehicleNum: '1030 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '285 ',
+    photovoltaic: '167'
+  },
+  {
+    date: '2023/5/12',
+    electricVehicleNum: '1018 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '291 ',
+    photovoltaic: '186'
+  },
+  {
+    date: '2023/5/13',
+    electricVehicleNum: '870 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '294 ',
+    photovoltaic: '201'
+  },
+  {
+    date: '2023/5/14',
+    electricVehicleNum: '850 ',
+    twoWheeledElectricCarNum: '81 ',
+    storedEnergy: '297 ',
+    photovoltaic: '221'
+  },
+  {
+    date: '2023/5/15',
+    electricVehicleNum: '1020 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '309 ',
+    photovoltaic: '32'
+  },
+  {
+    date: '2023/5/16',
+    electricVehicleNum: '992 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '312 ',
+    photovoltaic: '22'
+  },
+  {
+    date: '2023/5/17',
+    electricVehicleNum: '970 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '291 ',
+    photovoltaic: '51'
+  },
+  {
+    date: '2023/5/18',
+    electricVehicleNum: '1020 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '309 ',
+    photovoltaic: '32'
+  },
+  {
+    date: '2023/5/19',
+    electricVehicleNum: '992 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '312 ',
+    photovoltaic: '22'
+  },
+  {
+    date: '2023/5/20',
+    electricVehicleNum: '816 ',
+    twoWheeledElectricCarNum: '113 ',
+    storedEnergy: '303 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/5/21',
+    electricVehicleNum: '824 ',
+    twoWheeledElectricCarNum: '105 ',
+    storedEnergy: '297 ',
+    photovoltaic: '209'
+  },
+  {
+    date: '2023/5/22',
+    electricVehicleNum: '1029 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '285 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/5/23',
+    electricVehicleNum: '980 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '303 ',
+    photovoltaic: '198'
+  },
+  {
+    date: '2023/5/24',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '297 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/5/25',
+    electricVehicleNum: '1030 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '285 ',
+    photovoltaic: '167'
+  },
+  {
+    date: '2023/5/26',
+    electricVehicleNum: '1018 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '291 ',
+    photovoltaic: '186'
+  },
+  {
+    date: '2023/5/27',
+    electricVehicleNum: '870 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '294 ',
+    photovoltaic: '201'
+  },
+  {
+    date: '2023/5/28',
+    electricVehicleNum: '850 ',
+    twoWheeledElectricCarNum: '81 ',
+    storedEnergy: '297 ',
+    photovoltaic: '221'
+  },
+  {
+    date: '2023/5/29',
+    electricVehicleNum: '1020 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '309 ',
+    photovoltaic: '32'
+  },
+  {
+    date: '2023/5/30',
+    electricVehicleNum: '992 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '312 ',
+    photovoltaic: '22'
+  },
+  {
+    date: '2023/5/31',
+    electricVehicleNum: '970 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '291 ',
+    photovoltaic: '51'
+  },
+  {
+    date: '2023/6/1',
+    electricVehicleNum: '981 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '288 ',
+    photovoltaic: '45'
+  },
+  {
+    date: '2023/6/2',
+    electricVehicleNum: '999 ',
+    twoWheeledElectricCarNum: '97 ',
+    storedEnergy: '306 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/3',
+    electricVehicleNum: '891 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '282 ',
+    photovoltaic: '21'
+  },
+  {
+    date: '2023/6/4',
+    electricVehicleNum: '861 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '297 ',
+    photovoltaic: '184'
+  },
+  {
+    date: '2023/6/5',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '309 ',
+    photovoltaic: '31'
+  },
+  {
+    date: '2023/6/6',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '77 ',
+    storedEnergy: '303 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/7',
+    electricVehicleNum: '1030 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '318 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/8',
+    electricVehicleNum: '948 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '285 ',
+    photovoltaic: '199'
+  },
+  {
+    date: '2023/6/9',
+    electricVehicleNum: '964 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '291 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/10',
+    electricVehicleNum: '860 ',
+    twoWheeledElectricCarNum: '77 ',
+    storedEnergy: '288 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/11',
+    electricVehicleNum: '920 ',
+    twoWheeledElectricCarNum: '75 ',
+    storedEnergy: '306 ',
+    photovoltaic: '46'
+  },
+  {
+    date: '2023/6/12',
+    electricVehicleNum: '980 ',
+    twoWheeledElectricCarNum: '79 ',
+    storedEnergy: '312 ',
+    photovoltaic: '31'
+  },
+  {
+    date: '2023/6/13',
+    electricVehicleNum: '970 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '315 ',
+    photovoltaic: '245'
+  },
+  {
+    date: '2023/6/14',
+    electricVehicleNum: '960 ',
+    twoWheeledElectricCarNum: '81 ',
+    storedEnergy: '306 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/15',
+    electricVehicleNum: '1024 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '315 ',
+    photovoltaic: '275'
+  },
+  {
+    date: '2023/6/16',
+    electricVehicleNum: '988 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '294 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/17',
+    electricVehicleNum: '950 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '315 ',
+    photovoltaic: '245'
+  },
+  {
+    date: '2023/6/18',
+    electricVehicleNum: '900 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '315 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/19',
+    electricVehicleNum: '960 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '309 ',
+    photovoltaic: '31'
+  },
+  {
+    date: '2023/6/20',
+    electricVehicleNum: '1014 ',
+    twoWheeledElectricCarNum: '113 ',
+    storedEnergy: '303 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/21',
+    electricVehicleNum: '986 ',
+    twoWheeledElectricCarNum: '105 ',
+    storedEnergy: '297 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/22',
+    electricVehicleNum: '1030 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '285 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/23',
+    electricVehicleNum: '980 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '303 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/24',
+    electricVehicleNum: '850 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '297 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/25',
+    electricVehicleNum: '790 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '285 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/6/26',
+    electricVehicleNum: '978 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '291 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/27',
+    electricVehicleNum: '970 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '294 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/6/28',
+    electricVehicleNum: '950 ',
+    twoWheeledElectricCarNum: '81 ',
+    storedEnergy: '297 ',
+    photovoltaic: '92'
+  },
+  {
+    date: '2023/6/29',
+    electricVehicleNum: '1020 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '309 ',
+    photovoltaic: '92'
+  },
+  {
+    date: '2023/6/30',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '312 ',
+    photovoltaic: '92'
+  },
+  {
+    date: '2023/7/1',
+    electricVehicleNum: '880 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '291 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/7/2',
+    electricVehicleNum: '852 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '288 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/7/3',
+    electricVehicleNum: '1024 ',
+    twoWheeledElectricCarNum: '97 ',
+    storedEnergy: '306 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/7/4',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '84 ',
+    storedEnergy: '282 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/7/5',
+    electricVehicleNum: '980 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '297 ',
+    photovoltaic: '184'
+  },
+  {
+    date: '2023/7/6',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '78 ',
+    storedEnergy: '309 ',
+    photovoltaic: '31'
+  },
+  {
+    date: '2023/7/7',
+    electricVehicleNum: '1050 ',
+    twoWheeledElectricCarNum: '77 ',
+    storedEnergy: '303 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/7/8',
+    electricVehicleNum: '830 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '318 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/7/9',
+    electricVehicleNum: '868 ',
+    twoWheeledElectricCarNum: '93 ',
+    storedEnergy: '285 ',
+    photovoltaic: '199'
+  },
+  {
+    date: '2023/7/10',
+    electricVehicleNum: '964 ',
+    twoWheeledElectricCarNum: '100 ',
+    storedEnergy: '291 ',
+    photovoltaic: '214'
+  },
+  {
+    date: '2023/7/11',
+    electricVehicleNum: '960 ',
+    twoWheeledElectricCarNum: '77 ',
+    storedEnergy: '288 ',
+    photovoltaic: '61'
+  },
+  {
+    date: '2023/7/12',
+    electricVehicleNum: '1020 ',
+    twoWheeledElectricCarNum: '75 ',
+    storedEnergy: '306 ',
+    photovoltaic: '46'
+  },
+  {
+    date: '2023/7/13',
+    electricVehicleNum: '980 ',
+    twoWheeledElectricCarNum: '79 ',
+    storedEnergy: '312 ',
+    photovoltaic: '31'
+  },
+  {
+    date: '2023/7/14',
+    electricVehicleNum: '970 ',
+    twoWheeledElectricCarNum: '82 ',
+    storedEnergy: '315 ',
+    photovoltaic: '245'
+  },
+  {
+    date: '2023/7/15',
+    electricVehicleNum: '799 ',
+    twoWheeledElectricCarNum: '81 ',
+    storedEnergy: '306 ',
+    photovoltaic: '61'
+  }
+];
 export const lineElectricDataFun = (data = []) => {
-  const yearMonthDay = dayjs('2023-05').format('MM-');
-  data = [
-    {
-      time: '01',
-      ddqc: 1400,
-      llddc: 112,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '02',
-      ddqc: 1400,
-      llddc: 96,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '03',
-      ddqc: 1400,
-      llddc: 96,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '04',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '05',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '06',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '07',
-      ddqc: 1200,
-      llddc: 96,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '08',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '09',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 204
-    },
-    {
-      time: '10',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 204
-    },
-    {
-      time: '11',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 204
-    },
-    {
-      time: '12',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '13',
-      ddqc: 1200,
-      llddc: 97,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '14',
-      ddqc: 1200,
-      llddc: 95,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '15',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '16',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 408
-    },
-    {
-      time: '17',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 68
-    },
-    {
-      time: '18',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '19',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '20',
-      ddqc: 1200,
-      llddc: 89,
-      cn: 300,
-      gf: 442
-    },
-    {
-      time: '21',
-      ddqc: 1200,
-      llddc: 95,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '22',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '23',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 102
-    },
-    {
-      time: '24',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 68
-    },
-    {
-      time: '25',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 544
-    },
-    {
-      time: '26',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '27',
-      ddqc: 1200,
-      llddc: 88,
-      cn: 300,
-      gf: 612
-    },
-    {
-      time: '28',
-      ddqc: 1200,
-      llddc: 98,
-      cn: 300,
-      gf: 136
-    },
-    {
-      time: '29',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 544
-    },
-    {
-      time: '30',
-      ddqc: 1000,
-      llddc: 80,
-      cn: 300,
-      gf: 476
-    },
-    {
-      time: '31',
-      ddqc: 1000,
-      llddc: 82,
-      cn: 300,
-      gf: 68
-    }
-  ];
+  const yearMonthDay = dayjs().format('YYYY/M/D');
+  console.log('carbon', Electric);
+  let list = deepClone(Electric);
+  const index = Electric.findIndex((i) => i.date.trim() == yearMonthDay);
+  list.splice(index + 1);
+
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.llddc]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.twoWheeledElectricCarNum.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '两轮电动车'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.cn]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.storedEnergy.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '储能放电'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.gf]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.photovoltaic.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '光伏发电'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.ddqc]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.electricVehicleNum.trim()
+      ]),
       type: 'line',
       smooth: true,
       name: '汽车充电'

@@ -75,6 +75,9 @@ import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
+import {
+  getTreeLayerIdByName
+} from '@/global/config/map';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
@@ -139,6 +142,8 @@ const handleMapReady = async (obj) => {
   const ref = await aircityObj.value.acApi.infoTree.get();
   treeInfo.value = ref.infotree;
   // console.log('图层树数据', treeInfo.value);
+  let ids = getTreeLayerIdByName('118默认展示', store.treeInfo);
+  await aircityObj.value.acApi.infoTree.hide(ids);
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
 const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));

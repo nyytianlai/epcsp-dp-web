@@ -184,51 +184,6 @@ const hideHighLightNormalStation = async () => {
   }
   __g.radiationPoint.clear();
 };
-
-const addCenterPoint = async (point) => {
-  __g.marker.delete('m1');
-  //支持经纬度坐标和普通投影坐标两种类型
-  let o1 = {
-    id: 'm1',
-    groupId: 'markerAdd',
-    coordinate: point, //坐标位置
-    coordinateType: 0, //默认0是投影坐标系，也可以设置为经纬度空间坐标系值为1
-    anchors: [-25, 50], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-    imageSize: [50, 50], //图片的尺寸
-    hoverImageSize: [50, 50], //鼠标悬停时显示的图片尺寸
-    range: [1, 100000], //可视范围
-    imagePath: `${import.meta.env.VITE_FD_URL}` + '/samples/images/tag.png', //显示图片路径
-    hoverImagePath: `${import.meta.env.VITE_FD_URL}` + '/samples/images/hilightarea.png', // 鼠标悬停时显示的图片路径
-    fixedSize: true, //图片固定尺寸，取值范围：false 自适应，近大远小，true 固定尺寸，默认值：false
-
-    text: '北京银行', //显示的文字
-    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-    textRange: [1, 1000], //文本可视范围[近裁距离, 远裁距离]
-    textOffset: [0, 0], // 文本偏移
-    textBackgroundColor: '#389a4c', //文本背景颜色
-    fontSize: 24, //字体大小
-    fontOutlineSize: 1, //字体轮廓线大小
-    fontColor: '#ffffff', //字体颜色
-    fontOutlineColor: '#1f1f1f', //字体轮廓线颜色
-
-    showLine: true, //标注点下方是否显示垂直牵引线
-    lineSize: [2, 100], //垂直牵引线宽度和高度[width, height]
-    lineColor: '#dc2123', //垂直牵引线颜色
-    lineOffset: [0, 0], //垂直牵引线偏移
-
-    autoHidePopupWindow: true, //失去焦点后是否自动关闭弹出窗口
-    autoHeight: false, // 自动判断下方是否有物体
-    displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式
-    clusterByImage: true, // 聚合时是否根据图片路径分类，即当多个marker的imagePath路径参数相同时按路径对marker分类聚合
-    priority: 0, //避让优先级
-    occlusionCull: false //是否参与遮挡剔除
-  };
-
-  let markerArr = [];
-  markerArr.push(o1);
-  //海量poi添加请使用批量添加 提供效率
-  await __g.marker.add(markerArr);
-};
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
   store.changeCurrentPositionBak(currentPosition.value);
   if (currentPosition.value.includes('区')) {
@@ -255,7 +210,8 @@ const enterStationInfo = (stationInfo) => {
     params: {
       operatorId: stationInfo.operatorId,
       stationId: stationInfo.stationId,
-      isHr: stationInfo.isHr
+      isHr: stationInfo.isHr,
+      equipmentId: stationInfo.eid
     }
   });
 };
@@ -516,8 +472,10 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   } else if (stationId === '-2') {
-    //莲花西
-    isShow ? __g.camera.set(506430.484, 2495017.023, 61.173, -35.400001, 79.000001, 3) : '';
+    //莲花村
+    isShow
+      ? __g.camera.set(506445.060625, 2494943.585625, 81.798667, -65.807396, 179.735062, 3)
+      : '';
   } else if (stationId === '-1') {
     //宝清储能站
     // isShow
@@ -687,16 +645,7 @@ const filterJdNameArrByQuName = (quName: string) => {
 
 defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint });
 onMounted(async () => {
-  await __g.reset();
-  hideAllStation3dt(__g, store.treeInfo);
-  await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
-  // await __g.settings.setMousePickMask(0);
-  let res = await requestGeojsonData('qu4547');
-  quFeatures = res.features;
-  addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');
-  let res1 = await requestGeojsonData('quName4547');
-  addXzqhName(res1.features, 'quName', 'QUNAME', 'QUCODE');
-  addWall();
+  __g.reset();
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
     console.log('高渲染站点信息2', e);
@@ -707,6 +656,15 @@ onMounted(async () => {
     __g.marker.hideByGroupId('jdStation');
     addHrStation(e.stationId, true);
   });
+  hideAllStation3dt(__g, store.treeInfo);
+  await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
+  let res = await requestGeojsonData('qu4547');
+  quFeatures = res.features;
+  addXzqh(quFeatures, 'qu', 'QUNAME', 'QUCODE');
+  let res1 = await requestGeojsonData('quName4547');
+  addXzqhName(res1.features, 'quName', 'QUNAME', 'QUCODE');
+  addWall();
+  // debugger
   bus.on('hrBackSz', async () => {
     // 传参由回调函数中的形参接受
     back();

@@ -516,22 +516,19 @@ export const messageColumnKeyListFun = (type = 1) => {
       prop: 'unAffirmCnt',
       label: '未确认',
       minWidth: 1.5,
-      sortable: 'custom',
-      sortOrders: ['ascending', 'descending']
+
     },
     {
       prop: 'affirmCnt',
       label: '已确认',
       minWidth: 1.5,
-      sortable: 'custom',
-      sortOrders: ['ascending', 'descending']
+
     },
     {
       prop: 'recCnt',
       label: '已恢复',
       minWidth: 1.5,
-      sortable: 'custom',
-      sortOrders: ['ascending', 'descending']
+
     },
     { prop: 'contactPerson', label: '负责人', minWidth: 1.5 },
     { prop: 'contactTel', label: '联系电话', minWidth: 2 }
