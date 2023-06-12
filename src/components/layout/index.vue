@@ -44,8 +44,8 @@
         <Transition>
           <station-detail v-if="showDetail" />
         </Transition>
-        <div class="bottom-tabs-box" v-if="!isShowMenu&&!showDetail">
-          <bottom-tabs/>
+        <div class="bottom-tabs-box" v-if="!isShowMenu && !showDetail">
+          <bottom-tabs />
           <div class="bottom-tabs-bg"></div>
         </div>
       </div>
@@ -75,6 +75,9 @@ import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
+import {
+  getTreeLayerIdByName
+} from '@/global/config/map';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
@@ -84,39 +87,6 @@ const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
 const router = useRouter();
 const routed = useRoute();
-const props = defineProps({
-  title: {
-    type: String,
-    default: '电力充储放一张图'
-  },
-  activeName: {
-    type: String,
-    default: ''
-  },
-  headerButtomList: {
-    type: Array,
-    default: () => {
-      return [];
-    }
-  },
-  width: {
-    type: Number,
-    default: 1920
-  },
-  height: {
-    type: Number,
-    default: 1080
-  },
-  showBreadcrumb: {
-    type: Boolean,
-    default: true
-  },
-  navTabName: {
-    type: String,
-    default: ''
-  }
-});
-const currentTab = ref(0);
 const navDropList = ref(routes.slice(0, routes.length));
 const excludeViews = ref([]);
 const includeViews = ref([]);
@@ -172,6 +142,8 @@ const handleMapReady = async (obj) => {
   const ref = await aircityObj.value.acApi.infoTree.get();
   treeInfo.value = ref.infotree;
   // console.log('图层树数据', treeInfo.value);
+  let ids = getTreeLayerIdByName('118默认展示', store.treeInfo);
+  await aircityObj.value.acApi.infoTree.hide(ids);
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
 const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));

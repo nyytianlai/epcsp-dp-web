@@ -7,7 +7,7 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <page-num :data="pageNumData" v-if="pageNumData?.length !==0"/>
+  <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" />
   <panel v-if="isShowBoth">
     <div class="station-info">
       <title-column title="充电站点信息" />
@@ -28,9 +28,14 @@
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
         v-if="isShowList"
       />
-      <WarnList @handleClick="clickWarningList" :data="warningListData" height="2.15rem" v-if="isShowList"/>
+      <WarnList
+        @handleClick="clickWarningList"
+        :data="warningListData"
+        height="2.15rem"
+        v-if="isShowList"
+      />
       <line-time-chart
-      v-if="!isShowList"
+        v-if="!isShowList"
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
         :colors="warnColor"
@@ -62,7 +67,6 @@
         :data="linePowerData"
         :colors="['#00FFF9']"
         :chartStyle="{ height: '2.22rem' }"
-        
       />
     </div>
   </panel>
@@ -116,7 +120,7 @@ import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
-import WarnList from './components/warn-list.vue'
+import WarnList from './components/warn-list.vue';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -156,15 +160,15 @@ const params = ref({
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
-const warnColor = ['#FF6B4B']
+const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const tabData = ref([]);
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
 // 是否展示两边
-const isShowBoth = ref(true)
+const isShowBoth = ref(true);
 // 是否展示趋势图
-const isShowList = ref(true)
+const isShowList = ref(true);
 //告警弹窗分页
 const columnData = ref(columnDataFun());
 const alarmTableData = ref([]);
@@ -202,9 +206,9 @@ const getButtomMenuData = async () => {
 };
 const getAlarmLevelAndTypeByTIme = async () => {
   let { data } = await alarmLevelAndTypeByTIme({ dayType: 2 });
-  console.log('data',data)
+  console.log('data', data);
   realtimeTrend.value = realtimeTrendFun(data || []);
-  console.log('realtimeTrend.value',realtimeTrend.value)
+  console.log('realtimeTrend.value', realtimeTrend.value);
 };
 // 统计数据
 const getStationStatistics = async () => {
@@ -319,13 +323,12 @@ useEmitt &&
 const focusToPile = (eid, status) => {
   console.log('pileVisiblepileVisible', pileVisible.value);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-    pileParams.value = {
+  pileParams.value = {
     eid: eid
   };
   pileType.value = 'pile';
   pileVisible.value = true;
   handleClickFocus(__g, layerId, eid, status);
-
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -334,7 +337,7 @@ const handleClose = () => {
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  handleClickFocus(__g, layerId,item.eid, +chargingStateDataObj.value[item.eid].status);
+  handleClickFocus(__g, layerId, item.eid, +chargingStateDataObj.value[item.eid].status);
 };
 const handleShowWarning = () => {
   dialogTableVisible.value = true;
@@ -346,36 +349,39 @@ const handPageChange = (value) => {
   getWarningInfoByStationId(undefined, pageObj.currentPage, pageObj.pageSize, 'table');
 };
 // 判断展示趋势图还是告警图
-const initWarn = async()=>{
+const initWarn = async () => {
   const res = await selectWarningInfoByStationId({
     ...params.value,
-    pageNum:1,
-    pageSize:999
+    pageNum: 1,
+    pageSize: 999
   });
-  console.log('res',res)
-  if(res?.data?.dataList?.length){
-    isShowList.value = true
-  }else {
-    isShowList.value = false
-    await getAlarmLevelAndTypeByTIme()
+  console.log('res', res);
+  if (res?.data?.dataList?.length) {
+    isShowList.value = true;
+  } else {
+    isShowList.value = false;
+    await getAlarmLevelAndTypeByTIme();
   }
-}
+};
 watch(
   () => store.detailParams,
   () => {
-    if(store.detailParams.trueStation){
+    if (store.detailParams.trueStation) {
       // 非真实站点
-      isShowBoth.value = false
-      pageNumData.value = []
-    }else{
+      isShowBoth.value = false;
+      pageNumData.value = [];
+      if (store.detailParams?.stationId === '-1') {
+        getButtomMenuData();
+      }
+    } else {
       // 真实站点
-      isShowBoth.value = true
+      isShowBoth.value = true;
       const paramsDefault = {
         operatorId: store.detailParams?.operatorId,
         stationId: store.detailParams?.stationId
       };
       params.value = paramsDefault;
-      initWarn()
+      initWarn();
       getStationStatistics();
       getStationInfoByStationId();
       getEquipmentCountByStationId();
@@ -391,7 +397,6 @@ watch(
         focusToPile(store.detailParams.equipmentId, 255);
       }
     }
-
   },
   {
     deep: true,

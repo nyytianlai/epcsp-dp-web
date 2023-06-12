@@ -25,6 +25,7 @@ const currentPosition = computed(() => store.currentPosition);
 const currentJdCode = computed(() => store.currentJdCode);
 const buttomTabCode = computed(() => store.buttomTabCode);
 const stationType = computed(() => new Set(store.stationType));
+const requestTimer = computed(() => store.requestTimer);
 store.changeStationType([1, 2, 3, 4]);
 
 let quRef = ref(null);
@@ -63,11 +64,6 @@ const setLegendData = (code: 1 | 2) => {
     });
 };
 
-const setObjVisibility = async (type: string, idPre: string, value: boolean) => {
-  value
-    ? await __g[type].show(layerNameQuNameArr(idPre))
-    : await __g[type].hide(layerNameQuNameArr(idPre));
-};
 const buttomTabChange = async (code: 1 | 2) => {
   await quRef.value.deleteJdData();
   store.changeButtomTabCode(code);
@@ -75,10 +71,9 @@ const buttomTabChange = async (code: 1 | 2) => {
   setLegendData(code);
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');
-  // await addQuBar()
   await quRef.value.resetSz();
 };
-let time = null;
+// let time = null;
 type ChargeType = { name: string; isChoose: boolean; code: number };
 const handleChargeTypeChange = async (item: ChargeType) => {
   legendListData.forEach((ele) => {
@@ -92,21 +87,12 @@ const handleChargeTypeChange = async (item: ChargeType) => {
   await __g.marker.deleteByGroupId('rectBar-jd');
   if (currentPosition.value.includes('市') && stationType.value.size) {
     //防抖语句
-    if (time !== null) {
-      clearTimeout(time);
-    }
-    time = setTimeout(() => {
-      addQuBar();
-    }, 1000);
+    debounce(addQuBar);
   } else if (currentPosition.value.includes('区') && stationType.value.size) {
-    cirBar4Ref.value.addBar({
-      code: buttomTabCode.value,
-      type: 'jd',
-      quCode: quNameCodeInterTrans('name', currentPosition.value),
-      chargeType: Array.from(stationType.value)
-    });
+    debounce(addJdBar);
   } else if (currentPosition.value.includes('街道')) {
-    quRef.value.addStationPoint(currentJdCode.value);
+    // quRef.value.addStationPoint(currentJdCode.value);
+    debounce(addJdPoint);
   }
 };
 
@@ -116,6 +102,30 @@ const addQuBar = async () => {
     type: 'qu',
     chargeType: Array.from(stationType.value)
   });
+};
+
+const addJdBar = async () => {
+  await cirBar4Ref.value.addBar({
+    code: buttomTabCode.value,
+    type: 'jd',
+    quCode: quNameCodeInterTrans('name', currentPosition.value),
+    chargeType: Array.from(stationType.value)
+  });
+};
+
+const addJdPoint = async () => {
+  quRef.value.addStationPoint(currentJdCode.value);
+};
+
+const debounce = (fn) => {
+  if (requestTimer.value !== null) {
+    clearTimeout(requestTimer.value);
+  }
+  store.changeRequestTimer(
+    setTimeout(() => {
+      fn();
+    }, 1000)
+  );
 };
 defineExpose({ buttomTabChange, handleChargeTypeChange });
 onMounted(async () => {

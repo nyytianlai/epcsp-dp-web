@@ -134,7 +134,6 @@ const loadChargingStation = async () => {
   state.chargingStations = chargingStationsFun(res.data);
 }
 const handlePlayUeVideo = (item) => {
-
   item['isHr'] = 0;
   store.changeShowComponent(false);
   store.changeShowDetail({

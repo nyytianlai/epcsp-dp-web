@@ -243,7 +243,7 @@ onMounted(() => {
       background: rgba(84, 181, 255, 0.12);
       font-weight: 400;
       font-size: 18px;
-      line-height: 28px;
+      line-height: 40px;
       color: #d6f8ff;
 
       &:nth-child(2) {
@@ -264,6 +264,7 @@ onMounted(() => {
 
     .el-tabs__item.is-active {
       font-size: 18px;
+      line-height: 40px;
       color: #fff;
       background: rgba(84, 181, 255, 0.4);
     }
