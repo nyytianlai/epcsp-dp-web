@@ -508,3 +508,42 @@ export const columnDataFun = () => {
     }
   ];
 };
+export const realtimeTrendFun = (data = [], type = 2) => {
+
+  if (type === 1) {
+    // 日
+
+    return [
+      {
+        data: data.map((item) => [item.time + ':00:00', item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  } else if (type === 2) {
+    // 周
+    return [
+      {
+        data: data.map((item) => [
+          item.time.length >= 10 ? item.time.substr(5) : item.time,
+          item.cnt
+        ]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  } else {
+    // 月
+    const yearMonthDay = dayjs().format('YYYY-');
+    return [
+      {
+        data: data.map((item) => [item.time, item.cnt]),
+        type: 'line',
+        smooth: true,
+        name: '告警数'
+      }
+    ];
+  }
+};

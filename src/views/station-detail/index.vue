@@ -22,12 +22,20 @@
       </div>
     </div>
     <div class="warning-message">
-      <title-column title="告警信息" :showBtn="true" @handleClick="handleShowWarning" />
+      <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+        v-if="isShowList"
       />
-      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" mode="year"/>
+      <WarnList @handleClick="clickWarningList" :data="warningListData" height="2.15rem" v-if="isShowList"/>
+      <line-time-chart
+      v-if="!isShowList"
+        :data="realtimeTrend"
+        :chartStyle="{ height: '2.55rem' }"
+        :colors="warnColor"
+        mode="haveTab"
+      />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -54,6 +62,7 @@
         :data="linePowerData"
         :colors="['#00FFF9']"
         :chartStyle="{ height: '2.22rem' }"
+        
       />
     </div>
   </panel>
@@ -107,6 +116,7 @@ import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
+import WarnList from './components/warn-list.vue'
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -116,7 +126,8 @@ import {
   selectEquipmentUseRateByStationId,
   selectStationRealTimePowerByStationId,
   selectWarningStatisticByStationId,
-  viewMenuData
+  viewMenuData,
+  alarmLevelAndTypeByTIme
 } from './api.js';
 import {
   pageNumFun,
@@ -126,7 +137,8 @@ import {
   chargingTypesTabsFun,
   chargingTypesFun,
   linePowerDataFun,
-  columnDataFun
+  columnDataFun,
+  realtimeTrendFun
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate.ts';
@@ -144,11 +156,15 @@ const params = ref({
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
-
+const warnColor = ['#FF6B4B']
 const isHr = computed(() => store.detailParams?.isHr);
 const tabData = ref([]);
+// 实时告警趋势情况
+const realtimeTrend = ref(realtimeTrendFun());
 // 是否展示两边
 const isShowBoth = ref(true)
+// 是否展示趋势图
+const isShowList = ref(true)
 //告警弹窗分页
 const columnData = ref(columnDataFun());
 const alarmTableData = ref([]);
@@ -183,6 +199,12 @@ const getButtomMenuData = async () => {
   if (res && res.length) {
     tabData.value.push(...res);
   }
+};
+const getAlarmLevelAndTypeByTIme = async () => {
+  let { data } = await alarmLevelAndTypeByTIme({ dayType: 2 });
+  console.log('data',data)
+  realtimeTrend.value = realtimeTrendFun(data || []);
+  console.log('realtimeTrend.value',realtimeTrend.value)
 };
 // 统计数据
 const getStationStatistics = async () => {
@@ -323,6 +345,21 @@ const handPageChange = (value) => {
   pageObj.currentPage = value;
   getWarningInfoByStationId(undefined, pageObj.currentPage, pageObj.pageSize, 'table');
 };
+// 判断展示趋势图还是告警图
+const initWarn = async()=>{
+  const res = await selectWarningInfoByStationId({
+    ...params.value,
+    pageNum:1,
+    pageSize:999
+  });
+  console.log('res',res)
+  if(res?.data?.dataList?.length){
+    isShowList.value = true
+  }else {
+    isShowList.value = false
+    await getAlarmLevelAndTypeByTIme()
+  }
+}
 watch(
   () => store.detailParams,
   () => {
@@ -338,6 +375,7 @@ watch(
         stationId: store.detailParams?.stationId
       };
       params.value = paramsDefault;
+      initWarn()
       getStationStatistics();
       getStationInfoByStationId();
       getEquipmentCountByStationId();

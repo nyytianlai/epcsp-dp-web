@@ -17,11 +17,11 @@
         @click="handleClick(item)"
       >
         <span class="date">{{ item.date ? dayjs(item.date).format('YYYY-MM-DD HH:mm:ss') : '--' }}</span>
-        <!-- <span class="message text-ellipsis-1">
-
+        <span class="message text-ellipsis-1">
+          <el-tooltip :content="item.message || ''" placement="top">
           {{ item.message || '' }}
-
-        </span> -->
+          </el-tooltip>
+        </span>
         <span class="area text-ellipsis-1">
           <el-tooltip :content="item.area || ''" placement="top">
             {{ item.area || '' }}
@@ -108,10 +108,11 @@ const handleClick = (item) => {
       font-size: 16px;
       color: #86e9ff;
       margin-right: 20px;
+      white-space: nowrap;
     }
     .message {
-      max-width: 140px;
-      min-width: 140px;
+      max-width: 100px;
+      min-width: 100px;
 
       margin-right: 22px;
     }

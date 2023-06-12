@@ -116,3 +116,12 @@ export const selectEquipmentAlarmByPage = (params) => {
     data: params
   });
 };
+// 实时告警趋势情况
+export const alarmLevelAndTypeByTIme = (param) => {
+  return request.get({
+    url: '/safetySupervision/periodAlarmStaticsByTime',
+    data: {
+      ...param
+    }
+  });
+};
