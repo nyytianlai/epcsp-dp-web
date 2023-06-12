@@ -50,7 +50,7 @@ export const deepClone = (obj) => {
 };
 // 数值转换
 export function simplifyNum(number) {
-  console.log('nu',number)
+  // console.log('nu',number)
   if (!number && number != 0) return number;
   var str_num;
   if (number >= 1e3 && number < 1e4) {

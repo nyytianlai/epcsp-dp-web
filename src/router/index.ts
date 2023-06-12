@@ -76,7 +76,7 @@ export const routes = [
 let routesMap = [
   {
     path: '/',
-    redirect: { name: 'overviewsAll' }
+    redirect: { name: 'Overview' }
   },
   {
     path: '/',
