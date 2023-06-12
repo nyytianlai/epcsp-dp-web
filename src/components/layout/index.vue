@@ -44,8 +44,8 @@
         <Transition>
           <station-detail v-if="showDetail" />
         </Transition>
-        <div class="bottom-tabs-box" v-if="!isShowMenu&&!showDetail">
-          <bottom-tabs/>
+        <div class="bottom-tabs-box" v-if="!isShowMenu && !showDetail">
+          <bottom-tabs />
           <div class="bottom-tabs-bg"></div>
         </div>
       </div>
@@ -87,39 +87,6 @@ const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
 const router = useRouter();
 const routed = useRoute();
-const props = defineProps({
-  title: {
-    type: String,
-    default: '电力充储放一张图'
-  },
-  activeName: {
-    type: String,
-    default: ''
-  },
-  headerButtomList: {
-    type: Array,
-    default: () => {
-      return [];
-    }
-  },
-  width: {
-    type: Number,
-    default: 1920
-  },
-  height: {
-    type: Number,
-    default: 1080
-  },
-  showBreadcrumb: {
-    type: Boolean,
-    default: true
-  },
-  navTabName: {
-    type: String,
-    default: ''
-  }
-});
-const currentTab = ref(0);
 const navDropList = ref(routes.slice(0, routes.length));
 const excludeViews = ref([]);
 const includeViews = ref([]);

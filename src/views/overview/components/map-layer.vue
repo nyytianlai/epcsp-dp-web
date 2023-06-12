@@ -19,10 +19,6 @@
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
-import request from '@sutpc/axios';
-import { projectCGCS2000_2_GK114 } from '@/utils/index';
-import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
-import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { returnStationPointConfig } from '@/global/config/map';
@@ -64,7 +60,7 @@ let legendListData = reactive([
 
 const addQuBar = async () => {
   let data = mapQuBar();
-  await rectBar4Ref.value.addBar('qu',data);
+  await rectBar4Ref.value.addBar('qu', data);
 };
 
 const addOutStation = async (module: number) => {
@@ -87,7 +83,7 @@ defineExpose({});
 onMounted(async () => {
   addQuBar();
   bus.on('addBar', (e) => {
-    let data=mapJdBar()
+    let data = mapJdBar();
     rectBar4Ref.value.addBar(e.type, data, e.quCode);
   });
 });
