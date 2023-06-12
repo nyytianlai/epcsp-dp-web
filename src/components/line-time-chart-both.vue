@@ -39,6 +39,8 @@ interface Props {
   colors?: string[];
   customOption?: object;
   mode?: string;
+  yAxisMode1?: string|number
+  yAxisMode2?: string|number
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -345,7 +347,7 @@ const ecOptionBothSideFun = () => {
       ...data.value,
       {
         type: 'line',
-        data: timeData(),
+        data: props.yAxisMode1 === 'auto'?[]:timeData(),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {
@@ -358,7 +360,7 @@ const ecOptionBothSideFun = () => {
       {
         yAxisIndex: 1,
         type: 'line',
-        data: timeData(30),
+        data: props.yAxisMode2 === 'auto'?[]:timeData(props.yAxisMode2 as number),
         symbolSize: 0,
         showSymbol: false,
         lineStyle: {

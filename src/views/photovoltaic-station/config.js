@@ -1,7 +1,7 @@
 import gfzzl from './images/gfzzl.png'
 import zjzrl from './images/zjzrl.png'
 import jrqyzs from './images/jrqyzs.png'
-import gzfsqd from './images/gzfsqd.png'
+import tyfsqd from './images/tyfsqd.png'
 import jrswdl from './images/jrswdl.png'
 import jrfdzl from './images/jrfdzl.png'
 import jrssgl from './images/jrssgl.png'
@@ -14,13 +14,13 @@ export const pageNumFun = (data = {}) => {
     {
       name: '年累计发电量',
       // num: data?.cumulativeCharge,
-      num: 2.06,
+      num: 4.29,
       unit: '亿kWh'
     },
     {
       name: '年累计生产绿证',
       // num: data?.cumChargeCount,
-      num: 20.6,
+      num: 42.9,
       unit: '万个'
     },
     {
@@ -92,10 +92,10 @@ export const  companyRank = [
 export const jrgfdzFun =(data = {}) => {
   return [
     {
-      img: gzfsqd,
-      num: 1350,
-      unit: '/度(m².a)',
-      name: '光照辐射强度',
+      img: tyfsqd,
+      num: 892,
+      unit: '/W/m²',
+      name: '太阳辐射强度',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -104,8 +104,8 @@ export const jrgfdzFun =(data = {}) => {
     },
     {
       img: jrswdl,
-      num: 417.62,
-      unit: '/万度',
+      num: 98.16,
+      unit: '/万kWh',
       name: '今日上网电量',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
@@ -115,8 +115,8 @@ export const jrgfdzFun =(data = {}) => {
     },
     {
       img: jrfdzl,
-      num: 506.57,
-      unit: '/万度',
+      num: 251.69,
+      unit: '/万kWh',
       name: '今日发电总量',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
@@ -137,14 +137,14 @@ export const powerTodayCardFun = (data = {}) => {
   return [
     {
       img: jrzdgl,
-      num: 753.18,
+      num: 371.76,
       unit: '/MW',
       name: '今日最大功率',
       classStyleType: 'leftRightStyleYellow5858'
     },
     {
       img: jrssgl,
-      num: 587.11,
+      num: 312.06,
       unit: '/MW',
       name: '今日实时功率',
       classStyleType: 'leftRightStyleYellow5858'
@@ -154,6 +154,11 @@ export const powerTodayCardFun = (data = {}) => {
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   data = [
+    {
+      "time": "00",
+      "useRate": 0,
+      "troubleRate": 0
+    },
     {
       "time": "01",
       "useRate": 0,
@@ -289,7 +294,7 @@ export const socialBenefitFun = (data={})=>{
     },
     {
       img: nco2jpl,
-      num: 42.77,
+      num: 44.77,
       unit: '/万吨',
       name: '年CO2减排量',
     }

@@ -28,11 +28,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import gmdPng from './images/gmd.png';
-import fwqPng from './images/fwq.png';
-import gccPng from './images/gcc.png';
-import v2gPng from './images/v2g.png';
-import lsgfPng from './images/lsgf.png';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 
@@ -45,12 +40,12 @@ const props = defineProps({
 });
 const handleClick = (item) => {
   item['isHr'] = 0;
+  bus.emit('toHr', item);
   store.changeShowComponent(false);
   store.changeShowDetail({
     show: true,
     params: item
   });
-  bus.emit('toHr', item);
 };
 </script>
 <style lang="less" scoped>

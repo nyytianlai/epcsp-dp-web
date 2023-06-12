@@ -20,7 +20,7 @@
         />
       </div>
       <div class="company-facilities-rank">
-        <title-column title="企业充换设施数量排名" icon="chargings-replacement" />
+        <title-column title="企业充换柜数量排名" icon="chargings-replacement" />
         <area-rank-list
           :data="facilitiesRankData"
           :totalNum="facilitiesRankTotal"
@@ -79,7 +79,7 @@ interface Aircity {
 const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
 const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']
-const stateColor = ['green', 'blue']
+const stateColor =  ['green', '#FF7723']
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据
@@ -89,38 +89,38 @@ const chargingTypeData = ref(chargingTypeDataFun());
 // 企业排名
 const facilitiesRankData = ref([
   {
-    num: 85,
+    num: 3612,
     unit: '',
-    name: '运营商名称名称名称名称'
+    name: '51换电'
   },
   {
-    num: 80,
+    num: 2989,
     unit: '',
-    name: '运营商名称名称名称名称'
+    name: '中国铁塔换电'
   },
   {
-    num: 77,
+    num: 1886,
     unit: '',
-    name: '运营商名称名称名'
+    name: '骑士换电'
   },
   {
-    num: 72,
+    num: 1415,
     unit: '',
-    name: '运营商名称名称名'
+    name: '智租换电'
   },
   {
-    num: 50,
+    num: 942,
     unit: '',
-    name: '运营商名称名称名'
+    name: '春藤物联'
   },
   {
-    num: 40,
+    num: 782,
     unit: '',
-    name: '运营商名称名称名'
+    name: '小哈换电'
   }
 ]);
 // 企业排名总量
-const facilitiesRankTotal = ref<number>(85);
+const facilitiesRankTotal = ref<number>(facilitiesRankData.value[0].num);
 // 今日设施数据信息卡片
 const todayFacilitiesCard = ref(todayFacilitiesCardFun());
 // 今日功率信息卡片

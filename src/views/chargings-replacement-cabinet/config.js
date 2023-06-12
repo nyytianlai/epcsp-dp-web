@@ -37,7 +37,7 @@ export const chdsszlFun = (data = {}) => {
   return [
     {
       img: chdzsszl,
-      num: 151769,
+      num: 232343,
       unit: '个',
       name: '充换电站设施总量'
     },
@@ -58,17 +58,17 @@ export const chargingType = [
 export const chargingTypeDataFun = (data = {}) => {
   return [
     {
-      value: 120625,
+      value: 210675,
       name: '充电桩',
       unit: '个'
     },
     {
-      value: 10583,
+      value: 5583,
       name: '充电柜',
       unit: '个'
     },
     {
-      value: 19802,
+      value: 9926,
       name: '换电柜',
       unit: '个'
     },
@@ -93,38 +93,75 @@ export const todayFacilities = [
     label: '换电柜'
   }
 ];
-export const todayFacilitiesCardFun = (data = {}) => {
-  return [
-    {
-      img: ztsyl,
-      num: 67.03,
-      unit: '%',
-      name: '整体使用率',
-      classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: zxzl,
-      num: 80855,
-      unit: '',
-      name: '在线总量',
-      classStyleType: 'leftRightStyleYellow'
-    }
-  ];
+export const todayFacilitiesCardFun = (data = {},code=1) => {
+  if(code === 1){
+    return [
+      {
+        img: ztsyl,
+        num: 10.34,
+        unit: '%',
+        name: '整体使用率',
+        classStyleType: 'leftRightStyleGreen'
+      },
+      {
+        img: zxzl,
+        num: 2233,
+        unit: '',
+        name: '在线总量',
+        classStyleType: 'leftRightStyleYellow'
+      }
+    ];
+  }else if(code===2){
+    return [
+      {
+        img: ztsyl,
+        num: 61.74,
+        unit: '%',
+        name: '整体使用率',
+        classStyleType: 'leftRightStyleGreen'
+      },
+      {
+        img: zxzl,
+        num: 3447,
+        unit: '',
+        name: '在线总量',
+        classStyleType: 'leftRightStyleYellow'
+      }
+    ];
+  }else {
+    return [
+      {
+        img: ztsyl,
+        num: 58.53,
+        unit: '%',
+        name: '整体使用率',
+        classStyleType: 'leftRightStyleGreen'
+      },
+      {
+        img: zxzl,
+        num: 5810,
+        unit: '',
+        name: '在线总量',
+        classStyleType: 'leftRightStyleYellow'
+      }
+    ];
+  }
+
 };
 export const powerTodayCardFun = (data = {}) => {
   return [
     {
       img: edzgl,
-      num: 45531,
-      unit: '/kw',
-      name: '额定总功率',
+      num: 253288,
+      unit: '',
+      name: '昨日换电次数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: sszgl,
-      num: 29595,
-      unit: '/kw',
-      name: '实时总功率',
+      num: 133225,
+      unit: '',
+      name: '今日换电次数',
       classStyleType: 'leftRightStyleYellow'
     }
   ];
@@ -132,59 +169,124 @@ export const powerTodayCardFun = (data = {}) => {
 export const linePowerDataFun = (data = []) => {
   data = [
     {
+      time: '00',
+      useRate: 2980.32,
+      troubleRate: 3796.416
+    },
+    {
       time: '01',
-      useRate: 181.34,
-      troubleRate: 20
+      useRate: 2621.288,
+      troubleRate: 3153.9456
     },
     {
       time: '02',
-      useRate: 282.34,
-      troubleRate: 30
+      useRate: 2044.224,
+      troubleRate: 1839.8016
     },
     {
       time: '03',
-      useRate: 300,
-      troubleRate: 40
+      useRate: 1198.128,
+      troubleRate: 934.5024
     },
     {
       time: '04',
-      useRate: 18.34,
-      troubleRate: 10
+      useRate: 1659.192,
+      troubleRate: 1839.8016
     },
     {
       time: '05',
-      useRate: 800,
-      troubleRate: 60
+      useRate: 2335.256,
+      troubleRate: 2406.34368
     },
     {
       time: '06',
-      useRate: 400,
-      troubleRate: 30
+      useRate: 4380.48,
+      troubleRate: 4555.6992
     },
     {
       time: '07',
-      useRate: 100,
-      troubleRate: 70
+      useRate: 11189.248,
+      troubleRate: 9680.8608
     },
     {
       time: '08',
-      useRate: 900,
-      troubleRate: 50
+      useRate: 18120.084,
+      troubleRate: 19735.52256
     },
     {
       time: '09',
-      useRate: 632,
-      troubleRate: 90.12
+      useRate: 9929.088,
+      troubleRate: 10921.9968
     },
     {
       time: '10',
-      useRate: 561,
-      troubleRate: 10.13
+      useRate: 9345.024,
+      troubleRate: 11214.0288
     },
     {
       time: '11',
-      useRate: 73,
-      troubleRate: 150.13
+      useRate: 10513.152,
+      troubleRate: 10197.75744
+    },
+    {
+      time: '12',
+      useRate: 12265.344,
+      troubleRate: 10548.19584
+    },
+    {
+      time: '13',
+      useRate: 12849.408,
+      troubleRate: 13106.39616
+    },
+    {
+      time: '14',
+      useRate: 13725.504,
+      troubleRate: 14411.7792
+    },
+    {
+      time: '15',
+      useRate: 15185.664,
+      troubleRate: 14881.95072
+    },
+    {
+      time: '16',
+      useRate: 15769.728,
+      troubleRate: 15296.63616
+    },
+    {
+      time: '17',
+      useRate: 18690.048,
+      troubleRate: 17942.44608
+    },
+    {
+      time: '18',
+      useRate: 22778.496,
+      troubleRate: 23234.06592
+    },
+    {
+      time: '19',
+      useRate: 18105.984,
+      troubleRate: 19554.46272
+    },
+    {
+      time: '20',
+      useRate: 15477.696,
+      troubleRate: 15787.24992
+    },
+    {
+      time: '21',
+      useRate: 13725.504,
+      troubleRate: 14411.7792
+    },
+    {
+      time: '22',
+      useRate: 11097.216,
+      troubleRate: 10875.27168
+    },
+    {
+      time: '23',
+      useRate: 7300.8,
+      troubleRate: 7884.864
     }
   ];
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
@@ -193,13 +295,13 @@ export const linePowerDataFun = (data = []) => {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
-      name: '额定功率'
+      name: '昨日换电次数'
     },
     {
       data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
-      name: '实时功率'
+      name: '今日换电次数'
     }
   ];
 };

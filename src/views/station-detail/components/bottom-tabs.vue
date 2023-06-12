@@ -8,21 +8,37 @@
 -->
 <template>
   <div class="bottom-tabs" :class="[`bg-${tabData.length}`]">
-    <div class="tab" :class="[{ active: item.viewOrder === activeTab }]" v-for="(item, index) in tabData" :key="index"
-      @mouseover="handleHover(item)" @mouseout="handleOut(item)" @click="handleClick(item)" ref="list">
+    <div
+      class="tab"
+      :class="[{ active: item.viewOrder === activeTab }]"
+      v-for="(item, index) in tabData"
+      :key="index"
+      @mouseover="handleHover(item)"
+      @mouseout="handleOut(item)"
+      @click="handleClick(item)"
+      ref="list"
+    >
       <icon :icon="`svg-icon:${item.icon}`" />
       <span class="label">{{ item.viewName }}</span>
-      <div class="sub-tab" v-if="item.secondMenuList && item.secondMenuList?.length" :class="[
-        {
-          active: item.isHover
-        }
-      ]">
-        <div class="sub-item" @click.stop="handleClick(item, sub)" v-for="(sub, ii) in item.secondMenuList" :key="ii"
-          :class="[{ active: sub.viewOrder === selectIndex }]">
+      <div
+        class="sub-tab"
+        v-if="item.secondMenuList && item.secondMenuList?.length"
+        :class="[
+          {
+            active: item.isHover
+          }
+        ]"
+      >
+        <div
+          class="sub-item"
+          @click.stop="handleClick(item, sub)"
+          v-for="(sub, ii) in item.secondMenuList"
+          :key="ii"
+          :class="[{ active: sub.viewOrder === selectIndex }]"
+        >
           <el-tooltip :content="sub.viewName || ''" placement="right">
-            <div class="sub-item-name" >{{ sub.viewName }}</div>
+            <div class="sub-item-name">{{ sub.viewName }}</div>
           </el-tooltip>
-
         </div>
       </div>
     </div>
@@ -131,7 +147,7 @@ const handleClick = async (item, sub) => {
 .bottom-tabs {
   width: 1537px;
   height: 65px;
-  background: url(./images/bottom-bgc.png) no-repeat;
+  background: none no-repeat;
   background-size: 100% 100%;
   position: absolute;
   bottom: 0px;
@@ -139,7 +155,7 @@ const handleClick = async (item, sub) => {
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-
+  z-index: 1001;
   .tab {
     display: flex;
     align-items: center;
@@ -200,9 +216,12 @@ const handleClick = async (item, sub) => {
         box-shadow: inset 0px 0px 8px rgba(10, 167, 255, 0.8);
         border-radius: 2px;
         border: 2px solid;
-        border-image: linear-gradient(360deg,
+        border-image: linear-gradient(
+            360deg,
             rgba(75, 179, 255, 0.53) -12.24%,
-            rgba(75, 222, 255, 0) 111.61%) 2;
+            rgba(75, 222, 255, 0) 111.61%
+          )
+          2;
         padding: 8px 0;
       }
 
@@ -212,7 +231,7 @@ const handleClick = async (item, sub) => {
         font-size: 16px;
         color: #fff;
         cursor: pointer;
-        :deep(.el-popper){
+        :deep(.el-popper) {
           white-space: nowrap;
         }
         .sub-item-name {

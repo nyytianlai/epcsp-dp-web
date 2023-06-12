@@ -1,4 +1,6 @@
 import bus from '@/utils/bus';
+
+export const mapRequestCancelId = 'mapRequest';
 const quNameArr = [
   '盐田区',
   '南山区',
@@ -157,10 +159,10 @@ export const returnStationPointConfig = (item: {
   lat: number;
   stationName: string;
   xoffset: number;
-  stationType:number
+  stationType: number;
 }) => {
-  console.log('station'+item.stationType);
-  
+  console.log('station' + item.stationType);
+
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
@@ -170,9 +172,10 @@ export const returnStationPointConfig = (item: {
     anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
     imageSize: [55, 150], //图片的尺寸
     range: [1, 150000], //可视范围
-    imagePath: getImageByCloud('station'+item.stationType),
-    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${item.stationName
-      }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
+    imagePath: getImageByCloud('station' + item.stationType),
+    popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
+      item.stationName
+    }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
     popupSize: [425, 57], //弹窗大小
     popupOffset: [-210, -157], //弹窗偏移
@@ -194,7 +197,13 @@ export const returnStationPointConfig = (item: {
 
 export const toSingleStation = async (
   __g,
-  value: { stationId: string; stationLng: string; stationLat: string; stationName: string;[key: string]: any; }
+  value: {
+    stationId: string;
+    stationLng: string;
+    stationLat: string;
+    stationName: string;
+    [key: string]: any;
+  }
 ) => {
   let info = await __g.marker.get('station-' + value.stationId);
   console.log('获取站点信息', info);
