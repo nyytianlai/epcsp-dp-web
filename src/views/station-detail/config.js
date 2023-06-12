@@ -211,6 +211,28 @@ export const facilitiesLabel = (stationId) => {
         img: 'electricalRoom'
       }
     ];
+  } else if (stationId === '-1') {
+    //宝清储能站
+    return [
+      // {
+      //   value: '户内配电装置楼',
+      //   id: '户内配电装置楼',
+      //   position: [497134.126875, 2494086.56, 22.56550537109375],
+      //   img: 'rest'
+      // },
+      // {
+      //   value: '光伏电池板',
+      //   id: '光伏电池板',
+      //   position: [497201.15375, 2494072.16, 23.0725341796875],
+      //   img: 'electricalRoom'
+      // },
+      // {
+      //   value: '主控通信楼',
+      //   id: '主控通信楼',
+      //   position: [497200.9596875, 2494068, 23.090380859375],
+      //   img: 'electricalRoom'
+      // }
+    ];
   }
 };
 //民乐站电流标签

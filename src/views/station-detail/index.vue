@@ -148,7 +148,7 @@ const deviceInfoData = ref(deviceInfoDataFun());
 const isHr = computed(() => store.detailParams?.isHr);
 const tabData = ref([]);
 // 是否展示两边
-const isShowBoth = ref(true)
+const isShowBoth = ref(true);
 //告警弹窗分页
 const columnData = ref(columnDataFun());
 const alarmTableData = ref([]);
@@ -297,13 +297,12 @@ useEmitt &&
 const focusToPile = (eid, status) => {
   console.log('pileVisiblepileVisible', pileVisible.value);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-    pileParams.value = {
+  pileParams.value = {
     eid: eid
   };
   pileType.value = 'pile';
   pileVisible.value = true;
   handleClickFocus(__g, layerId, eid, status);
-
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -312,7 +311,7 @@ const handleClose = () => {
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  handleClickFocus(__g, layerId,item.eid, +chargingStateDataObj.value[item.eid].status);
+  handleClickFocus(__g, layerId, item.eid, +chargingStateDataObj.value[item.eid].status);
 };
 const handleShowWarning = () => {
   dialogTableVisible.value = true;
@@ -326,12 +325,15 @@ const handPageChange = (value) => {
 watch(
   () => store.detailParams,
   () => {
-    if(store.detailParams.trueStation){
+    if (store.detailParams.trueStation) {
       // 非真实站点
-      isShowBoth.value = false
-    }else{
+      isShowBoth.value = false;
+      if (store.detailParams?.stationId === '-1') {
+        getButtomMenuData();
+      }
+    } else {
       // 真实站点
-      isShowBoth.value = true
+      isShowBoth.value = true;
       const paramsDefault = {
         operatorId: store.detailParams?.operatorId,
         stationId: store.detailParams?.stationId
@@ -352,7 +354,6 @@ watch(
         focusToPile(store.detailParams.equipmentId, 255);
       }
     }
-
   },
   {
     deep: true,
