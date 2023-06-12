@@ -7,35 +7,22 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="bottom-tabs">
-    <div
-      class="tab"
-      :class="[{ active: item.viewOrder === activeTab }]"
-      v-for="(item, index) in tabData"
-      :key="index"
-      @mouseover="handleHover(item)"
-      @mouseout="handleOut(item)"
-      @click="handleClick(item)"
-    >
+  <div class="bottom-tabs" :class="[`bg-${tabData.length}`]">
+    <div class="tab" :class="[{ active: item.viewOrder === activeTab }]" v-for="(item, index) in tabData" :key="index"
+      @mouseover="handleHover(item)" @mouseout="handleOut(item)" @click="handleClick(item)" ref="list">
       <icon :icon="`svg-icon:${item.icon}`" />
       <span class="label">{{ item.viewName }}</span>
-      <div
-        class="sub-tab"
-        v-if="item.secondMenuList && item.secondMenuList?.length"
-        :class="[
-          {
-            active: item.isHover
-          }
-        ]"
-      >
-        <div
-          class="sub-item"
-          @click.stop="handleClick(item, sub)"
-          v-for="(sub, ii) in item.secondMenuList"
-          :key="ii"
-          :class="[{ active: sub.viewOrder === selectIndex }]"
-        >
-          {{ sub.viewName }}
+      <div class="sub-tab" v-if="item.secondMenuList && item.secondMenuList?.length" :class="[
+        {
+          active: item.isHover
+        }
+      ]">
+        <div class="sub-item" @click.stop="handleClick(item, sub)" v-for="(sub, ii) in item.secondMenuList" :key="ii"
+          :class="[{ active: sub.viewOrder === selectIndex }]">
+          <el-tooltip :content="sub.viewName || ''" placement="right">
+            <div class="sub-item-name" >{{ sub.viewName }}</div>
+          </el-tooltip>
+
         </div>
       </div>
     </div>
@@ -58,7 +45,6 @@ type TabElement = {
   viewInfo: string;
   secondMenuList: [] | null;
 };
-
 const props = withDefaults(defineProps<PropsType>(), {
   tabData: () => []
 });
@@ -87,7 +73,7 @@ const tourFun = async (viewArr: []) => {
   await __g.cameraTour.add(o);
   __g.cameraTour.play('1');
 };
-const handleRoaming =async (value) => {
+const handleRoaming = async (value) => {
   // if (value.viewOrder === 5) {
   //   __g.camera.set(...JSON.parse(value.viewInfo), 6); //休息区
   // } else if (value.viewOrder === 4) {
@@ -100,9 +86,9 @@ const handleRoaming =async (value) => {
   //   tourFun(JSON.parse(value.viewInfo));
   // }
   // console.log('ffffffff',JSON.parse(value.iconIdList));
-  
+
   // console.log(111111111,await __g.marker.get(JSON.parse(value.iconIdList)))
-  value.iconIdList?await __g.marker.show(JSON.parse(value.iconIdList)):'';
+  value.iconIdList ? await __g.marker.show(JSON.parse(value.iconIdList)) : '';
   if (value.viewInfoType === 't1') {
     let time = value.viewName == '车辆充电' ? 3 : 6;
     __g.camera.set(...JSON.parse(value.viewInfo), time);
@@ -153,6 +139,7 @@ const handleClick = async (item, sub) => {
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
+
   .tab {
     display: flex;
     align-items: center;
@@ -160,13 +147,16 @@ const handleClick = async (item, sub) => {
     position: relative;
     cursor: pointer;
     padding-top: 10px;
+
     &:last-of-type {
       margin-right: 0;
     }
+
     &.active {
       .label {
         color: #fff;
       }
+
       &::before {
         content: '';
         position: absolute;
@@ -180,15 +170,18 @@ const handleClick = async (item, sub) => {
         z-index: -1;
       }
     }
+
     .el-icon {
       font-size: 24px;
     }
+
     .label {
       margin-left: 6px;
       font-size: 18px;
       line-height: 20px;
       color: rgba(255, 255, 255, 0.6);
     }
+
     .sub-tab {
       position: absolute;
       width: 144px;
@@ -199,6 +192,7 @@ const handleClick = async (item, sub) => {
       overflow: hidden;
       opacity: 0;
       transition: opacity 0.3s;
+
       &.active {
         height: auto;
         opacity: 1;
@@ -206,28 +200,46 @@ const handleClick = async (item, sub) => {
         box-shadow: inset 0px 0px 8px rgba(10, 167, 255, 0.8);
         border-radius: 2px;
         border: 2px solid;
-        border-image: linear-gradient(
-            360deg,
+        border-image: linear-gradient(360deg,
             rgba(75, 179, 255, 0.53) -12.24%,
-            rgba(75, 222, 255, 0) 111.61%
-          )
-          2;
+            rgba(75, 222, 255, 0) 111.61%) 2;
         padding: 8px 0;
       }
+
       .sub-item {
         line-height: 32px;
         padding-left: 14px;
         font-size: 16px;
         color: #fff;
         cursor: pointer;
+        :deep(.el-popper){
+          white-space: nowrap;
+        }
+        .sub-item-name {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
         &.active {
           background: rgba(84, 181, 255, 0.7);
         }
+
         &:hover {
           background: rgba(84, 181, 255, 0.7);
         }
       }
     }
   }
+}
+
+.bg-5 {
+  background: url(./images/bottom-bgc.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+.bg-2 {
+  background: url(./images/bg-2.png) no-repeat;
+  background-size: 100% 100%;
 }
 </style>

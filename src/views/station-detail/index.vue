@@ -50,7 +50,7 @@
     <div class="station-power">
       <title-column title="站点实时功率" />
       <line-time-chart
-        unit="KW"
+        unit="kW"
         :data="linePowerData"
         :colors="['#00FFF9']"
         :chartStyle="{ height: '2.22rem' }"
@@ -73,7 +73,7 @@
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <el-table
       :data="alarmTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
     >

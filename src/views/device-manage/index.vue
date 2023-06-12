@@ -35,7 +35,7 @@
         ]"
         @handleTabBtn="handleYearBtn"
       />
-      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.54rem" />
+      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.2rem" />
     </div>
     <div class="charging-num-images">
       <title-column title="充电站数字孪生" />
@@ -55,7 +55,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="['green', 'blue']" />
+      <line-time-chart :data="lineStateData" :colors="lineStateColor" />
     </div>
     <div class="charging-runing">
       <tabs
@@ -67,7 +67,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart-both :data="lineRunData" unit="%" :colors="['green', '#FF7723']" />
+      <line-time-chart-both :data="lineRunData" unit="%" :colors="lineRunColor" />
     </div>
   </panel>
   <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
@@ -87,7 +87,7 @@
     </template>
     <el-table
       :data="totalTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
@@ -179,6 +179,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+const lineStateColor = ['green', 'blue']
+const lineRunColor = ['green', '#FF7723']
 const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
 const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const storeVisible = useVisibleComponentStore();

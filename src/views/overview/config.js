@@ -39,14 +39,14 @@ export const chargingStationsFun = (data = {}) => {
   return [
     {
       img: ztsyl,
-      num: 6399,
+      num: data?.totalChargingStations,
       unit: '个',
       name: '充电站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
-      num: 2.66,
+      num: data?.yearTotalCharge,
       unit: '亿KWh',
       name: '年充电量',
       classStyleType: 'leftRightStyleYellow5858'
@@ -344,70 +344,256 @@ export const ecOptionFun = (data = [], xaxis = []) => {
   };
 };
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
+  const yearMonthDay = dayjs('2023-05').format('MM-');
   data = [
     {
       time: '01',
-      onlineCount: 82303,
-      offlineCount: 10646
+      ddqc: 11250,
+      llddc: 900,
+      cn: 1515,
+      gf: 2854
     },
     {
       time: '02',
-      onlineCount: 12303,
-      offlineCount: 11646
+      ddqc: 11028,
+      llddc: 832,
+      cn: 1485,
+      gf: 3006
     },
     {
       time: '03',
-      onlineCount: 32303,
-      offlineCount: 16646
+      ddqc: 10582,
+      llddc: 794,
+      cn: 1425,
+      gf: 3127
     },
     {
       time: '04',
-      onlineCount: 62303,
-      offlineCount: 19646
+      ddqc: 7797,
+      llddc: 623,
+      cn: 1515,
+      gf: 3066
     },
     {
       time: '05',
-      onlineCount: 42303,
-      offlineCount: 12646
+      ddqc: 8354,
+      llddc: 668,
+      cn: 1485,
+      gf: 3218
     },
     {
       time: '06',
-      onlineCount: 22303,
-      offlineCount: 11646
+      ddqc: 8195,
+      llddc: 655,
+      cn: 1425,
+      gf: 2884
     },
     {
       time: '07',
-      onlineCount: 32303,
-      offlineCount: 13646
+      ddqc: 9929,
+      llddc: 794,
+      cn: 1455,
+      gf: 936
+    },
+    {
+      time: '08',
+      ddqc: 7718,
+      llddc: 617,
+      cn: 1470,
+      gf: 850
+    },
+    {
+      time: '09',
+      ddqc: 7758,
+      llddc: 642,
+      cn: 1485,
+      gf: 1223
+    },
+    {
+      time: '10',
+      ddqc: 8115,
+      llddc: 649,
+      cn: 1545,
+      gf: 1288
+    },
+    {
+      time: '11',
+      ddqc: 8354,
+      llddc: 688,
+      cn: 1560,
+      gf: 1340
+    },
+    {
+      time: '12',
+      ddqc: 7718,
+      llddc: 617,
+      cn: 1455,
+      gf: 876
+    },
+    {
+      time: '13',
+      ddqc: 9166,
+      llddc: 740,
+      cn: 1440,
+      gf: 919
+    },
+    {
+      time: '14',
+      ddqc: 9739,
+      llddc: 771,
+      cn: 1530,
+      gf: 824
+    },
+    {
+      time: '15',
+      ddqc: 8354,
+      llddc: 668,
+      cn: 1410,
+      gf: 3097
+    },
+    {
+      time: '16',
+      ddqc: 7797,
+      llddc: 623,
+      cn: 1485,
+      gf: 2732
+    },
+    {
+      time: '17',
+      ddqc: 8354,
+      llddc: 617,
+      cn: 1545,
+      gf: 425
+    },
+    {
+      time: '18',
+      ddqc: 8354,
+      llddc: 611,
+      cn: 1515,
+      gf: 910
+    },
+    {
+      time: '19',
+      ddqc: 8195,
+      llddc: 649,
+      cn: 1590,
+      gf: 3188
+    },
+    {
+      time: '20',
+      ddqc: 9929,
+      llddc: 736,
+      cn: 1425,
+      gf: 2904
+    },
+    {
+      time: '21',
+      ddqc: 9261,
+      llddc: 793,
+      cn: 1455,
+      gf: 3157
+    },
+    {
+      time: '22',
+      ddqc: 7638,
+      llddc: 611,
+      cn: 1440,
+      gf: 841
+    },
+    {
+      time: '23',
+      ddqc: 8115,
+      llddc: 598,
+      cn: 1530,
+      gf: 663
+    },
+    {
+      time: '24',
+      ddqc: 7797,
+      llddc: 630,
+      cn: 1560,
+      gf: 425
+    },
+    {
+      time: '25',
+      ddqc: 7718,
+      llddc: 655,
+      cn: 1575,
+      gf: 3643
+    },
+    {
+      time: '26',
+      ddqc: 7638,
+      llddc: 642,
+      cn: 1530,
+      gf: 910
+    },
+    {
+      time: '27',
+      ddqc: 9739,
+      llddc: 742,
+      cn: 1575,
+      gf: 3669
+    },
+    {
+      time: '28',
+      ddqc: 9929,
+      llddc: 740,
+      cn: 1470,
+      gf: 858
+    },
+    {
+      time: '29',
+      ddqc: 8354,
+      llddc: 668,
+      cn: 1575,
+      gf: 3574
+    },
+    {
+      time: '30',
+      ddqc: 7718,
+      llddc: 668,
+      cn: 1575,
+      gf: 3066
+    },
+    {
+      time: '31',
+      ddqc: 7638,
+      llddc: 655,
+      cn: 1545,
+      gf: 459
     }
   ];
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.llddc]),
       type: 'line',
       smooth: true,
       name: '两轮动车'
     },
     {
-      data: data.map((item) => [item.time, item.offlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.ddqc]),
       type: 'line',
       smooth: true,
       name: '电动汽车'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount - item.offlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.cn]),
       type: 'line',
       smooth: true,
       name: '储能'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.gf]),
       type: 'line',
       smooth: true,
       name: '光伏'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount + item.offlineCount]),
+      data: data.map((item) => [
+        yearMonthDay + item.time,
+        item.llddc + item.ddqc + item.cn + item.gf
+      ]),
       type: 'line',
       smooth: true,
       name: '合计'
@@ -415,67 +601,728 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   ];
 };
 export const lineElectricDataFun = (data = []) => {
+  const yearMonthDay = dayjs('2023-05').format('MM-');
   data = [
     {
       time: '01',
-      onlineCount: 823,
-      offlineCount: 106
+      ddqc: 1400,
+      llddc: 112,
+      cn: 300,
+      gf: 476
     },
     {
       time: '02',
-      onlineCount: 123,
-      offlineCount: 116
+      ddqc: 1400,
+      llddc: 96,
+      cn: 300,
+      gf: 476
     },
     {
       time: '03',
-      onlineCount: 323,
-      offlineCount: 166
+      ddqc: 1400,
+      llddc: 96,
+      cn: 300,
+      gf: 476
     },
     {
       time: '04',
-      onlineCount: 623,
-      offlineCount: 196
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
     },
     {
       time: '05',
-      onlineCount: 423,
-      offlineCount: 126
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
     },
     {
       time: '06',
-      onlineCount: 223,
-      offlineCount: 116
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
     },
     {
       time: '07',
-      onlineCount: 323,
-      offlineCount: 136
+      ddqc: 1200,
+      llddc: 96,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '08',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '09',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      time: '10',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      time: '11',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 204
+    },
+    {
+      time: '12',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '13',
+      ddqc: 1200,
+      llddc: 97,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '14',
+      ddqc: 1200,
+      llddc: 95,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '15',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      time: '16',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 408
+    },
+    {
+      time: '17',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 68
+    },
+    {
+      time: '18',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '19',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      time: '20',
+      ddqc: 1200,
+      llddc: 89,
+      cn: 300,
+      gf: 442
+    },
+    {
+      time: '21',
+      ddqc: 1200,
+      llddc: 95,
+      cn: 300,
+      gf: 476
+    },
+    {
+      time: '22',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '23',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 102
+    },
+    {
+      time: '24',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 68
+    },
+    {
+      time: '25',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 544
+    },
+    {
+      time: '26',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '27',
+      ddqc: 1200,
+      llddc: 88,
+      cn: 300,
+      gf: 612
+    },
+    {
+      time: '28',
+      ddqc: 1200,
+      llddc: 98,
+      cn: 300,
+      gf: 136
+    },
+    {
+      time: '29',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 544
+    },
+    {
+      time: '30',
+      ddqc: 1000,
+      llddc: 80,
+      cn: 300,
+      gf: 476
+    },
+    {
+      time: '31',
+      ddqc: 1000,
+      llddc: 82,
+      cn: 300,
+      gf: 68
     }
   ];
   return [
     {
-      data: data.map((item) => [item.time, item.onlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.llddc]),
       type: 'line',
       smooth: true,
       name: '两轮电动车'
     },
     {
-      data: data.map((item) => [item.time, item.offlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.cn]),
       type: 'line',
       smooth: true,
       name: '储能放电'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount - item.offlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.gf]),
       type: 'line',
       smooth: true,
       name: '光伏发电'
     },
     {
-      data: data.map((item) => [item.time, item.onlineCount + item.offlineCount]),
+      data: data.map((item) => [yearMonthDay + item.time, item.ddqc]),
       type: 'line',
       smooth: true,
       name: '汽车充电'
+    }
+  ];
+};
+
+//区级的柱状图
+export const mapQuBar = () => {
+  return [
+    {
+      areaCode: 440303,
+      charge: 561,
+      energyStorage: 51,
+      photovoltaic: 9,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440304,
+      charge: 983,
+      energyStorage: 77,
+      photovoltaic: 18,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440305,
+      charge: 1187,
+      energyStorage: 31,
+      photovoltaic: 15,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440306,
+      charge: 1330,
+      energyStorage: 67,
+      photovoltaic: 32,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440307,
+      charge: 1712,
+      energyStorage: 49,
+      photovoltaic: 42,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440308,
+      charge: 234,
+      energyStorage: 26,
+      photovoltaic: 12,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440309,
+      charge: 771,
+      energyStorage: 81,
+      photovoltaic: 27,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440310,
+      charge: 227,
+      energyStorage: 58,
+      photovoltaic: 13,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440311,
+      charge: 211,
+      energyStorage: 47,
+      photovoltaic: 16,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 440343,
+      charge: 64,
+      energyStorage: 98,
+      photovoltaic: 7,
+      chargingCabinet: 20
+    },
+    {
+      areaCode: 441521,
+      charge: 5,
+      energyStorage: 16,
+      photovoltaic: 37,
+      chargingCabinet: 20
+    }
+  ];
+};
+//街道级的柱状图
+export const mapJdBar = () => {
+  return [
+    {
+      streetId: 21,
+      charge: 14,
+      energyStorage: 2,
+      photovoltaic: 10,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 22,
+      charge: 24,
+      energyStorage: 2,
+      photovoltaic: 1,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 23,
+      charge: 8,
+      energyStorage: 3,
+      photovoltaic: 5,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 24,
+      charge: 11,
+      energyStorage: 1,
+      photovoltaic: 3,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 25,
+      charge: 17,
+      energyStorage: 8,
+      photovoltaic: 6,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 26,
+      charge: 20,
+      energyStorage: 3,
+      photovoltaic: 9,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 27,
+      charge: 15,
+      energyStorage: 7,
+      photovoltaic: 1,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 28,
+      charge: 29,
+      energyStorage: 8,
+      photovoltaic: 13,
+      chargingCabinet: 8
+    },
+    {
+      streetId: 52,
+      charge: 1,
+      energyStorage: 4,
+      photovoltaic: 4,
+      chargingCabinet: 8
+    }
+  ];
+};
+//南山区的撒点数据
+export const mapJdStationPoint = () => {
+  return [
+    {
+      stationId: '735',
+      stationName: '充电有道航天科技大厦慢充站',
+      lng: 113.94853,
+      lat: 22.52521,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 90,
+      superCount: 0,
+      sid: '010478',
+      v2GCount: 0
+    },
+    {
+      stationId: '0246',
+      stationName: '高新西站',
+      lng: 113.936015,
+      lat: 22.543873,
+      operatorId: '552132052',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 0,
+      superCount: 3,
+      sid: '009092',
+      v2GCount: 0
+    },
+    {
+      stationId: '772',
+      stationName: '充电有道四达大厦慢充站',
+      lng: 113.93167,
+      lat: 22.515621,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 11,
+      superCount: 0,
+      sid: '009006',
+      v2GCount: 0
+    },
+    {
+      stationId: '725',
+      stationName: '充电有道紫光信息港慢充站',
+      lng: 113.95462,
+      lat: 22.561201,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 60,
+      superCount: 0,
+      sid: '008565',
+      v2GCount: 0
+    },
+    {
+      stationId: '765',
+      stationName: '充电有道万利达科技大厦储能站',
+      lng: 113.94028,
+      lat: 22.546255,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 37,
+      superCount: 0,
+      sid: '008527',
+      v2GCount: 0
+    },
+    {
+      stationId: '630',
+      stationName: '充电有道万海大厦停车场储能站',
+      lng: 113.923,
+      lat: 22.49787,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 35,
+      superCount: 0,
+      sid: '008470',
+      v2GCount: 0
+    },
+    {
+      stationId: '809',
+      stationName: '充电有道新一代国际公寓储能站',
+      lng: 113.93135,
+      lat: 22.511007,
+      operatorId: '398461164',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 0,
+      noQuickCount: 7,
+      superCount: 0,
+      sid: '008457',
+      v2GCount: 0
+    },
+    {
+      stationId: '440307004006',
+      stationName: '丰华集祥-深圳特发信息大厦储能站',
+      lng: 113.94925,
+      lat: 22.550663,
+      operatorId: 'MA5ED7CT2',
+      isHr: 1,
+      stationType: 200,
+      quickCount: 27,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005759',
+      v2GCount: 0
+    },
+    {
+      stationId: '120',
+      stationName: '怡化金融大厦交流光伏站',
+      lng: 113.942336,
+      lat: 22.531837,
+      operatorId: 'MA5FGLRY4',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 3,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005476',
+      v2GCount: 0
+    },
+    {
+      stationId: '87',
+      stationName: '三诺大厦交流充光伏站',
+      lng: 113.943899,
+      lat: 22.527977,
+      operatorId: 'MA5FGLRY4',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 0,
+      noQuickCount: 20,
+      superCount: 0,
+      sid: '005474',
+      v2GCount: 0
+    },
+    {
+      stationId: '536107916714987520',
+      stationName: '中山大学光伏站',
+      lng: 113.94332,
+      lat: 22.527021,
+      operatorId: '326400952',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 21,
+      noQuickCount: 4,
+      superCount: 0,
+      sid: '004896',
+      v2GCount: 0
+    },
+    {
+      stationId: '574497300803493888',
+      stationName: '赛百诺大厦光伏站',
+      lng: 113.936067,
+      lat: 22.548526,
+      operatorId: '326400952',
+      isHr: 1,
+      stationType: 300,
+      quickCount: 0,
+      noQuickCount: 32,
+      superCount: 0,
+      sid: '004894',
+      v2GCount: 0
+    },
+    {
+      stationId: '12',
+      stationName: '南山区高新园充换电柜',
+      lng: 113.949528,
+      lat: 22.544476,
+      operatorId: '192417563',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 20,
+      noQuickCount: 0,
+      superCount: 20,
+      sid: '004396',
+      v2GCount: 0
+    },
+    {
+      stationId: '000000001042',
+      stationName: '德维森电动汽车充换电柜',
+      lng: 113.946449,
+      lat: 22.534182,
+      operatorId: 'MA5DA0053',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 2,
+      noQuickCount: 10,
+      superCount: 0,
+      sid: '004041',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202014',
+      stationName: '数字技术园充换电柜',
+      lng: 113.948948,
+      lat: 22.533942,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 400,
+      quickCount: 4,
+      noQuickCount: 10,
+      superCount: 0,
+      sid: '002618',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-YTDS-0755-0039',
+      stationName: '英唐大厦充电站',
+      lng: 113.946915,
+      lat: 22.535107,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 12,
+      superCount: 0,
+      sid: '002476',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-YJYY-0755-0054',
+      stationName: '深圳软件园一期②充电站（交流）',
+      lng: 113.939557,
+      lat: 22.544454,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 63,
+      superCount: 0,
+      sid: '002462',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-WDCX-0755-0038',
+      stationName: '武大产学研基地充电站',
+      lng: 113.944756,
+      lat: 22.530485,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 0,
+      noQuickCount: 18,
+      superCount: 0,
+      sid: '002458',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-RJYY-0755-0043',
+      stationName: '深圳软件园一期①充电站（直流）',
+      lng: 113.939034,
+      lat: 22.544621,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 2,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '002447',
+      v2GCount: 0
+    },
+    {
+      stationId: 'YSZH-SZDX-0755-0045',
+      stationName: '深圳大学充电站',
+      lng: 113.942762,
+      lat: 22.529076,
+      operatorId: '349861452',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 6,
+      noQuickCount: 2,
+      superCount: 0,
+      sid: '002446',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202017',
+      stationName: '南山软件大厦充电站',
+      lng: 113.940452,
+      lat: 22.549209,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 3,
+      noQuickCount: 21,
+      superCount: 16,
+      sid: '001817',
+      v2GCount: 0
+    },
+    {
+      stationId: '440202011',
+      stationName: '联想大厦停车场充电站',
+      lng: 113.947683,
+      lat: 22.538778,
+      operatorId: '061402628',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 12,
+      noQuickCount: 0,
+      superCount: 8,
+      sid: '001802',
+      v2GCount: 0
+    },
+    {
+      stationId: '866904192231677952',
+      stationName: '致联航天科技充电站',
+      lng: 113.954124,
+      lat: 22.53712,
+      operatorId: 'MA5DM667X',
+      isHr: 1,
+      stationType: 50,
+      quickCount: 10,
+      noQuickCount: 5,
+      superCount: 0,
+      sid: '000257',
+      v2GCount: 0
     }
   ];
 };

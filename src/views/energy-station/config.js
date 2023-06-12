@@ -50,7 +50,7 @@ export const cndzyxzlFun = (data = {}) => {
     },
     {
       img: zjzrl,
-      num: 1253.75,
+      num: 1309.75,
       unit: '/MW',
       name: '装机总容量',
       classStyleType: 'leftRightStyleYellow'
@@ -118,10 +118,6 @@ export const rankTabType = [
     code: 2,
     label: '储能站数量'
   },
-  {
-    code: 3,
-    label: '设施总容量'
-  }
 ]
 export const runingFun = (data = {}) => {
   return [
@@ -162,89 +158,124 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       "timeDim": "00:00",
-      "ratedPower": "587752.0",
-      "realTimePower": "187289.0"
+      "ratedPower": 14382,
+      "realTimePower": -943
     },
     {
       "timeDim": "01:00",
-      "ratedPower": "1548010.0",
-      "realTimePower": "788756.0"
+      "ratedPower": 14258,
+      "realTimePower": -933
     },
     {
       "timeDim": "02:00",
-      "ratedPower": "1491980.0",
-      "realTimePower": "726431.0"
+      "ratedPower": 13597,
+      "realTimePower": -900
     },
     {
       "timeDim": "03:00",
-      "ratedPower": "1291225.0",
-      "realTimePower": "612471.0"
+      "ratedPower": 13060,
+      "realTimePower": -900
     },
     {
       "timeDim": "04:00",
-      "ratedPower": "1165234.0",
-      "realTimePower": "525091.0"
+      "ratedPower": 12874,
+      "realTimePower": -900
     },
     {
       "timeDim": "05:00",
-      "ratedPower": "1064558.0",
-      "realTimePower": "462325.0"
+      "ratedPower": 12719,
+      "realTimePower": 0
     },
     {
       "timeDim": "06:00",
-      "ratedPower": "1045687.0",
-      "realTimePower": "445308.0"
+      "ratedPower": 13053,
+      "realTimePower": 0
     },
     {
       "timeDim": "07:00",
-      "ratedPower": "1085661.0",
-      "realTimePower": "463517.0"
+      "ratedPower": 14202,
+      "realTimePower": 0
     },
     {
       "timeDim": "08:00",
-      "ratedPower": "1011866.0",
-      "realTimePower": "410014.0"
+      "ratedPower": 16922,
+      "realTimePower": 0
     },
     {
       "timeDim": "09:00",
-      "ratedPower": "717681.0",
-      "realTimePower": "256866.0"
+      "ratedPower": 18879,
+      "realTimePower": 943
     },
     {
       "timeDim": "10:00",
-      "ratedPower": "566300.0",
-      "realTimePower": "224534.0"
+      "ratedPower": 19116,
+      "realTimePower": 943
     },
     {
       "timeDim": "11:00",
-      "ratedPower": "467443.0",
-      "realTimePower": "177009.0"
+      "ratedPower": 19153,
+      "realTimePower": 0
     },
     {
       "timeDim": "12:00",
-      "ratedPower": "514927.0",
-      "realTimePower": "187412.0"
+      "ratedPower": 17053,
+      "realTimePower": -10
     },
     {
       "timeDim": "13:00",
-      "ratedPower": "1219001.0",
-      "realTimePower": "522279.0"
+      "ratedPower": 16354,
+      "realTimePower": 0
     },
     {
       "timeDim": "14:00",
-      "ratedPower": "1118604.0",
-      "realTimePower": "439943.0"
+      "ratedPower": 17689,
+      "realTimePower": 0
     },
     {
       "timeDim": "15:00",
-      "ratedPower": "668244.0",
-      "realTimePower": "244702.0"
+      "ratedPower": 17919,
+      "realTimePower": 0
     },
     {
       "timeDim": "16:00",
-      "ratedPower": "375617.0",
-      "realTimePower": "133412.0"
-    }
+      "ratedPower": 18585,
+      "realTimePower": 1
+    },
+    {
+      "timeDim": "17:00",
+      "ratedPower": 19581,
+      "realTimePower": 5
+    },
+    {
+      "timeDim": "18:00",
+      "ratedPower": 19902,
+      "realTimePower": 900
+    },
+    {
+      "timeDim": "19:00",
+      "ratedPower": 20401,
+      "realTimePower": 900
+    },
+    {
+      "timeDim": "20:00",
+      "ratedPower": 20045,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "21:00",
+      "ratedPower": 19368,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "22:00",
+      "ratedPower": 17822,
+      "realTimePower": 0
+    },
+    {
+      "timeDim": "23:00",
+      "ratedPower": 15890,
+      "realTimePower": 0
+    },
   ]
   return [
     {
@@ -296,6 +327,157 @@ export const socialBenefitFun =(data = {}) => {
         textFillColor: 'transparent',
         '-webkit-background-clip': 'text'
       }
+    }
+  ];
+};
+//区级的柱状图
+export const mapQuBar = () => {
+  return [
+    {
+      areaCode: 440303,
+      stationCount: 561
+    },
+    {
+      areaCode: 440304,
+      stationCount: 983
+    },
+    {
+      areaCode: 440305,
+      stationCount: 1187
+    },
+    {
+      areaCode: 440306,
+      stationCount: 1330
+    },
+    {
+      areaCode: 440307,
+      stationCount: 1712
+    },
+    {
+      areaCode: 440308,
+      stationCount: 234
+    },
+    {
+      areaCode: 440309,
+      stationCount: 771
+    },
+    {
+      areaCode: 440310,
+      stationCount: 227
+    },
+    {
+      areaCode: 440311,
+      stationCount: 211
+    },
+    {
+      areaCode: 440343,
+      stationCount: 64
+    },
+    {
+      areaCode: 441521,
+      stationCount: 5
+    }
+  ];
+};
+//街道级的柱状图
+export const mapJdBar = () => {
+  return [
+    {
+      streetId: 21,
+      stationCount: 14
+    },
+    {
+      streetId: 22,
+      stationCount: 24
+    },
+    {
+      streetId: 23,
+      stationCount: 8
+    },
+    {
+      streetId: 24,
+      stationCount: 11
+    },
+    {
+      streetId: 25,
+      stationCount: 17
+    },
+    {
+      streetId: 26,
+      stationCount: 20
+    },
+    {
+      streetId: 27,
+      stationCount: 15
+    },
+    {
+      streetId: 28,
+      stationCount: 29
+    },
+    {
+      streetId: 52,
+      stationCount: 1
+    }
+  ];
+};
+//南山区的撒点数据
+export const mapJdStationPoint = () => {
+  return [
+    {
+      stationId: '765',
+      stationName: '充电有道万利达科技大厦储能站',
+      lng: 113.94028,
+      lat: 22.546255,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 37,
+      superCount: 0,
+      sid: '008527',
+      v2GCount: 0
+    },
+    {
+      stationId: '630',
+      stationName: '充电有道万海大厦停车场储能站',
+      lng: 113.95,
+      lat: 22.54,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 35,
+      superCount: 0,
+      sid: '008470',
+      v2GCount: 0
+    },
+    {
+      stationId: '809',
+      stationName: '充电有道新一代国际公寓储能站',
+      lng: 113.95,
+      lat: 22.53,
+      operatorId: '398461164',
+      isHr: 1,
+      status: 200,
+      quickCount: 0,
+      noQuickCount: 7,
+      superCount: 0,
+      sid: '008457',
+      v2GCount: 0
+    },
+    {
+      stationId: '440307004006',
+      stationName: '丰华集祥-深圳特发信息大厦储能站',
+      lng: 113.94925,
+      lat: 22.52,
+      operatorId: 'MA5ED7CT2',
+      isHr: 1,
+      status: 200,
+      quickCount: 27,
+      noQuickCount: 0,
+      superCount: 0,
+      sid: '005759',
+      v2GCount: 0
     }
   ];
 };

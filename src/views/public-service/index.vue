@@ -84,7 +84,7 @@
     </template>
     <el-table
       :data="detailTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
     >
@@ -204,7 +204,7 @@ const getHotCharging = async () => {
     chargePower.value = res?.data.map((item) => {
       return {
         num: Number(item.power),
-        unit: 'KW',
+        unit: 'kW',
         name: item.name
       };
     });

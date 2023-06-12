@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="hotTableData"
-      height="6.34rem"
+      height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
