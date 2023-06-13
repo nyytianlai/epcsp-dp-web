@@ -15,7 +15,7 @@
       :key="index"
       @mouseover="handleHover(item)"
       @mouseout="handleOut(item)"
-      @click="handleClick(item)"
+      @click="handleClick(item, '')"
       ref="list"
     >
       <icon :icon="`svg-icon:${item.icon}`" />
@@ -36,7 +36,8 @@
           :key="ii"
           :class="[{ active: sub.viewOrder === selectIndex }]"
         >
-          <el-tooltip :content="sub.viewName || ''" placement="right">
+          <div class="sub-item-name" v-if="sub.viewName.length < 7">{{ sub.viewName }}</div>
+          <el-tooltip :content="sub.viewName || ''" placement="right" v-else>
             <div class="sub-item-name">{{ sub.viewName }}</div>
           </el-tooltip>
         </div>
@@ -50,16 +51,23 @@ import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
+interface SubMenu {
+  viewName: string;
+  viewOrder: string;
+  isHover?: boolean;
+}
 type PropsType = {
   tabData: TabElement[];
 };
 type TabElement = {
+  icon?: string;
+  isHover?: boolean;
   viewCode: string;
   viewName: string;
   viewOrder: number;
   viewInfoType: string;
   viewInfo: string;
-  secondMenuList: [] | null;
+  secondMenuList: SubMenu[] | null;
 };
 const props = withDefaults(defineProps<PropsType>(), {
   tabData: () => []
