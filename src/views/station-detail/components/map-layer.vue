@@ -29,7 +29,7 @@ const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const currentHrStationID = computed(() => {
   if (mapStore.currentHrStationID.split('-').length === 3) {
-    return '-'+mapStore.currentHrStationID.split('-')[2];
+    return '-' + mapStore.currentHrStationID.split('-')[2];
   } else {
     return mapStore.currentHrStationID.split('-')[1];
   }

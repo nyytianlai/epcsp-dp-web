@@ -1,14 +1,14 @@
-import cnzzs from './images/cnzzs.png'
-import jrqys from './images/jrqys.png'
-import xtyxxl from './images/xtyxxl.png'
-import zjzrl from './images/zjzrl.png'
-import jrcdl from './images/jrcdl.png'
-import jrfdl from './images/jrfdl.png'
-import jrcdcs from './images/jrcdcs.png'
-import jrfdcs from './images/jrfdcs.png'
-import nxfdl from './images/nxfdl.png'
-import ntgdl from './images/ntgdl.png'
-import nco2jpl from './images/nco2jpl.png'
+import cnzzs from './images/cnzzs.png';
+import jrqys from './images/jrqys.png';
+import xtyxxl from './images/xtyxxl.png';
+import zjzrl from './images/zjzrl.png';
+import jrcdl from './images/jrcdl.png';
+import jrfdl from './images/jrfdl.png';
+import jrcdcs from './images/jrcdcs.png';
+import jrfdcs from './images/jrfdcs.png';
+import nxfdl from './images/nxfdl.png';
+import ntgdl from './images/ntgdl.png';
+import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
 export const pageNumFun = (data = {}) => {
   return [
@@ -30,8 +30,8 @@ export const pageNumFun = (data = {}) => {
       num: 4328,
       unit: '次'
     }
-  ]
-}
+  ];
+};
 export const cndzyxzlFun = (data = {}) => {
   return [
     {
@@ -73,7 +73,7 @@ export const tabType = [
     code: 2,
     label: '能源类型'
   }
-]
+];
 export const tabTypeDataFun = (data = {}, code = 1) => {
   if (code === 1) {
     return [
@@ -91,7 +91,7 @@ export const tabTypeDataFun = (data = {}, code = 1) => {
         value: 1,
         name: '电源侧',
         unit: '个'
-      },
+      }
     ];
   } else {
     return [
@@ -104,21 +104,20 @@ export const tabTypeDataFun = (data = {}, code = 1) => {
         value: 1,
         name: '抽水储能站',
         unit: '个'
-      },
+      }
     ];
   }
-
-}
+};
 export const rankTabType = [
   {
     code: 1,
-    label: '系统运行效率'
+    label: '站点装机容量'
   },
   {
     code: 2,
-    label: '储能站数量'
-  },
-]
+    label: '系统效率'
+  }
+];
 export const runingFun = (data = {}) => {
   return [
     {
@@ -151,149 +150,149 @@ export const todayLine = [
   {
     code: 1,
     label: '今日深圳市储放能功率及负荷曲线'
-  },
-]
+  }
+];
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   data = [
     {
-      "timeDim": "00:00",
-      "ratedPower": 14382.1029082774,
-      "realTimePower": -16.5
+      timeDim: '00:00',
+      ratedPower: 14382.1029082774,
+      realTimePower: -16.5
     },
     {
-      "timeDim": "01:00",
-      "ratedPower": 14258.4340044743,
-      "realTimePower": -16.5
+      timeDim: '01:00',
+      ratedPower: 14258.4340044743,
+      realTimePower: -16.5
     },
     {
-      "timeDim": "02:00",
-      "ratedPower": 13597.2035794183,
-      "realTimePower": -6.5
+      timeDim: '02:00',
+      ratedPower: 13597.2035794183,
+      realTimePower: -6.5
     },
     {
-      "timeDim": "03:00",
-      "ratedPower": 13059.5525727069,
-      "realTimePower": 0
+      timeDim: '03:00',
+      ratedPower: 13059.5525727069,
+      realTimePower: 0
     },
     {
-      "timeDim": "04:00",
-      "ratedPower": 12874.0715883669,
-      "realTimePower": 0
+      timeDim: '04:00',
+      ratedPower: 12874.0715883669,
+      realTimePower: 0
     },
     {
-      "timeDim": "05:00",
-      "ratedPower": 12718.8590604027,
-      "realTimePower": 0
+      timeDim: '05:00',
+      ratedPower: 12718.8590604027,
+      realTimePower: 0
     },
     {
-      "timeDim": "06:00",
-      "ratedPower": 13052.6845637584,
-      "realTimePower": 0
+      timeDim: '06:00',
+      ratedPower: 13052.6845637584,
+      realTimePower: 0
     },
     {
-      "timeDim": "07:00",
-      "ratedPower": 14201.8791946309,
-      "realTimePower": 0
+      timeDim: '07:00',
+      ratedPower: 14201.8791946309,
+      realTimePower: 0
     },
     {
-      "timeDim": "08:00",
-      "ratedPower": 16922.4608501119,
-      "realTimePower": 0
+      timeDim: '08:00',
+      ratedPower: 16922.4608501119,
+      realTimePower: 0
     },
     {
-      "timeDim": "09:00",
-      "ratedPower": 18879.0604026846,
-      "realTimePower": 16.5
+      timeDim: '09:00',
+      ratedPower: 18879.0604026846,
+      realTimePower: 16.5
     },
     {
-      "timeDim": "10:00",
-      "ratedPower": 19116.2863534676,
-      "realTimePower": 16.5
+      timeDim: '10:00',
+      ratedPower: 19116.2863534676,
+      realTimePower: 16.5
     },
     {
-      "timeDim": "11:00",
-      "ratedPower": 19153.4004474272,
-      "realTimePower": 13.6
+      timeDim: '11:00',
+      ratedPower: 19153.4004474272,
+      realTimePower: 13.6
     },
     {
-      "timeDim": "12:00",
-      "ratedPower": 17053.4675615213,
-      "realTimePower": 0
+      timeDim: '12:00',
+      ratedPower: 17053.4675615213,
+      realTimePower: 0
     },
     {
-      "timeDim": "13:00",
-      "ratedPower": 16354.451901566,
-      "realTimePower": -10
+      timeDim: '13:00',
+      ratedPower: 16354.451901566,
+      realTimePower: -10
     },
     {
-      "timeDim": "14:00",
-      "ratedPower": 17689.3512304251,
-      "realTimePower": 0
+      timeDim: '14:00',
+      ratedPower: 17689.3512304251,
+      realTimePower: 0
     },
     {
-      "timeDim": "15:00",
-      "ratedPower": 17919.4630872483,
-      "realTimePower": 0
+      timeDim: '15:00',
+      ratedPower: 17919.4630872483,
+      realTimePower: 0
     },
     {
-      "timeDim": "16:00",
-      "ratedPower": 18585.4138702461,
-      "realTimePower": 1
+      timeDim: '16:00',
+      ratedPower: 18585.4138702461,
+      realTimePower: 1
     },
     {
-      "timeDim": "17:00",
-      "ratedPower": 19580.9172259508,
-      "realTimePower": 5
+      timeDim: '17:00',
+      ratedPower: 19580.9172259508,
+      realTimePower: 5
     },
     {
-      "timeDim": "18:00",
-      "ratedPower": 19902.4384787472,
-      "realTimePower": 0
+      timeDim: '18:00',
+      ratedPower: 19902.4384787472,
+      realTimePower: 0
     },
     {
-      "timeDim": "19:00",
-      "ratedPower": 20401.4765100671,
-      "realTimePower": 0
+      timeDim: '19:00',
+      ratedPower: 20401.4765100671,
+      realTimePower: 0
     },
     {
-      "timeDim": "20:00",
-      "ratedPower": 20044.9888143177,
-      "realTimePower": 0
+      timeDim: '20:00',
+      ratedPower: 20044.9888143177,
+      realTimePower: 0
     },
     {
-      "timeDim": "21:00",
-      "ratedPower": 19368.4787472036,
-      "realTimePower": 0
+      timeDim: '21:00',
+      ratedPower: 19368.4787472036,
+      realTimePower: 0
     },
     {
-      "timeDim": "22:00",
-      "ratedPower": 17821.7673378076,
-      "realTimePower": 0
+      timeDim: '22:00',
+      ratedPower: 17821.7673378076,
+      realTimePower: 0
     },
     {
-      "timeDim": "23:00",
-      "ratedPower": 15889.6868008949,
-      "realTimePower": 0
-    },
-  ]
+      timeDim: '23:00',
+      ratedPower: 15889.6868008949,
+      realTimePower: 0
+    }
+  ];
   return [
     {
-      data: data.map((item) => [yearMonthDay+item.timeDim, Number(item['ratedPower'])]),
+      data: data.map((item) => [yearMonthDay + item.timeDim, Number(item['ratedPower'])]),
       type: 'line',
       smooth: true,
       name: '深圳市电网实时负荷'
     },
     {
       yAxisIndex: 1,
-      data: data.map((item) => [yearMonthDay+item.timeDim, Number(item['realTimePower'])]),
+      data: data.map((item) => [yearMonthDay + item.timeDim, Number(item['realTimePower'])]),
       type: 'line',
       smooth: true,
       name: '深圳市储能电站聚合实时功率'
-    },
+    }
   ];
 };
-export const socialBenefitFun =(data = {}) => {
+export const socialBenefitFun = (data = {}) => {
   return [
     {
       img: nxfdl,

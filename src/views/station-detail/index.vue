@@ -28,7 +28,7 @@
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
         v-if="isShowList"
       />
-      <WarnList
+      <warning-list
         @handleClick="clickWarningList"
         :data="warningListData"
         height="2.15rem"
@@ -120,7 +120,7 @@ import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
-import WarnList from './components/warn-list.vue';
+// import WarnList from './components/warn-list.vue';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -207,7 +207,13 @@ const getButtomMenuData = async () => {
   }
 };
 const getAlarmLevelAndTypeByTIme = async () => {
-  let { data } = await alarmLevelAndTypeByTIme({ dayType: 2 });
+  if (!store.detailParams.stationId) {
+    return;
+  }
+  let { data } = await alarmLevelAndTypeByTIme({
+    operatorId: store.detailParams.operatorId,
+    stationId: store.detailParams.stationId
+  });
   console.log('data', data);
   realtimeTrend.value = realtimeTrendFun(data || []);
   console.log('realtimeTrend.value', realtimeTrend.value);
@@ -245,6 +251,7 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
           date: item.alarmTime,
           message: item.alarmDesc,
           area: item.equipmentName,
+          isClick: true,
           ...item
         };
       });
