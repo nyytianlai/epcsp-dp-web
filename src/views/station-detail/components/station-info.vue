@@ -7,7 +7,7 @@
           {{ data?.stationName || '--' }}
         </span>
         <span class="company-name">
-          {{ data?.propertyUnit || '--' }}
+          {{ data?.operatorName || '--' }}
         </span>
       </div>
     </div>
@@ -33,7 +33,7 @@
 import { ref, toRefs, watch } from 'vue';
 interface Data {
   stationName: string;
-  propertyUnit: string;
+  operatorName: string;
   areaName: string;
   address: string;
   stationProperty?: string | number;
