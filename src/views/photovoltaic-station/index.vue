@@ -18,7 +18,8 @@
       <div class="company-rank">
         <title-column title="企业排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
-        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false"/>
+        <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
+        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="3.54rem" />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -74,8 +75,8 @@ interface Aircity {
 const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
 
-const lineStateColor = ['blue']
-const surfSortColor = ['#E5CC48', '#3254DD', '#4BDEFF']
+const lineStateColor = ['blue'];
+const surfSortColor = ['#E5CC48', '#3254DD', '#4BDEFF'];
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
@@ -171,44 +172,44 @@ const handleCompany = (item) => {
           unit: 'MW',
           name: '前海保税物流园区二期分布式光伏'
         }
-      ]
-      break
+      ];
+      break;
     case 2:
       companyRankData.value = [
         {
           num: 11,
-          unit: '',
+          unit: '个',
           name: '深圳市燃气集团股份有限公司'
         },
         {
           num: 7,
-          unit: '',
+          unit: '个',
           name: '广东粤电电力销售有限公司'
         },
         {
           num: 5,
-          unit: '',
+          unit: '个',
           name: '国家能源投资集团有限责任公司'
         },
         {
           num: 5,
-          unit: '',
+          unit: '个',
           name: '国电电力广东新能源开发有限公司'
         },
         {
           num: 3,
-          unit: '',
+          unit: '个',
           name: '深电能科技集团有限公司'
         },
         {
           num: 2,
-          unit: '',
+          unit: '个',
           name: '中广核太阳能公司深圳项目公司'
         }
-      ]
-      break
+      ];
+      break;
   }
-  companyRankTotal.value = companyRankData.value[0].num
+  companyRankTotal.value = companyRankData.value[0].num;
 };
 </script>
 <style lang="less" scoped>
@@ -219,9 +220,11 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(255.75deg,
-        rgba(37, 177, 255, 0.02) 23.33%,
-        rgba(37, 177, 255, 0.2) 100%);
+    background: linear-gradient(
+      255.75deg,
+      rgba(37, 177, 255, 0.02) 23.33%,
+      rgba(37, 177, 255, 0.2) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
@@ -259,9 +262,11 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%);
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -283,9 +288,11 @@ const handleCompany = (item) => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));

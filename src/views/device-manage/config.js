@@ -306,7 +306,6 @@ export const lineRunDataFun = (data = [], code = 1) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
