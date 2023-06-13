@@ -28,7 +28,7 @@
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
         v-if="isShowList"
       />
-      <WarnList
+      <warning-list
         @handleClick="clickWarningList"
         :data="warningListData"
         height="2.15rem"
@@ -73,7 +73,7 @@
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
-  <bottom-tabs :tabData="tabData" v-if="!isHr" />
+  <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
   <pile-dialog
     v-model:visible="pileVisible"
@@ -120,7 +120,7 @@ import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import { tableColumnFun } from '@/global/commonFun.js';
-import WarnList from './components/warn-list.vue';
+// import WarnList from './components/warn-list.vue';
 import {
   selectStationStatistics,
   selectEquipmentCountByStationId,
@@ -162,6 +162,7 @@ const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
+const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
 const realtimeTrend = ref(realtimeTrendFun());
@@ -201,11 +202,18 @@ const getButtomMenuData = async () => {
   console.log('底部菜单栏数据', res);
   tabData.value.length = 0;
   if (res && res.length) {
+    tabHasData.value = true;
     tabData.value.push(...res);
   }
 };
 const getAlarmLevelAndTypeByTIme = async () => {
-  let { data } = await alarmLevelAndTypeByTIme({ dayType: 2 });
+  if (!store.detailParams.stationId) {
+    return;
+  }
+  let { data } = await alarmLevelAndTypeByTIme({
+    operatorId: store.detailParams.operatorId,
+    stationId: store.detailParams.stationId
+  });
   console.log('data', data);
   realtimeTrend.value = realtimeTrendFun(data || []);
   console.log('realtimeTrend.value', realtimeTrend.value);
@@ -243,6 +251,7 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
           date: item.alarmTime,
           message: item.alarmDesc,
           area: item.equipmentName,
+          isClick: true,
           ...item
         };
       });
@@ -366,13 +375,11 @@ const initWarn = async () => {
 watch(
   () => store.detailParams,
   () => {
+    getButtomMenuData();
     if (store.detailParams.trueStation) {
       // 非真实站点
       isShowBoth.value = false;
       pageNumData.value = [];
-      if (store.detailParams?.stationId === '-1') {
-        getButtomMenuData();
-      }
     } else {
       // 真实站点
       isShowBoth.value = true;
@@ -390,7 +397,6 @@ watch(
       getEquipmentUseRateByStationId(1);
       getStationRealTimePowerByStationId();
       getWarningStatisticByStationId();
-      getButtomMenuData();
       console.log('store.detailParams', store.detailParams);
       if (store.detailParams?.equipmentId) {
         console.log('pileVisible', pileVisible.value);

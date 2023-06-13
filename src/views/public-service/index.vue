@@ -39,18 +39,25 @@
     </div>
   </panel>
   <panel type="right">
+    <div class="today-runing">
+      <title-column title="今日储能电站运行信息" icon="energy-station" />
+      <client-usage :data="clientUsageCount" />
+    </div>
     <div class="realtime-info">
-      <title-column title="实时设备信息" />
+      <tabs :data="clientInfo" />
       <div class="num-wrap">
         <template v-for="(item, index) in deviceData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <tabs
+
+      <tabs :data="clientRealtimeTrend" />
+      <line-time-chart :data="lineStateData" :colors="lineStateColor" />
+      <!-- <tabs
         :data="chargingTypesTabs"
         @changeTab="(data) => handleChangeTab(data, 'charging-types')"
       />
-      <pie-chart :data="chargingTypePieData" />
+      <pie-chart :data="chargingTypePieData" /> -->
     </div>
     <div class="month-rate">
       <title-column title="行政区设备利用率情况" />
@@ -69,66 +76,6 @@
     :visible="dialogVisibleCitizens"
     @closed="handleCloseCitizensDialog"
   />
-  <!-- <custom-dialog v-model:visible="dialogVisibleCitizens" title="市民反馈情况列表">
-    <template #titleSearch>
-      <el-input
-        v-model="inputDetail"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearchDetail"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="detailTableData"
-      height="6.19rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-    >
-      <el-table-column
-        v-for="(item, index) in columnDataDetail"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-      >
-        <template #header v-if="item.prop === 'problemType'">
-          <div class="problemType">
-            {{ item.label }}
-            <el-popover placement="bottom" trigger="click">
-              <template #reference>
-                <icon :size="12" icon="svg-icon:filter" class="filter" />
-              </template>
-              <div class="checkbox">
-                <el-tree
-                  :data="filtersDetail"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilterDetail"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultDetail"
-                />
-              </div>
-            </el-popover>
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObjDetail.pageSize"
-      layout="prev, pager, next"
-      :total="pageObjDetail.total"
-      :background="true"
-      :current-page="pageObjDetail.currentPage"
-      @current-change="handPageChangeDetail"
-    />
-  </custom-dialog> -->
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, inject, watch, nextTick } from 'vue';
@@ -141,6 +88,9 @@ import {
   getChargeStatus
 } from './api.js';
 import {
+  clientInfo,
+  clientRealtimeTrend,
+  lineStateDataFun,
   pageNumFun,
   chargingStationTabsFun,
   deviceDataFun,
@@ -152,11 +102,16 @@ import {
 import MapLayer from './components/map-layer.vue';
 import HotStationRankDialog from './components/hot-station-rank-dialog.vue';
 import CitizensFeedbackDialog from './components/citizens-feedback-dialog.vue';
+import ClientUsage from './components/client-usage.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const mapData = ref([]);
+const lineStateColor = ['#F9E900'];
+const lineStateData = lineStateDataFun();
+//客户端使用情况
+const clientUsageCount = ref(2818878);
 // 热门弹窗
 const dialogTableVisibleHot = ref(false);
 const ecOption = ref(ecOptionFun());

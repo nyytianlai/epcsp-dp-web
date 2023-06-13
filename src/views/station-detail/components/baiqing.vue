@@ -132,16 +132,18 @@ onMounted(() => {
       preViewCode = e.viewCode;
       switch (e.viewCode) {
         case 'v1':
-          // 站点总览
-          __g.camera.set(...viewInfo, 0);
+          // 漫游视角
+          console.log(viewInfo);
+          // __g.camera.set(...viewInfo, 0);
           break;
         case 'v2':
-          // 漫游视角
-          __g.camera.set(...viewInfo, 0);
+          // 站内设施
+          __g.camera.set(...viewInfo, 1);
+          __g.marker.showByGroupId('stationFacilitiesLabel');
           break;
         case 'v19':
-          // 站内设施
-          __g.camera.set(...viewInfo, 0);
+          // 站点总览
+          __g.camera.set(...viewInfo, 1);
           break;
         case 'v20':
           // 站点监测

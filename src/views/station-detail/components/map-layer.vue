@@ -27,7 +27,13 @@ import { useMapStore } from '@/stores/map';
 import BaoQing from './baiqing.vue';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
-const currentHrStationID = computed(() => mapStore.currentHrStationID.split('station-')[1]); //当前点击的高渲染站点id
+const currentHrStationID = computed(() => {
+  if (mapStore.currentHrStationID.split('-').length === 3) {
+    return '-' + mapStore.currentHrStationID.split('-')[2];
+  } else {
+    return mapStore.currentHrStationID.split('-')[1];
+  }
+}); //当前点击的高渲染站点id
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {

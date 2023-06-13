@@ -7,14 +7,17 @@
           {{ data?.stationName || '--' }}
         </span>
         <span class="company-name">
-          {{ data?.propertyUnit || '--' }}
+          {{ data?.operatorName || '--' }}
         </span>
       </div>
     </div>
     <ul class="info-list">
       <li v-for="(item, index) in infoListData" :key="index">
         <label for="">{{ item.label }}</label>
-        <span class="value text-ellipsis-1">
+        <span class="value text-ellipsis-1" v-if="item.label !== '具体地址：'">
+          {{ item.value }}
+        </span>
+        <span class="value text-ellipsis-1" v-else>
           <el-tooltip :content="item.value || ''" placement="top">
             {{ item.value }}
           </el-tooltip>
@@ -30,7 +33,7 @@
 import { ref, toRefs, watch } from 'vue';
 interface Data {
   stationName: string;
-  propertyUnit: string;
+  operatorName: string;
   areaName: string;
   address: string;
   stationProperty?: string | number;
@@ -159,7 +162,7 @@ watch(data, () => {
       margin-bottom: 6px;
       display: flex;
       white-space: nowrap;
-      &:nth-last-of-type(1){
+      &:nth-last-of-type(1) {
         margin-bottom: 0;
       }
     }

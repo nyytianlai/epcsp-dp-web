@@ -1,7 +1,112 @@
-import ztsyl from './images/ztsyl.png';
+import clientUsage from './images/client-usage.png';
 
 import { merge } from 'lodash';
 import dayjs from 'dayjs';
+export const clientInfo = [
+  {
+    code: 1,
+    label: '客户端实时信息'
+  }
+];
+export const clientRealtimeTrend = [
+  {
+    code: 1,
+    label: '客户端实时趋势情况'
+  }
+];
+export const lineStateDataFun = (data = []) => {
+  const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const data1 = [
+    {
+      time: '01',
+      onlineCount: 10
+    },
+    {
+      time: '02',
+      onlineCount: 0
+    },
+    {
+      time: '03',
+      onlineCount: 2
+    },
+    {
+      time: '04',
+      onlineCount: 4
+    },
+    {
+      time: '05',
+      onlineCount: 18
+    },
+    {
+      time: '06',
+      onlineCount: 23
+    },
+    {
+      time: '07',
+      onlineCount: 68
+    },
+    {
+      time: '08',
+      onlineCount: 103
+    },
+    {
+      time: '09',
+      onlineCount: 287
+    },
+    {
+      time: '10',
+      onlineCount: 367
+    },
+    {
+      time: '11',
+      onlineCount: 568
+    },
+    {
+      time: '12',
+      onlineCount: 400
+    },
+    {
+      time: '13',
+      onlineCount: 346
+    },
+    {
+      time: '14',
+      onlineCount: 287
+    },
+    {
+      time: '15',
+      onlineCount: 200
+    },
+    {
+      time: '16',
+      onlineCount: 236
+    },
+    {
+      time: '17',
+      onlineCount: 426
+    },
+    {
+      time: '18',
+      onlineCount: 563
+    },
+    {
+      time: '19',
+      onlineCount: 214
+    },
+    {
+      time: '20',
+      onlineCount: 654
+    }
+  ];
+  return [
+    {
+      data: data1.map((item) => [yearMonthDay + item.time, item.onlineCount]),
+      type: 'line',
+      smooth: true,
+      name: '访问量'
+    }
+  ];
+};
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -59,16 +164,46 @@ export const hotChargingDataFun = () => {
 export const deviceDataFun = (data = {}) => {
   return [
     {
-      img: ztsyl,
-      num: data?.equipmentCount,
-      name: '充电桩总数/个',
-      classStyleType: 'leftRightStyleGreen6656'
+      img: clientUsage,
+      // num: data?.equipmentCount,
+      num: 125639,
+      name: '昨日访问量/次',
+      iconStyle: {
+        width: '0.78rem',
+        height: '0.58rem'
+      },
+      numStyle: {
+        lineHeight: '0.32rem',
+        fontSize: '0.32rem',
+        background: 'linear-gradient(180deg, #00F7FF 0%, #D5FEFF 52.08%, #00F7FF 100%)',
+        textFillColor: 'transparent',
+        '-webkit-background-clip': 'text'
+      },
+      nameStyle: {
+        fontSize: '0.14rem',
+        lineHeight: '0.22rem'
+      }
     },
     {
-      img: ztsyl,
-      num: data?.gunCount,
-      name: '充电枪总数/个',
-      classStyleType: 'leftRightStyleGreen6656'
+      img: clientUsage,
+      // num: data?.gunCount,
+      num: 125639,
+      name: '今日访问量/次',
+      iconStyle: {
+        width: '0.78rem',
+        height: '0.58rem'
+      },
+      numStyle: {
+        lineHeight: '0.32rem',
+        fontSize: '0.32rem',
+        background: 'linear-gradient(180deg, #F9E900 0%, #FFFFFF 52.08%, #F9E900 100%)',
+        textFillColor: 'transparent',
+        '-webkit-background-clip': 'text'
+      },
+      nameStyle: {
+        fontSize: '0.14rem',
+        lineHeight: '0.22rem'
+      }
     }
   ];
 };

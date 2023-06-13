@@ -926,10 +926,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       name: '光伏'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM/DD').toString(),
-        item.emissionReduction.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), Number(item.emissionReduction.trim())]),
       type: 'line',
       smooth: true,
       name: '合计'
@@ -1409,10 +1406,9 @@ const Electric = [
 ];
 export const lineElectricDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
-  console.log('carbon', Electric);
-  let list = deepClone(Electric);
-  const index = Electric.findIndex((i) => i.date.trim() == yearMonthDay);
-  list.splice(index + 1);
+  let list = deepClone(Electric)
+  const index = Electric.findIndex(i=>i.date.trim() == yearMonthDay)
+  list.splice(index+1)
 
   return [
     {

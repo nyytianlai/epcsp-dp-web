@@ -14,9 +14,10 @@
         <pie-chart :data="tabTypeData" totalName="储能站/个" :colors="tabTypeColor" />
       </div>
       <div class="company-rank">
-        <title-column title="运营企业排名" icon="energy-station" />
+        <title-column title="储能站排名" icon="energy-station" />
         <tabs :data="rankTabType" @changeTab="handleRank" />
-        <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" />
+        <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" /> -->
+        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="3.54rem" />
       </div>
     </panel>
     <panel type="right">
@@ -29,7 +30,12 @@
           </template>
         </div>
         <tabs :data="todayLine" />
-        <line-time-chart-both :data="lineStateData" :colors="lineStateColor" unit="MW" mode="noneArea" />
+        <line-time-chart-both
+          :data="lineStateData"
+          :colors="lineStateColor"
+          unit="MW"
+          mode="noneArea"
+        />
       </div>
       <div class="social-benefit">
         <title-column title="社会效益信息" icon="energy-station" />
@@ -64,8 +70,8 @@ interface Aircity {
 }
 const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
-const lineStateColor = ['green', '#FF7723']
-const tabTypeColor = ['#E5CC48', '#3254DD', '#4BDEFF']
+const lineStateColor = ['green', '#FF7723'];
+const tabTypeColor = ['#E5CC48', '#3254DD', '#4BDEFF'];
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 // 储能电站运行总览
@@ -130,6 +136,41 @@ const handleRank = (item) => {
     case 1:
       companyRankData.value = [
         {
+          num: 1200,
+          unit: 'MW',
+          name: '深圳抽水蓄能电站'
+        },
+        {
+          num: 50,
+          unit: 'MW',
+          name: '深南电南山热电厂退役设备技改升级独立储能示范项目一期'
+        },
+        {
+          num: 20,
+          unit: 'MW',
+          name: '坪山新区比亚迪厂区用户侧储能'
+        },
+        {
+          num: 12,
+          unit: 'MW',
+          name: '中国铁塔深圳5G基站储能'
+        },
+        {
+          num: 10,
+          unit: 'MW',
+          name: '深圳宝清电池储能站'
+        },
+        {
+          num: 5,
+          unit: 'MW',
+          name: '110kV潭头变电站电化学储能电站'
+        }
+      ];
+
+      break;
+    case 2:
+      companyRankData.value = [
+        {
           num: 95.72,
           unit: '%',
           name: '110kV潭头变电站电化学储能电站'
@@ -159,43 +200,10 @@ const handleRank = (item) => {
           unit: '%',
           name: '欧姆龙电子部件（深圳）有限公司储能电站'
         }
-      ]
-      break
-    case 2:
-      companyRankData.value = [
-        {
-          num: 1200,
-          unit: '',
-          name: '深圳抽水蓄能电站'
-        },
-        {
-          num: 50,
-          unit: '',
-          name: '深南电南山热电厂退役设备技改升级独立储能示范项目一期'
-        },
-        {
-          num: 20,
-          unit: '',
-          name: '坪山新区比亚迪厂区用户侧储能'
-        },
-        {
-          num: 12,
-          unit: '',
-          name: '中国铁塔深圳5G基站储能'
-        },
-        {
-          num: 10,
-          unit: '',
-          name: '深圳宝清电池储能站'
-        },
-        {
-          num: 5,
-          unit: '',
-          name: '110kV潭头变电站电化学储能电站'
-        }
-      ]
+      ];
+      break;
   }
-  companyRankTotal.value = companyRankData.value[0].num
+  companyRankTotal.value = companyRankData.value[0].num;
 };
 </script>
 <style lang="less" scoped>
@@ -212,9 +220,11 @@ const handleRank = (item) => {
     :deep(.num-card) {
       width: 196px;
       padding: 14px 12px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -298,9 +308,11 @@ const handleRank = (item) => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%);
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
