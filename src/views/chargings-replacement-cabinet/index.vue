@@ -13,20 +13,18 @@
       </div>
       <div class="charging-type">
         <tabs :data="chargingType" />
-        <pie-chart
-          :data="chargingTypeData"
-          totalName="设施类型总量"
-          :colors="chargingColor"
-        />
+        <pie-chart :data="chargingTypeData" totalName="设施类型总量" :colors="chargingColor" />
       </div>
       <div class="company-facilities-rank">
         <title-column title="企业充换柜数量排名" icon="chargings-replacement" />
-        <area-rank-list
+        <!-- <area-rank-list
           :data="facilitiesRankData"
           :totalNum="facilitiesRankTotal"
           height="2.54rem"
           :showPer="false"
-        />
+        /> -->
+
+        <rank-list :data="facilitiesRankData" :totalNum="facilitiesRankTotal" height="3.54rem" />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -58,7 +56,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted,inject} from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import { toSingleStation } from '@/global/config/map';
 import {
   pageNumFun,
@@ -78,8 +76,8 @@ interface Aircity {
 }
 const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
-const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF']
-const stateColor =  ['green', '#FF7723']
+const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF'];
+const stateColor = ['green', '#FF7723'];
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据
@@ -90,32 +88,32 @@ const chargingTypeData = ref(chargingTypeDataFun());
 const facilitiesRankData = ref([
   {
     num: 3612,
-    unit: '',
+    unit: '个',
     name: '51换电'
   },
   {
     num: 2989,
-    unit: '',
+    unit: '个',
     name: '中国铁塔换电'
   },
   {
     num: 1886,
-    unit: '',
+    unit: '个',
     name: '骑士换电'
   },
   {
     num: 1415,
-    unit: '',
+    unit: '个',
     name: '智租换电'
   },
   {
     num: 942,
-    unit: '',
+    unit: '个',
     name: '春藤物联'
   },
   {
     num: 782,
-    unit: '',
+    unit: '个 ',
     name: '小哈换电'
   }
 ]);
@@ -150,9 +148,9 @@ const init = () => {
     };
   });
 };
-onMounted(()=>{
-  init()
-})
+onMounted(() => {
+  init();
+});
 </script>
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
@@ -260,9 +258,8 @@ onMounted(()=>{
 }
 .today-warning-message {
   margin-top: 26px;
-  :deep(.warning-list){
+  :deep(.warning-list) {
     margin-top: 16px;
   }
-
 }
 </style>

@@ -118,8 +118,8 @@ export const selectEquipmentAlarmByPage = (params) => {
 };
 // 实时告警趋势情况
 export const alarmLevelAndTypeByTIme = (param) => {
-  return request.get({
-    url: '/safetySupervision/periodAlarmStaticsByTime',
+  return request.post({
+    url: '/safetySupervision/stationAlarmStaticsByTime',
     data: {
       ...param
     }
