@@ -334,7 +334,7 @@ const focusToPile = (eid, status) => {
 };
 const handleClose = () => {
   //清除绿色高亮
-  //  __g.tileLayer.stopHighlightAllActors()
+   __g.tileLayer.stopHighlightAllActors()
 };
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;

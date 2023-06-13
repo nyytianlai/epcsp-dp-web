@@ -29,7 +29,8 @@ import {
   getTreeLayerIdByName,
   hideAllStation3dt,
   returnStationPointConfig,
-  getHtmlUrl
+  getHtmlUrl,
+  mapRequestCancelId
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D, GCJ02_2_4547 } from '@/utils/index';
 import bus from '@/utils/bus';
@@ -172,7 +173,7 @@ const highLightNormalStation = async (obj) => {
     autoHeight: true //自动判断下方是否有物体
   };
   await __g.radiationPoint.add(o);
-  __g.radiationPoint.focus(o.id, 200, 1);
+  __g.radiationPoint.focus(o.id, 100, 1,[-71.991409,-90.380768,0]);
 };
 
 //隐藏辐射圈以及橙色popup
@@ -224,13 +225,23 @@ const changeStationStyle = async (id, picName, size, anchors) => {
 
 const setQuVisibility = async (value: boolean) => {
   if (value) {
+    if (props.module == 1 && buttomTabCode.value == 2) {
+      //热力图
+      __g.heatmap.show('heatmap1');
+      return;
+    }
     if (props.module !== 4) {
+      //模块四是安全监管 柱状图因为接口问题 未删除 只是隐藏了
       emits('addQuBar');
     } else {
       await __g.marker.show(layerNameQuNameArr('rectBar' + buttomTabCode.value));
       await __g.marker.showAllPopupWindow();
     }
   } else {
+    if (props.module == 1 && buttomTabCode.value == 2) {
+      __g.heatmap.hide('heatmap1');
+      return;
+    }
     props.module !== 4
       ? await __g.marker.delete(layerNameQuNameArr('rectBar' + buttomTabCode.value))
       : await __g.marker.hide(layerNameQuNameArr('rectBar' + buttomTabCode.value));
@@ -467,7 +478,8 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
-    isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
+    // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
+    isShow ? __g.camera.set(529469.266797,2520288.9175,58.586924,-24.291014,-77.653168, 3) : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
@@ -648,6 +660,7 @@ onMounted(async () => {
   __g.reset();
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
+    request.cancel(mapRequestCancelId);
     console.log('高渲染站点信息2', e);
     store.changeCurrentHrStationId('station-' + e.stationId);
     store.changeCurrentPositionBak(currentPosition.value);
@@ -680,6 +693,7 @@ onMounted(async () => {
       [key: string]: any;
     }) => {
       if (e.isHr) {
+        setQuVisibility(false);
         enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);
         highLightNormalStation({ lng: e.lng, lat: e.lat });

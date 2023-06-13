@@ -162,7 +162,7 @@ export const returnStationPointConfig = (item: {
   stationType: number;
 }) => {
   console.log('station' + item.stationType);
-
+  let length= value.stationName.length * 12;
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
@@ -189,8 +189,6 @@ export const returnStationPointConfig = (item: {
     fontOutlineSize: 1, //字体轮廓线大小
     fontColor: '#FFFFFF', //字体颜色
     displayMode: 2,
-    autoDisplayModeSwitchFirstRatio: 0.5,
-    autoDisplayModeSwitchSecondRatio: 0.5,
     autoHeight: true
   };
 };
@@ -209,6 +207,7 @@ export const toSingleStation = async (
   console.log('获取站点信息', info);
   value['lng'] = Number(value.stationLng);
   value['lat'] = Number(value.stationLat);
+  value['stationType'] = 50;
   //普通站点
   if (!info.data.length) {
     //不存在

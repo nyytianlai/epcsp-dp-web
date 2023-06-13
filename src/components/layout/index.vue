@@ -142,7 +142,8 @@ const handleMapReady = async (obj) => {
   const ref = await aircityObj.value.acApi.infoTree.get();
   treeInfo.value = ref.infotree;
   // console.log('图层树数据', treeInfo.value);
-  let ids = getTreeLayerIdByName('118默认展示', store.treeInfo);
+  //规避民乐站在expolrer里面关闭无法点击的bug
+  let ids = getTreeLayerIdByName('118默认展示', ref.infotree);
   await aircityObj.value.acApi.infoTree.hide(ids);
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];

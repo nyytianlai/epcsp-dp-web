@@ -140,7 +140,8 @@ const addChageingIcon = async (data, id?: string) => {
       range: [1, 100], //可视范围
       imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      displayMode: 2
+      displayMode: 0,
+      occlusionCull:true
     };
     pointArr.push(o1);
   });

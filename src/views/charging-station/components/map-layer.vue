@@ -89,7 +89,8 @@ const addHeatMap = async () => {
   let heightStart = Math.min(...realTimePower);
   let heightEnd = Math.max(...realTimePower);
   console.log(heightStart, heightEnd);
-  let bbox = [474542.44, 2483371.45, -20, 564130.59, 2529557.43, 344.58];
+  // let bbox = [474756.13,2477776.28, -20, 622300.98,2546813.48, 344.58];
+  let bbox = [474756.13,2477776.28, -200, 622300.98,2546813.48, 344.58];
   let range = [0, 6000];
   let data = [];
   res.forEach((element) => {
