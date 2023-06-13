@@ -162,7 +162,7 @@ export const returnStationPointConfig = (item: {
   stationType: number;
 }) => {
   console.log('station' + item.stationType);
-  let length= value.stationName.length * 12;
+  // let length= item.stationName.length * 12;
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
