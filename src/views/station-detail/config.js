@@ -80,55 +80,55 @@ export const facilitiesLabel = (stationId) => {
         value: '展示馆',
         id: '展示馆',
         position: [529572.4125, 2520471.52, 51.9294921875],
-        img: 'electricalRoom'
+        img: 'bigHouse'
       },
       {
         value: '会议馆',
         id: '会议馆',
         position: [529603.1675, 2520417.6, 52.0587109375],
-        img: 'electricalRoom'
+        img: 'bigHouse'
       },
       {
         value: '交易馆',
         id: '交易馆',
         position: [529523.8875, 2520364.8000000003, 51.9294921875],
-        img: 'electricalRoom'
+        img: 'bigHouse'
       },
       {
         value: '实时监测中心',
         id: '实时监测展示中心',
         position: [529466.175, 2520360.16, 42.725927734375],
-        img: 'toilet'
+        img: 'monitorCenter'
       },
       {
         value: '微网箱变',
         id: '微网箱变',
         position: [529477.495, 2520360.96, 34.2319580078125],
-        img: 'store'
+        img: 'microgridBox'
       },
       {
         value: '储能箱',
         id: '储能箱',
         position: [529476.49, 2520356.48, 34.22337646484375],
-        img: 'rest'
+        img: 'energyStorageBox'
       },
       {
         value: '充电终端',
         id: '充电终端',
         position: [529477.8025, 2520351.84, 32.137705078125],
-        img: 'maintenance'
+        img: 'chargingTerminal'
       },
       {
         value: '光伏电池板',
         id: '光伏电池板',
         position: [529473.83, 2520347.68, 35.1907373046875],
-        img: 'electricalRoom'
+        img: 'PVPanel'
       },
       {
         value: '充电站',
         id: '充电站',
         position: [529477.7975, 2520344.8000000003, 34.6154541015625],
-        img: 'electricalRoom'
+        img: 'chargingStation'
       }
     ];
   } else if (stationId == '440202003') {
@@ -138,37 +138,37 @@ export const facilitiesLabel = (stationId) => {
         value: '充电集控终端',
         id: '充电集控终端',
         position: [494455.70875, 2495552, 25.17718994140625],
-        img: 'electricalRoom'
+        img: 'chargingTerminal'
       },
       {
         value: 'V2G桩',
         id: 'V2G桩',
         position: [494458.6175, 2495536, 25.014765625],
-        img: 'electricalRoom'
+        img: 'V2G'
       },
       {
         value: '液冷大功率充电终端',
         id: '液冷大功率充电终端',
         position: [494452.315, 2495571.52, 25.58055908203125],
-        img: 'electricalRoom'
+        img: 'chargingTerminal'
       },
       {
         value: '充电堆',
         id: '充电堆',
         position: [494452.72375, 2495578.24, 26.920390625],
-        img: 'toilet'
+        img: 'chargingStack'
       },
       {
         value: '电池设备室',
         id: '电池设备室',
         position: [494450.11875, 2495589.6, 27.641760253906252],
-        img: 'store'
+        img: 'batteryRoom'
       },
       {
         value: '储能柜',
         id: '储能柜',
         position: [494448.366875, 2495595.2, 26.2085498046875],
-        img: 'rest'
+        img: 'energyStorageBox'
       }
     ];
   } else if (stationId == '144') {
@@ -184,31 +184,31 @@ export const facilitiesLabel = (stationId) => {
         value: '1#箱变',
         id: '1#箱变',
         position: [497201.15375, 2494072.16, 23.0725341796875],
-        img: 'electricalRoom'
+        img: 'microgridBox'
       },
       {
         value: '2#箱变',
         id: '2#箱变',
         position: [497200.9596875, 2494068, 23.090380859375],
-        img: 'electricalRoom'
+        img: 'microgridBox'
       },
       {
         value: '3#箱变',
         id: '3#箱变',
         position: [497201.195625, 2494064, 23.084296875],
-        img: 'electricalRoom'
+        img: 'microgridBox'
       },
       {
         value: '4#箱变',
         id: '4#箱变',
         position: [497207.43, 2494064, 23.0889501953125],
-        img: 'electricalRoom'
+        img: 'microgridBox'
       },
       {
         value: '5#箱变',
         id: '5#箱变',
         position: [497207.631875, 2494067.68, 23.069404296875],
-        img: 'electricalRoom'
+        img: 'microgridBox'
       }
     ];
   } else if (stationId === '-1') {
@@ -240,55 +240,55 @@ export const facilitiesLabel = (stationId) => {
         value: '风机',
         id: '风机',
         position: [506401.55625, 2494983.84, 18.51548095703125],
-        img: 'electricalRoom'
+        img: 'fan'
       },
       {
         value: 'A1',
         id: 'A1',
         position: [506375.833125, 2494823.68, 10.55826171875],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'A2',
         id: 'A2',
         position: [506413.631875, 2494782.08, 17.473076171875],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'B1',
         id: 'B1',
         position: [506479.97500000003, 2494780.16, 17.0259130859375],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'B2',
         id: 'B2',
         position: [506549, 2494833.44, 17.6691015625],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'C1',
         id: 'C1',
         position: [506516.78875, 2494895.84, 17.999814453125],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'C2',
         id: 'C2',
         position: [506473.3137, 2494977.76, 18.95273],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'D',
         id: 'D',
         position: [506389.108125, 2494895.2, 17.91951171875],
-        img: 'electricalRoom'
+        img: 'metro'
       },
       {
         value: 'E',
         id: 'E',
         position: [506406.7, 2494957.6, 17.934033203125],
-        img: 'electricalRoom'
+        img: 'metro'
       }
     ];
   }
