@@ -7,25 +7,25 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-    <video width="320" height="240" controls id="camera-video" autoplay muted>
-        <source :src="videoUrl" type="video/mp4">
-        <source :src="videoUrl" type="video/ogg">
-        <source :src="videoUrl" type="video/webm">
-      </video>
+  <video width="320" height="240" id="camera-video" autoplay muted>
+    <source :src="videoUrl" type="video/mp4" />
+    <source :src="videoUrl" type="video/ogg" />
+    <source :src="videoUrl" type="video/webm" />
+  </video>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { toRefs } from 'vue';
 const props = defineProps({
-    videoUrl: {
-        type:String,
-        default:''
-    }
-})
-const {videoUrl} = toRefs(props)
+  videoUrl: {
+    type: String,
+    default: ''
+  }
+});
+const { videoUrl } = toRefs(props);
 </script>
 <style lang="less" scoped>
-#camera-video{
-    width:100%;
-    height:346px;
+#camera-video {
+  width: 100%;
+  height: 346px;
 }
 </style>
