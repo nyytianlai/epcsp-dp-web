@@ -41,7 +41,7 @@
         :colors="warnColor"
         mode="haveTab"
       /> -->
-      <EcResize :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
+      <EcResize v-if="!isShowList" :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -207,12 +207,14 @@ const chargingTypesData = ref(chargingTypesFun());
 const linePowerData = ref(linePowerDataFun());
 // 获取底图菜单栏数据
 const getButtomMenuData = async () => {
-  const { data: res } = await viewMenuData({ stationId: store.detailParams?.stationId });
-  console.log('底部菜单栏数据', res);
-  tabData.value.length = 0;
-  if (res && res.length) {
-    tabHasData.value = true;
-    tabData.value.push(...res);
+  const res = await viewMenuData({ stationId: store.detailParams?.stationId });
+  if (res) {
+    console.log('底部菜单栏数据', res);
+    tabData.value.length = 0;
+    if (res.data && res.data.length) {
+      tabHasData.value = true;
+      tabData.value.push(...res.data);
+    }
   }
 };
 const getAlarmLevelAndTypeByTIme = async () => {
@@ -238,12 +240,16 @@ const getStationStatistics = async () => {
 //设备详情/站点信息
 const getStationInfoByStationId = async () => {
   const res = await selectStationInfoByStationId(params.value);
-  stationInfoData.value = res.data;
+  if (res) {
+    stationInfoData.value = res.data;
+  }
 };
 // 设备详情/设备设施信息
 const getEquipmentCountByStationId = async () => {
   const res = await selectEquipmentCountByStationId(params.value);
-  deviceInfoData.value = deviceInfoDataFun(res.data);
+  if (res) {
+    deviceInfoData.value = deviceInfoDataFun(res.data);
+  }
 };
 //设备详情/告警信息列表
 const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 99999, type) => {
@@ -387,32 +393,35 @@ const initWarn = async () => {
 watch(
   () => store.detailParams,
   () => {
-    getButtomMenuData();
-    if (store.detailParams.trueStation) {
-      // 非真实站点
-      isShowBoth.value = false;
-      pageNumData.value = [];
-    } else {
-      // 真实站点
-      isShowBoth.value = true;
-      const paramsDefault = {
-        operatorId: store.detailParams?.operatorId,
-        stationId: store.detailParams?.stationId
-      };
-      params.value = paramsDefault;
-      initWarn();
-      getStationStatistics();
-      getStationInfoByStationId();
-      getEquipmentCountByStationId();
-      getWarningInfoByStationId(1);
-      getEquipmentStatusByStationId();
-      getEquipmentUseRateByStationId(1);
-      getStationRealTimePowerByStationId();
-      getWarningStatisticByStationId();
-      console.log('store.detailParams', store.detailParams);
-      if (store.detailParams?.equipmentId && __g) { //防止地图没有
-        console.log('pileVisible', pileVisible.value);
-        focusToPile(store.detailParams.equipmentId, 255);
+    if (store.detailParams.stationId) {
+      getButtomMenuData();
+      if (store.detailParams.trueStation) {
+        // 非真实站点
+        isShowBoth.value = false;
+        pageNumData.value = [];
+      } else {
+        // 真实站点
+        isShowBoth.value = true;
+        const paramsDefault = {
+          operatorId: store.detailParams?.operatorId,
+          stationId: store.detailParams?.stationId
+        };
+        params.value = paramsDefault;
+        initWarn();
+        getStationStatistics();
+        getStationInfoByStationId();
+        getEquipmentCountByStationId();
+        getWarningInfoByStationId(1);
+        getEquipmentStatusByStationId();
+        getEquipmentUseRateByStationId(1);
+        getStationRealTimePowerByStationId();
+        getWarningStatisticByStationId();
+        console.log('store.detailParams', store.detailParams);
+        if (store.detailParams?.equipmentId && __g) {
+          //防止地图没有
+          console.log('pileVisible', pileVisible.value);
+          focusToPile(store.detailParams.equipmentId, 255);
+        }
       }
     }
   },
