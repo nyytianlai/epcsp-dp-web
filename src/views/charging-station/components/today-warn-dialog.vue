@@ -94,7 +94,8 @@ import { ref, reactive, onMounted, inject } from 'vue';
 import { alarmInfo } from '../api.js';
 import { columnDataFun, filtersAlarmLevelName, filtersAlarmTypeName } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
-import { toSingleStation } from '@/global/config/map';
+import { toSingleStation,showStationDetailPanel } from '@/global/config/map';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
 interface Props {
   visible: boolean;
@@ -109,6 +110,7 @@ const inputWarn = ref();
 // 警告筛选
 const alarmLevel = ref();
 const alarmType = ref();
+const storeVisible = useVisibleComponentStore();
 // 警告默认筛选
 const defaultAreaWarm = ref(['1', '2', '3']);
 const defaultAreaWarmType = ref(['1', '2', '3']);
@@ -180,7 +182,9 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   // dialogTableVisible.value = false;
   // 展示站点
-  toSingleStation(aircityObj.value?.acApi, item.row);
+  showStationDetailPanel(storeVisible, item.row);
+  item.row['isFly'] = false;
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
 };
 const handleClosed = () => {
   emit('close');

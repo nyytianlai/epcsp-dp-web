@@ -114,8 +114,9 @@ const handleRoaming = async (value) => {
   // console.log(111111111,await __g.marker.get(JSON.parse(value.iconIdList)))
   value.iconIdList ? await __g.marker.show(JSON.parse(value.iconIdList)) : '';
   if (value.viewInfoType === 't1') {
-    let time = value.viewName == '车辆充电' ? 3 : 6;
-    __g.camera.set(...JSON.parse(value.viewInfo), time);
+    // let time = value.viewName == '车辆充电' ? 3 : 6;
+    __g.camera.set(...JSON.parse(value.viewInfo), 3);
+    // __g.camera.set(504725.026719,2499660.45375,114.91292,-57.085739,55.926083,3);
   } else if (value.viewInfoType === 't2') {
     tourFun(JSON.parse(value.viewInfo));
   }

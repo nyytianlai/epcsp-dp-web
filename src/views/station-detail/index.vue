@@ -410,7 +410,7 @@ watch(
       getStationRealTimePowerByStationId();
       getWarningStatisticByStationId();
       console.log('store.detailParams', store.detailParams);
-      if (store.detailParams?.equipmentId) {
+      if (store.detailParams?.equipmentId && __g) { //防止地图没有
         console.log('pileVisible', pileVisible.value);
         focusToPile(store.detailParams.equipmentId, 255);
       }

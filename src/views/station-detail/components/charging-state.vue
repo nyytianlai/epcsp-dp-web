@@ -232,15 +232,18 @@ watch([data, aircityObj], (newVal) => {
     //场站车辆和右侧桩的状态保持一致
     let noUseEquipment = newVal[0]
       .map((item) => {
-        if (item.status === 1) {
+        if (item.status === 1 || item.status === 0) {
+          //空闲1 离线0
           return item.eid;
         }
       })
       .filter((item) => item);
+    noUseEquipment.push('006694'); //隐藏车辆充电那个动画
     let layerId1 = getTreeLayerIdByName('带ID充电中静态车辆', mapStore.treeInfo);
     let layerId2 = getTreeLayerIdByName('带ID的静态车辆', mapStore.treeInfo);
     __g.tileLayer.hideActors([{ id: layerId1, objectIds: noUseEquipment }]);
     __g.tileLayer.hideActors([{ id: layerId2, objectIds: noUseEquipment }]);
+    __g.marker.hide(noUseEquipment);
   }
 });
 onBeforeUnmount(() => {

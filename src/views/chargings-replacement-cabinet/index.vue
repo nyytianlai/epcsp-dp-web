@@ -57,7 +57,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, inject } from 'vue';
-import { toSingleStation } from '@/global/config/map';
 import {
   pageNumFun,
   chdsszlFun,
