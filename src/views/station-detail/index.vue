@@ -34,13 +34,14 @@
         height="2.15rem"
         v-if="isShowList"
       />
-      <line-time-chart
+      <!-- <line-time-chart
         v-if="!isShowList"
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
         :colors="warnColor"
         mode="haveTab"
-      />
+      /> -->
+      <EcResize :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -121,6 +122,7 @@ import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
+import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
 // import WarnList from './components/warn-list.vue';
 import {
@@ -144,10 +146,12 @@ import {
   chargingTypesFun,
   linePowerDataFun,
   columnDataFun,
-  realtimeTrendFun
+  realtimeTrendFun,
+  stationWarnFun,
+  stationWarnOption
 } from './config.js';
 import bus from '@/utils/bus';
-import { handleClickFocus } from './mapOperate.ts';
+import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 
 const store = useVisibleComponentStore();
@@ -168,7 +172,9 @@ const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
-const realtimeTrend = ref(realtimeTrendFun());
+const state = reactive({
+  realtimeTrend: stationWarnOption
+});
 // 是否展示两边
 const isShowBoth = ref(true);
 // 是否展示趋势图
@@ -217,9 +223,12 @@ const getAlarmLevelAndTypeByTIme = async () => {
     operatorId: store.detailParams.operatorId,
     stationId: store.detailParams.stationId
   });
-  console.log('data', data);
-  realtimeTrend.value = realtimeTrendFun(data || []);
-  console.log('realtimeTrend.value', realtimeTrend.value);
+  if (data && data.length) {
+    const optionData = stationWarnFun(data);
+    state.realtimeTrend.xAxis.data = optionData.xAxis;
+    state.realtimeTrend.series = optionData.seriesData;
+  }
+  // state.realtimeTrend = realtimeTrendFun(data || []);
 };
 // 统计数据
 const getStationStatistics = async () => {

@@ -32,7 +32,7 @@ export const lianhuaWarnFun = (data = [], xaxis = []) => {
     data1.push({ value: 0, date: dayjs().subtract(i, 'day').format('YYYY-MM-DD') });
   }
   data1.push({ value: 0, date: dayjs().format('YYYY-MM-DD') });
-  xAxis.push(dayjs().format('YYYY-MM-DD'));
+  xAxis.push('今日');
   let obj = {
     xAxis: xAxis,
     seriesData: [
@@ -42,6 +42,7 @@ export const lianhuaWarnFun = (data = [], xaxis = []) => {
         smooth: true,
         name: '告警数',
         areaStyle: {
+          origin: 'start',
           color: {
             type: 'linear',
             x: 0,
@@ -119,7 +120,7 @@ export const lianhuaWarnOption = {
   xAxis: {
     type: 'category',
     data: [],
-    boundaryGap: ['2%', '2%'],
+    boundaryGap: false,
     axisLine: {
       lineStyle: {
         color: '#BAE7FF'
@@ -136,7 +137,11 @@ export const lianhuaWarnOption = {
       lineHeight: 18,
       color: '#B4C0CC',
       formatter: (value) => {
-        return dayjs(value).format('DD');
+        if (value === '今日') {
+          return value;
+        } else {
+          return dayjs(value).format('DD') + '日';
+        }
       }
     },
     splitLine: {
@@ -147,6 +152,7 @@ export const lianhuaWarnOption = {
     name: '单位:个',
     interval: 10,
     max: 50,
+    min: -10,
     axisLine: {
       show: false
     },
@@ -159,7 +165,7 @@ export const lianhuaWarnOption = {
       lineHeight: 16,
       color: '#B4C0CC',
       formatter: (value) => {
-        return value;
+        return value >= 0 ? value : '';
       }
     },
     splitLine: {
@@ -173,7 +179,6 @@ export const lianhuaWarnOption = {
 };
 const lianhuaRealtimeDataFun = () => {
   const hours = dayjs().hour();
-  console.log(hours);
   const seriesData = [];
   for (let i = 0; i < hours; i++) {
     const random = Math.floor(Math.random() * 400000) + 100000;
@@ -181,7 +186,6 @@ const lianhuaRealtimeDataFun = () => {
   }
   return seriesData;
 };
-console.log(lianhuaRealtimeDataFun());
 export const lianhuaRealtimeOption = {
   grid: {
     top: 30,
@@ -285,7 +289,6 @@ export const lianhuaRealtimeOption = {
       lineHeight: 16,
       color: '#B4C0CC',
       formatter: (value) => {
-        console.log(value);
         return value ? simplifyNum(value) : '';
       }
     },
@@ -978,4 +981,149 @@ export const realtimeTrendFun = (data = [], type = 2) => {
       }
     ];
   }
+};
+export const stationWarnFun = (data = []) => {
+  let data1 = [];
+  let xAxis = [];
+  for (let i = 0; i < data.length; i++) {
+    xAxis.push(data[i].time);
+    data1.push({ value: data[i].cnt, date: data[i].time });
+  }
+  console.log(data);
+  // data1.push({ value: data[i].time, date: dayjs().format('YYYY-MM-DD') });
+  let obj = {
+    xAxis: xAxis,
+    seriesData: [
+      {
+        data: data1,
+        type: 'line',
+        smooth: true,
+        name: '告警数',
+        areaStyle: {
+          origin: 'start',
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#FF6B4B' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+              }
+            ],
+            global: false // 缺省为 false
+          }
+        },
+        itemStyle: {
+          color: '#FF6B4B'
+        }
+      }
+    ]
+  };
+  return obj;
+};
+export const stationWarnOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 15,
+    left: 42
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.data.date}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">个</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    data: ['告警数'],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '75%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [],
+    boundaryGap: false,
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        if (value === '今日') {
+          return value;
+        } else {
+          return dayjs(value).format('DD') + '日';
+        }
+      }
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:个',
+    interval: 10,
+    max: 50,
+    min: -10,
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value >= 0 ? value : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: []
 };
