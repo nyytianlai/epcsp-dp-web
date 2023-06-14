@@ -34,7 +34,7 @@
       <rank-list
         :data="codeCharge === 1 ? chargePower : chargeTimes"
         :totalNum="codeCharge === 1 ? chargePowerTotal : chargeTimesTotal"
-        height="3.88rem"
+        height="4.5rem"
       />
     </div>
   </panel>
@@ -52,7 +52,11 @@
       </div>
 
       <tabs :data="clientRealtimeTrend" />
-      <line-time-chart :data="lineStateData" :colors="lineStateColor" />
+      <line-time-chart
+        :data="lineStateData"
+        :colors="lineStateColor"
+        :chartStyle="{ height: '2.2rem' }"
+      />
       <!-- <tabs
         :data="chargingTypesTabs"
         @changeTab="(data) => handleChangeTab(data, 'charging-types')"
@@ -61,7 +65,7 @@
     </div>
     <div class="month-rate">
       <title-column title="行政区设备利用率情况" />
-      <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3.74rem" />
+      <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3rem" />
     </div>
   </panel>
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
