@@ -80,14 +80,15 @@ const carChargingAnimation = async () => {
       functionName: 'Event_Move_Car'
     });
     setTimeout(async () => {
-      await __g.misc.callBPFunction({
-        //桩充电插上车
-        objectName: 'BP_GroupActor2',
-        functionName: 'SetMeshHidden',
-        paramType: 0,
-        paramValue: false
-      });
-      addChageingIcon([[504708.99062500003, 2499640.96, 94.115224609375]], 'chargeIcon');
+      // await __g.misc.callBPFunction({
+      //   //桩充电插上车
+      //   objectName: 'BP_GroupActor2',
+      //   functionName: 'SetMeshHidden',
+      //   paramType: 0,
+      //   paramValue: false
+      // });
+      // addChageingIcon([[504729.10875, 2499645.2800000003, 94.006123046875]], 'chargeIcon');
+      __g.marker.show('chargeIcon');
       carChargingCameraTour();
     }, 14000);
   }, 4000);
@@ -99,7 +100,7 @@ const resetCarChargingAnimation = async () => {
     paramType: 0,
     paramValue: true
   });
-  __g.marker.delete('chargeIcon');
+  __g.marker.hide('chargeIcon');
 };
 const carChargingCameraTour = async () => {
   await __g.cameraTour.delete('1');
@@ -110,16 +111,16 @@ const carChargingCameraTour = async () => {
     new CameraTourKeyFrame(
       0,
       0,
-      [504704.88390625, 2499655.3351562503, 114.912919921875],
-      [-57.08574295043945, 55.92612838745117, 0]
+      [504725.026719,2499660.45375,114.91292],
+      [-57.085739,55.926083, 0]
     )
   );
   frames.push(
     new CameraTourKeyFrame(
       1,
       3.0,
-      [504714.888594, 2499635.966094, 97.744414],
-      [-35.082382, -141.756882, 0.000002]
+      [504738.923594,2499643.70875,98.432363],
+      [-14.819693,-176.014069, 0.000002]
     )
   );
 
@@ -129,12 +130,11 @@ const carChargingCameraTour = async () => {
 };
 const addChageingIcon = async (data, id?: string) => {
   const pointArr = [];
-  data.forEach((element, index) => {
-    let fid = id ? id : 'charge-' + index;
+  data.forEach((element) => {
     let o1 = {
-      id: fid,
+      id: element.id,
       groupId: 'stationChargeIcon',
-      coordinate: element, //坐标位置
+      coordinate: element.coord, //坐标位置
       anchors: [-22, 93.6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [44, 93.6], //图片的尺寸
       range: [1, 100], //可视范围
@@ -147,45 +147,10 @@ const addChageingIcon = async (data, id?: string) => {
   });
   await __g.marker.add(pointArr, null);
 };
-const currentPathCameraTour = async () => {
-  await __g.cameraTour.delete('2');
-  //通过接口添加导览并播放
-  let frames = [];
-  //注意：rocation属可选参数，若不传入则相机朝向会根据相机的连续位置自动计算
-  frames.push(
-    new CameraTourKeyFrame(
-      0,
-      0,
-      [504794.62703125, 2499537.379472656, 107.731845703125],
-      [-42.052947998046875, -88.0236587524414, 0]
-    )
-  );
-  frames.push(
-    new CameraTourKeyFrame(
-      1,
-      4.0,
-      [504784.727265625, 2499566.4553125002, 123.267548828125],
-      [-44.999977111816406, -91.69781494140625, 0]
-    )
-  );
-  frames.push(
-    new CameraTourKeyFrame(
-      2,
-      6.0,
-      [504608.0959375, 2499591.229140625, 182.93339843750002],
-      [-33.08489990234375, -31.16402816772461, 0]
-    )
-  );
-
-  let o = new CameraTourData('2', 'currentPathCameraTour', frames);
-  await __g.cameraTour.add(o);
-  __g.cameraTour.play('2');
-};
 //电流流转
 const currentPath = async (isShow: boolean) => {
   let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
   await control3dts(__g, [id], isShow);
-  // currentPathCameraTour();
   addCurrentLabel();
   isShowActors(__g, getTreeLayerIdByName('118Station', mapStore.treeInfo), ceilingId(), false); //设置棚顶的样式
 };

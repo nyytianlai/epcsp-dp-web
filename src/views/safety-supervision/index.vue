@@ -170,7 +170,6 @@ import {
 } from './api.js';
 import { dataType } from 'element-plus/es/components/table-v2/src/common';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';

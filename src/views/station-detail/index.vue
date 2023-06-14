@@ -34,13 +34,14 @@
         height="2.15rem"
         v-if="isShowList"
       />
-      <line-time-chart
+      <!-- <line-time-chart
         v-if="!isShowList"
         :data="realtimeTrend"
         :chartStyle="{ height: '2.55rem' }"
         :colors="warnColor"
         mode="haveTab"
-      />
+      /> -->
+      <EcResize :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -70,6 +71,7 @@
       />
     </div>
   </panel>
+  <lianhuaxi v-if="isLianhuaxi" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -110,15 +112,17 @@
     />
   </custom-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
+import Lianhuaxi from './components/lianhuaxi.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
+import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
 // import WarnList from './components/warn-list.vue';
 import {
@@ -142,10 +146,12 @@ import {
   chargingTypesFun,
   linePowerDataFun,
   columnDataFun,
-  realtimeTrendFun
+  realtimeTrendFun,
+  stationWarnFun,
+  stationWarnOption
 } from './config.js';
 import bus from '@/utils/bus';
-import { handleClickFocus } from './mapOperate.ts';
+import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 
 const store = useVisibleComponentStore();
@@ -162,10 +168,13 @@ const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
+const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
-const realtimeTrend = ref(realtimeTrendFun());
+const state = reactive({
+  realtimeTrend: stationWarnOption
+});
 // 是否展示两边
 const isShowBoth = ref(true);
 // 是否展示趋势图
@@ -214,9 +223,12 @@ const getAlarmLevelAndTypeByTIme = async () => {
     operatorId: store.detailParams.operatorId,
     stationId: store.detailParams.stationId
   });
-  console.log('data', data);
-  realtimeTrend.value = realtimeTrendFun(data || []);
-  console.log('realtimeTrend.value', realtimeTrend.value);
+  if (data && data.length) {
+    const optionData = stationWarnFun(data);
+    state.realtimeTrend.xAxis.data = optionData.xAxis;
+    state.realtimeTrend.series = optionData.seriesData;
+  }
+  // state.realtimeTrend = realtimeTrendFun(data || []);
 };
 // 统计数据
 const getStationStatistics = async () => {
@@ -263,10 +275,10 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
 //设备详情/站点充电桩状态
 const getEquipmentStatusByStationId = async () => {
   const res = await selectEquipmentStatusByStationId(params.value);
-  chargingStateData.value = res?.data || [];
   const eidObj = {};
-  chargingStateData.value.map((item) => {
+  chargingStateData.value = (res?.data || []).map((item) => {
     eidObj[item.eid] = item;
+    return item;
   });
   chargingStateDataObj.value = eidObj;
 };
@@ -341,7 +353,7 @@ const focusToPile = (eid, status) => {
 };
 const handleClose = () => {
   //清除绿色高亮
-   __g.tileLayer.stopHighlightAllActors()
+  __g.tileLayer.stopHighlightAllActors();
 };
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;
@@ -398,7 +410,7 @@ watch(
       getStationRealTimePowerByStationId();
       getWarningStatisticByStationId();
       console.log('store.detailParams', store.detailParams);
-      if (store.detailParams?.equipmentId) {
+      if (store.detailParams?.equipmentId && __g) { //防止地图没有
         console.log('pileVisible', pileVisible.value);
         focusToPile(store.detailParams.equipmentId, 255);
       }

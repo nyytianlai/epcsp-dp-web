@@ -220,7 +220,7 @@ const handleCanChoose = (item) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     width: 100%;
     padding-right: 29px;
     &:last-of-type {

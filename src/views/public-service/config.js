@@ -1,6 +1,5 @@
 import clientUsage from './images/client-usage.png';
 
-import { merge } from 'lodash';
 import dayjs from 'dayjs';
 export const clientInfo = [
   {
@@ -166,7 +165,7 @@ export const deviceDataFun = (data = {}) => {
     {
       img: clientUsage,
       // num: data?.equipmentCount,
-      num: 125639,
+      num: 25639,
       name: '昨日访问量/次',
       iconStyle: {
         width: '0.78rem',
@@ -187,7 +186,7 @@ export const deviceDataFun = (data = {}) => {
     {
       img: clientUsage,
       // num: data?.gunCount,
-      num: 125639,
+      num: 19323,
       name: '今日访问量/次',
       iconStyle: {
         width: '0.78rem',

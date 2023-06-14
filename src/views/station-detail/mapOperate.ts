@@ -31,7 +31,6 @@ export const handleClickFocus = (__g,layerId, eid, status) => {
       if (!res?.data) return;
       const rotation = res?.data[0].rotation;
       //定位过去
-      // __g?.tileLayer?.focusActor("7CED6A4A4F00FFA1B7273C9511B55B85", eid, 3.5, 2, [-18, 140, 0])
       __g?.tileLayer?.focusActor(layerId, eid, 3, 2, [
         rotation[0] - 12,
         rotation[1] - 92,
