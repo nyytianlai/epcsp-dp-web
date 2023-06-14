@@ -70,6 +70,7 @@
       />
     </div>
   </panel>
+  <lianhuaxi v-if="isLianhuaxi" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -110,11 +111,12 @@
     />
   </custom-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
+import Lianhuaxi from './components/lianhuaxi.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
@@ -162,6 +164,7 @@ const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
+const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -263,10 +266,10 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
 //设备详情/站点充电桩状态
 const getEquipmentStatusByStationId = async () => {
   const res = await selectEquipmentStatusByStationId(params.value);
-  chargingStateData.value = res?.data || [];
   const eidObj = {};
-  chargingStateData.value.map((item) => {
+  chargingStateData.value = (res?.data || []).map((item) => {
     eidObj[item.eid] = item;
+    return item;
   });
   chargingStateDataObj.value = eidObj;
 };
@@ -341,7 +344,7 @@ const focusToPile = (eid, status) => {
 };
 const handleClose = () => {
   //清除绿色高亮
-   __g.tileLayer.stopHighlightAllActors()
+  __g.tileLayer.stopHighlightAllActors();
 };
 const clickWarningList = (item) => {
   if (!chargingStateDataObj.value[item.eid]) return;

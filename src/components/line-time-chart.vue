@@ -606,7 +606,7 @@ watch(
       ecOption.value = ecOptionFunMode();
     } else if (props.mode === 'onlyLine') {
       ecOption.value = ecOptionFunOnlyLine();
-      console.log('ecOption.value', ecOption.value);
+      // console.log('ecOption.value', ecOption.value);
     } else {
       ecOption.value = ecOptionFun();
     }

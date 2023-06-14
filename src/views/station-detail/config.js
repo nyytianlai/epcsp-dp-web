@@ -1,10 +1,364 @@
 import charging from './images/charging.png';
-import camera from './images/camera.png';
-import dLock from './images/dLock.png';
+import InstalledCapacity from './images/installed-capacity.png';
+import PhotovoltaicArea from './images/photovoltaic-area.png';
 import rate from './images/rate.png';
 import num from './images/num.png';
 import dayjs from 'dayjs';
+import { simplifyNum } from '@/utils/index';
 
+export const lianhuaPowerFun = (data = {}) => {
+  return [
+    {
+      img: rate,
+      num: 1601,
+      name: '上网电量',
+      unit: 'kWh',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: num,
+      num: 855,
+      name: '发电电量',
+      unit: 'kWh',
+      classStyleType: 'leftRightStyleYellow'
+    }
+  ];
+};
+export const lianhuaWarnFun = (data = [], xaxis = []) => {
+  let data1 = [];
+  let xAxis = [];
+  for (let i = 6; i > 0; i--) {
+    xAxis.push(dayjs().subtract(i, 'day').format('YYYY-MM-DD'));
+    data1.push({ value: 0, date: dayjs().subtract(i, 'day').format('YYYY-MM-DD') });
+  }
+  data1.push({ value: 0, date: dayjs().format('YYYY-MM-DD') });
+  xAxis.push(dayjs().format('YYYY-MM-DD'));
+  let obj = {
+    xAxis: xAxis,
+    seriesData: [
+      {
+        data: data1,
+        type: 'line',
+        smooth: true,
+        name: '告警数',
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#FF6B4B' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+              }
+            ],
+            global: false // 缺省为 false
+          }
+        },
+        itemStyle: {
+          color: '#FF6B4B'
+        }
+      }
+    ]
+  };
+  return obj;
+  // return [
+  //   {
+  //     data: date.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.num]),
+  //     type: 'line',
+  //     smooth: true,
+  //     name: '告警数'
+  //   }
+  // ];
+};
+export const lianhuaWarnOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 15,
+    left: 42
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.data.date}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">个</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    data: ['告警数'],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '75%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [],
+    boundaryGap: ['2%', '2%'],
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return dayjs(value).format('DD');
+      }
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:个',
+    interval: 10,
+    max: 50,
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value;
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: []
+};
+const lianhuaRealtimeDataFun = () => {
+  const hours = dayjs().hour();
+  console.log(hours);
+  const seriesData = [];
+  for (let i = 0; i < hours; i++) {
+    const random = Math.floor(Math.random() * 400000) + 100000;
+    seriesData.push(random);
+  }
+  return seriesData;
+};
+console.log(lianhuaRealtimeDataFun());
+export const lianhuaRealtimeOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 15,
+    left: 60
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.axisValueLabel}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">kW</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    data: ['实时功率'],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '75%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [
+      '00:00',
+      '01:00',
+      '02:00',
+      '03:00',
+      '04:00',
+      '05:00',
+      '06:00',
+      '07:00',
+      '08:00',
+      '09:09',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '16:00',
+      '17:00',
+      '18:00',
+      '19:00',
+      '20:00',
+      '21:00',
+      '22:00',
+      '23:00',
+      '24:00'
+    ],
+    boundaryGap: ['2%', '2%'],
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC'
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:kW ',
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        console.log(value);
+        return value ? simplifyNum(value) : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      data: lianhuaRealtimeDataFun(),
+      type: 'line',
+      smooth: true,
+      name: '实时功率',
+      areaStyle: {
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: '#4BDEFF' // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+            }
+          ],
+          global: false // 缺省为 false
+        }
+      },
+      itemStyle: {
+        color: '#4BDEFF'
+      }
+    }
+  ]
+};
+const lianhuajinguiFun = () => {
+  let data = [];
+  for (let i = 0; i < 100; i++) {
+    let obj = {
+      value: '540W',
+      status: 0
+    };
+    if (i < 50) {
+      obj.status = 1;
+    }
+    data.push(obj);
+  }
+  return data;
+};
+export const lianhuajingguiData = lianhuajinguiFun();
+export const deviceInfoFun = (data = {}) => {
+  return [
+    {
+      img: InstalledCapacity,
+      num: 19.44,
+      unit: '/kW',
+      name: '站点装机容量'
+    },
+    {
+      img: PhotovoltaicArea,
+      num: 114,
+      unit: '/m²',
+      name: '站点光伏板面积'
+    }
+  ];
+};
 //民乐站充电中汽车电池数据
 export const chargeIcon = () => {
   return [
@@ -513,7 +867,6 @@ export const chargingTypesTabsFun = () => {
 };
 
 export const chargingTypesFun = (data = {}) => {
-  console.log(data);
   return [
     {
       img: rate,
