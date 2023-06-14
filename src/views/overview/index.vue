@@ -37,7 +37,12 @@
       <div class="box">
         <title-column title="数字孪生站点" />
         <div class="ue-list">
-          <div class="ue-item" v-for="item in state.digitalTwinSites" :key="item.id" @click="handlePlayUeVideo(item)">
+          <div
+            class="ue-item"
+            v-for="item in state.digitalTwinSites"
+            :key="item.id"
+            @click="handlePlayUeVideo(item)"
+          >
             <div class="card-type">{{ item.stationType }}</div>
             <img :src="item.stationPic" alt="" />
 
@@ -59,13 +64,26 @@
       </div>
       <div class="box carbon-sort">
         <title-column title="分类碳减排量" />
-        <line-time-chart :data="lineCarbonData" :colors="co2Color" yaxisName="吨" mode="onlyLine" unit=""
-          :chartStyle="{ height: '2.3rem' }" />
+        <!-- <ec-resize :option="lineCarbonOption" /> -->
+        <line-time-chart
+          :data="lineCarbonData"
+          :colors="co2Color"
+          yaxisName="吨"
+          mode="onlyLine"
+          unit=""
+          :chartStyle="{ height: '2.3rem' }"
+        />
       </div>
       <div class="box">
         <title-column title="发用电量数据" />
-        <line-time-chart :data="lineElectricData" :colors="ElectricColor" yaxisName="万kwh" mode="onlyLine" unit=""
-          :chartStyle="{ height: '2.3rem',width: '103%'}" />
+        <line-time-chart
+          :data="lineElectricData"
+          :colors="ElectricColor"
+          yaxisName="万kwh"
+          mode="onlyLine"
+          unit=""
+          :chartStyle="{ height: '2.3rem', width: '103%' }"
+        />
       </div>
     </panel>
     <div class="play-btn" @click="handlePlayVideo"></div>
@@ -84,6 +102,7 @@ import {
   stationTabType,
   ecOptionFun,
   lineCarbonDataFun,
+  lineCarbonOptionFun,
   lineElectricDataFun
 } from './config.js';
 import { useUeStore } from '@/stores/ue';
@@ -93,11 +112,11 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import { selectHrStationInfoForOverview, chargingStation } from './api.js'
+import { selectHrStationInfoForOverview, chargingStation } from './api.js';
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-const co2Color = ['#FF7723', '#00FFF9', '#979797', '#F9E900', 'blue']
-const ElectricColor = ['#FF7723', '#979797', '#F9E900', 'blue']
+const co2Color = ['#4BDEFF', '#3485FF', '#F9E900', '#9A4AFF', '#FF7723'];
+const ElectricColor = ['#4BDEFF', '#F9E900', '#9A4AFF', '#3485FF'];
 const state = reactive({
   activeBottomMenu: 'overview',
   pageNumData: [],
@@ -113,6 +132,7 @@ const ecOption = ref(
 );
 // 左二折线图
 const lineCarbonData = ref(lineCarbonDataFun());
+const lineCarbonOption = {};
 // 左三折线图
 const lineElectricData = ref(lineElectricDataFun());
 const store = useVisibleComponentStore();
@@ -125,14 +145,14 @@ const getOverTotalCount = async () => {
 };
 // 获取数字孪生站点信息
 const loadSelectHrStationInfoForOverview = async () => {
-  const res = await selectHrStationInfoForOverview()
+  const res = await selectHrStationInfoForOverview();
   state.digitalTwinSites = res.data;
-}
+};
 // 获取新能源充电站
 const loadChargingStation = async () => {
-  const res = await chargingStation()
+  const res = await chargingStation();
   state.chargingStations = chargingStationsFun(res.data);
-}
+};
 const handlePlayUeVideo = (item) => {
   item['isHr'] = 0;
   store.changeShowComponent(false);
@@ -151,27 +171,38 @@ const handleStation = (item) => {
   console.log('item', item);
   switch (item.code) {
     case 1:
-      ecOption.value = ecOptionFun([2001, 2811, 4011, 5910, 7302], ['2019年', '2020年', '2021年', '2022年', '2023年'])
-      break
+      ecOption.value = ecOptionFun(
+        [2001, 2811, 4011, 5910, 7302],
+        ['2019年', '2020年', '2021年', '2022年', '2023年']
+      );
+      break;
     case 2:
-      ecOption.value = ecOptionFun([3, 6, 1509, 2021, 2036], ['2019年', '2020年', '2021年', '2022年', '2023年'])
-      break
+      ecOption.value = ecOptionFun(
+        [3, 6, 1509, 2021, 2036],
+        ['2019年', '2020年', '2021年', '2022年', '2023年']
+      );
+      break;
     case 3:
-      ecOption.value = ecOptionFun([7,19, 35, 132, 229], ['2019年', '2020年', '2021年', '2022年', '2023年'])
-      break
+      ecOption.value = ecOptionFun(
+        [7, 19, 35, 132, 229],
+        ['2019年', '2020年', '2021年', '2022年', '2023年']
+      );
+      break;
     case 4:
-      ecOption.value = ecOptionFun([24372, 92065, 15866, 198020, 232343], ['2019年', '2020年', '2021年', '2022年', '2023年'])
-      break
+      ecOption.value = ecOptionFun(
+        [24372, 92065, 15866, 198020, 232343],
+        ['2019年', '2020年', '2021年', '2022年', '2023年']
+      );
+      break;
   }
-
 };
 onMounted(async () => {
   state.pageNumData = pageNumFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
   state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun();
-  await loadSelectHrStationInfoForOverview()
-  await loadChargingStation()
+  await loadSelectHrStationInfoForOverview();
+  await loadChargingStation();
 });
 </script>
 
@@ -184,9 +215,11 @@ onMounted(async () => {
   :deep(.num-card) {
     width: 49%;
     padding: 24px 0 11px;
-    background: linear-gradient(258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%);
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
