@@ -6,7 +6,48 @@
   border-radius: 2px;
 }
 .table-filter {
-  .el-tree-node__expand-icon{
+  .el-tree-node__expand-icon {
     display: none;
+  }
+}
+.time-tooltip {
+  background: rgba(179, 183, 185, 0.6);
+  mix-blend-mode: normal;
+  opacity: 0.9;
+  backdrop-filter: blur(5px);
+  border-radius: 4px;
+  padding: 8px;
+  color: #ffffff;
+  min-width: 160px;
+  .time {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 4px;
+  }
+  .item-data {
+    background: rgba(0, 83, 130, 0.26);
+    mix-blend-mode: normal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
+    white-space: nowrap;
+    margin-bottom: 2px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+    .left-data {
+      .name {
+        margin-left: 8px;
+      }
+    }
+    .right-data {
+      margin-left: 21px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      /* identical to box height, or 143% */
+    }
   }
 }
