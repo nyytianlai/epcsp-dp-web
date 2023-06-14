@@ -111,7 +111,7 @@ const mapData = ref([]);
 const lineStateColor = ['#F9E900'];
 const lineStateData = lineStateDataFun();
 //客户端使用情况
-const clientUsageCount = ref(2818878);
+const clientUsageCount = ref(318878);
 // 热门弹窗
 const dialogTableVisibleHot = ref(false);
 const ecOption = ref(ecOptionFun());

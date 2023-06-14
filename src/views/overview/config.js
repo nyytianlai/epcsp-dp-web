@@ -4,12 +4,12 @@ import nfdl from './images/nfdl.png';
 import gfzzs from './images/gfzzs.png';
 import cnzzs from './images/cnzzs.png';
 import sszs from './images/sszs.png';
-import aotexun from './images/aotexun.png';
-import baoqing from './images/baoqing.png';
-import honglixi from './images/honglixi.png';
-import telaidian from './images/telaidian.png';
-import lianhuaxi from './images/lianhuaxi.png';
-import minle from './images/minle.png';
+// import aotexun from './images/aotexun.png';
+// import baoqing from './images/baoqing.png';
+// import honglixi from './images/honglixi.png';
+// import telaidian from './images/telaidian.png';
+// import lianhuaxi from './images/lianhuaxi.png';
+// import minle from './images/minle.png';
 import { simplifyNum } from '@/utils/index';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils';
@@ -113,7 +113,7 @@ export const digitalTwinSiteFun = () => {
   return [
     {
       id: 1,
-      img: minle,
+      // img: minle,
       type: '充电站',
       name: '民乐充电站',
       createdBy: null,
@@ -132,19 +132,19 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 2,
-      img: lianhuaxi,
+      // img: lianhuaxi,
       type: '光伏',
       name: '莲花西地铁光伏站'
     },
     {
       id: 3,
-      img: honglixi,
+      // img: honglixi,
       type: '5G',
       name: '红荔西5G示范站'
     },
     {
       id: 4,
-      img: telaidian,
+      // img: telaidian,
       type: '充电站',
       name: '特来电深圳国际低碳城站',
       createdBy: null,
@@ -163,7 +163,7 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 5,
-      img: aotexun,
+      // img: aotexun,
       type: '光储充放',
       name: '奥特迅电力大厦充电站',
 
@@ -183,7 +183,7 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 6,
-      img: baoqing,
+      // img: baoqing,
       type: '储能站',
       name: '深圳宝清储能站'
     }

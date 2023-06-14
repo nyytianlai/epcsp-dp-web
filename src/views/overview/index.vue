@@ -98,7 +98,6 @@ import {
   energyStationFun,
   photovoltaicStationFun,
   chargingsReplacementCabinetFun,
-  digitalTwinSiteFun,
   stationTabType,
   ecOptionFun,
   lineCarbonDataFun,
@@ -156,10 +155,12 @@ const loadChargingStation = async () => {
 const handlePlayUeVideo = (item) => {
   item['isHr'] = 0;
   store.changeShowComponent(false);
+  // if (!item.trueStation) {
   store.changeShowDetail({
     show: true,
     params: item
   });
+  // }
   bus.emit('toHr', item);
 };
 const handlePlayVideo = () => {
