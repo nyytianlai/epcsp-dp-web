@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="stateFormate(item.status)?.code"
-        @click="emit('handleClickState',item.eid,item.status)"
+        @click="emit('handleClickState', item.eid, item.status)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
@@ -15,13 +15,13 @@
         </span>
       </li>
     </ul>
-    <no-data v-else/>
+    <no-data v-else />
   </div>
 </template>
 <script setup>
-import { ref, onMounted, toRefs, inject,watch,onBeforeUnmount} from 'vue';
+import { ref, onMounted, toRefs, inject, watch, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { getImageByCloud,getTreeLayerIdByName } from '@/global/config/map';
+import { getImageByCloud, getTreeLayerIdByName } from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
 
 const mapStore = useMapStore();
@@ -34,9 +34,9 @@ const props = defineProps({
     default: []
   }
 });
-const emit = defineEmits(['handleClickState'])
+const emit = defineEmits(['handleClickState']);
 const { data } = toRefs(props);
-const warningDataId = ref([])
+const warningDataId = ref([]);
 const stateFormate = (state) => {
   return {
     0: {
@@ -166,82 +166,89 @@ const barListFun = () => {
 };
 const barData = ref(barListFun());
 
-const customFun = async(data) => {
+const customFun = async (data) => {
   /**
-     * 注意：自定义对象操作
-     * 1、可以从资源库pak添加各种内置模型
-     * 2、也可以从按规范从UE打包的自定义模型添加
-     */
+   * 注意：自定义对象操作
+   * 1、可以从资源库pak添加各种内置模型
+   * 2、也可以从按规范从UE打包的自定义模型添加
+   */
 
-    //添加前清空所有customObject 防止id重复
+  //添加前清空所有customObject 防止id重复
   await __g.customObject.clear();
-  const arr = []
+  const arr = [];
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   __g?.tileLayer?.getActorInfo(
     {
       id: layerId,
       objectIds: data
-    }, async (res) => {
-      console.log('getActorInfo',res);
+    },
+    async (res) => {
+      console.log('getActorInfo', res);
       res?.data?.map((item, index) => {
         let co_location = JSON.parse(JSON.stringify(item.location));
         let co_rotation = JSON.parse(JSON.stringify(item.rotation));
         //投影坐标
         let top = {
-            id: 'warning-top-' + data[index],//自定义对象唯一id
-            pakFilePath: '@path:ZYK.pak',//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
-            assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_GJ_LR',//资源目录，自定义对象在pak文件资源包里的相对路径
-            location: [co_location[0],co_location[1],co_location[2] + 4],//位置坐标
-            coordinateType: 0,// 坐标系类型 
-            rotation: [0, 0, 0],// 世界坐标系旋转
-            localRotation: [0, 0, 0],//模型自身旋转
-            scale: [3,3, 3],//模型缩放
-            smoothMotion: 1   //1: 平滑移动，0: 跳跃移动
+          id: 'warning-top-' + data[index], //自定义对象唯一id
+          pakFilePath: '@path:ZYK.pak', //资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
+          assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_GJ_LR', //资源目录，自定义对象在pak文件资源包里的相对路径
+          location: [co_location[0], co_location[1], co_location[2] + 4], //位置坐标
+          coordinateType: 0, // 坐标系类型
+          rotation: [0, 0, 0], // 世界坐标系旋转
+          localRotation: [0, 0, 0], //模型自身旋转
+          scale: [3, 3, 3], //模型缩放
+          smoothMotion: 1 //1: 平滑移动，0: 跳跃移动
         };
-        arr.push(top)
+        arr.push(top);
         let bottom = {
-            id: 'warning-bottom-' + data[index],//自定义对象唯一id
-            pakFilePath: '@path:ZYK.pak',//资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
-            assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_BJ_Cube_LR',//资源目录，自定义对象在pak文件资源包里的相对路径
-            location: [co_location[0],co_location[1],co_location[2]+0.2],//位置坐标
-            coordinateType: 0,// 坐标系类型 
-            rotation: [0, 0, 0],// 世界坐标系旋转
-            localRotation: [0, co_rotation[1] - 92, 0],//模型自身旋转
-            scale: [1, 1, 2],//模型缩放
-            smoothMotion: 1,   //1: 平滑移动，0: 跳跃移动
-            userData: data[index]
+          id: 'warning-bottom-' + data[index], //自定义对象唯一id
+          pakFilePath: '@path:ZYK.pak', //资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
+          assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_BJ_Cube_LR', //资源目录，自定义对象在pak文件资源包里的相对路径
+          location: [co_location[0], co_location[1], co_location[2] + 0.2], //位置坐标
+          coordinateType: 0, // 坐标系类型
+          rotation: [0, 0, 0], // 世界坐标系旋转
+          localRotation: [0, co_rotation[1] - 92, 0], //模型自身旋转
+          scale: [1, 1, 2], //模型缩放
+          smoothMotion: 1, //1: 平滑移动，0: 跳跃移动
+          userData: data[index]
         };
-        arr.push(bottom)
-      })
-      console.log('arr',arr);
+        arr.push(bottom);
+      });
+      console.log('arr', arr);
       await __g?.customObject.add(arr);
-    })
-}
+    }
+  );
+};
 watch([data, aircityObj], (newVal) => {
   if (newVal[1]) {
-    warningDataId.value = newVal[0].map(item => {
-      if (item.status === 255) {
-        return item.eid
-      }
-    }).filter(item=>item)
-    customFun(warningDataId.value)
+    warningDataId.value = newVal[0]
+      .map((item) => {
+        if (item.status === 255) {
+          return item.eid;
+        }
+      })
+      .filter((item) => item);
+    customFun(warningDataId.value);
     //场站车辆和右侧桩的状态保持一致
-    let noUseEquipment=newVal[0].map(item => {
-      if (item.status === 1 || item.status === 0) { //空闲1 离线0
-        return item.eid
-      }
-    }).filter(item=>item)
-    noUseEquipment.push('006694') //隐藏车辆充电那个动画
+    let noUseEquipment = newVal[0]
+      .map((item) => {
+        if (item.status === 1 || item.status === 0) {
+          //空闲1 离线0
+          return item.eid;
+        }
+      })
+      .filter((item) => item);
+    noUseEquipment.push('006694'); //隐藏车辆充电那个动画
     let layerId1 = getTreeLayerIdByName('带ID充电中静态车辆', mapStore.treeInfo);
     let layerId2 = getTreeLayerIdByName('带ID的静态车辆', mapStore.treeInfo);
-    __g.tileLayer.hideActors([{ "id":layerId1, "objectIds": noUseEquipment }])
-    __g.tileLayer.hideActors([{ "id":layerId2, "objectIds": noUseEquipment }])
-    __g.marker.hide(noUseEquipment)
+    __g.tileLayer.hideActors([{ id: layerId1, objectIds: noUseEquipment }]);
+    __g.tileLayer.hideActors([{ id: layerId2, objectIds: noUseEquipment }]);
+    __g.marker.hide(noUseEquipment);
   }
-})
+});
 onBeforeUnmount(() => {
   __g?.customObject.clear();
-})
+});
 </script>
 <style lang="less" scoped>
 .charging-wrap {

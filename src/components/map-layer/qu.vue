@@ -492,9 +492,6 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
       : '';
   } else if (stationId === '-1') {
     //宝清储能站
-    // isShow
-    //   ? __g.camera.set(529839.682, 2510134.377, 152.545, -33.399998, 89.800003, -0.000003)
-    //   : '';
     isShow
       ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
       : '';
