@@ -41,7 +41,7 @@
         :colors="warnColor"
         mode="haveTab"
       /> -->
-      <EcResize :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
+      <EcResize :option="state.realtimeTrend" :style="{ height: '2.55rem' }"/>
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -73,6 +73,7 @@
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
   <baoqingchuneng v-if="isBaoqingchuneng" />
+  <honglixi v-if="isHonglixi" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -155,7 +156,7 @@ import {
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
-
+import honglixi from './components/honglixi.vue'
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -172,6 +173,7 @@ const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const isBaoqingchuneng = computed(() => store.detailParams?.stationId === '-1');
+const isHonglixi= computed(() => store.detailParams?.stationId === '-3');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
