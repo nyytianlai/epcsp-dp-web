@@ -77,8 +77,7 @@ const hanldeTab = (item) => {
 .baoqing-child {
   position: fixed;
   z-index: 999;
-  background-image: url('./images/baoqing-bg.png');
-  background-size: 100% 100%;
+  background: #000;
   width: 100%;
   height: 975px;
   top: 105px;
