@@ -240,7 +240,6 @@ onMounted(() => {
     addChageingIcon(chargeIcon());
   }
   bus.on('handleTabSelect', async (e) => {
-    console.log(e);
     if (currentHrStationID.value === '-1') {
     } else {
       //一级菜单栏切换

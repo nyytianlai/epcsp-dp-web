@@ -368,36 +368,36 @@ export const deviceInfoFun = (data = {}) => {
 export const chargeIcon = () => {
   return [
     {
-      id:'006813',
-      coord:[504734.08875, 2499672.64, 93.9062109375]
+      id: '006813',
+      coord: [504734.08875, 2499672.64, 93.9062109375]
     },
     {
-      id:'006782',
-      coord:[504751.7396875, 2499633.2800000003, 94.02783203125]
+      id: '006782',
+      coord: [504751.7396875, 2499633.2800000003, 94.02783203125]
     },
     {
-      id:'006750',
-      coord:[504764.403125, 2499578.88, 94.035966796875]
+      id: '006750',
+      coord: [504764.403125, 2499578.88, 94.035966796875]
     },
     {
-      id:'006666',
-      coord:[504766.7865625, 2499553.2800000003, 94.037890625]
+      id: '006666',
+      coord: [504766.7865625, 2499553.2800000003, 94.037890625]
     },
     {
-      id:'006660',
-      coord:[504758.590625, 2499565.6, 93.96677734375]
+      id: '006660',
+      coord: [504758.590625, 2499565.6, 93.96677734375]
     },
     {
-      id:'chargeIcon', //充电演示的电池
-      coord:[504729.10875, 2499645.2800000003, 94.006123046875]
+      id: 'chargeIcon', //充电演示的电池
+      coord: [504729.10875, 2499645.2800000003, 94.006123046875]
     },
     {
-      id:'-99',
-      coord:[504684.6346875, 2499677.2800000003, 93.96107421875]
+      id: '-99',
+      coord: [504684.6346875, 2499677.2800000003, 93.96107421875]
     },
     {
-      id:'-88',
-      coord:[504696.7128125, 2499694.24, 93.982021484375]
+      id: '-88',
+      coord: [504696.7128125, 2499694.24, 93.982021484375]
     }
   ];
 };
@@ -768,6 +768,90 @@ export const ceilingId = () => {
     'Shape040'
   ];
 };
+// 宝清储能站F1-空间分布
+export const floor1SpaceMarker = [
+  {
+    value: '高压配电室',
+    id: 'floor1Marker1',
+    groupId: 'stationFacilitiesLabel',
+    position: [529813.5, 2509990.72, 74.44],
+    img: 'text-bg'
+  },
+  {
+    value: '配电变压器室',
+    id: 'floor1Marker2',
+    groupId: 'stationFacilitiesLabel',
+    position: [529811.4175, 2509998.88, 74.44],
+    img: 'text-bg'
+  },
+  {
+    value: 'PCS室',
+    id: 'floor1Marker3',
+    groupId: 'stationFacilitiesLabel',
+    position: [529810.5675, 2510006.56, 74.44],
+    img: 'text-bg'
+  },
+  {
+    value: '#1电池堆室',
+    id: 'floor1Marker4',
+    groupId: 'stationFacilitiesLabel',
+    position: [529774.1475, 2509995.52, 74.44],
+    img: 'text-bg'
+  },
+  {
+    value: '#3电池堆室',
+    id: 'floor1Marker5',
+    groupId: 'stationFacilitiesLabel',
+    position: [529774.1775, 2510008.16, 74.44],
+    img: 'text-bg'
+  },
+  {
+    value: '电池簇',
+    id: 'floor1Marker6',
+    groupId: 'stationFacilitiesLabel',
+    position: [529774.3200000001, 2510013.44, 74.44],
+    img: 'text-bg'
+  }
+];
+// 宝清储能站F1-设备功能
+export const floor1DeviceMarker = [
+  {
+    value: 'PCS柜',
+    id: 'floor1DeviceMarker1',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'pcs',
+    position: [529808.3725, 2509992.32, 76.12537109375],
+    camera: [529805.81082, 2509990.714063, 76.307715, -7.829712, -29.874485, 2]
+  },
+  {
+    value: 'BMS规约转换柜',
+    id: 'floor1DeviceMarker2',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'bms',
+    position: [529797.53, 2510010.24, 75.90593750000001],
+    camera: [529797.906094, 2510013.5825, 76.28894, -5.770772, 88.328033, 2]
+  },
+  {
+    value: '电池簇',
+    id: 'floor1DeviceMarker3',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'battery-group',
+    position: [529782.2375, 2509997.76, 75.84],
+    camera: [529783.675781, 2509997.0125, 76.15019, -14.825991, -150.658203, 2]
+  },
+  {
+    value: '电池簇',
+    id: 'floor1DeviceMarker4',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'battery-group',
+    position: [529782.375, 2510008.32, 75.84],
+    camera: [529784.324063, 2510008.4175, 75.900972, -9.587769, 179.205246, 2]
+  }
+];
 
 export const pageNumFun = (data = {}) => {
   return [
