@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 import { ref, computed, inject, onMounted } from 'vue';
 import { useMapStore } from '@/stores/map';
+import { getImageByCloud } from '@/global/config/map';
 import bus from '@/utils/bus';
 import Icon from '@sutpc/vue3-svg-icon';
 interface Tab {
@@ -59,40 +60,40 @@ const handleStationMonitor = async (height: number) => {
     paramValue: height
   });
 };
+const addMarker = () => {
+  // const marker = {
+  //     id: item.id,
+  //     groupId: 'stationFacilitiesLabel',
+  //     coordinate: item.position, //坐标位置
+  //     anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+  //     imageSize: [48, 52], //图片的尺寸
+  //     range: [1, 1500], //可视范围
+  //     imagePath: getImageByCloud(item.img),
+  //     text: item.value, //显示的文字
+  //     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+  //     textRange: [1, 300], //文本可视范围[近裁距离, 远裁距离]
+  //     textOffset: [-60, -35], // 文本偏移
+  //     textBackgroundColor: [11 / 255, 67 / 255, 92 / 255, 1], //文本背景颜色
+  //     fontSize: 14, //字体大小
+  //     fontColor: '#FFFFFF', //字体颜色
+  //     displayMode: 2
+  //   };
+  // //批量添加polygon
+  // await __g.marker.add(marker, null);
+};
 const handleStationFloor = async (floor: number) => {
   switch (floor) {
     case 0:
-      await __g.camera.set(
-        529798.801353,
-        2510062.688584,
-        131.746738,
-        -38.302208,
-        93.702721,
-        0.000007
-      );
+      await __g.camera.set(529798.801353, 2510062.688584, 131.746738, -38.302208, 93.702721, 2);
       break;
     case 1:
-      await __g.camera.set(
-        529790.102871,
-        2510018.366211,
-        114.9771,
-        -63.408031,
-        91.262276,
-        -0.000008
-      );
+      await __g.camera.set(529790.102871, 2510018.366211, 114.9771, -63.408031, 91.262276, 2);
       break;
     case 2:
-      await __g.camera.set(
-        529793.637988,
-        2510026.627129,
-        129.55167,
-        -63.407997,
-        91.26226,
-        0.000008
-      );
+      await __g.camera.set(529793.637988, 2510026.627129, 129.55167, -63.407997, 91.26226, 2);
       break;
     case 3:
-      await __g.camera.set(529791.592427, 2510041.846445, 135.445664, -44.652344, 89.328076, 0);
+      await __g.camera.set(529791.592427, 2510041.846445, 135.445664, -44.652344, 89.328076, 2);
       break;
     default:
       break;
