@@ -111,16 +111,16 @@ const carChargingCameraTour = async () => {
     new CameraTourKeyFrame(
       0,
       0,
-      [504725.026719,2499660.45375,114.91292],
-      [-57.085739,55.926083, 0]
+      [504725.026719, 2499660.45375, 114.91292],
+      [-57.085739, 55.926083, 0]
     )
   );
   frames.push(
     new CameraTourKeyFrame(
       1,
       3.0,
-      [504738.923594,2499643.70875,98.432363],
-      [-14.819693,-176.014069, 0.000002]
+      [504738.923594, 2499643.70875, 98.432363],
+      [-14.819693, -176.014069, 0.000002]
     )
   );
 
@@ -141,7 +141,7 @@ const addChageingIcon = async (data, id?: string) => {
       imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       displayMode: 0,
-      occlusionCull:true
+      occlusionCull: true
     };
     pointArr.push(o1);
   });
@@ -225,7 +225,6 @@ onMounted(() => {
     addChageingIcon(chargeIcon());
   }
   bus.on('handleTabSelect', async (e) => {
-    console.log(e);
     if (currentHrStationID.value === '-1') {
     } else {
       //一级菜单栏切换

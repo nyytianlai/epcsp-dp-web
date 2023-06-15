@@ -322,28 +322,39 @@ const backSz = () => {
 };
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
-    //设施点
-    if (e.Id?.includes('facilitiesLabel')) {
-      __g?.marker?.focus(e.Id, 20, 2);
-    }
-    //摄像头
-    if (e.Id?.includes('camera')) {
-      __g?.marker?.focus(e.Id);
-      pileType.value = 'monitor';
-      const data = JSON.parse(e.UserData);
-      pileVideoData.value = data;
-      pileVisible.value = true;
-    }
-    //告警桩
-    if (e.Id?.includes('warning-bottom')) {
-      const eid = e.UserData;
-      if (!chargingStateDataObj.value[eid]) return;
-      focusToPile(eid, 255);
-    }
-    //正常桩
-    if (e.PropertyName === '118Station') {
-      if (!chargingStateDataObj.value[e.ObjectID]) return;
-      focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+    if (e.eventtype === 'LeftMouseButtonClick') {
+      //设施点
+      if (e.Id?.includes('facilitiesLabel')) {
+        __g?.marker?.focus(e.Id, 20, 2);
+      }
+      if (e.UserData) {
+        const userData = JSON.parse(e.UserData);
+        console.log(userData);
+        if (userData.type === 'customAngleMarker') {
+          await __g.camera.set(userData.camera);
+        }
+        // __g?.marker?.focus(e.Id, 0, 2);
+      }
+
+      //摄像头
+      if (e.Id?.includes('camera')) {
+        __g?.marker?.focus(e.Id);
+        pileType.value = 'monitor';
+        const data = JSON.parse(e.UserData);
+        pileVideoData.value = data;
+        pileVisible.value = true;
+      }
+      //告警桩
+      if (e.Id?.includes('warning-bottom')) {
+        const eid = e.UserData;
+        if (!chargingStateDataObj.value[eid]) return;
+        focusToPile(eid, 255);
+      }
+      //正常桩
+      if (e.PropertyName === '118Station') {
+        if (!chargingStateDataObj.value[e.ObjectID]) return;
+        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+      }
     }
   });
 // 定位到桩弹窗
