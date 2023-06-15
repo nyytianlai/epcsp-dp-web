@@ -26,6 +26,7 @@
   <div class="plan" v-if="tabName === '站点规划'">
     <div class="plan-img"></div>
   </div>
+  <baoqingchuneng v-if="isShowPanel" />
 </template>
 
 <script lang="ts" setup>
@@ -35,6 +36,7 @@ import { getImageByCloud } from '@/global/config/map';
 import { floor1SpaceMarker, floor1DeviceMarker } from '../config';
 import bus from '@/utils/bus';
 import Icon from '@sutpc/vue3-svg-icon';
+import Baoqingchuneng from './baoqingchuneng.vue';
 interface Tab {
   viewCode: string;
   viewName: string;
@@ -75,13 +77,15 @@ const floorMenu = [
   }
 ];
 const mapStore = useMapStore();
-const tabName = ref('');
+const tabName = ref('站点总览');
 const currentHrStationID = computed(() => mapStore.currentHrStationID.split('station-')[1]);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const isShowMenu = computed(
   () => tabName.value === '站点监测' && (selectFloor.value === 1 || selectFloor.value === 2)
 );
+const bottomTabs = ['站点总览', '视角漫游', '站内设施'];
+const isShowPanel = computed(() => bottomTabs.includes(tabName.value));
 const floor3Marker = [
   {
     value: '光伏电池板',
