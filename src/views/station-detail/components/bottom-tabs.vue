@@ -112,7 +112,12 @@ const handleRoaming = async (value) => {
   // console.log('ffffffff',JSON.parse(value.iconIdList));
 
   // console.log(111111111,await __g.marker.get(JSON.parse(value.iconIdList)))
-  value.iconIdList ? await __g.marker.show(JSON.parse(value.iconIdList)) : '';
+  if (value.iconIdList) {
+    let data = JSON.parse(value.iconIdList).map((ele) => {
+      return 'facilitiesLabel-' + ele;
+    });
+    await __g.marker.show(data);
+  }
   if (value.viewInfoType === 't1') {
     // let time = value.viewName == '车辆充电' ? 3 : 6;
     __g.camera.set(...JSON.parse(value.viewInfo), 3);

@@ -67,7 +67,6 @@ const emits = defineEmits(['addQuBar', 'addOutStation']);
 
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
-const requestTimer = computed(() => store.requestTimer);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
@@ -477,7 +476,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
       : '';
   } else if (stationId === '-3') {
     //红荔西5G示范站
-    isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
+    isShow ? __g.camera.set(502294.813438,2494164.55125,22.133049,-10.760314,-68.628166, 3) : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
@@ -488,7 +487,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-2') {
     //莲花村
     isShow
-      ? __g.camera.set(506445.060625, 2494943.585625, 81.798667, -65.807396, 179.735062, 3)
+      ? __g.camera.set(506434.815625,2494959.59,74.281172,-65.807327,179.735031, 3)
       : '';
   } else if (stationId === '-1') {
     //宝清储能站

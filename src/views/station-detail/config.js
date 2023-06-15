@@ -315,13 +315,35 @@ export const facilitiesLabel = (stationId) => {
         img: 'metro'
       }
     ];
+  }else if(stationId == '-3'){
+    //红荔西
+    return[
+      {
+        value: '机房',
+        id: '机房',
+        position: [502305.79375, 2494200.64, 13.65986083984375],
+        img: 'machineRoom'
+      },
+      {
+        value: '微波',
+        id: '微波',
+        position: [502312.6265625,2494191.36,20.13559326171875],
+        img: 'microwave'
+      },
+      {
+        value: '5G天线',
+        id: '5G天线',
+        position: [502312.4453125,2494190.88,23.995588378906252],
+        img: '5GAntenna'
+      },
+    ]
   }
 };
 //民乐站电流标签
 export const currentLabel = () => {
   return [
     {
-      value: '220V 46HZ',
+      value: '357V 46HZ',
       position: [504791.74562500004, 2499561.2800000003, 92.600009765625]
     },
     {
@@ -366,7 +388,7 @@ export const currentLabel = () => {
       position: [504663.89687500003, 2499665.7600000002, 92.9]
     },
     {
-      value: '220V 45HZ',
+      value: '362V 47HZ',
       position: [504640.77125, 2499718.08, 94.609931640625]
     }
   ];

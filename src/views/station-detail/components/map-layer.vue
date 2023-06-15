@@ -8,6 +8,8 @@
 -->
 <template>
   <BaoQing v-if="currentHrStationID === '-1'" />
+  <HongLiXi v-if="currentHrStationID === '-3'" />
+  <LianHua v-if="currentHrStationID === '-2'" />
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
@@ -25,8 +27,12 @@ import bus from '@/utils/bus';
 import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.js';
 import { useMapStore } from '@/stores/map';
 import BaoQing from './baiqing.vue';
+import HongLiXi from './honglixi.vue';
+import LianHua from './lianhua.vue';
+import { getStrLength } from '@/utils/index'
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
+const requestTimer = computed(() => mapStore.requestTimer);
 const currentHrStationID = computed(() => {
   if (mapStore.currentHrStationID.split('-').length === 3) {
     return '-' + mapStore.currentHrStationID.split('-')[2];
@@ -79,6 +85,8 @@ const carChargingAnimation = async () => {
       objectName: 'BP_Taxi_backUp_2',
       functionName: 'Event_Move_Car'
     });
+  }, 4000);
+  mapStore.changeRequestTimer(
     setTimeout(async () => {
       // await __g.misc.callBPFunction({
       //   //桩充电插上车
@@ -87,11 +95,10 @@ const carChargingAnimation = async () => {
       //   paramType: 0,
       //   paramValue: false
       // });
-      // addChageingIcon([[504729.10875, 2499645.2800000003, 94.006123046875]], 'chargeIcon');
       __g.marker.show('chargeIcon');
       carChargingCameraTour();
-    }, 14000);
-  }, 4000);
+    }, 18000)
+  );
 };
 const resetCarChargingAnimation = async () => {
   await __g.misc.callBPFunction({
@@ -111,16 +118,16 @@ const carChargingCameraTour = async () => {
     new CameraTourKeyFrame(
       0,
       0,
-      [504725.026719,2499660.45375,114.91292],
-      [-57.085739,55.926083, 0]
+      [504725.026719, 2499660.45375, 114.91292],
+      [-57.085739, 55.926083, 0]
     )
   );
   frames.push(
     new CameraTourKeyFrame(
       1,
       3.0,
-      [504738.923594,2499643.70875,98.432363],
-      [-14.819693,-176.014069, 0.000002]
+      [504738.923594, 2499643.70875, 98.432363],
+      [-14.819693, -176.014069, 0.000002]
     )
   );
 
@@ -141,7 +148,7 @@ const addChageingIcon = async (data, id?: string) => {
       imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       displayMode: 0,
-      occlusionCull:true
+      occlusionCull: true
     };
     pointArr.push(o1);
   });
@@ -188,8 +195,11 @@ const operatorDistribution = async (isShow: boolean) => {
 const addFacilitiesLabel = async (id) => {
   const pointArr = [];
   facilitiesLabel(id).forEach((item, index) => {
+    console.log(item.value,getStrLength(item.value));
+    
+    let xoffset = getStrLength(item.value) * 12;
     let o1 = {
-      id: item.id,
+      id: 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',
       coordinate: item.position, //坐标位置
       anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
@@ -199,7 +209,7 @@ const addFacilitiesLabel = async (id) => {
       text: item.value, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 300], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-60, -35], // 文本偏移
+      textOffset: [ - xoffset, -35], // 文本偏移
       textBackgroundColor: [11 / 255, 67 / 255, 92 / 255, 1], //文本背景颜色
       fontSize: 14, //字体大小
       fontColor: '#FFFFFF', //字体颜色
@@ -209,9 +219,14 @@ const addFacilitiesLabel = async (id) => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr, null);
-  await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  if(currentHrStationID.value!=='-3'){
+    await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  }
 };
 const resetTab3dt = async () => {
+  if (requestTimer.value !== null) {
+    clearTimeout(requestTimer.value);
+  }
   let id = getTreeLayerIdByName('118电流流转', mapStore.treeInfo);
   control3dts(__g, [id], false);
   delete3dt(__g, ['NewYYSFB']);
