@@ -77,9 +77,12 @@ const getStreets = (e) => {
 
 const getPoints = (module, jdcode) => {
   getPoint({ streetId: jdcode }).then(async (res) => {
-    console.log(res);
-    const data = (res.data || []).map((item) => {
+    const data = (res.data || []).map((item, index) => {
+      item.stationId = index;
       item.stationName = item.photovoltaicName;
+      item.status = index;
+      item.lng = item.longitude;
+      item.lat = item.latitude;
       return item;
     });
     let pointArr = [];
@@ -96,7 +99,6 @@ const getPoints = (module, jdcode) => {
 };
 
 const addOutStation = async (module: number, jdcode) => {
-  console.log(module);
   await aircityObj.value?.acApi.marker.deleteByGroupId('jdStation');
   // const { data: res } =
   // const res = mapJdStationPoint();
