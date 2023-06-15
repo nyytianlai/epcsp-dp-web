@@ -29,7 +29,7 @@
     <slot />
   </el-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { toRefs, ref } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const props = defineProps({
@@ -39,11 +39,11 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default:''
+    default: ''
   }
 });
-const emit = defineEmits(['update:visible']);
-const { visible, columnData, data } = toRefs(props);
+const emit = defineEmits(['update:visible', 'closed']);
+const { visible } = toRefs(props);
 </script>
 <style lang="less">
 .el-overlay {
