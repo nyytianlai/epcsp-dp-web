@@ -36,6 +36,19 @@ export const pointIsInPolygon = (pointCoord, polygonCoord) => {
   return booleanPointInPolygon(pt, poly);
 };
 
+//获得字符串实际长度，中文2，英文0.5
+export const getStrLength = function (str) {
+  var realLength = 0,
+    len = str.length,
+    charCode = -1;
+  for (var i = 0; i < len; i++) {
+    charCode = str.charCodeAt(i);
+    if (charCode >= 0 && charCode <= 128) realLength += 0.5;
+    else realLength += 2;
+  }
+  return realLength;
+};
+
 // 深拷贝
 // 深拷贝
 export const deepClone = (obj) => {

@@ -66,8 +66,7 @@ const handleClose = ()=>{
   width: 400px;
   height: 670px;
   position: absolute;
-  top: 20%;
-  left: 50%;
+  transform: translateY(-50%);
   z-index: 99;
 }
 
