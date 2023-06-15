@@ -30,7 +30,7 @@ useEmitt &&
       console.log('点击单晶板', e);
       __g.tileLayer.stopHighlightAllActors();
       let ids = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-    //   __g.settings.highlightColor(Color.Green);
+      __g.settings.highlightColor(Color.Yellow);
       __g.tileLayer.highlightActor(ids, e.ObjectID);
       let screenCoord=await __g.coord.world2Screen(...e.MouseClickPoint);
       console.log("screenCoord",screenCoord);
