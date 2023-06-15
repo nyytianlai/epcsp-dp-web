@@ -37,7 +37,7 @@ const getBarPositionByQuName = (quName: string) => {
 const addBar = async (
   type: 'qu' | 'jd',
   moudleName: '储能站' | '光伏站' | '充换电柜',
-  res:[],
+  res: [],
   streetId?: string
 ) => {
   let barArr = [];
@@ -63,6 +63,9 @@ const addBar = async (
         ? i.areaCode == item.properties.QUCODE
         : i.streetId == item.properties.JDCODE;
     });
+    if (!countObj.length) {
+      return;
+    }
     let contentHeight = 190;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
