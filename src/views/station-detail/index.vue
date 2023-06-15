@@ -72,6 +72,7 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
+  <baoqingchuneng v-if="isBaoqingchuneng" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -118,6 +119,7 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
 import Lianhuaxi from './components/lianhuaxi.vue';
+import Baoqingchuneng from './components/baoqingchuneng.vue';
 import chargingState from './components/charging-state.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
@@ -169,6 +171,7 @@ const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
+const isBaoqingchuneng = computed(() => store.detailParams?.stationId === '-1');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
