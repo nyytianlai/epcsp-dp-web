@@ -19,10 +19,10 @@
 import Qu from '@/components/map-layer/qu.vue';
 import RectBarOut from '@/components/map-layer/rect-barOut.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
-import request from '@sutpc/axios';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
+import { getDistrict, getStreet, getPoint } from '../api';
 import { returnStationPointConfig } from '@/global/config/map';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
@@ -33,6 +33,7 @@ aircityObj.value?.acApi.reset();
 
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
+const areaCode = ref();
 let legendNameData = ref('站点数/个');
 let legendListData = reactive([
   {
@@ -51,31 +52,59 @@ let legendListData = reactive([
 // };
 
 const addQuBar = async () => {
-  let data = mapQuBar();
-  await rectBarOutRef.value.addBar('qu', '光伏站', data);
+  // let data = mapQuBar();
+  getDistrict().then(async (res) => {
+    const data = (res.data || []).map((item) => {
+      item.stationCount = item.countNumber;
+      return item;
+    });
+    await rectBarOutRef.value.addBar('qu', '光伏站', data);
+  });
 };
 
-const addOutStation = async (module: number) => {
+const getStreets = (e) => {
+  const query = {
+    areaCode: e.quCode
+  };
+  getStreet(query).then((res) => {
+    const data = (res.data || []).map((item) => {
+      item.stationCount = item.countNumber;
+      return item;
+    });
+    rectBarOutRef.value.addBar(e.type, '光伏站', data, e.quCode);
+  });
+};
+
+const getPoints = (module, jscode) => {
+  getPoint({ streetId: jscode }).then(async (res) => {
+    console.log(res);
+    const data = res.data || [];
+    let pointArr = [];
+
+    data.forEach((item) => {
+      let xoffset = item.stationName.length * 12;
+      item['xoffset'] = xoffset;
+      item['stationType'] = module;
+      let o1 = returnStationPointConfig(item);
+      pointArr.push(o1);
+    });
+    await aircityObj.value?.acApi.marker.add(pointArr, null);
+  });
+};
+
+const addOutStation = async (module: number, jdcode) => {
+  console.log(module);
   await aircityObj.value?.acApi.marker.deleteByGroupId('jdStation');
   // const { data: res } =
-  const res = mapJdStationPoint();
-  let pointArr = [];
-
-  res.forEach((item, index) => {
-    let xoffset = item.stationName.length * 12;
-    item['xoffset'] = xoffset;
-    item['stationType'] = module;
-    let o1 = returnStationPointConfig(item);
-    pointArr.push(o1);
-  });
-  await aircityObj.value?.acApi.marker.add(pointArr, null);
+  // const res = mapJdStationPoint();
+  getPoints(module, jscode);
 };
 
 onMounted(async () => {
   addQuBar();
   bus.on('addBar', (e) => {
-    let data = mapJdBar();
-    rectBarOutRef.value.addBar(e.type, '光伏站', data, e.quCode);
+    console.log(e);
+    getStreets(e);
   });
 });
 
