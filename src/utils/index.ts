@@ -49,6 +49,21 @@ export const getStrLength = function (str) {
   return realLength;
 };
 
+//简单的防抖函数
+var timeout;
+export function debounce(func, wait) {
+  
+  return function () {
+      var context = this;
+      var args = arguments;
+      clearTimeout(timeout)
+      timeout = setTimeout(function () {
+          func.apply(context, args)
+      }, wait);
+  };
+};
+
+
 // 深拷贝
 // 深拷贝
 export const deepClone = (obj) => {

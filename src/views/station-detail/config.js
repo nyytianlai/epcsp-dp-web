@@ -4,7 +4,7 @@ import PhotovoltaicArea from './images/photovoltaic-area.png';
 import rate from './images/rate.png';
 import num from './images/num.png';
 import dayjs from 'dayjs';
-import petrol from './images/petrol.png'
+import petrol from './images/petrol.png';
 import { simplifyNum } from '@/utils/index';
 
 export const lianhuaPowerFun = (data = {}) => {
@@ -336,7 +336,7 @@ const lianhuajinguiFun = () => {
   let data = [];
   for (let i = 0; i < 36; i++) {
     let obj = {
-      id:`singleCrystalSilicon${i+1}`,
+      id: `singleCrystalSilicon${i + 1}`,
       value: '540W',
       status: 1
     };
@@ -674,9 +674,9 @@ export const facilitiesLabel = (stationId) => {
         img: 'metro'
       }
     ];
-  }else if(stationId == '-3'){
+  } else if (stationId == '-3') {
     //红荔西
-    return[
+    return [
       {
         value: '机房',
         id: '机房',
@@ -686,16 +686,16 @@ export const facilitiesLabel = (stationId) => {
       {
         value: '微波',
         id: '微波',
-        position: [502312.6265625,2494191.36,20.13559326171875],
+        position: [502312.6265625, 2494191.36, 20.13559326171875],
         img: 'microwave'
       },
       {
         value: '5G天线',
         id: '5G天线',
-        position: [502312.4453125,2494190.88,23.995588378906252],
+        position: [502312.4453125, 2494190.88, 23.995588378906252],
         img: '5GAntenna'
-      },
-    ]
+      }
+    ];
   }
 };
 //民乐站电流标签
@@ -813,6 +813,43 @@ export const floor1SpaceMarker = [
     img: 'text-bg'
   }
 ];
+export const floor2SpaceMarker = [
+  {
+    value: '吊装孔',
+    id: 'floor2Marker1',
+    groupId: 'stationFacilitiesLabel',
+    position: [529800.625, 2509990.4, 88.63173828125001],
+    img: 'text-bg'
+  },
+  {
+    value: '储能电池堆室#5',
+    id: 'floor2Marker2',
+    groupId: 'stationFacilitiesLabel',
+    position: [529814.96, 2509996.48, 87.66400390625],
+    img: 'text-bg'
+  },
+  {
+    value: '空调机房',
+    id: 'floor2Marker3',
+    groupId: 'stationFacilitiesLabel',
+    position: [529800.5775, 2510010.24, 87.66400390625],
+    img: 'text-bg'
+  },
+  {
+    value: '#2电池堆室',
+    id: 'floor2Marker4',
+    groupId: 'stationFacilitiesLabel',
+    position: [529774.72, 2510008.16, 87.66400390625],
+    img: 'text-bg'
+  },
+  {
+    value: '#4电池堆室',
+    id: 'floor2Marker5',
+    groupId: 'stationFacilitiesLabel',
+    position: [529777.9525, 2509997.12, 89.66400390625],
+    img: 'text-bg'
+  }
+];
 // 宝清储能站F1-设备功能
 export const floor1DeviceMarker = [
   {
@@ -850,6 +887,35 @@ export const floor1DeviceMarker = [
     img: 'battery-group',
     position: [529782.375, 2510008.32, 75.84],
     camera: [529784.324063, 2510008.4175, 75.900972, -9.587769, 179.205246, 2]
+  }
+];
+export const floor2DeviceMarker = [
+  {
+    value: '电池簇',
+    id: 'floor2DeviceMarker1',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'battery-group',
+    position: [529812.0075000001, 2509993.92, 88.45103515625],
+    camera: [529813.420337, 2509995.586992, 89.321895, -11.132771, 130.23381, 2]
+  },
+  {
+    value: '电池簇',
+    id: 'floor2DeviceMarker2',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'battery-group',
+    position: [529782.4075, 2509997.44, 88.8433984375],
+    camera: [529783.006836, 2509999.194688, 89.246934, -12.657774, 105.930191, 2]
+  },
+  {
+    value: '电池簇',
+    id: 'floor2DeviceMarker3',
+    groupId: 'stationFacilitiesLabel',
+    type: 'customAngleMarker',
+    img: 'battery-group',
+    position: [529782.04, 2510007.68, 88.351171875],
+    camera: [529783.382183, 2510009.573828, 88.775244, -4.620971, 112.99543, 2]
   }
 ];
 
@@ -1273,27 +1339,27 @@ export const pageNumBaoqingFun = (data = {}) => {
     },
     {
       name: '站点充电时长',
-      num: 2012.50,
+      num: 2012.5,
       unit: '小时'
     },
     {
       name: '日故障次数',
       num: 1050,
       unit: '次'
-    },
+    }
   ];
 };
 export const runingFun = (data = {}) => {
   return [
     {
       img: petrol,
-      num: 180.00,
+      num: 180.0,
       unit: '最大可充功率/MW',
       name: ''
     },
     {
       img: petrol,
-      num: 180.00,
+      num: 180.0,
       unit: '最大可放功率/MW',
       name: ''
     },
@@ -1318,47 +1384,47 @@ export const warnList = [
       {
         date: '2023-19-02 12:30:12',
         message: '保护[BCMS内部通讯故障]发生故…',
-        area: '#1电池簇',
+        area: '#1电池簇'
       },
       {
         date: '2023-19-02 12:18:56',
         message: '保护[BCMS内部通讯故障]发生',
-        area: '#2电池簇',
+        area: '#2电池簇'
       },
       {
         date: '2023-19-02 12:17:56',
         message: '告警[单体压差大]产生',
-        area: '#3电池簇',
+        area: '#3电池簇'
       },
       {
         date: '2023-19-02 11:58:21',
         message: '告警[单体压差大]产生',
-        area: '#8电池簇',
+        area: '#8电池簇'
       },
       {
         date: '2023-19-02 11:23:01',
         message: '告警[单体压差大]产生',
-        area: '#9电池簇',
+        area: '#9电池簇'
       },
       {
         date: '2023-19-02 10:45:42',
         message: '告警[单体压差大]产生',
-        area: '#9电池簇',
+        area: '#9电池簇'
       },
       {
         date: '2023-19-02 09:16:01',
         message: '告警[单体压差大]产生',
-        area: '#9电池簇',
-      },
+        area: '#9电池簇'
+      }
     ]
   }
-]
+];
 const baoqingSytemStatusFun = () => {
   let data = [];
   for (let i = 0; i < 36; i++) {
     let obj = {
-      id:'baoqingSytemStatus'+i,
-      value: `#${i+1}分系统`,
+      id: 'baoqingSytemStatus' + i,
+      value: `#${i + 1}分系统`,
       status: 1
     };
     // if (i < 50) {
@@ -1373,13 +1439,13 @@ const baoqingRealtimeDataFun = () => {
   // const hours = dayjs().hour();
   const seriesData = [];
   for (let i = 0; i < 24; i++) {
-    console.log('i',i)
-    if(i ===9||i === 10 ){
-      seriesData.push(-150)
-    }else if(i ===18||i === 19){
-      seriesData.push(120)
-    }else{
-      seriesData.push(0)
+    // console.log('i', i);
+    if (i === 9 || i === 10) {
+      seriesData.push(-150);
+    } else if (i === 18 || i === 19) {
+      seriesData.push(120);
+    } else {
+      seriesData.push(0);
     }
   }
   return seriesData;
@@ -1475,7 +1541,7 @@ export const baoqingRealtimeOption = {
   yAxis: {
     name: '单位:GWH',
     nameTextStyle: {
-      color: '#B4C0CC',
+      color: '#B4C0CC'
     },
     axisLine: {
       show: false
@@ -1535,7 +1601,7 @@ const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
   const seriesData = [];
   for (let i = 0; i < hours; i++) {
-    const random = Math.floor(Math.random() * 30) ;
+    const random = Math.floor(Math.random() * 30);
     seriesData.push(random);
   }
   return seriesData;
@@ -1631,7 +1697,7 @@ export const baoqingWarnOption = {
   yAxis: {
     name: '单位:个',
     nameTextStyle: {
-      color:'#B4C0CC'
+      color: '#B4C0CC'
     },
     axisLine: {
       show: false
@@ -1720,4 +1786,184 @@ export const msgList = [
     label: '分系统总放电量',
     value: '343971.09'
   }
-]
+];
+export const msgPopList = [
+  {
+    label: '运营企业',
+    value: '华为技术有限公司'
+  },
+  {
+    label: '站点区域',
+    value: '福田区'
+  },
+  {
+    label: '具体地址',
+    value: '深圳市福田区红荔西路与香蜜湖路东北交叉口'
+  },
+  {
+    label: '站点性质',
+    value: '5G基站'
+  }
+];
+const popRealtimeDataFun = () => {
+  // const hours = dayjs().hour();
+  const seriesData = [];
+  for (let i = 0; i < 24; i++) {
+    console.log('i', i);
+    if (i === 9 || i === 10) {
+      seriesData.push(-150);
+    } else if (i === 18 || i === 19) {
+      seriesData.push(120);
+    } else {
+      seriesData.push(0);
+    }
+  }
+  return seriesData;
+};
+export const popRealtimeOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 30,
+    left: 40
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.axisValueLabel}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">kw</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    textStyle: {
+      color: '#fff'
+    },
+    x: '70%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [
+      '00:00',
+      '01:00',
+      '02:00',
+      '03:00',
+      '04:00',
+      '05:00',
+      '06:00',
+      '07:00',
+      '08:00',
+      '09:09',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '16:00',
+      '17:00',
+      '18:00',
+      '19:00',
+      '20:00',
+      '21:00',
+      '22:00',
+      '23:00',
+      '24:00'
+    ],
+    boundaryGap: ['2%', '2%'],
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC'
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:kw',
+    nameTextStyle: {
+      color: '#B4C0CC'
+    },
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value ? simplifyNum(value) : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      data: popRealtimeDataFun(),
+      type: 'line',
+      // smooth: true,
+      name: '实时充放',
+      // areaStyle: {
+      //   color: {
+      //     type: 'linear',
+      //     x: 0,
+      //     y: 0,
+      //     x2: 0,
+      //     y2: 1,
+      //     colorStops: [
+      //       {
+      //         offset: 0,
+      //         color: '#4BDEFF' // 0% 处的颜色
+      //       },
+      //       {
+      //         offset: 1,
+      //         color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+      //       }
+      //     ],
+      //     global: false // 缺省为 false
+      //   }
+      // },
+      itemStyle: {
+        color: '#4BDEFF'
+      }
+    }
+  ]
+};

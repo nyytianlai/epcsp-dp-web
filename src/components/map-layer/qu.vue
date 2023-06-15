@@ -348,7 +348,7 @@ const resetSz = async (value = true) => {
 
 const addStationPoint = (jdCode: string) => {
   if (props.module > 10) {
-    emits('addOutStation', props.module);
+    emits('addOutStation', props.module, jdCode);
   } else {
     props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
   }
@@ -476,7 +476,9 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
       : '';
   } else if (stationId === '-3') {
     //红荔西5G示范站
-    isShow ? __g.camera.set(502294.813438,2494164.55125,22.133049,-10.760314,-68.628166, 3) : '';
+    isShow
+      ? __g.camera.set(502294.813438, 2494164.55125, 22.133049, -10.760314, -68.628166, 3)
+      : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
@@ -486,9 +488,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   } else if (stationId === '-2') {
     //莲花村
-    isShow
-      ? __g.camera.set(506434.815625,2494959.59,74.281172,-65.807327,179.735031, 3)
-      : '';
+    isShow ? __g.camera.set(506434.815625, 2494959.59, 74.281172, -65.807327, 179.735031, 3) : '';
   } else if (stationId === '-1') {
     //宝清储能站
     isShow
@@ -658,7 +658,7 @@ onMounted(async () => {
     store.changeCurrentPosition('');
     setQuVisibility(false);
     __g.marker.hideByGroupId('jdStation');
-    addHrStation(e.stationId, true,e.isFly);
+    addHrStation(e.stationId, true, e.isFly);
   });
   hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
@@ -681,7 +681,7 @@ onMounted(async () => {
       stationId: string;
       lng: number;
       lat: number;
-      isFly:boolean;
+      isFly: boolean;
       [key: string]: any;
     }) => {
       if (e.isHr) {

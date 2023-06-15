@@ -6,13 +6,18 @@
  * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
-<template></template>
+<template>
+  <PopBox v-if="showPop" @close="()=>{showPop = false}" :style="{'top': `${screenPosition[1]}px`,'left': `${screenPosition[0]}px`}"></PopBox>
+</template>
 <script setup>
 import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { getTreeLayerIdByName } from '@/global/config/map';
+import {debounce} from '@/utils'
+import PopBox from './pop-box.vue'
 
+const showPop = ref(false)
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -22,32 +27,28 @@ const params = ref({
   operatorId: store.detailParams?.operatorId,
   stationId: store.detailParams?.stationId
 });
+const screenPosition = ref(['20%','50%'])
 
 useEmitt &&
-  useEmitt('AIRCITY_EVENT', async (e) => {
+  useEmitt('AIRCITY_EVENT', (e)=>debounce(async (e) => {
     //正常桩
-    if (e.GroupID === 'stationFacilitiesLabel') {
+    console.log('e',e)
+    if (e.GroupID === 'stationFacilitiesLabel' && e.eventtype=='LeftMouseButtonClick') {
       console.log('点击icon', e);
+      let screenCoord=await __g.coord.world2Screen(...e.MouseClickPoint);
+      screenPosition.value = screenCoord.screenPosition
+      console.log("screenCoord",screenCoord);
+      showPop.value = true
     }
-  });
+  },1000)(e));
 // 定位到桩弹窗
 const focusToPile = (eid, status) => {
   console.log('pileVisiblepileVisible', pileVisible.value);
-  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  pileParams.value = {
-    eid: eid
-  };
-  pileType.value = 'pile';
-  pileVisible.value = true;
-  handleClickFocus(__g, layerId, eid, status);
+  let layerId = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
 };
 const handleClose = () => {
   //清除绿色高亮
   __g.tileLayer.stopHighlightAllActors();
-  //  __g.tileLayer.highlightActor(layerId, eid);
 };
-// onMounted(()=>{
-//   __g.marker.showByGroupId('stationFacilitiesLabel');
-// })
 </script>
 <style lang="less" scoped></style>
