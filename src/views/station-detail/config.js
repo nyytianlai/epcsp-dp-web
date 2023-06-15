@@ -1787,3 +1787,183 @@ export const msgList = [
     value: '343971.09'
   }
 ];
+export const msgPopList = [
+  {
+    label: '运营企业',
+    value: '华为技术有限公司'
+  },
+  {
+    label: '站点区域',
+    value: '福田区'
+  },
+  {
+    label: '具体地址',
+    value: '深圳市福田区红荔西路与香蜜湖路东北交叉口'
+  },
+  {
+    label: '站点性质',
+    value: '5G基站'
+  }
+];
+const popRealtimeDataFun = () => {
+  // const hours = dayjs().hour();
+  const seriesData = [];
+  for (let i = 0; i < 24; i++) {
+    console.log('i', i);
+    if (i === 9 || i === 10) {
+      seriesData.push(-150);
+    } else if (i === 18 || i === 19) {
+      seriesData.push(120);
+    } else {
+      seriesData.push(0);
+    }
+  }
+  return seriesData;
+};
+export const popRealtimeOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 30,
+    left: 40
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.axisValueLabel}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">kw</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    textStyle: {
+      color: '#fff'
+    },
+    x: '70%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [
+      '00:00',
+      '01:00',
+      '02:00',
+      '03:00',
+      '04:00',
+      '05:00',
+      '06:00',
+      '07:00',
+      '08:00',
+      '09:09',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '16:00',
+      '17:00',
+      '18:00',
+      '19:00',
+      '20:00',
+      '21:00',
+      '22:00',
+      '23:00',
+      '24:00'
+    ],
+    boundaryGap: ['2%', '2%'],
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC'
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:kw',
+    nameTextStyle: {
+      color: '#B4C0CC'
+    },
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value ? simplifyNum(value) : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      data: popRealtimeDataFun(),
+      type: 'line',
+      // smooth: true,
+      name: '实时充放',
+      // areaStyle: {
+      //   color: {
+      //     type: 'linear',
+      //     x: 0,
+      //     y: 0,
+      //     x2: 0,
+      //     y2: 1,
+      //     colorStops: [
+      //       {
+      //         offset: 0,
+      //         color: '#4BDEFF' // 0% 处的颜色
+      //       },
+      //       {
+      //         offset: 1,
+      //         color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+      //       }
+      //     ],
+      //     global: false // 缺省为 false
+      //   }
+      // },
+      itemStyle: {
+        color: '#4BDEFF'
+      }
+    }
+  ]
+};
