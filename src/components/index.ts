@@ -26,7 +26,7 @@ import LegendList from '@/components/legend-list.vue'
 import noData from '@/components/no-data/index.vue'
 import numTileCard from '@/components/num-tile-card.vue'
 import LineTimeChartBoth from '@/components/line-time-chart-both.vue'
-
+import rightSlide from '@/components/right-slide/index.vue'
 const components: {
     [propName: string]: Component //字面量类型，每个属性值类型为组件的类型
 } = {
@@ -48,7 +48,8 @@ const components: {
     LegendList,
     noData,
     numTileCard,
-    LineTimeChartBoth
+    LineTimeChartBoth,
+    rightSlide,
 }
   
    
