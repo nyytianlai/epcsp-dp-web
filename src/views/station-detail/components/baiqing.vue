@@ -33,7 +33,12 @@
 import { ref, computed, inject, onMounted, onUnmounted } from 'vue';
 import { useMapStore } from '@/stores/map';
 import { getImageByCloud } from '@/global/config/map';
-import { floor1SpaceMarker, floor1DeviceMarker } from '../config';
+import {
+  floor1SpaceMarker,
+  floor2SpaceMarker,
+  floor1DeviceMarker,
+  floor2DeviceMarker
+} from '../config';
 import bus from '@/utils/bus';
 import Icon from '@sutpc/vue3-svg-icon';
 import Baoqingchuneng from './baoqingchuneng.vue';
@@ -133,12 +138,12 @@ const addMarker = async (data) => {
   await __g.marker.add(markerArr);
 };
 // 添加空间分布marker
-const addFloor1Marker = async () => {
+const addFloorMarker = async (data) => {
   const markerArr = [];
-  floor1SpaceMarker.forEach((item) => {
+  data.forEach((item) => {
     const marker = {
       id: item.id,
-      groupId: 'stationFacilitiesLabel',
+      groupId: item.groupId,
       coordinate: item.position, //坐标位置
       anchors: [-73, 36], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [146, 36], //图片的尺寸
@@ -175,7 +180,8 @@ const handleStationFloor = async (floor: number) => {
       await __g.camera.set(529790.102871, 2510018.366211, 114.9771, -63.408031, 91.262276, 2);
       break;
     case 2:
-      await __g.camera.set(529793.637988, 2510026.627129, 129.55167, -63.407997, 91.26226, 2);
+      // await __g.camera.set(529793.637988, 2510026.627129, 129.55167, -63.407997, 91.26226, 2);
+      await __g.camera.set(529789.625625, 2510026.108125, 126.340615, -56.865108, 91.392326, 2);
       break;
     case 3:
       await __g.camera.set(529791.592427, 2510041.846445, 135.445664, -44.652344, 89.328076, 2);
@@ -198,12 +204,23 @@ const handleClickMenu = async (menu) => {
   }
   selectMenu.value = menu.id;
   await __g.marker.clear();
-  if (selectFloor.value === 1) {
-    if (menu.id === 1) {
-      addFloor1Marker();
-    } else {
-      addMarker(floor1DeviceMarker);
-    }
+  switch (selectFloor.value) {
+    case 1:
+      if (menu.id === 1) {
+        addFloorMarker(floor1SpaceMarker);
+      } else {
+        addMarker(floor1DeviceMarker);
+      }
+      break;
+    case 2:
+      if (menu.id === 1) {
+        addFloorMarker(floor2SpaceMarker);
+      } else {
+        addMarker(floor2DeviceMarker);
+      }
+      break;
+    default:
+      break;
   }
 };
 onMounted(() => {
