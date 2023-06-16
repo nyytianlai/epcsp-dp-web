@@ -121,9 +121,9 @@ const addHighLightStation = async (item) => {
     popupURL: `${getHtmlUrl()}/static/html/chargingsCabinetStationPop.html?value=${
       JSON.stringify(item)
     }`, //弹窗HTML链接
-    popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
-    popupSize: [425, 57], //弹窗大小
-    popupOffset: [-210, -157], //弹窗偏移
+    popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
+    popupSize: [370, 215.6], //弹窗大小
+    popupOffset: [-210, -205], //弹窗偏移
     autoHidePopupWindow: false,
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     displayMode: 2,
