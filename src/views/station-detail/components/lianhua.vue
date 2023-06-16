@@ -22,11 +22,13 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
+import { ref, onMounted, onBeforeUnmount,inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
+import bus from '@/utils/bus';
+
 const screenPosition = ref(['20%', '50%']);
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
@@ -66,6 +68,16 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
   showPop.value = false;
 };
+onMounted(async () => {
+  bus.on('focusToPile', (e) => {
+    console.log(e);
+    focusToPile(e);
+  });
+});
+
+onBeforeUnmount(() => {
+  bus.off('focusToPile');
+});
 </script>
 <style lang="less" scoped>
 .panel-box {

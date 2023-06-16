@@ -70,7 +70,7 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -105,7 +105,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
   }
   if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Id?.includes('station')) {
+    if (e.Id?.includes('station-')) {
       let stationInfo = JSON.parse(e.UserData);
       console.log('stationInfo', stationInfo);
 
@@ -154,8 +154,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         store.changeCurrentPosition(cameraJdInfo.JDNAME);
       }
     }
-  }
-  if (e.eventtype === 'MouseHovered' && (e.Id?.includes('区') || e.Id?.includes('街道'))) {
   }
 });
 
