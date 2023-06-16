@@ -72,6 +72,7 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
+  <baoqingchuneng v-if="isBaoqingchuneng" />
   <honglixi v-if="isHonglixi" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
@@ -125,6 +126,8 @@ import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
+import Baoqingchuneng from './components/baoqingchuneng.vue';
+
 // import WarnList from './components/warn-list.vue';
 import {
   selectStationStatistics,
@@ -171,6 +174,7 @@ const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const isHonglixi= computed(() => store.detailParams?.stationId === '-3');
+const isBaoqingchuneng = computed(() => store.detailParams?.stationId === '-1');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
