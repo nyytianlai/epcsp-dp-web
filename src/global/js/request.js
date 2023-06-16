@@ -86,9 +86,11 @@ const err = (error) => {
         break;
       case 401:
         Message({ type: 'error', message: '用户没有权限（令牌、用户名、密码错误），请重新登录！' });
-        store.removeTokens().then(() => {
-          location.reload();
-        });
+        setTimeout(() => {
+          store.removeTokens().then(() => {
+            location.reload();
+          });
+        }, 1000);
         break;
       default:
         Message({ type: 'error', message: data.message });

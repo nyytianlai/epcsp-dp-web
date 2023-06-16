@@ -72,7 +72,6 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <baoqingchuneng v-if="isBaoqingchuneng" />
   <honglixi v-if="isHonglixi" />
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
@@ -126,7 +125,6 @@ import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
-import Baoqingchuneng from './components/baoqingchuneng.vue';
 
 // import WarnList from './components/warn-list.vue';
 import {
@@ -152,12 +150,13 @@ import {
   columnDataFun,
   realtimeTrendFun,
   stationWarnFun,
-  stationWarnOption
+  stationWarnOption,
+  tileLayerIds
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
-import honglixi from './components/honglixi.vue'
+import honglixi from './components/honglixi.vue';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -173,8 +172,7 @@ const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
-const isHonglixi= computed(() => store.detailParams?.stationId === '-3');
-const isBaoqingchuneng = computed(() => store.detailParams?.stationId === '-1');
+const isHonglixi = computed(() => store.detailParams?.stationId === '-3');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -215,7 +213,7 @@ const linePowerData = ref(linePowerDataFun());
 const getButtomMenuData = async () => {
   const res = await viewMenuData({ stationId: store.detailParams?.stationId });
   if (res) {
-    console.log('底部菜单栏数据', res);
+    // console.log('底部菜单栏数据', res);
     tabData.value.length = 0;
     if (res.data && res.data.length) {
       tabHasData.value = true;
@@ -329,26 +327,35 @@ const backSz = () => {
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.eventtype === 'LeftMouseButtonClick') {
-      //设施点
-      if (e.Id?.includes('facilitiesLabel')) {
-        __g?.marker?.focus(e.Id, 20, 2);
-      }
-      if (e.UserData) {
-        const userData = JSON.parse(e.UserData);
-        console.log(userData);
-        if (userData.type === 'customAngleMarker') {
-          await __g.camera.set(userData.camera);
+      await __g.tileLayer.stopHighlightAllActors();
+      if (e.Type === 'TileLayer') {
+        if (tileLayerIds.includes(e.Id)) {
+          await __g.tileLayer.highlightActor(e.Id, e.ObjectID);
         }
-        // __g?.marker?.focus(e.Id, 0, 2);
       }
+      if (e.Type === 'marker') {
+        //设施点
+        if (e.Id?.includes('facilitiesLabel')) {
+          __g?.marker?.focus(e.Id, 20, 2);
+        }
+        // 自定义视角marker
+        if (e.UserData) {
+          const userData = JSON.parse(e.UserData);
+          console.log(userData);
+          if (userData.type === 'customAngleMarker') {
+            await __g.camera.set(userData.camera);
+          }
+          // __g?.marker?.focus(e.Id, 0, 2);
+        }
 
-      //摄像头
-      if (e.Id?.includes('camera')) {
-        __g?.marker?.focus(e.Id);
-        pileType.value = 'monitor';
-        const data = JSON.parse(e.UserData);
-        pileVideoData.value = data;
-        pileVisible.value = true;
+        //摄像头
+        if (e.Id?.includes('camera')) {
+          __g?.marker?.focus(e.Id);
+          pileType.value = 'monitor';
+          const data = JSON.parse(e.UserData);
+          pileVideoData.value = data;
+          pileVisible.value = true;
+        }
       }
       //告警桩
       if (e.Id?.includes('warning-bottom')) {

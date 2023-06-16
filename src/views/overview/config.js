@@ -884,7 +884,7 @@ const carbon = [
 ];
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
-  console.log('carbon', carbon);
+  // console.log('carbon', carbon);
   let list = deepClone(carbon);
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
   list.splice(index + 1);
