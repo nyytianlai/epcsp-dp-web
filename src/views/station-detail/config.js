@@ -6,7 +6,8 @@ import num from './images/num.png';
 import dayjs from 'dayjs';
 import petrol from './images/petrol.png';
 import { simplifyNum } from '@/utils/index';
-
+// 宝清储能站可高亮TileLayer
+export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
 export const lianhuaPowerFun = (data = {}) => {
   return [
     {
@@ -179,12 +180,12 @@ export const lianhuaWarnOption = {
   series: []
 };
 const lianhuaRealtimeDataFun = () => {
-  const hours = dayjs().hour();
-  const seriesData = [];
-  for (let i = 0; i < hours; i++) {
-    const random = Math.floor(Math.random() * 400000) + 100000;
-    seriesData.push(random);
-  }
+  // const hours = dayjs().hour();
+  const seriesData = [0,0,0,0,0,0,0.48,1.22,2.13,3.55,5.01,7.96,8.96,10.56,9.76,8.43,7.46,5.01,2.40,1.25,0,0,0,0];
+  // for (let i = 0; i < hours; i++) {
+  //   const random = Math.floor(Math.random() * 400000) + 100000;
+  //   seriesData.push(random);
+  // }
   return seriesData;
 };
 export const lianhuaRealtimeOption = {
@@ -1090,6 +1091,19 @@ export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
+      data: data?.map((item) => [yearMonthDay + item.time, item.totalPower]),
+      type: 'line',
+      smooth: true,
+      name: '总功率',
+      // areaStyle:{show:false}
+    },
+    {
+      data: data?.map((item) => [yearMonthDay + item.time, item.ratedPower]),
+      type: 'line',
+      smooth: true,
+      name: '实时额定功率'
+    },
+    {
       data: data?.map((item) => [yearMonthDay + item.time, item.power]),
       type: 'line',
       smooth: true,
@@ -1328,23 +1342,28 @@ export const stationWarnOption = {
 export const pageNumBaoqingFun = (data = {}) => {
   return [
     {
-      name: '站点充电量',
-      num: 120,
+      name: '日充电量',
+      num: 21.79,
       unit: 'MWh'
     },
     {
-      name: '站点充电次数',
-      num: 1160,
-      unit: '次'
+      name: '日放电量',
+      num: 21.63,
+      unit: 'MWh'
     },
     {
-      name: '站点充电时长',
-      num: 2012.5,
-      unit: '小时'
+      name: 'SOC',
+      num: 97.86,
+      unit: '%'
+    },
+    {
+      name: 'SOH',
+      num: 98.21,
+      unit: '%'
     },
     {
       name: '日故障次数',
-      num: 1050,
+      num: 0,
       unit: '次'
     }
   ];
@@ -1353,25 +1372,25 @@ export const runingFun = (data = {}) => {
   return [
     {
       img: petrol,
-      num: 180.0,
+      num: 10,
       unit: '最大可充功率/MW',
       name: ''
     },
     {
       img: petrol,
-      num: 180.0,
+      num: 10,
       unit: '最大可放功率/MW',
       name: ''
     },
     {
       img: petrol,
-      num: 28,
+      num: 132,
       unit: '最大可充时间/min',
       name: ''
     },
     {
       img: petrol,
-      num: 28,
+      num: 126,
       unit: '最大可放时间/min',
       name: ''
     }
@@ -1437,17 +1456,17 @@ const baoqingSytemStatusFun = () => {
 export const baoqingSytemStatusData = baoqingSytemStatusFun();
 const baoqingRealtimeDataFun = () => {
   // const hours = dayjs().hour();
-  const seriesData = [];
-  for (let i = 0; i < 24; i++) {
-    // console.log('i', i);
-    if (i === 9 || i === 10) {
-      seriesData.push(-150);
-    } else if (i === 18 || i === 19) {
-      seriesData.push(120);
-    } else {
-      seriesData.push(0);
-    }
-  }
+  const seriesData = [-10,0,0,0,0,0,0,0,0,10,10,0,-10,0,0,0,0,0,0,0,0,0,0,0];
+  // for (let i = 0; i < 24; i++) {
+  //   // console.log('i', i);
+  //   if (i === 9 || i === 10) {
+  //     seriesData.push(-150);
+  //   } else if (i === 18 || i === 19) {
+  //     seriesData.push(120);
+  //   } else {
+  //     seriesData.push(0);
+  //   }
+  // }
   return seriesData;
 };
 export const baoqingRealtimeOption = {
@@ -1809,7 +1828,7 @@ const popRealtimeDataFun = () => {
   // const hours = dayjs().hour();
   const seriesData = [];
   for (let i = 0; i < 24; i++) {
-    console.log('i', i);
+    // console.log('i', i);
     if (i === 9 || i === 10) {
       seriesData.push(-150);
     } else if (i === 18 || i === 19) {
@@ -1966,4 +1985,162 @@ export const popRealtimeOption = {
       }
     }
   ]
+};
+export const pageNumLianhuaxiFun = (data={})=>{
+  return [
+    {
+      name: '年累计发电量',
+      num: 1.12,
+      unit: '万kWh'
+    },
+    {
+      name: '年有效利用小时数',
+      num: 569,
+      unit: '小时'
+    },
+    {
+      name: '年累计CO²减排量',
+      num: 1.1,
+      unit: '吨'
+    },
+  ];
+}
+export const chargingStationTabsFun = () => {
+  return [
+    {
+      code: 1,
+      chargingType: 'speed',
+      typeCharge: 'pile',
+      label: '充电桩类型'
+    },
+    {
+      code: 2,
+      chargingType: 'electricity',
+      typeCharge: 'pile',
+      label: '充电桩电流类型'
+    }
+  ];
+};
+export const chargingStationGunTabsFun = () => {
+  return [
+    {
+      code: 1,
+      chargingType: 'speed',
+      typeCharge: 'gun',
+      label: '充电枪类型'
+    },
+    {
+      code: 2,
+      chargingType: 'electricity',
+      typeCharge: 'gun',
+      label: '充电枪电流类型'
+    }
+  ];
+};
+export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
+  if (maintab === 1) {
+    // 充电桩
+    if (code === 1) {
+      return [
+        {
+          value: data?.chargeCountByChargeTypeDto?.quickCount,
+          // value: 29982,
+          name: '快充桩',
+          code: 1,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.noQuickCount,
+          // value: 142337,
+          name: '慢充桩',
+          code: 2,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.superCount,
+          // value: 26,
+          name: '超充桩',
+          code: 3,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.v2GCount,
+          // value: 21,
+          name: 'V2G桩',
+          code: 4,
+          unit: '个',
+          isChoose: true
+        }
+      ];
+    } else {
+      return [
+        {
+          value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
+          name: '直流桩',
+          unit: '个'
+        },
+        { value: data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
+          name: '交直流桩',
+          unit: '个'
+        },
+        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
+        { value: data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G桩', unit: '个' }
+      ];
+    }
+  } else {
+    // 充电枪
+    if (code === 1) {
+      return [
+        {
+          value: data?.chargeCountByChargeTypeDto?.quickCount,
+          name: '快充枪',
+          code: 1,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.noQuickCount,
+          name: '慢充枪',
+          code: 2,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.superCount,
+          name: '超充枪',
+          code: 3,
+          unit: '个',
+          isChoose: true
+        },
+        {
+          value: data?.chargeCountByChargeTypeDto?.v2GCount,
+          name: 'V2G枪',
+          code: 4,
+          unit: '个',
+          isChoose: true
+        }
+      ];
+    } else {
+      return [
+        {
+          value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
+          name: '直流枪',
+          unit: '个'
+        },
+        { value: data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流枪', unit: '个' },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
+          name: '交直流枪',
+          unit: '个'
+        },
+        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
+        { value: data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G枪', unit: '个' }
+      ];
+    }
+  }
 };

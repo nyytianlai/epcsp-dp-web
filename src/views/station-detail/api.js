@@ -125,3 +125,10 @@ export const alarmLevelAndTypeByTIme = (param) => {
     }
   });
 };
+// 设备设施信息
+export const selectDetailChargeCount = (data) => {
+  return request.post({
+    url: '/dp/api/v1/equipmentManageDetail/selectDetailChargeCount',
+    data
+  });
+};

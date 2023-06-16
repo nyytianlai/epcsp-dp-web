@@ -29,7 +29,7 @@ import { useMapStore } from '@/stores/map';
 import BaoQing from './baiqing.vue';
 import HongLiXi from './honglixi.vue';
 import LianHua from './lianhua.vue';
-import { getStrLength } from '@/utils/index'
+import { getStrLength } from '@/utils/index';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const requestTimer = computed(() => mapStore.requestTimer);
@@ -195,8 +195,8 @@ const operatorDistribution = async (isShow: boolean) => {
 const addFacilitiesLabel = async (id) => {
   const pointArr = [];
   facilitiesLabel(id).forEach((item, index) => {
-    console.log(item.value,getStrLength(item.value));
-    
+    // console.log(item.value,getStrLength(item.value));
+
     let xoffset = getStrLength(item.value) * 12;
     let o1 = {
       id: 'facilitiesLabel-' + item.id,
@@ -209,7 +209,7 @@ const addFacilitiesLabel = async (id) => {
       text: item.value, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 300], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [ - xoffset, -35], // 文本偏移
+      textOffset: [-xoffset, -35], // 文本偏移
       textBackgroundColor: [11 / 255, 67 / 255, 92 / 255, 1], //文本背景颜色
       fontSize: 14, //字体大小
       fontColor: '#FFFFFF', //字体颜色
@@ -219,7 +219,7 @@ const addFacilitiesLabel = async (id) => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr, null);
-  if(currentHrStationID.value!=='-3'){
+  if (currentHrStationID.value !== '-3') {
     await __g.marker.hideByGroupId('stationFacilitiesLabel');
   }
 };

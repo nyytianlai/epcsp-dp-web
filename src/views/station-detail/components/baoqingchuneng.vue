@@ -87,7 +87,7 @@ const infoListData = (data = {}) => {
   return [
     {
       label: '站点设计容量：',
-      value: '24MW/48MWh' || '--'
+      value: '10MW/22MWh' || '--'
     },
     {
       label: '站点占地面积：',

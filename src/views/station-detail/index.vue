@@ -15,11 +15,29 @@
     </div>
     <div class="device-info">
       <title-column title="设备设施信息" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in deviceInfoData" :key="index">
-          <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
-        </template>
+      <div class="pile-charger-header">
+        <tabs
+          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="handleChargeChange"
+        />
+        <div class="right-tab-btn">
+          <div
+            v-for="(item, index) in tabList"
+            :key="index"
+            class="tab-btn"
+            :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)"
+          >
+            {{ item.name }}
+          </div>
+        </div>
       </div>
+      <pie-chart
+        class="device-total-pie"
+        :data="chargingStationPieData"
+        :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
+        :colors="chargingColors"
+      />
     </div>
     <div class="warning-message">
       <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
@@ -66,7 +84,7 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="['#00FFF9']"
+        :colors="['#F9E900','green','blue']"
         :chartStyle="{ height: '2.22rem' }"
       />
     </div>
@@ -125,6 +143,7 @@ import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
+
 // import WarnList from './components/warn-list.vue';
 import {
   selectStationStatistics,
@@ -136,7 +155,8 @@ import {
   selectStationRealTimePowerByStationId,
   selectWarningStatisticByStationId,
   viewMenuData,
-  alarmLevelAndTypeByTIme
+  alarmLevelAndTypeByTIme,
+  selectDetailChargeCount
 } from './api.js';
 import {
   pageNumFun,
@@ -149,12 +169,31 @@ import {
   columnDataFun,
   realtimeTrendFun,
   stationWarnFun,
-  stationWarnOption
+  stationWarnOption,
+  chargingStationTabsFun,
+  chargingStationGunTabsFun,
+  chargingStationPieDataFun,
+  tileLayerIds
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
-import honglixi from './components/honglixi.vue'
+import honglixi from './components/honglixi.vue';
+const chargingStationPieData = ref(chargingStationPieDataFun())
+const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
+// 左二图的tab
+const curBtn = ref(1);
+const chargeTab = ref(1)
+// 充电类型
+const chargingStationTabs = ref(chargingStationTabsFun());
+const chargingStationGunTabs = ref(chargingStationGunTabsFun());
+const tabList = ref([
+  { value: 1, name: '桩', index: 'pile' },
+  { value: 2, name: '枪', index: 'gun' }
+]);
+const chargeData = ref()
+// 设备类型
+const equipmentType = ref(1)
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -170,7 +209,7 @@ const deviceInfoData = ref(deviceInfoDataFun());
 const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
-const isHonglixi= computed(() => store.detailParams?.stationId === '-3');
+const isHonglixi = computed(() => store.detailParams?.stationId === '-3');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -211,7 +250,7 @@ const linePowerData = ref(linePowerDataFun());
 const getButtomMenuData = async () => {
   const res = await viewMenuData({ stationId: store.detailParams?.stationId });
   if (res) {
-    console.log('底部菜单栏数据', res);
+    // console.log('底部菜单栏数据', res);
     tabData.value.length = 0;
     if (res.data && res.data.length) {
       tabHasData.value = true;
@@ -219,6 +258,17 @@ const getButtomMenuData = async () => {
     }
   }
 };
+// 获取设备信息
+const loadSelectDetailChargeCount  = async()=>{
+  const res = await selectDetailChargeCount({
+    equipmentType:equipmentType.value,
+    operatorId: store.detailParams.operatorId,
+    stationId: store.detailParams.stationId})
+    console.log('res',res)
+    chargeData.value = res.data
+    chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
+    console.log('chargingStationPieData.value',chargingStationPieData.value)
+  }
 const getAlarmLevelAndTypeByTIme = async () => {
   if (!store.detailParams.stationId) {
     return;
@@ -325,26 +375,35 @@ const backSz = () => {
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.eventtype === 'LeftMouseButtonClick') {
-      //设施点
-      if (e.Id?.includes('facilitiesLabel')) {
-        __g?.marker?.focus(e.Id, 20, 2);
-      }
-      if (e.UserData) {
-        const userData = JSON.parse(e.UserData);
-        console.log(userData);
-        if (userData.type === 'customAngleMarker') {
-          await __g.camera.set(userData.camera);
+      await __g.tileLayer.stopHighlightAllActors();
+      if (e.Type === 'TileLayer') {
+        if (tileLayerIds.includes(e.Id)) {
+          await __g.tileLayer.highlightActor(e.Id, e.ObjectID);
         }
-        // __g?.marker?.focus(e.Id, 0, 2);
       }
+      if (e.Type === 'marker') {
+        //设施点
+        if (e.Id?.includes('facilitiesLabel')) {
+          __g?.marker?.focus(e.Id, 20, 2);
+        }
+        // 自定义视角marker
+        if (e.UserData) {
+          const userData = JSON.parse(e.UserData);
+          console.log(userData);
+          if (userData.type === 'customAngleMarker') {
+            await __g.camera.set(userData.camera);
+          }
+          // __g?.marker?.focus(e.Id, 0, 2);
+        }
 
-      //摄像头
-      if (e.Id?.includes('camera')) {
-        __g?.marker?.focus(e.Id);
-        pileType.value = 'monitor';
-        const data = JSON.parse(e.UserData);
-        pileVideoData.value = data;
-        pileVisible.value = true;
+        //摄像头
+        if (e.Id?.includes('camera')) {
+          __g?.marker?.focus(e.Id);
+          pileType.value = 'monitor';
+          const data = JSON.parse(e.UserData);
+          pileVideoData.value = data;
+          pileVisible.value = true;
+        }
       }
       //告警桩
       if (e.Id?.includes('warning-bottom')) {
@@ -403,6 +462,20 @@ const initWarn = async () => {
     await getAlarmLevelAndTypeByTIme();
   }
 };
+// 类型和电流类型 切换
+const handleChargeChange = (item)=>{
+  console.log('item',item)
+  chargeTab.value = item.code
+  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
+}
+// 桩枪切换
+const handleTabBtn = (data)=>{
+  curBtn.value = data.value;
+  equipmentType.value = curBtn.value
+  console.log('data',data)
+  console.log('curBtn.value',curBtn.value)
+  loadSelectDetailChargeCount()
+}
 watch(
   () => store.detailParams,
   () => {
@@ -429,6 +502,7 @@ watch(
         getEquipmentUseRateByStationId(1);
         getStationRealTimePowerByStationId();
         getWarningStatisticByStationId();
+        loadSelectDetailChargeCount()
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.equipmentId && __g) {
           //防止地图没有
@@ -550,5 +624,33 @@ watch(
   .ec-wrap {
     margin-top: 16px;
   }
+
+}
+.right-tab-btn {
+  display: flex;
+  background: rgba(21, 69, 105, 0.5);
+  border: 1px solid #486785;
+  .tab-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    border-left: 1px solid #486785;
+    &:nth-of-type(1) {
+      border: none;
+    }
+  }
+}
+.active {
+  background: rgba(84, 181, 255, 0.8);
+  color: #ffffff;
+}
+.pile-charger-header {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
