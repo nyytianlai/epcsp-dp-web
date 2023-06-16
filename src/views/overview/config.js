@@ -4,12 +4,12 @@ import nfdl from './images/nfdl.png';
 import gfzzs from './images/gfzzs.png';
 import cnzzs from './images/cnzzs.png';
 import sszs from './images/sszs.png';
-import aotexun from './images/aotexun.png';
-import baoqing from './images/baoqing.png';
-import honglixi from './images/honglixi.png';
-import telaidian from './images/telaidian.png';
-import lianhuaxi from './images/lianhuaxi.png';
-import minle from './images/minle.png';
+// import aotexun from './images/aotexun.png';
+// import baoqing from './images/baoqing.png';
+// import honglixi from './images/honglixi.png';
+// import telaidian from './images/telaidian.png';
+// import lianhuaxi from './images/lianhuaxi.png';
+// import minle from './images/minle.png';
 import { simplifyNum } from '@/utils/index';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils';
@@ -113,7 +113,7 @@ export const digitalTwinSiteFun = () => {
   return [
     {
       id: 1,
-      img: minle,
+      // img: minle,
       type: '充电站',
       name: '民乐充电站',
       createdBy: null,
@@ -132,19 +132,19 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 2,
-      img: lianhuaxi,
+      // img: lianhuaxi,
       type: '光伏',
       name: '莲花西地铁光伏站'
     },
     {
       id: 3,
-      img: honglixi,
+      // img: honglixi,
       type: '5G',
       name: '红荔西5G示范站'
     },
     {
       id: 4,
-      img: telaidian,
+      // img: telaidian,
       type: '充电站',
       name: '特来电深圳国际低碳城站',
       createdBy: null,
@@ -163,7 +163,7 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 5,
-      img: aotexun,
+      // img: aotexun,
       type: '光储充放',
       name: '奥特迅电力大厦充电站',
 
@@ -183,7 +183,7 @@ export const digitalTwinSiteFun = () => {
     },
     {
       id: 6,
-      img: baoqing,
+      // img: baoqing,
       type: '储能站',
       name: '深圳宝清储能站'
     }
@@ -884,7 +884,7 @@ const carbon = [
 ];
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
-  console.log('carbon', carbon);
+  // console.log('carbon', carbon);
   let list = deepClone(carbon);
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
   list.splice(index + 1);
@@ -896,7 +896,8 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       ]),
       type: 'line',
       smooth: true,
-      name: '两轮动车'
+      showSymbol: false,
+      name: '充换电柜'
     },
     {
       data: list.map((item) => [
@@ -905,6 +906,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '电动汽车'
     },
     {
@@ -914,6 +916,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '储能'
     },
     {
@@ -923,15 +926,91 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '光伏'
     },
     {
-      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), Number(item.emissionReduction.trim())]),
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        Number(item.emissionReduction.trim())
+      ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '合计'
     }
   ];
+};
+export const lineCarbonOptionFun = {
+  grid: {
+    top: '15%',
+    left: '2%',
+    right: '5%',
+    bottom: '3%',
+    containLabel: true
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        color: '#fff',
+        backgroundColor: 'rgba(0,0,0,0.8)'
+      },
+      crossStyle: {
+        color: '#fff'
+      }
+    }
+  },
+  legend: {
+    data: [],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '12%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [],
+    axisLine: {
+      show: false
+    },
+    axisLabel: {
+      color: '#fff'
+    },
+    axisTick: {
+      show: false
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: [
+    {
+      type: 'value',
+      name: '单位(吨)',
+      nameTextStyle: {
+        color: '#fff'
+      },
+      max: 15,
+      axisLabel: {
+        color: '#fff'
+      },
+      axisTick: {
+        show: false
+      },
+      axisLine: {
+        show: false
+      },
+      splitLine: {
+        show: false,
+        lineStyle: {
+          type: 'dashed'
+        }
+      }
+    }
+  ],
+  series: []
 };
 const Electric = [
   {
@@ -1406,9 +1485,9 @@ const Electric = [
 ];
 export const lineElectricDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
-  let list = deepClone(Electric)
-  const index = Electric.findIndex(i=>i.date.trim() == yearMonthDay)
-  list.splice(index+1)
+  let list = deepClone(Electric);
+  const index = Electric.findIndex((i) => i.date.trim() == yearMonthDay);
+  list.splice(index + 1);
 
   return [
     {
@@ -1418,7 +1497,8 @@ export const lineElectricDataFun = (data = []) => {
       ]),
       type: 'line',
       smooth: true,
-      name: '两轮电动车'
+      showSymbol: false,
+      name: '电动车充换电'
     },
     {
       data: list.map((item) => [
@@ -1427,6 +1507,7 @@ export const lineElectricDataFun = (data = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '储能放电'
     },
     {
@@ -1436,6 +1517,7 @@ export const lineElectricDataFun = (data = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '光伏发电'
     },
     {
@@ -1445,6 +1527,7 @@ export const lineElectricDataFun = (data = []) => {
       ]),
       type: 'line',
       smooth: true,
+      showSymbol: false,
       name: '汽车充电'
     }
   ];

@@ -358,6 +358,12 @@
       option = setOptionColor();
       if (option && typeof option === "object") {
         myChart.setOption(option);
+        // myChart.on("mouseover", function (params) {
+        //     ue.dtspoi.postevent(`mouseover`)
+        // });
+        // myChart.on("mouseout", function (params) {
+        //   ue.dtspoi.postevent(`mouseout`)
+        // });
         myChart.on("click", function (params) {
 	       console.log('获取点击的数据',params);
          ue.dtspoi.postevent(`click-${areaCode}`)

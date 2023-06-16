@@ -21,9 +21,10 @@
 import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+
 const props = defineProps({
   data: {
-    type: String || Number,
+    type: [String, Number],
     default: 0
   }
 });

@@ -70,7 +70,7 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -105,7 +105,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
   }
   if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Id?.includes('station')) {
+    if (e.Id?.includes('station-')) {
       let stationInfo = JSON.parse(e.UserData);
       console.log('stationInfo', stationInfo);
 
@@ -155,8 +155,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       }
     }
   }
-  if (e.eventtype === 'MouseHovered' && (e.Id?.includes('区') || e.Id?.includes('街道'))) {
-  }
 });
 
 const highLightNormalStation = async (obj) => {
@@ -173,7 +171,7 @@ const highLightNormalStation = async (obj) => {
     autoHeight: true //自动判断下方是否有物体
   };
   await __g.radiationPoint.add(o);
-  __g.radiationPoint.focus(o.id, 100, 1,[-71.991409,-90.380768,0]);
+  __g.radiationPoint.focus(o.id, 100, 1, [-71.991409, -90.380768, 0]);
 };
 
 //隐藏辐射圈以及橙色popup
@@ -308,6 +306,7 @@ const back = async () => {
     }
   }
 };
+
 //重置到街道
 const resetJd = async () => {
   __g.polygon.focus('jd-' + currentJd.value, 1500);
@@ -347,7 +346,7 @@ const resetSz = async (value = true) => {
 
 const addStationPoint = (jdCode: string) => {
   if (props.module > 10) {
-    emits('addOutStation', props.module);
+    emits('addOutStation', props.module, jdCode);
   } else {
     props.module !== 3 ? addJdStation(jdCode) : addQuStationWithAlarmInfo(jdCode);
   }
@@ -454,7 +453,7 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
   }
 };
 //添加站点
-const addHrStation = async (stationId: string, isShow: boolean) => {
+const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   await beforeAddOrExitHrStation(isShow);
   let ids = getTreeLayerIdByName(stationId + '默认展示', store.treeInfo);
   isShow ? await __g.infoTree.show(ids) : __g.infoTree.hide(ids);
@@ -463,7 +462,7 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
     //站内移动的车
     // isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     // setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
-    isShow
+    isShow && fly
       ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, -44.205788, 146.805252, 3)
       : '';
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
@@ -475,24 +474,21 @@ const addHrStation = async (stationId: string, isShow: boolean) => {
       : '';
   } else if (stationId === '-3') {
     //红荔西5G示范站
-    isShow ? __g.camera.set(502336.126, 2494157.449, 32.645, -19.399999, -101.40013, 3) : '';
+    isShow
+      ? __g.camera.set(502294.813438, 2494164.55125, 22.133049, -10.760314, -68.628166, 3)
+      : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
-    isShow ? __g.camera.set(529469.266797,2520288.9175,58.586924,-24.291014,-77.653168, 3) : '';
+    isShow ? __g.camera.set(529469.266797, 2520288.9175, 58.586924, -24.291014, -77.653168, 3) : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   } else if (stationId === '-2') {
     //莲花村
-    isShow
-      ? __g.camera.set(506445.060625, 2494943.585625, 81.798667, -65.807396, 179.735062, 3)
-      : '';
+    isShow ? __g.camera.set(506434.815625, 2494959.59, 74.281172, -65.807327, 179.735031, 3) : '';
   } else if (stationId === '-1') {
     //宝清储能站
-    // isShow
-    //   ? __g.camera.set(529839.682, 2510134.377, 152.545, -33.399998, 89.800003, -0.000003)
-    //   : '';
     isShow
       ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
       : '';
@@ -660,7 +656,7 @@ onMounted(async () => {
     store.changeCurrentPosition('');
     setQuVisibility(false);
     __g.marker.hideByGroupId('jdStation');
-    addHrStation(e.stationId, true);
+    addHrStation(e.stationId, true, e.isFly);
   });
   hideAllStation3dt(__g, store.treeInfo);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
@@ -683,6 +679,7 @@ onMounted(async () => {
       stationId: string;
       lng: number;
       lat: number;
+      isFly: boolean;
       [key: string]: any;
     }) => {
       if (e.isHr) {
@@ -691,16 +688,6 @@ onMounted(async () => {
         __g.marker.showPopupWindow('station-' + e.stationId);
         highLightNormalStation({ lng: e.lng, lat: e.lat });
       } else {
-        storeVisible.changeShowComponent(false);
-        storeVisible.changeShowDetail({
-          show: true,
-          params: {
-            operatorId: e.operatorId,
-            stationId: e.stationId,
-            isHr: e.isHr,
-            equipmentId: e.eid
-          }
-        });
         bus.emit('toHr', e);
       }
     }

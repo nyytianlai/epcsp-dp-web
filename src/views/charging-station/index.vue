@@ -44,7 +44,11 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list :data="projectList" :totalNum="projectTotalNum" :height="totalChargerIndex === 1?'3.4rem':'2.4rem'" />
+      <rank-list
+        :data="projectList"
+        :totalNum="projectTotalNum"
+        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'"
+      />
     </div>
   </panel>
   <panel type="right">
@@ -116,7 +120,7 @@ import {
   chargingStationGunTabsFun
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { toSingleStation } from '@/global/config/map';
+import { toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
@@ -297,7 +301,9 @@ const getTimePowerGraph = async () => {
 const handleWarnClick = (station: object) => {
   console.log(station);
   // 告警详情
-  toSingleStation(aircityObj.value?.acApi, station);
+  showStationDetailPanel(storeVisible, station);
+  station['isFly'] = false;
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, station);
 };
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {

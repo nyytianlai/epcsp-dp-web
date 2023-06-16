@@ -94,8 +94,10 @@ import { ref, reactive, inject, onMounted } from 'vue';
 import { alarmInfo } from '../api.js';
 import { columnDataFun, filtersAlarmLevelName, filtersAlarmTypeName } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
-import { toSingleStation } from '@/global/config/map';
+import { toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+
 interface Props {
   visible: boolean;
 }
@@ -103,6 +105,8 @@ const props = withDefaults(defineProps<Props>(), {
   visible: false
 });
 const emit = defineEmits(['close']);
+const storeVisible = useVisibleComponentStore();
+
 // 列表分页
 const pageObj = reactive({
   pageSize: 8,
@@ -156,7 +160,9 @@ const handleDetailWarn = (item) => {
   emit('close');
   // dialogTableVisible.value = false;
   // 展示站点
-  toSingleStation(aircityObj?.value?.acApi, item.row);
+  showStationDetailPanel(storeVisible, item.row);
+  item.row['isFly'] = false;
+  aircityObj?.value && toSingleStation(aircityObj?.value?.acApi, item.row);
 };
 
 const getTableAlarm = async () => {

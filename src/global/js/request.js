@@ -86,16 +86,18 @@ const err = (error) => {
         break;
       case 401:
         Message({ type: 'error', message: '用户没有权限（令牌、用户名、密码错误），请重新登录！' });
-        store.removeTokens().then(() => {
-          location.reload();
-        });
+        setTimeout(() => {
+          store.removeTokens().then(() => {
+            location.reload();
+          });
+        }, 1000);
         break;
       default:
         Message({ type: 'error', message: data.message });
         break;
     }
   } else if (error.message) {
-    console.log('error.message',error.message);
+    console.log('error.message', error.message);
     if (error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
     } else {
@@ -106,7 +108,7 @@ const err = (error) => {
 };
 axios.interceptors.response.use((response) => {
   const res = response;
-  if (res && res.status != 200) {
+  if (res && res.status !== 200) {
     const type = response.request.responseType;
     if (type === 'blob') {
       return res;
@@ -123,8 +125,18 @@ axios.interceptors.response.use((response) => {
     }
     return Promise.reject(new Error(res.message || 'Error'));
   } else {
-    if (res.data.resultCode === 'TCM-101') {
-      Message({ type: 'error', message: '租户信息有误，请联系管理员!' || 'Error' });
+    if (res.data.resultCode && res.data.resultCode !== 'TCM-000') {
+      const msg = JSON.parse(res.data.resultMsg);
+      Message({ type: 'error', message: msg.errorMsg || 'Error' });
+      if (res.data.resultCode === 'TCM-108') {
+        setTimeout(() => {
+          sessionStorage.removeItem('profile');
+          // removeToken()
+          store.removeTokens().then(() => {
+            location.reload();
+          });
+        }, 1000);
+      }
     } else {
       return res.data;
     }

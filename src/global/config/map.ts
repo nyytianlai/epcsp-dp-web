@@ -161,8 +161,6 @@ export const returnStationPointConfig = (item: {
   xoffset: number;
   stationType: number;
 }) => {
-  console.log('station' + item.stationType);
-  // let length= item.stationName.length * 12;
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
@@ -200,6 +198,7 @@ export const toSingleStation = async (
     stationLng: string;
     stationLat: string;
     stationName: string;
+    isFly?: boolean;
     [key: string]: any;
   }
 ) => {
@@ -217,4 +216,17 @@ export const toSingleStation = async (
     await __g.marker.add([o], null);
   }
   bus.emit('searchEnterStation', value);
+};
+
+export const showStationDetailPanel = (storeVisible, item) => {
+  storeVisible.changeShowComponent(false);
+  storeVisible.changeShowDetail({
+    show: true,
+    params: {
+      operatorId: item.operatorId,
+      stationId: item.stationId,
+      isHr: item.isHr,
+      equipmentId: item.eid
+    }
+  });
 };

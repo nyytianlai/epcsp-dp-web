@@ -37,6 +37,11 @@ let rectBar4Ref = ref(null);
 let legendNameData = ref('站点数/个');
 let legendListData = reactive([
   {
+    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
+    name: '充电站',
+    type: false
+  },
+  {
     color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
     name: '储能站',
     type: false
@@ -44,11 +49,6 @@ let legendListData = reactive([
   {
     color: 'linear-gradient(178.21deg, #6182FF 6.05%, #063273 94.76%)',
     name: '光伏站',
-    type: false
-  },
-  {
-    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
-    name: '充电站',
     type: false
   },
   {

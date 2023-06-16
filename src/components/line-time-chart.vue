@@ -28,7 +28,7 @@ interface Props {
   customOption?: object;
   // 模式
   mode?: string | boolean;
-  yaxisName?:string
+  yaxisName?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -180,6 +180,21 @@ const colorMap = {
   '#F9E900': {
     itemStyle: {
       color: '#F9E900'
+    }
+  },
+  '#4BDEFF': {
+    itemStyle: {
+      color: '#4BDEFF'
+    }
+  },
+  '#3485FF': {
+    itemStyle: {
+      color: '#3485FF'
+    }
+  },
+  '#9A4AFF': {
+    itemStyle: {
+      color: '#9A4AFF'
     }
   }
 };
@@ -337,7 +352,7 @@ const ecOptionFun = () => {
     series: colors.value.map((item) => colorMap[item]),
     ...customOption.value
   });
-
+  console.log('option',option)
   return option;
 };
 const ecOptionFunMode = () => {
@@ -580,7 +595,7 @@ const ecOptionFunOnlyLine = () => {
     }),
     ...customOption.value
   });
-  
+
   return option;
 };
 watch(
@@ -591,7 +606,7 @@ watch(
       ecOption.value = ecOptionFunMode();
     } else if (props.mode === 'onlyLine') {
       ecOption.value = ecOptionFunOnlyLine();
-      console.log('ecOption.value',ecOption.value)
+      // console.log('ecOption.value', ecOption.value);
     } else {
       ecOption.value = ecOptionFun();
     }

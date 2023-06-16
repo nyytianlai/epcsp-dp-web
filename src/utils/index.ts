@@ -36,6 +36,34 @@ export const pointIsInPolygon = (pointCoord, polygonCoord) => {
   return booleanPointInPolygon(pt, poly);
 };
 
+//获得字符串实际长度，中文2，英文0.5
+export const getStrLength = function (str) {
+  var realLength = 0,
+    len = str.length,
+    charCode = -1;
+  for (var i = 0; i < len; i++) {
+    charCode = str.charCodeAt(i);
+    if (charCode >= 0 && charCode <= 128) realLength += 0.5;
+    else realLength += 2;
+  }
+  return realLength;
+};
+
+//简单的防抖函数
+var timeout;
+export function debounce(func, wait) {
+  
+  return function () {
+      var context = this;
+      var args = arguments;
+      clearTimeout(timeout)
+      timeout = setTimeout(function () {
+          func.apply(context, args)
+      }, wait);
+  };
+};
+
+
 // 深拷贝
 // 深拷贝
 export const deepClone = (obj) => {

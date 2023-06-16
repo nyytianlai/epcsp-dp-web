@@ -15,15 +15,15 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
   console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
-    let quName = e.ID?.split('-')[1];
-    if (e.Data === 'mouseover') {
-      //鼠标悬浮事件
-      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
-      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
-    } else if (e.Data === 'mouseout') {
-      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
-      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
-    }
+    let arearName = e.ID?.split('-')[1];
+    let type = arearName.includes('区') ? 'qu' : 'jd';
+    // if (e.Data === 'mouseover') {
+    //   //鼠标悬浮事件
+    //   changeXzqhColor(type + '-' + arearName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
+    // }
+    //  else if (e.Data === 'mouseout') {
+    //   changeXzqhColor(type + '-' + arearName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
+    // }
   }
 });
 
@@ -37,16 +37,16 @@ const getBarPositionByQuName = (quName: string) => {
 const addBar = async (
   type: 'qu' | 'jd',
   moudleName: '储能站' | '光伏站' | '充换电柜',
-  res:[],
+  res: [],
   streetId?: string
 ) => {
   let barArr = [];
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
-  let stationCount = res.map((item) => {
-    return item.stationCount;
+  let countNumber = res.map((item) => {
+    return item.countNumber;
   });
 
-  let yMax = Math.max(...stationCount);
+  let yMax = Math.max(...countNumber);
 
   const res1 = await request.get({
     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
@@ -63,6 +63,9 @@ const addBar = async (
         ? i.areaCode == item.properties.QUCODE
         : i.streetId == item.properties.JDCODE;
     });
+    if (!countObj.length) {
+      return;
+    }
     let contentHeight = 190;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
@@ -78,7 +81,7 @@ const addBar = async (
       imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/rectBarOut.html?value=${
-        countObj[0].stationCount
+        countObj[0].countNumber
       }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}&moudleName=${moudleName}`, //弹窗HTML链接
       autoHidePopupWindow: false,
       popupSize: [200, contentHeight + 100],

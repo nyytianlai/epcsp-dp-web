@@ -10,13 +10,7 @@
   <div class="subject-layout">
     <header-area />
     <div class="my-tab-wrap">
-      <nav-tab
-        ref="navTab"
-        :nav-drop-list="navDropList"
-        :active-name="activeName"
-        :nav-tab-name="navTabName"
-        v-if="isShowMenu"
-      />
+      <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
     <time-weather />
     <div class="subject-container">
@@ -75,9 +69,7 @@ import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
-import {
-  getTreeLayerIdByName
-} from '@/global/config/map';
+import { getTreeLayerIdByName } from '@/global/config/map';
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
