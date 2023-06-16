@@ -75,7 +75,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 
 const emit = defineEmits('handleSelect');
 const { tabData } = toRefs(props);
-console.log('传过来的底部菜单数据', tabData);
+// console.log('传过来的底部菜单数据', tabData);
 
 const selectIndex = ref(null);
 const activeTab = ref();

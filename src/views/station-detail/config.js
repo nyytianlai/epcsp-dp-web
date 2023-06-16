@@ -6,7 +6,8 @@ import num from './images/num.png';
 import dayjs from 'dayjs';
 import petrol from './images/petrol.png';
 import { simplifyNum } from '@/utils/index';
-
+// 宝清储能站可高亮TileLayer
+export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
 export const lianhuaPowerFun = (data = {}) => {
   return [
     {
@@ -1809,7 +1810,7 @@ const popRealtimeDataFun = () => {
   // const hours = dayjs().hour();
   const seriesData = [];
   for (let i = 0; i < 24; i++) {
-    console.log('i', i);
+    // console.log('i', i);
     if (i === 9 || i === 10) {
       seriesData.push(-150);
     } else if (i === 18 || i === 19) {
