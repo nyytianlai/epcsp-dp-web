@@ -180,12 +180,12 @@ export const lianhuaWarnOption = {
   series: []
 };
 const lianhuaRealtimeDataFun = () => {
-  const hours = dayjs().hour();
-  const seriesData = [];
-  for (let i = 0; i < hours; i++) {
-    const random = Math.floor(Math.random() * 400000) + 100000;
-    seriesData.push(random);
-  }
+  // const hours = dayjs().hour();
+  const seriesData = [0,0,0,0,0,0,0.48,1.22,2.13,3.55,5.01,7.96,8.96,10.56,9.76,8.43,7.46,5.01,2.40,1.25,0,0,0,0];
+  // for (let i = 0; i < hours; i++) {
+  //   const random = Math.floor(Math.random() * 400000) + 100000;
+  //   seriesData.push(random);
+  // }
   return seriesData;
 };
 export const lianhuaRealtimeOption = {
