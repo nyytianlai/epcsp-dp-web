@@ -18,20 +18,15 @@ import {
   layerNameQuNameArr,
   infoObj,
   quView,
-  getImageUrl,
   getImageByCloud,
   quNameCodeInterTrans,
   getMapCenterCoord,
-  add3dt,
-  delete3dt,
-  control3dts,
   getTreeLayerIdByName,
   hideAllStation3dt,
   returnStationPointConfig,
-  getHtmlUrl,
   mapRequestCancelId
 } from '@/global/config/map';
-import { pointIsInPolygon, Cartesian2D, GCJ02_2_4547 } from '@/utils/index';
+import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import bus from '@/utils/bus';
 import { getJdStation } from './api.js';
 import { getQuStationWithAlarm } from './api.js';

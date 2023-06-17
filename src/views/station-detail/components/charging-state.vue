@@ -4,11 +4,15 @@
       <li
         v-for="(item, index) in data"
         :key="index"
-        :class="stateFormate(item.status)?.code"
+        :class="[stateFormate(item.status)?.code, warnStateFormate(item.isAlarm)?.code]"
         @click="emit('handleClickState', item.eid, item.status)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
-        <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
+        <icon
+          :icon="`svg-icon:${warnStateFormate(item.isAlarm)?.code}`"
+          v-if="item.isAlarm === 0"
+        />
+        <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" v-else />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
         <span class="state">
           <span class="text">{{ stateFormate(item.status).name }}</span>
@@ -18,7 +22,7 @@
     <no-data v-else />
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, toRefs, inject, watch, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { getImageByCloud, getTreeLayerIdByName } from '@/global/config/map';
@@ -27,7 +31,6 @@ import { useMapStore } from '@/stores/map';
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const useEmitt = aircityObj.value?.useEmitt;
 const props = defineProps({
   data: {
     type: Object,
@@ -53,7 +56,7 @@ const stateFormate = (state) => {
     },
     3: {
       code: 'charging-work',
-      name: '占用'
+      name: '充电中'
     },
     4: {
       code: 'no-work',
@@ -66,6 +69,15 @@ const stateFormate = (state) => {
     255: {
       code: 'error-work',
       name: '故障'
+    }
+  }[state];
+};
+const warnStateFormate = (state) => {
+  console.log(state);
+  return {
+    0: {
+      code: 'charging-warning',
+      name: '告警'
     }
   }[state];
 };
@@ -85,86 +97,6 @@ const typeFormate = (type) => {
     }
   }[type];
 };
-const barListFun = () => {
-  return [
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '空闲',
-      type: '光',
-      power: '60KW'
-    },
-    {
-      state: '故障',
-      type: '超',
-      power: '60KW'
-    },
-    {
-      state: '离线',
-      type: 'V2G',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    },
-    {
-      state: '充电中',
-      type: '快',
-      power: '60KW'
-    }
-  ];
-};
-const barData = ref(barListFun());
 
 const customFun = async (data) => {
   /**
@@ -333,6 +265,7 @@ onBeforeUnmount(() => {
         rgba(37, 177, 255, 0.04) 0%,
         rgba(58, 184, 255, 0.4) 100%
       );
+      box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 85, 113, 0.2);
       .text {
         background: linear-gradient(180deg, #4bdeff 3.12%, #ffffff 48.96%, #4bdeff 100%);
         .text-font-style;
@@ -358,6 +291,7 @@ onBeforeUnmount(() => {
         rgba(37, 177, 255, 0.04) 0%,
         rgba(58, 255, 172, 0.4) 100%
       );
+      box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 113, 46, 0.2);
       .text {
         background: linear-gradient(180deg, #4bff5d 3.12%, #ffffff 48.96%, #4bff5d 100%);
         .text-font-style;
@@ -367,16 +301,25 @@ onBeforeUnmount(() => {
   .error-work {
     background: linear-gradient(
       255.75deg,
-      rgba(255, 37, 37, 0.03) 23.33%,
-      rgba(75, 10, 10, 0.3) 100%
+      rgba(255, 207, 37, 0.03) 23.33%,
+      rgba(75, 57, 10, 0.3) 100%
     );
     .type {
-      background: linear-gradient(270deg, rgba(255, 79, 79, 0.5) 2.5%, rgba(255, 79, 79, 0) 162.5%);
+      background: linear-gradient(
+        270deg,
+        rgba(255, 227, 79, 0.5) 2.5%,
+        rgba(255, 185, 79, 0) 162.5%
+      );
     }
     .state {
-      background: linear-gradient(180deg, rgba(255, 37, 37, 0.04) 0%, rgba(255, 58, 58, 0.4) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 194, 37, 0.04) 0%,
+        rgba(255, 212, 58, 0.4) 100%
+      );
+      box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 85, 113, 0.2);
       .text {
-        background: linear-gradient(180deg, #ff4b4b 3.12%, #ffffff 48.96%, #ff4b4b 100%);
+        background: linear-gradient(180deg, #ffe24b 3.12%, #ffffff 48.96%, #ffcd4b 100%);
         .text-font-style;
       }
     }
@@ -400,8 +343,27 @@ onBeforeUnmount(() => {
         rgba(255, 255, 255, 0.04) 0%,
         rgba(255, 255, 255, 0.4) 100%
       );
+      box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(108, 108, 108, 0.2);
       .text {
         background: linear-gradient(180deg, #b3b3b3 3.12%, #ffffff 48.96%, #a2a2a2 100%);
+        .text-font-style;
+      }
+    }
+  }
+  .charging-warning {
+    background: linear-gradient(
+      255.75deg,
+      rgba(255, 37, 37, 0.03) 23.33%,
+      rgba(75, 10, 10, 0.3) 100%
+    );
+    .type {
+      background: linear-gradient(270deg, rgba(255, 79, 79, 0.5) 2.5%, rgba(255, 79, 79, 0) 162.5%);
+    }
+    .state {
+      background: linear-gradient(180deg, rgba(255, 37, 37, 0.04) 0%, rgba(255, 58, 58, 0.4) 100%);
+      box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(113, 21, 21, 0.2);
+      .text {
+        background: linear-gradient(180deg, #ff4b4b 3.12%, #ffffff 48.96%, #ff4b4b 100%);
         .text-font-style;
       }
     }

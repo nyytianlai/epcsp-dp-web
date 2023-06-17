@@ -8,15 +8,15 @@
         box-shadow: inset 0px 0px 18px rgba(75, 125, 255, 0.8);
         width: 360px;
         position: relative;
-        padding-top: 16px;
-        padding-bottom: 16px;
+        padding: 16px;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 0);
       }
   
       header {
         display: flex;
-        padding-right: 22px;
         justify-content: space-between;
         align-items: center;
+        position: relative;
       }
   
       img {
@@ -24,7 +24,6 @@
       }
   
       .header-left {
-        display: flex;
         color: #FFFFFF;
         font-weight: 600;
         font-size: 16px;
@@ -35,18 +34,19 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
-  
       #close {
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
         color: #C0E5FF;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+      #close:before {
+        content: '\2716';
       }
   
-      .msg-box {
-        margin-left: 12px;
-  
-  
-      }
   
       .msg {
         margin-top: 14px;
@@ -83,23 +83,22 @@
       }
       .bottom {
         margin-top: 12px;
-        margin-left: 12px;
-        margin-right: 12px;
-        padding-left: 12px;
-        height: 64px;
+        padding: 14px 24px 14px 12px ;
+        /* height: 64px; */
         background: rgba(55, 83, 116, 0.5);
-        display: flex;
+        justify-content: space-between;
         align-items: center;
-  
-  
+      }
+
+      .bottom .flex{
+        align-items: center;
       }
   
       .bottom-name {
-        margin-left: 25px;
+        margin-left: 15px;
         font-weight: 400;
-  font-size: 14px;
-  color: #FFFFFF;
-  
+        font-size: 14px;
+        color: #FFFFFF;
       }
   
       .bottom-msg {
@@ -109,16 +108,16 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 28px;
-  
         color: #00D1FF;
         text-shadow: 0px 2px 10px rgba(75, 222, 255, 0.5);
-  
-  
       }
   
       .unit {
         font-weight: 400;
         font-size: 14px;
+      }
+      .flex{
+        display: flex;
       }
     </style>
   </head>
@@ -126,11 +125,11 @@
   <body style="height: 100%; width: 100%; margin: 0">
     <div class="qu-box">
       <header>
-        <div class="header-left">
+        <div class="header-left flex">
           <img src="../images/position.png" alt="">
           <div id="title">站点名称名称名称名称</div>
         </div>
-        <div id="close" onclick="cli1()">X</div>
+        <div id="close" onclick="cli1()"></div>
       </header>
       <div class="msg-box">
         <div class="msg">
@@ -146,9 +145,11 @@
           <span class="value" id="date">2023-06-16</span>
         </div>
       </div>
-      <div class="bottom">
-        <img src="../images/warn.png" alt="">
-        <div class="bottom-name">站点并网容量</div>
+      <div class="bottom flex">
+        <div class="flex">
+          <img src="../images/warn.png" alt="">
+          <div class="bottom-name">并网容量</div>
+        </div>
         <div class="bottom-msg"><span id="capacity">9.6</span><span class="unit">kWh</span></div>
       </div>
     </div>
