@@ -6,7 +6,29 @@ import { districtAlarmLevelStatics, getMapStationStatistic } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
+const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
+
+useEmitt('AIRCITY_EVENT', async (e) => {
+  // 编写自己的业务
+  console.log('事件监听', e);
+  if (e.eventtype === 'MarkerCallBack') {
+    let quName = e.ID?.split('-')[1];
+    if (e.Data === 'mouseover') {
+      //鼠标悬浮事件
+      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
+      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.6]);
+    } else if (e.Data === 'mouseout') {
+      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
+      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.0]);
+    }
+  }
+});
+
+const changeXzqhColor = (polygonId: string, newVal: [number, number, number, number]) => {
+  __g.polygon.setColor(polygonId, newVal);
+};
+
 const addBar = async (obj: {
   code: 1 | 2;
   type: 'qu' | 'jd';
@@ -125,10 +147,10 @@ const addBar = async (obj: {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/cirBar3.html?value=${value}&yMax=${yMax}&colorType=${
         obj.code
-      }&areaCode=${areaCode}`, //弹窗HTML链接
+      }&areaCode=${areaCode}&quName=${idEnd}&contentHeight=${contentHeight}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [88, contentHeight],
-      popupOffset: [-88, -80], //弹窗偏移
+      popupSize: [200, contentHeight + 100],
+      popupOffset: [-120, -130], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };

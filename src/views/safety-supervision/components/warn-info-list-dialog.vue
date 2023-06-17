@@ -160,6 +160,9 @@ const handleDetailWarn = (item) => {
   emit('close');
   // dialogTableVisible.value = false;
   // 展示站点
+
+  item.isWarning = true
+  item.warnId = item.id
   showStationDetailPanel(storeVisible, item.row);
   item.row['isFly'] = false;
   aircityObj?.value && toSingleStation(aircityObj?.value?.acApi, item.row);

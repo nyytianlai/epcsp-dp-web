@@ -84,6 +84,7 @@
         { value: paramsValue.chargingCabinet, label: { offset: [0, 2] } },
         { value: paramsValue.energyStorage, label: { offset: [-38, -6] } },
         { value: paramsValue.photovoltaic, label: { offset: [-38, -6] } },
+        { value: paramsValue.photovoltaic, label: { offset: [-38, -6] } },
       ];
       const yMax=Number(urlParams.get("yMax"))
       console.log('最大值',yMax);
@@ -97,10 +98,10 @@
       var myChart = echarts.init(dom);
       var option;
       var app = {};
-      const offsetX = 20;
+      const offsetX = 15;
       const offsetY = 6;//和CubeTop上的点一起控制柱子顶部的四边形高度
-      const offsetX1 = [70, -5,5, -75];//控制柱子之间的距离 负数往左移
-      const offsetY1 = [-10, 0,0, 10];//控制柱子的上下距离 负数往上移
+      const offsetX1 = [70, -5,5, -85,-95];//控制柱子之间的距离 负数往左移
+      const offsetY1 = [-10, 0,0, 10,10];//控制柱子的上下距离 负数往上移
       // 绘制左侧面
       const CubeLeft = echarts.graphic.extendShape({
         shape: {
@@ -158,7 +159,7 @@
         buildPath: function (ctx, shape) {
           const c1 = [shape.x, shape.y + shape.offsetY1];//下
           const c2 = [shape.x + offsetX, shape.y - offsetY + shape.offsetY1]; //右点
-          const c3 = [shape.x, shape.y - offsetX + shape.offsetY1+8]; //上
+          const c3 = [shape.x, shape.y - offsetX + shape.offsetY1+4]; //上
           const c4 = [shape.x - offsetX, shape.y - offsetY + shape.offsetY1];//右点
           ctx
             .moveTo(c1[0], c1[1])
@@ -194,6 +195,11 @@
           ["#88A1FF","#3532AF"],
           ["#A2B7EE","#A2B7EE"]
         ],
+        [//橙棕色 换电站
+          ["#79481B","#79481B"],
+          ["#FF9900","#774700"],
+          ["#FFC59B","#FFC59B"]
+        ],
       ];
 
       option = {
@@ -222,7 +228,8 @@
       <li>储能站<div class="liRight"><sapn class="num num1">${paramsValue.energyStorage}</sapn>个</div></li>
       <li>光伏站<div class="liRight"><span class="num num2">${paramsValue.photovoltaic}</span>个</div></li>
       <li>充电站<div class="liRight"><span class="num num3">${paramsValue.charge}</span>个</div></li>
-      <li>充换店柜<div class="liRight"><span class="num num4">${paramsValue.chargingCabinet}</span>个</div></li>
+      <li>充换电柜<div class="liRight"><span class="num num4">${paramsValue.chargingCabinet}</span>个</div></li>
+      <li>换电站<div class="liRight"><span class="num num5">${paramsValue.chargingCabinet}</span>个</div></li>
      </div>
     </div>`
             },

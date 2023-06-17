@@ -1,9 +1,8 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
-import request from '@sutpc/axios';
-import { monthRate } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
+import request from '@sutpc/axios';
 const aircityObj = inject('aircityObj');
 
 const addBar = async (

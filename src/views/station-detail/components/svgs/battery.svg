@@ -1,0 +1,29 @@
+<svg width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2815_123146)">
+<rect x="4" y="2" width="55" height="55" rx="4" fill="url(#paint0_radial_2815_123146)" fill-opacity="0.5"/>
+<g clip-path="url(#clip0_2815_123146)">
+<path d="M41.5624 42.581C41.5624 43.4053 41.267 44.1197 40.6763 44.7242C40.0855 45.3288 39.268 45.631 38.2239 45.631H26.1061C24.9245 45.631 24.0246 45.3013 23.4064 44.6418C22.7881 43.9823 22.479 43.158 22.479 42.1688V15.9961C22.479 15.2542 22.7263 14.6359 23.2209 14.1413C23.7155 13.6467 24.4299 13.3994 25.3642 13.3994H38.7597C39.7489 13.3994 40.4633 13.6467 40.903 14.1413C41.3426 14.6359 41.5624 15.2816 41.5624 16.0785V42.581ZM28.6203 38.5829V40.6438H35.4211V38.5829H28.6203ZM31.0109 16.8204V19.1698H28.6203V21.2306H31.0109V23.6212H33.0305V21.2306H35.4211V19.1698H33.0305V16.8204H31.0109ZM32.0413 8C32.3161 8.02748 32.5909 8.04122 32.8657 8.04122C33.0855 8.04122 33.3328 8.04809 33.6076 8.06183C33.8823 8.07556 34.1434 8.08243 34.3907 8.08243C34.8853 8.10991 35.2082 8.26104 35.3593 8.53582C35.5104 8.8106 35.586 9.19529 35.586 9.68989V11.05V11.6271H28.4142V10.0608C28.4142 9.84102 28.428 9.55937 28.4555 9.2159C28.4829 8.87242 28.6066 8.60451 28.8264 8.41217C29.0737 8.19235 29.4859 8.07556 30.0629 8.06183C30.6399 8.04809 31.2994 8.02748 32.0413 8Z" fill="white"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_2815_123146" x="0" y="0" width="63" height="63" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2815_123146"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2815_123146" result="shape"/>
+</filter>
+<radialGradient id="paint0_radial_2815_123146" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(31.5 26.9219) rotate(134.304) scale(33.6453)">
+<stop stop-color="#0E7FA2"/>
+<stop offset="0.223958" stop-color="#1486B4" stop-opacity="0"/>
+<stop offset="0.465383" stop-color="#1689B9" stop-opacity="0"/>
+<stop offset="1" stop-color="#1D92CD"/>
+</radialGradient>
+<clipPath id="clip0_2815_123146">
+<rect width="42" height="42" fill="white" transform="translate(11 8)"/>
+</clipPath>
+</defs>
+</svg>

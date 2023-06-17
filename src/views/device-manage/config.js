@@ -262,6 +262,7 @@ export const lineStateDataFun = (data = []) => {
       name: '在线'
     },
     {
+      yAxisIndex: 1,
       data: data.map((item) => [yearMonthDay + item.time, item.offlineCount]),
       type: 'line',
       smooth: true,

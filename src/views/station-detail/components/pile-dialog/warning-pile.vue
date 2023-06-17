@@ -4,12 +4,21 @@
       <icon icon="svg-icon:warning" />
       <span>{{ alarmLevelData[pileData.alarmLevel] || '--' }}</span>
     </div>
-    <ul class="device-info">
-      <li class="list-item" v-for="(item, index) in listData" :key="index">
+    <div class="device-info">
+      <ul class="device-left">
+        <li class="list-item" v-for="(item, index) in listDataLeft" :key="index">
         <label for="">{{ item.label }}</label>
         <span class="value">{{ item.value }}</span>
       </li>
-    </ul>
+      </ul>
+      <ul class="device-right">
+        <li class="list-item" v-for="(item, index) in listDataRight" :key="index">
+        <label for="">{{ item.label }}</label>
+        <span class="value">{{ item.value }}</span>
+      </li>
+      </ul>
+    </div>
+
     <div class="btns-wrap">
       <div class="border-bg red" @click="emit('close')">
         <div class="content">一键断电</div>
@@ -40,7 +49,7 @@
         </div>
       </template>
       <div class="user-info">
-        <icon icon="svg-icon:people-big" style="fontSize: 2.94rem" />
+        <icon icon="svg-icon:people-big" :style="{ fontSize: '2.94rem' }" />
         <span class="user-name">李某某</span>
         <span class="time">00:00:00</span>
         <div class="btn-wrap">
@@ -50,7 +59,7 @@
             v-for="item in btnList"
             :key="item.icon"
           >
-            <icon :icon="`svg-icon:${item.icon}`" style="fontSize: 0.6rem" />
+            <icon :icon="`svg-icon:${item.icon}`" :style="{ fontSize: '0.6rem' }" />
             <span class="text">{{ item.text }}</span>
           </span>
         </div>
@@ -59,7 +68,7 @@
   </div>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject,watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const emit = defineEmits(['close']);
 const pileData = inject('pileData');
@@ -85,51 +94,67 @@ const affirms = {
   1: '未确认',
   2: '已确认'
 };
-const listDataFun = (data = {}) => {
+const listDataLeftFun = (data = {}) => {
   return [
     {
       label: '设备名称：',
       value: data?.equipmentName || '--'
     },
-    {
-      label: '设备类型：',
-      value: equipmentTypes[data?.equipmentType] || '--'
-    },
+
     {
       label: '设备编号：',
       value: data?.equipmentId || '--'
     },
-    {
-      label: '设备接口编码：',
-      value: data?.connectorId || '--'
-    },
+
     {
       label: '告警类型：',
       value: alarmTypes[data?.alarmType] || '--'
     },
-    {
-      label: '告警描述：',
-      value: data?.alarmDesc || '--'
-    },
+
     {
       label: '告警时间：',
       value: data?.alarmTime || '--'
     },
-    {
-      label: '上报时间：',
-      value: data?.reportingTime || '--'
-    },
+
     {
       label: '确认结果：',
       value: affirms[data?.affirm] || '--'
     },
+
+  ];
+};
+const listDataRightFun = (data = {}) => {
+  return [
+
+    {
+      label: '设备类型：',
+      value: equipmentTypes[data?.equipmentType] || '--'
+    },
+
+    {
+      label: '设备接口编码：',
+      value: data?.connectorId || '--'
+    },
+
+    {
+      label: '告警描述：',
+      value: data?.alarmDesc || '--'
+    },
+
+    {
+      label: '上报时间：',
+      value: data?.reportingTime || '--'
+    },
+
     {
       label: '负责人电话：',
       value: data?.contactTel || '--'
     }
   ];
 };
-const listData = ref(listDataFun(pileData.value));
+
+const listDataLeft = ref(listDataLeftFun(pileData.value));
+const listDataRight = ref(listDataRightFun(pileData.value));
 const innerVisible = ref(false);
 const btnList = ref([
   {
@@ -151,6 +176,12 @@ const handleClick = (item) => {
     innerVisible.value = false;
   }
 };
+watch(()=>pileData.value,(newVal)=>{
+  listDataLeft.value = listDataLeftFun(newVal)
+  listDataRight.value = listDataLeftFun(newVal)
+},{
+  deep:true,immediate:true
+})
 </script>
 <style lang="less" scoped>
 .warning-pile {
@@ -169,7 +200,9 @@ const handleClick = (item) => {
   margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  .device-right {
+    margin-left: 198px;
+  }
   .list-item {
     width: 260px;
     font-size: 16px;
@@ -184,7 +217,10 @@ const handleClick = (item) => {
 .btns-wrap {
   display: flex;
   justify-content: flex-end;
-  margin-top: 63px;
+
+  position: absolute;
+  bottom: 35px;
+  right: 35px;
   .border-bg {
     width: 103px;
     height: 39px;
@@ -204,11 +240,11 @@ const handleClick = (item) => {
       justify-content: center;
     }
     &.red {
-      background: url(./images/red-btn-bgc.png) no-repeat;
+      background: url(../images/red-btn-bgc.png) no-repeat;
       background-size: 100% 100%;
     }
     &.blue {
-      background: url(./images/blue-btn-bgc.png) no-repeat;
+      background: url(../images/blue-btn-bgc.png) no-repeat;
       background-size: 100% 100%;
       .content {
         background: linear-gradient(270deg, #0a4174 0%, #3483df 100%);

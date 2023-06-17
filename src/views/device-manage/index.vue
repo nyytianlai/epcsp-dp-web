@@ -11,30 +11,18 @@
   <panel>
     <div class="charging-station-num">
       <title-column title="充电设施总量" :showBtn="true" @handleClick="handleDetailClick" />
-      <tabs
-        :data="bottomBtnCur === 1 ? chargingStationTabs : chargingStationGunTabs"
-        @changeTab="(data) => handleChangeTab(data, 'charging-station')"
-      />
-      <pie-chart
-        class="device-total-pie"
-        :data="chargingStationPieData"
-        :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
-        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
-        @choose="handleChoose"
-        :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
-      />
+      <tabs :data="bottomBtnCur === 1 ? chargingStationTabs : chargingStationGunTabs"
+        @changeTab="(data) => handleChangeTab(data, 'charging-station')" />
+      <pie-chart class="device-total-pie" :data="chargingStationPieData"
+        :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'" :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        @choose="handleChoose" :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors" />
     </div>
     <div class="charging-peak-area">
-      <title-column
-        title="行政区充电次数情况"
-        :showTabBtn="true"
-        :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '月' },
-          { value: 3, name: '年' }
-        ]"
-        @handleTabBtn="handleYearBtn"
-      />
+      <title-column title="行政区充电次数情况" :showTabBtn="true" :tabList="[
+        { value: 1, name: '日' },
+        { value: 2, name: '月' },
+        { value: 3, name: '年' }
+      ]" @handleTabBtn="handleYearBtn" />
       <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.2rem" />
     </div>
     <div class="charging-num-images">
@@ -46,68 +34,39 @@
     <title-column title="在线运行状态情况" />
     <charging-realtime-power :data="chargingRealPower" />
     <div class="charging-types">
-      <tabs
-        :data="chargingTypesTabs"
-        @changeTab="(data) => handleChangeTab(data, 'charging-types')"
-      />
+      <tabs :data="chargingTypesTabs" @changeTab="(data) => handleChangeTab(data, 'charging-types')" />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="lineStateColor" />
+      <line-time-chart-both :data="lineStateData" :colors="lineStateColor" unit="个" yAxisMode1="auto"
+        :yAxisMode2="40000" />
     </div>
     <div class="charging-runing">
-      <tabs
-        :data="chargingRunTabs"
-        @changeTab="(data) => handleChangeTab(data, 'charging-runing')"
-      />
+      <tabs :data="chargingRunTabs" @changeTab="(data) => handleChangeTab(data, 'charging-runing')" />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingRunData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart-both
-        :data="lineRunData"
-        unit="%"
-        :colors="lineRunColor"
-        yAxisMode1="auto"
-        :yAxisMode2="10"
-      />
+      <line-time-chart-both :data="lineRunData" unit="%" :colors="lineRunColor" yAxisMode1="auto" :yAxisMode2="2" />
     </div>
   </panel>
   <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <custom-dialog v-model:visible="dialogTotalVisible" title="充电站设施列表">
     <template #titleSearch>
-      <el-input
-        v-model="inputTotal"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearch"
-      >
+      <el-input v-model="inputTotal" placeholder="请输入" class="search-input" @change="handleSearch">
         <template #suffix>
           <icon :size="12" icon="svg-icon:search" />
         </template>
       </el-input>
     </template>
-    <el-table
-      :data="totalTableData"
-      height="6.19rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-      @sort-change="handleSort"
-      :default-sort="{ prop: 'equipmentPower', order: 'descending' }"
-    >
-      <el-table-column
-        v-for="(item, index) in columnData"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-        :sortable="item.sortable"
-        :sort-orders="item.sortOrders"
-      >
+    <el-table :data="totalTableData" height="6.19rem" style="width: 100%" class="custom-dialog-table"
+      @sort-change="handleSort" :default-sort="{ prop: 'equipmentPower', order: 'descending' }">
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
+        :formatter="tableColumnFun" :sortable="item.sortable" :sort-orders="item.sortOrders">
         <template #header v-if="item.prop === 'areaName'">
           <div class="areaName">
             {{ item.label }}
@@ -116,17 +75,8 @@
                 <icon :size="12" icon="svg-icon:filter" class="filter" />
               </template>
               <div class="checkbox">
-                <el-tree
-                  :data="filters"
-                  show-checkbox
-                  node-key="id"
-                  default-expand-all
-                  :expand-on-click-node="false"
-                  @check="handleFilter"
-                  class="table-filter"
-                  :indent="0.00001"
-                  :default-checked-keys="defaultArea"
-                />
+                <el-tree :data="filters" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false"
+                  @check="handleFilter" class="table-filter" :indent="0.00001" :default-checked-keys="defaultArea" />
               </div>
             </el-popover>
           </div>
@@ -139,14 +89,8 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="handPageChange"
-    />
+    <el-pagination :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total" :background="true"
+      :current-page="pageObj.currentPage" @current-change="handPageChange" />
   </custom-dialog>
 </template>
 <script lang="ts" setup>
@@ -185,6 +129,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
+
 const lineStateColor = ['green', 'blue'];
 const lineRunColor = ['green', '#FF7723'];
 const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
@@ -424,6 +370,7 @@ const handleDetail = (item) => {
       isHr: item.row.isHr
     }
   });
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
 };
 
 // 行政区充电次数情况tab点击
@@ -476,67 +423,80 @@ onUnmounted(() => {
   .tabs {
     margin-top: 16px;
   }
+
   .pie-wrap {
     margin-top: 20px;
   }
 }
+
 .charging-peak-area {
   margin-top: 17px;
+
   .area-rank-wrap {
     margin-top: 16px;
   }
 }
+
 .charging-num-images {
   margin-top: 22px;
+
   .images-wrap {
     margin-top: 16px;
   }
 }
+
 .charging-types,
 .charging-runing {
   .tabs {
     margin-top: 16px;
   }
+
   .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
+
       .info {
         flex-direction: column;
+
         .name {
           margin-bottom: 0;
         }
       }
     }
   }
+
   .ec-wrap {
     margin-top: 20px;
   }
 }
+
 .charging-runing {
   .tabs {
     margin-top: 20px;
   }
+
   .num-wrap {
     margin-top: 20px;
   }
+
   .ec-wrap {
     margin-top: 22px;
   }
 }
+
 .charging-realtime-power {
   margin-top: 16px;
 }
@@ -550,10 +510,12 @@ onUnmounted(() => {
 .v-leave-to {
   opacity: 0;
 }
+
 .detail {
   color: #4bdeff;
   text-decoration: none;
 }
+
 .filter {
   cursor: pointer;
 }

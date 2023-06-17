@@ -54,7 +54,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagiantion" :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total"
+        <el-pagination class="pagiantion-detail" :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total"
           :background="true" :current-page="pageObj.currentPage" @current-change="handPageChange" />
       </div>
     </div>
@@ -332,9 +332,9 @@ defineExpose({
   text-decoration: none;
 }
 
-.pagiantion {
+.pagiantion-detail {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
+  margin-top: 10px!important;
 }
 </style>
