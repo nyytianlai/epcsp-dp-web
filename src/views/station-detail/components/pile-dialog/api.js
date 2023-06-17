@@ -31,3 +31,10 @@ export const selectEquipmentAlarmByPage = (params) => {
         data: params
       })
   }
+// 告警
+  export const selectEquipmentWarningInfoByEquipmentId = (params) => {
+    return request.post({
+        url: '/dp/api/v1/equipmentManageDetail/selectEquipmentWarningInfoByEquipmentId',
+        data: params
+      })
+  }

@@ -14,7 +14,7 @@
     </el-tabs>
     <ul class="info-content">
       <li class="info-item" v-for="(item, index) in infoList" :key="index"
-        :class="[{ active: item.dynamicType === dynamicActive.dynamicType }]" @click="handleClickDynamic(item)">
+       >
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
           <span class="name">{{ item.name }}</span>
@@ -36,7 +36,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
 const pileData = inject('pileData');
-const activeName = ref('充电桩');
+
 const customOption = {
   grid: {
     left: '6%',
@@ -48,28 +48,28 @@ const infoListFun = (data = {}) => {
   return [
     {
       icon: 'cdl',
-      name: '充电量',
+      name: '累计充电量',
       value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
       dynamicType: 1,
       unit: 'kWh'
     },
     {
       icon: 'fdl',
-      name: '放电量',
+      name: '累计放电量',
       value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
       dynamicType: 2,
       unit: 'kWh'
     },
     {
       icon: 'cdsc',
-      name: '充电时长',
+      name: '累计充电时长',
       value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
       dynamicType: 3,
       unit: 'h'
     },
     {
-      icon: 'cdcs',
-      name: '充电次数',
+      icon: 'cdsc',
+      name: '累计充电次数',
       value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
       dynamicType: 4,
       unit: '次'
@@ -105,7 +105,7 @@ const infoListFun = (data = {}) => {
   ];
 };
 const infoList = ref(infoListFun());
-const dynamicActive = ref(infoList.value[0]);
+const dynamicActive = ref(infoList.value[4]);
 
 const stateFormate = (state) => {
   return {
@@ -141,11 +141,6 @@ const stateFormate = (state) => {
 };
 const tabsFun = () => {
   const arr = [
-    {
-      name: '充电桩',
-      equipmentId: pileData.value?.equipmentId,
-      equipmentType: 1
-    }
   ];
   if (pileData.value?.gunInfoVoList?.length) {
     pileData.value?.gunInfoVoList.slice(0, 2).map((item) => {
@@ -160,6 +155,8 @@ const tabsFun = () => {
   return arr;
 };
 const tabList = ref(tabsFun());
+const activeName = ref(tabList.value[0].name);
+
 const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
@@ -189,7 +186,7 @@ const getEquipmentDynamicInfo = async (index = 0) => {
   const res = await selectEquipmentDynamicInfo(params);
   if (res?.data) {
     infoList.value = infoListFun(res?.data);
-    dynamicActive.value = infoList.value[0];
+    dynamicActive.value = infoList.value[4];
     getEquipmentDynamicInfoGroupByTime();
   }
 };
@@ -208,6 +205,7 @@ const getEquipmentDynamicInfoGroupByTime = async () => {
 };
 const handleClickDynamic = (item) => {
   dynamicActive.value = item;
+  console.log('dynamicActive.value',dynamicActive.value)
   getEquipmentDynamicInfoGroupByTime();
 };
 onMounted(() => {

@@ -23,9 +23,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, toRefs, inject, watch, onBeforeUnmount } from 'vue';
+import { ref, toRefs, inject, watch, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { getImageByCloud, getTreeLayerIdByName } from '@/global/config/map';
+import { getTreeLayerIdByName } from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
 
 const mapStore = useMapStore();
@@ -73,7 +73,6 @@ const stateFormate = (state) => {
   }[state];
 };
 const warnStateFormate = (state) => {
-  console.log(state);
   return {
     0: {
       code: 'charging-warning',
@@ -115,7 +114,7 @@ const customFun = async (data) => {
       objectIds: data
     },
     async (res) => {
-      console.log('getActorInfo', res);
+      // console.log('getActorInfo', res);
       res?.data?.map((item, index) => {
         let co_location = JSON.parse(JSON.stringify(item.location));
         let co_rotation = JSON.parse(JSON.stringify(item.rotation));
