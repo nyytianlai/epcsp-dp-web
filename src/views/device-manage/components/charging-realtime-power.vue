@@ -13,7 +13,7 @@
       <span class="num">
         {{ formatWithToLocalString(data) }}
       </span>
-      <span class="unit-info">充电实时功率/万kW</span>
+      <span class="unit-info">充电实时功率/kW</span>
     </div>
   </div>
 </template>

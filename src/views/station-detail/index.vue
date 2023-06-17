@@ -81,12 +81,21 @@
     </div>
     <div class="station-power">
       <title-column title="站点实时功率" />
+      <<<<<<< HEAD
       <line-time-chart
         unit="kW"
         :data="linePowerData"
         :colors="realtimePowerColors"
         :chartStyle="{ height: '2.22rem' }"
       />
+      =======
+      <line-time-chart
+        unit="kW"
+        :data="linePowerData"
+        :colors="['#F9E900', 'blue']"
+        :chartStyle="{ height: '2.22rem' }"
+      />
+      >>>>>>> 575baff858bf91b67a95c6e9dc266387a563ba91
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
@@ -103,7 +112,9 @@
     :pileParams="pileParams"
     @close="handleClose"
   />
+  <warningBox v-model:visible="warnVisible" :pileParams="pileParams" @close="handleClose" />
   <map-layer v-if="aircityObj" />
+
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
     <el-table
       :data="alarmTableData"
@@ -138,6 +149,7 @@ import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
 import Lianhuaxi from './components/lianhuaxi.vue';
 import chargingState from './components/charging-state.vue';
+import warningBox from './components/pile-dialog/warning-box.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
@@ -182,6 +194,8 @@ import honglixi from './components/honglixi.vue';
 const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const realtimePowerColors = ['#F9E900', 'green', 'blue'];
+// 是否展示告警
+const warnVisible = ref(false);
 // 左二图的tab
 const curBtn = ref(1);
 const chargeTab = ref(1);
@@ -266,7 +280,7 @@ const loadSelectDetailChargeCount = async () => {
     operatorId: store.detailParams.operatorId,
     stationId: store.detailParams.stationId
   });
-  // console.log('res',res)
+  // console.log('res', res)
   chargeData.value = res.data;
   chargingStationPieData.value = chargingStationPieDataFun(
     chargeTab.value,
@@ -423,9 +437,8 @@ useEmitt &&
     }
   });
 // 定位到桩弹窗
-const focusToPile = (eid, status) => {
-  console.log('pileVisiblepileVisible', pileVisible.value);
-  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+const focusToPile = async (eid, status) => {
+  let layerId = await getTreeLayerIdByName('118Station', mapStore.treeInfo);
   pileParams.value = {
     eid: eid
   };
@@ -438,6 +451,13 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
 };
 const clickWarningList = (item) => {
+  console.log('item,', item);
+  // 展示告警框
+  pileParams.value = {
+    eid: item.eid,
+    warnId: item.id
+  };
+  warnVisible.value = true;
   if (!chargingStateDataObj.value[item.eid]) return;
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   handleClickFocus(__g, layerId, item.eid, +chargingStateDataObj.value[item.eid].status);
@@ -468,7 +488,7 @@ const initWarn = async () => {
 };
 // 类型和电流类型 切换
 const handleChargeChange = (item) => {
-  console.log('item', item);
+  // console.log('item', item);
   chargeTab.value = item.code;
   chargingStationPieData.value = chargingStationPieDataFun(
     chargeTab.value,
@@ -480,8 +500,8 @@ const handleChargeChange = (item) => {
 const handleTabBtn = (data) => {
   curBtn.value = data.value;
   equipmentType.value = curBtn.value;
-  console.log('data', data);
-  console.log('curBtn.value', curBtn.value);
+  // console.log('data', data)
+  // console.log('curBtn.value', curBtn.value)
   loadSelectDetailChargeCount();
 };
 watch(
@@ -512,10 +532,15 @@ watch(
         getWarningStatisticByStationId();
         loadSelectDetailChargeCount();
         console.log('store.detailParams', store.detailParams);
-        if (store.detailParams?.equipmentId && __g) {
+        if (store.detailParams?.isWarning && __g) {
           //防止地图没有
-          console.log('pileVisible', pileVisible.value);
-          focusToPile(store.detailParams.equipmentId, 255);
+          let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+          pileParams.value = {
+            eid: store.detailParams.equipmentId,
+            warnId: store.detailParams.warnId
+          };
+          warnVisible.value = true;
+          handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
         }
       }
     }
@@ -539,47 +564,55 @@ watch(
 <style lang="less" scoped>
 .backBox {
   position: absolute;
-  height: 36px;
+  height: 19.5px;
   left: 86px;
-  top: 68px;
+  top: 75px;
   display: flex;
   background: rgba(4, 22, 43, 0.4);
-  border: 1px solid rgba(148, 148, 148, 0.3);
+
   color: #ffffff;
   z-index: 20;
   cursor: pointer;
 
   img {
-    width: 36px;
-    height: 36px;
+    height: 19.5px;
     border-radius: 1px;
   }
 }
+
 .station-info {
   margin-top: 12px;
 }
+
 .device-info {
   margin-top: 20px;
+
   :deep(.num-wrap) {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     padding-top: 14px;
+
     .num-card {
       margin-bottom: 10px;
+
       &:nth-last-child(1),
       &:nth-last-of-type(2) {
         margin-bottom: 0;
       }
+
       .icon {
         width: 90px;
         height: 94px;
       }
+
       .info {
         flex-direction: column;
+
         .num .value {
           font-size: 36px;
         }
+
         .name {
           margin-bottom: 0;
         }
@@ -587,24 +620,31 @@ watch(
     }
   }
 }
+
 .warning-message {
   margin-top: 16px;
+
   .warning-tabs {
     margin-top: 14px;
   }
+
   .warning-list {
     margin-top: 14px;
   }
 }
+
 .device-use-info {
   margin-top: 20px;
+
   .tabs {
     margin-top: 16px;
   }
+
   .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
@@ -618,8 +658,10 @@ watch(
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
+
       .info {
         flex-direction: column;
+
         .name {
           margin-bottom: 0;
         }
@@ -627,16 +669,20 @@ watch(
     }
   }
 }
+
 .station-power {
   margin-top: 16px;
+
   .ec-wrap {
     margin-top: 16px;
   }
 }
+
 .right-tab-btn {
   display: flex;
   background: rgba(21, 69, 105, 0.5);
   border: 1px solid #486785;
+
   .tab-btn {
     width: 28px;
     height: 28px;
@@ -646,15 +692,18 @@ watch(
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     border-left: 1px solid #486785;
+
     &:nth-of-type(1) {
       border: none;
     }
   }
 }
+
 .active {
   background: rgba(84, 181, 255, 0.8);
   color: #ffffff;
 }
+
 .pile-charger-header {
   margin-top: 16px;
   display: flex;

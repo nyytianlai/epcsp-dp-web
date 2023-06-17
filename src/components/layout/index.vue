@@ -23,7 +23,6 @@
         <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
           <img src="./images/back.png" alt="" @click="router.push('/overview')" />
         </div>
-        <div class="name" v-show="currentPosition === '深圳市' && isShowMenu">充电站</div>
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -246,20 +245,19 @@ provide('aircityObj', aircityObj);
 }
 .backBox {
   position: absolute;
-  height: 36px;
+  height: 19.5px;
   left: 86px;
-  top: 68px;
+  top: 75px;
   display: flex;
   background: rgba(4, 22, 43, 0.4);
-  border: 1px solid rgba(148, 148, 148, 0.3);
   color: #ffffff;
   z-index: 20;
-  cursor: pointer;
+  
 
   img {
-    width: 36px;
-    height: 36px;
+    height: 19.5px;
     border-radius: 1px;
+    cursor: pointer;
   }
 }
 .name {

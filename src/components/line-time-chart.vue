@@ -196,6 +196,11 @@ const colorMap = {
     itemStyle: {
       color: '#9A4AFF'
     }
+  },
+  '#F9004B': {
+    itemStyle: {
+      color: '#F9004B'
+    }
   }
 };
 const timeData = () =>
@@ -352,7 +357,6 @@ const ecOptionFun = () => {
     series: colors.value.map((item) => colorMap[item]),
     ...customOption.value
   });
-  // console.log('option',option)
   return option;
 };
 const ecOptionFunMode = () => {
@@ -563,7 +567,7 @@ const ecOptionFunOnlyLine = () => {
               <span class="value">${
                 item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
               }</span>
-              <span class="unit">${unit.value}</span>
+              <span class="unit">${unit.value ? unit.value : props.yaxisName}</span>
             </span>
           </div>`;
         });
@@ -601,12 +605,10 @@ const ecOptionFunOnlyLine = () => {
 watch(
   data,
   () => {
-    // console.log('data111', data.value);
     if (props.mode === 'haveTab') {
       ecOption.value = ecOptionFunMode();
     } else if (props.mode === 'onlyLine') {
       ecOption.value = ecOptionFunOnlyLine();
-      // console.log('ecOption.value', ecOption.value);
     } else {
       ecOption.value = ecOptionFun();
     }
@@ -623,6 +625,7 @@ watch(
   min-width: 200px;
   height: 189px;
   position: relative;
+
   .unit {
     position: absolute;
     top: 6px;
@@ -633,6 +636,7 @@ watch(
     color: #b4c0cc;
   }
 }
+
 :deep(.time-tooltip) {
   background: rgba(179, 183, 185, 0.6);
   mix-blend-mode: normal;
@@ -642,12 +646,14 @@ watch(
   padding: 8px;
   color: #ffffff;
   min-width: 160px;
+
   .time {
     font-weight: 500;
     font-size: 14px;
     line-height: 20px;
     margin-bottom: 4px;
   }
+
   .item-data {
     background: rgba(0, 83, 130, 0.26);
     mix-blend-mode: normal;
@@ -657,14 +663,17 @@ watch(
     padding: 5px 8px;
     white-space: nowrap;
     margin-bottom: 2px;
+
     &:last-of-type {
       margin-bottom: 0;
     }
+
     .left-data {
       .name {
         margin-left: 8px;
       }
     }
+
     .right-data {
       margin-left: 21px;
       font-weight: 500;
@@ -674,6 +683,7 @@ watch(
 
       .value {
       }
+
       .unit {
       }
     }
