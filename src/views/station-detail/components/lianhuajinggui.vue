@@ -1,7 +1,12 @@
 <template>
   <div class="charging-wrap">
     <ul class="content" v-if="data && data.length">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code">
+      <li
+        v-for="(item, index) in data"
+        :key="index"
+        :class="stateFormate(item.status)?.code"
+        @click="handleClickDJ(item)"
+      >
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.value }}</span>
         <span class="state">
@@ -15,6 +20,8 @@
 <script lang="ts" setup>
 import { toRefs, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import bus from '@/utils/bus';
+
 const props = defineProps({
   data: {
     type: Object,
@@ -34,7 +41,10 @@ const stateFormate = (state) => {
     }
   }[state];
 };
-
+const handleClickDJ = (e: { id: string; status: number; value: string }) => {
+  console.log('点击右侧的单晶板', e);
+  bus.emit('focusToPile', e.id);
+};
 onBeforeUnmount(() => {});
 </script>
 <style lang="less" scoped>

@@ -161,8 +161,6 @@ export const returnStationPointConfig = (item: {
   xoffset: number;
   stationType: number;
 }) => {
-  console.log('station' + item.stationType);
-  // let length= item.stationName.length * 12;
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
