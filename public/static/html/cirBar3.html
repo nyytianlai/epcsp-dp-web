@@ -52,17 +52,15 @@
         align-items: center;
         text-align: center;
         margin-right: 2px;
-        background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        /* background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
+         */
       }
   </style>
 </head>
 
-<body style="height: 100%; width: 100%; margin: 0">
+<body style="height: 100%; width: 100%; margin: 0;">
   <!-- <div id="chart-panel" style="height: 263px; width: 88px"></div> -->
-  <div id="chart-panel" style="height: 100%; width: 100%"></div>
+  <div id="chart-panel" style="height: 100%; width: 100%;position: absolute;bottom: 0px;left: 50px;"></div>
   <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
 
   <script type="text/javascript">
@@ -101,6 +99,7 @@
       [["#7E8026", "#7E8026", "#CDD034", "#E3FE3B", "#FEF63B"], ['#6D6D6D', '#797979', '#B5B5B5', '#FFFFFF', '#E8EBEB']],
       [["#FFEE54", "#F6FF95"], ['#EEEEEE', '#CECECE']],
     ];
+
     if(Number(paramsValue[2])){
     }else if(Number(paramsValue[1])){
       colorCollection[8]=colorCollection[6]
@@ -114,6 +113,17 @@
     }else if(Number(paramsValue[2])){
       colorCollection[3]=colorCollection[7]
     }
+
+    const tooltipData=[
+      [['一级 人身安全','linear-gradient(180deg, #00F7FF -71.43%, #FF0000 -71.41%, #FFD5D5 16%, #FF0000 96.43%);'],
+      ['二级 设备安全','linear-gradient(180deg, #FF6B00 -71.43%, #FFF3D5 16%, #FF6B00 96.43%);'],
+      ['三级 告警提示','linear-gradient(180deg, #EBFF00 -71.43%, #FCFFD5 16%, #EBFF00 96.43%);'],
+      ],
+      [['正常','linear-gradient(180deg, #00F7FF -71.43%, #D5FFFC 16%, #00FFF9 96.43%);'],
+      ['预警','linear-gradient(180deg, #FF6B00 -71.43%, #FFF3D5 16%, #FF6B00 96.43%);'],
+      ['未上线','linear-gradient(180deg, #B3B3B3 -71.43%, #FFFFFF 16%, #ACACAC 96.43%);'],
+      ],
+    ]
 
     var option = {
       animation: false,
@@ -130,19 +140,25 @@
             },
             // confine:false,
             borderWidth: 0,
-            // position: [-50, -131+190-(Number(paramsValue[1])*140)/yMax-20],//(Number(paramsValue[1])*120)/yMax 柱子高度
+            position: [-53, -131+190-(data4[0]*115)/yMax-38],//(Number(paramsValue[1])*120)/yMax 柱子高度
             formatter: function (params) {
-              // let item = "";
-              // item += params[0].name;
-              return `    <div id="pop-panel">
+              return `<div id="pop-panel">
      <div class="title">${quName}</div>
      <div class="content">
-      <li>一级 人身安全<div class="liRight"><sapn class="num">${paramsValue[0]}</sapn>个</div></li>
-      <li>二级 设备安全<div class="liRight"><span class="num">${paramsValue[1]}</span>个</div></li>
-      <li>三级 告警提示<div class="liRight"><span class="num">${paramsValue[2]}</span>个</div></li>
+      <li>${tooltipData[colorType][0][0]}<div class="liRight"><sapn class="num" style='background:${tooltipData[colorType][0][1]};
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;'>${paramsValue[0]}</sapn>个</div></li>
+      <li>${tooltipData[colorType][1][0]}<div class="liRight"><span class="num" style="background:${tooltipData[colorType][1][1]};
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;">${paramsValue[1]}</span>个</div></li>
+      <li>${tooltipData[colorType][2][0]}<div class="liRight"><span class="num" style='background:${tooltipData[colorType][2][1]};
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;'>${paramsValue[2]}</span>个</div></li>
      </div>
     </div>`
-              //  paramsValue[1];
             },
           },
       textStyle: {
@@ -287,24 +303,27 @@
           symbolSize: [40, 15],
           zlevel: 2,
           itemStyle: getItemStyle(colorCollection[8][colorType]),
-          label: {
+        },
+      ],
+    };
+
+    if (option && typeof option === "object") {
+      if(!colorType){//告警信息模块有顶部的总数
+        option.series[8]['label']={
             normal: {
               show: true,
               position: "top",
               fontSize: 14,
               color: "#E6F7FF",
+              offset: [0, -5],
               backgroundColor: {
                 image: "../images/back.png",
               },
               height: 20,
               padding: [5, 10, 5, 11],
             },
-          },
-        },
-      ],
-    };
-
-    if (option && typeof option === "object") {
+          }
+      }
       myChart.setOption(option);
       myChart.on("mouseover", function (params) {
             ue.dtspoi.postevent(`mouseover`)

@@ -150,7 +150,7 @@ const addBar = async (obj: {
       }&areaCode=${areaCode}&quName=${idEnd}&contentHeight=${contentHeight}`, //弹窗HTML链接
       autoHidePopupWindow: false,
       popupSize: [200, contentHeight + 100],
-      popupOffset: [-88, -80], //弹窗偏移
+      popupOffset: [-120, -130], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
