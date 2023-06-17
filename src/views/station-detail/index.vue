@@ -84,7 +84,7 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="['#F9E900','green','blue']"
+        :colors="realtimePowerColors"
         :chartStyle="{ height: '2.22rem' }"
       />
     </div>
@@ -179,11 +179,12 @@ import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import honglixi from './components/honglixi.vue';
-const chargingStationPieData = ref(chargingStationPieDataFun())
+const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
+const realtimePowerColors = ['#F9E900', 'green', 'blue'];
 // 左二图的tab
 const curBtn = ref(1);
-const chargeTab = ref(1)
+const chargeTab = ref(1);
 // 充电类型
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
@@ -191,9 +192,9 @@ const tabList = ref([
   { value: 1, name: '桩', index: 'pile' },
   { value: 2, name: '枪', index: 'gun' }
 ]);
-const chargeData = ref()
+const chargeData = ref();
 // 设备类型
-const equipmentType = ref(1)
+const equipmentType = ref(1);
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -259,16 +260,21 @@ const getButtomMenuData = async () => {
   }
 };
 // 获取设备信息
-const loadSelectDetailChargeCount  = async()=>{
+const loadSelectDetailChargeCount = async () => {
   const res = await selectDetailChargeCount({
-    equipmentType:equipmentType.value,
+    equipmentType: equipmentType.value,
     operatorId: store.detailParams.operatorId,
-    stationId: store.detailParams.stationId})
-    console.log('res',res)
-    chargeData.value = res.data
-    chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
-    console.log('chargingStationPieData.value',chargingStationPieData.value)
-  }
+    stationId: store.detailParams.stationId
+  });
+  // console.log('res',res)
+  chargeData.value = res.data;
+  chargingStationPieData.value = chargingStationPieDataFun(
+    chargeTab.value,
+    chargeData.value,
+    curBtn.value
+  );
+  console.log('chargingStationPieData.value', chargingStationPieData.value);
+};
 const getAlarmLevelAndTypeByTIme = async () => {
   if (!store.detailParams.stationId) {
     return;
@@ -389,11 +395,9 @@ useEmitt &&
         // 自定义视角marker
         if (e.UserData) {
           const userData = JSON.parse(e.UserData);
-          console.log(userData);
           if (userData.type === 'customAngleMarker') {
             await __g.camera.set(userData.camera);
           }
-          // __g?.marker?.focus(e.Id, 0, 2);
         }
 
         //摄像头
@@ -454,7 +458,7 @@ const initWarn = async () => {
     pageNum: 1,
     pageSize: 999
   });
-  console.log('res', res);
+  // console.log('res', res);
   if (res?.data?.dataList?.length) {
     isShowList.value = true;
   } else {
@@ -463,19 +467,23 @@ const initWarn = async () => {
   }
 };
 // 类型和电流类型 切换
-const handleChargeChange = (item)=>{
-  console.log('item',item)
-  chargeTab.value = item.code
-  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
-}
+const handleChargeChange = (item) => {
+  console.log('item', item);
+  chargeTab.value = item.code;
+  chargingStationPieData.value = chargingStationPieDataFun(
+    chargeTab.value,
+    chargeData.value,
+    curBtn.value
+  );
+};
 // 桩枪切换
-const handleTabBtn = (data)=>{
+const handleTabBtn = (data) => {
   curBtn.value = data.value;
-  equipmentType.value = curBtn.value
-  console.log('data',data)
-  console.log('curBtn.value',curBtn.value)
-  loadSelectDetailChargeCount()
-}
+  equipmentType.value = curBtn.value;
+  console.log('data', data);
+  console.log('curBtn.value', curBtn.value);
+  loadSelectDetailChargeCount();
+};
 watch(
   () => store.detailParams,
   () => {
@@ -502,7 +510,7 @@ watch(
         getEquipmentUseRateByStationId(1);
         getStationRealTimePowerByStationId();
         getWarningStatisticByStationId();
-        loadSelectDetailChargeCount()
+        loadSelectDetailChargeCount();
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.equipmentId && __g) {
           //防止地图没有
@@ -624,7 +632,6 @@ watch(
   .ec-wrap {
     margin-top: 16px;
   }
-
 }
 .right-tab-btn {
   display: flex;
