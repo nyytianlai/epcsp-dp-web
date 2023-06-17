@@ -40,7 +40,7 @@
         </div>
       </template>
       <div class="user-info">
-        <icon icon="svg-icon:people-big" style="fontSize: 2.94rem" />
+        <icon icon="svg-icon:people-big" :style="{fontSize: 2.94rem}" />
         <span class="user-name">李某某</span>
         <span class="time">00:00:00</span>
         <div class="btn-wrap">
@@ -50,7 +50,7 @@
             v-for="item in btnList"
             :key="item.icon"
           >
-            <icon :icon="`svg-icon:${item.icon}`" style="fontSize: 0.6rem" />
+            <icon :icon="`svg-icon:${item.icon}`" :style="{fontSize: 0.6rem}" />
             <span class="text">{{ item.text }}</span>
           </span>
         </div>
@@ -204,11 +204,11 @@ const handleClick = (item) => {
       justify-content: center;
     }
     &.red {
-      background: url(./images/red-btn-bgc.png) no-repeat;
+      background: url(../images/red-btn-bgc.png) no-repeat;
       background-size: 100% 100%;
     }
     &.blue {
-      background: url(./images/blue-btn-bgc.png) no-repeat;
+      background: url(../images/blue-btn-bgc.png) no-repeat;
       background-size: 100% 100%;
       .content {
         background: linear-gradient(270deg, #0a4174 0%, #3483df 100%);
