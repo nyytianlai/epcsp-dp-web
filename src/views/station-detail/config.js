@@ -1826,17 +1826,17 @@ export const msgPopList = [
 ];
 const popRealtimeDataFun = () => {
   // const hours = dayjs().hour();
-  const seriesData = [];
-  for (let i = 0; i < 24; i++) {
-    // console.log('i', i);
-    if (i === 9 || i === 10) {
-      seriesData.push(-150);
-    } else if (i === 18 || i === 19) {
-      seriesData.push(120);
-    } else {
-      seriesData.push(0);
-    }
-  }
+  const seriesData = [0,4.95,0,0,0,0,0,0,0,0,-3.65,-3.63,4.97,3.18,-4,-3.59,-3.7,0,0,0,0,0,0,0];
+  // for (let i = 0; i < 24; i++) {
+  //   // console.log('i', i);
+  //   if (i === 9 || i === 10) {
+  //     seriesData.push(-150);
+  //   } else if (i === 18 || i === 19) {
+  //     seriesData.push(120);
+  //   } else {
+  //     seriesData.push(0);
+  //   }
+  // }
   return seriesData;
 };
 export const popRealtimeOption = {
