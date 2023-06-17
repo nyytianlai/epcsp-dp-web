@@ -81,21 +81,18 @@
     </div>
     <div class="station-power">
       <title-column title="站点实时功率" />
-      <<<<<<< HEAD
       <line-time-chart
         unit="kW"
         :data="linePowerData"
         :colors="realtimePowerColors"
         :chartStyle="{ height: '2.22rem' }"
       />
-      =======
-      <line-time-chart
+      <!-- <line-time-chart
         unit="kW"
         :data="linePowerData"
         :colors="['#F9E900', 'blue']"
         :chartStyle="{ height: '2.22rem' }"
-      />
-      >>>>>>> 575baff858bf91b67a95c6e9dc266387a563ba91
+      /> -->
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
