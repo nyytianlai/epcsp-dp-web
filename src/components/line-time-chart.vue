@@ -352,7 +352,7 @@ const ecOptionFun = () => {
     series: colors.value.map((item) => colorMap[item]),
     ...customOption.value
   });
-  console.log('option',option)
+  // console.log('option',option)
   return option;
 };
 const ecOptionFunMode = () => {

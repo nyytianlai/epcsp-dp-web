@@ -20,12 +20,8 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import RectBar from '@/components/map-layer/rect-bar.vue';
-import RectBar4 from '@/components/map-layer/rect-bar4.vue';
-import HeatMap from '@/components/map-layer/heat-map.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
-import request from '@sutpc/axios';
 import { projectCGCS2000_2_GK114 } from '@/utils/index';
-import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
 import { getHeatMap } from '../api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
@@ -90,7 +86,7 @@ const addHeatMap = async () => {
   let heightEnd = Math.max(...realTimePower);
   console.log(heightStart, heightEnd);
   // let bbox = [474756.13,2477776.28, -20, 622300.98,2546813.48, 344.58];
-  let bbox = [474756.13,2477776.28, -200, 622300.98,2546813.48, 344.58];
+  let bbox = [474756.13, 2477776.28, -200, 622300.98, 2546813.48, 344.58];
   let range = [0, 6000];
   let data = [];
   res.forEach((element) => {
@@ -107,7 +103,7 @@ const addHeatMap = async () => {
 };
 
 const addQuBar = async () => {
-  await rectBarRef.value.addBar('qu')
+  await rectBarRef.value.addBar('qu');
 };
 
 defineExpose({
@@ -116,10 +112,9 @@ defineExpose({
 });
 
 onMounted(async () => {
-  addQuBar()
+  addQuBar();
 });
 
-onBeforeUnmount(() => {
-});
+onBeforeUnmount(() => {});
 </script>
 <style lang="less" scoped></style>

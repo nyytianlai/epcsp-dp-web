@@ -14,16 +14,16 @@ let currentBar = '';
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     let quName = e.ID?.split('-')[1];
     if (e.Data === 'mouseover') {
       //鼠标悬浮事件
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.6]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
     } else if (e.Data === 'mouseout') {
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.0]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
     }
   }
 });
@@ -76,7 +76,9 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/rectBar.html?value=${countObj[0].gunCount},${
         countObj[0].stationCount
-      },${countObj[0].equipmentCount}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
+      },${
+        countObj[0].equipmentCount
+      }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       autoHidePopupWindow: false,
       // popupSize: [80, contentHeight], //弹窗大小
       // popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移

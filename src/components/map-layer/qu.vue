@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
+import { inject, onMounted, onBeforeUnmount, reactive, computed } from 'vue';
 import request from '@sutpc/axios';
 import {
   layerNameQuNameArr,
@@ -57,8 +57,12 @@ const currentPosition = computed(() => store.currentPosition); //所在位置 �
 const currentJd = computed(() => store.currentJd);
 const currentJdCode = computed(() => store.currentJdCode);
 const currentQu = computed(() => store.currentQu);
-
 const emits = defineEmits(['addQuBar', 'addOutStation']);
+const state = reactive({
+  currentSelectStation: {
+    stationId: ''
+  }
+});
 
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
@@ -103,10 +107,13 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Id?.includes('station-')) {
       let stationInfo = JSON.parse(e.UserData);
       console.log('stationInfo', stationInfo);
-
+      if (stationInfo.stationId === state.currentSelectStation.stationId) {
+        return;
+      }
+      state.currentSelectStation = stationInfo;
       if (stationInfo.isHr !== 0) {
         //普通站点
-        highLightNormalStation(JSON.parse(e.UserData));
+        highLightNormalStation(stationInfo);
         enterStationInfo(stationInfo);
         return;
       }
@@ -171,12 +178,12 @@ const highLightNormalStation = async (obj) => {
 
 //隐藏辐射圈以及橙色popup
 const hideHighLightNormalStation = async () => {
-  let res = await __g.radiationPoint.get('1');
+  const res = await __g.radiationPoint.get('1');
   if (res.resultMessage == 'OK') {
-    let id = 'station-' + res.data[0].userData;
-    __g.marker.hidePopupWindow(id);
+    const id = 'station-' + res.data[0].userData;
+    await __g.marker.hidePopupWindow(id);
   }
-  __g.radiationPoint.clear();
+  await __g.radiationPoint.clear();
 };
 const handleQuChange = (quName: string, cameraJdInfo: {}) => {
   store.changeCurrentPositionBak(currentPosition.value);
@@ -281,6 +288,9 @@ const isShowJdPolygon = async (isShow: Boolean) => {
 const back = async () => {
   console.log('当前位置', currentPosition.value, '当前位置备份', currentPositionBak.value);
   console.log('currentJd.value', currentJd.value);
+  state.currentSelectStation = {
+    stationId: ''
+  };
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     await resetSz();
@@ -678,6 +688,7 @@ onMounted(async () => {
       [key: string]: any;
     }) => {
       if (e.isHr) {
+        console.log('showPopupWindow', e);
         setQuVisibility(false);
         enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);

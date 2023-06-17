@@ -11,7 +11,7 @@ let barPositionBak = [];
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     let quName = e.ID?.split('-')[1];
     if (e.Data === 'mouseover') {
