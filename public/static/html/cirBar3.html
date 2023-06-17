@@ -4,6 +4,60 @@
 
 <head>
   <meta charset="utf-8" />
+  <style>
+    #pop-panel{
+      height:131px; 
+      width: 180px;
+      background: url('../images/rectbarPop.png') no-repeat;
+      position: fixed;
+      /* z-index: 99999; */
+    }
+    .title{
+        position: absolute;
+        height: 24px;  
+        left: 30px;
+        top: -5px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #FFFFFF;
+        text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+      }
+      .content{
+        position: absolute;
+        margin: 2px 12px;
+        top: 20px;
+        width: 144px;
+        height: 76px;
+      }
+      li{
+         display: flex;
+         justify-content: space-between;
+         text-align: center;
+         font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 32px;
+        color: rgba(255, 255, 255, 0.8);
+        }
+        .liRight{
+          display: flex;
+        }
+      .num{
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin-right: 2px;
+        background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+  </style>
 </head>
 
 <body style="height: 100%; width: 100%; margin: 0">
@@ -12,16 +66,23 @@
   <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
 
   <script type="text/javascript">
-    var dom = document.getElementById("chart-panel");
-    var myChart = echarts.init(dom);
-    var option;
-    var app = {};
     var urlParams = new URLSearchParams(location.search);
     let paramsValue = urlParams.get("value").split(",");
     const yMax = Number(urlParams.get("yMax"));
     const colorType = Number(urlParams.get("colorType")) - 1;
     console.log("最大值", yMax);
     const areaCode = urlParams.get("areaCode");
+    const quName = urlParams.get("quName");
+    const contentHeight = Number(urlParams.get("contentHeight"));
+    const div = document.querySelector('#chart-panel')
+      div.style.height = `${contentHeight}px`
+      div.style.width = '80px'
+
+    var dom = document.getElementById("chart-panel");
+    var myChart = echarts.init(dom);
+    var option;
+    var app = {};
+    
     var xData = ["递铺街道"];
     var data1 = [Number(paramsValue[0])]; //下部数据
     var data2 = [Number(paramsValue[1])]; //中
@@ -57,27 +118,33 @@
     var option = {
       animation: false,
       // backgroundColor: '#030446',
-      // tooltip: {
-      //   trigger: "axis",
-      //   axisPointer: {
-      //     type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
-      //   },
-
-      //   formatter: function (parms) {
-      //     var str =
-      //       "名称：" +
-      //       parms[0].axisValue +
-      //       "</br>" +
-      //       parms[0].marker +
-      //       "结案量：" +
-      //       parms[0].value +
-      //       "</br>" +
-      //       parms[1].marker +
-      //       "未结案量：" +
-      //       parms[1].value;
-      //     return str;
-      //   },
-      // },
+      tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "shadow",
+            },
+            backgroundColor: "rgba(9, 24, 48, 0.0)",
+            borderColor: "rgba(75, 253, 238, 0.0)",
+            textStyle: {
+              color: "#CFE3FC",
+            },
+            // confine:false,
+            borderWidth: 0,
+            // position: [-50, -131+190-(Number(paramsValue[1])*140)/yMax-20],//(Number(paramsValue[1])*120)/yMax 柱子高度
+            formatter: function (params) {
+              // let item = "";
+              // item += params[0].name;
+              return `    <div id="pop-panel">
+     <div class="title">${quName}</div>
+     <div class="content">
+      <li>一级 人身安全<div class="liRight"><sapn class="num">${paramsValue[0]}</sapn>个</div></li>
+      <li>二级 设备安全<div class="liRight"><span class="num">${paramsValue[1]}</span>个</div></li>
+      <li>三级 告警提示<div class="liRight"><span class="num">${paramsValue[2]}</span>个</div></li>
+     </div>
+    </div>`
+              //  paramsValue[1];
+            },
+          },
       textStyle: {
         color: "#C9C9C9",
       },
@@ -239,6 +306,12 @@
 
     if (option && typeof option === "object") {
       myChart.setOption(option);
+      myChart.on("mouseover", function (params) {
+            ue.dtspoi.postevent(`mouseover`)
+        });
+      myChart.on("mouseout", function (params) {
+          ue.dtspoi.postevent(`mouseout`)
+        });
       myChart.on("click", function (params) {
 	       console.log('获取点击的数据',params);
          ue.dtspoi.postevent(`click-${areaCode}`)

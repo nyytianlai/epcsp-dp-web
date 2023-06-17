@@ -55,7 +55,12 @@ let legendListData = reactive([
     color: 'linear-gradient(178.17deg, #2EFFFF 4.74%, #0F6765 95.4%)',
     name: '充换电柜',
     type: false
-  }
+  },
+  {
+    color: 'linear-gradient(178.22deg, #FF9900 6.41%, #774700 94.78%)',
+    name: '换电站',
+    type: false
+  },
 ]);
 
 const addQuBar = async () => {

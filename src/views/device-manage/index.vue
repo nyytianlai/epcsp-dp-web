@@ -185,6 +185,8 @@ import {
   filters
 } from './config.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
+
 const lineStateColor = ['green', 'blue'];
 const lineRunColor = ['green', '#FF7723'];
 const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
@@ -424,6 +426,7 @@ const handleDetail = (item) => {
       isHr: item.row.isHr
     }
   });
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
 };
 
 // 行政区充电次数情况tab点击
