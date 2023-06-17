@@ -51,7 +51,7 @@
 </template>
 <script lang="ts" setup>
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
-import { ref, onMounted, inject } from 'vue';
+import { ref, inject } from 'vue';
 import {
   runingFun,
   pageNumFun,

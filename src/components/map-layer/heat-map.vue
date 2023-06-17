@@ -1,10 +1,8 @@
 <template></template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
-import request from '@sutpc/axios';
-import { projectCGCS2000_2_GK114, GK114_2_projectCGCS2000, pointIsInPolygon } from '@/utils/index';
-import { layerNameQuNameArr, getImageUrl } from '@/global/config/map';
-import { getHeatMap } from '@/views/overall/api.js';
+import { inject, onMounted, onBeforeUnmount } from 'vue';
+import { GK114_2_projectCGCS2000, pointIsInPolygon } from '@/utils/index';
+import { getHeatMap } from '@/views/charging-station/api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { circle } from '@turf/turf';
 
@@ -132,7 +130,7 @@ const set3DpolygonData = () => {
                 ? item.CoordPcs[2] + heatValue - (j - 1) * spacingCut
                 : item.CoordPcs[2];
           }
-          console.log(item.CoordPcs)
+          console.log(item.CoordPcs);
         }
       });
     }

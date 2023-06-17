@@ -5,7 +5,7 @@
     <style lang="less">
       .qu-box {
         background: rgba(8, 33, 63, 0.95);
-        box-shadow: inset 0px 0px 18px #4BFFF4;
+        box-shadow: inset 0px 0px 18px #FFC24B;
         width: 360px;
         position: relative;
         padding: 16px;
@@ -24,11 +24,12 @@
       }
   
       .header-left {
+        display: flex;
         color: #FFFFFF;
         font-weight: 600;
         font-size: 16px;
         padding: 6px 18px;
-        background: linear-gradient(90deg, #2CD6C2 0%, rgba(44, 214, 204, 0) 93.98%);
+        background: linear-gradient(90deg, #D69C2C 0%, rgba(214, 156, 44, 0) 93.98%);
         width:241px;
         white-space: nowrap;
         overflow: hidden;
@@ -48,10 +49,11 @@
         content: '\2716';
       }
   
+  
       .msg {
         margin-top: 14px;
         font-size: 14px;
-        width:100%;
+        width:348px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -67,40 +69,38 @@
   
       .bottom {
         margin-top: 12px;
-        padding: 14px 24px 14px 12px ;
+        padding: 7px;
         background: rgba(55, 83, 116, 0.5);
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .bottom .flex{
+        display: flex;
         align-items: center;
       }
-      .bottom-name {
-        margin-left: 25px;
-        font-weight: 400;
-        font-size: 14px;
-        color: #FFFFFF;
   
+      .flex{
+        display: flex;
       }
-  
-      .bottom-msg {
-        margin-left: 80px;
-        font-family: 'DIN Alternate';
-        font-style: normal;
-        font-weight: 700;
+      .info{
+        width: 100%;
+        justify-content: space-around;
+      }
+      .info-item {
+        text-align: center;
+      }
+      .info-item .value{
+        color: #FFB800;
+      }
+      .info-item .value .num{
         font-size: 24px;
-        line-height: 28px;
-        color: #00FFF9;
         text-shadow: 0px 2px 10px rgba(75, 222, 255, 0.5);
       }
-  
+
+      .info-item .text{
+        font-size: 14px;
+        color: #FFFFFF;
+      }
+
       .unit {
         font-weight: 400;
         font-size: 14px;
-      }
-      .flex{
-        display: flex;
       }
     </style>
   </head>
@@ -108,32 +108,50 @@
   <body style="height: 100%; width: 100%; margin: 0">
     <div class="qu-box">
       <header>
-        <div class="header-left flex">
+        <div class="header-left">
           <img src="../images/position.png" alt="">
-          <div id="title">站点名称名称名称名称</div>
+          <div id="title">蔚来换电站深圳环球数码大厦</div>
         </div>
         <div id="close" onclick="cli1()"></div>
       </header>
       <div class="msg-box">
         <div class="msg">
-          <span class="label">业主/电厂名称：</span>
-          <span class="value" id="name">华为技术有限公司</span>
+          <span class="label">运营企业：</span>
+          <span class="value" id="name">蔚来公司</span>
         </div>
         <div class="msg">
           <span class="label">具体地址：</span>
-          <span class="value" id="address">深圳市福田区红荔西路与香蜜湖路东北…</span>
+          <span class="value" id="address">广东省深圳市南山区高新中三道9号</span>
         </div>
-        <div class="msg"> 
-          <span class="label">所属区域：</span>
-          <span class="value" id="address">福田区</span>
+        <div class="msg">
+          <span class="label">站点状态：</span>
+          <span class="value" id="address">正常使用</span>
         </div>
       </div>
-      <div class="bottom flex">
-        <div class="flex">
-        <img src="../images/count.png" alt="">
-        <div class="bottom-name">站点设备数量</div>
-      </div>
-        <div class="bottom-msg"><span  id="count">429</span><span class="unit">个</span></div>
+      <div class="bottom">
+        <div class="info flex">
+          <div class="info-item">
+            <div class="value">
+              <span class="num">5</span>
+              <span class="unit">个</span>
+            </div>
+            <div class="text">充电仓数量</div>
+          </div>
+          <div class="info-item">
+            <div class="value">
+              <span class="num">500/200</span>
+              <span class="unit">V</span>
+            </div>
+            <div class="text">额定电压上限/下限</div>
+          </div>
+          <div class="info-item">
+            <div class="value">
+              <span class="num">144</span>
+              <span class="unit">A</span>
+            </div>
+            <div class="text">额定电流</div>
+          </div>
+        </div>
       </div>
     </div>
     <script type="text/javascript">
