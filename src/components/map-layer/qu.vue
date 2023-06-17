@@ -9,7 +9,6 @@
 <template>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="./images/back.png" alt="" @click="back" />
-    <div class="quName" v-show="currentPosition !== ''">{{ currentQu + ' - ' + currentJd }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -704,19 +703,17 @@ onBeforeUnmount(async () => {
 <style lang="less" scoped>
 .backBox {
   position: absolute;
-  height: 36px;
+  height: 19.5px;
   left: 86px;
-  top: 68px;
+  top: 75px;
   display: flex;
   background: rgba(4, 22, 43, 0.4);
-  border: 1px solid rgba(148, 148, 148, 0.3);
   color: #ffffff;
   z-index: 20;
   cursor: pointer;
 
   img {
-    width: 36px;
-    height: 36px;
+    height: 19.5px;
     border-radius: 1px;
     cursor: pointer;
   }

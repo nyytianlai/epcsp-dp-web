@@ -10,7 +10,7 @@
   <page-num :data="pageNumData" />
   <panel>
     <div class="total-charging-facilities">
-      <title-column title="充电设施总量" />
+      <title-column title="整体接入信息" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
           <num-card :data="item" classStyleType="bottomDown" />
@@ -68,7 +68,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineTimeData" unit="万kW" :colors="lineTimeColors" />
+      <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
@@ -128,6 +128,7 @@ import TodayWarnDialog from './components/today-warn-dialog.vue';
 import EnterpriseRankListDialog from './components/enterprise-rank-list-dialog.vue';
 interface Aircity {
   value: object;
+
 }
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
@@ -164,7 +165,7 @@ const todayInfoNumData = ref(todayInfoNumDataFun());
 const powerInfoNumData = ref(powerInfoNumDataFun());
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
-const lineTimeColors = ['green', 'blue'];
+const lineTimeColors = ['blue'];
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
@@ -298,8 +299,10 @@ const getTimePowerGraph = async () => {
 };
 
 // 今日告警信息点击
-const handleWarnClick = (station: object) => {
-  console.log(station);
+const handleWarnClick = (station) => {
+  console.log('ssss',station);
+  station.isWarning = true
+  station.warnId = station.id
   // 告警详情
   showStationDetailPanel(storeVisible, station);
   station['isFly'] = false;
@@ -337,6 +340,9 @@ onMounted(() => {
     // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
+  setInterval(()=>{
+    getTimePowerGraph();
+  },5000)
 });
 onUnmounted(() => {
   clearInterval(timer);
@@ -427,8 +433,9 @@ onUnmounted(() => {
     display: flex;
     justify-content: space-between;
     :deep(.num-card) {
-      padding: 20px 0;
-      width: 49%;
+      
+      padding: 20px;
+      width: 100%;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -438,7 +445,7 @@ onUnmounted(() => {
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
-      justify-content: center;
+      justify-content: flex-start;
       .info {
         flex-direction: column;
         .value {

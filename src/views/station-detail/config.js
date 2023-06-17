@@ -1097,12 +1097,12 @@ export const linePowerDataFun = (data = []) => {
       name: '总功率',
       // areaStyle:{show:false}
     },
-    {
-      data: data?.map((item) => [yearMonthDay + item.time, item.ratedPower]),
-      type: 'line',
-      smooth: true,
-      name: '实时额定功率'
-    },
+    // {
+    //   data: data?.map((item) => [yearMonthDay + item.time, item.ratedPower]),
+    //   type: 'line',
+    //   smooth: true,
+    //   name: '实时额定功率'
+    // },
     {
       data: data?.map((item) => [yearMonthDay + item.time, item.power]),
       type: 'line',

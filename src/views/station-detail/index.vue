@@ -16,42 +16,22 @@
     <div class="device-info">
       <title-column title="设备设施信息" />
       <div class="pile-charger-header">
-        <tabs
-          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
-          @changeTab="handleChargeChange"
-        />
+        <tabs :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs" @changeTab="handleChargeChange" />
         <div class="right-tab-btn">
-          <div
-            v-for="(item, index) in tabList"
-            :key="index"
-            class="tab-btn"
-            :class="{ active: curBtn === item.value }"
-            @click="handleTabBtn(item)"
-          >
+          <div v-for="(item, index) in tabList" :key="index" class="tab-btn" :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)">
             {{ item.name }}
           </div>
         </div>
       </div>
-      <pie-chart
-        class="device-total-pie"
-        :data="chargingStationPieData"
-        :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
-        :colors="chargingColors"
-      />
+      <pie-chart class="device-total-pie" :data="chargingStationPieData" :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
+        :colors="chargingColors" />
     </div>
     <div class="warning-message">
       <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
-      <warning-tabs
-        :data="warningTabsData"
-        @changeTab="(data) => handleChangeTab(data, 'warning-message')"
-        v-if="isShowList"
-      />
-      <warning-list
-        @handleClick="clickWarningList"
-        :data="warningListData"
-        height="2.15rem"
-        v-if="isShowList"
-      />
+      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+        v-if="isShowList" />
+      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" v-if="isShowList" />
       <!-- <line-time-chart
         v-if="!isShowList"
         :data="realtimeTrend"
@@ -69,10 +49,7 @@
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
-      <tabs
-        :data="chargingTypesTabs"
-        @changeTab="(data) => handleChangeTab(data, 'device-use-info')"
-      />
+      <tabs :data="chargingTypesTabs" @changeTab="(data) => handleChangeTab(data, 'device-use-info')" />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -81,12 +58,8 @@
     </div>
     <div class="station-power">
       <title-column title="站点实时功率" />
-      <line-time-chart
-        unit="kW"
-        :data="linePowerData"
-        :colors="['#F9E900','green','blue']"
-        :chartStyle="{ height: '2.22rem' }"
-      />
+      <line-time-chart unit="kW" :data="linePowerData" :colors="['#F9E900', 'blue']"
+        :chartStyle="{ height: '2.22rem' }" />
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
@@ -96,39 +69,20 @@
   </div>
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
-  <pile-dialog
-    v-model:visible="pileVisible"
-    :type="pileType"
-    :pileVideoData="pileVideoData"
-    :pileParams="pileParams"
-    @close="handleClose"
-  />
+  <pile-dialog v-model:visible="pileVisible" :type="pileType" :pileVideoData="pileVideoData" :pileParams="pileParams"
+    @close="handleClose" />
+  <warningBox v-model:visible="warnVisible" :pileParams="pileParams" @close="handleClose" />
   <map-layer v-if="aircityObj" />
+
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <el-table
-      :data="alarmTableData"
-      height="6.19rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-    >
-      <el-table-column
-        v-for="(item, index) in columnData"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-      >
+    <el-table :data="alarmTableData" height="6.19rem" style="width: 100%" class="custom-dialog-table">
+      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
+        :formatter="tableColumnFun">
         <!-- <template #default="scope"></template> -->
       </el-table-column>
     </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="handPageChange"
-    />
+    <el-pagination :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total" :background="true"
+      :current-page="pageObj.currentPage" @current-change="handPageChange" />
   </custom-dialog>
 </template>
 <script lang="ts" setup>
@@ -138,6 +92,7 @@ import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
 import Lianhuaxi from './components/lianhuaxi.vue';
 import chargingState from './components/charging-state.vue';
+import warningBox from './components/pile-dialog/warning-box.vue';
 import BottomTabs from './components/bottom-tabs.vue';
 import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
@@ -181,6 +136,8 @@ import { getTreeLayerIdByName } from '@/global/config/map';
 import honglixi from './components/honglixi.vue';
 const chargingStationPieData = ref(chargingStationPieDataFun())
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
+// 是否展示告警
+const warnVisible = ref(false)
 // 左二图的tab
 const curBtn = ref(1);
 const chargeTab = ref(1)
@@ -259,16 +216,17 @@ const getButtomMenuData = async () => {
   }
 };
 // 获取设备信息
-const loadSelectDetailChargeCount  = async()=>{
+const loadSelectDetailChargeCount = async () => {
   const res = await selectDetailChargeCount({
-    equipmentType:equipmentType.value,
+    equipmentType: equipmentType.value,
     operatorId: store.detailParams.operatorId,
-    stationId: store.detailParams.stationId})
-    console.log('res',res)
-    chargeData.value = res.data
-    chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
-    console.log('chargingStationPieData.value',chargingStationPieData.value)
-  }
+    stationId: store.detailParams.stationId
+  })
+  console.log('res', res)
+  chargeData.value = res.data
+  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value, chargeData.value, curBtn.value)
+  console.log('chargingStationPieData.value', chargingStationPieData.value)
+}
 const getAlarmLevelAndTypeByTIme = async () => {
   if (!store.detailParams.stationId) {
     return;
@@ -419,9 +377,8 @@ useEmitt &&
     }
   });
 // 定位到桩弹窗
-const focusToPile = (eid, status) => {
-  console.log('pileVisiblepileVisible', pileVisible.value);
-  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+const focusToPile = async (eid, status) => {
+  let layerId = await getTreeLayerIdByName('118Station', mapStore.treeInfo);
   pileParams.value = {
     eid: eid
   };
@@ -434,6 +391,13 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
 };
 const clickWarningList = (item) => {
+  console.log('item,', item)
+  // 展示告警框
+  pileParams.value = {
+    eid: item.eid,
+    warnId: item.id
+  };
+  warnVisible.value = true;
   if (!chargingStateDataObj.value[item.eid]) return;
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   handleClickFocus(__g, layerId, item.eid, +chargingStateDataObj.value[item.eid].status);
@@ -463,17 +427,17 @@ const initWarn = async () => {
   }
 };
 // 类型和电流类型 切换
-const handleChargeChange = (item)=>{
-  console.log('item',item)
+const handleChargeChange = (item) => {
+  console.log('item', item)
   chargeTab.value = item.code
-  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value,chargeData.value,curBtn.value)
+  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value, chargeData.value, curBtn.value)
 }
 // 桩枪切换
-const handleTabBtn = (data)=>{
+const handleTabBtn = (data) => {
   curBtn.value = data.value;
   equipmentType.value = curBtn.value
-  console.log('data',data)
-  console.log('curBtn.value',curBtn.value)
+  console.log('data', data)
+  console.log('curBtn.value', curBtn.value)
   loadSelectDetailChargeCount()
 }
 watch(
@@ -504,10 +468,15 @@ watch(
         getWarningStatisticByStationId();
         loadSelectDetailChargeCount()
         console.log('store.detailParams', store.detailParams);
-        if (store.detailParams?.equipmentId && __g) {
+        if (store.detailParams?.isWarning && __g) {
           //防止地图没有
-          console.log('pileVisible', pileVisible.value);
-          focusToPile(store.detailParams.equipmentId, 255);
+          let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+          pileParams.value = {
+            eid: store.detailParams.equipmentId,
+            warnId: store.detailParams.warnId
+          };
+          warnVisible.value = true;
+          handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
         }
       }
     }
@@ -531,47 +500,55 @@ watch(
 <style lang="less" scoped>
 .backBox {
   position: absolute;
-  height: 36px;
+  height: 19.5px;
   left: 86px;
-  top: 68px;
+  top: 75px;
   display: flex;
   background: rgba(4, 22, 43, 0.4);
-  border: 1px solid rgba(148, 148, 148, 0.3);
+
   color: #ffffff;
   z-index: 20;
   cursor: pointer;
 
   img {
-    width: 36px;
-    height: 36px;
+    height: 19.5px;
     border-radius: 1px;
   }
 }
+
 .station-info {
   margin-top: 12px;
 }
+
 .device-info {
   margin-top: 20px;
+
   :deep(.num-wrap) {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     padding-top: 14px;
+
     .num-card {
       margin-bottom: 10px;
+
       &:nth-last-child(1),
       &:nth-last-of-type(2) {
         margin-bottom: 0;
       }
+
       .icon {
         width: 90px;
         height: 94px;
       }
+
       .info {
         flex-direction: column;
+
         .num .value {
           font-size: 36px;
         }
+
         .name {
           margin-bottom: 0;
         }
@@ -579,39 +556,46 @@ watch(
     }
   }
 }
+
 .warning-message {
   margin-top: 16px;
+
   .warning-tabs {
     margin-top: 14px;
   }
+
   .warning-list {
     margin-top: 14px;
   }
 }
+
 .device-use-info {
   margin-top: 20px;
+
   .tabs {
     margin-top: 16px;
   }
+
   .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
+
       .info {
         flex-direction: column;
+
         .name {
           margin-bottom: 0;
         }
@@ -619,17 +603,21 @@ watch(
     }
   }
 }
+
 .station-power {
   margin-top: 16px;
+
   .ec-wrap {
     margin-top: 16px;
   }
 
 }
+
 .right-tab-btn {
   display: flex;
   background: rgba(21, 69, 105, 0.5);
   border: 1px solid #486785;
+
   .tab-btn {
     width: 28px;
     height: 28px;
@@ -639,15 +627,18 @@ watch(
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     border-left: 1px solid #486785;
+
     &:nth-of-type(1) {
       border: none;
     }
   }
 }
+
 .active {
   background: rgba(84, 181, 255, 0.8);
   color: #ffffff;
 }
+
 .pile-charger-header {
   margin-top: 16px;
   display: flex;
