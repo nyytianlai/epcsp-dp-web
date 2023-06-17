@@ -181,7 +181,10 @@ export const lianhuaWarnOption = {
 };
 const lianhuaRealtimeDataFun = () => {
   // const hours = dayjs().hour();
-  const seriesData = [0,0,0,0,0,0,0.48,1.22,2.13,3.55,5.01,7.96,8.96,10.56,9.76,8.43,7.46,5.01,2.40,1.25,0,0,0,0];
+  const seriesData = [
+    0, 0, 0, 0, 0, 0, 0.48, 1.22, 2.13, 3.55, 5.01, 7.96, 8.96, 10.56, 9.76, 8.43, 7.46, 5.01, 2.4,
+    1.25, 0, 0, 0, 0
+  ];
   // for (let i = 0; i < hours; i++) {
   //   const random = Math.floor(Math.random() * 400000) + 100000;
   //   seriesData.push(random);
@@ -1094,7 +1097,7 @@ export const linePowerDataFun = (data = []) => {
       data: data?.map((item) => [yearMonthDay + item.time, item.totalPower]),
       type: 'line',
       smooth: true,
-      name: '总功率',
+      name: '总功率'
       // areaStyle:{show:false}
     },
     // {
@@ -1201,7 +1204,6 @@ export const stationWarnFun = (data = []) => {
     xAxis.push(data[i].time);
     data1.push({ value: data[i].cnt, date: data[i].time });
   }
-  console.log(data);
   // data1.push({ value: data[i].time, date: dayjs().format('YYYY-MM-DD') });
   let obj = {
     xAxis: xAxis,
@@ -1456,7 +1458,7 @@ const baoqingSytemStatusFun = () => {
 export const baoqingSytemStatusData = baoqingSytemStatusFun();
 const baoqingRealtimeDataFun = () => {
   // const hours = dayjs().hour();
-  const seriesData = [-10,0,0,0,0,0,0,0,0,10,10,0,-10,0,0,0,0,0,0,0,0,0,0,0];
+  const seriesData = [-10, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, -10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // for (let i = 0; i < 24; i++) {
   //   // console.log('i', i);
   //   if (i === 9 || i === 10) {
@@ -1986,7 +1988,7 @@ export const popRealtimeOption = {
     }
   ]
 };
-export const pageNumLianhuaxiFun = (data={})=>{
+export const pageNumLianhuaxiFun = (data = {}) => {
   return [
     {
       name: '年累计发电量',
@@ -2002,9 +2004,9 @@ export const pageNumLianhuaxiFun = (data={})=>{
       name: '年累计CO²减排量',
       num: 1.1,
       unit: '吨'
-    },
+    }
   ];
-}
+};
 export const chargingStationTabsFun = () => {
   return [
     {

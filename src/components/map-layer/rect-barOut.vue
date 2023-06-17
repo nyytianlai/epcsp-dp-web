@@ -13,7 +13,7 @@ let currentBar = '';
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     let arearName = e.ID?.split('-')[1];
     let type = arearName.includes('区') ? 'qu' : 'jd';

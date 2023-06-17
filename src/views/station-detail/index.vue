@@ -16,22 +16,42 @@
     <div class="device-info">
       <title-column title="设备设施信息" />
       <div class="pile-charger-header">
-        <tabs :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs" @changeTab="handleChargeChange" />
+        <tabs
+          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="handleChargeChange"
+        />
         <div class="right-tab-btn">
-          <div v-for="(item, index) in tabList" :key="index" class="tab-btn" :class="{ active: curBtn === item.value }"
-            @click="handleTabBtn(item)">
+          <div
+            v-for="(item, index) in tabList"
+            :key="index"
+            class="tab-btn"
+            :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)"
+          >
             {{ item.name }}
           </div>
         </div>
       </div>
-      <pie-chart class="device-total-pie" :data="chargingStationPieData" :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
-        :colors="chargingColors" />
+      <pie-chart
+        class="device-total-pie"
+        :data="chargingStationPieData"
+        :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
+        :colors="chargingColors"
+      />
     </div>
     <div class="warning-message">
       <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
-      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning-message')"
-        v-if="isShowList" />
-      <warning-list @handleClick="clickWarningList" :data="warningListData" height="2.15rem" v-if="isShowList" />
+      <warning-tabs
+        :data="warningTabsData"
+        @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+        v-if="isShowList"
+      />
+      <warning-list
+        @handleClick="clickWarningList"
+        :data="warningListData"
+        height="2.15rem"
+        v-if="isShowList"
+      />
       <!-- <line-time-chart
         v-if="!isShowList"
         :data="realtimeTrend"
@@ -49,7 +69,10 @@
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
-      <tabs :data="chargingTypesTabs" @changeTab="(data) => handleChangeTab(data, 'device-use-info')" />
+      <tabs
+        :data="chargingTypesTabs"
+        @changeTab="(data) => handleChangeTab(data, 'device-use-info')"
+      />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -58,8 +81,21 @@
     </div>
     <div class="station-power">
       <title-column title="站点实时功率" />
-      <line-time-chart unit="kW" :data="linePowerData" :colors="['#F9E900', 'blue']"
-        :chartStyle="{ height: '2.22rem' }" />
+      <<<<<<< HEAD
+      <line-time-chart
+        unit="kW"
+        :data="linePowerData"
+        :colors="realtimePowerColors"
+        :chartStyle="{ height: '2.22rem' }"
+      />
+      =======
+      <line-time-chart
+        unit="kW"
+        :data="linePowerData"
+        :colors="['#F9E900', 'blue']"
+        :chartStyle="{ height: '2.22rem' }"
+      />
+      >>>>>>> 575baff858bf91b67a95c6e9dc266387a563ba91
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
@@ -69,20 +105,41 @@
   </div>
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
-  <pile-dialog v-model:visible="pileVisible" :type="pileType" :pileVideoData="pileVideoData" :pileParams="pileParams"
-    @close="handleClose" />
+  <pile-dialog
+    v-model:visible="pileVisible"
+    :type="pileType"
+    :pileVideoData="pileVideoData"
+    :pileParams="pileParams"
+    @close="handleClose"
+  />
   <warningBox v-model:visible="warnVisible" :pileParams="pileParams" @close="handleClose" />
   <map-layer v-if="aircityObj" />
 
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <el-table :data="alarmTableData" height="6.19rem" style="width: 100%" class="custom-dialog-table">
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
-        :formatter="tableColumnFun">
+    <el-table
+      :data="alarmTableData"
+      height="6.19rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
         <!-- <template #default="scope"></template> -->
       </el-table-column>
     </el-table>
-    <el-pagination :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total" :background="true"
-      :current-page="pageObj.currentPage" @current-change="handPageChange" />
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    />
   </custom-dialog>
 </template>
 <script lang="ts" setup>
@@ -134,13 +191,14 @@ import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import honglixi from './components/honglixi.vue';
-const chargingStationPieData = ref(chargingStationPieDataFun())
+const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
+const realtimePowerColors = ['#F9E900', 'green', 'blue'];
 // 是否展示告警
-const warnVisible = ref(false)
+const warnVisible = ref(false);
 // 左二图的tab
 const curBtn = ref(1);
-const chargeTab = ref(1)
+const chargeTab = ref(1);
 // 充电类型
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
@@ -148,9 +206,9 @@ const tabList = ref([
   { value: 1, name: '桩', index: 'pile' },
   { value: 2, name: '枪', index: 'gun' }
 ]);
-const chargeData = ref()
+const chargeData = ref();
 // 设备类型
-const equipmentType = ref(1)
+const equipmentType = ref(1);
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
@@ -221,12 +279,16 @@ const loadSelectDetailChargeCount = async () => {
     equipmentType: equipmentType.value,
     operatorId: store.detailParams.operatorId,
     stationId: store.detailParams.stationId
-  })
-  console.log('res', res)
-  chargeData.value = res.data
-  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value, chargeData.value, curBtn.value)
-  console.log('chargingStationPieData.value', chargingStationPieData.value)
-}
+  });
+  // console.log('res', res)
+  chargeData.value = res.data;
+  chargingStationPieData.value = chargingStationPieDataFun(
+    chargeTab.value,
+    chargeData.value,
+    curBtn.value
+  );
+  console.log('chargingStationPieData.value', chargingStationPieData.value);
+};
 const getAlarmLevelAndTypeByTIme = async () => {
   if (!store.detailParams.stationId) {
     return;
@@ -347,11 +409,9 @@ useEmitt &&
         // 自定义视角marker
         if (e.UserData) {
           const userData = JSON.parse(e.UserData);
-          console.log(userData);
           if (userData.type === 'customAngleMarker') {
             await __g.camera.set(userData.camera);
           }
-          // __g?.marker?.focus(e.Id, 0, 2);
         }
 
         //摄像头
@@ -391,7 +451,7 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
 };
 const clickWarningList = (item) => {
-  console.log('item,', item)
+  console.log('item,', item);
   // 展示告警框
   pileParams.value = {
     eid: item.eid,
@@ -418,7 +478,7 @@ const initWarn = async () => {
     pageNum: 1,
     pageSize: 999
   });
-  console.log('res', res);
+  // console.log('res', res);
   if (res?.data?.dataList?.length) {
     isShowList.value = true;
   } else {
@@ -428,18 +488,22 @@ const initWarn = async () => {
 };
 // 类型和电流类型 切换
 const handleChargeChange = (item) => {
-  console.log('item', item)
-  chargeTab.value = item.code
-  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value, chargeData.value, curBtn.value)
-}
+  // console.log('item', item);
+  chargeTab.value = item.code;
+  chargingStationPieData.value = chargingStationPieDataFun(
+    chargeTab.value,
+    chargeData.value,
+    curBtn.value
+  );
+};
 // 桩枪切换
 const handleTabBtn = (data) => {
   curBtn.value = data.value;
-  equipmentType.value = curBtn.value
-  console.log('data', data)
-  console.log('curBtn.value', curBtn.value)
-  loadSelectDetailChargeCount()
-}
+  equipmentType.value = curBtn.value;
+  // console.log('data', data)
+  // console.log('curBtn.value', curBtn.value)
+  loadSelectDetailChargeCount();
+};
 watch(
   () => store.detailParams,
   () => {
@@ -466,7 +530,7 @@ watch(
         getEquipmentUseRateByStationId(1);
         getStationRealTimePowerByStationId();
         getWarningStatisticByStationId();
-        loadSelectDetailChargeCount()
+        loadSelectDetailChargeCount();
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.isWarning && __g) {
           //防止地图没有
@@ -584,9 +648,11 @@ watch(
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -610,7 +676,6 @@ watch(
   .ec-wrap {
     margin-top: 16px;
   }
-
 }
 
 .right-tab-btn {

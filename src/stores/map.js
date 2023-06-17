@@ -28,6 +28,7 @@ export const useMapStore = defineStore('map', () => {
     currentPositionBak.value = data;
   }
   function changeCurrentHrStationId(data) {
+    console.log('changeCurrentHrStationId:' + data);
     currentHrStationID.value = data;
   }
   function changeCurrentJd(data) {

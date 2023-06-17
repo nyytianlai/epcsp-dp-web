@@ -326,8 +326,9 @@ const ecOptionFun = () => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
-            }</span>
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
               <span class="unit">${unit.value}</span>
             </span>
           </div>`;
@@ -442,8 +443,9 @@ const ecOptionFunMode = () => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
-            }</span>
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
               <span class="unit">${unit.value}</span>
             </span>
           </div>`;
@@ -492,7 +494,7 @@ const ecOptionFunOnlyLine = () => {
         fontFamily: 'Source Han Sans CN',
         fontSize: 12,
         color: '#C6D1DB'
-      },
+      }
     },
     xAxis: {
       name: '',
@@ -562,8 +564,9 @@ const ecOptionFunOnlyLine = () => {
               <span class="name">${item?.seriesName}</span>
             </span>
             <span class="right-data">
-              <span class="value">${item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
-            }</span>
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
               <span class="unit">${unit.value ? unit.value : props.yaxisName}</span>
             </span>
           </div>`;
@@ -678,9 +681,12 @@ watch(
       line-height: 20px;
       /* identical to box height, or 143% */
 
-      .value {}
+      .value {
+      }
 
-      .unit {}
+      .unit {
+      }
     }
   }
-}</style>
+}
+</style>
