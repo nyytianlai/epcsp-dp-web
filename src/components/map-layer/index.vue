@@ -2,9 +2,7 @@
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
-import MapConfigObj from '@/global/config/map';
-import { getImageUrl } from '@/utils/index';
-import { addAbortSignal } from 'stream';
+import { getImageUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
 // const { useEmitt } = inject('aircityObj');
@@ -95,7 +93,7 @@ const addBar = async () => {
   });
   aircityObj.value?.acApi.customTag.add(barArr);
 };
-onMounted(async() => {
+onMounted(async () => {
   await aircityObj.value?.acApi.reset();
   addQu();
   addQuName();

@@ -2,7 +2,7 @@
   <img :src="imgPath" alt="" @click="changePosition" />
 </template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
+import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
 import { infoObj, getImageUrl } from '@/global/config/map';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.acApi;
