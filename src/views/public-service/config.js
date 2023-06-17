@@ -426,7 +426,8 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       },
       axisPointer: {
         type: 'shadow'
-      }
+      },
+      formatter: '{b}: {c}个'
     },
     xAxis: {
       type: 'category',

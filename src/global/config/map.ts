@@ -226,7 +226,9 @@ export const showStationDetailPanel = (storeVisible, item) => {
       operatorId: item.operatorId,
       stationId: item.stationId,
       isHr: item.isHr,
-      equipmentId: item.eid
+      equipmentId: item.eid,
+      isWarning:item.isWarning,
+      warnId: item.warnId
     }
   });
 };

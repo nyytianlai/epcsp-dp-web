@@ -59,7 +59,7 @@ export const energyStationFun = (data = {}) => {
   return [
     {
       img: cnzzs,
-      num: 2036,
+      num: 15,
       unit: '个',
       name: '储能站总数',
       classStyleType: 'leftRightStyleGreen'
@@ -77,7 +77,7 @@ export const photovoltaicStationFun = (data = {}) => {
   return [
     {
       img: gfzzs,
-      num: 229,
+      num: 1179,
       unit: '个',
       name: '光伏站总数',
       classStyleType: 'leftRightStyleGreen'
@@ -205,6 +205,10 @@ export const stationTabType = [
   {
     code: 4,
     label: '充换设施'
+  },
+  {
+    code: 5,
+    label: '换电站'
   }
 ];
 
@@ -242,7 +246,11 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       },
       axisPointer: {
         type: 'shadow'
-      }
+      },
+      formatter: '{b}：{c}个'
+      // formatter:(params)=>{
+      //   return params[0].value + '个'
+      // }
     },
     xAxis: {
       type: 'category',
@@ -889,16 +897,16 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
   list.splice(index + 1);
   return [
-    {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.twoWheeledElectricCarNum.trim()
-      ]),
-      type: 'line',
-      smooth: true,
-      showSymbol: false,
-      name: '充换电柜'
-    },
+    // {
+    //   data: list.map((item) => [
+    //     dayjs(item.date).format('MM-DD').toString(),
+    //     item.twoWheeledElectricCarNum.trim()
+    //   ]),
+    //   type: 'line',
+    //   smooth: true,
+    //   showSymbol: false,
+    //   name: '充换电柜'
+    // },
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
@@ -907,7 +915,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '电动汽车'
+      name: '新能源充电'
     },
     {
       data: list.map((item) => [
@@ -929,16 +937,36 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       showSymbol: false,
       name: '光伏'
     },
-    {
+        {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        Number(item.emissionReduction.trim())
+        item.twoWheeledElectricCarNum.trim()
       ]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '合计'
-    }
+      name: '自行车充换电'
+    },
+    {
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.photovoltaic.trim()
+      ]),
+      type: 'line',
+      smooth: true,
+      showSymbol: false,
+      name: '换电'
+    },
+    // {
+    //   data: list.map((item) => [
+    //     dayjs(item.date).format('MM-DD').toString(),
+    //     Number(item.emissionReduction.trim())
+    //   ]),
+    //   type: 'line',
+    //   smooth: true,
+    //   showSymbol: false,
+    //   name: '合计'
+    // }
   ];
 };
 export const lineCarbonOptionFun = {
@@ -1493,12 +1521,12 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.twoWheeledElectricCarNum.trim()
+        item.electricVehicleNum.trim()
       ]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '电动车充换电'
+      name: '新能源充电'
     },
     {
       data: list.map((item) => [
@@ -1523,13 +1551,24 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.electricVehicleNum.trim()
+        item.twoWheeledElectricCarNum.trim()
       ]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '汽车充电'
-    }
+      name: '自行车充换电'
+    },
+    {
+      data: list.map((item) => [
+        dayjs(item.date).format('MM-DD').toString(),
+        item.twoWheeledElectricCarNum.trim()
+      ]),
+      type: 'line',
+      smooth: true,
+      showSymbol: false,
+      name: '换电'
+    },
+
   ];
 };
 
@@ -2007,6 +2046,24 @@ export const mapJdStationPoint = () => {
       superCount: 0,
       sid: '000257',
       v2GCount: 0
+    }
+  ];
+};
+export const changeElectricFun = (data = {}) => {
+  return [
+    {
+      img: cnzzs,
+      num: 42,
+      unit: '个',
+      name: '换电站总数',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ncd,
+      num: 4328,
+      unit: '次',
+      name: '年充电数',
+      classStyleType: 'leftRightStyleYellow5858'
     }
   ];
 };
