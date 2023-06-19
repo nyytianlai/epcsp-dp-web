@@ -339,7 +339,7 @@ export const lianhuaRealtimeOption = {
     }
   ]
 };
-const lianhuajinguiFun = (weather = 0) => {
+export const lianhuajinguiFun = (weather = 1) => {
   let data = [];
   const photoData = [
     397, 468, 482, 476, 437, 455, 481, 453, 429, 426, 452, 426, 452, 438, 467, 466, 488, 453, 433,
@@ -349,7 +349,7 @@ const lianhuajinguiFun = (weather = 0) => {
     let obj = {
       id: `singleCrystalSilicon${i + 1}`,
       text: '540W',
-      value: weather === 1 ? photoData[i] * 0.23 : photoData[i],
+      value: weather === 1 ? photoData[i] - photoData[i] * 0.23 : photoData[i],
       status: 1
     };
     // if (i < 50) {
@@ -2432,7 +2432,7 @@ export const batteryMsgFun = (data = {}) => {
     },
     {
       img: ntgdl,
-      num: 48/57,
+      num: 48 / 57,
       unit: 'v',
       name: '放电电压',
       numStyle: {

@@ -13,10 +13,10 @@
     <div class="arrow right-top"></div>
     <div class="arrow left-bottom"></div>
     <div class="arrow right-bottom"></div>
-    <icon icon="svg-icon:sun-panel" class="pop-icon" />
+    <icon :icon="`svg-icon:${state.weatherIcon}`" class="pop-icon" />
     <div class="num-box">
       <div class="num">
-        19.44
+        {{ state.currentPower.value }}
         <span class="unit">/kW</span>
       </div>
       <div class="label">实时发电功率</div>
@@ -30,6 +30,7 @@ import { useMapStore } from '@/stores/map';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
+import { lianhuajingguiData } from '../config.js';
 
 const screenPosition = ref(['20%', '50%']);
 const store = useVisibleComponentStore();
@@ -42,7 +43,14 @@ const params = ref({
   stationId: store.detailParams?.stationId
 });
 const showPop = ref(false);
-
+const state = reactive({
+  weather: 1,
+  weatherIcon: '',
+  currentPower: {
+    value: 0
+  }
+});
+let timer = null;
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     //正常桩
@@ -54,7 +62,18 @@ useEmitt &&
       __g.settings.highlightColor('#FF6B4B');
       __g.tileLayer.highlightActor(ids, e.ObjectID);
       let screenCoord = await __g.coord.world2Screen(...e.MouseClickPoint);
-      console.log('screenCoord', screenCoord);
+      // console.log('screenCoord', screenCoord);
+      const data = lianhuajingguiData.find((item) => item.id === e.ObjectID);
+      if (data) {
+        state.currentPower.value = data.value;
+        if (timer) {
+          clearInterval(timer);
+        }
+        timer = setInterval(() => {
+          const random = Math.random() * 0.05 - 0.05;
+          state.currentPower.value = (data.value + data.value * random).toFixed(2);
+        }, 3000);
+      }
       screenPosition.value = screenCoord.screenPosition;
       showPop.value = true;
     } else {
@@ -62,11 +81,20 @@ useEmitt &&
     }
   });
 // 定位到单晶版
-const focusToPile = (ObjectID) => {
+const focusToPile = (data) => {
   __g.tileLayer.stopHighlightAllActors();
   let layerId = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
   __g.settings.highlightColor('#FF6B4B');
-  __g.tileLayer.highlightActor(layerId, ObjectID);
+  __g.tileLayer.highlightActor(layerId, data.id);
+  state.currentPower.value = data.value;
+  showPop.value = true;
+  if (timer) {
+    clearInterval(timer);
+  }
+  timer = setInterval(() => {
+    const random = Math.random() * 0.05 - 0.05;
+    state.currentPower.value = (data.value + data.value * random).toFixed(2);
+  }, 3000);
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -74,6 +102,11 @@ const handleClose = () => {
   showPop.value = false;
 };
 onMounted(async () => {
+  if (state.weather) {
+    state.weatherIcon = 'cloudy-day';
+  } else {
+    state.weatherIcon = 'sun-panel';
+  }
   bus.on('focusToPile', (e) => {
     console.log(e);
     focusToPile(e);
@@ -82,6 +115,9 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   bus.off('focusToPile');
+  if (timer) {
+    clearInterval(timer);
+  }
 });
 </script>
 <style lang="less" scoped>
@@ -125,7 +161,6 @@ onBeforeUnmount(() => {
   z-index: 99;
 
   .pop-icon {
-    margin-top: 22px;
     font-size: 54px;
   }
   // top: 300px;

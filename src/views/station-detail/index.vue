@@ -96,7 +96,6 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <!-- <honglixi v-if="isHonglixi" /> -->
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -147,7 +146,7 @@
   ></BaoqingDialog>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
+import { ref, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
@@ -194,7 +193,6 @@ import {
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
-import honglixi from './components/honglixi.vue';
 import BaoqingDialog from './components/baoqing-dialog.vue';
 const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];

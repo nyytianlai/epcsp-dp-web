@@ -3,6 +3,7 @@
     width="8.45rem"
     class="pile-dialog"
     @close="emit('handleClose')"
+    v-model="visible"
     destroy-on-close
   >
     <template #header>
@@ -44,6 +45,8 @@ const props = defineProps({
     default: false
   }
 });
+
+const { visible } = toRefs(props);
 </script>
 <style lang="less" scoped>
 .pile-dialog {
