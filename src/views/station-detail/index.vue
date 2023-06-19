@@ -96,7 +96,7 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <honglixi v-if="isHonglixi" />
+  <!-- <honglixi v-if="isHonglixi" /> -->
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>

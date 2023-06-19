@@ -4,7 +4,7 @@
     <!-- 左侧 -->
     <panel>
       <div class="photovoltaic-station-overview">
-        <title-column title="光伏电站总览" icon="photovoltaic" />
+        <title-column title="光伏站整体信息" icon="photovoltaic" />
         <div class="num-wrap">
           <template v-for="(item, index) in cardData" :key="index">
             <num-card :data="item" classStyleType="bottomDown" />
@@ -12,20 +12,19 @@
         </div>
       </div>
       <div class="surf-sort">
-        <tabs :data="surfTitle" />
-        <pie-chart :data="surfSortPieData" totalName="上网总量" :colors="surfSortColor" />
+        <num-tile-card :data="unitTotal" />
       </div>
       <div class="company-rank">
-        <title-column title="企业排名" icon="photovoltaic" />
+        <title-column title="光伏站排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
         <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
-        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="3.54rem" />
+        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="4.2rem" />
       </div>
     </panel>
     <!-- 右侧 -->
     <panel type="right">
       <div class="photovoltaic-station-overview-today">
-        <title-column title="今日光伏电站数据信息" icon="photovoltaic" />
+        <title-column title="今日光伏站数据信息" icon="photovoltaic" />
         <div class="num-wrap">
           <template v-for="(item, index) in cardTodayData" :key="index">
             <num-card :data="item" />
@@ -54,7 +53,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, inject, } from 'vue';
 import {
   pageNumFun,
   cdzzlFun,
@@ -65,8 +64,10 @@ import {
   powerTodayTitle,
   powerTodayCardFun,
   linePowerDataFun,
-  socialBenefitFun
+  socialBenefitFun,
+  unitTotalFun
 } from './config';
+import { capacityRanking, projectRanking } from './api.js'
 import MapLayer from './components/map-layer.vue';
 
 interface Aircity {
@@ -81,48 +82,14 @@ const surfSortColor = ['#E5CC48', '#3254DD', '#4BDEFF'];
 const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
 const cardData = ref(cdzzlFun());
+// 并网总容量
+const unitTotal = ref(unitTotalFun())
 // 上网方式分类
 const surfSortPieData = ref(surfSortPieDataFun());
 // 企业排名
-const companyRankData = ref([
-  {
-    num: 10,
-    unit: 'MW',
-    name: '中广核深圳机场一期屋顶光伏电站'
-  },
-  {
-    num: 8,
-    unit: 'MW',
-    name: '开沃新能源汽车深圳生产基地分布式光伏电站'
-  },
-  {
-    num: 5.99,
-    unit: 'MW',
-    name: '深圳艾杰旭分布式光伏电站'
-  },
-  {
-    num: 4.6,
-    unit: 'MW',
-    name: '中广核深圳机场二期屋顶光伏电站'
-  },
-  {
-    num: 4.25,
-    unit: 'MW',
-    name: '深汕盛腾科技有限公司屋顶光伏'
-  },
-  {
-    num: 3.7,
-    unit: 'MW',
-    name: '盐田港分布式光伏发电项目'
-  },
-  {
-    num: 3.5,
-    unit: 'MW',
-    name: '前海保税物流园区二期分布式光伏'
-  }
-]);
+const companyRankData = ref([]);
 // 企业排名总量
-const companyRankTotal = ref<number>(companyRankData.value[0].num);
+const companyRankTotal = ref<number>(0);
 // 今日光伏电站数据
 const cardTodayData = ref(jrgfdzFun());
 // 今日功率信息卡片
@@ -131,86 +98,50 @@ const powerTodayCard = ref(powerTodayCardFun());
 const lineStateData = ref(linePowerDataFun());
 // 社会效益信息
 const socialBenefit = ref(socialBenefitFun());
+// 站点排名信息
+const stationRnk = ref([])
+// 光伏排名信息
+const lightRank = ref([])
+
+
+// 获取站点容量排名
+const loadCapacityRanking = async () => {
+  const res = await capacityRanking()
+  console.log('获取站点容量排名', res)
+  stationRnk.value = res.data.map(i => {
+    return {
+      num: i.doubleAmount,
+      unit: 'MW',
+      name: i.rankingName
+    }
+  })
+  companyRankData.value = stationRnk.value
+  companyRankTotal.value = companyRankData.value[0].num;
+}
+// 获取光伏站数量排名
+const loadProjectRanking = async () => {
+  const res = await projectRanking()
+  console.log('获取光伏站数量排名', res)
+  lightRank.value = res.data.map(i => {
+    return {
+      num: i.integerAmount,
+      unit: '个',
+      name: i.rankingName
+    }
+  })
+}
 // 企业排名tab点击
 const handleCompany = (item) => {
   console.log('item', item);
-  switch (item.code) {
-    case 1:
-      companyRankData.value = [
-        {
-          num: 10,
-          unit: 'MW',
-          name: '中广核深圳机场一期屋顶光伏电站'
-        },
-        {
-          num: 8,
-          unit: 'MW',
-          name: '开沃新能源汽车深圳生产基地分布式光伏电站'
-        },
-        {
-          num: 5.99,
-          unit: 'MW',
-          name: '深圳艾杰旭分布式光伏电站'
-        },
-        {
-          num: 4.6,
-          unit: 'MW',
-          name: '中广核深圳机场二期屋顶光伏电站'
-        },
-        {
-          num: 4.25,
-          unit: 'MW',
-          name: '深汕盛腾科技有限公司屋顶光伏'
-        },
-        {
-          num: 3.7,
-          unit: 'MW',
-          name: '盐田港分布式光伏发电项目'
-        },
-        {
-          num: 3.5,
-          unit: 'MW',
-          name: '前海保税物流园区二期分布式光伏'
-        }
-      ];
-      break;
-    case 2:
-      companyRankData.value = [
-        {
-          num: 11,
-          unit: '个',
-          name: '深圳市燃气集团股份有限公司'
-        },
-        {
-          num: 7,
-          unit: '个',
-          name: '广东粤电电力销售有限公司'
-        },
-        {
-          num: 5,
-          unit: '个',
-          name: '国家能源投资集团有限责任公司'
-        },
-        {
-          num: 5,
-          unit: '个',
-          name: '国电电力广东新能源开发有限公司'
-        },
-        {
-          num: 3,
-          unit: '个',
-          name: '深电能科技集团有限公司'
-        },
-        {
-          num: 2,
-          unit: '个',
-          name: '中广核太阳能公司深圳项目公司'
-        }
-      ];
-      break;
-  }
+  companyRankData.value = item.code === 1 ? stationRnk.value : lightRank.value
   companyRankTotal.value = companyRankData.value[0].num;
 };
+
+
+onMounted(() => {
+  loadCapacityRanking()
+  loadProjectRanking()
+})
 </script>
 <style lang="less" scoped>
 .photovoltaic-station-overview {
@@ -220,11 +151,9 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(
-      255.75deg,
-      rgba(37, 177, 255, 0.02) 23.33%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
+    background: linear-gradient(255.75deg,
+        rgba(37, 177, 255, 0.02) 23.33%,
+        rgba(37, 177, 255, 0.2) 100%);
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
@@ -249,6 +178,7 @@ const handleCompany = (item) => {
   :deep(.area-rank-wrap) {
     margin-top: 20px;
     width: 430px;
+
     .unit {
       color: #fff;
     }
@@ -262,11 +192,9 @@ const handleCompany = (item) => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(
-      258.38deg,
-      rgba(37, 177, 255, 0.1) 2.46%,
-      rgba(37, 177, 255, 0) 100%
-    );
+    background: linear-gradient(258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%);
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -288,11 +216,9 @@ const handleCompany = (item) => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));

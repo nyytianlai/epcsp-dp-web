@@ -19,3 +19,17 @@ export const getPoint = (data) => {
     data
   });
 };
+//站点容量排名
+export const capacityRanking = () => {
+  return request.post({
+    url: '/photovoltaic/capacityRanking',
+
+  });
+};
+
+//光伏站数量排名
+export const projectRanking = () => {
+  return request.post({
+    url: '/photovoltaic/projectRanking',
+  });
+};
