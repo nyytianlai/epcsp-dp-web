@@ -107,6 +107,12 @@ let routesMap = [
         name: 'ChargingsReplacementCabinet',
         meta: { title: '充换电柜', keepAlive: false },
         component: () => import('@/views/chargings-replacement-cabinet/index.vue')
+      },
+      {
+        path: '/power-exchange-station',
+        name: 'PowerExchangeStation',
+        meta: { title: '换电站', keepAlive: false },
+        component: () => import('@/views/power-exchange-station/index.vue')
       }
     ]
   },

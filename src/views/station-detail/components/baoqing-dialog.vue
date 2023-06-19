@@ -1,16 +1,20 @@
 <template>
- <el-dialog
+  <el-dialog
+    width="8.45rem"
     v-model="visible"
     class="pile-dialog"
+    @close="emit('handleClose')"
     destroy-on-close
   >
-  <template #header>
+    <template #header>
       <div class="my-header">
-        <icon :icon="`svg-icon:${headerData?.icon}`" class="top-icon"/>
+        <icon :icon="`svg-icon:${headerData?.icon}`" class="top-icon" />
         <div class="info">
           <span class="top">
             <span class="name-pile">{{ headerData?.name }}</span>
-            <span class="status" v-if="headerData?.status" :class="headerData?.class" >{{ headerData?.status }}</span>
+            <span class="status" v-if="headerData?.status" :class="headerData?.class">
+              {{ headerData?.status }}
+            </span>
           </span>
           <span class="pile-code">
             {{ headerData?.code }}
@@ -18,28 +22,33 @@
         </div>
       </div>
     </template>
-    <DialogMsg v-if="mode === 'msg'"></DialogMsg>
-    <DdialogBattery v-if="mode === 'battery'"></DdialogBattery>
- </el-dialog>
+    <DialogMsg v-if="mode === 'pcsCabinet'"></DialogMsg>
+    <DdialogBattery v-if="mode === 'batteryCluster'"></DdialogBattery>
+  </el-dialog>
 </template>
 <script lang="ts" setup>
-import Icon from '@sutpc/vue3-svg-icon'
-import {ref} from 'vue'
-import DialogMsg from './dialog-msg.vue'
-import DdialogBattery from './dialog-battery.vue'
+import Icon from '@sutpc/vue3-svg-icon';
+import DialogMsg from './dialog-msg.vue';
+import DdialogBattery from './dialog-battery.vue';
+const emit = defineEmits(['handleClose']);
 const props = defineProps({
   headerData: {
     type: Object,
-    default: ()=>{}
+    default: () => {}
   },
   mode: {
     type: String,
     default: ''
   },
-})
+  visible: {
+    type: Boolean,
+    default: false
+  }
+});
 </script>
 <style lang="less" scoped>
- .pile-dialog {
+.pile-dialog {
+  width: 845px;
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
@@ -65,7 +74,6 @@ const props = defineProps({
       /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
     box-shadow: inset 0px 0px 42px rgba(255, 54, 10, 0.51);
     .my-header {
-
       .info .top .status {
         background: rgba(170, 5, 5, 0.3);
         border: 1px solid #aa0505;
@@ -115,16 +123,15 @@ const props = defineProps({
           line-height: 20px;
           margin-left: 6px;
           font-size: 12px;
-          &.offline{
+          &.offline {
             background: rgba(159, 159, 159, 0.3);
-            border-color: #E8E8E8;
-            color: #FFFFFF;
+            border-color: #e8e8e8;
+            color: #ffffff;
           }
-          &.warning{
+          &.warning {
             background: rgba(170, 5, 5, 0.3);
-            border-color: #AA0505;
-            color: #FF6B4B;
-
+            border-color: #aa0505;
+            color: #ff6b4b;
           }
         }
       }
@@ -140,6 +147,5 @@ const props = defineProps({
     padding-left: 24px;
     padding-right: 34px;
   }
-
 }
 </style>
