@@ -18,7 +18,7 @@ export const pageNumFun = (data = {}) => {
     {
       name: '年累计生产绿电',
       // num: data?.cumulativeCharge,
-      num: 4.29,
+      num: 2.13,
       unit: data?.cumulativeChargeUnit || '亿kWh'
     },
     {
