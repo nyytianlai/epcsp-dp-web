@@ -81,7 +81,8 @@ export const getImageUrl = (dir: string) => {
 };
 export const getHtmlUrl = () => {
   if (import.meta.env.MODE == 'base') {
-    return 'http://10.10.50.136:5500/public';
+    // return 'http://10.10.50.136:5500/public';
+    return 'http://10.10.48.84:5500/public';
     // return 'http://127.0.0.1:5500/public';
   } else {
     return window.location.origin;
@@ -161,6 +162,12 @@ export const returnStationPointConfig = (item: {
   xoffset: number;
   stationType: number;
 }) => {
+  // 弹框字数*16+弹框默认宽度，方便计算弹框大小和位移
+  const popupWidth = 146; // 弹框默认宽度
+  const fontSize = 24; // 弹框字体大小
+  const popupSizeX = item.stationName.length * fontSize + popupWidth; // 弹框宽度
+  // 文本字体大小16，默认在img图标右侧[0,0]，img宽55，，计算hover显示文本偏移
+  const textOffsetX = -((item.stationName.length * 16 + 55 + 30) / 2);
   return {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
@@ -175,13 +182,14 @@ export const returnStationPointConfig = (item: {
       item.stationName
     }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
-    popupSize: [425, 57], //弹窗大小
-    popupOffset: [-210, -157], //弹窗偏移
+    popupSize: [popupSizeX, 60], //弹窗大小
+    popupOffset: [-popupSizeX / 2, -100], //弹窗偏移
     autoHidePopupWindow: false,
     text: item.stationName, //显示的文字
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
-    textOffset: [-20 - item.xoffset, -85], // 文本偏移
+    // textOffset: [-20 - item.xoffset, -85], // 文本偏移
+    textOffset: [textOffsetX, -85],
     textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
     fontSize: 16, //字体大小
     fontOutlineSize: 1, //字体轮廓线大小
@@ -227,7 +235,7 @@ export const showStationDetailPanel = (storeVisible, item) => {
       stationId: item.stationId,
       isHr: item.isHr,
       equipmentId: item.eid,
-      isWarning:item.isWarning,
+      isWarning: item.isWarning,
       warnId: item.warnId
     }
   });
