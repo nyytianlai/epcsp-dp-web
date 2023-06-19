@@ -4,18 +4,17 @@
     <meta charset="utf-8" />
     <style>
       #pop-panel{
-        height:131px; 
         width: 180px;
+        height:160px; 
         background: url('../images/rectbarPop.png') no-repeat ;
-        background-size:180px 130px;
+        background-size:180px 100%;
         position: fixed;
-        /* z-index: 99999; */
       }
       .title{
           position: absolute;
           height: 24px;  
           left: 30px;
-          top: -5px;
+          top: 0px;
           font-weight: 600;
           font-size: 16px;
           line-height: 24px;
@@ -25,9 +24,9 @@
         .content{
           position: absolute;
           margin: 2px 12px;
-          top: 25px;
+          top: 30px;
           width: 144px;
-          height: 109px;
+          height: 120px;
         }
         li{
            display: flex;
@@ -51,10 +50,10 @@
           align-items: center;
           text-align: center;
           margin-right: 2px;
-          background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
+          /* background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          background-clip: text;
+          background-clip: text; */
         }
         /* .num1{
           color: #00B3FF;
@@ -80,14 +79,15 @@
 
       let paramsValue = JSON.parse(urlParams.get("value"));
       const VALUE = [
-        { value: paramsValue.charge, label: { offset: [38, -6] } },
-        { value: paramsValue.chargingCabinet, label: { offset: [0, 2] } },
-        { value: paramsValue.energyStorage, label: { offset: [-38, -6] } },
+        { value: paramsValue.chargingStation, label: { offset: [38, -6] } },
+        { value: paramsValue.cabinet, label: { offset: [0, 2] } },
+        { value: paramsValue.energyStorageStation, label: { offset: [-38, -6] } },
         { value: paramsValue.photovoltaic, label: { offset: [-38, -6] } },
-        { value: paramsValue.photovoltaic, label: { offset: [-38, -6] } },
+        { value: paramsValue.powerStation, label: { offset: [-38, -6] } },
       ];
       const yMax=Number(urlParams.get("yMax"))
       console.log('最大值',yMax);
+      const topBar= Math.max(paramsValue.chargingStation,paramsValue.cabinet,paramsValue.energyStorageStation,paramsValue.photovoltaic,paramsValue.powerStation)// 当前五根柱子中做高的值
       const quName = urlParams.get("quName");
       const areaCode=urlParams.get("areaCode");
       const contentHeight=urlParams.get("contentHeight");
@@ -216,20 +216,18 @@
             },
             // confine:false,
             borderWidth: 0,
-            position: [0, -131+160-(Number(paramsValue.charge)*100)/yMax-60],//(Number(paramsValue[1])*120)/yMax 柱子高度
+            position: [0, -160+160-(topBar*100)/yMax-60],//(Number(paramsValue[1])*120)/yMax 柱子高度
             //最后的-60是怎么算出来的:假设柱子的高度都是0,此时-131+160-x 的位置应该是弹框刚好在柱子高度为0处是合适的
             //柱子高度中*100是怎么算出来的:假设柱子的高度都是盛满容器的,此时-131+160-(Number(paramsValue.charge)*100)/yMax-60 的位置应该是弹框刚好在盛满容器柱子处是合适的
             formatter: function (params) {
-              let item = "";
-              item += params[0].name;
               return `    <div id="pop-panel">
      <div class="title">${quName}</div>
      <div class="content">
-      <li>储能站<div class="liRight"><sapn class="num num1">${paramsValue.energyStorage}</sapn>个</div></li>
-      <li>光伏站<div class="liRight"><span class="num num2">${paramsValue.photovoltaic}</span>个</div></li>
-      <li>充电站<div class="liRight"><span class="num num3">${paramsValue.charge}</span>个</div></li>
-      <li>充换电柜<div class="liRight"><span class="num num4">${paramsValue.chargingCabinet}</span>个</div></li>
-      <li>换电站<div class="liRight"><span class="num num5">${paramsValue.chargingCabinet}</span>个</div></li>
+      <li>充电站<div class="liRight"><span class="num num3" style="color: #00B3FF;">${paramsValue.chargingStation}</span>个</div></li>
+      <li>储能站<div class="liRight"><sapn class="num num1" style="color: #F6FB2B;">${paramsValue.energyStorageStation}</sapn>个</div></li>
+      <li>光伏站<div class="liRight"><span class="num num2" style="color: #99B1FF;">${paramsValue.photovoltaic}</span>个</div></li>
+      <li>充换电柜<div class="liRight"><span class="num num4" style="color: #00F7FF;">${paramsValue.cabinet}</span>个</div></li>
+      <li>换电站<div class="liRight"><span class="num num5" style="color:  #FFA800;">${paramsValue.powerStation}</span>个</div></li>
      </div>
     </div>`
             },

@@ -1245,6 +1245,24 @@ export const stationWarnFun = (data = []) => {
   };
   return obj;
 };
+const xAxisTodayFun = () => {
+  let xAxis = [];
+  for (let i = 0; i < 24; i++) {
+    xAxis.push(
+      dayjs().set('hour', i).set('minute', '00').set('second', '00').format('YYYY-MM-DD HH:mm:ss')
+    );
+  }
+  return xAxis;
+};
+const realtimeSeriesDataFun = (min = 0, max = 100) => {
+  const hours = dayjs().hour();
+  const seriesData = [];
+  for (let i = 0; i < hours; i++) {
+    const random = Math.floor(Math.random() * max) + min;
+    seriesData.push(random);
+  }
+  return seriesData;
+};
 export const stationWarnOption = {
   grid: {
     top: 30,
@@ -1343,6 +1361,253 @@ export const stationWarnOption = {
     }
   },
   series: []
+};
+export const batterySOHOption = {
+  grid: {
+    top: 30,
+    bottom: 24,
+    right: 15,
+    left: 42
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.axisValueLabel}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">%</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    data: ['簇SOH'],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '75%'
+  },
+  xAxis: {
+    type: 'category',
+    data: xAxisTodayFun(),
+    boundaryGap: false,
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return dayjs(value).format('HH');
+      }
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位：%',
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value >= 0 ? value : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      data: realtimeSeriesDataFun(20, 60),
+      type: 'line',
+      smooth: true,
+      name: '簇SOH',
+
+      areaStyle: {
+        origin: 'start',
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: '#00FFF9' // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+            }
+          ],
+          global: false // 缺省为 false
+        }
+      },
+      itemStyle: {
+        color: '#00FFF9'
+      }
+    }
+  ]
+};
+export const batteryTempOption = {
+  grid: {
+    top: 30,
+    bottom: 60,
+    right: 15,
+    left: 42
+  },
+  tooltip: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    trigger: 'axis',
+    formatter: (params) => {
+      const val = params[0];
+      let str = `<div class="time-tooltip">`;
+      str += `<div class="time">${val.axisValueLabel}</div>`;
+      params.map((item) => {
+        str += `<div class="item-data">
+          <span class="left-data">
+            ${item?.marker}
+            <span class="name">${item?.seriesName}</span>
+          </span>
+          <span class="right-data">
+            <span class="value">${item.value}</span>
+            <span class="unit">℃</span>
+          </span>
+        </div>`;
+      });
+      str += '</div>';
+      return str;
+    }
+  },
+  legend: {
+    data: ['簇最低温度'],
+    textStyle: {
+      color: '#fff'
+    },
+    x: '75%'
+  },
+  xAxis: {
+    type: 'category',
+    data: xAxisTodayFun(),
+    boundaryGap: false,
+    axisLine: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#BAE7FF'
+      }
+    },
+    axisLabel: {
+      fontFamily: 'Source Han Sans CN',
+      fontSize: 12,
+      lineHeight: 18,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return dayjs(value).format('HH');
+      }
+    },
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    name: '单位:℃',
+    axisLine: {
+      show: false
+    },
+    axisTick: {
+      show: false
+    },
+    axisLabel: {
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      lineHeight: 16,
+      color: '#B4C0CC',
+      formatter: (value) => {
+        return value >= 0 ? value : '';
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: 'rgba(230, 247, 255, 0.2)',
+        type: 'dashed'
+      }
+    }
+  },
+  series: [
+    {
+      data: realtimeSeriesDataFun(28, 66),
+      type: 'line',
+      smooth: true,
+      name: '簇最低温度',
+      areaStyle: {
+        origin: 'start',
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: '#00FFF9' // 0% 处的颜色
+            },
+            {
+              offset: 1,
+              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+            }
+          ],
+          global: false // 缺省为 false
+        }
+      },
+      itemStyle: {
+        color: '#00FFF9'
+      }
+    }
+  ]
 };
 export const pageNumBaoqingFun = (data = {}) => {
   return [
@@ -1827,7 +2092,9 @@ export const msgPopList = [
 ];
 const popRealtimeDataFun = () => {
   // const hours = dayjs().hour();
-  const seriesData = [0,4.95,0,0,0,0,0,0,0,0,-3.65,-3.63,4.97,3.18,-4,-3.59,-3.7,0,0,0,0,0,0,0];
+  const seriesData = [
+    0, 4.95, 0, 0, 0, 0, 0, 0, 0, 0, -3.65, -3.63, 4.97, 3.18, -4, -3.59, -3.7, 0, 0, 0, 0, 0, 0, 0
+  ];
   // for (let i = 0; i < 24; i++) {
   //   // console.log('i', i);
   //   if (i === 9 || i === 10) {

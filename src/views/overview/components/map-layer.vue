@@ -21,7 +21,9 @@ import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useMapStore } from '@/stores/map';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
-import { returnStationPointConfig } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl } from '@/global/config/map';
+import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
+import { getStrLength } from '@/utils/index';
 
 import bus from '@/utils/bus';
 
@@ -30,7 +32,40 @@ const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3, 4]);
 
 const aircityObj = inject('aircityObj');
-aircityObj.value?.acApi.reset();
+const { useEmitt } = aircityObj.value;
+const __g = aircityObj.value?.acApi;
+__g.reset();
+let currtentStation = {};
+
+useEmitt('AIRCITY_EVENT', async (e) => {
+  // 点击站点图标高亮
+  console.log('点击外面的点数据', e);
+  if (e.eventtype === 'LeftMouseButtonClick') {
+    if (e.Id?.includes('stationOverview-')) {
+      currtentStation = JSON.parse(e.UserData);
+      if (e.Id?.includes('chargingStation-')) {
+        //充电站
+        quRef.value.highLightNormalStation(currtentStation);
+        quRef.value.enterStationInfo(currtentStation);
+      } else {
+        let stationType = e.Id.split('-')[1];
+        currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
+        __g.marker.delete('stationOverview-hight');
+        // currtentStation = JSON.parse(e.UserData);
+        currtentStation['stationId1'] = e.Id;
+        __g.marker.hide(e.Id);
+        addHighLightStation(currtentStation, stationType);
+      }
+    }
+  }
+  //关闭弹窗
+  if (e.eventtype === 'MarkerCallBack' && e.Data == 'closeStationHighLight') {
+    if (e.ID?.includes('stationOverview-')) {
+      __g.marker.delete('stationOverview-hight');
+      __g.marker.show(currtentStation.stationId1);
+    }
+  }
+});
 
 let quRef = ref(null);
 let rectBar4Ref = ref(null);
@@ -60,36 +95,100 @@ let legendListData = reactive([
     color: 'linear-gradient(178.22deg, #FF9900 6.41%, #774700 94.78%)',
     name: '换电站',
     type: false
-  },
+  }
 ]);
 
 const addQuBar = async () => {
-  let data = mapQuBar();
-  await rectBar4Ref.value.addBar('qu', data);
+  const { data: res } = await getDistrictBar();
+  await rectBar4Ref.value.addBar('qu', res);
+};
+let fieldTrans = {
+  cabinet: { iconType: 400, name: 'cabinetName', popName: 'chargingsCabinetStationPop' },
+  chargingStation: { iconType: 50, name: 'stationName' },
+  energyStorageStation: { iconType: 200, name: 'energyStorageName', popName: 'energyStationPop' },
+  photovoltaic: { iconType: 300, name: 'photovoltaicName', popName: 'photovoltaicStationPop' },
+  powerStation: { iconType: 500, name: 'powerStationName', popName: 'powerExchangeStationPop' }
 };
 
-const addOutStation = async (module: number) => {
-  await aircityObj.value?.acApi.marker.deleteByGroupId('jdStation');
-  // const { data: res } =
-  const res = mapJdStationPoint();
+const addOutStation = async (module: number, jdcode: string) => {
+  await __g.marker.deleteByGroupId('jdStation');
+  const { data: res } = await getStreetPoint({ streetId: jdcode });
   let pointArr = [];
+  for (const key in res) {
+    if (Object.prototype.hasOwnProperty.call(res, key)) {
+      const element = res[key];
+      element.forEach((item, index) => {
+        if (key == 'chargingStation') {
+          item['longitude'] = item.lng;
+          item['latitude'] = item.lat;
+        }
+        let stationName = fieldTrans[key]['name'];
+        let module = fieldTrans[key]['iconType'];
+        let xoffset = getStrLength(item[stationName]) * 6;
+        let o1 = {
+          id: `stationOverview-${key}-${index}`,
+          groupId: 'jdStation',
+          userData: JSON.stringify(item),
+          coordinateType: 2,
+          coordinate: [item.longitude, item.latitude], //坐标位置
+          anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+          imageSize: [55, 150], //图片的尺寸
+          range: [1, 150000], //可视范围
+          imagePath: getImageByCloud('station' + module),
+          autoHidePopupWindow: false,
+          text: item[stationName], //显示的文字
+          useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+          textRange: [1, 1500], //文本可视范围[近裁距离, 远裁距离]
+          textOffset: [-20 - xoffset, -85], // 文本偏移
+          textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+          fontSize: 16, //字体大小
+          fontOutlineSize: 1, //字体轮廓线大小
+          fontColor: '#FFFFFF', //字体颜色
+          displayMode: 2,
+          autoHeight: true
+        };
+        pointArr.push(o1);
+      });
+    }
+  }
+  await __g.marker.add(pointArr, null);
+};
 
-  res.forEach((item, index) => {
-    let xoffset = item.stationName.length * 12;
-    item['xoffset'] = xoffset;
-    let o1 = returnStationPointConfig(item);
-    pointArr.push(o1);
-  });
-  await aircityObj.value?.acApi.marker.add(pointArr, null);
+const addHighLightStation = async (item, stationType: string) => {
+  let popName = fieldTrans[stationType].popName;
+  let iconType = fieldTrans[stationType].iconType;
+  let o1 = {
+    id: 'stationOverview-hight',
+    groupId: 'jdStation',
+    userData: JSON.stringify(item),
+    coordinateType: 2,
+    coordinate: [item.longitude, item.latitude], //坐标位置
+    anchors: [-35, 200], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [70, 209], //图片的尺寸
+    range: [1, 150000], //可视范围
+    imagePath: getImageByCloud('hlSta' + iconType),
+    popupURL: `${getHtmlUrl()}/static/html/${popName}.html?value=${JSON.stringify(item)}`, //弹窗HTML链接
+    popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
+    // popupSize: [370, 215.6], //弹窗大小
+    // popupOffset: [-210, -205], //弹窗偏移
+    popupSize: [400, 245.6], //弹窗大小
+    popupOffset: [-224, -223], //弹窗偏移
+    autoHidePopupWindow: false,
+    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+    displayMode: 2,
+    autoHeight: true
+  };
+  await __g.marker.add(o1, null);
+  __g.marker.showPopupWindow('stationOverview-hight');
 };
 
 defineExpose({});
 
 onMounted(async () => {
   addQuBar();
-  bus.on('addBar', (e) => {
-    let data = mapJdBar();
-    rectBar4Ref.value.addBar(e.type, data, e.quCode);
+  bus.on('addBar', async (e) => {
+    const { data: res } = await getStreetBar({ areaCode: e.quCode });
+    rectBar4Ref.value.addBar(e.type, res, e.quCode);
   });
 });
 

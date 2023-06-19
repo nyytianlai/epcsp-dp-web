@@ -65,11 +65,9 @@
       }
     "
   />
-  <BaoqingDialog mode="battery" :headerData="headerDataBattery" v-model="showDialog"></BaoqingDialog>
 </template>
 <script lang="ts" setup>
 import EcResize from '@sutpc/vue3-ec-resize';
-import BaoqingDialog from './baoqing-dialog.vue'
 import { reactive, onMounted, ref } from 'vue';
 import BaoqingSystemStatus from './baoqing-system-status.vue';
 import {
@@ -83,20 +81,6 @@ import dayjs from 'dayjs';
 import BaoqingChild from './baoqing-child.vue';
 const pageNumData = ref(pageNumBaoqingFun());
 const showChild = ref(false);
-const showDialog = ref(false)
-
-const headerDataMsg = reactive({
-  icon: 'battery',
-  name: '#1PCS',
-  status: '正常',
-  code: '12837479W900Q00Q0'
-})
-const headerDataBattery = reactive({
-  icon: 'pcs',
-  name: '#1电池簇',
-  status: '开路',
-  code: '12837479W900Q00Q0'
-})
 // 站点基本信息
 const infoListData = (data = {}) => {
   return [

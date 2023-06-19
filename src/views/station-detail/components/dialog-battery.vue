@@ -1,23 +1,23 @@
 <template>
-<div class="dialog-battery">
-  <el-tabs v-model="activeName" class="pile-tabs">
-            <el-tab-pane label="簇信息" name="first">
-              <BatteryMsg/>
-            </el-tab-pane>
-            <el-tab-pane label="簇电压/温度" name="second">
-              <TemperatureMsg/>
-            </el-tab-pane>
-        </el-tabs>
-</div>
+  <div class="dialog-battery">
+    <el-tabs v-model="activeName" class="pile-tabs">
+      <el-tab-pane label="簇信息" name="first">
+        <BatteryMsg />
+      </el-tab-pane>
+      <el-tab-pane label="簇电压/温度" name="second">
+        <TemperatureMsg />
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
-import BatteryMsg from './battery-msg.vue'
-import TemperatureMsg from './temperature-msg.vue'
-const activeName = ref('first')
+import { ref } from 'vue';
+import BatteryMsg from './battery-msg.vue';
+import TemperatureMsg from './temperature-msg.vue';
+const activeName = ref('first');
 </script>
 <style lang="less" scoped>
-  :deep(.pile-tabs) {
+:deep(.pile-tabs) {
   .el-tabs__item.is-active {
     font-weight: 500;
     font-size: 20px;
