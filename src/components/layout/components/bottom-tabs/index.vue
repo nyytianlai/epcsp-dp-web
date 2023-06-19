@@ -50,6 +50,12 @@ const tabs = [
     name: 'ChargingsReplacementCabinet',
     type: 'chargings-replacement-cabinet',
     path: '/chargings-replacement-cabinet'
+  },
+  {
+    text: '换电站',
+    name: 'PowerExchangeStation',
+    type: 'power-exchange-station',
+    path: '/power-exchange-station'
   }
 ];
 const activeTab = computed(() => route.name);
@@ -105,6 +111,12 @@ const handleTabClick = (tab: Tab) => {
   background-image: url('./images/chargings-replacement-cabinet.png');
   &.active {
     background-image: url('./images/chargings-replacement-cabinet-active.png');
+  }
+}
+.power-exchange-station {
+  background-image: url('./images/power-exchange-station.png');
+  &.active {
+    background-image: url('./images/power-exchange-station-active.png');
   }
 }
 </style>
