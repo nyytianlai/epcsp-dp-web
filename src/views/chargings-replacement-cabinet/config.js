@@ -37,13 +37,13 @@ export const chdsszlFun = (data = {}) => {
   return [
     {
       img: chdzsszl,
-      num: 232343,
+      num: data?.operatorAmount,
       unit: '个',
       name: '充换电站设施总量'
     },
     {
       img: jrqyzs,
-      num: 12,
+      num: data?.total,
       unit: '个',
       name: '接入企业总数'
     }
@@ -52,31 +52,21 @@ export const chdsszlFun = (data = {}) => {
 export const chargingType = [
   {
     code: 1,
-    label: '充换电设施类型'
+    label: '充换电柜类型'
   }
 ];
-export const chargingTypeDataFun = (data = {}) => {
+export const chargingTypeDataFun = (data = []) => {
   return [
     {
-      value: 210675,
-      name: '充电桩',
+      value: data?.[0]?.intAmount,
+      name: data?.[0]?.type,
       unit: '个'
     },
     {
-      value: 5583,
-      name: '充电柜',
+      value: data?.[1]?.intAmount,
+      name: data?.[1]?.type,
       unit: '个'
     },
-    {
-      value: 9926,
-      name: '换电柜',
-      unit: '个'
-    },
-    {
-      value: 759,
-      name: '其他',
-      unit: '个'
-    }
   ];
 };
 export const todayFacilities = [

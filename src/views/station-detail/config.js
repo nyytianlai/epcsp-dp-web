@@ -2311,10 +2311,11 @@ export const chargingStationGunTabsFun = () => {
   ];
 };
 export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
+  let res = []
   if (maintab === 1) {
     // 充电桩
     if (code === 1) {
-      return [
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           // value: 29982,
@@ -2349,7 +2350,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         }
       ];
     } else {
-      return [
+      res =  [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
@@ -2368,7 +2369,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
   } else {
     // 充电枪
     if (code === 1) {
-      return [
+      res= [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           name: '快充枪',
@@ -2399,7 +2400,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         }
       ];
     } else {
-      return [
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流枪',
@@ -2416,6 +2417,14 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
       ];
     }
   }
+  const temp = []
+    res.map(i=>{
+    if(i.value !==0){
+      temp.push(i)
+    }
+  })
+  console.log('ressss',temp)
+  return temp
 };
 export const batteryMsgFun = (data = {}) => {
   return [
