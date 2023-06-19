@@ -648,7 +648,7 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint });
+defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint,highLightNormalStation,enterStationInfo });
 onMounted(async () => {
   __g.reset();
   bus.on('toHr', async (e) => {

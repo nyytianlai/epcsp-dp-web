@@ -11,3 +11,24 @@ export const chargingStation = () => {
     url: '/overviews/all/chargingStation',
   });
 };
+
+//总览区柱状图
+export const getDistrictBar = () => {
+  return request.post({
+    url: '/overviews/all/areaMap'
+  });
+};
+//总览街道柱状图
+export const getStreetBar = (data) => {
+  return request.post({
+    url: '/overviews/all/streetMap',
+    data
+  });
+};
+//总览街道撒点
+export const getStreetPoint = (data) => {
+  return request.post({
+    url: '/overviews/all/stationLocationInfo',
+    data
+  });
+};
