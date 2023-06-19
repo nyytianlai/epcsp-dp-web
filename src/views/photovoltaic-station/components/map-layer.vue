@@ -133,13 +133,13 @@ const addHighLightStation = async (item) => {
     anchors: [-35, 200], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
     imageSize: [70, 209], //图片的尺寸
     range: [1, 150000], //可视范围
-    imagePath: getImageByCloud('hightLightStaButtom'),
+    imagePath: getImageByCloud('hlSta300'),
     popupURL: `${getHtmlUrl()}/static/html/photovoltaicStationPop.html?value=${JSON.stringify(
       item
     )}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
-    popupSize: [365, 282], //弹窗大小
-    popupOffset: [-210, -205], //弹窗偏移
+    popupSize: [400, 245], //弹窗大小
+    popupOffset: [-224, -223], //弹窗偏移
     autoHidePopupWindow: false,
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     displayMode: 2,

@@ -36,7 +36,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
   let barArr = [];
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   let stationCount = res.map((item) => {
-    return item.charge;
+    return item.cabinet > item.chargingStation ? item.cabinet : item.chargingStation;
   });
 
   let yMax = Math.max(...stationCount);
@@ -72,12 +72,17 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       popupURL: `${getHtmlUrl()}/static/html/rectBar4.html?value=${JSON.stringify(
         countObj[0]
       )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
+      popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
       popupSize: [200, contentHeight + 131],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
+    console.log(`${getHtmlUrl()}/static/html/rectBar4.html?value=${JSON.stringify(
+        countObj[0]
+      )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`);
+    
     barArr.push(o);
   });
   await aircityObj.value.acApi.marker.add(barArr);
