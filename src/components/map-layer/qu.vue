@@ -33,6 +33,7 @@ import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
+import { lianhuajingguiData } from '@/views/station-detail/config.js';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
@@ -491,7 +492,14 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-2') {
     //莲花村
     isShow
-      ? __g.camera.set(506448.920313, 2494945.10875, 63.958003, -43.560474, -148.538742, 3)
+      ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3, function () {
+          const data = lianhuajingguiData.find((item) => item.id === 'singleCrystalSilicon17');
+          if (data) {
+            setTimeout(() => {
+              bus.emit('focusToPile', data);
+            }, 3500);
+          }
+        })
       : '';
   } else if (stationId === '-1') {
     //宝清储能站
@@ -650,7 +658,14 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint,highLightNormalStation,enterStationInfo });
+defineExpose({
+  pointInWhichDistrict,
+  resetSz,
+  deleteJdData,
+  addStationPoint,
+  highLightNormalStation,
+  enterStationInfo
+});
 onMounted(async () => {
   __g.reset();
   bus.on('toHr', async (e) => {

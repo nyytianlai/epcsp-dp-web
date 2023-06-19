@@ -44,7 +44,7 @@ const params = ref({
 });
 const showPop = ref(false);
 const state = reactive({
-  weather: 1,
+  weather: 0,
   weatherIcon: '',
   currentPower: {
     value: 0
@@ -76,7 +76,11 @@ useEmitt &&
       }
       screenPosition.value = screenCoord.screenPosition;
       showPop.value = true;
-    } else {
+    } else if (
+      e.eventtype === 'LeftMouseButtonClick' &&
+      e.PropertyName !== '-2Station' &&
+      !e.ObjectID?.includes('singleCrystalSilicon')
+    ) {
       showPop.value = false;
     }
   });
@@ -150,6 +154,7 @@ onBeforeUnmount(() => {
   }
 }
 .panel-box {
+  min-width: 220px;
   display: flex;
   padding: 16px;
   align-items: center;

@@ -436,14 +436,14 @@ useEmitt &&
     if (e.eventtype === 'LeftMouseButtonClick') {
       await __g.tileLayer.stopHighlightAllActors();
       if (e.Type === 'TileLayer') {
-        console.log(e);
-
         if (
-          e.ObjectID.indexOf('pcsCabinet') !== -1 ||
-          e.ObjectID.indexOf('batteryCluster') !== -1 ||
-          e.ObjectID.indexOf('bmsConversionCabinet') !== -1 ||
-          e.ObjectID.indexOf('photovoltaicPanels') !== -1
+          e.ObjectID &&
+          (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
+            e.ObjectID?.indexOf('batteryCluster') !== -1 ||
+            e.ObjectID?.indexOf('bmsConversionCabinet') !== -1 ||
+            e.ObjectID?.indexOf('photovoltaicPanels') !== -1)
         ) {
+          console.log(e);
           const mode = e.ObjectID.split('-');
           if (mode.length) {
             tileLayerDialogMode.value = mode[0];
