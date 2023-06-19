@@ -31,12 +31,12 @@
   </div>
 </template>
 <script setup>
-import { ref, inject, onMounted } from 'vue';
+import { ref, inject, onMounted,watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
 const pileData = inject('pileData');
-
+console.log('pileData',pileData.value)
 const customOption = {
   grid: {
     left: '6%',
@@ -211,6 +211,12 @@ const handleClickDynamic = (item) => {
 onMounted(() => {
   getEquipmentDynamicInfo();
 });
+watch(()=>pileData.value,()=>{
+  tabList.value = tabsFun()
+},{
+  deep:true,
+  immediate:true
+})
 </script>
 <style lang="less" scoped>
 .active-message {

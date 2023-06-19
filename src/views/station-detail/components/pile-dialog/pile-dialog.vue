@@ -49,6 +49,7 @@ const { visible, title, type, pileVideoData, pileParams } = toRefs(props);
 const emit = defineEmits(['update:visible', 'closed']);
 const headerData = ref({})
 const pileData = ref({})
+provide('pileData', pileData)
 const isShow = ref(false)
 const isAlarm = ref(1)
 const close = () => {
@@ -148,7 +149,7 @@ watch(() => visible.value, (newVal) => {
 }, {
   immediate: true
 })
-provide('pileData', pileData)
+
 </script>
 <style lang="less">
 .pile-dialog {
