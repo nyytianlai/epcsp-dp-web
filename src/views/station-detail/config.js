@@ -336,12 +336,17 @@ export const lianhuaRealtimeOption = {
     }
   ]
 };
-const lianhuajinguiFun = () => {
+const lianhuajinguiFun = (weather = 0) => {
   let data = [];
+  const photoData = [
+    397, 468, 482, 476, 437, 455, 481, 453, 429, 426, 452, 426, 452, 438, 467, 466, 488, 453, 433,
+    456, 364, 362, 421, 395, 392, 397, 381, 367, 387, 375, 362, 377, 341, 327, 346, 349
+  ];
   for (let i = 0; i < 36; i++) {
     let obj = {
       id: `singleCrystalSilicon${i + 1}`,
-      value: '540W',
+      text: '540W',
+      value: weather === 1 ? photoData[i] * 0.23 : photoData[i],
       status: 1
     };
     // if (i < 50) {
@@ -856,17 +861,17 @@ export const floor2SpaceMarker = [
 ];
 // 宝清储能站F1-设备功能
 export const floor1DeviceMarker = [
+  // {
+  //   value: 'PCS柜',
+  //   id: 'floor1DeviceMarker1',
+  //   groupId: 'stationFacilitiesLabel',
+  //   type: 'customAngleMarker',
+  //   img: 'pcs',
+  //   position: [529808.3725, 2509992.32, 76.12537109375],
+  //   camera: [529805.81082, 2509990.714063, 76.307715, -7.829712, -29.874485, 2]
+  // },
   {
-    value: 'PCS柜',
-    id: 'floor1DeviceMarker1',
-    groupId: 'stationFacilitiesLabel',
-    type: 'customAngleMarker',
-    img: 'pcs',
-    position: [529808.3725, 2509992.32, 76.12537109375],
-    camera: [529805.81082, 2509990.714063, 76.307715, -7.829712, -29.874485, 2]
-  },
-  {
-    value: 'BMS规约转换柜',
+    value: 'PCS规约转换器',
     id: 'floor1DeviceMarker2',
     groupId: 'stationFacilitiesLabel',
     type: 'customAngleMarker',
