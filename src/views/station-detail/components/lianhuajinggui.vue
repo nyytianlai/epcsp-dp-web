@@ -8,7 +8,7 @@
         @click="handleClickDJ(item)"
       >
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
-        <span class="power text-ellipsis-1">{{ item.value }}</span>
+        <span class="power text-ellipsis-1">{{ item.text }}</span>
         <span class="state">
           <span class="text">{{ stateFormate(item.status).name }}</span>
         </span>
