@@ -197,7 +197,7 @@ const addFacilitiesLabel = async (id) => {
   facilitiesLabel(id).forEach((item, index) => {
     // console.log(item.value,getStrLength(item.value));
 
-    let xoffset = getStrLength(item.value) * 12;
+    let xoffset = (getStrLength(item.value) * 12 + 30) / 2;
     let o1 = {
       id: 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',

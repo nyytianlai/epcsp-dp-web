@@ -1,7 +1,19 @@
 <template>
-  <el-dialog v-model="visible" class="pile-dialog" :class="[type, headerData?.type, isShow ? '' : 'hide' ,isAlarm?'':'warning-pile-alarm-basic']"
-    :width="headerData?.type === 'normal-pile' ? '8.45rem' : '6.75rem'" @close="emit('update:visible', false)"
-    @closed="emit('closed')" :modal="false" destroy-on-close>
+  <el-dialog
+    v-model="visible"
+    class="pile-dialog"
+    :class="[
+      type,
+      headerData?.type,
+      isShow ? '' : 'hide',
+      isAlarm ? '' : 'warning-pile-alarm-basic'
+    ]"
+    :width="headerData?.type === 'normal-pile' ? '8.45rem' : '6.75rem'"
+    @close="emit('update:visible', false)"
+    @closed="emit('closed')"
+    :modal="false"
+    destroy-on-close
+  >
     <template #header>
       <div class="my-header">
         <icon :icon="`svg-icon:${type}`" v-if="type === 'monitor'" />
@@ -10,7 +22,9 @@
           <span class="top">
             <span class="name-pile">{{ headerData?.name }}</span>
             <span class="power" v-if="headerData?.power">{{ headerData?.power }}kW</span>
-            <span class="status" v-if="headerData?.status" :class="headerData?.class">{{ headerData?.status }}</span>
+            <span class="status" v-if="headerData?.status" :class="headerData?.class">
+              {{ headerData?.status }}
+            </span>
           </span>
           <span class="pile-code">
             {{ headerData?.code }}
@@ -29,7 +43,7 @@ import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
 import VideoPlayer from './video-palyer.vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { selectEquipmentInfoByEquipmentId } from './api.js'
+import { selectEquipmentInfoByEquipmentId } from './api.js';
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -47,11 +61,11 @@ const props = defineProps({
 });
 const { visible, title, type, pileVideoData, pileParams } = toRefs(props);
 const emit = defineEmits(['update:visible', 'closed']);
-const headerData = ref({})
-const pileData = ref({})
-provide('pileData', pileData)
-const isShow = ref(false)
-const isAlarm = ref(1)
+const headerData = ref({});
+const pileData = ref({});
+provide('pileData', pileData);
+const isShow = ref(false);
+const isAlarm = ref(1);
 const close = () => {
   emit('update:visible', false);
 };
@@ -105,12 +119,11 @@ const stateFormate = (state) => {
       code: 'warning',
       name: '故障',
       type: 'normal-pile'
-    },
-
+    }
   }[state];
 };
 const getEquipmentInfoByEquipmentIdData = async () => {
-  const res = await selectEquipmentInfoByEquipmentId(pileParams.value)
+  const res = await selectEquipmentInfoByEquipmentId(pileParams.value);
   console.log(res);
   if (res?.data) {
     headerData.value = {
@@ -120,55 +133,56 @@ const getEquipmentInfoByEquipmentIdData = async () => {
       class: stateFormate([res?.data?.equipmentStatus])?.code,
       power: res?.data?.equipmentPower,
       type: stateFormate([res?.data?.equipmentStatus])?.type
-    }
-    pileData.value = res?.data
-    isAlarm.value = res.data.isAlarm
-    isShow.value = true
+    };
+    pileData.value = res?.data;
+    isAlarm.value = res.data.isAlarm;
+    isShow.value = true;
   }
-  
-}
-watch(() => visible.value, (newVal) => {
-  console.log('newValnewVal', newVal)
-  isShow.value = false
-  if (newVal) {
-    console.log('monitor', type.value)
-    if (type.value !== 'monitor') {
-      getEquipmentInfoByEquipmentIdData()
-      
-    } else {
-      if (!pileVideoData.value) return
-      headerData.value = {
-        name: pileVideoData.value?.location,
-        status: videoStatus[pileVideoData.value?.status]?.statusName,
-        code: pileVideoData.value?.ip,
-        class: videoStatus[pileVideoData.value?.status]?.class,
-        power: ''
+};
+watch(
+  () => visible.value,
+  (newVal) => {
+    console.log('newValnewVal', newVal);
+    isShow.value = false;
+    if (newVal) {
+      console.log('monitor', type.value);
+      if (type.value !== 'monitor') {
+        getEquipmentInfoByEquipmentIdData();
+      } else {
+        if (!pileVideoData.value) return;
+        headerData.value = {
+          name: pileVideoData.value?.location,
+          status: videoStatus[pileVideoData.value?.status]?.statusName,
+          code: pileVideoData.value?.ip,
+          class: videoStatus[pileVideoData.value?.status]?.class,
+          power: ''
+        };
       }
     }
+  },
+  {
+    immediate: true
   }
-}, {
-  immediate: true
-})
-
+);
 </script>
 <style lang="less">
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
-  clip-path: polygon(0 0,
-      100% 0,
-      100% calc(100% - 20px),
-      calc(100% - 20px) 100%,
-      20px 100%,
-      0 calc(100% - 20px),
-      0 0);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 0
+  );
 
   &.monitor {
     height: 482px;
   }
-
-  
 
   .el-dialog__header {
     border-bottom: 2px solid rgba(26, 172, 255, 0.15);
@@ -221,15 +235,14 @@ watch(() => visible.value, (newVal) => {
 
           &.offline {
             background: rgba(159, 159, 159, 0.3);
-            border-color: #E8E8E8;
-            color: #FFFFFF;
+            border-color: #e8e8e8;
+            color: #ffffff;
           }
 
           &.warning {
             background: rgba(170, 5, 5, 0.3);
-            border-color: #AA0505;
-            color: #FF6B4B;
-
+            border-color: #aa0505;
+            color: #ff6b4b;
           }
         }
       }
@@ -247,26 +260,27 @@ watch(() => visible.value, (newVal) => {
     padding-left: 24px;
     padding-right: 34px;
   }
-
 }
 
 .warning-pile {
   height: 482px;
 
   :deep(.el-dialog__headerbtn) {
-    color: #C0E5FF;
+    color: #c0e5ff;
     font-size: 21px;
     font-weight: bold;
   }
 }
-.warning-pile-alarm-basic{
-  background: radial-gradient(58.3% 58.3% at 50% 50%,
+.warning-pile-alarm-basic {
+  background: radial-gradient(
+      58.3% 58.3% at 50% 50%,
       rgba(73, 18, 18, 0.85) 0%,
-      rgba(18, 40, 73, 0.7565) 100%)
-    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
-  ;
+      rgba(18, 40, 73, 0.7565) 100%
+    )
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   box-shadow: inset 0px 0px 42px rgba(255, 54, 10, 0.51);
 }
 .hide {
   display: none;
-}</style>
+}
+</style>
