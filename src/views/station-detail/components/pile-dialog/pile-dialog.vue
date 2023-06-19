@@ -13,6 +13,7 @@
     @closed="emit('closed')"
     :modal="false"
     destroy-on-close
+    align-center
   >
     <template #header>
       <div class="my-header">

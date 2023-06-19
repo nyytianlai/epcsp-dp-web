@@ -13,6 +13,7 @@
     width="15.58rem"
     @close="emit('update:visible', false)"
     @closed="emit('closed')"
+    align-center
   >
     <template #header>
       <div class="title-box">

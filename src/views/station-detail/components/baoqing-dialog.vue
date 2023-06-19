@@ -5,6 +5,7 @@
     @close="emit('handleClose')"
     v-model="visible"
     destroy-on-close
+    align-center
   >
     <template #header>
       <div class="my-header">
@@ -27,6 +28,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
+import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import DialogMsg from './dialog-msg.vue';
 import DdialogBattery from './dialog-battery.vue';

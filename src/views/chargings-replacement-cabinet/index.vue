@@ -69,7 +69,7 @@ import {
   warnData
 } from './config';
 import MapLayer from './components/map-layer.vue';
-import {totalStatistics,typeAndNumber} from './api.js'
+import { totalStatistics, typeAndNumber } from './api.js';
 interface Aircity {
   value: object;
 }
@@ -147,23 +147,21 @@ const lineStateData = ref(linePowerDataFun());
 // 今日告警信息
 const warningListData = ref([]);
 
-
-// 获取企业总量 
-const loadTotalStatistics = async()=>{
-  const  res = await totalStatistics()
-cardData.value = chdsszlFun(res.data)
-}
+// 获取企业总量
+const loadTotalStatistics = async () => {
+  const res = await totalStatistics();
+  cardData.value = chdsszlFun(res.data);
+};
 // 获取充换电柜类型
-const loadTypeAndNumber = async()=>{
-  const res = await typeAndNumber()
-  console.log('获取充换电柜类型',res.data)
-  chargingTypeData.value = chargingTypeDataFun(res.data)
-}
+const loadTypeAndNumber = async () => {
+  const res = await typeAndNumber();
+  console.log('获取充换电柜类型', res.data);
+  chargingTypeData.value = chargingTypeDataFun(res.data);
+};
 // 今日设施数据信息点击
 const handleFacilities = (item) => {
   console.log('item', item);
-  todayFacilitiesCard.value = todayFacilitiesCardFun({},item.code)
-
+  todayFacilitiesCard.value = todayFacilitiesCardFun({}, item.code);
 };
 // 今日告警信息点击
 const handleWarnClick = (station: object) => {
@@ -184,15 +182,15 @@ const init = () => {
 };
 onMounted(() => {
   init();
-  loadTotalStatistics()
-  loadTypeAndNumber()
+  loadTotalStatistics();
+  loadTypeAndNumber();
 });
 </script>
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
   .num-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
