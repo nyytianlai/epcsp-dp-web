@@ -96,7 +96,7 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <honglixi v-if="isHonglixi" />
+  <!-- <honglixi v-if="isHonglixi" /> -->
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -138,6 +138,13 @@
       @current-change="handPageChange"
     />
   </custom-dialog>
+  <BaoqingDialog
+    :mode="tileLayerDialogMode"
+    :headerData="state.headerData"
+    :visible="showBqDialog"
+    v-if="showBqDialog"
+    @handleClose="handleCloseBqDialog"
+  ></BaoqingDialog>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
@@ -188,9 +195,36 @@ import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import honglixi from './components/honglixi.vue';
+import BaoqingDialog from './components/baoqing-dialog.vue';
 const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const realtimePowerColors = ['#F9E900', 'green', 'blue'];
+const showBqDialog = ref(false);
+
+const tileLayerDialogMode = ref('');
+
+const headerDataMsg = {
+  pcsCabinet: {
+    icon: 'pcs',
+    name: '#1PCS',
+    status: '正常',
+    code: '1466444643AD64612'
+  },
+  batteryCluster: {
+    icon: 'batteryCluster',
+    name: '#1电池簇',
+    status: '开路',
+    code: '12837479W900Q00D0'
+  },
+  bmsConversionCabinet: {
+    icon: 'pcs',
+    name: 'BMS规约转换柜',
+    status: '正常',
+    code: '15648779W900Q04153'
+  },
+  photovoltaicPanels: {}
+};
+
 // 是否展示告警
 const warnVisible = ref(false);
 // 左二图的tab
@@ -226,7 +260,13 @@ const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
 const state = reactive({
-  realtimeTrend: stationWarnOption
+  realtimeTrend: stationWarnOption,
+  headerData: {
+    icon: '',
+    name: '',
+    status: '',
+    code: ''
+  }
 });
 // 是否展示两边
 const isShowBoth = ref(true);
@@ -382,6 +422,10 @@ const handleChangeTab = (data, type) => {
     getWarningInfoByStationId(data.code);
   }
 };
+const handleCloseBqDialog = async () => {
+  showBqDialog.value = false;
+  await __g.tileLayer.stopHighlightAllActors();
+};
 const backSz = () => {
   store.changeShowComponent(true);
   store.changeShowDetail({
@@ -394,7 +438,20 @@ useEmitt &&
     if (e.eventtype === 'LeftMouseButtonClick') {
       await __g.tileLayer.stopHighlightAllActors();
       if (e.Type === 'TileLayer') {
-        if (tileLayerIds.includes(e.Id)) {
+        console.log(e);
+
+        if (
+          e.ObjectID.indexOf('pcsCabinet') !== -1 ||
+          e.ObjectID.indexOf('batteryCluster') !== -1 ||
+          e.ObjectID.indexOf('bmsConversionCabinet') !== -1 ||
+          e.ObjectID.indexOf('photovoltaicPanels') !== -1
+        ) {
+          const mode = e.ObjectID.split('-');
+          if (mode.length) {
+            tileLayerDialogMode.value = mode[0];
+            state.headerData = headerDataMsg[mode[0]];
+          }
+          showBqDialog.value = true;
           await __g.tileLayer.highlightActor(e.Id, e.ObjectID);
         }
       }

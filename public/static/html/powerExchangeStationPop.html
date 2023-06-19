@@ -125,28 +125,28 @@
         </div>
         <div class="msg">
           <span class="label">站点状态：</span>
-          <span class="value" id="address">正常使用</span>
+          <span class="value" id="status">正常使用</span>
         </div>
       </div>
       <div class="bottom">
         <div class="info flex">
           <div class="info-item">
             <div class="value">
-              <span class="num">5</span>
+              <span class="num" id="countNumber">5</span>
               <span class="unit">个</span>
             </div>
             <div class="text">充电仓数量</div>
           </div>
           <div class="info-item">
             <div class="value">
-              <span class="num">500/200</span>
+              <span class="num" id="limit">500/200</span>
               <span class="unit">V</span>
             </div>
             <div class="text">额定电压上限/下限</div>
           </div>
           <div class="info-item">
             <div class="value">
-              <span class="num">144</span>
+              <span class="num" id="current">144</span>
               <span class="unit">A</span>
             </div>
             <div class="text">额定电流</div>
@@ -157,10 +157,13 @@
     <script type="text/javascript">
        var urlParams = new URLSearchParams(location.search);
        let value = JSON.parse(urlParams.get("value"));
-       document.getElementById("title").innerHTML=value.cabinetName
+       document.getElementById("title").innerHTML=value.powerStationName
        document.getElementById("name").innerHTML=value.operatorName
        document.getElementById("address").innerHTML=value.address
-       document.getElementById("count").innerHTML=value.equipmentCount
+       document.getElementById("status").innerHTML=value.status
+       document.getElementById("countNumber").innerHTML=value.gunSum
+       document.getElementById("limit").innerHTML=value.voltageUpperLimit+'/'+value.voltageLowerLimit
+       document.getElementById("current").innerHTML=value.ratedCurrent
        function cli1(){
         ue.dtspoi.postevent(`closeStationHighLight`)
         ue.dtspoi.closewindow();

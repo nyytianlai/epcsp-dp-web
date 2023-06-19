@@ -4,7 +4,7 @@
     <!-- 左侧 -->
     <panel>
       <div class="chargings-replacement-cabinet-overview">
-        <title-column title="充换电设施总量统计" icon="chargings-replacement" />
+        <title-column title="充换电柜整体信息" icon="chargings-replacement" />
         <div class="num-wrap">
           <template v-for="(item, index) in cardData" :key="index">
             <num-card :data="item" classStyleType="bottomDown" />
@@ -16,7 +16,7 @@
         <pie-chart :data="chargingTypeData" totalName="设施类型总量" :colors="chargingColor" />
       </div>
       <div class="company-facilities-rank">
-        <title-column title="企业充换柜数量排名" icon="chargings-replacement" />
+        <title-column title="今日站点换电次数排名" icon="chargings-replacement" />
         <!-- <area-rank-list
           :data="facilitiesRankData"
           :totalNum="facilitiesRankTotal"
@@ -30,7 +30,7 @@
     <!-- 右侧 -->
     <panel type="right">
       <div class="today-facilities">
-        <title-column title="今日设施数据信息" icon="chargings-replacement" />
+        <title-column title="今日充换电柜数据信息" icon="chargings-replacement" />
         <tabs :data="todayFacilities" @changeTab="handleFacilities" />
         <div class="num-wrap">
           <template v-for="(item, index) in todayFacilitiesCard" :key="index">
@@ -39,13 +39,13 @@
         </div>
       </div>
       <div class="power-msg-today">
-        <title-column title="今日充电功率信息" icon="chargings-replacement" />
+        <title-column title="今日换电次数信息" icon="chargings-replacement" />
         <div class="num-wrap">
           <template v-for="(item, index) in powerTodayCard" :key="index">
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
           </template>
         </div>
-        <line-time-chart :data="lineStateData" :colors="stateColor" unit="kW" />
+        <line-time-chart :data="lineStateData" :colors="stateColor" unit="次" />
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
@@ -129,6 +129,8 @@ const warningListData = ref([]);
 // 今日设施数据信息点击
 const handleFacilities = (item) => {
   console.log('item', item);
+  todayFacilitiesCard.value = todayFacilitiesCardFun({},item.code)
+
 };
 // 今日告警信息点击
 const handleWarnClick = (station: object) => {

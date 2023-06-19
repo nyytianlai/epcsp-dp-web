@@ -150,24 +150,44 @@
           <div class="bottom-name">规模</div>
         </div>
         <div class="bottom-msg">
-          <span id="capacity">30</span><span class="unit">MW</span>
+          <!-- <span id="scaleNum1">30</span><span id="scaleUnit1" class="unit">MW</span>
           <span class="">/</span>
-          <span id="capacity">15</span><span class="unit">MWh</span>
+          <span id="scaleNum2">15</span><span id="scaleUnit2" class="unit">MWh</span> -->
+          <span id="scaleNum1">30MW</span>
         </div>
       </div>
     </div>
     <script type="text/javascript">
        var urlParams = new URLSearchParams(location.search);
        let value = JSON.parse(urlParams.get("value"));
-       document.getElementById("title").innerHTML=value.photovoltaicName
-       document.getElementById("name").innerHTML=value.projectOwner
-       document.getElementById("address").innerHTML=value.address
-       document.getElementById("scene").innerHTML=value.runDate
-       document.getElementById("capacity").innerHTML=value.capacity
+       document.getElementById("title").innerHTML=value.energyStorageName?value.energyStorageName:''
+       document.getElementById("name").innerHTML=value.operatorName?value.operatorName:''
+       document.getElementById("address").innerHTML=value.address?value.address:''
+       document.getElementById("scene").innerHTML=value.scenarios?value.scenarios:''
+       document.getElementById("scaleNum1").innerHTML=value.scale?value.scale:''
+       
+      //  debugger
+      //  let p = value.scale?.split('/')
+      //  if(p && p.length){
+      //   document.getElementById("scaleNum1").innerHTML=handleScale(p[0])[0]
+      //   document.getElementById("scaleUnit1").innerHTML=handleScale(p[0])[1]
+      //   document.getElementById("scaleNum2").innerHTML=handleScale(p[1])[0]
+      //   document.getElementById("scaleUnit2").innerHTML=handleScale(p[1])[1]
+      //  }else{
+
+      //  }
+       //把字符串中的数字和字母分开
+      //  function handleScale(str){
+      //     var r0=str.match(/\d+$/gi);
+      //     var r1=str.match(/^[a-z|A-Z]+/gi);
+      //     return [r0,r1]
+      //  }
        function cli1(){
         ue.dtspoi.postevent(`closeStationHighLight`)
         ue.dtspoi.closewindow();
        }
+
+
     </script>
   </body>
 </html>

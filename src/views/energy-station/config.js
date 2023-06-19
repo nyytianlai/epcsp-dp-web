@@ -15,19 +15,19 @@ export const pageNumFun = (data = {}) => {
     {
       name: '年累计充电量',
       // num: data?.cumulativeCharge,
-      num: 6.04,
-      unit: '亿kWh'
+      num: 2297.16,
+      unit: '万kWh'
     },
     {
       name: '年累计放电量',
       // num: data?.cumChargeCount,
-      num: 4.58,
-      unit: '亿kWh'
+      num: 2127.17,
+      unit: 'kWh'
     },
     {
       name: '累计充放电次数',
       // num: data?.cumChargeTime,
-      num: 4328,
+      num: 1196,
       unit: '次'
     }
   ];
@@ -36,14 +36,14 @@ export const cndzyxzlFun = (data = {}) => {
   return [
     {
       img: cnzzs,
-      num: 2036,
+      num: 15,
       unit: '/个',
       name: '储能站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: jrqys,
-      num: 34,
+      num: 10,
       unit: '/个',
       name: '接入企业数',
       classStyleType: 'leftRightStyleGreen'
@@ -69,26 +69,22 @@ export const tabType = [
     code: 1,
     label: '电网位置'
   },
-  {
-    code: 2,
-    label: '能源类型'
-  }
 ];
 export const tabTypeDataFun = (data = {}, code = 1) => {
   if (code === 1) {
     return [
       {
-        value: 2033,
+        value: 9,
         name: '用户侧',
         unit: '个'
       },
       {
-        value: 2,
+        value: 4,
         name: '电网侧',
         unit: '个'
       },
       {
-        value: 1,
+        value: 2,
         name: '电源侧',
         unit: '个'
       }
@@ -115,7 +111,7 @@ export const rankTabType = [
   },
   {
     code: 2,
-    label: '系统效率'
+    label: '系统运行效率'
   }
 ];
 export const runingFun = (data = {}) => {
@@ -157,122 +153,122 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       timeDim: '00:00',
-      ratedPower: 14382.1029082774,
-      realTimePower: -16.5
+      ratedPower: 14382.1,
+      realTimePower: -63.5
     },
     {
       timeDim: '01:00',
-      ratedPower: 14258.4340044743,
-      realTimePower: -16.5
+      ratedPower: 14258.43,
+      realTimePower: -53.5
     },
     {
       timeDim: '02:00',
-      ratedPower: 13597.2035794183,
-      realTimePower: -6.5
+      ratedPower: 13597.2,
+      realTimePower: -50
     },
     {
       timeDim: '03:00',
-      ratedPower: 13059.5525727069,
+      ratedPower: 13059.55,
       realTimePower: 0
     },
     {
       timeDim: '04:00',
-      ratedPower: 12874.0715883669,
+      ratedPower: 12874.07,
       realTimePower: 0
     },
     {
       timeDim: '05:00',
-      ratedPower: 12718.8590604027,
+      ratedPower: 12718.86,
       realTimePower: 0
     },
     {
       timeDim: '06:00',
-      ratedPower: 13052.6845637584,
+      ratedPower: 13052.68,
       realTimePower: 0
     },
     {
       timeDim: '07:00',
-      ratedPower: 14201.8791946309,
+      ratedPower: 14201.88,
       realTimePower: 0
     },
     {
       timeDim: '08:00',
-      ratedPower: 16922.4608501119,
+      ratedPower: 16922.46,
       realTimePower: 0
     },
     {
       timeDim: '09:00',
-      ratedPower: 18879.0604026846,
-      realTimePower: 16.5
+      ratedPower: 18879.06,
+      realTimePower: 63.2
     },
     {
       timeDim: '10:00',
-      ratedPower: 19116.2863534676,
-      realTimePower: 16.5
+      ratedPower: 19116.29,
+      realTimePower: 63.2
     },
     {
       timeDim: '11:00',
-      ratedPower: 19153.4004474272,
-      realTimePower: 13.6
+      ratedPower: 19153.4,
+      realTimePower: 51.6
     },
     {
       timeDim: '12:00',
-      ratedPower: 17053.4675615213,
+      ratedPower: 17053.47,
       realTimePower: 0
     },
     {
       timeDim: '13:00',
-      ratedPower: 16354.451901566,
+      ratedPower: 16354.45,
       realTimePower: -10
     },
     {
       timeDim: '14:00',
-      ratedPower: 17689.3512304251,
+      ratedPower: 17689.35,
       realTimePower: 0
     },
     {
       timeDim: '15:00',
-      ratedPower: 17919.4630872483,
+      ratedPower: 17919.46,
       realTimePower: 0
     },
     {
       timeDim: '16:00',
-      ratedPower: 18585.4138702461,
-      realTimePower: 1
+      ratedPower: 18585.41,
+      realTimePower: 0
     },
     {
       timeDim: '17:00',
-      ratedPower: 19580.9172259508,
-      realTimePower: 5
+      ratedPower: 19580.92,
+      realTimePower: 0
     },
     {
       timeDim: '18:00',
-      ratedPower: 19902.4384787472,
+      ratedPower: 19902.44,
       realTimePower: 0
     },
     {
       timeDim: '19:00',
-      ratedPower: 20401.4765100671,
+      ratedPower: 20401.48,
       realTimePower: 0
     },
     {
       timeDim: '20:00',
-      ratedPower: 20044.9888143177,
+      ratedPower: 20044.99,
       realTimePower: 0
     },
     {
       timeDim: '21:00',
-      ratedPower: 19368.4787472036,
+      ratedPower: 19368.48,
       realTimePower: 0
     },
     {
       timeDim: '22:00',
-      ratedPower: 17821.7673378076,
+      ratedPower: 17821.77,
       realTimePower: 0
     },
     {
       timeDim: '23:00',
-      ratedPower: 15889.6868008949,
+      ratedPower: 15889.69,
       realTimePower: 0
     }
   ];
@@ -296,7 +292,7 @@ export const socialBenefitFun = (data = {}) => {
   return [
     {
       img: nxfdl,
-      num: 10.4,
+      num: 0.43,
       unit: '亿KWh',
       name: '年削峰电量',
       numStyle: {
@@ -307,7 +303,7 @@ export const socialBenefitFun = (data = {}) => {
     },
     {
       img: ntgdl,
-      num: 13.87,
+      num: 0.47,
       unit: '亿KWh',
       name: '年填谷电量',
       numStyle: {
@@ -318,7 +314,7 @@ export const socialBenefitFun = (data = {}) => {
     },
     {
       img: nco2jpl,
-      num: 51.89,
+      num: 2.18,
       unit: '万吨',
       name: '年CO2减排量',
       numStyle: {
