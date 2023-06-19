@@ -1,7 +1,6 @@
 <template>
   <el-dialog
     width="8.45rem"
-    v-model="visible"
     class="pile-dialog"
     @close="emit('handleClose')"
     destroy-on-close

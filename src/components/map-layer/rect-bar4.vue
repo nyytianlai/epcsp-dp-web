@@ -74,7 +74,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
-      popupSize: [200, contentHeight + 131],
+      popupSize: [200, contentHeight + 160],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
