@@ -6,6 +6,9 @@ import num from './images/num.png';
 import dayjs from 'dayjs';
 import petrol from './images/petrol.png';
 import { simplifyNum } from '@/utils/index';
+import nxfdl from './components/images/nxfdl.png';
+import ntgdl from './components/images/ntgdl.png';
+import cddy from './components/images/cddy.png';
 // 宝清储能站可高亮TileLayer
 export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
 export const lianhuaPowerFun = (data = {}) => {
@@ -1810,10 +1813,6 @@ export const msgList = [
 ];
 export const msgPopList = [
   {
-    label: '运营企业',
-    value: '华为技术有限公司'
-  },
-  {
     label: '站点区域',
     value: '福田区'
   },
@@ -2145,4 +2144,41 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
       ];
     }
   }
+};
+export const batteryMsgFun = (data = {}) => {
+  return [
+    {
+      img: nxfdl,
+      num: 9.6,
+      unit: 'kWh',
+      name: '最大放电量',
+      numStyle: {
+        background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
+        textFillColor: 'transparent',
+        '-webkit-background-clip': 'text'
+      }
+    },
+    {
+      img: ntgdl,
+      num: 48/57,
+      unit: 'v',
+      name: '放电电压',
+      numStyle: {
+        background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
+        textFillColor: 'transparent',
+        '-webkit-background-clip': 'text'
+      }
+    },
+    {
+      img: cddy,
+      num: 56.4,
+      unit: 'v',
+      name: '充电电压',
+      numStyle: {
+        background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
+        textFillColor: 'transparent',
+        '-webkit-background-clip': 'text'
+      }
+    }
+  ];
 };

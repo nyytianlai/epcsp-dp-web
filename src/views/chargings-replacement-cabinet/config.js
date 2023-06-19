@@ -86,10 +86,6 @@ export const todayFacilities = [
   },
   {
     code: 2,
-    label: '充电柜'
-  },
-  {
-    code: 3,
     label: '换电柜'
   }
 ];
@@ -98,14 +94,14 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
     return [
       {
         img: ztsyl,
-        num: 10.34,
+        num: 47.83,
         unit: '%',
         name: '整体使用率',
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
-        num: 2233,
+        num: 1482,
         unit: '',
         name: '在线总量',
         classStyleType: 'leftRightStyleYellow'
@@ -115,31 +111,14 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
     return [
       {
         img: ztsyl,
-        num: 61.74,
+        num: 52.32,
         unit: '%',
         name: '整体使用率',
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
-        num: 3447,
-        unit: '',
-        name: '在线总量',
-        classStyleType: 'leftRightStyleYellow'
-      }
-    ];
-  }else {
-    return [
-      {
-        img: ztsyl,
-        num: 58.53,
-        unit: '%',
-        name: '整体使用率',
-        classStyleType: 'leftRightStyleGreen'
-      },
-      {
-        img: zxzl,
-        num: 5810,
+        num: 1503,
         unit: '',
         name: '在线总量',
         classStyleType: 'leftRightStyleYellow'
@@ -152,14 +131,14 @@ export const powerTodayCardFun = (data = {}) => {
   return [
     {
       img: edzgl,
-      num: 253288,
+      num: 49509,
       unit: '',
       name: '昨日换电次数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: sszgl,
-      num: 133225,
+      num: 32431,
       unit: '',
       name: '今日换电次数',
       classStyleType: 'leftRightStyleYellow'
