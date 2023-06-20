@@ -41,7 +41,7 @@ export const chdsszlFun = (data = {}) => {
       img: chdzsszl,
       num: data?.total,
       unit: '个',
-      name: '充换电站设施总量'
+      name: '充换电柜总量'
     },
     {
       img: jrqyzs,
