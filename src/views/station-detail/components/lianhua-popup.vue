@@ -17,7 +17,7 @@
     <div class="num-box">
       <div class="num">
         {{ state.currentPower.value }}
-        <span class="unit">/kW</span>
+        <span class="unit">/W</span>
       </div>
       <div class="label">实时发电功率</div>
     </div>
