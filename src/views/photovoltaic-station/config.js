@@ -9,6 +9,8 @@ import jrzdgl from './images/jrzdgl.png';
 import nscgfld from './images/nscgfld.png';
 import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -35,23 +37,32 @@ export const cdzzlFun = (data = {}) => {
   return [
     {
       img: gfzzl,
-      num: 229,
+      num: 1190,
       unit: '个',
       name: '光伏站总量'
     },
     {
       img: zjzrl,
-      num: 39.82,
+      num: 392.55,
       unit: 'MW',
       name: '装机总容量'
     },
     {
       img: jrqyzs,
-      num: 106,
+      num: 979,
       unit: '个',
       name: '接入企业总数'
     }
   ];
+};
+export const unitTotalFun = (data = {}) => {
+  return {
+      img: nscgfld,
+      num: 351.31,
+      unit: '/MW',
+      name: '并网总容量'
+    }
+  
 };
 export const surfSortPieDataFun = (data = {}) => {
   return [
@@ -82,7 +93,7 @@ export const surfTitle = [
 export const companyRank = [
   {
     code: 1,
-    label: '站点装机容量'
+    label: '站点并网容量'
   },
   {
     code: 2,
@@ -104,7 +115,7 @@ export const jrgfdzFun = (data = {}) => {
     },
     {
       img: jrswdl,
-      num: 98.16,
+      num: 85.83,
       unit: '/万kWh',
       name: '今日上网电量',
       numStyle: {
@@ -115,7 +126,7 @@ export const jrgfdzFun = (data = {}) => {
     },
     {
       img: jrfdzl,
-      num: 251.69,
+      num: 220.07,
       unit: '/万kWh',
       name: '今日发电总量',
       numStyle: {
@@ -130,21 +141,21 @@ export const jrgfdzFun = (data = {}) => {
 export const powerTodayTitle = [
   {
     code: 1,
-    label: '今日功率信息'
+    label: '今日光伏站功率信息'
   }
 ];
 export const powerTodayCardFun = (data = {}) => {
   return [
     {
       img: jrzdgl,
-      num: 371.76,
+      num: 338.31,
       unit: '/MW',
       name: '今日最大功率',
       classStyleType: 'leftRightStyleYellow5858'
     },
     {
       img: jrssgl,
-      num: 312.06,
+      num: 283.97,
       unit: '/MW',
       name: '今日实时功率',
       classStyleType: 'leftRightStyleYellow5858'
@@ -153,6 +164,7 @@ export const powerTodayCardFun = (data = {}) => {
 };
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
   data = [
     {
       time: '00',
@@ -186,72 +198,72 @@ export const linePowerDataFun = (data = []) => {
     },
     {
       time: '06',
-      useRate: 25.29,
+      useRate: 23.02,
       troubleRate: 0
     },
     {
       time: '07',
-      useRate: 95.29,
+      useRate: 50.32,
       troubleRate: 0
     },
     {
       time: '08',
-      useRate: 175.88,
+      useRate: 114.55,
       troubleRate: 0
     },
     {
       time: '09',
-      useRate: 244.41,
+      useRate: 213.31,
       troubleRate: 0.12
     },
     {
       time: '10',
-      useRate: 312.94,
+      useRate: 254.75,
       troubleRate: 0.13
     },
     {
       time: '11',
-      useRate: 363.24,
+      useRate: 330.54,
       troubleRate: 0.13
     },
     {
       time: '12',
-      useRate: 376.18,
+      useRate: 342.32,
       troubleRate: 0.13
     },
     {
       time: '13',
-      useRate: 371.76,
+      useRate: 338.31,
       troubleRate: 0.13
     },
     {
       time: '14',
-      useRate: 338.82,
+      useRate: 308.332,
       troubleRate: 0.13
     },
     {
       time: '15',
-      useRate: 312.06,
+      useRate: 283.97,
       troubleRate: 0.13
     },
     {
       time: '16',
-      useRate: 254.12,
+      useRate: 222.15,
       troubleRate: 0.13
     },
     {
       time: '17',
-      useRate: 148.82,
+      useRate: 126.33,
       troubleRate: 0.13
     },
     {
       time: '18',
-      useRate: 68.82,
+      useRate: 53.53,
       troubleRate: 0.13
     },
     {
       time: '19',
-      useRate: 25.29,
+      useRate: 13.92,
       troubleRate: 0.13
     },
     {
@@ -275,9 +287,12 @@ export const linePowerDataFun = (data = []) => {
       troubleRate: 0.13
     }
   ];
+  const index = data.findIndex(i=>i.time === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '实时功率'

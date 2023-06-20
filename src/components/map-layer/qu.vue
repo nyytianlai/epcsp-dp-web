@@ -492,7 +492,9 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   } else if (stationId === '-2') {
     //莲花村
-    isShow ? __g.camera.set(506347.325, 2494976.791875, 76.90623, -47.690411, 21.209797, 3) : '';
+    isShow
+      ? __g.camera.set(506448.920313, 2494945.10875, 63.958003, -43.560474, -148.538742, 3)
+      : '';
   } else if (stationId === '-1') {
     //宝清储能站
     isShow

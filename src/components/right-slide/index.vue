@@ -1,5 +1,5 @@
 <template>
-  <div class="right-slide-box" :class="{hide:!isOpen}">
+  <div class="right-slide-box" :class="{'hide-panel':!isOpen}">
     <img :src="isOpen?hide:open" alt=""  @click="()=>isOpen = !isOpen" class="icon">
     <slot></slot>
   </div>
@@ -29,7 +29,7 @@ const isOpen = ref(true)
     cursor: pointer;
   }
 }
-.hide {
+.hide-panel {
   right: -432px;
   .icon {
     left: -30px;

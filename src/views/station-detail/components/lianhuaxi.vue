@@ -117,7 +117,7 @@ const state = reactive({
   lianhuaPower: lianhuaPowerFun(),
   lianhuaWarn: lianhuaWarnFun(),
   lianhuaWarnOptions: lianhuaWarnOption,
-  lianhuaRealtimeOptions: lianhuaRealtimeOption,
+  lianhuaRealtimeOptions: lianhuaRealtimeOption(),
   deviceInfoData: deviceInfoFun()
 });
 onMounted(() => {

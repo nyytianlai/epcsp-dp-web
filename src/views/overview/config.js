@@ -18,7 +18,7 @@ export const pageNumFun = (data = {}) => {
     {
       name: '年累计生产绿电',
       // num: data?.cumulativeCharge,
-      num: 4.29,
+      num: 2.13,
       unit: data?.cumulativeChargeUnit || '亿kWh'
     },
     {
@@ -41,14 +41,14 @@ export const chargingStationsFun = (data = {}) => {
     {
       img: ztsyl,
       num: data?.totalChargingStations,
-      unit: '个',
+      unit: '/个',
       name: '充电站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
       num: data?.yearTotalCharge,
-      unit: '亿KWh',
+      unit: '/亿KWh',
       name: '年充电量',
       classStyleType: 'leftRightStyleYellow5858'
     }
@@ -60,14 +60,14 @@ export const energyStationFun = (data = {}) => {
     {
       img: cnzzs,
       num: 15,
-      unit: '个',
+      unit: '/个',
       name: '储能站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
-      num: 4328,
-      unit: '次',
+      num: 1926,
+      unit: '/次',
       name: '年充放电数',
       classStyleType: 'leftRightStyleYellow5858'
     }
@@ -77,15 +77,15 @@ export const photovoltaicStationFun = (data = {}) => {
   return [
     {
       img: gfzzs,
-      num: 1179,
-      unit: '个',
+      num: 1190,
+      unit: '/个',
       name: '光伏站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: nfdl,
-      num: 4.29,
-      unit: '亿KWh',
+      num: 2.13,
+      unit: '/亿KWh',
       name: '年发电量',
       classStyleType: 'leftRightStyleYellow5858'
     }
@@ -95,15 +95,15 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
       img: sszs,
-      num: 23.23,
-      unit: '万个',
+      num: 3488,
+      unit: '/个',
       name: '设施总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
       num: 1.25,
-      unit: '亿KWh',
+      unit: '/亿KWh',
       name: '年充电量',
       classStyleType: 'leftRightStyleYellow5858'
     }
@@ -204,7 +204,7 @@ export const stationTabType = [
   },
   {
     code: 4,
-    label: '充换设施'
+    label: '充换电柜'
   },
   {
     code: 5,
@@ -218,7 +218,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
   });
   return {
     grid: {
-      top: 30,
+      top: 50,
       bottom: 24,
       right: 5,
       left: 42
@@ -2054,14 +2054,14 @@ export const changeElectricFun = (data = {}) => {
     {
       img: cnzzs,
       num: 42,
-      unit: '个',
+      unit: '/个',
       name: '换电站总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
-      num: 4328,
-      unit: '次',
+      num: 13.16,
+      unit: '/万次',
       name: '年充电数',
       classStyleType: 'leftRightStyleYellow5858'
     }

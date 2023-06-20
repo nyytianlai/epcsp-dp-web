@@ -5,6 +5,8 @@ import zxzl from './images/zxzl.png';
 import edzgl from './images/edzgl.png';
 import sszgl from './images/sszgl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -37,13 +39,13 @@ export const chdsszlFun = (data = {}) => {
   return [
     {
       img: chdzsszl,
-      num: 232343,
+      num: data?.operatorAmount,
       unit: '个',
       name: '充换电站设施总量'
     },
     {
       img: jrqyzs,
-      num: 12,
+      num: data?.total,
       unit: '个',
       name: '接入企业总数'
     }
@@ -52,31 +54,21 @@ export const chdsszlFun = (data = {}) => {
 export const chargingType = [
   {
     code: 1,
-    label: '充换电设施类型'
+    label: '充换电柜类型'
   }
 ];
-export const chargingTypeDataFun = (data = {}) => {
+export const chargingTypeDataFun = (data = []) => {
   return [
     {
-      value: 210675,
-      name: '充电桩',
+      value: data?.[0]?.intAmount,
+      name: data?.[0]?.type,
       unit: '个'
     },
     {
-      value: 5583,
-      name: '充电柜',
+      value: data?.[1]?.intAmount,
+      name: data?.[1]?.type,
       unit: '个'
     },
-    {
-      value: 9926,
-      name: '换电柜',
-      unit: '个'
-    },
-    {
-      value: 759,
-      name: '其他',
-      unit: '个'
-    }
   ];
 };
 export const todayFacilities = [
@@ -86,10 +78,6 @@ export const todayFacilities = [
   },
   {
     code: 2,
-    label: '充电柜'
-  },
-  {
-    code: 3,
     label: '换电柜'
   }
 ];
@@ -98,14 +86,14 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
     return [
       {
         img: ztsyl,
-        num: 10.34,
+        num: 47.83,
         unit: '%',
         name: '整体使用率',
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
-        num: 2233,
+        num: 1482,
         unit: '',
         name: '在线总量',
         classStyleType: 'leftRightStyleYellow'
@@ -115,31 +103,14 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
     return [
       {
         img: ztsyl,
-        num: 61.74,
+        num: 52.32,
         unit: '%',
         name: '整体使用率',
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
-        num: 3447,
-        unit: '',
-        name: '在线总量',
-        classStyleType: 'leftRightStyleYellow'
-      }
-    ];
-  }else {
-    return [
-      {
-        img: ztsyl,
-        num: 58.53,
-        unit: '%',
-        name: '整体使用率',
-        classStyleType: 'leftRightStyleGreen'
-      },
-      {
-        img: zxzl,
-        num: 5810,
+        num: 1503,
         unit: '',
         name: '在线总量',
         classStyleType: 'leftRightStyleYellow'
@@ -152,14 +123,14 @@ export const powerTodayCardFun = (data = {}) => {
   return [
     {
       img: edzgl,
-      num: 253288,
+      num: 49509,
       unit: '',
       name: '昨日换电次数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: sszgl,
-      num: 133225,
+      num: 32431,
       unit: '',
       name: '今日换电次数',
       classStyleType: 'leftRightStyleYellow'
@@ -290,15 +261,19 @@ export const linePowerDataFun = (data = []) => {
     }
   ];
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
+  const index = data.findIndex(i=>i.time === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '昨日换电次数'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
       name: '今日换电次数'

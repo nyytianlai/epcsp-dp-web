@@ -5,7 +5,9 @@
       <el-option v-for="item in baoqingSytemStatusData" :key="item.value" :label="item.value" :value="item.value" />
     </el-select>
     <Back name="宝清储能站" class="back-btn" @click="handleBack" />
-    <video :src="curBtn === 0?get:put" loop class="video" autoplay></video>
+    <div class="video-box">
+      <video :src="curBtn === 0?get:put" loop class="video" ref="video" height="100%" width="100%" autoplay></video>
+    </div>
     <div class="btn-box">
       <div class="btn-item" v-for="(item, index) in btnList" @click="hanldeTab(item)">
         <img :src="index === curBtn ? item.imgH : item.img" alt="">
@@ -33,7 +35,7 @@
 </template>
 <script setup lang="ts">
 import { baoqingSytemStatusData } from '../config'
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import Back from './back.vue'
 import baoqingChild1l from './images/baoqing-child1-l.png'
 import baoqingChild1h from './images/baoqing-child1-h.png'
@@ -49,6 +51,8 @@ import {
 const emits = defineEmits(['back'])
 //选择器
 const systemValue = ref('#1储能分系统')
+// 视频
+const video = ref()
 // 按钮
 const curBtn = ref(0)
 const btnList = ref([
@@ -71,13 +75,15 @@ const handleBack = () => {
 }
 const hanldeTab = (item) => {
   curBtn.value = item.value
+  
 }
+
 </script>
 <style lang="less" scoped>
 .baoqing-child {
   position: fixed;
   z-index: 999;
-  background: #000;
+  background: url('./images/baoqing-bg.png');
   width: 100%;
   height: 975px;
   top: 105px;
@@ -161,12 +167,15 @@ const hanldeTab = (item) => {
   margin-top: 25px;
 
 }
-.video {
+.video-box{
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   top: 0;
+  width: 100%;
   height: 100%;
-  
 }
-</style>
+.video {
+  width: 100%;
+  height: 100%;
+}</style>
