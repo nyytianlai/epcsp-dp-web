@@ -366,7 +366,7 @@ const getEquipmentCountByStationId = async () => {
   }
 };
 //设备详情/告警信息列表
-const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 99999, type) => {
+const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999, type) => {
   const res = await selectWarningInfoByStationId({
     ...params.value,
     alarmLevel,
@@ -514,7 +514,7 @@ useEmitt &&
 const focusToPile = async (eid, status, item = {}) => {
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  // if(item.isAlarm === 1){
+  if(item.isAlarm === 1){
   // 正常
 
   pileParams.value = {
@@ -523,15 +523,15 @@ const focusToPile = async (eid, status, item = {}) => {
   pileType.value = 'pile';
   pileVisible.value = true;
   handleClickFocus(__g, layerId, eid, status);
-  // }else {
-  //   // 告警
-  //   pileParams.value = {
-  //     eid: item.eid,
-  //     warnId: item.id
-  //   };
-  //   warnVisible.value = true;
-  //   handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
-  // }
+  }else {
+    // 告警
+    pileParams.value = {
+      eid: item.eid,
+      warnId: item.alarmId
+    };
+    warnVisible.value = true;
+    handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+  }
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -593,12 +593,36 @@ const handleTabBtn = (data) => {
 };
 
 // 从详情跳转到告警
-const handleWarn = (data) => {
-  console.log('handleWarn', data);
+const handleWarn = (data,pileParamsC) => {
+  console.log('handleWarn', data,pileParamsC);
+  pileVisible.value = false;
+  if(pileParamsC.warnId){
+
+    pileParams.value = {
+      eid: pileParamsC.eid,
+      warnId: pileParamsC.warnId
+    };
+  }else {
+    pileParams.value = {
+      eid: data.eid,
+      warnId: data.alarmId
+    };
+
+  }
+  warnVisible.value = true;
 };
 // 告警跳到详情
 const handleDetail = (data) => {
   console.log('handleDetail', data);
+  // 关闭警告框
+  warnVisible.value = false
+  //打开详情框
+  pileParams.value = {
+    eid: data.eid,
+    warnId: data.warnId
+  };
+  pileType.value = 'pile';
+  pileVisible.value = true;
 };
 watch(
   () => store.detailParams,
