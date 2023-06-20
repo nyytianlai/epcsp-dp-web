@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="[stateFormate(item.status)?.code, warnStateFormate(item.isAlarm)?.code]"
-        @click="emit('handleClickState', item.eid, item.status)"
+        @click="emit('handleClickState', item.eid, item.status,item)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon

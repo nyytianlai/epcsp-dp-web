@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted,ref } from 'vue';
+import { reactive, onMounted, ref } from 'vue';
 import {
   lianhuaPowerFun,
   lianhuaWarnFun,
@@ -117,7 +117,7 @@ const state = reactive({
   lianhuaPower: lianhuaPowerFun(),
   lianhuaWarn: lianhuaWarnFun(),
   lianhuaWarnOptions: lianhuaWarnOption,
-  lianhuaRealtimeOptions: lianhuaRealtimeOption,
+  lianhuaRealtimeOptions: lianhuaRealtimeOption(),
   deviceInfoData: deviceInfoFun()
 });
 onMounted(() => {
@@ -133,9 +133,11 @@ onMounted(() => {
 }
 
 .info {
-  background: linear-gradient(255.75deg,
-      rgba(37, 177, 255, 0.04) 23.33%,
-      rgba(19, 83, 119, 0.4) 100%);
+  background: linear-gradient(
+    255.75deg,
+    rgba(37, 177, 255, 0.04) 23.33%,
+    rgba(19, 83, 119, 0.4) 100%
+  );
   mix-blend-mode: normal;
   box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
   backdrop-filter: blur(2px);
@@ -207,24 +209,30 @@ onMounted(() => {
   top: 0;
 
   &.blue {
-    background: linear-gradient(93.04deg,
-        #04a1cf 0.63%,
-        #bae7ff 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #04a1cf 0.63%,
+      #bae7ff 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 
   &.gray {
-    background: linear-gradient(93.04deg,
-        #a8a7a5 0.63%,
-        #dddddd 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #a8a7a5 0.63%,
+      #dddddd 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 
   &.yellow {
-    background: linear-gradient(93.04deg,
-        #cfa204 0.63%,
-        #fffcba 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #cfa204 0.63%,
+      #fffcba 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 }
 
@@ -237,9 +245,11 @@ onMounted(() => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -271,4 +281,5 @@ onMounted(() => {
 
 :deep(.title-column) {
   margin: 12px 0;
-}</style>
+}
+</style>

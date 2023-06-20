@@ -9,6 +9,8 @@ import jrzdgl from './images/jrzdgl.png';
 import nscgfld from './images/nscgfld.png';
 import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -162,6 +164,7 @@ export const powerTodayCardFun = (data = {}) => {
 };
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
   data = [
     {
       time: '00',
@@ -284,9 +287,12 @@ export const linePowerDataFun = (data = []) => {
       troubleRate: 0.13
     }
   ];
+  const index = data.findIndex(i=>i.time === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '实时功率'

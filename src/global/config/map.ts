@@ -1,5 +1,5 @@
 import bus from '@/utils/bus';
-
+import { GCJ02_2_4547 } from '@/utils/index';
 export const mapRequestCancelId = 'mapRequest';
 const quNameArr = [
   '盐田区',
@@ -181,7 +181,7 @@ export const returnStationPointConfig = (item: {
     popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${
       item.stationName
     }&stationId='station-'+${item.stationId}`, //弹窗HTML链接
-    popupBackgroundColor: [1.0, 1.0, 1.0, 0.5], //弹窗背景颜色
+    popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     popupSize: [popupSizeX, 60], //弹窗大小
     popupOffset: [-popupSizeX / 2, -100], //弹窗偏移
     autoHidePopupWindow: false,
@@ -223,7 +223,8 @@ export const toSingleStation = async (
     let o = returnStationPointConfig(value);
     await __g.marker.add([o], null);
   }
-  bus.emit('searchEnterStation', value);
+  await bus.emit('searchEnterStation', value);
+  console.log('3333333333')
 };
 
 export const showStationDetailPanel = (storeVisible, item) => {
@@ -240,3 +241,11 @@ export const showStationDetailPanel = (storeVisible, item) => {
     }
   });
 };
+
+//外层站点高亮卡片定位
+export const focusToHihtLightPop=async (longitude, latitude,__g)=>{
+  let pcs = GCJ02_2_4547(longitude, latitude);
+  let offsetx=100;
+  let offsety=100
+  await __g.camera.lookAtBBox([pcs[0]-offsetx,pcs[1],100,pcs[0]+offsetx,pcs[1]+offsety,100], -44.9, -89.44, 1)
+}

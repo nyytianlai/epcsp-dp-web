@@ -156,7 +156,7 @@ const codeCharge = ref(1);
 const getHotCharging = async () => {
   const res = await hotCharging({
     timeType: timeType.value,
-    sort: 'desc',
+    sortBy: 'desc',
     sortField: codeCharge.value === 1 ? 'power' : 'amount'
   });
   if (res?.data) {

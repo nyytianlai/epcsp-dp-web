@@ -96,7 +96,6 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <!-- <honglixi v-if="isHonglixi" /> -->
   <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
   </div>
@@ -108,8 +107,14 @@
     :pileVideoData="pileVideoData"
     :pileParams="pileParams"
     @close="handleClose"
+    @click-warn="handleWarn"
   />
-  <warningBox v-model:visible="warnVisible" :pileParams="pileParams" @close="handleClose" />
+  <warningBox
+    v-model:visible="warnVisible"
+    :pileParams="pileParams"
+    @close="handleClose"
+    @click-detail="handleDetail"
+  />
   <map-layer v-if="aircityObj" />
 
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
@@ -147,7 +152,7 @@
   ></BaoqingDialog>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
+import { ref, inject, watch, computed, reactive } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
@@ -194,11 +199,10 @@ import {
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
-import honglixi from './components/honglixi.vue';
 import BaoqingDialog from './components/baoqing-dialog.vue';
 const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
-const realtimePowerColors = ['#F9E900', 'green', 'blue'];
+const realtimePowerColors = ['green'];
 const showBqDialog = ref(false);
 
 const tileLayerDialogMode = ref('');
@@ -436,15 +440,15 @@ const backSz = () => {
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.eventtype === 'LeftMouseButtonClick') {
+      console.log(e);
       await __g.tileLayer.stopHighlightAllActors();
       if (e.Type === 'TileLayer') {
-        console.log(e);
-
         if (
-          e.ObjectID.indexOf('pcsCabinet') !== -1 ||
-          e.ObjectID.indexOf('batteryCluster') !== -1 ||
-          e.ObjectID.indexOf('bmsConversionCabinet') !== -1 ||
-          e.ObjectID.indexOf('photovoltaicPanels') !== -1
+          e.ObjectID &&
+          (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
+            e.ObjectID?.indexOf('batteryCluster') !== -1 ||
+            e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
+          // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
           const mode = e.ObjectID.split('-');
           if (mode.length) {
@@ -491,14 +495,27 @@ useEmitt &&
     }
   });
 // 定位到桩弹窗
-const focusToPile = async (eid, status) => {
-  let layerId = await getTreeLayerIdByName('118Station', mapStore.treeInfo);
+const focusToPile = async (eid, status, item = {}) => {
+  console.log('item', item);
+  let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
+  // if(item.isAlarm === 1){
+  // 正常
+
   pileParams.value = {
     eid: eid
   };
   pileType.value = 'pile';
   pileVisible.value = true;
   handleClickFocus(__g, layerId, eid, status);
+  // }else {
+  //   // 告警
+  //   pileParams.value = {
+  //     eid: item.eid,
+  //     warnId: item.id
+  //   };
+  //   warnVisible.value = true;
+  //   handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+  // }
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -557,6 +574,15 @@ const handleTabBtn = (data) => {
   // console.log('data', data)
   // console.log('curBtn.value', curBtn.value)
   loadSelectDetailChargeCount();
+};
+
+// 从详情跳转到告警
+const handleWarn = (data) => {
+  console.log('handleWarn', data);
+};
+// 告警跳到详情
+const handleDetail = (data) => {
+  console.log('handleDetail', data);
 };
 watch(
   () => store.detailParams,

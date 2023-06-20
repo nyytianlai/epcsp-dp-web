@@ -8,8 +8,9 @@
 -->
 <template>
   <BaoQing v-if="currentHrStationID === '-1'" />
+  <LianHuaPopup v-if="currentHrStationID === '-2'" />
   <HongLiXi v-if="currentHrStationID === '-3'" />
-  <LianHua v-if="currentHrStationID === '-2'" />
+  <HonglixiPopup v-if="currentHrStationID === '-3'" />
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
@@ -28,7 +29,8 @@ import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.
 import { useMapStore } from '@/stores/map';
 import BaoQing from './baiqing.vue';
 import HongLiXi from './honglixi.vue';
-import LianHua from './lianhua.vue';
+import LianHuaPopup from './lianhua-popup.vue';
+import HonglixiPopup from './honglixi-popup.vue';
 import { getStrLength } from '@/utils/index';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
@@ -219,7 +221,8 @@ const addFacilitiesLabel = async (id) => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr, null);
-  if (currentHrStationID.value !== '-3') {
+  const isShowLabelId = ['-2', '-3'];
+  if (!isShowLabelId.includes(currentHrStationID.value)) {
     await __g.marker.hideByGroupId('stationFacilitiesLabel');
   }
 };
