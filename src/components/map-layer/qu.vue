@@ -160,6 +160,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 const highLightNormalStation = async (obj) => {
   await hideHighLightNormalStation();
+  
   let o = {
     id: '1',
     userData: obj.stationId,
@@ -172,7 +173,8 @@ const highLightNormalStation = async (obj) => {
     autoHeight: true //自动判断下方是否有物体
   };
   await __g.radiationPoint.add(o);
-  __g.radiationPoint.focus(o.id, 100, 1, [-71.991409, -90.380768, 0]);
+  await __g.radiationPoint.focus(o.id, 100, 1, [-71.991409, -90.380768, 0]);
+  
 };
 
 //隐藏辐射圈以及橙色popup
@@ -648,7 +650,7 @@ const filterJdNameArrByQuName = (quName: string) => {
     });
 };
 
-defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint,highLightNormalStation,enterStationInfo });
+defineExpose({ pointInWhichDistrict, resetSz, deleteJdData, addStationPoint,highLightNormalStation,enterStationInfo,hideHighLightNormalStation });
 onMounted(async () => {
   __g.reset();
   bus.on('toHr', async (e) => {
@@ -691,7 +693,7 @@ onMounted(async () => {
         setQuVisibility(false);
         enterStationInfo(e);
         __g.marker.showPopupWindow('station-' + e.stationId);
-        highLightNormalStation({ lng: e.lng, lat: e.lat });
+        await highLightNormalStation({ lng: e.lng, lat: e.lat });
       } else {
         bus.emit('toHr', e);
       }

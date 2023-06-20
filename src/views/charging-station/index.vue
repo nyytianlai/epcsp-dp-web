@@ -299,14 +299,21 @@ const getTimePowerGraph = async () => {
 };
 
 // 今日告警信息点击
-const handleWarnClick = (station) => {
+const handleWarnClick = async (station) => {
   console.log('ssss',station);
   station.isWarning = true
   station.warnId = station.id
   // 告警详情
-  showStationDetailPanel(storeVisible, station);
   station['isFly'] = false;
-  aircityObj.value && toSingleStation(aircityObj.value?.acApi, station);
+  console.log('11111')
+  if(aircityObj.value){
+    await toSingleStation(aircityObj.value?.acApi, station);
+  }
+
+  // setTimeout(() => {
+    console.log('9999')
+    showStationDetailPanel(storeVisible, station);
+  // }, 1500);
 };
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {

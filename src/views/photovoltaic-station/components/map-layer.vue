@@ -23,7 +23,7 @@ import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getDistrict, getStreet, getPoint } from '../api';
-import { getImageByCloud, getHtmlUrl } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
@@ -36,7 +36,7 @@ __g.reset();
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
 const areaCode = ref();
-let legendNameData = ref('站点数/个');
+let legendNameData = ref('站点数量/个');
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
@@ -147,6 +147,8 @@ const addHighLightStation = async (item) => {
   };
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOut-hight');
+  await __g.marker.focus('stationOut-hight', 100, 1);
+  await focusToHihtLightPop(item.longitude, item.latitude,__g)
 };
 
 onMounted(async () => {
