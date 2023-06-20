@@ -23,7 +23,7 @@ import request from '@sutpc/axios';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
-import { getImageByCloud, getHtmlUrl } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
 import { getStrLength } from '@/utils/index';
 
@@ -60,7 +60,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
-let legendNameData = ref('站点数/个');
+let legendNameData = ref('站点数量/个');
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.17deg, #2EFFFF 4.74%, #0F6765 95.4%)',
@@ -131,6 +131,7 @@ const addHighLightStation = async (item) => {
   };
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOut-hight');
+  await focusToHihtLightPop(item.longitude, item.latitude,__g)
 };
 
 onMounted(async () => {

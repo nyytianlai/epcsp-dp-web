@@ -54,6 +54,7 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   z-index: 19;
+  pointer-events: none;
 }
 .subject-header {
   height: 80px;
