@@ -1,11 +1,20 @@
 <template>
-  <el-dialog v-model="visible" class="pile-dialog" :class="[
-    type,
-    headerData?.type,
-    isShow ? '' : 'hide',
-    isAlarm ? '' : 'warning-pile-alarm-basic'
-  ]" :width="headerData?.type === 'normal-pile' ? '8.45rem' : '6.75rem'" @close="emit('update:visible', false)"
-    @closed="emit('closed')" :modal="false" destroy-on-close>
+  <el-dialog
+    v-model="visible"
+    class="pile-dialog"
+    :class="[
+      type,
+      headerData?.type,
+      isShow ? '' : 'hide',
+      isAlarm ? '' : 'warning-pile-alarm-basic'
+    ]"
+    :width="headerData?.type === 'normal-pile' ? '8.45rem' : '6.75rem'"
+    @close="emit('update:visible', false)"
+    @closed="emit('closed')"
+    :modal="false"
+    destroy-on-close
+    align-center
+  >
     <template #header>
       <div class="my-header">
         <icon :icon="`svg-icon:${type}`" v-if="type === 'monitor'" />
@@ -23,16 +32,14 @@
           </span>
         </div>
       </div>
-      <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData)">
-        查看告警详情
-      </div>
+      <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData, pileParams)">查看告警详情</div>
     </template>
     <normal-pile v-if="headerData?.type === 'normal-pile'" />
     <!-- <warning-pile v-if="headerData?.type === 'warning-pile'" @close="close" /> -->
     <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData.cameraUrl" />
   </el-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { toRefs, ref, computed, onMounted, watch, provide, onUnmounted } from 'vue';
 import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
@@ -55,7 +62,7 @@ const props = defineProps({
   }
 });
 const { visible, title, type, pileVideoData, pileParams } = toRefs(props);
-const emit = defineEmits(['update:visible', 'closed','click-warn']);
+const emit = defineEmits(['update:visible', 'closed', 'click-warn']);
 const headerData = ref({});
 const pileData = ref({});
 provide('pileData', pileData);
@@ -64,9 +71,9 @@ const isAlarm = ref(1);
 const close = () => {
   emit('update:visible', false);
 };
-const handleWarn = (data)=>{
-  emit('click-warn',data)
-}
+const handleWarn = (data,pileParams) => {
+  emit('click-warn', data,pileParams);
+};
 const videoStatus = {
   0: {
     statusName: '离线',
@@ -147,7 +154,10 @@ watch(
       if (type.value !== 'monitor') {
         await getEquipmentInfoByEquipmentIdData();
       } else {
+        console.log('pileVideoData', pileVideoData);
         if (!pileVideoData.value) return;
+
+        isShow.value = true;
         headerData.value = {
           name: pileVideoData.value?.location,
           status: videoStatus[pileVideoData.value?.status]?.statusName,
@@ -162,20 +172,21 @@ watch(
     immediate: true
   }
 );
-
 </script>
 <style lang="less">
 .pile-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
-  clip-path: polygon(0 0,
-      100% 0,
-      100% calc(100% - 20px),
-      calc(100% - 20px) 100%,
-      20px 100%,
-      0 calc(100% - 20px),
-      0 0);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 0
+  );
 
   &.monitor {
     height: 482px;
@@ -270,11 +281,12 @@ watch(
 }
 
 .warning-pile-alarm-basic {
-  background: radial-gradient(58.3% 58.3% at 50% 50%,
+  background: radial-gradient(
+      58.3% 58.3% at 50% 50%,
       rgba(73, 18, 18, 0.85) 0%,
-      rgba(18, 40, 73, 0.7565) 100%)
-    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
-  ;
+      rgba(18, 40, 73, 0.7565) 100%
+    )
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   box-shadow: inset 0px 0px 42px rgba(255, 54, 10, 0.51);
 }
 
@@ -285,7 +297,7 @@ watch(
 .warn-btn {
   position: absolute;
   padding: 4px 12px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 600;
   font-size: 18px;
   background: rgba(255, 84, 84, 0.3);

@@ -13,60 +13,67 @@
     <div class="arrow right-top"></div>
     <div class="arrow left-bottom"></div>
     <div class="arrow right-bottom"></div>
-    <icon icon="svg-icon:sun-panel" class="pop-icon" />
+    <icon :icon="`svg-icon:machine-room`" class="pop-icon" />
     <div class="num-box">
       <div class="num">
-        19.44
+        {{ state.currentPower.value }}
         <span class="unit">/kW</span>
       </div>
-      <div class="label">实时发电功率</div>
+      <div class="label">实时功率</div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount, inject, watch, computed, reactive } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { useMapStore } from '@/stores/map';
-import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
+import { lianhuajingguiData } from '../config.js';
 
-const screenPosition = ref(['20%', '50%']);
-const store = useVisibleComponentStore();
-const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt = aircityObj.value?.useEmitt;
-const params = ref({
-  operatorId: store.detailParams?.operatorId,
-  stationId: store.detailParams?.stationId
-});
 const showPop = ref(false);
-
+const state = reactive({
+  currentPower: {
+    value: 0
+  }
+});
+let timer = null;
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
-    //正常桩
-    if (e.PropertyName === '-2Station' && e.ObjectID?.includes('singleCrystalSilicon')) {
-      console.log('点击单晶板', e);
-      __g.tileLayer.stopHighlightAllActors();
-      let ids = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-      // __g.settings.highlightColor(Color.Yellow);
-      __g.settings.highlightColor('#FF6B4B');
-      __g.tileLayer.highlightActor(ids, e.ObjectID);
-      let screenCoord = await __g.coord.world2Screen(...e.MouseClickPoint);
-      console.log('screenCoord', screenCoord);
-      screenPosition.value = screenCoord.screenPosition;
+    if (e.ObjectID === 'SM_BDF_002_16') {
+      console.log('机房', e);
+      const data = lianhuajingguiData.find((item) => item.id === e.ObjectID);
+      if (data) {
+        state.currentPower.value = data.value;
+        if (timer) {
+          clearInterval(timer);
+        }
+        timer = setInterval(() => {
+          const random = Math.random() * 0.05 - 0.05;
+          state.currentPower.value = (data.value + data.value * random).toFixed(2);
+        }, 3000);
+      }
       showPop.value = true;
-    } else {
+    } else if (
+      e.eventtype === 'LeftMouseButtonClick' &&
+      e.PropertyName !== '-3Station' &&
+      e.ObjectID !== '-SM_BDF_002_16'
+    ) {
       showPop.value = false;
     }
   });
-// 定位到单晶版
-const focusToPile = (ObjectID) => {
-  __g.tileLayer.stopHighlightAllActors();
-  let layerId = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-  __g.settings.highlightColor('#FF6B4B');
-  __g.tileLayer.highlightActor(layerId, ObjectID);
+// 定位到机房
+const focusToMachineRoom = (data) => {
+  state.currentPower.value = data.value;
+  showPop.value = true;
+  if (timer) {
+    clearInterval(timer);
+  }
+  timer = setInterval(() => {
+    const random = Math.random() * 0.05 - 0.05;
+    state.currentPower.value = (data.value + data.value * random).toFixed(2);
+  }, 3000);
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -74,14 +81,16 @@ const handleClose = () => {
   showPop.value = false;
 };
 onMounted(async () => {
-  bus.on('focusToPile', (e) => {
-    console.log(e);
-    focusToPile(e);
+  bus.on('focusToMachineRoom', (e) => {
+    focusToMachineRoom({ value: 3 });
   });
 });
 
 onBeforeUnmount(() => {
-  bus.off('focusToPile');
+  bus.off('focusToMachineRoom');
+  if (timer) {
+    clearInterval(timer);
+  }
 });
 </script>
 <style lang="less" scoped>
@@ -114,18 +123,18 @@ onBeforeUnmount(() => {
   }
 }
 .panel-box {
+  min-width: 220px;
   display: flex;
   padding: 16px;
   align-items: center;
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   position: absolute;
-  top: 350px;
+  top: 525px;
   left: 650px;
   z-index: 99;
 
   .pop-icon {
-    margin-top: 22px;
     font-size: 54px;
   }
   // top: 300px;

@@ -5,7 +5,7 @@ import rate from './images/rate.png';
 import num from './images/num.png';
 import dayjs from 'dayjs';
 import petrol from './images/petrol.png';
-import { simplifyNum,deepClone } from '@/utils/index';
+import { simplifyNum, deepClone } from '@/utils/index';
 import nxfdl from './components/images/nxfdl.png';
 import ntgdl from './components/images/ntgdl.png';
 import cddy from './components/images/cddy.png';
@@ -194,10 +194,10 @@ const lianhuaRealtimeDataFun = () => {
   // }
   return seriesData;
 };
-export const lianhuaRealtimeOption = ()=>{
-  const data = lianhuaRealtimeDataFun()
-  const h = dayjs().format('HH')
-   const time = [
+export const lianhuaRealtimeOption = () => {
+  const data = lianhuaRealtimeDataFun();
+  const h = dayjs().format('HH');
+  const time = [
     '00:00',
     '01:00',
     '02:00',
@@ -223,19 +223,18 @@ export const lianhuaRealtimeOption = ()=>{
     '22:00',
     '23:00',
     '24:00'
-  ]
-  const index = time.findIndex(i=>{
-    const temp = i.split(':')[0]
-    console.log('h',h,'tt',temp)
-    return h === temp
-  })
+  ];
+  const index = time.findIndex((i) => {
+    const temp = i.split(':')[0];
+    console.log('h', h, 'tt', temp);
+    return h === temp;
+  });
   // 获取副本
-  let timeC = deepClone(time)
-  let dataC = deepClone(data)
+  let timeC = deepClone(time);
+  let dataC = deepClone(data);
   // 数组选择
-  timeC.splice(index+1)
-  dataC.splice(index+1)
-
+  timeC.splice(index + 1);
+  dataC.splice(index + 1);
 
   return {
     grid: {
@@ -355,8 +354,8 @@ export const lianhuaRealtimeOption = ()=>{
         }
       }
     ]
-  }
-}
+  };
+};
 
 const lianhuajinguiFun = (weather = 0) => {
   let data = [];
@@ -368,7 +367,7 @@ const lianhuajinguiFun = (weather = 0) => {
     let obj = {
       id: `singleCrystalSilicon${i + 1}`,
       text: '540W',
-      value: weather === 1 ? photoData[i] * 0.23 : photoData[i],
+      value: weather === 1 ? photoData[i] - parseInt(photoData[i] * 0.23) : photoData[i],
       status: 1
     };
     // if (i < 50) {
@@ -652,57 +651,15 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '风机',
-        id: '风机',
+        id: 'fan',
         position: [506401.55625, 2494983.84, 18.51548095703125],
         img: 'fan'
       },
       {
-        value: 'A1',
-        id: 'A1',
-        position: [506375.833125, 2494823.68, 10.55826171875],
-        img: 'metro'
-      },
-      {
-        value: 'A2',
-        id: 'A2',
-        position: [506413.631875, 2494782.08, 17.473076171875],
-        img: 'metro'
-      },
-      {
-        value: 'B1',
-        id: 'B1',
-        position: [506479.97500000003, 2494780.16, 17.0259130859375],
-        img: 'metro'
-      },
-      {
-        value: 'B2',
-        id: 'B2',
-        position: [506549, 2494833.44, 17.6691015625],
-        img: 'metro'
-      },
-      {
-        value: 'C1',
-        id: 'C1',
-        position: [506516.78875, 2494895.84, 17.999814453125],
-        img: 'metro'
-      },
-      {
-        value: 'C2',
-        id: 'C2',
-        position: [506473.3137, 2494977.76, 18.95273],
-        img: 'metro'
-      },
-      {
-        value: 'D',
-        id: 'D',
-        position: [506389.108125, 2494895.2, 17.91951171875],
-        img: 'metro'
-      },
-      {
-        value: 'E',
-        id: 'E',
-        position: [506406.7, 2494957.6, 17.934033203125],
-        img: 'metro'
+        value: '光伏电池板',
+        id: 'photovoltaic',
+        position: [506406.80562500004, 2494958.88, 17.351787109375],
+        img: 'photovoltaic'
       }
     ];
   } else if (stationId == '-3') {
@@ -710,19 +667,22 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '机房',
-        id: '机房',
+        id: 'machineRoom-1',
+        type: 'hongli',
         position: [502305.79375, 2494200.64, 13.65986083984375],
         img: 'machineRoom'
       },
       {
         value: '微波',
-        id: '微波',
+        id: 'micro-wave',
+        type: 'hongli',
         position: [502312.6265625, 2494191.36, 20.13559326171875],
         img: 'microwave'
       },
       {
         value: '5G天线',
-        id: '5G天线',
+        id: '5G-antenna',
+        type: 'hongli',
         position: [502312.4453125, 2494190.88, 23.995588378906252],
         img: '5GAntenna'
       }
@@ -1419,11 +1379,11 @@ export const batterySOHOption = {
     }
   },
   legend: {
-    data: ['簇SOH'],
+    data: ['电池簇功率'],
     textStyle: {
       color: '#fff'
     },
-    x: '75%'
+    x: 'right'
   },
   xAxis: {
     type: 'category',
@@ -1453,7 +1413,7 @@ export const batterySOHOption = {
     }
   },
   yAxis: {
-    name: '单位：%',
+    name: '单位：kW',
     axisLine: {
       show: false
     },
@@ -1481,8 +1441,7 @@ export const batterySOHOption = {
       data: realtimeSeriesDataFun(20, 60),
       type: 'line',
       smooth: true,
-      name: '簇SOH',
-
+      name: '电池簇功率',
       areaStyle: {
         origin: 'start',
         color: {
@@ -2131,10 +2090,10 @@ const popRealtimeDataFun = () => {
   // }
   return seriesData;
 };
-export const popRealtimeOption = ()=>{
-  const data = popRealtimeDataFun()
-  const h = dayjs().format('HH')
-   const time = [
+export const popRealtimeOption = () => {
+  const data = popRealtimeDataFun();
+  const h = dayjs().format('HH');
+  const time = [
     '00:00',
     '01:00',
     '02:00',
@@ -2160,18 +2119,18 @@ export const popRealtimeOption = ()=>{
     '22:00',
     '23:00',
     '24:00'
-  ]
-  const index = time.findIndex(i=>{
-    const temp = i.split(':')[0]
-    console.log('h',h,'tt',temp)
-    return h === temp
-  })
+  ];
+  const index = time.findIndex((i) => {
+    const temp = i.split(':')[0];
+    console.log('h', h, 'tt', temp);
+    return h === temp;
+  });
   // 获取副本
-  let timeC = deepClone(time)
-  let dataC = deepClone(data)
+  let timeC = deepClone(time);
+  let dataC = deepClone(data);
   // 数组选择
-  timeC.splice(index+1)
-  dataC.splice(index+1)
+  timeC.splice(index + 1);
+  dataC.splice(index + 1);
 
   return {
     grid: {
@@ -2293,8 +2252,8 @@ export const popRealtimeOption = ()=>{
         }
       }
     ]
-  }
-}
+  };
+};
 
 export const pageNumLianhuaxiFun = (data = {}) => {
   return [
@@ -2348,7 +2307,7 @@ export const chargingStationGunTabsFun = () => {
   ];
 };
 export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
-  let res = []
+  let res = [];
   if (maintab === 1) {
     // 充电桩
     if (code === 1) {
@@ -2387,7 +2346,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         }
       ];
     } else {
-      res =  [
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
@@ -2406,7 +2365,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
   } else {
     // 充电枪
     if (code === 1) {
-      res= [
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           name: '快充枪',
@@ -2454,14 +2413,14 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
       ];
     }
   }
-  const temp = []
-    res.map(i=>{
-    if(i.value !==0){
-      temp.push(i)
+  const temp = [];
+  res.map((i) => {
+    if (i.value !== 0) {
+      temp.push(i);
     }
-  })
-  console.log('ressss',temp)
-  return temp
+  });
+  console.log('ressss', temp);
+  return temp;
 };
 export const batteryMsgFun = (data = {}) => {
   return [
@@ -2478,7 +2437,7 @@ export const batteryMsgFun = (data = {}) => {
     },
     {
       img: ntgdl,
-      num: 48/57,
+      num: 48 / 57,
       unit: 'v',
       name: '放电电压',
       numStyle: {

@@ -95,7 +95,7 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
       img: sszs,
-      num: 3488,
+      num: 3470,
       unit: '/个',
       name: '设施总数',
       classStyleType: 'leftRightStyleGreen'
@@ -194,22 +194,22 @@ export const stationTabType = [
     code: 1,
     label: '充电站'
   },
-  {
-    code: 2,
-    label: '储能站'
-  },
+  // {
+  //   code: 2,
+  //   label: '储能站'
+  // },
   {
     code: 3,
     label: '光伏站'
-  },
-  {
-    code: 4,
-    label: '充换电柜'
-  },
-  {
-    code: 5,
-    label: '换电站'
   }
+  // {
+  //   code: 4,
+  //   label: '充换电柜'
+  // },
+  // {
+  //   code: 5,
+  //   label: '换电站'
+  // }
 ];
 
 export const ecOptionFun = (data = [], xaxis = []) => {
@@ -354,542 +354,542 @@ export const ecOptionFun = (data = [], xaxis = []) => {
 };
 const carbon = [
   {
-    date: '2023/5/10',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1485',
-    photovoltaic: '1366',
-    emissionReduction: '11874'
-  },
-  {
-    date: '2023/5/11',
-    electricVehicleNum: '8195',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1425',
-    photovoltaic: '1065',
-    emissionReduction: '11341'
-  },
-  {
-    date: '2023/5/12',
-    electricVehicleNum: '8100',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1455',
-    photovoltaic: '1186',
-    emissionReduction: '11536'
-  },
-  {
-    date: '2023/5/13',
-    electricVehicleNum: '6922',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1470',
-    photovoltaic: '1282',
-    emissionReduction: '10292'
-  },
-  {
-    date: '2023/5/14',
-    electricVehicleNum: '6763',
-    twoWheeledElectricCarNum: '643',
-    storedEnergy: '1485',
-    photovoltaic: '1410',
-    emissionReduction: '10301'
-  },
-  {
-    date: '2023/5/15',
-    electricVehicleNum: '8116',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1545',
-    photovoltaic: '203',
-    emissionReduction: '10513'
-  },
-  {
-    date: '2023/5/16',
-    electricVehicleNum: '7893',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1560',
-    photovoltaic: '139',
-    emissionReduction: '10260'
-  },
-  {
-    date: '2023/5/17',
-    electricVehicleNum: '7718',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1455',
-    photovoltaic: '327',
-    emissionReduction: '10117'
-  },
-  {
-    date: '2023/5/18',
-    electricVehicleNum: '8116',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1545',
-    photovoltaic: '203',
-    emissionReduction: '10513'
-  },
-  {
-    date: '2023/5/19',
-    electricVehicleNum: '7893',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1560',
-    photovoltaic: '139',
-    emissionReduction: '10260'
-  },
-  {
-    date: '2023/5/20',
-    electricVehicleNum: '6493',
-    twoWheeledElectricCarNum: '900',
-    storedEnergy: '1515',
-    photovoltaic: '1366',
-    emissionReduction: '10274'
-  },
-  {
-    date: '2023/5/21',
-    electricVehicleNum: '6556',
-    twoWheeledElectricCarNum: '833',
-    storedEnergy: '1485',
-    photovoltaic: '1333',
-    emissionReduction: '10207'
-  },
-  {
-    date: '2023/5/22',
-    electricVehicleNum: '8187',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1425',
-    photovoltaic: '1366',
-    emissionReduction: '11773'
+      "date": "2023/5/10",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "67 ",
+      "energy": "60 ",
+      "light": "1366"
+  },
+  {
+      "date": "2023/5/11",
+      "newCharging": "8195 ",
+      "change": "50 ",
+      "bike": "66 ",
+      "energy": "58 ",
+      "light": "1065"
+  },
+  {
+      "date": "2023/5/12",
+      "newCharging": "8100 ",
+      "change": "50 ",
+      "bike": "79 ",
+      "energy": "59 ",
+      "light": "1186"
+  },
+  {
+      "date": "2023/5/13",
+      "newCharging": "6922 ",
+      "change": "42 ",
+      "bike": "62 ",
+      "energy": "60 ",
+      "light": "1282"
+  },
+  {
+      "date": "2023/5/14",
+      "newCharging": "6763 ",
+      "change": "41 ",
+      "bike": "64 ",
+      "energy": "60 ",
+      "light": "1410"
+  },
+  {
+      "date": "2023/5/15",
+      "newCharging": "8116 ",
+      "change": "50 ",
+      "bike": "65 ",
+      "energy": "63 ",
+      "light": "203"
+  },
+  {
+      "date": "2023/5/16",
+      "newCharging": "7893 ",
+      "change": "48 ",
+      "bike": "67 ",
+      "energy": "63 ",
+      "light": "139"
+  },
+  {
+      "date": "2023/5/17",
+      "newCharging": "7718 ",
+      "change": "47 ",
+      "bike": "62 ",
+      "energy": "59 ",
+      "light": "327"
+  },
+  {
+      "date": "2023/5/18",
+      "newCharging": "8116 ",
+      "change": "50 ",
+      "bike": "65 ",
+      "energy": "63 ",
+      "light": "203"
+  },
+  {
+      "date": "2023/5/19",
+      "newCharging": "7893 ",
+      "change": "48 ",
+      "bike": "67 ",
+      "energy": "63 ",
+      "light": "139"
+  },
+  {
+      "date": "2023/5/20",
+      "newCharging": "6493 ",
+      "change": "40 ",
+      "bike": "90 ",
+      "energy": "62 ",
+      "light": "1366"
+  },
+  {
+      "date": "2023/5/21",
+      "newCharging": "6556 ",
+      "change": "40 ",
+      "bike": "83 ",
+      "energy": "60 ",
+      "light": "1333"
+  },
+  {
+      "date": "2023/5/22",
+      "newCharging": "8187 ",
+      "change": "50 ",
+      "bike": "79 ",
+      "energy": "58 ",
+      "light": "1366"
   },
   {
-    date: '2023/5/23',
-    electricVehicleNum: '7798',
-    twoWheeledElectricCarNum: '624',
-    storedEnergy: '1515',
-    photovoltaic: '1263',
-    emissionReduction: '11199'
+      "date": "2023/5/23",
+      "newCharging": "7798 ",
+      "change": "48 ",
+      "bike": "62 ",
+      "energy": "62 ",
+      "light": "1263"
   },
   {
-    date: '2023/5/24',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1485',
-    photovoltaic: '1366',
-    emissionReduction: '11874'
+      "date": "2023/5/24",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "67 ",
+      "energy": "60 ",
+      "light": "1366"
   },
   {
-    date: '2023/5/25',
-    electricVehicleNum: '8195',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1425',
-    photovoltaic: '1065',
-    emissionReduction: '11341'
+      "date": "2023/5/25",
+      "newCharging": "8195 ",
+      "change": "50 ",
+      "bike": "66 ",
+      "energy": "58 ",
+      "light": "1065"
   },
   {
-    date: '2023/5/26',
-    electricVehicleNum: '8100',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1455',
-    photovoltaic: '1186',
-    emissionReduction: '11536'
+      "date": "2023/5/26",
+      "newCharging": "8100 ",
+      "change": "50 ",
+      "bike": "79 ",
+      "energy": "59 ",
+      "light": "1186"
   },
   {
-    date: '2023/5/27',
-    electricVehicleNum: '6922',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1470',
-    photovoltaic: '1282',
-    emissionReduction: '10292'
+      "date": "2023/5/27",
+      "newCharging": "6922 ",
+      "change": "42 ",
+      "bike": "62 ",
+      "energy": "60 ",
+      "light": "1282"
   },
   {
-    date: '2023/5/28',
-    electricVehicleNum: '6763',
-    twoWheeledElectricCarNum: '643',
-    storedEnergy: '1485',
-    photovoltaic: '1410',
-    emissionReduction: '10301'
+      "date": "2023/5/28",
+      "newCharging": "6763 ",
+      "change": "41 ",
+      "bike": "64 ",
+      "energy": "60 ",
+      "light": "1410"
   },
   {
-    date: '2023/5/29',
-    electricVehicleNum: '8116',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1545',
-    photovoltaic: '203',
-    emissionReduction: '10513'
+      "date": "2023/5/29",
+      "newCharging": "8116 ",
+      "change": "50 ",
+      "bike": "65 ",
+      "energy": "63 ",
+      "light": "203"
   },
   {
-    date: '2023/5/30',
-    electricVehicleNum: '7893',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1560',
-    photovoltaic: '139',
-    emissionReduction: '10260'
+      "date": "2023/5/30",
+      "newCharging": "7893 ",
+      "change": "48 ",
+      "bike": "67 ",
+      "energy": "63 ",
+      "light": "139"
   },
   {
-    date: '2023/5/31',
-    electricVehicleNum: '7718',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1455',
-    photovoltaic: '327',
-    emissionReduction: '10117'
+      "date": "2023/5/31",
+      "newCharging": "7718 ",
+      "change": "56 ",
+      "bike": "62 ",
+      "energy": "59 ",
+      "light": "327"
   },
   {
-    date: '2023/6/1',
-    electricVehicleNum: '7806',
-    twoWheeledElectricCarNum: '741',
-    storedEnergy: '1440',
-    photovoltaic: '287',
-    emissionReduction: '10274'
+      "date": "2023/6/1",
+      "newCharging": "7806 ",
+      "change": "48 ",
+      "bike": "74 ",
+      "energy": "59 ",
+      "light": "287"
   },
   {
-    date: '2023/6/2',
-    electricVehicleNum: '7949',
-    twoWheeledElectricCarNum: '771',
-    storedEnergy: '1530',
-    photovoltaic: '390',
-    emissionReduction: '10640'
+      "date": "2023/6/2",
+      "newCharging": "7949 ",
+      "change": "49 ",
+      "bike": "77 ",
+      "energy": "62 ",
+      "light": "390"
   },
   {
-    date: '2023/6/3',
-    electricVehicleNum: '7089',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1410',
-    photovoltaic: '134',
-    emissionReduction: '9302'
+      "date": "2023/6/3",
+      "newCharging": "7089 ",
+      "change": "43 ",
+      "bike": "67 ",
+      "energy": "57 ",
+      "light": "134"
   },
   {
-    date: '2023/6/4',
-    electricVehicleNum: '6851',
-    twoWheeledElectricCarNum: '624',
-    storedEnergy: '1485',
-    photovoltaic: '1171',
-    emissionReduction: '10131'
+      "date": "2023/6/4",
+      "newCharging": "6851 ",
+      "change": "42 ",
+      "bike": "62 ",
+      "energy": "60 ",
+      "light": "1171"
   },
   {
-    date: '2023/6/5',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1545',
-    photovoltaic: '195',
-    emissionReduction: '10712'
+      "date": "2023/6/5",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "62 ",
+      "energy": "63 ",
+      "light": "195"
   },
   {
-    date: '2023/6/6',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '611',
-    storedEnergy: '1515',
-    photovoltaic: '390',
-    emissionReduction: '10871'
+      "date": "2023/6/6",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "61 ",
+      "energy": "62 ",
+      "light": "390"
   },
   {
-    date: '2023/6/7',
-    electricVehicleNum: '8195',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1590',
-    photovoltaic: '1366',
-    emissionReduction: '11801'
+      "date": "2023/6/7",
+      "newCharging": "8195 ",
+      "change": "50 ",
+      "bike": "65 ",
+      "energy": "65 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/8',
-    electricVehicleNum: '7543',
-    twoWheeledElectricCarNum: '736',
-    storedEnergy: '1425',
-    photovoltaic: '1269',
-    emissionReduction: '10973'
+      "date": "2023/6/8",
+      "newCharging": "7543 ",
+      "change": "56 ",
+      "bike": "74 ",
+      "energy": "58 ",
+      "light": "1269"
   },
   {
-    date: '2023/6/9',
-    electricVehicleNum: '7670',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1455',
-    photovoltaic: '1366',
-    emissionReduction: '11285'
+      "date": "2023/6/9",
+      "newCharging": "7670 ",
+      "change": "47 ",
+      "bike": "79 ",
+      "energy": "59 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/10',
-    electricVehicleNum: '6843',
-    twoWheeledElectricCarNum: '611',
-    storedEnergy: '1440',
-    photovoltaic: '390',
-    emissionReduction: '9284'
+      "date": "2023/6/10",
+      "newCharging": "6843 ",
+      "change": "42 ",
+      "bike": "61 ",
+      "energy": "59 ",
+      "light": "390"
   },
   {
-    date: '2023/6/11',
-    electricVehicleNum: '7320',
-    twoWheeledElectricCarNum: '598',
-    storedEnergy: '1530',
-    photovoltaic: '293',
-    emissionReduction: '9741'
+      "date": "2023/6/11",
+      "newCharging": "7320 ",
+      "change": "45 ",
+      "bike": "60 ",
+      "energy": "62 ",
+      "light": "293"
   },
   {
-    date: '2023/6/12',
-    electricVehicleNum: '7798',
-    twoWheeledElectricCarNum: '630',
-    storedEnergy: '1560',
-    photovoltaic: '195',
-    emissionReduction: '10183'
+      "date": "2023/6/12",
+      "newCharging": "7798 ",
+      "change": "48 ",
+      "bike": "63 ",
+      "energy": "63 ",
+      "light": "195"
   },
   {
-    date: '2023/6/13',
-    electricVehicleNum: '7718',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1575',
-    photovoltaic: '1562',
-    emissionReduction: '11510'
+      "date": "2023/6/13",
+      "newCharging": "7718 ",
+      "change": "47 ",
+      "bike": "66 ",
+      "energy": "64 ",
+      "light": "1562"
   },
   {
-    date: '2023/6/14',
-    electricVehicleNum: '7638',
-    twoWheeledElectricCarNum: '643',
-    storedEnergy: '1530',
-    photovoltaic: '390',
-    emissionReduction: '10202'
+      "date": "2023/6/14",
+      "newCharging": "7638 ",
+      "change": "47 ",
+      "bike": "64 ",
+      "energy": "62 ",
+      "light": "390"
   },
   {
-    date: '2023/6/15',
-    electricVehicleNum: '8148',
-    twoWheeledElectricCarNum: '742',
-    storedEnergy: '1575',
-    photovoltaic: '1757',
-    emissionReduction: '12222'
+      "date": "2023/6/15",
+      "newCharging": "8148 ",
+      "change": "50 ",
+      "bike": "74 ",
+      "energy": "64 ",
+      "light": "1757"
   },
   {
-    date: '2023/6/16',
-    electricVehicleNum: '7861',
-    twoWheeledElectricCarNum: '741',
-    storedEnergy: '1470',
-    photovoltaic: '390',
-    emissionReduction: '10462'
+      "date": "2023/6/16",
+      "newCharging": "7861 ",
+      "change": "48 ",
+      "bike": "74 ",
+      "energy": "60 ",
+      "light": "390"
   },
   {
-    date: '2023/6/17',
-    electricVehicleNum: '7559',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1575',
-    photovoltaic: '1562',
-    emissionReduction: '11364'
+      "date": "2023/6/17",
+      "newCharging": "7559 ",
+      "change": "46 ",
+      "bike": "67 ",
+      "energy": "64 ",
+      "light": "1562"
   },
   {
-    date: '2023/6/18',
-    electricVehicleNum: '7161',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1575',
-    photovoltaic: '1366',
-    emissionReduction: '10771'
+      "date": "2023/6/18",
+      "newCharging": "7161 ",
+      "change": "44 ",
+      "bike": "67 ",
+      "energy": "64 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/19',
-    electricVehicleNum: '7638',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1545',
-    photovoltaic: '195',
-    emissionReduction: '10034'
+      "date": "2023/6/19",
+      "newCharging": "7638 ",
+      "change": "47 ",
+      "bike": "66 ",
+      "energy": "63 ",
+      "light": "195"
   },
   {
-    date: '2023/6/20',
-    electricVehicleNum: '8068',
-    twoWheeledElectricCarNum: '900',
-    storedEnergy: '1515',
-    photovoltaic: '1366',
-    emissionReduction: '11850'
+      "date": "2023/6/20",
+      "newCharging": "8068 ",
+      "change": "49 ",
+      "bike": "90 ",
+      "energy": "62 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/21',
-    electricVehicleNum: '7845',
-    twoWheeledElectricCarNum: '833',
-    storedEnergy: '1485',
-    photovoltaic: '1366',
-    emissionReduction: '11529'
+      "date": "2023/6/21",
+      "newCharging": "7845 ",
+      "change": "48 ",
+      "bike": "83 ",
+      "energy": "60 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/22',
-    electricVehicleNum: '8195',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1425',
-    photovoltaic: '1366',
-    emissionReduction: '11781'
+      "date": "2023/6/22",
+      "newCharging": "8195 ",
+      "change": "50 ",
+      "bike": "79 ",
+      "energy": "58 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/23',
-    electricVehicleNum: '7798',
-    twoWheeledElectricCarNum: '624',
-    storedEnergy: '1515',
-    photovoltaic: '1366',
-    emissionReduction: '11303'
+      "date": "2023/6/23",
+      "newCharging": "7798 ",
+      "change": "48 ",
+      "bike": "62 ",
+      "energy": "62 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/24',
-    electricVehicleNum: '6763',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1485',
-    photovoltaic: '1366',
-    emissionReduction: '10283'
+      "date": "2023/6/24",
+      "newCharging": "6763 ",
+      "change": "41 ",
+      "bike": "67 ",
+      "energy": "60 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/25',
-    electricVehicleNum: '6286',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1425',
-    photovoltaic: '1366',
-    emissionReduction: '9733'
+      "date": "2023/6/25",
+      "newCharging": "6286 ",
+      "change": "38 ",
+      "bike": "66 ",
+      "energy": "58 ",
+      "light": "1366"
   },
   {
-    date: '2023/6/26',
-    electricVehicleNum: '7782',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1455',
-    photovoltaic: '390',
-    emissionReduction: '10421'
+      "date": "2023/6/26",
+      "newCharging": "7782 ",
+      "change": "48 ",
+      "bike": "79 ",
+      "energy": "59 ",
+      "light": "390"
   },
   {
-    date: '2023/6/27',
-    electricVehicleNum: '7718',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1470',
-    photovoltaic: '390',
-    emissionReduction: '10196'
+      "date": "2023/6/27",
+      "newCharging": "7718 ",
+      "change": "47 ",
+      "bike": "62 ",
+      "energy": "60 ",
+      "light": "390"
   },
   {
-    date: '2023/6/28',
-    electricVehicleNum: '7559',
-    twoWheeledElectricCarNum: '643',
-    storedEnergy: '1485',
-    photovoltaic: '586',
-    emissionReduction: '10272'
+      "date": "2023/6/28",
+      "newCharging": "7559 ",
+      "change": "46 ",
+      "bike": "64 ",
+      "energy": "60 ",
+      "light": "586"
   },
   {
-    date: '2023/6/29',
-    electricVehicleNum: '8116',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1545',
-    photovoltaic: '586',
-    emissionReduction: '10896'
+      "date": "2023/6/29",
+      "newCharging": "8116 ",
+      "change": "50 ",
+      "bike": "65 ",
+      "energy": "63 ",
+      "light": "586"
   },
   {
-    date: '2023/6/30',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1560',
-    photovoltaic: '586',
-    emissionReduction: '11169'
+      "date": "2023/6/30",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "67 ",
+      "energy": "63 ",
+      "light": "586"
   },
   {
-    date: '2023/7/1',
-    electricVehicleNum: '7002',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1455',
-    photovoltaic: '390',
-    emissionReduction: '9465'
+      "date": "2023/7/1",
+      "newCharging": "7002 ",
+      "change": "43 ",
+      "bike": "62 ",
+      "energy": "59 ",
+      "light": "390"
   },
   {
-    date: '2023/7/2',
-    electricVehicleNum: '6779',
-    twoWheeledElectricCarNum: '741',
-    storedEnergy: '1440',
-    photovoltaic: '390',
-    emissionReduction: '9350'
+      "date": "2023/7/2",
+      "newCharging": "6779 ",
+      "change": "42 ",
+      "bike": "74 ",
+      "energy": "59 ",
+      "light": "390"
   },
   {
-    date: '2023/7/3',
-    electricVehicleNum: '8148',
-    twoWheeledElectricCarNum: '771',
-    storedEnergy: '1530',
-    photovoltaic: '390',
-    emissionReduction: '10839'
-  },
-  {
-    date: '2023/7/4',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '668',
-    storedEnergy: '1410',
-    photovoltaic: '1366',
-    emissionReduction: '11799'
-  },
-  {
-    date: '2023/7/5',
-    electricVehicleNum: '7798',
-    twoWheeledElectricCarNum: '624',
-    storedEnergy: '1485',
-    photovoltaic: '1171',
-    emissionReduction: '11078'
-  },
-  {
-    date: '2023/7/6',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '617',
-    storedEnergy: '1545',
-    photovoltaic: '195',
-    emissionReduction: '10712'
-  },
-  {
-    date: '2023/7/7',
-    electricVehicleNum: '8355',
-    twoWheeledElectricCarNum: '611',
-    storedEnergy: '1515',
-    photovoltaic: '390',
-    emissionReduction: '10871'
-  },
-  {
-    date: '2023/7/8',
-    electricVehicleNum: '6604',
-    twoWheeledElectricCarNum: '649',
-    storedEnergy: '1590',
-    photovoltaic: '1366',
-    emissionReduction: '10210'
-  },
-  {
-    date: '2023/7/9',
-    electricVehicleNum: '6906',
-    twoWheeledElectricCarNum: '736',
-    storedEnergy: '1425',
-    photovoltaic: '1269',
-    emissionReduction: '10337'
-  },
-  {
-    date: '2023/7/10',
-    electricVehicleNum: '7670',
-    twoWheeledElectricCarNum: '794',
-    storedEnergy: '1455',
-    photovoltaic: '1366',
-    emissionReduction: '11285'
-  },
-  {
-    date: '2023/7/11',
-    electricVehicleNum: '7638',
-    twoWheeledElectricCarNum: '611',
-    storedEnergy: '1440',
-    photovoltaic: '390',
-    emissionReduction: '10080'
-  },
-  {
-    date: '2023/7/12',
-    electricVehicleNum: '8116',
-    twoWheeledElectricCarNum: '598',
-    storedEnergy: '1530',
-    photovoltaic: '293',
-    emissionReduction: '10537'
-  },
-  {
-    date: '2023/7/13',
-    electricVehicleNum: '7798',
-    twoWheeledElectricCarNum: '630',
-    storedEnergy: '1560',
-    photovoltaic: '195',
-    emissionReduction: '10183'
-  },
-  {
-    date: '2023/7/14',
-    electricVehicleNum: '7718',
-    twoWheeledElectricCarNum: '656',
-    storedEnergy: '1575',
-    photovoltaic: '1562',
-    emissionReduction: '11510'
-  },
-  {
-    date: '2023/7/15',
-    electricVehicleNum: '6357',
-    twoWheeledElectricCarNum: '643',
-    storedEnergy: '1530',
-    photovoltaic: '390',
-    emissionReduction: '8921'
+      "date": "2023/7/3",
+      "newCharging": "8148 ",
+      "change": "50 ",
+      "bike": "77 ",
+      "energy": "62 ",
+      "light": "390"
+  },
+  {
+      "date": "2023/7/4",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "67 ",
+      "energy": "57 ",
+      "light": "1366"
+  },
+  {
+      "date": "2023/7/5",
+      "newCharging": "7798 ",
+      "change": "48 ",
+      "bike": "62 ",
+      "energy": "60 ",
+      "light": "1171"
+  },
+  {
+      "date": "2023/7/6",
+      "newCharging": "8355 ",
+      "change": "51 ",
+      "bike": "62 ",
+      "energy": "63 ",
+      "light": "195"
+  },
+  {
+      "date": "2023/7/7",
+      "newCharging": "8355 ",
+      "change": "56 ",
+      "bike": "61 ",
+      "energy": "62 ",
+      "light": "390"
+  },
+  {
+      "date": "2023/7/8",
+      "newCharging": "6604 ",
+      "change": "40 ",
+      "bike": "65 ",
+      "energy": "65 ",
+      "light": "1366"
+  },
+  {
+      "date": "2023/7/9",
+      "newCharging": "6906 ",
+      "change": "42 ",
+      "bike": "74 ",
+      "energy": "58 ",
+      "light": "1269"
+  },
+  {
+      "date": "2023/7/10",
+      "newCharging": "7670 ",
+      "change": "47 ",
+      "bike": "79 ",
+      "energy": "59 ",
+      "light": "1366"
+  },
+  {
+      "date": "2023/7/11",
+      "newCharging": "7638 ",
+      "change": "47 ",
+      "bike": "61 ",
+      "energy": "59 ",
+      "light": "390"
+  },
+  {
+      "date": "2023/7/12",
+      "newCharging": "8116 ",
+      "change": "50 ",
+      "bike": "60 ",
+      "energy": "62 ",
+      "light": "293"
+  },
+  {
+      "date": "2023/7/13",
+      "newCharging": "7798 ",
+      "change": "48 ",
+      "bike": "63 ",
+      "energy": "63 ",
+      "light": "195"
+  },
+  {
+      "date": "2023/7/14",
+      "newCharging": "7718 ",
+      "change": "47 ",
+      "bike": "66 ",
+      "energy": "64 ",
+      "light": "1562"
+  },
+  {
+      "date": "2023/7/15",
+      "newCharging": "6357 ",
+      "change": "39 ",
+      "bike": "64 ",
+      "energy": "62 ",
+      "light": "390"
   }
-];
+]
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   // console.log('carbon', carbon);
@@ -897,20 +897,10 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
   list.splice(index + 1);
   return [
-    // {
-    //   data: list.map((item) => [
-    //     dayjs(item.date).format('MM-DD').toString(),
-    //     item.twoWheeledElectricCarNum.trim()
-    //   ]),
-    //   type: 'line',
-    //   smooth: true,
-    //   showSymbol: false,
-    //   name: '充换电柜'
-    // },
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.electricVehicleNum.trim()
+        item.newCharging.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -920,7 +910,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.storedEnergy.trim()
+        item.energy.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -930,7 +920,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.photovoltaic.trim()
+        item.light.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -940,7 +930,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
         {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.twoWheeledElectricCarNum.trim()
+        item.bike.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -950,7 +940,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.photovoltaic.trim()
+        item.change.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -1042,473 +1032,540 @@ export const lineCarbonOptionFun = {
 };
 const Electric = [
   {
-    date: '2023/5/10',
-    electricVehicleNum: '1050',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '297 ',
-    photovoltaic: '214'
+      "date":"2023/5/10",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"214"
+  },
+  {
+      "date":"2023/5/11",
+      "newCharging":"1030 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"167"
+  },
+  {
+      "date":"2023/5/12",
+      "newCharging":"1018 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"186"
+  },
+  {
+      "date":"2023/5/13",
+      "newCharging":"870 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"201"
+  },
+  {
+      "date":"2023/5/14",
+      "newCharging":"850 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"221"
+  },
+  {
+      "date":"2023/5/15",
+      "newCharging":"1020 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"32"
+  },
+  {
+      "date":"2023/5/16",
+      "newCharging":"992 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"22"
+  },
+  {
+      "date":"2023/5/17",
+      "newCharging":"970 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"51"
+  },
+  {
+      "date":"2023/5/18",
+      "newCharging":"1020 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"32"
+  },
+  {
+      "date":"2023/5/19",
+      "newCharging":"992 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"22"
+  },
+  {
+      "date":"2023/5/20",
+      "newCharging":"816 ",
+      "change":"5 ",
+      "bike":"11 ",
+      "energy":"12 ",
+      "light":"214"
+  },
+  {
+      "date":"2023/5/21",
+      "newCharging":"824 ",
+      "change":"5 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"209"
+  },
+  {
+      "date":"2023/5/22",
+      "newCharging":"1029 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/5/11',
-    electricVehicleNum: '1030 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '285 ',
-    photovoltaic: '167'
+      "date":"2023/5/23",
+      "newCharging":"980 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"198"
   },
   {
-    date: '2023/5/12',
-    electricVehicleNum: '1018 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '291 ',
-    photovoltaic: '186'
+      "date":"2023/5/24",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/5/13',
-    electricVehicleNum: '870 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '294 ',
-    photovoltaic: '201'
+      "date":"2023/5/25",
+      "newCharging":"1030 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"167"
   },
   {
-    date: '2023/5/14',
-    electricVehicleNum: '850 ',
-    twoWheeledElectricCarNum: '81 ',
-    storedEnergy: '297 ',
-    photovoltaic: '221'
+      "date":"2023/5/26",
+      "newCharging":"1018 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"186"
   },
   {
-    date: '2023/5/15',
-    electricVehicleNum: '1020 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '309 ',
-    photovoltaic: '32'
+      "date":"2023/5/27",
+      "newCharging":"870 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"201"
   },
   {
-    date: '2023/5/16',
-    electricVehicleNum: '992 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '312 ',
-    photovoltaic: '22'
+      "date":"2023/5/28",
+      "newCharging":"850 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"221"
   },
   {
-    date: '2023/5/17',
-    electricVehicleNum: '970 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '291 ',
-    photovoltaic: '51'
+      "date":"2023/5/29",
+      "newCharging":"1020 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"32"
   },
   {
-    date: '2023/5/18',
-    electricVehicleNum: '1020 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '309 ',
-    photovoltaic: '32'
+      "date":"2023/5/30",
+      "newCharging":"992 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"22"
   },
   {
-    date: '2023/5/19',
-    electricVehicleNum: '992 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '312 ',
-    photovoltaic: '22'
+      "date":"2023/5/31",
+      "newCharging":"970 ",
+      "change":"7 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"51"
   },
   {
-    date: '2023/5/20',
-    electricVehicleNum: '816 ',
-    twoWheeledElectricCarNum: '113 ',
-    storedEnergy: '303 ',
-    photovoltaic: '214'
+      "date":"2023/6/1",
+      "newCharging":"981 ",
+      "change":"6 ",
+      "bike":"9 ",
+      "energy":"12 ",
+      "light":"45"
   },
   {
-    date: '2023/5/21',
-    electricVehicleNum: '824 ',
-    twoWheeledElectricCarNum: '105 ',
-    storedEnergy: '297 ',
-    photovoltaic: '209'
+      "date":"2023/6/2",
+      "newCharging":"999 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/5/22',
-    electricVehicleNum: '1029 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '285 ',
-    photovoltaic: '214'
+      "date":"2023/6/3",
+      "newCharging":"891 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"11 ",
+      "light":"21"
   },
   {
-    date: '2023/5/23',
-    electricVehicleNum: '980 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '303 ',
-    photovoltaic: '198'
+      "date":"2023/6/4",
+      "newCharging":"861 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"184"
   },
   {
-    date: '2023/5/24',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '297 ',
-    photovoltaic: '214'
+      "date":"2023/6/5",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"31"
   },
   {
-    date: '2023/5/25',
-    electricVehicleNum: '1030 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '285 ',
-    photovoltaic: '167'
+      "date":"2023/6/6",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/5/26',
-    electricVehicleNum: '1018 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '291 ',
-    photovoltaic: '186'
+      "date":"2023/6/7",
+      "newCharging":"1030 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"214"
   },
   {
-    date: '2023/5/27',
-    electricVehicleNum: '870 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '294 ',
-    photovoltaic: '201'
+      "date":"2023/6/8",
+      "newCharging":"948 ",
+      "change":"7 ",
+      "bike":"9 ",
+      "energy":"12 ",
+      "light":"199"
   },
   {
-    date: '2023/5/28',
-    electricVehicleNum: '850 ',
-    twoWheeledElectricCarNum: '81 ',
-    storedEnergy: '297 ',
-    photovoltaic: '221'
+      "date":"2023/6/9",
+      "newCharging":"964 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/5/29',
-    electricVehicleNum: '1020 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '309 ',
-    photovoltaic: '32'
+      "date":"2023/6/10",
+      "newCharging":"860 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/5/30',
-    electricVehicleNum: '992 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '312 ',
-    photovoltaic: '22'
+      "date":"2023/6/11",
+      "newCharging":"920 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"46"
   },
   {
-    date: '2023/5/31',
-    electricVehicleNum: '970 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '291 ',
-    photovoltaic: '51'
+      "date":"2023/6/12",
+      "newCharging":"980 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"31"
   },
   {
-    date: '2023/6/1',
-    electricVehicleNum: '981 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '288 ',
-    photovoltaic: '45'
+      "date":"2023/6/13",
+      "newCharging":"970 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"245"
   },
   {
-    date: '2023/6/2',
-    electricVehicleNum: '999 ',
-    twoWheeledElectricCarNum: '97 ',
-    storedEnergy: '306 ',
-    photovoltaic: '61'
+      "date":"2023/6/14",
+      "newCharging":"960 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/3',
-    electricVehicleNum: '891 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '282 ',
-    photovoltaic: '21'
+      "date":"2023/6/15",
+      "newCharging":"1024 ",
+      "change":"6 ",
+      "bike":"9 ",
+      "energy":"13 ",
+      "light":"275"
   },
   {
-    date: '2023/6/4',
-    electricVehicleNum: '861 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '297 ',
-    photovoltaic: '184'
+      "date":"2023/6/16",
+      "newCharging":"988 ",
+      "change":"6 ",
+      "bike":"9 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/5',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '309 ',
-    photovoltaic: '31'
+      "date":"2023/6/17",
+      "newCharging":"950 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"245"
   },
   {
-    date: '2023/6/6',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '77 ',
-    storedEnergy: '303 ',
-    photovoltaic: '61'
+      "date":"2023/6/18",
+      "newCharging":"900 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"214"
   },
   {
-    date: '2023/6/7',
-    electricVehicleNum: '1030 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '318 ',
-    photovoltaic: '214'
+      "date":"2023/6/19",
+      "newCharging":"960 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"31"
   },
   {
-    date: '2023/6/8',
-    electricVehicleNum: '948 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '285 ',
-    photovoltaic: '199'
+      "date":"2023/6/20",
+      "newCharging":"1014 ",
+      "change":"6 ",
+      "bike":"11 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/9',
-    electricVehicleNum: '964 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '291 ',
-    photovoltaic: '214'
+      "date":"2023/6/21",
+      "newCharging":"986 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/10',
-    electricVehicleNum: '860 ',
-    twoWheeledElectricCarNum: '77 ',
-    storedEnergy: '288 ',
-    photovoltaic: '61'
+      "date":"2023/6/22",
+      "newCharging":"1030 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/11',
-    electricVehicleNum: '920 ',
-    twoWheeledElectricCarNum: '75 ',
-    storedEnergy: '306 ',
-    photovoltaic: '46'
+      "date":"2023/6/23",
+      "newCharging":"980 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/12',
-    electricVehicleNum: '980 ',
-    twoWheeledElectricCarNum: '79 ',
-    storedEnergy: '312 ',
-    photovoltaic: '31'
+      "date":"2023/6/24",
+      "newCharging":"850 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/13',
-    electricVehicleNum: '970 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '315 ',
-    photovoltaic: '245'
+      "date":"2023/6/25",
+      "newCharging":"790 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"214"
   },
   {
-    date: '2023/6/14',
-    electricVehicleNum: '960 ',
-    twoWheeledElectricCarNum: '81 ',
-    storedEnergy: '306 ',
-    photovoltaic: '61'
+      "date":"2023/6/26",
+      "newCharging":"978 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/15',
-    electricVehicleNum: '1024 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '315 ',
-    photovoltaic: '275'
+      "date":"2023/6/27",
+      "newCharging":"970 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/16',
-    electricVehicleNum: '988 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '294 ',
-    photovoltaic: '61'
+      "date":"2023/6/28",
+      "newCharging":"950 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"92"
   },
   {
-    date: '2023/6/17',
-    electricVehicleNum: '950 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '315 ',
-    photovoltaic: '245'
+      "date":"2023/6/29",
+      "newCharging":"1020 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"92"
   },
   {
-    date: '2023/6/18',
-    electricVehicleNum: '900 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '315 ',
-    photovoltaic: '214'
+      "date":"2023/6/30",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"92"
   },
   {
-    date: '2023/6/19',
-    electricVehicleNum: '960 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '309 ',
-    photovoltaic: '31'
+      "date":"2023/7/1",
+      "newCharging":"880 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/20',
-    electricVehicleNum: '1014 ',
-    twoWheeledElectricCarNum: '113 ',
-    storedEnergy: '303 ',
-    photovoltaic: '214'
+      "date":"2023/7/2",
+      "newCharging":"852 ",
+      "change":"5 ",
+      "bike":"9 ",
+      "energy":"12 ",
+      "light":"61"
   },
   {
-    date: '2023/6/21',
-    electricVehicleNum: '986 ',
-    twoWheeledElectricCarNum: '105 ',
-    storedEnergy: '297 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/6/22',
-    electricVehicleNum: '1030 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '285 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/6/23',
-    electricVehicleNum: '980 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '303 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/6/24',
-    electricVehicleNum: '850 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '297 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/6/25',
-    electricVehicleNum: '790 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '285 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/6/26',
-    electricVehicleNum: '978 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '291 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/6/27',
-    electricVehicleNum: '970 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '294 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/6/28',
-    electricVehicleNum: '950 ',
-    twoWheeledElectricCarNum: '81 ',
-    storedEnergy: '297 ',
-    photovoltaic: '92'
-  },
-  {
-    date: '2023/6/29',
-    electricVehicleNum: '1020 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '309 ',
-    photovoltaic: '92'
-  },
-  {
-    date: '2023/6/30',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '312 ',
-    photovoltaic: '92'
-  },
-  {
-    date: '2023/7/1',
-    electricVehicleNum: '880 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '291 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/7/2',
-    electricVehicleNum: '852 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '288 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/7/3',
-    electricVehicleNum: '1024 ',
-    twoWheeledElectricCarNum: '97 ',
-    storedEnergy: '306 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/7/4',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '84 ',
-    storedEnergy: '282 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/7/5',
-    electricVehicleNum: '980 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '297 ',
-    photovoltaic: '184'
-  },
-  {
-    date: '2023/7/6',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '78 ',
-    storedEnergy: '309 ',
-    photovoltaic: '31'
-  },
-  {
-    date: '2023/7/7',
-    electricVehicleNum: '1050 ',
-    twoWheeledElectricCarNum: '77 ',
-    storedEnergy: '303 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/7/8',
-    electricVehicleNum: '830 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '318 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/7/9',
-    electricVehicleNum: '868 ',
-    twoWheeledElectricCarNum: '93 ',
-    storedEnergy: '285 ',
-    photovoltaic: '199'
-  },
-  {
-    date: '2023/7/10',
-    electricVehicleNum: '964 ',
-    twoWheeledElectricCarNum: '100 ',
-    storedEnergy: '291 ',
-    photovoltaic: '214'
-  },
-  {
-    date: '2023/7/11',
-    electricVehicleNum: '960 ',
-    twoWheeledElectricCarNum: '77 ',
-    storedEnergy: '288 ',
-    photovoltaic: '61'
-  },
-  {
-    date: '2023/7/12',
-    electricVehicleNum: '1020 ',
-    twoWheeledElectricCarNum: '75 ',
-    storedEnergy: '306 ',
-    photovoltaic: '46'
-  },
-  {
-    date: '2023/7/13',
-    electricVehicleNum: '980 ',
-    twoWheeledElectricCarNum: '79 ',
-    storedEnergy: '312 ',
-    photovoltaic: '31'
-  },
-  {
-    date: '2023/7/14',
-    electricVehicleNum: '970 ',
-    twoWheeledElectricCarNum: '82 ',
-    storedEnergy: '315 ',
-    photovoltaic: '245'
-  },
-  {
-    date: '2023/7/15',
-    electricVehicleNum: '799 ',
-    twoWheeledElectricCarNum: '81 ',
-    storedEnergy: '306 ',
-    photovoltaic: '61'
+      "date":"2023/7/3",
+      "newCharging":"1024 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"61"
+  },
+  {
+      "date":"2023/7/4",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"11 ",
+      "light":"214"
+  },
+  {
+      "date":"2023/7/5",
+      "newCharging":"980 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"184"
+  },
+  {
+      "date":"2023/7/6",
+      "newCharging":"1050 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"31"
+  },
+  {
+      "date":"2023/7/7",
+      "newCharging":"1050 ",
+      "change":"7 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
+  },
+  {
+      "date":"2023/7/8",
+      "newCharging":"830 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"214"
+  },
+  {
+      "date":"2023/7/9",
+      "newCharging":"868 ",
+      "change":"5 ",
+      "bike":"9 ",
+      "energy":"12 ",
+      "light":"199"
+  },
+  {
+      "date":"2023/7/10",
+      "newCharging":"964 ",
+      "change":"6 ",
+      "bike":"10 ",
+      "energy":"12 ",
+      "light":"214"
+  },
+  {
+      "date":"2023/7/11",
+      "newCharging":"960 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
+  },
+  {
+      "date":"2023/7/12",
+      "newCharging":"1020 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"46"
+  },
+  {
+      "date":"2023/7/13",
+      "newCharging":"980 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"31"
+  },
+  {
+      "date":"2023/7/14",
+      "newCharging":"970 ",
+      "change":"6 ",
+      "bike":"8 ",
+      "energy":"13 ",
+      "light":"245"
+  },
+  {
+      "date":"2023/7/15",
+      "newCharging":"799 ",
+      "change":"5 ",
+      "bike":"8 ",
+      "energy":"12 ",
+      "light":"61"
   }
 ];
 export const lineElectricDataFun = (data = []) => {
@@ -1521,7 +1578,7 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.electricVehicleNum.trim()
+        item.newCharging.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -1531,7 +1588,7 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.storedEnergy.trim()
+        item.energy.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -1541,7 +1598,7 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.photovoltaic.trim()
+        item.light.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -1551,7 +1608,7 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.twoWheeledElectricCarNum.trim()
+        item.bike.trim()
       ]),
       type: 'line',
       smooth: true,
@@ -1561,7 +1618,7 @@ export const lineElectricDataFun = (data = []) => {
     {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
-        item.twoWheeledElectricCarNum.trim()
+        item.change.trim()
       ]),
       type: 'line',
       smooth: true,

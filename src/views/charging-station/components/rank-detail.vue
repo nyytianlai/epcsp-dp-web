@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="pile-dialog" destroy-on-close width="8.45rem">
+  <el-dialog class="pile-dialog" destroy-on-close align-center width="8.45rem">
     <template #header>
       <div class="detail-header">
         <icon icon="svg-icon:house" class="house" />
@@ -43,9 +43,19 @@
             </div>
           </div>
         </div>
-        <el-table :data="tableData" height="2.67rem" style="width: 100%" class="custom-dialog-table">
-          <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
-            :formatter="tableColumnFun">
+        <el-table
+          :data="tableData"
+          height="2.67rem"
+          style="width: 100%"
+          class="custom-dialog-table"
+        >
+          <el-table-column
+            v-for="(item, index) in columnData"
+            :key="index"
+            v-bind="item"
+            :show-overflow-tooltip="true"
+            :formatter="tableColumnFun"
+          >
             <template #default="scope"></template>
           </el-table-column>
           <el-table-column label="操作" key="operation" minWidth="1.5">
@@ -54,8 +64,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagiantion-detail" :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total"
-          :background="true" :current-page="pageObj.currentPage" @current-change="handPageChange" />
+        <el-pagination
+          class="pagiantion-detail"
+          :page-size="pageObj.pageSize"
+          layout="prev, pager, next"
+          :total="pageObj.total"
+          :background="true"
+          :current-page="pageObj.currentPage"
+          @current-change="handPageChange"
+        />
       </div>
     </div>
   </el-dialog>
@@ -192,14 +209,15 @@ defineExpose({
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
-  clip-path: polygon(0 0,
-      100% 0,
-      100% calc(100% - 20px),
-      calc(100% - 20px) 100%,
-      20px 100%,
-      0 calc(100% - 20px),
-      0 0);
-
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
+    20px 100%,
+    0 calc(100% - 20px),
+    0 0
+  );
 }
 
 .charge-container {
@@ -322,8 +340,8 @@ defineExpose({
 
 .custom-dialog-table {
   margin-top: 16px;
-  :deep(td.el-table__cell){
-    padding: 11px 0 ;
+  :deep(td.el-table__cell) {
+    padding: 11px 0;
   }
 }
 
@@ -335,6 +353,6 @@ defineExpose({
 .pagiantion-detail {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px!important;
+  margin-top: 10px !important;
 }
 </style>

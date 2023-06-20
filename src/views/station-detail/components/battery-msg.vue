@@ -13,9 +13,6 @@
         </div>
       </li>
     </ul>
-    <div class="ec-box">
-      <ec-resize :option="batterySOHOption" />
-    </div>
     <!-- <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
       :chartStyle="{ height: '1.8rem' }" :customOption="customOption" /> -->
   </div>
@@ -24,58 +21,63 @@
 import { ref, onMounted, watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
-import EcResize from '@sutpc/vue3-ec-resize';
-import { batterySOHOption } from '../config';
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
 const infoListFun = (data = {}) => {
   return [
     {
       icon: 'batteryCluster2',
-      name: '簇电流',
-      value: 924,
-      // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
-      unit: 'A'
+      name: '簇SOH',
+      value: 99,
+      // value: data?.power === 0 ? data.power : data.power || '--',
+      unit: '%'
+    },
+    {
+      icon: 'batteryCluster2',
+      name: '簇SOC',
+      value: 55,
+      // value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
+      unit: '%'
     },
     {
       icon: 'batteryCluster2',
       name: '绝缘电阻+',
-      value: 924,
+      value: 65535,
       // value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
       unit: 'kW/h'
     },
     {
       icon: 'batteryCluster2',
       name: '绝缘电阻-',
-      value: 924,
+      value: 65535,
       // value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
       unit: 'kW/h'
     },
     {
       icon: 'batteryCluster2',
-      name: '簇SOC',
-      value: 50,
-      // value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
-      unit: '%'
+      name: '簇实时功率',
+      value: 0,
+      // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
+      unit: 'kW'
     },
     {
       icon: 'batteryCluster2',
-      name: '簇SOH',
-      value: 50,
-      // value: data?.power === 0 ? data.power : data.power || '--',
-      unit: '%'
+      name: '簇电流',
+      value: 0,
+      // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
+      unit: 'A'
     },
     {
       icon: 'batteryCluster2',
       name: '簇累计充电量',
-      value: 924,
+      value: 20184,
       // value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
       unit: 'MWh'
     },
     {
       icon: 'batteryCluster2',
       name: '簇累计放电量',
-      value: 924,
+      value: 18826,
       // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       unit: 'MWh'
     }
@@ -156,9 +158,5 @@ onMounted(() => {});
       }
     }
   }
-}
-
-.ec-box {
-  height: 228px;
 }
 </style>

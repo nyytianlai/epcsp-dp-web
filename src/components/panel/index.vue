@@ -33,15 +33,22 @@ const panelShow = computed(() => {
 </script>
 <style lang="less" scoped>
 .mask-bgc {
+  // background: linear-gradient(
+  //   270deg,
+  //   rgba(0, 65, 129, 0) 0%,
+  //   rgba(0, 20, 40, 0.81) 36.31%,
+  //   #00101f 95.21%
+  // );
   background: linear-gradient(
     270deg,
-    rgba(0, 65, 129, 0) 0%,
-    rgba(0, 20, 40, 0.81) 36.31%,
-    #00101f 95.21%
+    rgba(0, 18, 38, 0) 0%,
+    rgba(0, 18, 38, 0.7) 19.47%,
+    // red 19.47%,
+    #001226 78.12%
   );
-  opacity: 0.8;
+  opacity: 0.9;
   border-radius: 4px;
-  width: 739px;
+  width: 470px;
   height: 1080px;
   position: absolute;
   top: 0;
@@ -53,10 +60,11 @@ const panelShow = computed(() => {
   &.right {
     right: 0;
     background: linear-gradient(
-      270deg,
-      #00101f 0%,
-      rgba(0, 20, 40, 0.81) 59.5%,
-      rgba(0, 65, 129, 0) 95.21%
+      90deg,
+      rgba(0, 18, 38, 0) 0%,
+      rgba(0, 18, 38, 0.7) 19.47%,
+      // red 19.47%,
+      #001226 78.12%
     );
   }
 }

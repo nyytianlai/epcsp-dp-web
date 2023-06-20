@@ -33,6 +33,7 @@ import { getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
+import { lianhuajingguiData } from '@/views/station-detail/config.js';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
@@ -483,7 +484,19 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-3') {
     //红荔西5G示范站
     isShow
-      ? __g.camera.set(502294.813438, 2494164.55125, 22.133049, -10.760314, -68.628166, 3)
+      ? __g.camera.set(
+          502289.292344,
+          2494191.124687,
+          29.467019,
+          -28.290888,
+          -26.48897,
+          3,
+          function () {
+            setTimeout(() => {
+              bus.emit('focusToMachineRoom');
+            }, 3500);
+          }
+        )
       : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
@@ -495,7 +508,14 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-2') {
     //莲花村
     isShow
-      ? __g.camera.set(506448.920313, 2494945.10875, 63.958003, -43.560474, -148.538742, 3)
+      ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3, function () {
+          const data = lianhuajingguiData.find((item) => item.id === 'singleCrystalSilicon17');
+          if (data) {
+            setTimeout(() => {
+              bus.emit('focusToPile', data);
+            }, 3500);
+          }
+        })
       : '';
   } else if (stationId === '-1') {
     //宝清储能站

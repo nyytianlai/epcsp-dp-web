@@ -41,9 +41,9 @@ const stateFormate = (state) => {
     }
   }[state];
 };
-const handleClickDJ = (e: { id: string; status: number; value: string }) => {
+const handleClickDJ = (e: { id: string; status: number; value: string; text: string }) => {
   console.log('点击右侧的单晶板', e);
-  bus.emit('focusToPile', e.id);
+  bus.emit('focusToPile', e);
 };
 onBeforeUnmount(() => {});
 </script>
