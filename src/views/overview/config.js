@@ -96,7 +96,7 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
     {
       img: sszs,
       num: 3488,
-      unit: '/万个',
+      unit: '/个',
       name: '设施总数',
       classStyleType: 'leftRightStyleGreen'
     },

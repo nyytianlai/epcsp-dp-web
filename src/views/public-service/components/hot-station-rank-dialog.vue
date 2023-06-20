@@ -118,7 +118,7 @@ const loadStationRankingDetail = async () => {
     pageNum: pageObj.currentPage,
     pageSize: pageObj.pageSize,
     sortField: sort.value,
-    sort: sortType.value,
+    sortBy: sortType.value,
     timeType: props.timeType,
     searchContent: inputHot.value
   });

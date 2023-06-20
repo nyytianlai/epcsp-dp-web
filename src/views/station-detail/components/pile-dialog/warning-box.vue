@@ -15,6 +15,9 @@
           </span>
         </div>
       </div>
+      <div class="warn-btn" @click="handleBasic(pileParams)">
+        查看基本信息
+      </div>
     </template>
     <warning-pile />
 
@@ -26,7 +29,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 import WarningPile from './warning-pile.vue';
 import { reactive,ref,toRefs,watch,provide } from 'vue'
 import { selectEquipmentWarningInfoByEquipmentId } from './api.js'
-const emit = defineEmits(['update:visible', 'closed']);
+const emit = defineEmits(['update:visible', 'closed','click-detail']);
 const headerData = ref({})
 const pileData = ref({})
 const props = defineProps({
@@ -100,6 +103,11 @@ const getEquipmentInfoByEquipmentIdData = async () => {
     isShow.value = true
   }
 
+}
+
+// 点击查看基本信息
+const handleBasic = (data)=>{
+  emit('click-detail',data)
 }
 watch(() => visible.value, (newVal) => {
   console.log('newValnewVal', newVal)

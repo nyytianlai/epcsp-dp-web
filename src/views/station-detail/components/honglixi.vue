@@ -44,7 +44,7 @@
     </div>
     <div class="realtime">
       <title-column title="实时充放情况" icon="car" />
-      <EcResize :option="popRealtimeOption" class="chart" :style="{ height: '2.3rem' }" />
+      <EcResize :option="popRealtimeOption()" class="chart" :style="{ height: '2.3rem' }" />
 
     </div>
   </panel>
