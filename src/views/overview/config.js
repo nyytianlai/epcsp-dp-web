@@ -937,7 +937,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       showSymbol: false,
       name: '光伏'
     },
-        {
+    {
       data: list.map((item) => [
         dayjs(item.date).format('MM-DD').toString(),
         item.twoWheeledElectricCarNum.trim()
@@ -956,7 +956,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       smooth: true,
       showSymbol: false,
       name: '换电'
-    },
+    }
     // {
     //   data: list.map((item) => [
     //     dayjs(item.date).format('MM-DD').toString(),
@@ -1567,8 +1567,7 @@ export const lineElectricDataFun = (data = []) => {
       smooth: true,
       showSymbol: false,
       name: '换电'
-    },
-
+    }
   ];
 };
 

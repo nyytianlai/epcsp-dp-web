@@ -7,15 +7,15 @@
     <div class="device-info">
       <ul class="device-left">
         <li class="list-item" v-for="(item, index) in listDataLeft" :key="index">
-        <label for="">{{ item.label }}</label>
-        <span class="value">{{ item.value }}</span>
-      </li>
+          <label for="">{{ item.label }}</label>
+          <span class="value">{{ item.value }}</span>
+        </li>
       </ul>
       <ul class="device-right">
         <li class="list-item" v-for="(item, index) in listDataRight" :key="index">
-        <label for="">{{ item.label }}</label>
-        <span class="value">{{ item.value }}</span>
-      </li>
+          <label for="">{{ item.label }}</label>
+          <span class="value">{{ item.value }}</span>
+        </li>
       </ul>
     </div>
 
@@ -36,6 +36,7 @@
       width="10.45rem"
       title="Inner Dialog"
       append-to-body
+      align-center
     >
       <template #header>
         <div class="my-header">
@@ -68,7 +69,7 @@
   </div>
 </template>
 <script setup>
-import { ref, inject,watch } from 'vue';
+import { ref, inject, watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 const emit = defineEmits(['close']);
 const pileData = inject('pileData');
@@ -119,13 +120,11 @@ const listDataLeftFun = (data = {}) => {
     {
       label: '确认结果：',
       value: affirms[data?.affirm] || '--'
-    },
-
+    }
   ];
 };
 const listDataRightFun = (data = {}) => {
   return [
-
     {
       label: '设备类型：',
       value: equipmentTypes[data?.equipmentType] || '--'
@@ -176,12 +175,17 @@ const handleClick = (item) => {
     innerVisible.value = false;
   }
 };
-watch(()=>pileData.value,(newVal)=>{
-  listDataLeft.value = listDataLeftFun(newVal)
-  listDataRight.value = listDataLeftFun(newVal)
-},{
-  deep:true,immediate:true
-})
+watch(
+  () => pileData.value,
+  (newVal) => {
+    listDataLeft.value = listDataLeftFun(newVal);
+    listDataRight.value = listDataLeftFun(newVal);
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
 </script>
 <style lang="less" scoped>
 .warning-pile {
