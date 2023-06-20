@@ -32,6 +32,7 @@ router.beforeEach(async (to, from, next) => {
     store.changeStationType([]);
     store.changeButtomTabCode(1);
     store.changeCurrentJdCode('');
+    store.changeSzOrSs('sz');
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' });

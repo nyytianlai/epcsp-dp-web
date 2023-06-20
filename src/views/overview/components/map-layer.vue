@@ -12,8 +12,9 @@
   <legend-list
     :legendList="legendListData"
     :legendName="legendNameData"
-    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
+    v-show="currentHrStationID == ''"
   />
+  <!-- v-show="currentPosition == '深圳市' || currentPosition.includes('区')" -->
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
@@ -29,8 +30,8 @@ import bus from '@/utils/bus';
 
 const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
-const currentPosition = computed(() => store.currentPosition);
-store.changeStationType([1, 2, 3, 4]);
+// const currentPosition = computed(() => store.currentPosition);
+const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
 const aircityObj = inject('aircityObj');
 const { useEmitt } = aircityObj.value;
