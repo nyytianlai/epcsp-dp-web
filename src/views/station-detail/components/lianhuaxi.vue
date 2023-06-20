@@ -46,7 +46,7 @@
       <lianhuajinggui :data="lianhuajingguiData" />
     </div>
     <div class="today-power-info">
-      <title-column title="今日功率信息" />
+      <title-column title="今日电量信息" />
       <div class="num-wrap">
         <template v-for="(item, index) in state.lianhuaPower" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />

@@ -16,14 +16,14 @@ export const lianhuaPowerFun = (data = {}) => {
   return [
     {
       img: rate,
-      num: 1601,
+      num: 72.34,
       name: '上网电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: num,
-      num: 855,
+      num: 148.64,
       name: '发电电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleYellow'
@@ -384,7 +384,7 @@ export const deviceInfoFun = (data = {}) => {
     {
       img: InstalledCapacity,
       num: 19.44,
-      unit: '/kW',
+      unit: '/kWp',
       name: '站点装机容量'
     },
     {
@@ -1230,7 +1230,7 @@ export const stationWarnFun = (data = []) => {
   };
   return obj;
 };
-const xAxisTodayFun = () => {
+export const xAxisTodayFun = () => {
   let xAxis = [];
   for (let i = 0; i < 24; i++) {
     xAxis.push(
