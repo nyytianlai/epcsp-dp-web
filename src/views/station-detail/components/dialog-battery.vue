@@ -10,7 +10,7 @@
     </el-tabs>
 
     <div class="ec-box">
-      <ec-resize :option="batterySOHOption" />
+      <ec-resize :option="batterySOHOption()" />
     </div>
   </div>
 </template>

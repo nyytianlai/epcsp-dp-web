@@ -451,7 +451,7 @@ useEmitt &&
             e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
-          const mode = e.ObjectID.split('-');
+          const mode = e.ObjectID.split('_');
           if (mode.length) {
             tileLayerDialogMode.value = mode[0];
             state.headerData = headerDataMsg[mode[0]];
