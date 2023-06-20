@@ -1,6 +1,6 @@
 <template>
   <div class="chargings-replacement-cabinet">
-    <page-num :data="pageNumData" />
+    <!-- <page-num :data="pageNumData" /> -->
     <!-- 左侧 -->
     <panel>
       <div class="chargings-replacement-cabinet-overview">

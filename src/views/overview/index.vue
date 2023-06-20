@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <page-num :data="state.pageNumData" />
+    <!-- <page-num :data="state.pageNumData" /> -->
     <panel>
       <div class="left-container">
         <div class="box">

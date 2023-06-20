@@ -1,6 +1,6 @@
 <template>
   <div class="photovoltaic-station">
-    <page-num :data="pageNumData" />
+    <!-- <page-num :data="pageNumData" /> -->
     <!-- 左侧 -->
     <panel>
       <div class="photovoltaic-station-overview">
