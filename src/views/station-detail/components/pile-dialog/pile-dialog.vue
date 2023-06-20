@@ -38,7 +38,7 @@
     <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData.cameraUrl" />
   </el-dialog>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { toRefs, ref, computed, onMounted, watch, provide } from 'vue';
 import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
@@ -60,7 +60,7 @@ const props = defineProps({
     type: Object
   }
 });
-const { visible, title, type, pileVideoData, pileParams } = toRefs(props);
+const { visible, type, pileVideoData, pileParams } = toRefs(props);
 const emit = defineEmits(['update:visible', 'closed']);
 const headerData = ref({});
 const pileData = ref({});
@@ -143,14 +143,15 @@ const getEquipmentInfoByEquipmentIdData = async () => {
 watch(
   () => visible.value,
   (newVal) => {
-    console.log('newValnewVal', newVal);
-    isShow.value = false;
     if (newVal) {
       console.log('monitor', type.value);
       if (type.value !== 'monitor') {
         getEquipmentInfoByEquipmentIdData();
       } else {
+        console.log('pileVideoData', pileVideoData);
         if (!pileVideoData.value) return;
+
+        isShow.value = true;
         headerData.value = {
           name: pileVideoData.value?.location,
           status: videoStatus[pileVideoData.value?.status]?.statusName,

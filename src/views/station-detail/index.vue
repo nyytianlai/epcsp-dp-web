@@ -434,6 +434,7 @@ const backSz = () => {
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.eventtype === 'LeftMouseButtonClick') {
+      console.log(e);
       await __g.tileLayer.stopHighlightAllActors();
       if (e.Type === 'TileLayer') {
         if (
@@ -443,7 +444,6 @@ useEmitt &&
             e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
-          console.log(e);
           const mode = e.ObjectID.split('-');
           if (mode.length) {
             tileLayerDialogMode.value = mode[0];
