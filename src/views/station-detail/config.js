@@ -1349,14 +1349,15 @@ export const stationWarnOption = {
 };
 export const batterySOHOption = () => {
   let xAxis = [];
-  let todaySeriesData = [];
+  let todaySeriesData = []
   const hours = dayjs().hour();
   const minutes = dayjs().minute();
+
   for (let i = 0; i < baoqingDevice.length; i++) {
     xAxis.push(baoqingDevice[i].time);
     const date = baoqingDevice[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
-    if (date[0] <= hours && date[1] <= minutes) {
+    if(hours >= Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       todaySeriesData.push(baoqingDevice[i].voltage);
     }
     // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
@@ -1407,9 +1408,9 @@ export const batterySOHOption = () => {
       type: 'category',
       data: xAxis,
       boundaryGap: false,
-      minInterval: 300,
-      maxInterval: 300,
-      interval: 300,
+      minInterval: 0,
+      maxInterval: 1000,
+      interval: 60,
       axisLine: {
         lineStyle: {
           color: '#BAE7FF'
