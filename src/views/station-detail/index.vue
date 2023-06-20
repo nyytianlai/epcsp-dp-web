@@ -214,7 +214,7 @@ const headerDataMsg = {
     status: '正常',
     code: '1466444643AD64612'
   },
-  batteryCluster: {
+  batteryCluste: {
     icon: 'batteryCluster',
     name: '#1电池簇',
     status: '开路',
@@ -447,11 +447,11 @@ useEmitt &&
         if (
           e.ObjectID &&
           (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
-            e.ObjectID?.indexOf('batteryCluster') !== -1 ||
+            e.ObjectID?.indexOf('batteryCluste') !== -1 ||
             e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
-          const mode = e.ObjectID.split('_');
+          const mode = e.ObjectID.split('-');
           if (mode.length) {
             tileLayerDialogMode.value = mode[0];
             state.headerData = headerDataMsg[mode[0]];
@@ -514,16 +514,16 @@ useEmitt &&
 const focusToPile = async (eid, status, item = {}) => {
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  if(item.isAlarm === 1){
-  // 正常
+  if (item.isAlarm === 1) {
+    // 正常
 
-  pileParams.value = {
-    eid: eid
-  };
-  pileType.value = 'pile';
-  pileVisible.value = true;
-  handleClickFocus(__g, layerId, eid, status);
-  }else {
+    pileParams.value = {
+      eid: eid
+    };
+    pileType.value = 'pile';
+    pileVisible.value = true;
+    handleClickFocus(__g, layerId, eid, status);
+  } else {
     // 告警
     pileParams.value = {
       eid: item.eid,
@@ -593,21 +593,19 @@ const handleTabBtn = (data) => {
 };
 
 // 从详情跳转到告警
-const handleWarn = (data,pileParamsC) => {
-  console.log('handleWarn', data,pileParamsC);
+const handleWarn = (data, pileParamsC) => {
+  console.log('handleWarn', data, pileParamsC);
   pileVisible.value = false;
-  if(pileParamsC.warnId){
-
+  if (pileParamsC.warnId) {
     pileParams.value = {
       eid: pileParamsC.eid,
       warnId: pileParamsC.warnId
     };
-  }else {
+  } else {
     pileParams.value = {
       eid: data.eid,
       warnId: data.alarmId
     };
-
   }
   warnVisible.value = true;
 };
@@ -615,7 +613,7 @@ const handleWarn = (data,pileParamsC) => {
 const handleDetail = (data) => {
   console.log('handleDetail', data);
   // 关闭警告框
-  warnVisible.value = false
+  warnVisible.value = false;
   //打开详情框
   pileParams.value = {
     eid: data.eid,
