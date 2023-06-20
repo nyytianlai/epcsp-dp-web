@@ -337,8 +337,8 @@ onMounted(() => {
     // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
- setInterval(()=>{
-  timer2 = getTimePowerGraph();
+  timer2 = setInterval(()=>{
+   getTimePowerGraph();
   },5000)
 });
 onUnmounted(() => {
