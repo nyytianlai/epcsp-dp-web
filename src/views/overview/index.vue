@@ -70,7 +70,7 @@
     <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
     <panel type="right">
       <div class="box station">
-        <title-column title="充储放设施数量统计" />
+        <title-column title="充储设施历年规模统计" />
         <tabs :data="stationTabType" @changeTab="handleStation" />
         <div class="ec-box">
           <ec-resize :option="ecOption" />
@@ -128,7 +128,7 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import { selectHrStationInfoForOverview, chargingStation } from './api.js';
+import { selectHrStationInfoForOverview, chargingStation,totalStatistics,yearChargingStation } from './api.js';
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const co2Color = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
@@ -144,8 +144,9 @@ const state = reactive({
   changeElectric: []
 });
 // 左一柱状图
+const chongdianzhan = ref(0)
 const ecOption = ref(
-  ecOptionFun([2001, 2811, 4011, 5910, 7302], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+  ecOptionFun([2001, 2811, 4011, 5910, chongdianzhan.value], ['2019年', '2020年', '2021年', '2022年', '2023年'])
 );
 // 左二折线图
 const lineCarbonData = ref(lineCarbonDataFun());
@@ -191,44 +192,41 @@ const handleStation = (item) => {
   switch (item.code) {
     case 1:
       ecOption.value = ecOptionFun(
-        [2001, 2811, 4011, 5910, 7302],
-        ['2019年', '2020年', '2021年', '2022年', '2023年']
+        chongdianzhan.value,
+        [ '2020年', '2021年', '2022年', '2023年']
       );
       break;
-    case 2:
+      case 3:
       ecOption.value = ecOptionFun(
-        [1, 5, 7, 10, 16],
-        ['2019年', '2020年', '2021年', '2022年', '2023年']
-      );
-      break;
-    case 3:
-      ecOption.value = ecOptionFun(
-        [128, 378, 553, 824, 1190],
-        ['2019年', '2020年', '2021年', '2022年', '2023年']
-      );
-      break;
-    case 4:
-      ecOption.value = ecOptionFun(
-        [932, 1823, 2734, 3289, 3488],
-        ['2019年', '2020年', '2021年', '2022年', '2023年']
-      );
-      break;
-    case 5:
-      ecOption.value = ecOptionFun(
-        [4, 23, 31, 39, 42],
-        ['2019年', '2020年', '2021年', '2022年', '2023年']
+        [19, 22, 29, 35],
+        ['2020年', '2021年', '2022年', '2023年'],3
       );
       break;
   }
 };
+// 获取历年
+const loadYearChargingStation = async()=>{
+  const res = await yearChargingStation()
+  console.log('yearChargingStation',res.data)
+  chongdianzhan.value =  res.data
+  console.log('chongdianzhan.value',chongdianzhan.value)
+  ecOption.value =  ecOptionFun(chongdianzhan.value, [ '2020年', '2021年', '2022年', '2023年'])
+}
+// 获取电动自行车
+const loadTotalStatistics = async()=>{
+  const res = await totalStatistics()
+  state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun(res.data);
+}
 onMounted(async () => {
   state.pageNumData = pageNumFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
-  state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun();
+ 
   state.changeElectric = changeElectricFun();
-  await loadSelectHrStationInfoForOverview();
-  await loadChargingStation();
+  loadSelectHrStationInfoForOverview();
+   loadChargingStation();
+   loadTotalStatistics();
+  loadYearChargingStation();
 });
 </script>
 

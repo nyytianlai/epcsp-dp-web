@@ -32,3 +32,15 @@ export const getStreetPoint = (data) => {
     data
   });
 };
+//电动自行车
+export const totalStatistics = () => {
+  return request.post({
+    url: '/chargingCabinet/totalStatistics',
+  });
+};
+// 历年数据
+export const yearChargingStation = () => {
+  return request.post({
+    url: '/overviews/all/yearChargingStation',
+  });
+};

@@ -95,14 +95,14 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
       img: sszs,
-      num: 3470,
+      num: data?.total,
       unit: '/个',
       name: '设施总数',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: ncd,
-      num: 1.25,
+      num: data?.yearChargingCapacity,
       unit: '/亿KWh',
       name: '年充电量',
       classStyleType: 'leftRightStyleYellow5858'
@@ -212,7 +212,7 @@ export const stationTabType = [
   // }
 ];
 
-export const ecOptionFun = (data = [], xaxis = []) => {
+export const ecOptionFun = (data = [], xaxis = [],code=1) => {
   xaxis = xaxis.map((i) => {
     return { value: i, textStyle: { overflow: 'break', width: 100 } };
   });
@@ -247,7 +247,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: '{b}：{c}个'
+      formatter: `{b}：{c}${code ===1?'个':'万千瓦'}`
       // formatter:(params)=>{
       //   return params[0].value + '个'
       // }
@@ -278,7 +278,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
     },
     yAxis: {
       type: 'value',
-      name: '单位/个',
+      name: `单位/${code ===1?'个':'万千瓦'}`,
       nameTextStyle: {
         color: '#B4C0CC'
       },
@@ -309,7 +309,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       {
         data: data,
         type: 'bar',
-        name: '数量',
+        name: `${code ===1?'数量':'规模'}`,
         barWidth: 16,
         label: {
           show: true,

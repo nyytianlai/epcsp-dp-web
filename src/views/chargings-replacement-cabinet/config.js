@@ -267,7 +267,7 @@ export const linePowerDataFun = (data = []) => {
   dataC.splice(index+1)
   return [
     {
-      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '昨日换电次数'
