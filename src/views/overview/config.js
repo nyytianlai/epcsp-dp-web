@@ -194,22 +194,22 @@ export const stationTabType = [
     code: 1,
     label: '充电站'
   },
-  {
-    code: 2,
-    label: '储能站'
-  },
+  // {
+  //   code: 2,
+  //   label: '储能站'
+  // },
   {
     code: 3,
     label: '光伏站'
-  },
-  {
-    code: 4,
-    label: '充换电柜'
-  },
-  {
-    code: 5,
-    label: '换电站'
   }
+  // {
+  //   code: 4,
+  //   label: '充换电柜'
+  // },
+  // {
+  //   code: 5,
+  //   label: '换电站'
+  // }
 ];
 
 export const ecOptionFun = (data = [], xaxis = []) => {

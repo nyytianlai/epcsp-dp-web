@@ -25,16 +25,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount, inject, watch, computed, reactive } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { useMapStore } from '@/stores/map';
-import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import { lianhuajingguiData } from '../config.js';
 
-const screenPosition = ref(['20%', '50%']);
-const store = useVisibleComponentStore();
-const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt = aircityObj.value?.useEmitt;
@@ -47,16 +41,8 @@ const state = reactive({
 let timer = null;
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
-    //正常桩
-    if (e.PropertyName === '-2Station' && e.ObjectID?.includes('singleCrystalSilicon')) {
-      console.log('点击单晶板', e);
-      __g.tileLayer.stopHighlightAllActors();
-      let ids = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-      // __g.settings.highlightColor(Color.Yellow);
-      __g.settings.highlightColor('#FF6B4B');
-      __g.tileLayer.highlightActor(ids, e.ObjectID);
-      let screenCoord = await __g.coord.world2Screen(...e.MouseClickPoint);
-      // console.log('screenCoord', screenCoord);
+    if (e.ObjectID === 'SM_BDF_002_16') {
+      console.log('机房', e);
       const data = lianhuajingguiData.find((item) => item.id === e.ObjectID);
       if (data) {
         state.currentPower.value = data.value;
@@ -68,22 +54,17 @@ useEmitt &&
           state.currentPower.value = (data.value + data.value * random).toFixed(2);
         }, 3000);
       }
-      screenPosition.value = screenCoord.screenPosition;
       showPop.value = true;
     } else if (
       e.eventtype === 'LeftMouseButtonClick' &&
-      e.PropertyName !== '-2Station' &&
-      !e.ObjectID?.includes('singleCrystalSilicon')
+      e.PropertyName !== '-3Station' &&
+      e.ObjectID !== '-SM_BDF_002_16'
     ) {
       showPop.value = false;
     }
   });
-// 定位到单晶版
-const focusToPile = (data) => {
-  __g.tileLayer.stopHighlightAllActors();
-  let layerId = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-  __g.settings.highlightColor('#FF6B4B');
-  __g.tileLayer.highlightActor(layerId, data.id);
+// 定位到机房
+const focusToMachineRoom = (data) => {
   state.currentPower.value = data.value;
   showPop.value = true;
   if (timer) {
@@ -99,10 +80,14 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
   showPop.value = false;
 };
-onMounted(async () => {});
+onMounted(async () => {
+  bus.on('focusToMachineRoom', (e) => {
+    focusToMachineRoom({ value: 3 });
+  });
+});
 
 onBeforeUnmount(() => {
-  bus.off('focusToPile');
+  bus.off('focusToMachineRoom');
   if (timer) {
     clearInterval(timer);
   }
@@ -145,7 +130,7 @@ onBeforeUnmount(() => {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   position: absolute;
-  top: 350px;
+  top: 525px;
   left: 650px;
   z-index: 99;
 

@@ -668,18 +668,21 @@ export const facilitiesLabel = (stationId) => {
       {
         value: '机房',
         id: 'machineRoom-1',
+        type: 'hongli',
         position: [502305.79375, 2494200.64, 13.65986083984375],
         img: 'machineRoom'
       },
       {
         value: '微波',
-        id: '微波',
+        id: 'micro-wave',
+        type: 'hongli',
         position: [502312.6265625, 2494191.36, 20.13559326171875],
         img: 'microwave'
       },
       {
         value: '5G天线',
-        id: '5G天线',
+        id: '5G-antenna',
+        type: 'hongli',
         position: [502312.4453125, 2494190.88, 23.995588378906252],
         img: '5GAntenna'
       }
@@ -1376,11 +1379,11 @@ export const batterySOHOption = {
     }
   },
   legend: {
-    data: ['簇SOH'],
+    data: ['电池簇功率'],
     textStyle: {
       color: '#fff'
     },
-    x: '75%'
+    x: 'right'
   },
   xAxis: {
     type: 'category',
@@ -1410,7 +1413,7 @@ export const batterySOHOption = {
     }
   },
   yAxis: {
-    name: '单位：%',
+    name: '单位：kW',
     axisLine: {
       show: false
     },
@@ -1438,8 +1441,7 @@ export const batterySOHOption = {
       data: realtimeSeriesDataFun(20, 60),
       type: 'line',
       smooth: true,
-      name: '簇SOH',
-
+      name: '电池簇功率',
       areaStyle: {
         origin: 'start',
         color: {

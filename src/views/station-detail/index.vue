@@ -229,6 +229,7 @@ const headerDataMsg = {
   photovoltaicPanels: {}
 };
 
+let markerId = '';
 // 是否展示告警
 const warnVisible = ref(false);
 // 左二图的tab
@@ -462,14 +463,27 @@ useEmitt &&
       if (e.Type === 'marker') {
         //设施点
         if (e.Id?.includes('facilitiesLabel')) {
-          __g?.marker?.focus(e.Id, 20, 2);
+          await __g?.marker?.focus(e.Id, 20, 2);
+          return;
         }
-        // 自定义视角marker
         if (e.UserData) {
           const userData = JSON.parse(e.UserData);
+          console.log(userData);
+          // 自定义视角marker
           if (userData.type === 'customAngleMarker') {
             await __g.camera.set(userData.camera);
           }
+          // 是否是红荔西机房marker
+          if (userData.type === 'hongli') {
+            await __g?.marker?.focus(e.Id, 5, 2);
+          }
+          if (e.Id && e.Id?.indexOf('machineRoom') !== -1) {
+            bus.emit('focusToMachineRoom');
+
+            // setTimeout(() => {
+            // }, 2000);
+          }
+          return;
         }
 
         //摄像头
@@ -479,6 +493,7 @@ useEmitt &&
           const data = JSON.parse(e.UserData);
           pileVideoData.value = data;
           pileVisible.value = true;
+          return;
         }
       }
       //告警桩
@@ -486,6 +501,7 @@ useEmitt &&
         const eid = e.UserData;
         if (!chargingStateDataObj.value[eid]) return;
         focusToPile(eid, 255);
+        return;
       }
       //正常桩
       if (e.PropertyName === '118Station') {
