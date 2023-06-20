@@ -339,17 +339,7 @@ export const todayInfoNumDataFun = (data = {}) => {
   ];
 };
 
-export const powerInfoNumDataFun = (data = {}) => {
-  return [
-    {
-      img: ssgl,
-      num: data?.realTimePower,
-      digits: 2,
-      name: '实时功率/kW',
-      classStyleType: 'leftRightStyleYellow'
-    }
-  ];
-};
+
 // const timeData = ()=>(new Array(25).fill(0)).map((item,index)=>[dayjs().hour(index).format('YYYY-MM-DD HH:00'),Math.ceil(Math.random() * 100)])
 export const lineTimeDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');

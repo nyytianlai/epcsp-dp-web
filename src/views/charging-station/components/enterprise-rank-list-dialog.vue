@@ -103,7 +103,7 @@ const loadOperatorInfoList = async () => {
     pageNum: pageObj.currentPage,
     pageSize: pageObj.pageSize,
     sortField: sortRank.value,
-    sort: sortTypeRank.value
+    sortBy: sortTypeRank.value
   };
   const res = await operatorInfoList(obj);
   rankTableData.value = res.data.list;

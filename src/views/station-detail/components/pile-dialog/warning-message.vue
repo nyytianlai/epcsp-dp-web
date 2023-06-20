@@ -37,7 +37,7 @@
     </div>
 </template>
 <script setup>
-import { ref,reactive,inject,onMounted } from 'vue';
+import { ref,reactive,inject,onMounted,watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 import { selectEquipmentAlarmByPage } from './api.js'
 const pileData = inject('pileData');
@@ -78,7 +78,15 @@ const getEquipmentAlarmByPage = async () => {
   }
 }
 onMounted(() => {
-  getEquipmentAlarmByPage()
+  
+})
+watch(()=>pileData.value.equipmentId,async(newVal)=>{
+
+  await getEquipmentAlarmByPage()
+  
+  
+},{
+  immediate:true
 })
 </script>
 <style lang="less" scoped>

@@ -5,6 +5,8 @@ import zxzl from './images/zxzl.png';
 import edzgl from './images/edzgl.png';
 import sszgl from './images/sszgl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -259,15 +261,19 @@ export const linePowerDataFun = (data = []) => {
     }
   ];
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
+  const index = data.findIndex(i=>i.time === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
       name: '昨日换电次数'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
       name: '今日换电次数'

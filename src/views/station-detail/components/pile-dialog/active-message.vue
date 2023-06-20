@@ -36,7 +36,6 @@ import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
 const pileData = inject('pileData');
-console.log('pileData',pileData.value)
 const customOption = {
   grid: {
     left: '6%',
@@ -184,6 +183,7 @@ const getEquipmentDynamicInfo = async (index = 0) => {
   const params = getParams(tabList.value[index]);
   selectTabData.value = params;
   const res = await selectEquipmentDynamicInfo(params);
+  console.log('params',params)
   if (res?.data) {
     infoList.value = infoListFun(res?.data);
     dynamicActive.value = infoList.value[4];
@@ -209,12 +209,15 @@ const handleClickDynamic = (item) => {
   getEquipmentDynamicInfoGroupByTime();
 };
 onMounted(() => {
-  getEquipmentDynamicInfo();
+  
 });
-watch(()=>pileData.value,()=>{
+watch(()=>pileData.value.equipmentId,async(newVal)=>{
+  console.log('pileData.value',newVal)
   tabList.value = tabsFun()
+  await getEquipmentDynamicInfo();
+  
+  
 },{
-  deep:true,
   immediate:true
 })
 </script>

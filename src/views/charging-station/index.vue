@@ -63,11 +63,7 @@
     </div>
     <div class="today-power-info">
       <title-column title="今日充电实时功率信息" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in powerInfoNumData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
-      </div>
+      <charging-realtime-power :data="powerInfoNumData" />
       <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
@@ -93,6 +89,7 @@
   />
 </template>
 <script lang="ts" setup>
+import ChargingRealtimePower from './components/charging-realtime-power.vue';
 import { onMounted, onUnmounted, ref, inject } from 'vue';
 import {
   overTotalCount,
@@ -112,7 +109,6 @@ import {
   operatingTabsFun,
   todayTabsFun,
   todayInfoNumDataFun,
-  powerInfoNumDataFun,
   lineTimeDataFun,
   warningTabsDataFun,
   bottomTabDataFun,
@@ -162,7 +158,7 @@ const projectTotalNum = ref(0);
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
-const powerInfoNumData = ref(powerInfoNumDataFun());
+const powerInfoNumData = ref(0);
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
 const lineTimeColors = ['blue'];
@@ -256,7 +252,7 @@ const getDayEquInfo = async (type) => {
 //今日充电功率信息
 const getDayPower = async () => {
   const res = await dayPower();
-  powerInfoNumData.value = powerInfoNumDataFun(res.data);
+  powerInfoNumData.value = res.data;
 };
 //今日告警信息
 const getAlarmInfo = async (level) => {
@@ -294,7 +290,7 @@ const getTimePowerGraph = async () => {
       totalPower: data[data.length - 1].ratedPower,
       realTimePower: data[data.length - 1].realTimePower
     };
-    powerInfoNumData.value = powerInfoNumDataFun(info);
+    powerInfoNumData.value = info.realTimePower;
   }
 };
 
@@ -325,6 +321,7 @@ const handleTabBtn = (item) => {
 };
 
 let timer = null;
+let timer2 = null
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
@@ -340,13 +337,15 @@ onMounted(() => {
     // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
-  setInterval(()=>{
-    getTimePowerGraph();
+  timer2 = setInterval(()=>{
+   getTimePowerGraph();
   },5000)
 });
 onUnmounted(() => {
   clearInterval(timer);
   timer = null;
+  clearInterval(timer2);
+  timer2 = null;
 });
 </script>
 <style lang="less" scoped>
@@ -428,6 +427,9 @@ onUnmounted(() => {
 }
 .today-power-info {
   margin-top: 24px;
+  :deep(.charging-realtime-power) {
+    margin-top: 12px;
+  }
   .num-wrap {
     margin-top: 12px;
     display: flex;

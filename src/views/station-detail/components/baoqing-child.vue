@@ -12,13 +12,13 @@
     <div class="video-box">
       <video
         :src="curBtn === 0 ? get : put"
-        autoplay
-        muted
         loop
         class="video"
         ref="video"
         height="100%"
         width="100%"
+        muted
+        autoplay
       ></video>
     </div>
     <div class="btn-box">
@@ -83,15 +83,8 @@ const handleBack = () => {
   emits('back');
 };
 const hanldeTab = (item) => {
-  video.value.pause();
   curBtn.value = item.value;
 };
-onMounted(() => {
-  console.log('video', video);
-  video.value.addEventListener('click', () => {
-    video.value.play();
-  });
-});
 </script>
 <style lang="less" scoped>
 .baoqing-child {
