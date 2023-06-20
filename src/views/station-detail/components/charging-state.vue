@@ -123,11 +123,12 @@ const customFun = async (data) => {
           id: 'warning-top-' + data[index], //自定义对象唯一id
           pakFilePath: '@path:ZYK.pak', //资源库pak文件路径,推荐使用cloud内置的文件资源管理器加载pak并使用@path方式传入参数
           assetPath: '/JC_CustomAssets/ObjectLibrary/Exhibition/报警模型/BP_GJ_LR', //资源目录，自定义对象在pak文件资源包里的相对路径
-          location: [co_location[0], co_location[1], co_location[2] + 4], //位置坐标
+          location: [co_location[0], co_location[1], co_location[2] + 9], //位置坐标
           coordinateType: 0, // 坐标系类型
           rotation: [0, 0, 0], // 世界坐标系旋转
           localRotation: [0, 0, 0], //模型自身旋转
-          scale: [3, 3, 3], //模型缩放
+          // scale: [3, 3, 3], //模型缩放
+          scale: [10, 10,10], //模型缩放
           smoothMotion: 1 //1: 平滑移动，0: 跳跃移动
         };
         arr.push(top);
