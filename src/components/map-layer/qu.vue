@@ -481,7 +481,19 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-3') {
     //红荔西5G示范站
     isShow
-      ? __g.camera.set(502289.292344, 2494191.124687, 29.467019, -28.290888, -26.48897, 3)
+      ? __g.camera.set(
+          502289.292344,
+          2494191.124687,
+          29.467019,
+          -28.290888,
+          -26.48897,
+          3,
+          function () {
+            setTimeout(() => {
+              bus.emit('focusToMachineRoom');
+            }, 3500);
+          }
+        )
       : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站

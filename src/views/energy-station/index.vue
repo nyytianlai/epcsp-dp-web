@@ -30,8 +30,13 @@
           </template>
         </div>
         <tabs :data="todayLine" />
-        <line-time-chart-both :data="lineStateData" :colors="lineStateColor" unit="MW" mode="noneArea"
-          :chartStyle="{ height: '2.3rem' }" />
+        <line-time-chart-both
+          :data="lineStateData"
+          :colors="lineStateColor"
+          unit="MW"
+          mode="noneArea"
+          :chartStyle="{ height: '2.3rem' }"
+        />
       </div>
       <div class="social-benefit">
         <title-column title="社会效益信息" icon="energy-station" />
@@ -59,7 +64,7 @@ import {
   linePowerDataFun,
   socialBenefitFun
 } from './config.js';
-import { capacityRanking } from './api.js'
+import { capacityRanking } from './api.js';
 import MapLayer from './components/map-layer.vue';
 
 interface Aircity {
@@ -89,8 +94,7 @@ const lineStateData = ref(linePowerDataFun());
 // 社会效益信息
 const socialBenefit = ref(socialBenefitFun());
 // 站点装机容量排名
-const stationRank = ref([])
-
+const stationRank = ref([]);
 
 // 左二tab点击
 const handleRuning = (item) => {
@@ -103,7 +107,7 @@ const handleRank = (item) => {
   console.log('item', item);
   switch (item.code) {
     case 1:
-      companyRankData.value = stationRank.value
+      companyRankData.value = stationRank.value;
       break;
     case 2:
       companyRankData.value = [
@@ -143,24 +147,23 @@ const handleRank = (item) => {
   companyRankTotal.value = companyRankData.value[0].num;
 };
 
-
 // 获取站点排名
 const loadCapacityRanking = async () => {
-  const res = await capacityRanking()
-  console.log('loadCapacityRanking', res)
-  stationRank.value = res.data.map(i => {
+  const res = await capacityRanking();
+  console.log('loadCapacityRanking', res);
+  stationRank.value = res.data.map((i) => {
     return {
       num: i.doubleAmount,
       unit: 'MW',
       name: i.rankingName
-    }
-  })
-  companyRankData.value = stationRank.value
+    };
+  });
+  companyRankData.value = stationRank.value;
   companyRankTotal.value = companyRankData.value[0].num;
-}
+};
 onMounted(() => {
-  loadCapacityRanking()
-})
+  loadCapacityRanking();
+});
 </script>
 <style lang="less" scoped>
 .energy-station-overview {
@@ -176,9 +179,11 @@ onMounted(() => {
     :deep(.num-card) {
       width: 196px;
       padding: 14px 12px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -262,9 +267,11 @@ onMounted(() => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%);
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
