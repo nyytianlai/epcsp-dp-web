@@ -6,7 +6,7 @@
     </el-select>
     <Back name="宝清储能站" class="back-btn" @click="handleBack" />
     <div class="video-box">
-      <video :src="curBtn === 0?get:put" loop class="video" ref="video" height="100%" width="100%"></video>
+      <video :src="curBtn === 0?get:put" loop class="video" ref="video" height="100%" width="100%" autoplay></video>
     </div>
     <div class="btn-box">
       <div class="btn-item" v-for="(item, index) in btnList" @click="hanldeTab(item)">
@@ -74,16 +74,10 @@ const handleBack = () => {
   emits('back')
 }
 const hanldeTab = (item) => {
-  video.value.pause()
   curBtn.value = item.value
   
 }
-onMounted(() => {
-  console.log('video',video)
-  video.value.addEventListener('click',()=>{
-    video.value.play()
-  })
-})
+
 </script>
 <style lang="less" scoped>
 .baoqing-child {

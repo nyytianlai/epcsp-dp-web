@@ -72,12 +72,12 @@
         <title-column title="分类碳减排量" />
         <!-- <ec-resize :option="lineCarbonOption" /> -->
         <line-time-chart :data="lineCarbonData" :colors="co2Color" yaxisName="吨" mode="onlyLine" unit=""
-          :chartStyle="{ height: '2.3rem', width: '119%' }" :customOption="{legend:{ left:0}}"/>
+          :chartStyle="{ height: '2.3rem', width: '4.8rem' }" :customOption="{legend:{ left:0}}"/>
       </div>
       <div class="box ele">
         <title-column title="充储放电数据" />
         <line-time-chart :data="lineElectricData" :colors="ElectricColor" yaxisName="万kwh" mode="onlyLine" unit=""
-          :chartStyle="{ height: '2.3rem', width: '119%' }" />
+          :chartStyle="{ height: '2.3rem', width: '4.8rem' }" :customOption="{legend:{ left:0}}"/>
       </div>
     </panel>
     <div class="play-btn" @click="handlePlayVideo"></div>
@@ -276,7 +276,7 @@ onMounted(async () => {
 
   .ec-wrap {
     margin-top: 16px;
-    margin-left: -45px
+    margin-left: -60px
   }
 }
 
