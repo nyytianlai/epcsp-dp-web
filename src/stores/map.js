@@ -20,6 +20,7 @@ export const useMapStore = defineStore('map', () => {
   const buttomTabCode = ref(1);
   const treeInfo = ref([]);
   const requestTimer = ref(null);
+  const szOrSs = ref('sz');
 
   function changeCurrentPosition(data) {
     currentPosition.value = data;
@@ -52,6 +53,9 @@ export const useMapStore = defineStore('map', () => {
   function changeRequestTimer(data) {
     requestTimer.value = data;
   }
+  function changeSzOrSs(data) {
+    szOrSs.value = data;
+  }
   return {
     currentPosition,
     currentPositionBak,
@@ -63,6 +67,7 @@ export const useMapStore = defineStore('map', () => {
     treeInfo,
     currentJdCode,
     requestTimer,
+    szOrSs,
     changeCurrentPosition,
     changeCurrentPositionBak,
     changeCurrentHrStationId,
@@ -72,6 +77,7 @@ export const useMapStore = defineStore('map', () => {
     changeButtomTabCode,
     changeTreeInfo,
     changeCurrentJdCode,
-    changeRequestTimer
+    changeRequestTimer,
+    changeSzOrSs
   };
 });

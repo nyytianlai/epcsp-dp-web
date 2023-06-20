@@ -13,9 +13,9 @@
         </div>
       </li>
     </ul>
-    <div class="ec-box">
+    <!-- <div class="ec-box">
       <ec-resize :option="batteryTempOption" />
-    </div>
+    </div> -->
     <!-- <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
       :chartStyle="{ height: '1.8rem' }" :customOption="customOption" /> -->
   </div>
@@ -24,8 +24,8 @@
 import { ref, onMounted, watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
-import EcResize from '@sutpc/vue3-ec-resize';
-import { batteryTempOption } from '../config';
+// import EcResize from '@sutpc/vue3-ec-resize';
+// import { batteryTempOption } from '../config';
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
 const infoListFun = (data = {}) => {
@@ -53,67 +53,58 @@ const infoListFun = (data = {}) => {
     },
     {
       icon: 'batteryCluster2',
-      name: '簇最高电压序号',
-      value: 67,
-      // value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高电压',
-      value: 50,
-      // value: data?.power === 0 ? data.power : data.power || '--',
-      unit: 'V'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低电压序号',
-      value: 46,
-      // value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低电压',
-      value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: 'V'
-    },
-    {
-      icon: 'batteryCluster2',
       name: '簇平均温度',
       value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: '℃'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高温度序号',
-      value: 74,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高温度',
-      value: 66,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: '℃'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低温度序号',
-      value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: 'MWh'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低温度',
-      value: 28,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       unit: '℃'
     }
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高电压序号',
+    //   value: 67,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高电压',
+    //   value: 50,
+    //   unit: 'V'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低电压序号',
+    //   value: 46,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低电压',
+    //   value: 36,
+    //   unit: 'V'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高温度序号',
+    //   value: 74,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高温度',
+    //   value: 66,
+    //   unit: '℃'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低温度序号',
+    //   value: 36,
+    //   unit: 'MWh'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低温度',
+    //   value: 28,
+    //   unit: '℃'
+    // }
   ];
 };
 const infoList = ref(infoListFun());
@@ -135,10 +126,10 @@ onMounted(() => {});
 </script>
 <style lang="less" scoped>
 .active-message {
+  height: 172px;
   .info-content {
     display: flex;
     flex-wrap: wrap;
-
     .info-item {
       background: #375374;
       display: flex;

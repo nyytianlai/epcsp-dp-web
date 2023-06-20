@@ -66,10 +66,11 @@ const state = reactive({
 
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
+// const allStationID = []; //街道撒点的所有id
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  // console.log('事件监听', e);
+  console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -238,6 +239,7 @@ const setQuVisibility = async (value: boolean) => {
       await __g.marker.show(layerNameQuNameArr('rectBar' + buttomTabCode.value));
       await __g.marker.showAllPopupWindow();
     }
+    __g.marker.showByGroupId('quName');
   } else {
     if (props.module == 1 && buttomTabCode.value == 2) {
       __g.heatmap.hide('heatmap1');
@@ -246,6 +248,8 @@ const setQuVisibility = async (value: boolean) => {
     props.module !== 4
       ? await __g.marker.delete(layerNameQuNameArr('rectBar' + buttomTabCode.value))
       : await __g.marker.hide(layerNameQuNameArr('rectBar' + buttomTabCode.value));
+
+    __g.marker.hideByGroupId('quName');
   }
 };
 const deleteJdData = async () => {
@@ -292,6 +296,7 @@ const back = async () => {
   state.currentSelectStation = {
     stationId: ''
   };
+  await __g.cameraTour.pause();
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     await resetSz();
@@ -316,14 +321,10 @@ const back = async () => {
 //重置到街道
 const resetJd = async () => {
   __g.polygon.focus('jd-' + currentJd.value, 1500);
-  __g.marker.showByGroupId('jdStation');
+  await __g.marker.showByGroupId('jdStation');
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentJd.value);
   console.log('currentHrStationID.value', currentHrStationID.value);
-  // if (currentHrStationID.value !== '') {
-  //   __g.marker.focus(currentHrStationID.value, 200, 0.2);
-  // } else {
-  // }
 };
 //重置到区
 const resetQu = async () => {
@@ -374,6 +375,7 @@ const addJdStation = async (jdCode: string) => {
     item['xoffset'] = xoffset;
     item['stationType'] = 50;
     let o1 = returnStationPointConfig(item);
+    // allStationID.push('station-' + item.stationId);
     if (item.isHr == 0) {
       let o = {
         id: 'station-' + index + '-' + item.isHr,
@@ -393,6 +395,7 @@ const addJdStation = async (jdCode: string) => {
     pointArr.push(o1);
   });
   await __g.marker.add(pointArr, null);
+  // await __g.marker.focus(allStationID)
 };
 
 //安全监管模块撒点
@@ -481,7 +484,19 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-3') {
     //红荔西5G示范站
     isShow
-      ? __g.camera.set(502289.292344, 2494191.124687, 29.467019, -28.290888, -26.48897, 3)
+      ? __g.camera.set(
+          502289.292344,
+          2494191.124687,
+          29.467019,
+          -28.290888,
+          -26.48897,
+          3,
+          function () {
+            setTimeout(() => {
+              bus.emit('focusToMachineRoom');
+            }, 3500);
+          }
+        )
       : '';
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站

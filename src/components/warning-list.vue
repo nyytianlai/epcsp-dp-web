@@ -11,7 +11,7 @@
     <ul class="content" v-if="data && data.length">
       <li
         class="warning-info"
-        :class="{ 'click-item': item.isClick }"
+        :class="{ 'click-item': item.isClick,'grey':Number(item.isInvalid) }"
         v-for="(item, index) in data"
         :key="index"
         @click="handleClick(item)"
@@ -41,6 +41,7 @@ interface Idata {
   message: string;
   area: string;
   isClick?: boolean;
+  isInvalid?:number|string
 }
 interface Props {
   data: Idata[];
@@ -112,13 +113,17 @@ const handleClick = (item) => {
     .message {
       max-width: 140px;
       min-width: 140px;
-
       margin-right: 22px;
     }
     .area {
       max-width: 150px;
-      min-width: 150px;
+      min-width: 120px;
     }
   }
+}
+.grey {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: grayscale(100%);
 }
 </style>

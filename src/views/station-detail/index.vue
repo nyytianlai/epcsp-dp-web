@@ -229,6 +229,7 @@ const headerDataMsg = {
   photovoltaicPanels: {}
 };
 
+let markerId = '';
 // 是否展示告警
 const warnVisible = ref(false);
 // 左二图的tab
@@ -365,7 +366,7 @@ const getEquipmentCountByStationId = async () => {
   }
 };
 //设备详情/告警信息列表
-const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 99999, type) => {
+const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999, type) => {
   const res = await selectWarningInfoByStationId({
     ...params.value,
     alarmLevel,
@@ -462,14 +463,27 @@ useEmitt &&
       if (e.Type === 'marker') {
         //设施点
         if (e.Id?.includes('facilitiesLabel')) {
-          __g?.marker?.focus(e.Id, 20, 2);
+          await __g?.marker?.focus(e.Id, 20, 2);
+          return;
         }
-        // 自定义视角marker
         if (e.UserData) {
           const userData = JSON.parse(e.UserData);
+          console.log(userData);
+          // 自定义视角marker
           if (userData.type === 'customAngleMarker') {
             await __g.camera.set(userData.camera);
           }
+          // 是否是红荔西机房marker
+          if (userData.type === 'hongli') {
+            await __g?.marker?.focus(e.Id, 5, 2);
+          }
+          if (e.Id && e.Id?.indexOf('machineRoom') !== -1) {
+            bus.emit('focusToMachineRoom');
+
+            // setTimeout(() => {
+            // }, 2000);
+          }
+          return;
         }
 
         //摄像头
@@ -479,6 +493,7 @@ useEmitt &&
           const data = JSON.parse(e.UserData);
           pileVideoData.value = data;
           pileVisible.value = true;
+          return;
         }
       }
       //告警桩
@@ -486,6 +501,7 @@ useEmitt &&
         const eid = e.UserData;
         if (!chargingStateDataObj.value[eid]) return;
         focusToPile(eid, 255);
+        return;
       }
       //正常桩
       if (e.PropertyName === '118Station') {
@@ -498,7 +514,7 @@ useEmitt &&
 const focusToPile = async (eid, status, item = {}) => {
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  // if(item.isAlarm === 1){
+  if(item.isAlarm === 1){
   // 正常
 
   pileParams.value = {
@@ -507,15 +523,15 @@ const focusToPile = async (eid, status, item = {}) => {
   pileType.value = 'pile';
   pileVisible.value = true;
   handleClickFocus(__g, layerId, eid, status);
-  // }else {
-  //   // 告警
-  //   pileParams.value = {
-  //     eid: item.eid,
-  //     warnId: item.id
-  //   };
-  //   warnVisible.value = true;
-  //   handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
-  // }
+  }else {
+    // 告警
+    pileParams.value = {
+      eid: item.eid,
+      warnId: item.alarmId
+    };
+    warnVisible.value = true;
+    handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+  }
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -577,12 +593,36 @@ const handleTabBtn = (data) => {
 };
 
 // 从详情跳转到告警
-const handleWarn = (data) => {
-  console.log('handleWarn', data);
+const handleWarn = (data,pileParamsC) => {
+  console.log('handleWarn', data,pileParamsC);
+  pileVisible.value = false;
+  if(pileParamsC.warnId){
+
+    pileParams.value = {
+      eid: pileParamsC.eid,
+      warnId: pileParamsC.warnId
+    };
+  }else {
+    pileParams.value = {
+      eid: data.eid,
+      warnId: data.alarmId
+    };
+
+  }
+  warnVisible.value = true;
 };
 // 告警跳到详情
 const handleDetail = (data) => {
   console.log('handleDetail', data);
+  // 关闭警告框
+  warnVisible.value = false
+  //打开详情框
+  pileParams.value = {
+    eid: data.eid,
+    warnId: data.warnId
+  };
+  pileType.value = 'pile';
+  pileVisible.value = true;
 };
 watch(
   () => store.detailParams,
