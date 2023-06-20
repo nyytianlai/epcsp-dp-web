@@ -201,8 +201,9 @@ const addFacilitiesLabel = async (id) => {
 
     let xoffset = (getStrLength(item.value) * 12 + 30) / 2;
     let o1 = {
-      id: 'facilitiesLabel-' + item.id,
+      id: item.type && item.type === 'hongli' ? item.id : 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',
+      userData: JSON.stringify(item),
       coordinate: item.position, //坐标位置
       anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [48, 52], //图片的尺寸
