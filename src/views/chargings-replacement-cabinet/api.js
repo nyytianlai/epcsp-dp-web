@@ -25,7 +25,7 @@ export const totalStatistics = () => {
     url: '/chargingCabinet/totalStatistics',
   });
 };
-//充换电柜总量统计
+//
 export const typeAndNumber = () => {
   return request.post({
     url: '/chargingCabinet/typeAndNumber',

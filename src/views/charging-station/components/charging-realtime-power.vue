@@ -10,24 +10,39 @@
   <div class="charging-realtime-power">
     <icon icon="svg-icon:power" />
     <div class="num-info">
-      <span class="num">
-        {{ formatWithToLocalString(data) }}
-      </span>
+      <div class="num" id="number" :class="{'animate__flipInX':isAnimation}">
+        {{ data.num }}
+      </div>
       <span class="unit-info">实时功率/kW</span>
     </div>
   </div>
 </template>
 <script setup>
-import { toRefs, onMounted, reactive } from 'vue';
+import { toRefs, onMounted, reactive,watch,ref} from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import gsap from 'gsap'
+
 const props = defineProps({
   data: {
-    type: String || Number,
-    default: 0
+    type: Object,
+    default: ()=>{}
   }
 });
-const { data } = toRefs(props);
+// const { data } = toRefs(props);
+const isAnimation = ref(true)
+onMounted(()=>{
+
+})
+watch(()=>props.data.num,(newVal,oldVal)=>{
+  isAnimation.value = false
+  setTimeout(()=>{
+    isAnimation.value = true
+  })
+  console.log('new',newVal)
+  console.log('oldVal',oldVal)
+
+})
 </script>
 <style lang="less" scoped>
 .charging-realtime-power {
@@ -75,4 +90,44 @@ const { data } = toRefs(props);
     }
   }
 }
+@keyframes flipInX {
+  from {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+  }
+
+  60% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+.animate__flipInX {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
+  animation: flipInX 0.8s 1;
+}
+
 </style>

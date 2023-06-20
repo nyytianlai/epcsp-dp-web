@@ -145,7 +145,7 @@ onMounted(() => {
 .photovoltaic-station-overview {
   .num-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
