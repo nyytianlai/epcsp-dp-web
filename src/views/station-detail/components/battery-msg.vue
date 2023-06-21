@@ -6,7 +6,10 @@
         <div class="right">
           <span class="name">{{ item.name }}</span>
           <span class="num">
-            <span class="value">{{ item.value }}</span>
+            <span class="value" v-if="item.name === '簇实时功率'">
+              {{ (state.currentData.voltage * state.currentData.current).toFixed(2) }}
+            </span>
+            <span class="value" v-else>{{ item.value }}</span>
             &nbsp;
             <span class="unit">{{ item.unit }}</span>
           </span>
@@ -18,11 +21,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, reactive, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
+import { baoqingDevice } from './baoqing-device.js';
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
+const state = reactive({
+  currentData: {
+    voltage: 0,
+    current: 0
+  }
+});
 const infoListFun = (data = {}) => {
   return [
     {
@@ -98,7 +108,31 @@ const linePowerDataFun = (data = []) => {
   ];
 };
 const linePowerData = ref(linePowerDataFun());
-onMounted(() => {});
+const handleCurData = () => {
+  const hours = dayjs().hour();
+  const minutes = dayjs().minute();
+  for (let i = 0; i < baoqingDevice.length; i++) {
+    const date = baoqingDevice[i].time.split(':');
+    // 判断小时和分钟是否小于当前时刻
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+      state.currentData.voltage = baoqingDevice[i].voltage;
+      state.currentData.current = baoqingDevice[i].current;
+      break;
+    }
+  }
+};
+let timer = null;
+onMounted(() => {
+  handleCurData();
+  timer = setInterval(() => {
+    handleCurData();
+  }, 1000);
+});
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer);
+  }
+});
 </script>
 <style lang="less" scoped>
 .active-message {
