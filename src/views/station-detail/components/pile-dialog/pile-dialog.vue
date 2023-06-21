@@ -32,7 +32,9 @@
           </span>
         </div>
       </div>
-      <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData, pileParams)">查看告警详情</div>
+      <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData, pileParams)">
+        查看告警详情
+      </div>
     </template>
     <normal-pile v-if="headerData?.type === 'normal-pile'" />
     <!-- <warning-pile v-if="headerData?.type === 'warning-pile'" @close="close" /> -->
@@ -71,8 +73,8 @@ const isAlarm = ref(1);
 const close = () => {
   emit('update:visible', false);
 };
-const handleWarn = (data,pileParams) => {
-  emit('click-warn', data,pileParams);
+const handleWarn = (data, pileParams) => {
+  emit('click-warn', data, pileParams);
 };
 const videoStatus = {
   0: {
