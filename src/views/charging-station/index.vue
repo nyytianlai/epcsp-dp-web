@@ -53,7 +53,7 @@
     </div>
     <div class="today-power-info">
       <title-column title="今日充电实时功率信息" />
-      <charging-realtime-power :data="{num:powerInfoNumData}" />
+      <charging-realtime-power :data="powerInfoNumData" />
       <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
