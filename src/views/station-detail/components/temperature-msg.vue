@@ -126,7 +126,7 @@ onMounted(() => {});
 </script>
 <style lang="less" scoped>
 .active-message {
-  height: 172px;
+  height: 173px;
   .info-content {
     display: flex;
     flex-wrap: wrap;
@@ -182,8 +182,5 @@ onMounted(() => {});
       }
     }
   }
-}
-.ec-box {
-  height: 180px;
 }
 </style>
