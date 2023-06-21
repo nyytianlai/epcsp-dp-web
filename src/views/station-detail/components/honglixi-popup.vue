@@ -24,10 +24,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount, inject, watch, computed, reactive } from 'vue';
+import { ref, onMounted, onBeforeUnmount, inject, reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
-import { lianhuajingguiData } from '../config.js';
+import dayjs from 'dayjs';
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
@@ -35,25 +35,40 @@ const useEmitt = aircityObj.value?.useEmitt;
 const showPop = ref(false);
 const state = reactive({
   currentPower: {
-    value: 0
+    value: null
   }
 });
+const timeRange = [
+  { min: 10, max: 11, value: -3.77 },
+  { min: 11, max: 12, value: -3.66 },
+  { min: 12, max: 13, value: 4.96 },
+  { min: 13, max: 14, value: 3.18 },
+  { min: 14, max: 15, value: -3.36 },
+  { min: 15, max: 16, value: -3.78 },
+  { min: 16, max: 17, value: -3.7 },
+  { min: 17, max: 18, value: 5.01 }
+];
 let timer = null;
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.ObjectID === 'SM_BDF_002_16') {
-      console.log('机房', e);
-      const data = lianhuajingguiData.find((item) => item.id === e.ObjectID);
-      if (data) {
-        state.currentPower.value = data.value;
-        if (timer) {
-          clearInterval(timer);
-        }
-        timer = setInterval(() => {
-          const random = Math.random() * 0.05 - 0.05;
-          state.currentPower.value = (data.value + data.value * random).toFixed(2);
-        }, 3000);
+      // const hours = dayjs().hour();
+      // let data = 0;
+      // for (var i = 0; i < timeRange.length; i++) {
+      //   if (hours >= timeRange[i].min && hours < timeRange[i].max) {
+      //     data = timeRange[i].value;
+      //   } else {
+      //     data = 0;
+      //   }
+      // }
+      let data = getDefaultValue();
+      if (timer) {
+        clearInterval(timer);
       }
+      timer = setInterval(() => {
+        const random = Math.random() * 0.05 - 0.05;
+        state.currentPower.value = (data + data * random).toFixed(2);
+      }, 3000);
       showPop.value = true;
     } else if (
       e.eventtype === 'LeftMouseButtonClick' &&
@@ -65,11 +80,12 @@ useEmitt &&
   });
 // 定位到机房
 const focusToMachineRoom = (data) => {
-  state.currentPower.value = data.value;
-  showPop.value = true;
+  console.log(data);
+  state.currentPower.value = data.value || 0;
   if (timer) {
     clearInterval(timer);
   }
+  showPop.value = true;
   timer = setInterval(() => {
     const random = Math.random() * 0.05 - 0.05;
     state.currentPower.value = (data.value + data.value * random).toFixed(2);
@@ -80,9 +96,22 @@ const handleClose = () => {
   __g.tileLayer.stopHighlightAllActors();
   showPop.value = false;
 };
+const getDefaultValue = () => {
+  const hours = dayjs().hour();
+  let data = 0;
+  for (var i = 0; i < timeRange.length; i++) {
+    if (hours >= timeRange[i].min && hours < timeRange[i].max) {
+      data = timeRange[i].value;
+      break;
+    } else {
+      data = 0;
+    }
+  }
+  return data;
+};
 onMounted(async () => {
   bus.on('focusToMachineRoom', (e) => {
-    focusToMachineRoom({ value: 3 });
+    focusToMachineRoom({ value: getDefaultValue() });
   });
 });
 
