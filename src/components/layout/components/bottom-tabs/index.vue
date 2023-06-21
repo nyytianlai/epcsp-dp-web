@@ -69,15 +69,15 @@ const handleTabClick = (tab: Tab) => {
 
 <style lang="less" scoped>
 .bottom-tabs {
-  width: 548px;
+  width: 664px;
   display: flex;
 }
 .tab {
-  width: 76px;
-  height: 75px;
-  margin-right: 42px;
+  width: 94px;
+  height: 93px;
+  margin-right: 20px;
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
   cursor: pointer;
   &:last-child {
     margin-right: 0;
