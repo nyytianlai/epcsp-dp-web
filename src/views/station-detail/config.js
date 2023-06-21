@@ -9,7 +9,7 @@ import { simplifyNum, deepClone } from '@/utils/index';
 import nxfdl from './components/images/nxfdl.png';
 import ntgdl from './components/images/ntgdl.png';
 import cddy from './components/images/cddy.png';
-import { baoqingDevice } from './components/baoqing-device.js'
+import { baoqingDevice } from './components/baoqing-device.js';
 // 宝清储能站可高亮TileLayer
 export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
 export const lianhuaPowerFun = (data = {}) => {
@@ -1349,7 +1349,7 @@ export const stationWarnOption = {
 };
 export const batterySOHOption = () => {
   let xAxis = [];
-  let todaySeriesData = []
+  let todaySeriesData = [];
   const hours = dayjs().hour();
   const minutes = dayjs().minute();
 
@@ -1357,14 +1357,14 @@ export const batterySOHOption = () => {
     xAxis.push(baoqingDevice[i].time);
     const date = baoqingDevice[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
-    if(hours >= Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       todaySeriesData.push(baoqingDevice[i].voltage);
     }
     // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
     // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
   }
-  console.log('xAxis', xAxis)
-  console.log('todaySeriesData', todaySeriesData)
+  console.log('xAxis', xAxis);
+  console.log('todaySeriesData', todaySeriesData);
   return {
     grid: {
       top: 30,
@@ -1409,7 +1409,6 @@ export const batterySOHOption = () => {
       data: xAxis,
       boundaryGap: false,
       minInterval: 0,
-      maxInterval: 1000,
       interval: 60,
       axisLine: {
         lineStyle: {
@@ -1425,7 +1424,7 @@ export const batterySOHOption = () => {
         fontFamily: 'Source Han Sans CN',
         fontSize: 12,
         lineHeight: 18,
-        color: '#B4C0CC',
+        color: '#B4C0CC'
         // formatter: (value) => {
         //   return dayjs(value).format('HH');
         // }
@@ -1490,8 +1489,8 @@ export const batterySOHOption = () => {
         }
       }
     ]
-  }
-}
+  };
+};
 export const batteryTempOption = {
   grid: {
     top: 30,
@@ -1906,8 +1905,7 @@ export const baoqingRealtimeOption = () => {
         }
       }
     ]
-  }
-
+  };
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();

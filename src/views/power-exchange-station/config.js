@@ -173,7 +173,7 @@ export const handlePowerTodayLineData = (data) => {
     xAxis.push(data[i].time);
     const date = data[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
-    if (hours >= Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       todaySeriesData.push(data[i].today);
     }
     yesterdaySeriesData.push(data[i].yesterday);
