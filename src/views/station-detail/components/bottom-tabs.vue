@@ -124,6 +124,7 @@ const handleRoaming = async (value) => {
     // __g.camera.set(504725.026719,2499660.45375,114.91292,-57.085739,55.926083,3);
   } else if (value.viewInfoType === 't2') {
     tourFun(JSON.parse(value.viewInfo));
+    bus.emit('closePowerPopup');
   }
 };
 const handleClick = async (item, sub) => {
