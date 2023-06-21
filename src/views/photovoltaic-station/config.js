@@ -51,12 +51,11 @@ export const cdzzlFun = (data = {}) => {
 };
 export const unitTotalFun = (data = {}) => {
   return {
-      img: nscgfld,
-      num: 351.31,
-      unit: '/MW',
-      name: '并网总容量'
-    }
-  
+    img: nscgfld,
+    num: 351.31,
+    unit: '/MW',
+    name: '并网总容量'
+  };
 };
 export const surfSortPieDataFun = (data = {}) => {
   return [
@@ -98,8 +97,8 @@ export const jrgfdzFun = (data = {}) => {
   return [
     {
       img: tyfsqd,
-      num: 892,
-      unit: '/W/m²',
+      num: data.radiation,
+      unit: 'W/m²',
       name: '太阳辐射强度',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
@@ -109,8 +108,8 @@ export const jrgfdzFun = (data = {}) => {
     },
     {
       img: jrswdl,
-      num: 85.83,
-      unit: '/万kWh',
+      num: data.onlineElec, // 今日发电总量 x 0.4
+      unit: '万kWh',
       name: '今日上网电量',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
@@ -120,8 +119,8 @@ export const jrgfdzFun = (data = {}) => {
     },
     {
       img: jrfdzl,
-      num: 220.07,
-      unit: '/万kWh',
+      num: data.total,
+      unit: '万kWh',
       name: '今日发电总量',
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
@@ -158,7 +157,7 @@ export const powerTodayCardFun = (data = {}) => {
 };
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  const nowTime = dayjs().format('HH')
+  const nowTime = dayjs().format('HH');
   data = [
     {
       time: '00',
@@ -281,9 +280,9 @@ export const linePowerDataFun = (data = []) => {
       troubleRate: 0.13
     }
   ];
-  const index = data.findIndex(i=>i.time === nowTime)
-  let dataC = deepClone(data)
-  dataC.splice(index+1)
+  const index = data.findIndex((i) => i.time === nowTime);
+  let dataC = deepClone(data);
+  dataC.splice(index + 1);
   return [
     {
       data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
