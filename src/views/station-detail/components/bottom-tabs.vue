@@ -128,7 +128,10 @@ const handleRoaming = async (value) => {
   }
 };
 const handleClick = async (item, sub) => {
-  await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  console.log(item);
+  if (item.viewInfoType !== 't2' || (sub && sub.viewInfoType !== 't2')) {
+    await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  }
   await __g.cameraTour.pause();
   if (sub) {
     item.isHover = false;
