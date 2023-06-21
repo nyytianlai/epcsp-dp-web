@@ -149,6 +149,8 @@ const handleTodayElecData = () => {
     // 判断小时和分钟是否小于当前时刻
     if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       count += electricData[i].power;
+      console.log('electricData[i]',electricData[i])
+      powerTodayCard.value =  powerTodayCardFun({realtime:electricData[i].power})
     }
     // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
     // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
@@ -157,7 +159,7 @@ const handleTodayElecData = () => {
   todayElec.value = count;
   cardTodayData.value = jrgfdzFun({
     radiation: 892,
-    total: todayElec.value,
+    total: (todayElec.value *0.05).toFixed(2),
     onlineElec: (todayElec.value * 0.4).toFixed(2)
   });
 };

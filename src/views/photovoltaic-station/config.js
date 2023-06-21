@@ -10,7 +10,7 @@ import nscgfld from './images/nscgfld.png';
 import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils/index';
-
+import { electricData } from './data';
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -148,7 +148,7 @@ export const powerTodayCardFun = (data = {}) => {
     },
     {
       img: jrssgl,
-      num: 283.97,
+      num: data?.realtime,
       unit: '/MW',
       name: '今日实时功率',
       classStyleType: 'leftRightStyleYellow5858'
@@ -157,135 +157,21 @@ export const powerTodayCardFun = (data = {}) => {
 };
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  const nowTime = dayjs().format('HH');
-  data = [
-    {
-      time: '00',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '01',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '02',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '03',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '04',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '05',
-      useRate: 0,
-      troubleRate: 0
-    },
-    {
-      time: '06',
-      useRate: 23.02,
-      troubleRate: 0
-    },
-    {
-      time: '07',
-      useRate: 50.32,
-      troubleRate: 0
-    },
-    {
-      time: '08',
-      useRate: 114.55,
-      troubleRate: 0
-    },
-    {
-      time: '09',
-      useRate: 213.31,
-      troubleRate: 0.12
-    },
-    {
-      time: '10',
-      useRate: 254.75,
-      troubleRate: 0.13
-    },
-    {
-      time: '11',
-      useRate: 330.54,
-      troubleRate: 0.13
-    },
-    {
-      time: '12',
-      useRate: 342.32,
-      troubleRate: 0.13
-    },
-    {
-      time: '13',
-      useRate: 338.31,
-      troubleRate: 0.13
-    },
-    {
-      time: '14',
-      useRate: 308.332,
-      troubleRate: 0.13
-    },
-    {
-      time: '15',
-      useRate: 283.97,
-      troubleRate: 0.13
-    },
-    {
-      time: '16',
-      useRate: 222.15,
-      troubleRate: 0.13
-    },
-    {
-      time: '17',
-      useRate: 126.33,
-      troubleRate: 0.13
-    },
-    {
-      time: '18',
-      useRate: 53.53,
-      troubleRate: 0.13
-    },
-    {
-      time: '19',
-      useRate: 13.92,
-      troubleRate: 0.13
-    },
-    {
-      time: '20',
-      useRate: 0,
-      troubleRate: 0.13
-    },
-    {
-      time: '21',
-      useRate: 0,
-      troubleRate: 0.13
-    },
-    {
-      time: '22',
-      useRate: 0,
-      troubleRate: 0.13
-    },
-    {
-      time: '23',
-      useRate: 0,
-      troubleRate: 0.13
+  const temp = []
+  const hours = dayjs().hour();
+  const minutes = dayjs().minute();
+  for (let i = 0; i < electricData.length; i++) {
+    const date = electricData[i].time.split(':');
+    // 判断小时和分钟是否小于当前时刻
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+      temp.push(electricData[i])
     }
-  ];
-  const index = data.findIndex((i) => i.time === nowTime);
-  let dataC = deepClone(data);
-  dataC.splice(index + 1);
+    // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
+    // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
+  }
   return [
     {
-      data: dataC.map((item) => [yearMonthDay + item.time, item.useRate]),
+      data: temp.map((item) => [yearMonthDay + item.time, item.power]),
       type: 'line',
       smooth: true,
       name: '实时功率'
