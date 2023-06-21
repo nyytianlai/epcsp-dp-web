@@ -362,6 +362,7 @@ const getAlarmLevelAndTypeByTIme = async () => {
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
 const handleChangeTab = async (data, type) => {
+  console.log('走这里了嘛', data, type);
   if (type === 'total-warning') {
     columnKeyList.value = columnKeyListFun(data.code);
     scrollTableData.value = [];
@@ -370,6 +371,9 @@ const handleChangeTab = async (data, type) => {
   } else if (type === 'warning-monitor') {
     // 今日设备告警监控
     // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
+    if (data.code == 1 && bottomCode.value == 1) {
+      mapLayerRef.value.buttomTabChange(bottomCode.value);
+    }
     totalCurCode.value = data.code;
     let obj = {
       type: data.code,
@@ -382,6 +386,9 @@ const handleChangeTab = async (data, type) => {
     getAlarmLevelAndTypeByTime(obj);
   } else if (type === 'realtime-state') {
     // 实时状态情况
+    if (data.code == 3 && bottomCode.value == 2) {
+      mapLayerRef.value.buttomTabChange(bottomCode.value);
+    }
     nowStatus.value = data.code;
     getOnlineStatusData(data.code);
   }
@@ -540,7 +547,7 @@ onMounted(async () => {
   .pie-wrap {
     margin-top: 18px;
     :deep(.legend-wrap) {
-      .legend{
+      .legend {
         width: 230px;
       }
       .right-info {
