@@ -1358,13 +1358,13 @@ export const batterySOHOption = () => {
     const date = baoqingDevice[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
     if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
-      todaySeriesData.push(baoqingDevice[i].voltage);
+      todaySeriesData.push((baoqingDevice[i].voltage * baoqingDevice[i].current).toFixed(2));
     }
     // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
     // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
   }
-  console.log('xAxis', xAxis);
-  console.log('todaySeriesData', todaySeriesData);
+  // console.log('xAxis', xAxis);
+  // console.log('todaySeriesData', todaySeriesData);
   return {
     grid: {
       top: 30,
