@@ -471,7 +471,7 @@ useEmitt &&
       //正常桩
       if (e.PropertyName === '118Station') {
         if (!chargingStateDataObj.value[e.ObjectID]) return;
-        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status,{isAlarm:1});
       }
       if (e.Type === 'marker') {
         //设施点
@@ -524,11 +524,15 @@ const focusToPile = async (eid, status, item = {}) => {
     pileVisible.value = true;
     handleClickFocus(__g, layerId, eid, status);
   } else {
+    const modelData = chargingStateData.value.find(model => model.eid === eid)
+    console.log('modelData', modelData)
+    if (modelData) {
     // 告警
-    pileParams.value = {
-      eid: item.eid,
-      warnId: item.alarmId
-    };
+      pileParams.value = {
+        eid: modelData.eid,
+        warnId: modelData.alarmId
+      };
+    }
     warnVisible.value = true;
     console.log(layerId, store.detailParams.equipmentId);
     handleClickFocus(__g, layerId, eid, status);
