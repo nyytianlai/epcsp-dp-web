@@ -20,14 +20,17 @@
       </div>
       <div class="msg-container" v-if="current === 'msg'">
         <div class="base-msg" v-for="(item, index) in baseMsg" :key="index">
-          <el-popover placement="top" trigger="hover" :content="item">
-            <template #reference>
-              <div class="msg-box">
-                <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span>
+
+          <div class="msg-box">
+            <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span>
+            <el-popover placement="top" trigger="hover" :content="item" v-if="item.length>14">
+              <template #reference>
                 <div class="msg">{{ item }}</div>
-              </div>
-            </template>
-          </el-popover>
+              </template>
+            </el-popover>
+            <div class="msg" v-else>{{ item }}</div>
+          </div>
+
         </div>
       </div>
       <div class="charge-container" v-else>
@@ -43,19 +46,9 @@
             </div>
           </div>
         </div>
-        <el-table
-          :data="tableData"
-          height="2.67rem"
-          style="width: 100%"
-          class="custom-dialog-table"
-        >
-          <el-table-column
-            v-for="(item, index) in columnData"
-            :key="index"
-            v-bind="item"
-            :show-overflow-tooltip="true"
-            :formatter="tableColumnFun"
-          >
+        <el-table :data="tableData" height="2.67rem" style="width: 100%" class="custom-dialog-table">
+          <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
+            :formatter="tableColumnFun">
             <template #default="scope"></template>
           </el-table-column>
           <el-table-column label="操作" key="operation" minWidth="1.5">
@@ -64,15 +57,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination
-          class="pagiantion-detail"
-          :page-size="pageObj.pageSize"
-          layout="prev, pager, next"
-          :total="pageObj.total"
-          :background="true"
-          :current-page="pageObj.currentPage"
-          @current-change="handPageChange"
-        />
+        <el-pagination class="pagiantion-detail" :page-size="pageObj.pageSize" layout="prev, pager, next"
+          :total="pageObj.total" :background="true" :current-page="pageObj.currentPage"
+          @current-change="handPageChange" />
       </div>
     </div>
   </el-dialog>
@@ -209,15 +196,13 @@ defineExpose({
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   height: 582px;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    20px 100%,
-    0 calc(100% - 20px),
-    0 0
-  );
+  clip-path: polygon(0 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      20px 100%,
+      0 calc(100% - 20px),
+      0 0);
 }
 
 .charge-container {
@@ -293,7 +278,7 @@ defineExpose({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 230px;
+    width: 240px;
   }
 }
 
@@ -340,6 +325,7 @@ defineExpose({
 
 .custom-dialog-table {
   margin-top: 16px;
+
   :deep(td.el-table__cell) {
     padding: 11px 0;
   }
