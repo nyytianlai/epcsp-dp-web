@@ -102,11 +102,11 @@
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
   <pile-dialog
-    v-model:visible="pileVisible"
+    :visible="pileVisible"
     :type="pileType"
     :pileVideoData="pileVideoData"
     :pileParams="pileParams"
-    @close="handleClose"
+    @close="hanldeCloseCameraDialog"
     @click-warn="handleWarn"
   />
   <warningBox
@@ -214,7 +214,7 @@ const headerDataMsg = {
     status: '正常',
     code: '1466444643AD64612'
   },
-  batteryCluster: {
+  batteryCluste: {
     icon: 'batteryCluster',
     name: '#1电池簇',
     status: '开路',
@@ -447,7 +447,7 @@ useEmitt &&
         if (
           e.ObjectID &&
           (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
-            e.ObjectID?.indexOf('batteryCluster') !== -1 ||
+            e.ObjectID?.indexOf('batteryCluste') !== -1 ||
             e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
@@ -460,10 +460,32 @@ useEmitt &&
           await __g.tileLayer.highlightActor(e.Id, e.ObjectID);
         }
       }
+
+      //告警桩
+      if (e.Id?.includes('warning-bottom')) {
+        const eid = e.UserData;
+        if (!chargingStateDataObj.value[eid]) return;
+        focusToPile(eid, 255);
+        return;
+      }
+      //正常桩
+      if (e.PropertyName === '118Station') {
+        if (!chargingStateDataObj.value[e.ObjectID]) return;
+        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+      }
       if (e.Type === 'marker') {
         //设施点
         if (e.Id?.includes('facilitiesLabel')) {
           await __g?.marker?.focus(e.Id, 20, 2);
+          return;
+        }
+        //摄像头
+        if (e.Id?.includes('camera')) {
+          __g?.marker?.focus(e.Id);
+          pileType.value = 'monitor';
+          const data = JSON.parse(e.UserData);
+          pileVideoData.value = data;
+          pileVisible.value = true;
           return;
         }
         if (e.UserData) {
@@ -485,28 +507,6 @@ useEmitt &&
           }
           return;
         }
-
-        //摄像头
-        if (e.Id?.includes('camera')) {
-          __g?.marker?.focus(e.Id);
-          pileType.value = 'monitor';
-          const data = JSON.parse(e.UserData);
-          pileVideoData.value = data;
-          pileVisible.value = true;
-          return;
-        }
-      }
-      //告警桩
-      if (e.Id?.includes('warning-bottom')) {
-        const eid = e.UserData;
-        if (!chargingStateDataObj.value[eid]) return;
-        focusToPile(eid, 255);
-        return;
-      }
-      //正常桩
-      if (e.PropertyName === '118Station') {
-        if (!chargingStateDataObj.value[e.ObjectID]) return;
-        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
       }
     }
   });
@@ -514,24 +514,30 @@ useEmitt &&
 const focusToPile = async (eid, status, item = {}) => {
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-  if(item.isAlarm === 1){
-  // 正常
+  if (item.isAlarm === 1) {
+    // 正常
 
-  pileParams.value = {
-    eid: eid
-  };
-  pileType.value = 'pile';
-  pileVisible.value = true;
-  handleClickFocus(__g, layerId, eid, status);
-  }else {
+    pileParams.value = {
+      eid: eid
+    };
+    pileType.value = 'pile';
+    pileVisible.value = true;
+    handleClickFocus(__g, layerId, eid, status);
+  } else {
     // 告警
     pileParams.value = {
       eid: item.eid,
       warnId: item.alarmId
     };
     warnVisible.value = true;
-    handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+    console.log(layerId, store.detailParams.equipmentId);
+    handleClickFocus(__g, layerId, eid, status);
+    // handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
   }
+};
+const hanldeCloseCameraDialog = () => {
+  pileVisible.value = false;
+  handleClose();
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -593,21 +599,19 @@ const handleTabBtn = (data) => {
 };
 
 // 从详情跳转到告警
-const handleWarn = (data,pileParamsC) => {
-  console.log('handleWarn', data,pileParamsC);
+const handleWarn = (data, pileParamsC) => {
+  console.log('handleWarn', data, pileParamsC);
   pileVisible.value = false;
-  if(pileParamsC.warnId){
-
+  if (pileParamsC.warnId) {
     pileParams.value = {
       eid: pileParamsC.eid,
       warnId: pileParamsC.warnId
     };
-  }else {
+  } else {
     pileParams.value = {
       eid: data.eid,
       warnId: data.alarmId
     };
-
   }
   warnVisible.value = true;
 };
@@ -615,7 +619,7 @@ const handleWarn = (data,pileParamsC) => {
 const handleDetail = (data) => {
   console.log('handleDetail', data);
   // 关闭警告框
-  warnVisible.value = false
+  warnVisible.value = false;
   //打开详情框
   pileParams.value = {
     eid: data.eid,

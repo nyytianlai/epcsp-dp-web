@@ -124,10 +124,13 @@ const handleRoaming = async (value) => {
     // __g.camera.set(504725.026719,2499660.45375,114.91292,-57.085739,55.926083,3);
   } else if (value.viewInfoType === 't2') {
     tourFun(JSON.parse(value.viewInfo));
+    bus.emit('closePowerPopup');
   }
 };
 const handleClick = async (item, sub) => {
-  await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  if (item.viewInfoType !== 't2' || (sub && sub.viewInfoType !== 't2')) {
+    await __g.marker.hideByGroupId('stationFacilitiesLabel');
+  }
   await __g.cameraTour.pause();
   if (sub) {
     item.isHover = false;
@@ -273,6 +276,10 @@ const handleClick = async (item, sub) => {
 
 .bg-2 {
   background: url(./images/bg-2.png) no-repeat;
+  background-size: 100% 100%;
+}
+.bg-1 {
+  background: url(./images/bg-1.png) no-repeat;
   background-size: 100% 100%;
 }
 </style>

@@ -57,13 +57,13 @@ export const cndzyxzlFun = (data = {}) => {
       name: '装机总容量',
       classStyleType: 'leftRightStyleYellow'
     },
-    {
-      img: xtyxxl,
-      num: 75.72,
-      unit: '/%',
-      name: '系统运行效率',
-      classStyleType: 'leftRightStyleYellow'
-    }
+    // {
+    //   img: xtyxxl,
+    //   num: 75.72,
+    //   unit: '/%',
+    //   name: '系统运行效率',
+    //   classStyleType: 'leftRightStyleYellow'
+    // }
   ];
 };
 export const tabType = [
@@ -111,10 +111,10 @@ export const rankTabType = [
     code: 1,
     label: '站点装机容量'
   },
-  {
-    code: 2,
-    label: '系统运行效率'
-  }
+  // {
+  //   code: 2,
+  //   label: '系统运行效率'
+  // }
 ];
 export const runingFun = (data = {}) => {
   return [

@@ -10,7 +10,7 @@
     </el-tabs>
 
     <div class="ec-box">
-      <ec-resize :option="batterySOHOption" />
+      <ec-resize :option="option" />
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import BatteryMsg from './battery-msg.vue';
 import TemperatureMsg from './temperature-msg.vue';
 const activeName = ref('first');
+const option = ref(batterySOHOption());
 </script>
 <style lang="less" scoped>
 :deep(.pile-tabs) {

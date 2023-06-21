@@ -17,7 +17,7 @@
     <div class="num-box">
       <div class="num">
         {{ state.currentPower.value }}
-        <span class="unit">/kW</span>
+        <span class="unit">/W</span>
       </div>
       <div class="label">实时发电功率</div>
     </div>
@@ -115,10 +115,17 @@ onMounted(async () => {
     console.log(e);
     focusToPile(e);
   });
+  bus.on('closePowerPopup', (e) => {
+    handleClose();
+    if (timer) {
+      clearInterval(timer);
+    }
+  });
 });
 
 onBeforeUnmount(() => {
   bus.off('focusToPile');
+  bus.off('closePowerPopup');
   if (timer) {
     clearInterval(timer);
   }

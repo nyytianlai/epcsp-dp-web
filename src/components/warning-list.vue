@@ -113,12 +113,11 @@ const handleClick = (item) => {
     .message {
       max-width: 140px;
       min-width: 140px;
-
       margin-right: 22px;
     }
     .area {
       max-width: 150px;
-      min-width: 150px;
+      min-width: 120px;
     }
   }
 }

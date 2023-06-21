@@ -42,12 +42,6 @@ export const cdzzlFun = (data = {}) => {
       name: '光伏站总量'
     },
     {
-      img: zjzrl,
-      num: 392.55,
-      unit: 'MW',
-      name: '装机总容量'
-    },
-    {
       img: jrqyzs,
       num: 979,
       unit: '个',
