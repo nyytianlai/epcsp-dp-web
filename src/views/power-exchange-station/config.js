@@ -135,7 +135,7 @@ export const powerExchangeStatusDataFun = (data = {}) => {
       unit: '个'
     },
     {
-      value: 41,
+      value: 43,
       name: '运营中',
       unit: '个'
     }
@@ -168,11 +168,12 @@ export const handlePowerTodayLineData = (data) => {
   let yesterdaySeriesData = [];
   const hours = dayjs().hour();
   const minutes = dayjs().minute();
+  console.log(hours, minutes);
   for (let i = 0; i < data.length; i++) {
     xAxis.push(data[i].time);
     const date = data[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
-    if (date[0] <= hours && date[1] <= minutes) {
+    if (hours >= Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       todaySeriesData.push(data[i].today);
     }
     yesterdaySeriesData.push(data[i].yesterday);
@@ -278,7 +279,7 @@ export const powerTodayCardOption = {
       data: datas.yesterdaySeriesData,
       type: 'line',
       smooth: true,
-      symbol: false,
+      showSymbol: false,
       name: '昨日换电站负荷曲线',
       areaStyle: {
         origin: 'start',
@@ -309,8 +310,8 @@ export const powerTodayCardOption = {
       data: datas.todaySeriesData,
       type: 'line',
       smooth: true,
-      symbol: false,
-      name: '今日换电站负荷曲线 ',
+      showSymbol: false,
+      name: '今日换电站负荷曲线',
       areaStyle: {
         origin: 'start',
         color: {
