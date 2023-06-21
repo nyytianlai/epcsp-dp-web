@@ -1,4 +1,6 @@
 import request from '@sutpc/axios';
+import { mapRequestCancelId } from '@/global/config/map';
+
 // 数字孪生站点
 export const selectHrStationInfoForOverview = () => {
   return request.get({
@@ -14,22 +16,28 @@ export const chargingStation = () => {
 
 //总览区柱状图
 export const getDistrictBar = () => {
+  request.cancel(mapRequestCancelId);
   return request.post({
-    url: '/overviews/all/areaMap'
+    url: '/overviews/all/areaMap',
+    cancelId: mapRequestCancelId
   });
 };
 //总览街道柱状图
 export const getStreetBar = (data) => {
+  request.cancel(mapRequestCancelId);
   return request.post({
     url: '/overviews/all/streetMap',
-    data
+    data,
+    cancelId: mapRequestCancelId
   });
 };
 //总览街道撒点
 export const getStreetPoint = (data) => {
+  request.cancel(mapRequestCancelId);
   return request.post({
     url: '/overviews/all/stationLocationInfo',
-    data
+    data,
+    cancelId: mapRequestCancelId
   });
 };
 //电动自行车

@@ -70,7 +70,7 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
-  console.log('事件监听', e);
+  // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
       //关闭 点击非高渲染站点添加的动态圈圈
@@ -501,7 +501,9 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
-    isShow ? __g.camera.set(529466.091631,2520325.591406,47.088174,-27.166912,-75.541977, 3) : '';
+    isShow
+      ? __g.camera.set(529466.091631, 2520325.591406, 47.088174, -27.166912, -75.541977, 3)
+      : '';
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
@@ -692,8 +694,8 @@ onMounted(async () => {
     store.changeCurrentHrStationId('station-' + e.stationId);
     store.changeCurrentPositionBak(currentPosition.value);
     store.changeCurrentPosition('');
-    setQuVisibility(false);
-    __g.marker.hideByGroupId('jdStation');
+    await setQuVisibility(false);
+    await __g.marker.hideByGroupId('jdStation');
     addHrStation(e.stationId, true, e.isFly);
   });
   hideAllStation3dt(__g, store.treeInfo);
