@@ -102,11 +102,11 @@
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
   <pile-dialog
-    v-model:visible="pileVisible"
+    :visible="pileVisible"
     :type="pileType"
     :pileVideoData="pileVideoData"
     :pileParams="pileParams"
-    @close="handleClose"
+    @close="hanldeCloseCameraDialog"
     @click-warn="handleWarn"
   />
   <warningBox
@@ -460,10 +460,32 @@ useEmitt &&
           await __g.tileLayer.highlightActor(e.Id, e.ObjectID);
         }
       }
+
+      //告警桩
+      if (e.Id?.includes('warning-bottom')) {
+        const eid = e.UserData;
+        if (!chargingStateDataObj.value[eid]) return;
+        focusToPile(eid, 255);
+        return;
+      }
+      //正常桩
+      if (e.PropertyName === '118Station') {
+        if (!chargingStateDataObj.value[e.ObjectID]) return;
+        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
+      }
       if (e.Type === 'marker') {
         //设施点
         if (e.Id?.includes('facilitiesLabel')) {
           await __g?.marker?.focus(e.Id, 20, 2);
+          return;
+        }
+        //摄像头
+        if (e.Id?.includes('camera')) {
+          __g?.marker?.focus(e.Id);
+          pileType.value = 'monitor';
+          const data = JSON.parse(e.UserData);
+          pileVideoData.value = data;
+          pileVisible.value = true;
           return;
         }
         if (e.UserData) {
@@ -485,28 +507,6 @@ useEmitt &&
           }
           return;
         }
-
-        //摄像头
-        if (e.Id?.includes('camera')) {
-          __g?.marker?.focus(e.Id);
-          pileType.value = 'monitor';
-          const data = JSON.parse(e.UserData);
-          pileVideoData.value = data;
-          pileVisible.value = true;
-          return;
-        }
-      }
-      //告警桩
-      if (e.Id?.includes('warning-bottom')) {
-        const eid = e.UserData;
-        if (!chargingStateDataObj.value[eid]) return;
-        focusToPile(eid, 255);
-        return;
-      }
-      //正常桩
-      if (e.PropertyName === '118Station') {
-        if (!chargingStateDataObj.value[e.ObjectID]) return;
-        focusToPile(e.ObjectID, +chargingStateDataObj.value[e.ObjectID].status);
       }
     }
   });
@@ -530,8 +530,14 @@ const focusToPile = async (eid, status, item = {}) => {
       warnId: item.alarmId
     };
     warnVisible.value = true;
-    handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+    console.log(layerId, store.detailParams.equipmentId);
+    handleClickFocus(__g, layerId, eid, status);
+    // handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
   }
+};
+const hanldeCloseCameraDialog = () => {
+  pileVisible.value = false;
+  handleClose();
 };
 const handleClose = () => {
   //清除绿色高亮
