@@ -10,6 +10,8 @@ import nxfdl from './images/nxfdl.png';
 import ntgdl from './images/ntgdl.png';
 import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -55,13 +57,13 @@ export const cndzyxzlFun = (data = {}) => {
       name: '装机总容量',
       classStyleType: 'leftRightStyleYellow'
     },
-    {
-      img: xtyxxl,
-      num: 75.72,
-      unit: '/%',
-      name: '系统运行效率',
-      classStyleType: 'leftRightStyleYellow'
-    }
+    // {
+    //   img: xtyxxl,
+    //   num: 75.72,
+    //   unit: '/%',
+    //   name: '系统运行效率',
+    //   classStyleType: 'leftRightStyleYellow'
+    // }
   ];
 };
 export const tabType = [
@@ -109,10 +111,10 @@ export const rankTabType = [
     code: 1,
     label: '站点装机容量'
   },
-  {
-    code: 2,
-    label: '系统运行效率'
-  }
+  // {
+  //   code: 2,
+  //   label: '系统运行效率'
+  // }
 ];
 export const runingFun = (data = {}) => {
   return [
@@ -150,6 +152,7 @@ export const todayLine = [
 ];
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH:00')
   data = [
     {
       timeDim: '00:00',
@@ -272,16 +275,20 @@ export const linePowerDataFun = (data = []) => {
       realTimePower: 0
     }
   ];
+  const index = data.findIndex(i=>i.timeDim === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
+
   return [
     {
-      data: data.map((item) => [yearMonthDay + item.timeDim, Number(item['ratedPower'])]),
+      data: dataC.map((item) => [yearMonthDay + item.timeDim, Number(item['ratedPower'])]),
       type: 'line',
       smooth: true,
       name: '深圳市电网实时负荷'
     },
     {
       yAxisIndex: 1,
-      data: data.map((item) => [yearMonthDay + item.timeDim, Number(item['realTimePower'])]),
+      data: dataC.map((item) => [yearMonthDay + item.timeDim, Number(item['realTimePower'])]),
       type: 'line',
       smooth: true,
       name: '深圳市储能电站聚合实时功率'

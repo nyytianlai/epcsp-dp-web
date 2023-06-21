@@ -3,7 +3,9 @@
     width="8.45rem"
     class="pile-dialog"
     @close="emit('handleClose')"
+    v-model="visible"
     destroy-on-close
+    align-center
   >
     <template #header>
       <div class="my-header">
@@ -22,10 +24,11 @@
       </div>
     </template>
     <DialogMsg v-if="mode === 'pcsCabinet'"></DialogMsg>
-    <DdialogBattery v-if="mode === 'batteryCluster'"></DdialogBattery>
+    <DdialogBattery v-if="mode === 'batteryCluste'"></DdialogBattery>
   </el-dialog>
 </template>
 <script lang="ts" setup>
+import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import DialogMsg from './dialog-msg.vue';
 import DdialogBattery from './dialog-battery.vue';
@@ -44,6 +47,8 @@ const props = defineProps({
     default: false
   }
 });
+
+const { visible } = toRefs(props);
 </script>
 <style lang="less" scoped>
 .pile-dialog {

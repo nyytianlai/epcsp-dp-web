@@ -19,18 +19,11 @@
     </div>
     <div class="pile-charger">
       <div class="pile-charger-header">
-        <tabs
-          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
-          @changeTab="(data) => handleChangeTab(data, 'charger')"
-        />
+        <tabs :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="(data) => handleChangeTab(data, 'charger')" />
         <div class="right-tab-btn">
-          <div
-            v-for="(item, index) in tabList"
-            :key="index"
-            class="tab-btn"
-            :class="{ active: curBtn === item.value }"
-            @click="handleTabBtn(item)"
-          >
+          <div v-for="(item, index) in tabList" :key="index" class="tab-btn" :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)">
             {{ item.name }}
           </div>
         </div>
@@ -44,11 +37,8 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list
-        :data="projectList"
-        :totalNum="projectTotalNum"
-        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'"
-      />
+      <rank-list :data="projectList" :totalNum="projectTotalNum"
+        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'" />
     </div>
   </panel>
   <panel type="right">
@@ -63,36 +53,22 @@
     </div>
     <div class="today-power-info">
       <title-column title="今日充电实时功率信息" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in powerInfoNumData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
-      </div>
+      <charging-realtime-power :data="{num:powerInfoNumData}" />
       <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <warning-tabs
-        :data="warningTabsData"
-        @changeTab="(data) => handleChangeTab(data, 'warning')"
-      />
+      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
       <warning-list :data="warningListData" @handleClick="handleWarnClick" />
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <today-warn-dialog
-    v-if="dialogTableVisible"
-    :visible="dialogTableVisible"
-    @closed="handleCloseTodayWarnDialog"
-  />
-  <enterprise-rank-list-dialog
-    v-if="dialogRankVisible"
-    :visible="dialogRankVisible"
-    @closed="handleCloseRankDialog"
-  />
+  <today-warn-dialog v-if="dialogTableVisible" :visible="dialogTableVisible" @closed="handleCloseTodayWarnDialog" />
+  <enterprise-rank-list-dialog v-if="dialogRankVisible" :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
 </template>
 <script lang="ts" setup>
+import ChargingRealtimePower from './components/charging-realtime-power.vue';
 import { onMounted, onUnmounted, ref, inject } from 'vue';
 import {
   overTotalCount,
@@ -112,7 +88,6 @@ import {
   operatingTabsFun,
   todayTabsFun,
   todayInfoNumDataFun,
-  powerInfoNumDataFun,
   lineTimeDataFun,
   warningTabsDataFun,
   bottomTabDataFun,
@@ -162,7 +137,7 @@ const projectTotalNum = ref(0);
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
-const powerInfoNumData = ref(powerInfoNumDataFun());
+const powerInfoNumData = ref(0);
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
 const lineTimeColors = ['blue'];
@@ -256,7 +231,7 @@ const getDayEquInfo = async (type) => {
 //今日充电功率信息
 const getDayPower = async () => {
   const res = await dayPower();
-  powerInfoNumData.value = powerInfoNumDataFun(res.data);
+  powerInfoNumData.value = res.data;
 };
 //今日告警信息
 const getAlarmInfo = async (level) => {
@@ -294,19 +269,26 @@ const getTimePowerGraph = async () => {
       totalPower: data[data.length - 1].ratedPower,
       realTimePower: data[data.length - 1].realTimePower
     };
-    powerInfoNumData.value = powerInfoNumDataFun(info);
+    powerInfoNumData.value = info.realTimePower;
   }
 };
 
 // 今日告警信息点击
-const handleWarnClick = (station) => {
-  console.log('ssss',station);
+const handleWarnClick = async (station) => {
+  console.log('ssss', station);
   station.isWarning = true
   station.warnId = station.id
   // 告警详情
-  showStationDetailPanel(storeVisible, station);
   station['isFly'] = false;
-  aircityObj.value && toSingleStation(aircityObj.value?.acApi, station);
+  console.log('11111')
+  if (aircityObj.value) {
+    await toSingleStation(aircityObj.value?.acApi, station);
+  }
+
+  // setTimeout(() => {
+  console.log('9999')
+  showStationDetailPanel(storeVisible, station);
+  // }, 1500);
 };
 // 运营企业排名详情点击
 const handleDetailClick = (item) => {
@@ -325,6 +307,7 @@ const handleTabBtn = (item) => {
 };
 
 let timer = null;
+let timer2 = null
 onMounted(() => {
   getOverTotalCount();
   getTotalFacilities();
@@ -340,13 +323,15 @@ onMounted(() => {
     // getDayPower();
     getAlarmCount();
   }, 1000 * 60);
-  setInterval(()=>{
+  timer2 = setInterval(() => {
     getTimePowerGraph();
-  },5000)
+  }, 5000)
 });
 onUnmounted(() => {
   clearInterval(timer);
   timer = null;
+  clearInterval(timer2);
+  timer2 = null;
 });
 </script>
 <style lang="less" scoped>
@@ -357,18 +342,18 @@ onUnmounted(() => {
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(
-      255.75deg,
-      rgba(37, 177, 255, 0.02) 23.33%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
+    background: linear-gradient(255.75deg,
+        rgba(37, 177, 255, 0.02) 23.33%,
+        rgba(37, 177, 255, 0.2) 100%);
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
   }
 }
+
 .pile-charger {
   margin-top: 16px;
+
   .num-wrap {
     display: flex;
     flex-wrap: wrap;
@@ -376,8 +361,10 @@ onUnmounted(() => {
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;
+
     .num-card {
       margin-bottom: 20px;
+
       &:nth-last-of-type(1),
       &:nth-last-of-type(2) {
         margin-bottom: 0;
@@ -385,40 +372,46 @@ onUnmounted(() => {
     }
   }
 }
+
 .operating-company {
   margin-top: 23px;
+
   .tabs {
     margin-top: 16px;
   }
+
   .rank-list-wrap {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
   }
 }
+
 .today-num-info {
   .tabs {
     margin-top: 8px;
   }
+
   .num-wrap {
     display: flex;
     justify-content: space-between;
     margin-top: 16px;
+
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 11px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: center;
+
       .info {
         flex-direction: column;
+
         .name {
           margin-bottom: 0;
         }
@@ -426,57 +419,72 @@ onUnmounted(() => {
     }
   }
 }
+
 .today-power-info {
   margin-top: 24px;
+
+  :deep(.charging-realtime-power) {
+    margin-top: 12px;
+  }
+
   .num-wrap {
     margin-top: 12px;
     display: flex;
     justify-content: space-between;
+
     :deep(.num-card) {
-      
+
       padding: 20px;
       width: 100%;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
       border-radius: 2px;
       justify-content: flex-start;
+
       .info {
         flex-direction: column;
+
         .value {
           font-size: 28px !important;
         }
+
         .name {
           margin-bottom: 0;
         }
       }
+
       .icon {
         width: 54px !important;
         height: 54px !important;
       }
     }
   }
+
   .ec-wrap {
     margin-top: 22px;
   }
 }
+
 .today-warning-message {
   margin-top: 21px;
+
   .warning-tabs {
     margin-top: 12px;
   }
+
   .warning-list {
     margin-top: 18px;
+
     :deep(.warning-info) {
       .message {
         min-width: 2rem;
         max-width: 2rem;
       }
+
       .area {
         min-width: 0.8rem;
         max-width: 0.8rem;
@@ -489,6 +497,7 @@ onUnmounted(() => {
   display: flex;
   background: rgba(21, 69, 105, 0.5);
   border: 1px solid #486785;
+
   .tab-btn {
     width: 28px;
     height: 28px;
@@ -498,17 +507,19 @@ onUnmounted(() => {
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     border-left: 1px solid #486785;
+
     &:nth-of-type(1) {
       border: none;
     }
   }
 }
+
 .active {
   background: rgba(84, 181, 255, 0.8);
   color: #ffffff;
 }
+
 .pile-charger-header {
   display: flex;
   justify-content: space-between;
-}
-</style>
+}</style>

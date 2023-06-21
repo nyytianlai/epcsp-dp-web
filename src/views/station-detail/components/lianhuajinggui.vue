@@ -8,7 +8,7 @@
         @click="handleClickDJ(item)"
       >
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
-        <span class="power text-ellipsis-1">{{ item.value }}</span>
+        <span class="power text-ellipsis-1">{{ item.text }}</span>
         <span class="state">
           <span class="text">{{ stateFormate(item.status).name }}</span>
         </span>
@@ -41,9 +41,9 @@ const stateFormate = (state) => {
     }
   }[state];
 };
-const handleClickDJ = (e: { id: string; status: number; value: string }) => {
+const handleClickDJ = (e: { id: string; status: number; value: string; text: string }) => {
   console.log('点击右侧的单晶板', e);
-  bus.emit('focusToPile', e.id);
+  bus.emit('focusToPile', e);
 };
 onBeforeUnmount(() => {});
 </script>

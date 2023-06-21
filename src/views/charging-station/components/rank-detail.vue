@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="pile-dialog" destroy-on-close width="8.45rem">
+  <el-dialog class="pile-dialog" destroy-on-close align-center width="8.45rem">
     <template #header>
       <div class="detail-header">
         <icon icon="svg-icon:house" class="house" />
@@ -20,14 +20,17 @@
       </div>
       <div class="msg-container" v-if="current === 'msg'">
         <div class="base-msg" v-for="(item, index) in baseMsg" :key="index">
-          <el-popover placement="top" trigger="hover" :content="item">
-            <template #reference>
-              <div class="msg-box">
-                <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span>
+
+          <div class="msg-box">
+            <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span>
+            <el-popover placement="top" trigger="hover" :content="item" v-if="item.length>14">
+              <template #reference>
                 <div class="msg">{{ item }}</div>
-              </div>
-            </template>
-          </el-popover>
+              </template>
+            </el-popover>
+            <div class="msg" v-else>{{ item }}</div>
+          </div>
+
         </div>
       </div>
       <div class="charge-container" v-else>
@@ -54,8 +57,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagiantion-detail" :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total"
-          :background="true" :current-page="pageObj.currentPage" @current-change="handPageChange" />
+        <el-pagination class="pagiantion-detail" :page-size="pageObj.pageSize" layout="prev, pager, next"
+          :total="pageObj.total" :background="true" :current-page="pageObj.currentPage"
+          @current-change="handPageChange" />
       </div>
     </div>
   </el-dialog>
@@ -199,7 +203,6 @@ defineExpose({
       20px 100%,
       0 calc(100% - 20px),
       0 0);
-
 }
 
 .charge-container {
@@ -275,7 +278,7 @@ defineExpose({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 230px;
+    width: 240px;
   }
 }
 
@@ -322,8 +325,9 @@ defineExpose({
 
 .custom-dialog-table {
   margin-top: 16px;
-  :deep(td.el-table__cell){
-    padding: 11px 0 ;
+
+  :deep(td.el-table__cell) {
+    padding: 11px 0;
   }
 }
 
@@ -335,6 +339,6 @@ defineExpose({
 .pagiantion-detail {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px!important;
+  margin-top: 10px !important;
 }
 </style>

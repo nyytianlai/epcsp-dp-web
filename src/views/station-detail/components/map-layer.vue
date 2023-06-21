@@ -8,8 +8,9 @@
 -->
 <template>
   <BaoQing v-if="currentHrStationID === '-1'" />
+  <LianHuaPopup v-if="currentHrStationID === '-2'" />
   <HongLiXi v-if="currentHrStationID === '-3'" />
-  <LianHua v-if="currentHrStationID === '-2'" />
+  <HonglixiPopup v-if="currentHrStationID === '-3'" />
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
@@ -28,7 +29,8 @@ import { ceilingId, currentLabel, facilitiesLabel, chargeIcon } from '../config.
 import { useMapStore } from '@/stores/map';
 import BaoQing from './baiqing.vue';
 import HongLiXi from './honglixi.vue';
-import LianHua from './lianhua.vue';
+import LianHuaPopup from './lianhua-popup.vue';
+import HonglixiPopup from './honglixi-popup.vue';
 import { getStrLength } from '@/utils/index';
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
@@ -199,8 +201,9 @@ const addFacilitiesLabel = async (id) => {
 
     let xoffset = (getStrLength(item.value) * 12 + 30) / 2;
     let o1 = {
-      id: 'facilitiesLabel-' + item.id,
+      id: item.type && item.type === 'hongli' ? item.id : 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',
+      userData: JSON.stringify(item),
       coordinate: item.position, //坐标位置
       anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [48, 52], //图片的尺寸
@@ -219,7 +222,8 @@ const addFacilitiesLabel = async (id) => {
   });
   //批量添加polygon
   await __g.marker.add(pointArr, null);
-  if (currentHrStationID.value !== '-3') {
+  const isShowLabelId = ['-2', '-3'];
+  if (!isShowLabelId.includes(currentHrStationID.value)) {
     await __g.marker.hideByGroupId('stationFacilitiesLabel');
   }
 };

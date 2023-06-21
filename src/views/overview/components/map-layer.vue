@@ -12,8 +12,9 @@
   <legend-list
     :legendList="legendListData"
     :legendName="legendNameData"
-    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
+    v-show="currentHrStationID == ''"
   />
+  <!-- v-show="currentPosition == '深圳市' || currentPosition.includes('区')" -->
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
@@ -21,15 +22,16 @@ import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useMapStore } from '@/stores/map';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
-import { getImageByCloud, getHtmlUrl } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
-import { getStrLength } from '@/utils/index';
-
+import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 
 const store = useMapStore();
-const currentPosition = computed(() => store.currentPosition);
-store.changeStationType([1, 2, 3, 4]);
+const storeVisible = useVisibleComponentStore();
+// const currentPosition = computed(() => store.currentPosition);
+const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
 const aircityObj = inject('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -42,17 +44,25 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log('点击外面的点数据', e);
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Id?.includes('stationOverview-')) {
+      //关闭上一个高亮其他站点
+      currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
+      __g.marker.delete('stationOverview-hight');
+      //关闭上一个高亮充电站
+      currtentStation.stationId1 ? await __g.marker.hidePopupWindow(currtentStation.stationId1) : '';
+      quRef.value.hideHighLightNormalStation();
+      storeVisible.changeShowComponent(true);
+      storeVisible.changeShowDetail({
+        show: false,
+        params: {}
+      });
       currtentStation = JSON.parse(e.UserData);
+      currtentStation['stationId1'] = e.Id;
       if (e.Id?.includes('chargingStation-')) {
         //充电站
         quRef.value.highLightNormalStation(currtentStation);
         quRef.value.enterStationInfo(currtentStation);
       } else {
         let stationType = e.Id.split('-')[1];
-        currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
-        __g.marker.delete('stationOverview-hight');
-        // currtentStation = JSON.parse(e.UserData);
-        currtentStation['stationId1'] = e.Id;
         __g.marker.hide(e.Id);
         addHighLightStation(currtentStation, stationType);
       }
@@ -147,6 +157,18 @@ const addOutStation = async (module: number, jdcode: string) => {
           displayMode: 2,
           autoHeight: true
         };
+        if (key == 'chargingStation') {
+          const popupWidth = 146; // 弹框默认宽度
+          const fontSize = 24; // 弹框字体大小
+          const popupSizeX = item.stationName.length * fontSize + popupWidth; // 弹框宽度
+          o1['popupURL'] = `${getHtmlUrl()}/static/html/stationPop.html?value=${
+            item.stationName
+          }&stationId='station-'+${item.stationId}`; //弹窗HTML链接
+          o1['popupBackgroundColor'] = [1.0, 1.0, 1.0, 1]; //弹窗背景颜色
+          o1['popupSize'] = [popupSizeX, 60]; //弹窗大小
+          o1['popupOffset'] = [-popupSizeX / 2, -100]; //弹窗偏移
+          o1['autoHidePopupWindow'] = false;
+        }
         pointArr.push(o1);
       });
     }
@@ -169,8 +191,6 @@ const addHighLightStation = async (item, stationType: string) => {
     imagePath: getImageByCloud('hlSta' + iconType),
     popupURL: `${getHtmlUrl()}/static/html/${popName}.html?value=${JSON.stringify(item)}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
-    // popupSize: [370, 215.6], //弹窗大小
-    // popupOffset: [-210, -205], //弹窗偏移
     popupSize: [400, 245.6], //弹窗大小
     popupOffset: [-224, -223], //弹窗偏移
     autoHidePopupWindow: false,
@@ -180,6 +200,8 @@ const addHighLightStation = async (item, stationType: string) => {
   };
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOverview-hight');
+  await __g.marker.focus('stationOverview-hight', 100, 1, [-90.991409, -90.380768, 0]);
+  await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 
 defineExpose({});

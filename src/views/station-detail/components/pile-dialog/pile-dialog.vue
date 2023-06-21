@@ -13,6 +13,7 @@
     @closed="emit('closed')"
     :modal="false"
     destroy-on-close
+    align-center
   >
     <template #header>
       <div class="my-header">
@@ -31,14 +32,15 @@
           </span>
         </div>
       </div>
+      <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData, pileParams)">查看告警详情</div>
     </template>
     <normal-pile v-if="headerData?.type === 'normal-pile'" />
     <!-- <warning-pile v-if="headerData?.type === 'warning-pile'" @close="close" /> -->
     <video-player v-if="type === 'monitor'" :videoUrl="pileVideoData.cameraUrl" />
   </el-dialog>
 </template>
-<script setup>
-import { toRefs, ref, computed, onMounted, watch, provide } from 'vue';
+<script lang="ts" setup>
+import { toRefs, ref, computed, onMounted, watch, provide, onUnmounted } from 'vue';
 import NormalPile from './normal-pile.vue';
 import WarningPile from './warning-pile.vue';
 import VideoPlayer from './video-palyer.vue';
@@ -60,7 +62,7 @@ const props = defineProps({
   }
 });
 const { visible, title, type, pileVideoData, pileParams } = toRefs(props);
-const emit = defineEmits(['update:visible', 'closed']);
+const emit = defineEmits(['update:visible', 'closed', 'click-warn']);
 const headerData = ref({});
 const pileData = ref({});
 provide('pileData', pileData);
@@ -68,6 +70,9 @@ const isShow = ref(false);
 const isAlarm = ref(1);
 const close = () => {
   emit('update:visible', false);
+};
+const handleWarn = (data,pileParams) => {
+  emit('click-warn', data,pileParams);
 };
 const videoStatus = {
   0: {
@@ -141,15 +146,18 @@ const getEquipmentInfoByEquipmentIdData = async () => {
 };
 watch(
   () => visible.value,
-  (newVal) => {
+  async (newVal) => {
     console.log('newValnewVal', newVal);
     isShow.value = false;
     if (newVal) {
       console.log('monitor', type.value);
       if (type.value !== 'monitor') {
-        getEquipmentInfoByEquipmentIdData();
+        await getEquipmentInfoByEquipmentIdData();
       } else {
+        console.log('pileVideoData', pileVideoData);
         if (!pileVideoData.value) return;
+
+        isShow.value = true;
         headerData.value = {
           name: pileVideoData.value?.location,
           status: videoStatus[pileVideoData.value?.status]?.statusName,
@@ -271,6 +279,7 @@ watch(
     font-weight: bold;
   }
 }
+
 .warning-pile-alarm-basic {
   background: radial-gradient(
       58.3% 58.3% at 50% 50%,
@@ -280,7 +289,22 @@ watch(
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   box-shadow: inset 0px 0px 42px rgba(255, 54, 10, 0.51);
 }
+
 .hide {
   display: none;
+}
+
+.warn-btn {
+  position: absolute;
+  padding: 4px 12px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 18px;
+  background: rgba(255, 84, 84, 0.3);
+  border: 1px solid rgba(255, 84, 84, 0.3);
+  border-radius: 2px;
+  top: 30px;
+  right: 96px;
+  cursor: pointer;
 }
 </style>

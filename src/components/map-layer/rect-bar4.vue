@@ -79,10 +79,6 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
-    console.log(`${getHtmlUrl()}/static/html/rectBar4.html?value=${JSON.stringify(
-        countObj[0]
-      )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`);
-    
     barArr.push(o);
   });
   await aircityObj.value.acApi.marker.add(barArr);

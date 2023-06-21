@@ -19,3 +19,15 @@ export const getStreetPoint = (data) => {
     data
   });
 };
+//充换电柜总量统计
+export const totalStatistics = () => {
+  return request.post({
+    url: '/chargingCabinet/totalStatistics',
+  });
+};
+//
+export const typeAndNumber = () => {
+  return request.post({
+    url: '/chargingCabinet/typeAndNumber',
+  });
+};

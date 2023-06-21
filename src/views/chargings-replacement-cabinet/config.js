@@ -5,30 +5,32 @@ import zxzl from './images/zxzl.png';
 import edzgl from './images/edzgl.png';
 import sszgl from './images/sszgl.png';
 import dayjs from 'dayjs';
+import { deepClone } from '@/utils/index';
+
 export const pageNumFun = (data = {}) => {
   return [
     {
       name: '年累计充电量',
       // num: data?.cumulativeCharge,
-      num: 1.25,
+      num: 0.11,
       unit: '亿kWh'
     },
     {
       name: '年累计充电次数',
       // num: data?.cumChargeCount,
-      num: 1.14,
-      unit: '亿次'
+      num: 58.02,
+      unit: '万次'
     },
     {
       name: '年累计充电时长',
       // num: data?.cumChargeTime,
-      num: 7.39,
-      unit: '亿h'
+      num: 4033.12,
+      unit: '万h'
     },
     {
       name: '年累计换电次数',
       // num: data?.cumChargeTime,
-      num: 5641,
+      num: 663.25,
       unit: '万次'
     }
   ];
@@ -37,13 +39,13 @@ export const chdsszlFun = (data = {}) => {
   return [
     {
       img: chdzsszl,
-      num: 232343,
+      num: data?.total,
       unit: '个',
-      name: '充换电站设施总量'
+      name: '充换电柜总量'
     },
     {
       img: jrqyzs,
-      num: 12,
+      num: data?.operatorAmount,
       unit: '个',
       name: '接入企业总数'
     }
@@ -52,31 +54,21 @@ export const chdsszlFun = (data = {}) => {
 export const chargingType = [
   {
     code: 1,
-    label: '充换电设施类型'
+    label: '充换电柜类型'
   }
 ];
-export const chargingTypeDataFun = (data = {}) => {
+export const chargingTypeDataFun = (data = []) => {
   return [
     {
-      value: 210675,
-      name: '充电桩',
+      value: data?.[0]?.intAmount,
+      name: data?.[0]?.type,
       unit: '个'
     },
     {
-      value: 5583,
-      name: '充电柜',
+      value: data?.[1]?.intAmount,
+      name: data?.[1]?.type,
       unit: '个'
     },
-    {
-      value: 9926,
-      name: '换电柜',
-      unit: '个'
-    },
-    {
-      value: 759,
-      name: '其他',
-      unit: '个'
-    }
   ];
 };
 export const todayFacilities = [
@@ -149,126 +141,130 @@ export const linePowerDataFun = (data = []) => {
   data = [
     {
       time: '00',
-      useRate: 2980.32,
-      troubleRate: 3796.416
+      useRate: 570,
+      troubleRate: 741
     },
     {
       time: '01',
-      useRate: 2621.288,
-      troubleRate: 3153.9456
+      useRate: 513,
+      troubleRate: 616
     },
     {
       time: '02',
-      useRate: 2044.224,
-      troubleRate: 1839.8016
+      useRate: 399,
+      troubleRate: 359
     },
     {
       time: '03',
-      useRate: 1198.128,
-      troubleRate: 934.5024
+      useRate: 228,
+      troubleRate: 183
     },
     {
       time: '04',
-      useRate: 1659.192,
-      troubleRate: 1839.8016
+      useRate: 342,
+      troubleRate: 359
     },
     {
       time: '05',
-      useRate: 2335.256,
-      troubleRate: 2406.34368
+      useRate: 456,
+      troubleRate: 470
     },
     {
       time: '06',
-      useRate: 4380.48,
-      troubleRate: 4555.6992
+      useRate: 856,
+      troubleRate: 890
     },
     {
       time: '07',
-      useRate: 11189.248,
-      troubleRate: 9680.8608
+      useRate: 2224,
+      troubleRate: 1891
     },
     {
       time: '08',
-      useRate: 18120.084,
-      troubleRate: 19735.52256
+      useRate: 3536,
+      troubleRate: 3855
     },
     {
       time: '09',
-      useRate: 9929.088,
-      troubleRate: 10921.9968
+      useRate: 1939,
+      troubleRate: 2133
     },
     {
       time: '10',
-      useRate: 9345.024,
-      troubleRate: 11214.0288
+      useRate: 1825,
+      troubleRate: 2190
     },
     {
       time: '11',
-      useRate: 10513.152,
-      troubleRate: 10197.75744
+      useRate: 2053,
+      troubleRate: 1992
     },
     {
       time: '12',
-      useRate: 12265.344,
-      troubleRate: 10548.19584
+      useRate: 2396,
+      troubleRate: 2060
     },
     {
       time: '13',
-      useRate: 12849.408,
-      troubleRate: 13106.39616
+      useRate: 2510,
+      troubleRate: 2560
     },
     {
       time: '14',
-      useRate: 13725.504,
-      troubleRate: 14411.7792
+      useRate: 2681,
+      troubleRate: 2815
     },
     {
       time: '15',
-      useRate: 15185.664,
-      troubleRate: 14881.95072
+      useRate: 2966,
+      troubleRate: 2907
     },
     {
       time: '16',
-      useRate: 15769.728,
-      troubleRate: 15296.63616
+      useRate: 3080,
+      troubleRate: 2988
     },
     {
       time: '17',
-      useRate: 18690.048,
-      troubleRate: 17942.44608
+      useRate: 3650,
+      troubleRate: 3504
     },
     {
       time: '18',
-      useRate: 22778.496,
-      troubleRate: 23234.06592
+      useRate: 4449,
+      troubleRate: 4538
     },
     {
       time: '19',
-      useRate: 18105.984,
-      troubleRate: 19554.46272
+      useRate: 3536,
+      troubleRate: 3819
     },
     {
       time: '20',
-      useRate: 15477.696,
-      troubleRate: 15787.24992
+      useRate: 3023,
+      troubleRate: 3083
     },
     {
       time: '21',
-      useRate: 13725.504,
-      troubleRate: 14411.7792
+      useRate: 2681,
+      troubleRate:2815
     },
     {
       time: '22',
-      useRate: 11097.216,
-      troubleRate: 10875.27168
+      useRate: 2167,
+      troubleRate: 2124
     },
     {
       time: '23',
-      useRate: 7300.8,
-      troubleRate: 7884.864
+      useRate: 1426,
+      troubleRate: 1540
     }
   ];
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
+  const index = data.findIndex(i=>i.time === nowTime)
+  let dataC = deepClone(data)
+  dataC.splice(index+1)
   return [
     {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
@@ -277,7 +273,7 @@ export const linePowerDataFun = (data = []) => {
       name: '昨日换电次数'
     },
     {
-      data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
+      data: dataC.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
       name: '今日换电次数'

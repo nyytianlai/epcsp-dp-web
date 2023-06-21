@@ -6,26 +6,28 @@
         <div class="right">
           <span class="name">{{ item.name }}</span>
           <span class="num">
-            <span class="value">{{ item.value }}</span>
+            <span class="value" v-if="item.name === '簇总电压'">{{ state.voltage }}</span>
+            <span class="value" v-else>{{ item.value }}</span>
             &nbsp;
             <span class="unit">{{ item.unit }}</span>
           </span>
         </div>
       </li>
     </ul>
-    <div class="ec-box">
+    <!-- <div class="ec-box">
       <ec-resize :option="batteryTempOption" />
-    </div>
+    </div> -->
     <!-- <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
       :chartStyle="{ height: '1.8rem' }" :customOption="customOption" /> -->
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, reactive, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
-import EcResize from '@sutpc/vue3-ec-resize';
-import { batteryTempOption } from '../config';
+import { baoqingDevice } from './baoqing-device.js';
+// import EcResize from '@sutpc/vue3-ec-resize';
+// import { batteryTempOption } from '../config';
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
 const infoListFun = (data = {}) => {
@@ -33,7 +35,7 @@ const infoListFun = (data = {}) => {
     {
       icon: 'batteryCluster2',
       name: '簇总电压',
-      value: 220,
+      value: 0,
       // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
       unit: 'V'
     },
@@ -53,69 +55,63 @@ const infoListFun = (data = {}) => {
     },
     {
       icon: 'batteryCluster2',
-      name: '簇最高电压序号',
-      value: 67,
-      // value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高电压',
-      value: 50,
-      // value: data?.power === 0 ? data.power : data.power || '--',
-      unit: 'V'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低电压序号',
-      value: 46,
-      // value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低电压',
-      value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: 'V'
-    },
-    {
-      icon: 'batteryCluster2',
       name: '簇平均温度',
       value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: '℃'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高温度序号',
-      value: 74,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: ''
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最高温度',
-      value: 66,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: '℃'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低温度序号',
-      value: 36,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: 'MWh'
-    },
-    {
-      icon: 'batteryCluster2',
-      name: '簇最低温度',
-      value: 28,
-      // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       unit: '℃'
     }
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高电压序号',
+    //   value: 67,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高电压',
+    //   value: 50,
+    //   unit: 'V'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低电压序号',
+    //   value: 46,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低电压',
+    //   value: 36,
+    //   unit: 'V'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高温度序号',
+    //   value: 74,
+    //   unit: ''
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最高温度',
+    //   value: 66,
+    //   unit: '℃'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低温度序号',
+    //   value: 36,
+    //   unit: 'MWh'
+    // },
+    // {
+    //   icon: 'batteryCluster2',
+    //   name: '簇最低温度',
+    //   value: 28,
+    //   unit: '℃'
+    // }
   ];
 };
+const state = reactive({
+  voltage: 0
+});
 const infoList = ref(infoListFun());
 const dynamicActive = ref(infoList.value[4]);
 
@@ -131,14 +127,37 @@ const linePowerDataFun = (data = []) => {
   ];
 };
 const linePowerData = ref(linePowerDataFun());
-onMounted(() => {});
+const handleCurData = () => {
+  const hours = dayjs().hour();
+  const minutes = dayjs().minute();
+  for (let i = 0; i < baoqingDevice.length; i++) {
+    const date = baoqingDevice[i].time.split(':');
+    // 判断小时和分钟是否小于当前时刻
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+      state.voltage = baoqingDevice[i].voltage;
+      break;
+    }
+  }
+};
+let timer = null;
+onMounted(() => {
+  handleCurData();
+  timer = setInterval(() => {
+    handleCurData();
+  }, 1000);
+});
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer);
+  }
+});
 </script>
 <style lang="less" scoped>
 .active-message {
+  height: 173px;
   .info-content {
     display: flex;
     flex-wrap: wrap;
-
     .info-item {
       background: #375374;
       display: flex;
@@ -191,8 +210,5 @@ onMounted(() => {});
       }
     }
   }
-}
-.ec-box {
-  height: 180px;
 }
 </style>

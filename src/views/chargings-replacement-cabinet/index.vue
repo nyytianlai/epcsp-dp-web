@@ -1,6 +1,6 @@
 <template>
   <div class="chargings-replacement-cabinet">
-    <page-num :data="pageNumData" />
+    <!-- <page-num :data="pageNumData" /> -->
     <!-- 左侧 -->
     <panel>
       <div class="chargings-replacement-cabinet-overview">
@@ -13,7 +13,7 @@
       </div>
       <div class="charging-type">
         <tabs :data="chargingType" />
-        <pie-chart :data="chargingTypeData" totalName="设施类型总量" :colors="chargingColor" />
+        <pie-chart :data="chargingTypeData" totalName="类型总量" :colors="chargingColor" />
       </div>
       <div class="company-facilities-rank">
         <title-column title="今日站点换电次数排名" icon="chargings-replacement" />
@@ -24,7 +24,7 @@
           :showPer="false"
         /> -->
 
-        <rank-list :data="facilitiesRankData" :totalNum="facilitiesRankTotal" height="3.54rem" />
+        <rank-list :data="facilitiesRankData" :totalNum="facilitiesRankTotal" height="3.34rem" />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -69,7 +69,7 @@ import {
   warnData
 } from './config';
 import MapLayer from './components/map-layer.vue';
-
+import { totalStatistics, typeAndNumber } from './api.js';
 interface Aircity {
   value: object;
 }
@@ -86,34 +86,54 @@ const chargingTypeData = ref(chargingTypeDataFun());
 // 企业排名
 const facilitiesRankData = ref([
   {
-    num: 3612,
+    num: 145,
     unit: '个',
-    name: '51换电'
+    name: '猛犸出行-三角楼3号'
   },
   {
-    num: 2989,
+    num: 123,
     unit: '个',
-    name: '中国铁塔换电'
+    name: '猛犸出行-罗丰路五巷5号'
   },
   {
-    num: 1886,
+    num: 121,
     unit: '个',
-    name: '骑士换电'
+    name: '猛犸出行-机电市场4'
   },
   {
-    num: 1415,
+    num: 95,
     unit: '个',
-    name: '智租换电'
+    name: '猛犸出行-井水龙新一巷10号'
   },
   {
-    num: 942,
+    num: 87,
     unit: '个',
-    name: '春藤物联'
+    name: '猛犸出行-盘古石村1-4号'
   },
   {
-    num: 782,
+    num: 63,
     unit: '个 ',
-    name: '小哈换电'
+    name: '猛犸出行-松子坑路二巷17号'
+  },
+  {
+    num: 55,
+    unit: '个 ',
+    name: '猛犸出行-东坑路7-1号'
+  },
+  {
+    num: 51,
+    unit: '个 ',
+    name: '猛犸出行-深圳均衡精密五金制品有限公司'
+  },
+  {
+    num: 50,
+    unit: '个 ',
+    name: '猛犸出行-西坑村22号'
+  },
+  {
+    num: 49,
+    unit: '个 ',
+    name: '猛犸出行-东坑路8号'
   }
 ]);
 // 企业排名总量
@@ -126,11 +146,22 @@ const powerTodayCard = ref(powerTodayCardFun());
 const lineStateData = ref(linePowerDataFun());
 // 今日告警信息
 const warningListData = ref([]);
+
+// 获取企业总量
+const loadTotalStatistics = async () => {
+  const res = await totalStatistics();
+  cardData.value = chdsszlFun(res.data);
+};
+// 获取充换电柜类型
+const loadTypeAndNumber = async () => {
+  const res = await typeAndNumber();
+  console.log('获取充换电柜类型', res.data);
+  chargingTypeData.value = chargingTypeDataFun(res.data);
+};
 // 今日设施数据信息点击
 const handleFacilities = (item) => {
   console.log('item', item);
-  todayFacilitiesCard.value = todayFacilitiesCardFun({},item.code)
-
+  todayFacilitiesCard.value = todayFacilitiesCardFun({}, item.code);
 };
 // 今日告警信息点击
 const handleWarnClick = (station: object) => {
@@ -151,13 +182,15 @@ const init = () => {
 };
 onMounted(() => {
   init();
+  loadTotalStatistics();
+  loadTypeAndNumber();
 });
 </script>
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
   .num-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;

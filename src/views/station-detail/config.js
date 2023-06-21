@@ -5,24 +5,25 @@ import rate from './images/rate.png';
 import num from './images/num.png';
 import dayjs from 'dayjs';
 import petrol from './images/petrol.png';
-import { simplifyNum } from '@/utils/index';
+import { simplifyNum, deepClone } from '@/utils/index';
 import nxfdl from './components/images/nxfdl.png';
 import ntgdl from './components/images/ntgdl.png';
 import cddy from './components/images/cddy.png';
+import { baoqingDevice } from './components/baoqing-device.js';
 // 宝清储能站可高亮TileLayer
 export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
 export const lianhuaPowerFun = (data = {}) => {
   return [
     {
       img: rate,
-      num: 1601,
+      num: 72.34,
       name: '上网电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: num,
-      num: 855,
+      num: 148.64,
       name: '发电电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleYellow'
@@ -194,157 +195,180 @@ const lianhuaRealtimeDataFun = () => {
   // }
   return seriesData;
 };
-export const lianhuaRealtimeOption = {
-  grid: {
-    top: 30,
-    bottom: 24,
-    right: 15,
-    left: 60
-  },
-  tooltip: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    padding: 0,
-    trigger: 'axis',
-    formatter: (params) => {
-      const val = params[0];
-      let str = `<div class="time-tooltip">`;
-      str += `<div class="time">${val.axisValueLabel}</div>`;
-      params.map((item) => {
-        str += `<div class="item-data">
-          <span class="left-data">
-            ${item?.marker}
-            <span class="name">${item?.seriesName}</span>
-          </span>
-          <span class="right-data">
-            <span class="value">${item.value}</span>
-            <span class="unit">kW</span>
-          </span>
-        </div>`;
-      });
-      str += '</div>';
-      return str;
-    }
-  },
-  legend: {
-    data: ['实时功率'],
-    textStyle: {
-      color: '#fff'
+export const lianhuaRealtimeOption = () => {
+  const data = lianhuaRealtimeDataFun();
+  const h = dayjs().format('HH');
+  const time = [
+    '00:00',
+    '01:00',
+    '02:00',
+    '03:00',
+    '04:00',
+    '05:00',
+    '06:00',
+    '07:00',
+    '08:00',
+    '09:09',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+    '20:00',
+    '21:00',
+    '22:00',
+    '23:00',
+    '24:00'
+  ];
+  const index = time.findIndex((i) => {
+    const temp = i.split(':')[0];
+    console.log('h', h, 'tt', temp);
+    return h === temp;
+  });
+  // 获取副本
+  let timeC = deepClone(time);
+  let dataC = deepClone(data);
+  // 数组选择
+  timeC.splice(index + 1);
+  dataC.splice(index + 1);
+
+  return {
+    grid: {
+      top: 30,
+      bottom: 24,
+      right: 15,
+      left: 60
     },
-    x: '75%'
-  },
-  xAxis: {
-    type: 'category',
-    data: [
-      '00:00',
-      '01:00',
-      '02:00',
-      '03:00',
-      '04:00',
-      '05:00',
-      '06:00',
-      '07:00',
-      '08:00',
-      '09:09',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-      '17:00',
-      '18:00',
-      '19:00',
-      '20:00',
-      '21:00',
-      '22:00',
-      '23:00',
-      '24:00'
-    ],
-    boundaryGap: ['2%', '2%'],
-    axisLine: {
-      lineStyle: {
-        color: '#BAE7FF'
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const val = params[0];
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${val.axisValueLabel}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${item.value}</span>
+              <span class="unit">kW</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
       }
     },
-    axisTick: {
-      lineStyle: {
-        color: '#BAE7FF'
-      }
+    legend: {
+      data: ['实时功率'],
+      textStyle: {
+        color: '#fff'
+      },
+      x: '75%'
     },
-    axisLabel: {
-      fontFamily: 'Source Han Sans CN',
-      fontSize: 12,
-      lineHeight: 18,
-      color: '#B4C0CC'
-    },
-    splitLine: {
-      show: false
-    }
-  },
-  yAxis: {
-    name: '单位:kW ',
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    axisLabel: {
-      fontFamily: 'Helvetica',
-      fontSize: 12,
-      lineHeight: 16,
-      color: '#B4C0CC',
-      formatter: (value) => {
-        return value ? simplifyNum(value) : '';
-      }
-    },
-    splitLine: {
-      lineStyle: {
-        color: 'rgba(230, 247, 255, 0.2)',
-        type: 'dashed'
-      }
-    }
-  },
-  series: [
-    {
-      data: lianhuaRealtimeDataFun(),
-      type: 'line',
-      smooth: true,
-      name: '实时功率',
-      areaStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: '#4BDEFF' // 0% 处的颜色
-            },
-            {
-              offset: 1,
-              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-            }
-          ],
-          global: false // 缺省为 false
+    xAxis: {
+      type: 'category',
+      data: time,
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
         }
       },
-      itemStyle: {
-        color: '#4BDEFF'
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+      },
+      splitLine: {
+        show: false
       }
-    }
-  ]
+    },
+    yAxis: {
+      name: '单位:kW ',
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
+      }
+    },
+    series: [
+      {
+        data: dataC,
+        type: 'line',
+        smooth: true,
+        name: '实时功率',
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#4BDEFF' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+              }
+            ],
+            global: false // 缺省为 false
+          }
+        },
+        itemStyle: {
+          color: '#4BDEFF'
+        }
+      }
+    ]
+  };
 };
-const lianhuajinguiFun = () => {
+
+const lianhuajinguiFun = (weather = 0) => {
   let data = [];
+  const photoData = [
+    397, 468, 482, 476, 437, 455, 481, 453, 429, 426, 452, 426, 452, 438, 467, 466, 488, 453, 433,
+    456, 364, 362, 421, 395, 392, 397, 381, 367, 387, 375, 362, 377, 341, 327, 346, 349
+  ];
   for (let i = 0; i < 36; i++) {
     let obj = {
       id: `singleCrystalSilicon${i + 1}`,
-      value: '540W',
+      text: '540W',
+      value: weather === 1 ? photoData[i] - parseInt(photoData[i] * 0.23) : photoData[i],
       status: 1
     };
     // if (i < 50) {
@@ -360,7 +384,7 @@ export const deviceInfoFun = (data = {}) => {
     {
       img: InstalledCapacity,
       num: 19.44,
-      unit: '/kW',
+      unit: '/kWp',
       name: '站点装机容量'
     },
     {
@@ -628,57 +652,15 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '风机',
-        id: '风机',
+        id: 'fan',
         position: [506401.55625, 2494983.84, 18.51548095703125],
         img: 'fan'
       },
       {
-        value: 'A1',
-        id: 'A1',
-        position: [506375.833125, 2494823.68, 10.55826171875],
-        img: 'metro'
-      },
-      {
-        value: 'A2',
-        id: 'A2',
-        position: [506413.631875, 2494782.08, 17.473076171875],
-        img: 'metro'
-      },
-      {
-        value: 'B1',
-        id: 'B1',
-        position: [506479.97500000003, 2494780.16, 17.0259130859375],
-        img: 'metro'
-      },
-      {
-        value: 'B2',
-        id: 'B2',
-        position: [506549, 2494833.44, 17.6691015625],
-        img: 'metro'
-      },
-      {
-        value: 'C1',
-        id: 'C1',
-        position: [506516.78875, 2494895.84, 17.999814453125],
-        img: 'metro'
-      },
-      {
-        value: 'C2',
-        id: 'C2',
-        position: [506473.3137, 2494977.76, 18.95273],
-        img: 'metro'
-      },
-      {
-        value: 'D',
-        id: 'D',
-        position: [506389.108125, 2494895.2, 17.91951171875],
-        img: 'metro'
-      },
-      {
-        value: 'E',
-        id: 'E',
-        position: [506406.7, 2494957.6, 17.934033203125],
-        img: 'metro'
+        value: '光伏电池板',
+        id: 'photovoltaic',
+        position: [506406.80562500004, 2494958.88, 17.351787109375],
+        img: 'photovoltaic'
       }
     ];
   } else if (stationId == '-3') {
@@ -686,19 +668,22 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '机房',
-        id: '机房',
+        id: 'machineRoom-1',
+        type: 'hongli',
         position: [502305.79375, 2494200.64, 13.65986083984375],
         img: 'machineRoom'
       },
       {
         value: '微波',
-        id: '微波',
+        id: 'micro-wave',
+        type: 'hongli',
         position: [502312.6265625, 2494191.36, 20.13559326171875],
         img: 'microwave'
       },
       {
         value: '5G天线',
-        id: '5G天线',
+        id: '5G-antenna',
+        type: 'hongli',
         position: [502312.4453125, 2494190.88, 23.995588378906252],
         img: '5GAntenna'
       }
@@ -859,17 +844,17 @@ export const floor2SpaceMarker = [
 ];
 // 宝清储能站F1-设备功能
 export const floor1DeviceMarker = [
+  // {
+  //   value: 'PCS柜',
+  //   id: 'floor1DeviceMarker1',
+  //   groupId: 'stationFacilitiesLabel',
+  //   type: 'customAngleMarker',
+  //   img: 'pcs',
+  //   position: [529808.3725, 2509992.32, 76.12537109375],
+  //   camera: [529805.81082, 2509990.714063, 76.307715, -7.829712, -29.874485, 2]
+  // },
   {
-    value: 'PCS柜',
-    id: 'floor1DeviceMarker1',
-    groupId: 'stationFacilitiesLabel',
-    type: 'customAngleMarker',
-    img: 'pcs',
-    position: [529808.3725, 2509992.32, 76.12537109375],
-    camera: [529805.81082, 2509990.714063, 76.307715, -7.829712, -29.874485, 2]
-  },
-  {
-    value: 'BMS规约转换柜',
+    value: 'PCS规约转换器',
     id: 'floor1DeviceMarker2',
     groupId: 'stationFacilitiesLabel',
     type: 'customAngleMarker',
@@ -1096,13 +1081,13 @@ export const chargingTypesFun = (data = {}) => {
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
-    {
-      data: data?.map((item) => [yearMonthDay + item.time, item.totalPower]),
-      type: 'line',
-      smooth: true,
-      name: '总功率'
-      // areaStyle:{show:false}
-    },
+    // {
+    //   data: data?.map((item) => [yearMonthDay + item.time, item.totalPower]),
+    //   type: 'line',
+    //   smooth: true,
+    //   name: '总功率'
+    //   // areaStyle:{show:false}
+    // },
     // {
     //   data: data?.map((item) => [yearMonthDay + item.time, item.ratedPower]),
     //   type: 'line',
@@ -1245,7 +1230,7 @@ export const stationWarnFun = (data = []) => {
   };
   return obj;
 };
-const xAxisTodayFun = () => {
+export const xAxisTodayFun = () => {
   let xAxis = [];
   for (let i = 0; i < 24; i++) {
     xAxis.push(
@@ -1362,129 +1347,149 @@ export const stationWarnOption = {
   },
   series: []
 };
-export const batterySOHOption = {
-  grid: {
-    top: 30,
-    bottom: 24,
-    right: 15,
-    left: 42
-  },
-  tooltip: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    padding: 0,
-    trigger: 'axis',
-    formatter: (params) => {
-      const val = params[0];
-      let str = `<div class="time-tooltip">`;
-      str += `<div class="time">${val.axisValueLabel}</div>`;
-      params.map((item) => {
-        str += `<div class="item-data">
-          <span class="left-data">
-            ${item?.marker}
-            <span class="name">${item?.seriesName}</span>
-          </span>
-          <span class="right-data">
-            <span class="value">${item.value}</span>
-            <span class="unit">%</span>
-          </span>
-        </div>`;
-      });
-      str += '</div>';
-      return str;
-    }
-  },
-  legend: {
-    data: ['簇SOH'],
-    textStyle: {
-      color: '#fff'
-    },
-    x: '75%'
-  },
-  xAxis: {
-    type: 'category',
-    data: xAxisTodayFun(),
-    boundaryGap: false,
-    axisLine: {
-      lineStyle: {
-        color: '#BAE7FF'
-      }
-    },
-    axisTick: {
-      lineStyle: {
-        color: '#BAE7FF'
-      }
-    },
-    axisLabel: {
-      fontFamily: 'Source Han Sans CN',
-      fontSize: 12,
-      lineHeight: 18,
-      color: '#B4C0CC',
-      formatter: (value) => {
-        return dayjs(value).format('HH');
-      }
-    },
-    splitLine: {
-      show: false
-    }
-  },
-  yAxis: {
-    name: '单位：%',
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    axisLabel: {
-      fontFamily: 'Helvetica',
-      fontSize: 12,
-      lineHeight: 16,
-      color: '#B4C0CC',
-      formatter: (value) => {
-        return value >= 0 ? value : '';
-      }
-    },
-    splitLine: {
-      lineStyle: {
-        color: 'rgba(230, 247, 255, 0.2)',
-        type: 'dashed'
-      }
-    }
-  },
-  series: [
-    {
-      data: realtimeSeriesDataFun(20, 60),
-      type: 'line',
-      smooth: true,
-      name: '簇SOH',
+export const batterySOHOption = () => {
+  let xAxis = [];
+  let todaySeriesData = [];
+  const hours = dayjs().hour();
+  const minutes = dayjs().minute();
 
-      areaStyle: {
-        origin: 'start',
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: '#00FFF9' // 0% 处的颜色
-            },
-            {
-              offset: 1,
-              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-            }
-          ],
-          global: false // 缺省为 false
+  for (let i = 0; i < baoqingDevice.length; i++) {
+    xAxis.push(baoqingDevice[i].time);
+    const date = baoqingDevice[i].time.split(':');
+    // 判断小时和分钟是否小于当前时刻
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+      todaySeriesData.push((baoqingDevice[i].voltage * baoqingDevice[i].current).toFixed(2));
+    }
+    // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
+    // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
+  }
+  // console.log('xAxis', xAxis);
+  // console.log('todaySeriesData', todaySeriesData);
+  return {
+    grid: {
+      top: 30,
+      bottom: 24,
+      right: 15,
+      left: 42
+    },
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const val = params[0];
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${val.axisValueLabel}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${item.value}</span>
+              <span class="unit">kW</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
+      }
+    },
+    legend: {
+      data: ['电池簇功率'],
+      textStyle: {
+        color: '#fff'
+      },
+      x: 'right'
+    },
+    xAxis: {
+      type: 'category',
+      data: xAxis,
+      boundaryGap: false,
+      minInterval: 0,
+      interval: 60,
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
         }
       },
-      itemStyle: {
-        color: '#00FFF9'
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+        // formatter: (value) => {
+        //   return dayjs(value).format('HH');
+        // }
+      },
+      splitLine: {
+        show: false
       }
-    }
-  ]
+    },
+    yAxis: {
+      name: '单位：kW',
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value >= 0 ? value : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
+      }
+    },
+    series: [
+      {
+        data: todaySeriesData,
+        type: 'line',
+        smooth: true,
+        name: '电池簇功率',
+        areaStyle: {
+          origin: 'start',
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#00FFF9' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+              }
+            ],
+            global: false // 缺省为 false
+          }
+        },
+        itemStyle: {
+          color: '#00FFF9'
+        }
+      }
+    ]
+  };
 };
 export const batteryTempOption = {
   grid: {
@@ -1739,152 +1744,168 @@ const baoqingRealtimeDataFun = () => {
   // }
   return seriesData;
 };
-export const baoqingRealtimeOption = {
-  grid: {
-    top: 30,
-    bottom: 24,
-    right: 15,
-    left: 60
-  },
-  tooltip: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    padding: 0,
-    trigger: 'axis',
-    formatter: (params) => {
-      const val = params[0];
-      let str = `<div class="time-tooltip">`;
-      str += `<div class="time">${val.axisValueLabel}</div>`;
-      params.map((item) => {
-        str += `<div class="item-data">
-          <span class="left-data">
-            ${item?.marker}
-            <span class="name">${item?.seriesName}</span>
-          </span>
-          <span class="right-data">
-            <span class="value">${item.value}</span>
-            <span class="unit">GWH</span>
-          </span>
-        </div>`;
-      });
-      str += '</div>';
-      return str;
-    }
-  },
-  legend: {
-    textStyle: {
-      color: '#fff'
+export const baoqingRealtimeOption = () => {
+  const data = baoqingRealtimeDataFun();
+  const h = dayjs().format('HH');
+  const time = [
+    '00:00',
+    '01:00',
+    '02:00',
+    '03:00',
+    '04:00',
+    '05:00',
+    '06:00',
+    '07:00',
+    '08:00',
+    '09:09',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+    '20:00',
+    '21:00',
+    '22:00',
+    '23:00',
+    '24:00'
+  ];
+  const index = time.findIndex((i) => {
+    const temp = i.split(':')[0];
+    return h === temp;
+  });
+  // 获取副本
+  let timeC = deepClone(time);
+  let dataC = deepClone(data);
+  // 数组选择
+  timeC.splice(index + 1);
+  dataC.splice(index + 1);
+
+  return {
+    grid: {
+      top: 30,
+      bottom: 24,
+      right: 15,
+      left: 60
     },
-    x: '75%'
-  },
-  xAxis: {
-    type: 'category',
-    data: [
-      '00:00',
-      '01:00',
-      '02:00',
-      '03:00',
-      '04:00',
-      '05:00',
-      '06:00',
-      '07:00',
-      '08:00',
-      '09:09',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-      '17:00',
-      '18:00',
-      '19:00',
-      '20:00',
-      '21:00',
-      '22:00',
-      '23:00',
-      '24:00'
-    ],
-    boundaryGap: ['2%', '2%'],
-    axisLine: {
-      lineStyle: {
-        color: '#BAE7FF'
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const val = params[0];
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${val.axisValueLabel}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${item.value}</span>
+              <span class="unit">GWH</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
       }
     },
-    axisTick: {
-      lineStyle: {
-        color: '#BAE7FF'
-      }
+    legend: {
+      textStyle: {
+        color: '#fff'
+      },
+      x: '75%'
     },
-    axisLabel: {
-      fontFamily: 'Source Han Sans CN',
-      fontSize: 12,
-      lineHeight: 18,
-      color: '#B4C0CC'
-    },
-    splitLine: {
-      show: false
-    }
-  },
-  yAxis: {
-    name: '单位:GWH',
-    nameTextStyle: {
-      color: '#B4C0CC'
-    },
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    axisLabel: {
-      fontFamily: 'Helvetica',
-      fontSize: 12,
-      lineHeight: 16,
-      color: '#B4C0CC',
-      formatter: (value) => {
-        return value ? simplifyNum(value) : '';
-      }
-    },
-    splitLine: {
-      lineStyle: {
-        color: 'rgba(230, 247, 255, 0.2)',
-        type: 'dashed'
-      }
-    }
-  },
-  series: [
-    {
-      data: baoqingRealtimeDataFun(),
-      type: 'line',
-      // smooth: true,
-      name: '实时充放',
-      areaStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: '#4BDEFF' // 0% 处的颜色
-            },
-            {
-              offset: 1,
-              color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-            }
-          ],
-          global: false // 缺省为 false
+    xAxis: {
+      type: 'category',
+      data: time,
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
         }
       },
-      itemStyle: {
-        color: '#4BDEFF'
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+      },
+      splitLine: {
+        show: false
       }
-    }
-  ]
+    },
+    yAxis: {
+      name: '单位:GWH',
+      nameTextStyle: {
+        color: '#B4C0CC'
+      },
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
+      }
+    },
+    series: [
+      {
+        data: dataC,
+        type: 'line',
+        // smooth: true,
+        name: '实时充放',
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: '#4BDEFF' // 0% 处的颜色
+              },
+              {
+                offset: 1,
+                color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+              }
+            ],
+            global: false // 缺省为 false
+          }
+        },
+        itemStyle: {
+          color: '#4BDEFF'
+        }
+      }
+    ]
+  };
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
@@ -2107,153 +2128,171 @@ const popRealtimeDataFun = () => {
   // }
   return seriesData;
 };
-export const popRealtimeOption = {
-  grid: {
-    top: 30,
-    bottom: 24,
-    right: 30,
-    left: 40
-  },
-  tooltip: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    padding: 0,
-    trigger: 'axis',
-    formatter: (params) => {
-      const val = params[0];
-      let str = `<div class="time-tooltip">`;
-      str += `<div class="time">${val.axisValueLabel}</div>`;
-      params.map((item) => {
-        str += `<div class="item-data">
-          <span class="left-data">
-            ${item?.marker}
-            <span class="name">${item?.seriesName}</span>
-          </span>
-          <span class="right-data">
-            <span class="value">${item.value}</span>
-            <span class="unit">kw</span>
-          </span>
-        </div>`;
-      });
-      str += '</div>';
-      return str;
-    }
-  },
-  legend: {
-    textStyle: {
-      color: '#fff'
+export const popRealtimeOption = () => {
+  const data = popRealtimeDataFun();
+  const h = dayjs().format('HH');
+  const time = [
+    '00:00',
+    '01:00',
+    '02:00',
+    '03:00',
+    '04:00',
+    '05:00',
+    '06:00',
+    '07:00',
+    '08:00',
+    '09:09',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+    '18:00',
+    '19:00',
+    '20:00',
+    '21:00',
+    '22:00',
+    '23:00',
+    '24:00'
+  ];
+  const index = time.findIndex((i) => {
+    const temp = i.split(':')[0];
+    console.log('h', h, 'tt', temp);
+    return h === temp;
+  });
+  // 获取副本
+  let timeC = deepClone(time);
+  let dataC = deepClone(data);
+  // 数组选择
+  timeC.splice(index + 1);
+  dataC.splice(index + 1);
+
+  return {
+    grid: {
+      top: 30,
+      bottom: 24,
+      right: 30,
+      left: 40
     },
-    x: '70%'
-  },
-  xAxis: {
-    type: 'category',
-    data: [
-      '00:00',
-      '01:00',
-      '02:00',
-      '03:00',
-      '04:00',
-      '05:00',
-      '06:00',
-      '07:00',
-      '08:00',
-      '09:09',
-      '10:00',
-      '11:00',
-      '12:00',
-      '13:00',
-      '14:00',
-      '15:00',
-      '16:00',
-      '17:00',
-      '18:00',
-      '19:00',
-      '20:00',
-      '21:00',
-      '22:00',
-      '23:00',
-      '24:00'
-    ],
-    boundaryGap: ['2%', '2%'],
-    axisLine: {
-      lineStyle: {
-        color: '#BAE7FF'
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const val = params[0];
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${val.axisValueLabel}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${item.value}</span>
+              <span class="unit">kw</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
       }
     },
-    axisTick: {
-      lineStyle: {
-        color: '#BAE7FF'
+    legend: {
+      textStyle: {
+        color: '#fff'
+      },
+      x: '70%'
+    },
+    xAxis: {
+      type: 'category',
+      data: time,
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+      },
+      splitLine: {
+        show: false
       }
     },
-    axisLabel: {
-      fontFamily: 'Source Han Sans CN',
-      fontSize: 12,
-      lineHeight: 18,
-      color: '#B4C0CC'
-    },
-    splitLine: {
-      show: false
-    }
-  },
-  yAxis: {
-    name: '单位:kw',
-    nameTextStyle: {
-      color: '#B4C0CC'
-    },
-    axisLine: {
-      show: false
-    },
-    axisTick: {
-      show: false
-    },
-    axisLabel: {
-      fontFamily: 'Helvetica',
-      fontSize: 12,
-      lineHeight: 16,
-      color: '#B4C0CC',
-      formatter: (value) => {
-        return value ? simplifyNum(value) : '';
+    yAxis: {
+      name: '单位:kw',
+      nameTextStyle: {
+        color: '#B4C0CC'
+      },
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
+      },
+      axisLabel: {
+        fontFamily: 'Helvetica',
+        fontSize: 12,
+        lineHeight: 16,
+        color: '#B4C0CC',
+        formatter: (value) => {
+          return value ? simplifyNum(value) : '';
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(230, 247, 255, 0.2)',
+          type: 'dashed'
+        }
       }
     },
-    splitLine: {
-      lineStyle: {
-        color: 'rgba(230, 247, 255, 0.2)',
-        type: 'dashed'
+    series: [
+      {
+        data: dataC,
+        type: 'line',
+        // smooth: true,
+        name: '实时充放',
+        // areaStyle: {
+        //   color: {
+        //     type: 'linear',
+        //     x: 0,
+        //     y: 0,
+        //     x2: 0,
+        //     y2: 1,
+        //     colorStops: [
+        //       {
+        //         offset: 0,
+        //         color: '#4BDEFF' // 0% 处的颜色
+        //       },
+        //       {
+        //         offset: 1,
+        //         color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
+        //       }
+        //     ],
+        //     global: false // 缺省为 false
+        //   }
+        // },
+        itemStyle: {
+          color: '#4BDEFF'
+        }
       }
-    }
-  },
-  series: [
-    {
-      data: popRealtimeDataFun(),
-      type: 'line',
-      // smooth: true,
-      name: '实时充放',
-      // areaStyle: {
-      //   color: {
-      //     type: 'linear',
-      //     x: 0,
-      //     y: 0,
-      //     x2: 0,
-      //     y2: 1,
-      //     colorStops: [
-      //       {
-      //         offset: 0,
-      //         color: '#4BDEFF' // 0% 处的颜色
-      //       },
-      //       {
-      //         offset: 1,
-      //         color: 'rgba(217, 217, 217, 0)' // 100% 处的颜色
-      //       }
-      //     ],
-      //     global: false // 缺省为 false
-      //   }
-      // },
-      itemStyle: {
-        color: '#4BDEFF'
-      }
-    }
-  ]
+    ]
+  };
 };
+
 export const pageNumLianhuaxiFun = (data = {}) => {
   return [
     {
@@ -2306,10 +2345,11 @@ export const chargingStationGunTabsFun = () => {
   ];
 };
 export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
+  let res = [];
   if (maintab === 1) {
     // 充电桩
     if (code === 1) {
-      return [
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           // value: 29982,
@@ -2344,7 +2384,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         }
       ];
     } else {
-      return [
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
@@ -2363,7 +2403,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
   } else {
     // 充电枪
     if (code === 1) {
-      return [
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           name: '快充枪',
@@ -2394,7 +2434,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         }
       ];
     } else {
-      return [
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流枪',
@@ -2411,6 +2451,14 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
       ];
     }
   }
+  const temp = [];
+  res.map((i) => {
+    if (i.value !== 0) {
+      temp.push(i);
+    }
+  });
+  console.log('ressss', temp);
+  return temp;
 };
 export const batteryMsgFun = (data = {}) => {
   return [
@@ -2427,7 +2475,7 @@ export const batteryMsgFun = (data = {}) => {
     },
     {
       img: ntgdl,
-      num: 48/57,
+      num: 48 / 57,
       unit: 'v',
       name: '放电电压',
       numStyle: {

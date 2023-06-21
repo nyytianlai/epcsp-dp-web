@@ -343,6 +343,8 @@ onUnmounted(() => {
   position: absolute;
   top: 300px;
   left: 100px;
+  padding: 10px;
+  background-color: rgba(35, 38, 45, 0.43);
   .menu-item {
     display: flex;
     align-items: center;
@@ -350,6 +352,9 @@ onUnmounted(() => {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     margin-bottom: 10px;
+    &:last-child {
+      margin-bottom: 0;
+    }
     &.active {
       background-image: url('./images/menu-active.png');
     }

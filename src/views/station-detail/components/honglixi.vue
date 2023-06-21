@@ -37,62 +37,25 @@
     <div class="battery-msg">
       <title-column title="储能电池信息" icon="car" />
       <div class="num-wrap">
-          <template v-for="(item, index) in batteryMsg" :key="index">
-            <num-card :data="item" />
-          </template>
-        </div>
+        <template v-for="(item, index) in batteryMsg" :key="index">
+          <num-card :data="item" />
+        </template>
+      </div>
     </div>
     <div class="realtime">
       <title-column title="实时充放情况" icon="car" />
-      <EcResize :option="popRealtimeOption" class="chart" :style="{ height: '2.3rem' }" />
-
+      <EcResize :option="popRealtimeOption()" class="chart" :style="{ height: '2.3rem' }" />
     </div>
   </panel>
-  <!-- <PopBox v-if="showPop" @close="()=>{showPop = false}" :style="{'top': `${screenPosition[1]}px`,'left': `${screenPosition[0]}px`}"></PopBox> -->
 </template>
-<script setup>
-import { ref, onMounted, inject, watch, computed, reactive } from 'vue';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { useMapStore } from '@/stores/map';
-import { getTreeLayerIdByName } from '@/global/config/map';
-import {debounce} from '@/utils'
-import PopBox from './pop-box.vue'
+<script lang="ts" setup>
+import { ref, inject } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import {msgPopList,batteryMsgFun,popRealtimeOption} from '../config.js'
-const showPop = ref(false)
-const store = useVisibleComponentStore();
-const mapStore = useMapStore();
+import { msgPopList, batteryMsgFun, popRealtimeOption } from '../config.js';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
-const useEmitt = aircityObj.value?.useEmitt;
-const params = ref({
-  operatorId: store.detailParams?.operatorId,
-  stationId: store.detailParams?.stationId
-});
-const screenPosition = ref(['20%','50%'])
 // 储能电池信息
-const batteryMsg = ref(batteryMsgFun())
-useEmitt &&
-  useEmitt('AIRCITY_EVENT', (e)=>debounce(async (e) => {
-    //正常桩
-    console.log('e',e)
-    if (e.GroupID === 'stationFacilitiesLabel' && e.eventtype=='LeftMouseButtonClick') {
-      console.log('点击icon', e);
-      let screenCoord=await __g.coord.world2Screen(...e.MouseClickPoint);
-      screenPosition.value = screenCoord.screenPosition
-      console.log("screenCoord",screenCoord);
-      showPop.value = true
-    }
-  },1000)(e));
-// 定位到桩弹窗
-const focusToPile = (eid, status) => {
-  console.log('pileVisiblepileVisible', pileVisible.value);
-  let layerId = getTreeLayerIdByName('-2Station', mapStore.treeInfo);
-};
-const handleClose = () => {
-  //清除绿色高亮
-  __g.tileLayer.stopHighlightAllActors();
-};
+const batteryMsg = ref(batteryMsgFun());
 </script>
 <style lang="less" scoped>
 .station-info {

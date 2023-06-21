@@ -8,13 +8,20 @@
         <TemperatureMsg />
       </el-tab-pane>
     </el-tabs>
+
+    <div class="ec-box">
+      <ec-resize :option="option" />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { batterySOHOption } from '../config';
+import EcResize from '@sutpc/vue3-ec-resize';
 import BatteryMsg from './battery-msg.vue';
 import TemperatureMsg from './temperature-msg.vue';
 const activeName = ref('first');
+const option = ref(batterySOHOption());
 </script>
 <style lang="less" scoped>
 :deep(.pile-tabs) {
@@ -33,7 +40,8 @@ const activeName = ref('first');
   .el-tabs__nav-wrap::after {
     display: none;
   }
-  .el-tabs__content {
-  }
+}
+.ec-box {
+  height: 228px;
 }
 </style>

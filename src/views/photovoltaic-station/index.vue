@@ -1,6 +1,6 @@
 <template>
   <div class="photovoltaic-station">
-    <page-num :data="pageNumData" />
+    <!-- <page-num :data="pageNumData" /> -->
     <!-- 左侧 -->
     <panel>
       <div class="photovoltaic-station-overview">
@@ -53,7 +53,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, inject, } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import {
   pageNumFun,
   cdzzlFun,
@@ -67,7 +67,7 @@ import {
   socialBenefitFun,
   unitTotalFun
 } from './config';
-import { capacityRanking, projectRanking } from './api.js'
+import { capacityRanking, projectRanking } from './api.js';
 import MapLayer from './components/map-layer.vue';
 
 interface Aircity {
@@ -83,7 +83,7 @@ const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
 const cardData = ref(cdzzlFun());
 // 并网总容量
-const unitTotal = ref(unitTotalFun())
+const unitTotal = ref(unitTotalFun());
 // 上网方式分类
 const surfSortPieData = ref(surfSortPieDataFun());
 // 企业排名
@@ -99,61 +99,61 @@ const lineStateData = ref(linePowerDataFun());
 // 社会效益信息
 const socialBenefit = ref(socialBenefitFun());
 // 站点排名信息
-const stationRnk = ref([])
+const stationRnk = ref([]);
 // 光伏排名信息
-const lightRank = ref([])
-
+const lightRank = ref([]);
 
 // 获取站点容量排名
 const loadCapacityRanking = async () => {
-  const res = await capacityRanking()
-  console.log('获取站点容量排名', res)
-  stationRnk.value = res.data.map(i => {
+  const res = await capacityRanking();
+  console.log('获取站点容量排名', res);
+  stationRnk.value = res.data.map((i) => {
     return {
       num: i.doubleAmount,
       unit: 'MW',
       name: i.rankingName
-    }
-  })
-  companyRankData.value = stationRnk.value
+    };
+  });
+  companyRankData.value = stationRnk.value;
   companyRankTotal.value = companyRankData.value[0].num;
-}
+};
 // 获取光伏站数量排名
 const loadProjectRanking = async () => {
-  const res = await projectRanking()
-  console.log('获取光伏站数量排名', res)
-  lightRank.value = res.data.map(i => {
+  const res = await projectRanking();
+  console.log('获取光伏站数量排名', res);
+  lightRank.value = res.data.map((i) => {
     return {
       num: i.integerAmount,
       unit: '个',
       name: i.rankingName
-    }
-  })
-}
+    };
+  });
+};
 // 企业排名tab点击
 const handleCompany = (item) => {
   console.log('item', item);
-  companyRankData.value = item.code === 1 ? stationRnk.value : lightRank.value
+  companyRankData.value = item.code === 1 ? stationRnk.value : lightRank.value;
   companyRankTotal.value = companyRankData.value[0].num;
 };
 
-
 onMounted(() => {
-  loadCapacityRanking()
-  loadProjectRanking()
-})
+  loadCapacityRanking();
+  loadProjectRanking();
+});
 </script>
 <style lang="less" scoped>
 .photovoltaic-station-overview {
   .num-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(255.75deg,
-        rgba(37, 177, 255, 0.02) 23.33%,
-        rgba(37, 177, 255, 0.2) 100%);
+    background: linear-gradient(
+      255.75deg,
+      rgba(37, 177, 255, 0.02) 23.33%,
+      rgba(37, 177, 255, 0.2) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
@@ -192,9 +192,11 @@ onMounted(() => {
     height: 160px;
     padding: 0 9px;
     margin-top: 16px;
-    background: linear-gradient(258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%);
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
     mix-blend-mode: normal;
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -216,9 +218,11 @@ onMounted(() => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
