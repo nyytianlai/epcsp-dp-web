@@ -1,4 +1,5 @@
 import clientUsage from './images/client-usage.png';
+import { deepClone } from '@/utils/index';
 
 import dayjs from 'dayjs';
 export const clientInfo = [
@@ -15,6 +16,8 @@ export const clientRealtimeTrend = [
 ];
 export const lineStateDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
+  const nowTime = dayjs().format('HH')
+
   const data1 = [
     {
       time: '01',
@@ -97,9 +100,14 @@ export const lineStateDataFun = (data = []) => {
       onlineCount: 654
     }
   ];
+  const index = data1.findIndex((i) => {
+    return nowTime === i.time;
+  });
+  let data2 = deepClone(data1)
+  data2.splice(index+1)
   return [
     {
-      data: data1.map((item) => [yearMonthDay + item.time, item.onlineCount]),
+      data: data2.map((item) => [yearMonthDay + item.time, item.onlineCount]),
       type: 'line',
       smooth: true,
       name: '访问量'
