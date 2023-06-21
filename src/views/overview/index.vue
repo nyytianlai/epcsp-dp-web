@@ -79,11 +79,11 @@
       <div class="box carbon-sort">
         <title-column title="分类碳减排量" />
         <!-- <ec-resize :option="lineCarbonOption" /> -->
-        <line-time-chart
+        <line-time-chart-both
           :data="lineCarbonData"
           :colors="co2Color"
+          mode="temp"
           yaxisName="吨"
-          mode="onlyLine"
           unit=""
           :chartStyle="{ height: '2.3rem', width: '4.8rem' }"
           :customOption="{ legend: { left: 0 } }"
@@ -91,11 +91,11 @@
       </div>
       <div class="box ele">
         <title-column title="充储放电数据" />
-        <line-time-chart
+        <line-time-chart-both
           :data="lineElectricData"
           :colors="ElectricColor"
           yaxisName="万kwh"
-          mode="onlyLine"
+          mode="temp"
           unit=""
           :chartStyle="{ height: '2.3rem', width: '4.8rem' }"
           :customOption="{ legend: { left: 0 } }"

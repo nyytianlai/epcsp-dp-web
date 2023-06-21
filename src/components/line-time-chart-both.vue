@@ -41,6 +41,7 @@ interface Props {
   mode?: string;
   yAxisMode1?: string|number
   yAxisMode2?: string|number
+  yaxisName?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   chartStyle: () => ({
@@ -51,7 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
   colors: () => ['green', 'blue'],
   data: () => [],
   customOption: () => ({}),
-  mode: ''
+  mode: '',
+  yaxisName: ''
 });
 
 const { data, chartStyle, unit, colors, customOption } = toRefs(props);
@@ -385,11 +387,164 @@ const ecOptionBothSideFun = () => {
 
   return option;
 };
+const ecOptionBothSideYaxisFun= () => {
+  let option = {
+    grid: {
+      top: 50,
+      bottom: 24,
+      right: 35,
+      left: 42
+    },
+    legend: {
+      itemWidth: 16,
+      itemHeight: 10,
+      right: 0,
+      top: 0,
+      textStyle: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        color: '#C6D1DB'
+      }
+    },
+    xAxis: {
+      name: '',
+      type: 'category',
+      data: data.value[0].data?.map((i) => i[0]),
+      boundaryGap: ['2%', '2%'],
+      axisLine: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisTick: {
+        lineStyle: {
+          color: '#BAE7FF'
+        }
+      },
+      axisLabel: {
+        fontFamily: 'Source Han Sans CN',
+        fontSize: 12,
+        lineHeight: 18,
+        color: '#B4C0CC'
+      },
+      splitLine: {
+        show: false
+      }
+    },
+    yAxis: [
+      {
+        name: `单位：${props.yaxisName}`,
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontFamily: 'Helvetica',
+          fontSize: 12,
+          lineHeight: 16,
+          color: '#B4C0CC',
+          formatter: (value) => {
+            return value ? simplifyNum(value) : '';
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: 'rgba(230, 247, 255, 0.2)',
+            type: 'dashed'
+          }
+        }
+      },
+      {
+        name: `单位：${props.yaxisName}`,
+        axisLine: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          fontFamily: 'Helvetica',
+          fontSize: 12,
+          lineHeight: 16,
+          color: '#B4C0CC',
+          formatter: (value) => {
+            return value ? simplifyNum(value) : '';
+          }
+        },
+        splitLine: {
+          show: false
+        }
+      }
+    ],
+    tooltip: {
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      padding: 0,
+      trigger: 'axis',
+      formatter: (params) => {
+        const dataTime = params[0].axisValueLabel;
+        let str = `<div class="time-tooltip">`;
+        str += `<div class="time">${dataTime}</div>`;
+        params.map((item) => {
+          str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
+              <span class="unit">${unit.value ? unit.value : props.yaxisName}</span>
+            </span>
+          </div>`;
+        });
+        str += '</div>';
+        return str;
+      }
+    },
+    series: [
+      ...data.value,
+      // {
+      //   type: 'line',
+      //   data: timeData(),
+      //   symbolSize: 0,
+      //   showSymbol: false,
+      //   lineStyle: {
+      //     color: 'transparent'
+      //   },
+      //   tooltip: {
+      //     show: false
+      //   }
+      // }
+    ]
+  };
+  option = merge(option, {
+    series: colors.value.map((item) => {
+      const color = deepClone(colorMap[item]);
+      if(color?.areaStyle){
+        color.areaStyle = null
+      }
+      // color.areaStyle = null;
+      return color;
+    }),
+    ...customOption.value
+  });
+
+  return option;
+}
 watch(
   data,
   () => {
     // console.log('data111', data.value);
-    ecOption.value = ecOptionBothSideFun();
+    if(props.mode === 'temp'){
+      ecOption.value=ecOptionBothSideYaxisFun()
+    }else {
+      ecOption.value = ecOptionBothSideFun();
+    }
+    
   },
   {
     immediate: true

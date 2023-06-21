@@ -905,7 +905,8 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电'
+      name: '新能源充电',
+      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [
@@ -925,7 +926,8 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏'
+      name: '光伏',
+      yAxisIndex: 1,
     },
         {
       data: list.map((item) => [
@@ -1583,7 +1585,8 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电'
+      name: '新能源充电',
+      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [
@@ -1603,7 +1606,8 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏发电'
+      name: '光伏发电',
+      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [
