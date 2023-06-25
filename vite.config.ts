@@ -66,13 +66,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       proxy: {
-        [env.VITE_API_BASEPATH]: {
-          target: env.VITE_BASE_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
-        },
+        // [env.VITE_API_BASEPATH]: {
+        //   target: env.VITE_BASE_URL,
+        //   changeOrigin: true,
+        //   rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
+        // },
         ['/web']: {
-          target: 'http://dev-tpaas.sutpc.com:8080',
+          target: env.VITE_BASE_URL,
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
         },
