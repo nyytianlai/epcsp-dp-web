@@ -7,4 +7,4 @@ COPY ./dist/ /data/front/ProjectName/
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 
 ENTRYPOINT ["nginx","-g", "daemon off;"]
-EXPOSE 80
+EXPOSE 80 3478
