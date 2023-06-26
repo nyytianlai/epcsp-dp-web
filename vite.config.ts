@@ -66,26 +66,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       proxy: {
-        ['/web/epcsp/dp/api/freedo']: {
-          target: 'http://10.254.7.118:8080',
+        ['/freedata']: {
+          target: `http://${env.VITE_FD_URL}`,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/web\/epcsp\/dp\/api/, '')
+          rewrite: (path) => path.replace(/^\/freedata/, '')
         },
-        // [env.VITE_API_BASEPATH]: {
-        //   target: env.VITE_BASE_URL,
-        //   changeOrigin: true,
-        //   rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
-        // },
         ['/web']: {
           target: env.VITE_BASE_URL,
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
         },
-        // ['/freedo']: {
-        //   target: 'http://10.254.7.118:8080',
-        //   changeOrigin: true
-        //   // rewrite: (path) => path.replace(/^\/web/, '')
-        // },
         ['/freedo']: {
           target: `ws://${env.VITE_FD_URL}/webSocket`,
           changeOrigin: true,

@@ -101,10 +101,14 @@ export const getQuStationWithAlarm = (data) => {
     cancelId: mapRequestCancelId
   });
 };
-export const requestGeojson = (fileName) => {
+// 获取geojson数据
+export const requestGeojsonData = (fileName) => {
   request.cancel(mapRequestCancelId);
   return request.get({
-    url: `${location.host}/freedo/data/geojson/${fileName}.geojson`,
+    baseURL: '/freedata',
+    url: `/data/geojson/${fileName}.geojson`,
     cancelId: mapRequestCancelId
   });
 };
+
+
