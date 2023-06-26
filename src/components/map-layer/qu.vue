@@ -28,8 +28,7 @@ import {
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import bus from '@/utils/bus';
-import { getJdStation } from './api.js';
-import { getQuStationWithAlarm } from './api.js';
+import { getJdStation, requestGeojsonData, getQuStationWithAlarm } from './api.js';
 import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
@@ -531,12 +530,12 @@ let quFeatures = [];
 let jdFeatures = [];
 let jdNamePositions = [];
 
-const requestGeojsonData = async (fileName: string) => {
-  const res = await request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
-  });
-  return res;
-};
+// const requestGeojsonData = async (fileName: string) => {
+//   const res = await request.get({
+//     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
+//   });
+//   return res;
+// };
 
 const addXzqh = async (res, type: string, idName: string, userDataName: string) => {
   let polygonArr = [];
