@@ -104,3 +104,23 @@ export function simplifyNum(number) {
     return number;
   }
 }
+// 屏幕自适应
+export function getRemvalue(value: number | number[]) {
+  let result
+  const docEl = document.documentElement
+  const clientHeight = window.innerHeight || docEl.clientHeight || document.body.clientHeight
+  if (!clientHeight) return
+  if (typeof value !== 'object') {
+    // 单个数值
+    const fontSize = clientHeight / 1080
+    result = value * fontSize
+  } else if (Array.isArray(value)) {
+    // 数组
+    result = []
+    value.forEach((item) => {
+      const res = item * (clientHeight / 1080)
+      result.push(res)
+    })
+  }
+  return result
+}
