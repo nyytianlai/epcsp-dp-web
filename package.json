@@ -64,7 +64,7 @@
     "vite-plugin-sutpc-common": "^1.0.2",
     "vite-plugin-sutpc-icon-park": "^1.0.1",
     "vite-plugin-sutpc-less-deep": "^1.0.1",
-    "vite-plugin-sutpc-lib-static-import": "^1.0.6",
+    "vite-plugin-sutpc-lib-static-import": "^1.0.14",
     "vite-plugin-sutpc-svg-icons": "^1.0.3",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.0.9",
