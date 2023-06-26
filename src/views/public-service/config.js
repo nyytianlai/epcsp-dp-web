@@ -603,3 +603,63 @@ export const filtersDetail = [
     ]
   }
 ];
+//区级的柱状图
+export const mapQuBar = () => {
+  return [
+    {
+      areaCode: 440303,
+      enrollment:24667,
+      visits: 1265
+    },
+    {
+      areaCode: 440304,
+      enrollment:42456,
+      visits: 2678
+    },
+    {
+      areaCode: 440305,
+      enrollment:38543,
+      visits: 2346
+    },
+    {
+      areaCode: 440306,
+      enrollment:42345,
+      visits: 3142
+    },
+    {
+      areaCode: 440307,
+      enrollment:55284,
+      visits: 2689
+    },
+    {
+      areaCode: 440308,
+      enrollment:14567,
+      visits: 690
+    },
+    {
+      areaCode: 440309,
+      enrollment:50879,
+      visits: 3786
+    },
+    {
+      areaCode: 440310,
+      enrollment:21567,
+      visits: 1461
+    },
+    {
+      areaCode: 440311,
+      enrollment:12345,
+      visits: 476
+    },
+    {
+      areaCode: 440343,
+      enrollment:9683,
+      visits: 478
+    },
+    {
+      areaCode: 441521,
+      enrollment:6542,
+      visits: 312
+    }
+  ];
+};

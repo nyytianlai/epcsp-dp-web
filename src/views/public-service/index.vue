@@ -68,7 +68,7 @@
       <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3rem" />
     </div>
   </panel>
-  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+  <map-layer v-if="aircityObj"></map-layer>
   <hot-station-rank-dialog
     v-if="dialogTableVisibleHot"
     :visible="dialogTableVisibleHot"
@@ -110,7 +110,6 @@ import ClientUsage from './components/client-usage.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 
 const aircityObj = inject('aircityObj');
-let mapLayerRef = ref(null);
 const mapData = ref([]);
 const lineStateColor = ['#F9E900'];
 const lineStateData = lineStateDataFun();
@@ -255,11 +254,6 @@ onMounted(() => {
   getPersonFeedback();
   getChargeEquipmentStatistics();
   getChargeStatusData('pile');
-});
-
-watch([aircityObj, mapData], async () => {
-  await nextTick();
-  mapLayerRef.value?.sendBarData(mapData.value);
 });
 </script>
 

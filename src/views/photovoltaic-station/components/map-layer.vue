@@ -21,7 +21,6 @@ import RectBarOut from '@/components/map-layer/rect-barOut.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
-import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getDistrict, getStreet, getPoint } from '../api';
 import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
