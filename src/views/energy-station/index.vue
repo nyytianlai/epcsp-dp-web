@@ -7,7 +7,7 @@
         <title-column title="储能站整体信息" icon="energy-station" />
         <div class="num-wrap">
           <template v-for="(item, index) in cardData" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            <num-card :data="item" classStyleType="bottomDown" />
           </template>
         </div>
         <tabs :data="tabType" />
@@ -170,39 +170,15 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    height: 160px;
+    padding: 0 22px;
     margin-top: 16px;
-    margin-bottom: 20px;
-    height: 173px;
-    align-content: space-between;
-
-    :deep(.num-card) {
-      width: 196px;
-      padding: 14px 12px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
-      mix-blend-mode: normal;
-      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
-      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
-      border-radius: 2px;
-      justify-content: center;
-
-      .info {
-        flex-direction: column;
-
-        .name {
-          margin-bottom: 0;
-        }
-      }
-
-      .icon {
-        width: 54px !important;
-        height: 54px !important;
-      }
-    }
+    background: linear-gradient(255.75deg,
+        rgba(37, 177, 255, 0.02) 23.33%,
+        rgba(37, 177, 255, 0.2) 100%);
+    mix-blend-mode: normal;
+    box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+    border-radius: 4px;
   }
 
   :deep(.pie-wrap) {

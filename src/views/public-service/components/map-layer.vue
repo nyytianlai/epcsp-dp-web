@@ -8,7 +8,7 @@
 -->
 <template>
   <qu :module="4" @addQuBar="addQuBar"></qu>
-  <cir-bar2 ref="cirBar2Ref"></cir-bar2>
+  <rect-bar2 ref="rectBar2Ref"></rect-bar2>
   <legend-list
     legendName="图例"
     :legendList="legendListData"
@@ -17,13 +17,14 @@
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
-import cirBar2 from '@/components/map-layer/cir-bar2.vue';
+import rectBar2 from '@/components/map-layer/rect-bar2.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { layerNameQuNameArr, infoObj, getImageUrl, getImageByCloud } from '@/global/config/map';
-import { useMapStore } from '@/stores/map'
+import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { jdMonthRate } from '../api.js';
-const store = useMapStore()
+import { mapQuBar } from '../config.js';
+const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3, 4]);
 const legendListData = [
@@ -32,21 +33,22 @@ const legendListData = [
     name: '利用率'
   }
 ];
-let cirBar2Ref = ref(null);
+let rectBar2Ref = ref(null);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
 
-const sendBarData = (data) => {
-  cirBar2Ref.value.addBar(data, 'qu');
+const getBarData = () => {
+  const data = mapQuBar();
+  rectBar2Ref.value.addBar(data, 'qu');
 };
 const sendJdBarData = async (value: { type: string; quCode: string }) => {
   const { data: res } = await jdMonthRate(value.quCode);
-  cirBar2Ref.value.addBar(res.data, value.type, value.quCode);
+  rectBar2Ref.value.addBar(res.data, value.type, value.quCode);
 };
-defineExpose({ sendBarData });
 onMounted(async () => {
-  await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  // await __g.tileLayer.setCollision(infoObj.terrainId, true, true, true, true);
+  getBarData()
   bus.on('addBar', async (e) => {
     // 传参由回调函数中的形参接受
     sendJdBarData(e);

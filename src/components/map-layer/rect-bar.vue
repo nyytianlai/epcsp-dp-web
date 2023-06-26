@@ -1,8 +1,7 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
-import request from '@sutpc/axios';
-import { getRectBar, getRectBarByStreet } from './api.js';
+import { getRectBar, getRectBarByStreet,requestGeojsonData } from './api.js';
 import bus from '@/utils/bus';
 import { getHtmlUrl } from '@/global/config/map';
 
@@ -45,9 +44,8 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
 
   let yMax = Math.max(...stationCount);
 
-  const res1 = await request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
-  });
+  const res1 = await requestGeojsonData(fileName);
+
   barPositionBak = res1.features;
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
@@ -72,7 +70,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [82, 38], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
+      imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/rectBar.html?value=${countObj[0].gunCount},${
         countObj[0].stationCount

@@ -10,7 +10,7 @@ import sszs from './images/sszs.png';
 // import telaidian from './images/telaidian.png';
 // import lianhuaxi from './images/lianhuaxi.png';
 // import minle from './images/minle.png';
-import { simplifyNum } from '@/utils/index';
+import { simplifyNum,getRemvalue } from '@/utils/index';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils';
 export const pageNumFun = (data = {}) => {
@@ -218,19 +218,19 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
   });
   return {
     grid: {
-      top: 50,
-      bottom: 24,
-      right: 5,
-      left: 42
+      top: getRemvalue(50),
+      bottom: getRemvalue(24),
+      right: getRemvalue(5),
+      left: getRemvalue(42)
     },
     legend: {
-      itemWidth: 16,
-      itemHeight: 10,
+      itemWidth: getRemvalue(18),
+      itemHeight: getRemvalue(12),
       right: 0,
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 14,
+        fontSize: getRemvalue(16),
         color: '#FFF'
       },
       itemStyle: {
@@ -242,7 +242,8 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       backgroundColor: 'rgba(0, 163, 255, 0.5)',
       borderWidth: 0,
       textStyle: {
-        color: '#fff'
+        color: '#fff',
+        fontSize:getRemvalue(16)
       },
       axisPointer: {
         type: 'shadow'
@@ -267,8 +268,8 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
-        lineHeight: 18,
+        fontSize: getRemvalue(14),
+        lineHeight: getRemvalue(10),
         color: '#D0DEEE',
         interval: 0
       },
@@ -280,7 +281,8 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       type: 'value',
       name: `单位/${code ===1?'个':'万千瓦'}`,
       nameTextStyle: {
-        color: '#B4C0CC'
+        color: '#B4C0CC',
+        fontSize:getRemvalue(16)
       },
       minInterval: 1,
       axisLine: {
@@ -291,8 +293,8 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: 12,
-        lineHeight: 16,
+        fontSize: getRemvalue(14),
+        lineHeight: getRemvalue(18),
         color: '#B4C0CC',
         formatter: (value) => {
           return value ? simplifyNum(value) : '';
@@ -310,11 +312,11 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
         data: data,
         type: 'bar',
         name: `${code ===1?'数量':'规模'}`,
-        barWidth: 16,
+        barWidth: getRemvalue(18),
         label: {
           show: true,
           position: 'top',
-          fontSize: 14,
+          fontSize: getRemvalue(16),
           fontfamily: 'Helvetica',
           color: '#fff'
         },
@@ -344,7 +346,7 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
           color: '#13ABC2'
         },
         symbol: 'rect',
-        symbolSize: ['16', '3'],
+        symbolSize: [getRemvalue(18), getRemvalue(5)],
         symbolPosition: 'end',
         data: data,
         z: 3

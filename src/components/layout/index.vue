@@ -81,7 +81,7 @@ const routed = useRoute();
 const navDropList = ref(routes.slice(0, routes.length));
 const excludeViews = ref([]);
 const includeViews = ref([]);
-const cloudHost = ref(import.meta.env.VITE_FD_URL);
+const cloudHost = `${location.host}/freedo`
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showDetail = computed(() => store.showDetail);

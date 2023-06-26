@@ -523,13 +523,6 @@ let quFeatures = [];
 let jdFeatures = [];
 let jdNamePositions = [];
 
-// const requestGeojsonData = async (fileName: string) => {
-//   const res = await request.get({
-//     url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
-//   });
-//   return res;
-// };
-
 const addXzqh = async (res, type: string, idName: string, userDataName: string) => {
   let polygonArr = [];
   res.forEach((item, index) => {

@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import Icon from '@sutpc/vue3-svg-icon';
+import { getRemvalue } from '@/utils/index';
 
 import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
@@ -224,19 +225,19 @@ const ecOptionBothSideFun = () => {
   console.log('data', data.value);
   let option = {
     grid: {
-      top: 43,
-      bottom: 24,
-      right: 50,
-      left: 42
+      top: getRemvalue(43),
+      bottom: getRemvalue(24),
+      right: getRemvalue(50),
+      left: getRemvalue(42)
     },
     legend: {
-      itemWidth: 16,
-      itemHeight: 10,
+      itemWidth: getRemvalue(16),
+      itemHeight: getRemvalue(10),
       right: 0,
-      top: 0,
+      top: getRemvalue(-5),
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         color: '#C6D1DB'
       }
     },
@@ -256,8 +257,8 @@ const ecOptionBothSideFun = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
-        lineHeight: 18,
+        fontSize: getRemvalue(14),
+        lineHeight: getRemvalue(20),
         color: '#B4C0CC',
         formatter: (value, index) => {
           return dayjs(value).format('HH:00');
@@ -282,8 +283,8 @@ const ecOptionBothSideFun = () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: 12,
-          lineHeight: 16,
+          fontSize: getRemvalue(14),
+          lineHeight: getRemvalue(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -306,8 +307,8 @@ const ecOptionBothSideFun = () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: 12,
-          lineHeight: 16,
+          fontSize: getRemvalue(14),
+          lineHeight: getRemvalue(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -390,19 +391,19 @@ const ecOptionBothSideFun = () => {
 const ecOptionBothSideYaxisFun= () => {
   let option = {
     grid: {
-      top: 50,
-      bottom: 24,
-      right: 35,
-      left: 42
+      top: getRemvalue(54),
+      bottom: getRemvalue(28),
+      right: getRemvalue(41),
+      left: getRemvalue(42)
     },
     legend: {
-      itemWidth: 16,
-      itemHeight: 10,
+      itemWidth: getRemvalue(16),
+      itemHeight: getRemvalue(12),
       right: 0,
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         color: '#C6D1DB'
       }
     },
@@ -423,8 +424,8 @@ const ecOptionBothSideYaxisFun= () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
-        lineHeight: 18,
+        fontSize: getRemvalue(14),
+        lineHeight: getRemvalue(20),
         color: '#B4C0CC'
       },
       splitLine: {
@@ -442,8 +443,8 @@ const ecOptionBothSideYaxisFun= () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: 12,
-          lineHeight: 16,
+          fontSize: getRemvalue(14),
+          lineHeight: getRemvalue(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -466,8 +467,8 @@ const ecOptionBothSideYaxisFun= () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: 12,
-          lineHeight: 16,
+          fontSize: getRemvalue(14),
+          lineHeight: getRemvalue(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -620,7 +621,7 @@ watch(
 .unit-box {
   display: flex;
   position: absolute;
-  top: 22px;
+  top: 14px;
   width: 100%;
   justify-content: space-between;
 }
