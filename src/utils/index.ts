@@ -104,3 +104,43 @@ export function simplifyNum(number) {
     return number;
   }
 }
+// 翻页屏幕自适应
+export function getRemvalue(value: number | number[]) {
+  let result
+  const docEl = document.documentElement
+  const clientHeight = window.innerHeight || docEl.clientHeight || document.body.clientHeight
+  if (!clientHeight) return
+  if (typeof value !== 'object') {
+    // 单个数值
+    const fontSize = clientHeight / 1080
+    result = value * fontSize
+  } else if (Array.isArray(value)) {
+    // 数组
+    result = []
+    value.forEach((item) => {
+      const res = item * (clientHeight / 1080)
+      result.push(res)
+    })
+  }
+  return result
+}
+// 地图 echart屏幕自适应
+export function getRemChartvalue(value: number | number[]) {
+  let result
+  const docEl = document.documentElement
+  const clientWidth = window.innerWidth || docEl.clientWidth || document.body.clientWidth
+  if (!clientWidth) return
+  if (typeof value !== 'object') {
+    // 单个数值
+    const fontSize = clientWidth / 1920
+    result = value * fontSize
+  } else if (Array.isArray(value)) {
+    // 数组
+    result = []
+    value.forEach((item) => {
+      const res = item * (clientWidth / 1920)
+      result.push(res)
+    })
+  }
+  return result
+}

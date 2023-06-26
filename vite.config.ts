@@ -67,7 +67,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       proxy: {
         ['/freedata']: {
-          target: 'http://10.254.7.118:8080',
+          target: `http://${env.VITE_FD_URL}`,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/freedata/, '')
         },
@@ -75,6 +75,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: env.VITE_BASE_URL,
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
+        },
+        ['/freedo']: {
+          target: `ws://${env.VITE_FD_URL}/webSocket`,
+          changeOrigin: true,
+          ws: true,
         },
         ['/promotion']: {
           target: 'http://10.10.2.63:9109',

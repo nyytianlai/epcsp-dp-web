@@ -80,12 +80,12 @@ export const getImageUrl = (dir: string) => {
   return new URL(`./images/map/${dir}.png`, import.meta.url).href;
 };
 export const getHtmlUrl = () => {
-  if (import.meta.env.MODE == 'base') {
+  if (import.meta.env.MODE === 'base') {
     return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
     // return 'http://127.0.0.1:5500/public';
   } else {
-    return window.location.origin;
+    return location.origin;
   }
 };
 export const getImageByCloud = (picName: string) => {

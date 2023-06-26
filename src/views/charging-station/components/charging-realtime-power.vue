@@ -10,15 +10,16 @@
   <div class="charging-realtime-power">
     <icon icon="svg-icon:power" />
     <div class="num-info">
-      <div class="num" id="number" :class="{ 'animate__flipInX': false }">
-        {{ formatWithToLocalString(d.num) }}
+      <div class="num num-realtime" id="number" ref="number">
+        <div v-if="!isResize">{{ formatWithToLocalString(data) }}</div>
+        <numberFlipping v-else v-for="(item,index) in formatWithToLocalString(data)" :key="index" :num="item==='.'||item===','?item:Number(item)" :id="index" @resize="hanldeResize"></numberFlipping>
       </div>
       <span class="unit-info">实时功率/kW</span>
     </div>
   </div>
 </template>
 <script setup>
-import { toRefs, onMounted, reactive, watch, ref } from 'vue';
+import { toRefs, onMounted, reactive, watch, ref, nextTick } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import gsap from 'gsap'
@@ -26,32 +27,41 @@ import gsap from 'gsap'
 const props = defineProps({
   data: {
     type: Number,
-    default: 0
+    default: 0.00
   }
 });
 const { data } = toRefs(props);
 const d = reactive({
   num: 0
 })
+const isResize = ref(true)
+const number = ref()
 const isAnimation = ref(true)
-const animation = () => {
-  gsap.to(d, {
-    duration: 1,
-    num: data.value
-  })
+const temp = ref([])
+const animation = (newVal = 0, oldVal = 0) => {
+  // gsap.to(d, {
+  //   duration: 1,
+  //   ease: 'power1.out',
+  //   num: Number(data.value).toFixed(2)
+  // })
 }
 onMounted(() => {
-  animation()
-})
-watch(() => data.value, (newVal, oldVal) => {
-  animation()
+  // const dataNumber = Number(data.value.toFixed(2))
+  // console.log('data', data.value)
 
-  console.log('new', newVal)
-  console.log('oldVal', oldVal)
-  // isAnimation.value = false
-  // setTimeout(() => {
-  //   isAnimation.value = true
-  // })
+})
+// resize 
+const hanldeResize = ()=>{
+  isResize.value = false
+  setTimeout(()=>{
+    isResize.value = true
+  },500)
+}
+watch(() => data.value, (newVal, oldVal) => {
+  console.log('data', newVal)
+  // temp.value = formatWithToLocalString(data).split('')
+},{
+  // immediate:true
 })
 </script>
 <style lang="less" scoped>
@@ -83,10 +93,13 @@ watch(() => data.value, (newVal, oldVal) => {
       font-size: 42px;
       background: linear-gradient(180deg, #0080ff 0%, #ffffff 50%, #007cf8 100%), #59ffff;
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      // -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
       letter-spacing: 0.1em;
+      display: flex;
+      overflow-y: hidden;
+      height: 45px;
     }
 
     .unit-info {
@@ -102,44 +115,4 @@ watch(() => data.value, (newVal, oldVal) => {
     }
   }
 }
-
-@keyframes flipInX {
-  from {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-
-  40% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-
-  60% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-
-  80% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-
-  to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-  }
-}
-
-.animate__flipInX {
-  -webkit-backface-visibility: visible !important;
-  backface-visibility: visible !important;
-  -webkit-animation-name: flipInX;
-  animation-name: flipInX;
-  animation: flipInX 0.8s 1;
-}</style>
+</style>

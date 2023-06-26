@@ -47,10 +47,9 @@ const state = reactive({
   weather: 0,
   weatherIcon: '',
   currentPower: {
-    value: 0
+    value: '0'
   }
 });
-let timer = null;
 useEmitt &&
   useEmitt('AIRCITY_EVENT', async (e) => {
     //正常桩
@@ -63,17 +62,6 @@ useEmitt &&
       __g.tileLayer.highlightActor(ids, e.ObjectID);
       let screenCoord = await __g.coord.world2Screen(...e.MouseClickPoint);
       // console.log('screenCoord', screenCoord);
-      const data = lianhuajingguiData.find((item) => item.id === e.ObjectID);
-      if (data) {
-        state.currentPower.value = data.value;
-        if (timer) {
-          clearInterval(timer);
-        }
-        timer = setInterval(() => {
-          const random = Math.random() * 0.05 - 0.05;
-          state.currentPower.value = (data.value + data.value * random).toFixed(2);
-        }, 3000);
-      }
       screenPosition.value = screenCoord.screenPosition;
       showPop.value = true;
     } else if (
@@ -92,13 +80,6 @@ const focusToPile = (data) => {
   __g.tileLayer.highlightActor(layerId, data.id);
   state.currentPower.value = data.value;
   showPop.value = true;
-  if (timer) {
-    clearInterval(timer);
-  }
-  timer = setInterval(() => {
-    const random = Math.random() * 0.05 - 0.05;
-    state.currentPower.value = (data.value + data.value * random).toFixed(2);
-  }, 3000);
 };
 const handleClose = () => {
   //清除绿色高亮
@@ -111,24 +92,21 @@ onMounted(async () => {
   } else {
     state.weatherIcon = 'sun-panel';
   }
+  bus.on('calcVal', (val:string) => {
+    state.currentPower.value = val
+  });
   bus.on('focusToPile', (e) => {
-    console.log(e);
     focusToPile(e);
   });
   bus.on('closePowerPopup', (e) => {
     handleClose();
-    if (timer) {
-      clearInterval(timer);
-    }
+    
   });
 });
 
 onBeforeUnmount(() => {
   bus.off('focusToPile');
   bus.off('closePowerPopup');
-  if (timer) {
-    clearInterval(timer);
-  }
 });
 </script>
 <style lang="less" scoped>

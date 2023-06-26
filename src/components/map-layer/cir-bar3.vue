@@ -1,8 +1,7 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
-import request from '@sutpc/axios';
-import { districtAlarmLevelStatics, getMapStationStatistic } from './api.js';
+import { districtAlarmLevelStatics, getMapStationStatistic, requestGeojsonData } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
@@ -17,10 +16,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Data === 'mouseover') {
       //鼠标悬浮事件
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.6]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
     } else if (e.Data === 'mouseout') {
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
-      changeXzqhColor('qu-'+quName, [75/255, 222/255, 255/255, 0.0]);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
     }
   }
 });
@@ -79,9 +78,7 @@ const addBar = async (obj: {
   console.log('柱状图接口', res.data);
   let yMax = Math.max(...count);
   const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
-  const res1 = await request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`
-  });
+  const res1 = await requestGeojsonData(fileName);
   if (obj.type === 'jd') {
     res1.features = res1.features.filter((item) => {
       return item.properties.QUCODE === obj.quCode;
@@ -94,7 +91,7 @@ const addBar = async (obj: {
     // console.log('gggggggg', countIsZero, item.properties.QUCODE);
     if (
       countIsZero.includes(item.properties.QUCODE) ||
-      countIsZero.includes(item.properties.JDCODE+'')
+      countIsZero.includes(item.properties.JDCODE + '')
     ) {
       return;
     }
@@ -143,7 +140,7 @@ const addBar = async (obj: {
       anchors: [-41, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [82, 38], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: `${import.meta.env.VITE_FD_URL}` + '/data/images/barEllipse.png', //显示图片路径
+      imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: `${getHtmlUrl()}/static/html/cirBar3.html?value=${value}&yMax=${yMax}&colorType=${
         obj.code
