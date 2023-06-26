@@ -424,7 +424,7 @@ const handleChangeTab = (data, type) => {
   if (type === 'device-use-info') {
     getEquipmentUseRateByStationId(data.code);
   } else if (type === 'warning-message') {
-    getWarningInfoByStationId(data.code);
+    getWarningInfoByStationId(data.code, 1,10);
   }
 };
 const handleCloseBqDialog = async () => {
@@ -627,7 +627,6 @@ const handleDetail = (data) => {
   //打开详情框
   pileParams.value = {
     eid: data.eid,
-    warnId: data.warnId
   };
   pileType.value = 'pile';
   pileVisible.value = true;
@@ -653,7 +652,7 @@ watch(
         getStationStatistics();
         getStationInfoByStationId();
         getEquipmentCountByStationId();
-        getWarningInfoByStationId(1);
+        getWarningInfoByStationId(1, 1, 10);
         getEquipmentStatusByStationId();
         getEquipmentUseRateByStationId(1);
         getStationRealTimePowerByStationId();

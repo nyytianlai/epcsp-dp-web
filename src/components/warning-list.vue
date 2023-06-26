@@ -9,13 +9,8 @@
 <template>
   <div class="warning-list" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">
-      <li
-        class="warning-info"
-        :class="{ 'click-item': item.isClick,'grey':Number(item.isInvalid) }"
-        v-for="(item, index) in data"
-        :key="index"
-        @click="handleClick(item)"
-      >
+      <li class="warning-info" :class="{ 'click-item': item.isClick, 'grey': Number(item.isInvalid) }" v-for="(item, index) in data"
+        :key="index" @click="handleClick(item)">
         <span class="date">{{ item.date ? dayjs(item.date).format('HH:mm:ss') : '--' }}</span>
         <span class="message text-ellipsis-1">
           <!-- <el-tooltip :content="item.message || ''" placement="top"> -->
@@ -41,7 +36,7 @@ interface Idata {
   message: string;
   area: string;
   isClick?: boolean;
-  isInvalid?:number|string
+  isInvalid?: number | string
 }
 interface Props {
   data: Idata[];
@@ -60,9 +55,11 @@ const handleClick = (item) => {
 .warning-list {
   overflow: hidden auto;
   padding-left: 12px;
+
   .content {
     padding-left: 14px;
     position: relative;
+
     &::before {
       content: '';
       position: absolute;
@@ -73,6 +70,7 @@ const handleClick = (item) => {
       border-left: 1px dashed #505050;
     }
   }
+
   .warning-info {
     line-height: 20px;
     color: rgba(255, 255, 255, 0.8);
@@ -80,9 +78,11 @@ const handleClick = (item) => {
     display: flex;
     align-items: center;
     position: relative;
+
     &:last-of-type {
       margin-bottom: 0;
     }
+
     &::before {
       content: '';
       position: absolute;
@@ -94,14 +94,17 @@ const handleClick = (item) => {
       background: #f5af5f;
       border-radius: 50%;
     }
+
     &.click-item {
       .message {
         cursor: pointer;
+
         &:hover {
           color: #42aff8;
         }
       }
     }
+
     .date {
       font-family: 'Helvetica';
       font-style: italic;
@@ -110,20 +113,34 @@ const handleClick = (item) => {
       color: #86e9ff;
       margin-right: 20px;
     }
+
     .message {
       max-width: 140px;
       min-width: 140px;
       margin-right: 22px;
+      color: #fff;
     }
+
     .area {
       max-width: 150px;
       min-width: 120px;
+      color: #fff;
     }
   }
 }
-.grey {
-  pointer-events: none;
-  cursor: not-allowed;
-  filter: grayscale(100%);
-}
-</style>
+
+.warning-list {
+  .grey {
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+
+    .message {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .area {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}</style>
