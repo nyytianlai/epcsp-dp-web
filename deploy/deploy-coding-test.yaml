@@ -27,10 +27,10 @@ spec:
         ports:
         - containerPort: 80
           protocol: TCP
-          name: node_port
+          name: http
         - containerPort: 3478
           protocol: UDP
-          name: dtsturn_port
+          name: udp
         resources:
           limits:
             memory: 128Mi
