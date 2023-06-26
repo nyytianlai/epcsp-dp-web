@@ -66,11 +66,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       proxy: {
-        // [env.VITE_API_BASEPATH]: {
-        //   target: env.VITE_BASE_URL,
-        //   changeOrigin: true,
-        //   rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
-        // },
+        ['/freedata']: {
+          target: 'http://10.254.7.118:8080',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/freedata/, '')
+        },
         ['/web']: {
           target: env.VITE_BASE_URL,
           changeOrigin: true
