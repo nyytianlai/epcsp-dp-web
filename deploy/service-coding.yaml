@@ -14,6 +14,10 @@ spec:
     port: 80
     targetPort: 80
     nodePort: ${#toInt(parameters.NODE_PORT)}
+  - name: udp
+    port: 3478
+    targetPort: 3478
+    nodePort: ${#toInt(parameters.DTSTURN_PORT)}
   selector:
     project: ${parameters.APP_NAME}
     app: ${parameters.APP_NAME}
