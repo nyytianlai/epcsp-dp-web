@@ -68,8 +68,9 @@ import {
   unitTotalFun
 } from './config';
 import { capacityRanking, projectRanking } from './api.js';
+import { electricData } from './data';
+import dayjs from 'dayjs';
 import MapLayer from './components/map-layer.vue';
-
 interface Aircity {
   value: object;
 }
@@ -91,7 +92,8 @@ const companyRankData = ref([]);
 // 企业排名总量
 const companyRankTotal = ref<number>(0);
 // 今日光伏电站数据
-const cardTodayData = ref(jrgfdzFun());
+const cardTodayData = ref([]);
+const todayElec = ref(0);
 // 今日功率信息卡片
 const powerTodayCard = ref(powerTodayCardFun());
 // 折线图
@@ -110,7 +112,7 @@ const loadCapacityRanking = async () => {
   stationRnk.value = res.data.map((i) => {
     return {
       num: i.doubleAmount,
-      unit: 'MW',
+      unit: 'kW',
       name: i.rankingName
     };
   });
@@ -136,9 +138,36 @@ const handleCompany = (item) => {
   companyRankTotal.value = companyRankData.value[0].num;
 };
 
+// 获取今日光伏发电站数据信息
+const handleTodayElecData = () => {
+  const hours = dayjs().hour();
+  const minutes = dayjs().minute();
+  console.log(hours, minutes);
+  let count = 0;
+  for (let i = 0; i < electricData.length; i++) {
+    const date = electricData[i].time.split(':');
+    // 判断小时和分钟是否小于当前时刻
+    if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
+      count += electricData[i].power;
+      console.log('electricData[i]',electricData[i])
+      powerTodayCard.value =  powerTodayCardFun({realtime:electricData[i].power})
+    }
+    // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
+    // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
+  }
+  console.log(count);
+  todayElec.value = count;
+  cardTodayData.value = jrgfdzFun({
+    radiation: 892,
+    total: (todayElec.value *0.05).toFixed(2),
+    onlineElec: (todayElec.value * 0.4).toFixed(2)
+  });
+};
+
 onMounted(() => {
   loadCapacityRanking();
   loadProjectRanking();
+  handleTodayElecData();
 });
 </script>
 <style lang="less" scoped>
@@ -201,6 +230,14 @@ onMounted(() => {
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
+  }
+
+  :deep(.num-card) {
+    .unit {
+      display: block;
+      text-align: center;
+      color: #00f7ff;
+    }
   }
 }
 
