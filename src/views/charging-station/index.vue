@@ -330,8 +330,8 @@ onMounted(() => {
 onUnmounted(() => {
   clearInterval(timer);
   timer = null;
-  // clearInterval(timer2);
-  // timer2 = null;
+  clearInterval(timer2);
+  timer2 = null;
 });
 </script>
 <style lang="less" scoped>

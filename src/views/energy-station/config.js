@@ -39,24 +39,22 @@ export const cndzyxzlFun = (data = {}) => {
     {
       img: cnzzs,
       num: 15,
-      unit: '/个',
+      unit: '个',
       name: '储能站总数',
-      classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: jrqys,
-      num: 10,
-      unit: '/个',
-      name: '接入企业数',
-      classStyleType: 'leftRightStyleGreen'
     },
     {
       img: zjzrl,
       num: 1309.75,
-      unit: '/MW',
+      unit: 'MW',
       name: '装机总容量',
-      classStyleType: 'leftRightStyleYellow'
     },
+    {
+      img: jrqys,
+      num: 10,
+      unit: '个',
+      name: '接入企业数',
+    },
+
     // {
     //   img: xtyxxl,
     //   num: 75.72,

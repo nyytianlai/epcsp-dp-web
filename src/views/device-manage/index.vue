@@ -61,6 +61,7 @@
         unit="个"
         yAxisMode1="auto"
         :yAxisMode2="40000"
+        :customOption="{yAxis:[{min:40000}]}"
       />
     </div>
     <div class="charging-runing">

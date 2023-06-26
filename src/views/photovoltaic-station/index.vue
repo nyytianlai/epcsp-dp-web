@@ -160,7 +160,7 @@ const handleTodayElecData = () => {
   cardTodayData.value = jrgfdzFun({
     radiation: 892,
     total: (todayElec.value *0.05).toFixed(2),
-    onlineElec: (todayElec.value * 0.4).toFixed(2)
+    onlineElec: (todayElec.value *0.05 * 0.4).toFixed(2)
   });
 };
 
