@@ -23,7 +23,7 @@ import { toRefs, onMounted, reactive, watch, ref, nextTick } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import gsap from 'gsap'
-import { Flip } from 'number-flip'
+
 const props = defineProps({
   data: {
     type: Number,
