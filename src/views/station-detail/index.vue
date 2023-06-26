@@ -447,8 +447,8 @@ useEmitt &&
         if (
           e.ObjectID &&
           (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
-            e.ObjectID?.indexOf('batteryCluste') !== -1 ||
-            e.ObjectID?.indexOf('bmsConversionCabinet') !== -1)
+            e.ObjectID?.indexOf('batteryCluste') !== -1)
+            // e.ObjectID?.indexOf('bmsConversionCabinet') !== -1
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {
           const mode = e.ObjectID.split('-');
