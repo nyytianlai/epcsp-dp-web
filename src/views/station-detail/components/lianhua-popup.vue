@@ -90,7 +90,7 @@ onMounted(async () => {
   if (state.weather) {
     state.weatherIcon = 'cloudy-day';
   } else {
-    state.weatherIcon = 'sun-panel';
+    state.weatherIcon = 'sun-day';
   }
   bus.on('calcVal', (val:string) => {
     state.currentPower.value = val
