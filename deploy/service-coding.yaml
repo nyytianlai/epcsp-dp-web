@@ -12,10 +12,12 @@ spec:
   ports:
   - name: http
     port: 80
+    protocol: TCP
     targetPort: 80
     nodePort: ${#toInt(parameters.NODE_PORT)}
   - name: udp
     port: 3478
+    protocol: UDP
     targetPort: 3478
     nodePort: ${#toInt(parameters.DTSTURN_PORT)}
   selector:
