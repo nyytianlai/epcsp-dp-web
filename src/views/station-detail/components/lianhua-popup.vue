@@ -92,15 +92,14 @@ onMounted(async () => {
   } else {
     state.weatherIcon = 'sun-day';
   }
-  bus.on('calcVal', (val:string) => {
-    state.currentPower.value = val
+  bus.on('calcVal', (val: string) => {
+    state.currentPower.value = val;
   });
   bus.on('focusToPile', (e) => {
     focusToPile(e);
   });
   bus.on('closePowerPopup', (e) => {
     handleClose();
-    
   });
 });
 
