@@ -98,7 +98,7 @@ const err = (error) => {
     }
   } else if (error.message) {
     console.log('error.message', error.message);
-    if (typeof  error.message === 'string' && error.message.includes('timeout')) {
+    if (typeof error.message === 'string' && error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
     } else {
       Message({ type: 'error', message: error.message });
