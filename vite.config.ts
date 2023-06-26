@@ -66,6 +66,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       proxy: {
+        [`/epcsp/dp/api/freedo`]: {
+          target: env.VITE_FD_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/epcsp\/dp\/api/, '')
+        },
         [env.VITE_API_BASEPATH]: {
           target: env.VITE_BASE_URL,
           changeOrigin: true,
@@ -75,6 +80,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'http://dev-tpaas.sutpc.com:8080',
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
+        },
+        // ['/freedo']: {
+        //   target: 'http://10.254.7.118:8080',
+        //   changeOrigin: true
+        //   // rewrite: (path) => path.replace(/^\/web/, '')
+        // },
+        ['/freedo']: {
+          target: 'ws://10.254.7.118:8080/webSocket',
+          changeOrigin: true,
+          ws: true,
         },
         ['/promotion']: {
           target: 'http://10.10.2.63:9109',

@@ -104,7 +104,7 @@ export const getQuStationWithAlarm = (data) => {
 export const requestGeojson = (fileName) => {
   request.cancel(mapRequestCancelId);
   return request.get({
-    url: `http://${import.meta.env.VITE_FD_URL}/data/geojson/${fileName}.geojson`,
+    url: `${location.host}/freedo/data/geojson/${fileName}.geojson`,
     cancelId: mapRequestCancelId
   });
 };
