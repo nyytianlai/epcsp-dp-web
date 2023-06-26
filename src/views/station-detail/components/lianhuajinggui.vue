@@ -1,6 +1,6 @@
 <template>
   <div class="charging-wrap">
-    <ul class="content" v-if="data && data.length">
+    <ul class="content" v-if="state.list && state.list.length">
       <li
         v-for="(item, index) in data"
         :key="index"
@@ -8,7 +8,7 @@
         @click="handleClickDJ(item)"
       >
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
-        <span class="power text-ellipsis-1">{{ item.text }}</span>
+        <span class="power text-ellipsis-1">{{ item.calcVal || item.value }}W</span>
         <span class="state">
           <span class="text">{{ stateFormate(item.status).name }}</span>
         </span>
@@ -18,18 +18,28 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { toRefs, onBeforeUnmount } from 'vue';
+import { onMounted, reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
-
+interface Data {
+  id: string,
+  status: number | string,
+  value: number ,
+  calcVal: string,
+  text?: string
+}
 const props = defineProps({
   data: {
-    type: Object,
+    type: Array as () => Data[],
     default: []
   }
 });
-const { data } = toRefs(props);
-const stateFormate = (state) => {
+const state = reactive({
+  list: [],
+  selectedCurID: 'singleCrystalSilicon17'
+})
+let timer = null
+const stateFormate = (status) => {
   return {
     0: {
       code: 'crystalline-silicon-offline',
@@ -39,13 +49,41 @@ const stateFormate = (state) => {
       code: 'crystalline-silicon-online',
       name: '在线'
     }
-  }[state];
+  }[status];
 };
-const handleClickDJ = (e: { id: string; status: number; value: string; text: string }) => {
-  console.log('点击右侧的单晶板', e);
+const handleClickDJ = (e:Data) => {
+  state.selectedCurID =e.id
   bus.emit('focusToPile', e);
+  bus.emit('calcVal', e.calcVal);
+  calcData()
 };
-onBeforeUnmount(() => {});
+
+const calcData = ()=> {
+  if (timer) {
+    clearInterval(timer);
+  }
+  timer = setInterval(() => {
+    state.list = props.data.map(item => {
+      const random = Math.random() * 0.05 - 0.05;
+      item.calcVal = (item.value + item.value * random).toFixed(2)
+      return item
+    })
+    const data = state.list.find((item) => item.id === state.selectedCurID);
+    if (data) {
+      bus.emit('calcVal', data.calcVal);
+    }
+  }, 3000);
+}
+onMounted(() => {
+  state.list = props.data
+  const data = props.data.find((item) => item.id === 'singleCrystalSilicon17');
+  if (data) {
+    setTimeout(() => {
+      bus.emit('focusToPile', data);
+      calcData()
+    }, 3500);
+  }
+});
 </script>
 <style lang="less" scoped>
 .charging-wrap {
