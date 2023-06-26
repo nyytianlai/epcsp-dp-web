@@ -98,7 +98,7 @@ const err = (error) => {
     }
   } else if (error.message) {
     console.log('error.message', error.message);
-    if (error.message.includes('timeout')) {
+    if (typeof  error.message === 'string' && error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
     } else {
       Message({ type: 'error', message: error.message });
@@ -127,7 +127,7 @@ axios.interceptors.response.use((response) => {
   } else {
     if (res.data.resultCode && res.data.resultCode !== 'TCM-000') {
       const msg = JSON.parse(res.data.resultMsg);
-      Message({ type: 'error', message: msg.errorMsg || 'Error' });
+      Message({ type: 'error', message: msg.exceptionMessage || 'Error' });
       if (res.data.resultCode === 'TCM-108') {
         setTimeout(() => {
           sessionStorage.removeItem('profile');

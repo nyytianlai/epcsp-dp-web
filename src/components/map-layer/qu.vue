@@ -509,14 +509,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
   } else if (stationId === '-2') {
     //莲花村
     isShow
-      ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3, function () {
-          const data = lianhuajingguiData.find((item) => item.id === 'singleCrystalSilicon17');
-          if (data) {
-            setTimeout(() => {
-              bus.emit('focusToPile', data);
-            }, 3500);
-          }
-        })
+      ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3)
       : '';
   } else if (stationId === '-1') {
     //宝清储能站
