@@ -22,7 +22,7 @@ import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { getDistrict, getStreet, getPoint } from '../api';
-import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
@@ -51,6 +51,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log('点击外面的点数据', e);
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Id?.includes('stationOut-')) {
+      if (currentPosition.value !== '') {
+        store.changeCurrentPositionBak(currentPosition.value);
+        store.changeCurrentPosition('');
+      }
       currtentStation.stationId ? await __g.marker.show(currtentStation.stationId) : '';
       __g.marker.delete('stationOut-hight');
       currtentStation = JSON.parse(e.UserData);
@@ -147,7 +151,7 @@ const addHighLightStation = async (item) => {
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOut-hight');
   await __g.marker.focus('stationOut-hight', 100, 1);
-  await focusToHihtLightPop(item.longitude, item.latitude,__g)
+  await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 
 onMounted(async () => {

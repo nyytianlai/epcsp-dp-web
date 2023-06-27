@@ -38,7 +38,6 @@ const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
 
 const stationType = computed(() => new Set(store.stationType));
-// store.changeStationType([1,2,3]);
 const buttomTabCode = computed(() => store.buttomTabCode);
 
 interface Props {
@@ -56,7 +55,7 @@ const currentPosition = computed(() => store.currentPosition); //所在位置 �
 const currentJd = computed(() => store.currentJd);
 const currentJdCode = computed(() => store.currentJdCode);
 const currentQu = computed(() => store.currentQu);
-const emits = defineEmits(['addQuBar', 'addOutStation']);
+const emits = defineEmits(['addQuBar', 'addOutStation', 'addQuPoint']);
 const state = reactive({
   currentSelectStation: {
     stationId: ''
@@ -77,7 +76,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
     if (e.Data.includes('click')) {
       let areaCode = e.Data.split('-')[1];
-      if (e.ID?.includes('区')) {
+      if (e.ID?.includes('区') && props.module !== 4) {        
         let quName = e.ID.split('-')[1];
         if (quName === currentQu.value) {
           return;
@@ -182,7 +181,8 @@ const hideHighLightNormalStation = async () => {
   const res = await __g.radiationPoint.get('1');
   if (res.resultMessage == 'OK') {
     const id = 'station-' + res.data[0].userData;
-    await __g.marker.hidePopupWindow(id);
+    const id1 = `stationOut-chargingStation-${res.data[0].userData}`;
+    await __g.marker.hidePopupWindow([id, id1]);
   }
   await __g.radiationPoint.clear();
 };
@@ -304,7 +304,8 @@ const back = async () => {
     await resetQu();
   } else if (currentPosition.value === '') {
     //此种情况返回哪一级需根据上一个位置
-    hideHighLightNormalStation();
+    await hideHighLightNormalStation();
+    await __g.marker.delete('stationOut-hight');
     hideAllStation3dt(__g, store.treeInfo);
     beforeAddOrExitHrStation(false);
     if (currentPositionBak.value.includes('街道')) {
@@ -508,9 +509,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
   } else if (stationId === '-2') {
     //莲花村
-    isShow
-      ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3)
-      : '';
+    isShow ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3) : '';
   } else if (stationId === '-1') {
     //宝清储能站
     isShow

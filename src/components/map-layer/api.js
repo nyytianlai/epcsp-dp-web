@@ -103,11 +103,9 @@ export const getQuStationWithAlarm = (data) => {
 };
 // 获取geojson数据
 export const requestGeojsonData = (fileName) => {
-  request.cancel(mapRequestCancelId);
   return request.get({
     baseURL: '/freedata',
     url: `/data/geojson/${fileName}.geojson`,
-    cancelId: mapRequestCancelId
   });
 };
 

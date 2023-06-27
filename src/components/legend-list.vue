@@ -57,7 +57,7 @@ const panelShow = computed(() => store.panelShow);
   background: rgba(23, 73, 122, 0.3);
   position: absolute;
   bottom: 85px;
-  left: 498px;
+  left: 456px;
   z-index: 999;
   transition: all 0.3s;
   &.panelShow {
