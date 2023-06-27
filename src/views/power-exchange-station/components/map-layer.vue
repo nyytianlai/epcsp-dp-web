@@ -41,6 +41,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log('点击外面的点数据', e);
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Id?.includes('stationOut-')) {
+      if (currentPosition.value !== '') {
+        store.changeCurrentPositionBak(currentPosition.value);
+        store.changeCurrentPosition('');
+      }
       currtentStation.stationId ? await __g.marker.show(currtentStation.stationId):'';
       __g.marker.delete('stationOut-hight');
       currtentStation = JSON.parse(e.UserData);
