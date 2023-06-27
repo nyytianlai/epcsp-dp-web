@@ -94,16 +94,16 @@ const handleTabBtn = (item) => {
     width: calc(100% - 30px);
     z-index: 0;
     background-image: linear-gradient(270deg, #00b2ff, rgba(0, 133, 255, 0.0001));
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      calc(100% - 3px) 1px,
-      calc(100% - 4px) 2px,
-      calc(100% - 4px) 11px,
-      calc(100% - 3px) 12px,
-      100% 100%,
-      0 100%
-    );
+    // clip-path: polygon(
+    //   0 0,
+    //   100% 0,
+    //   calc(100% - 3px) 1px,
+    //   calc(100% - 4px) 2px,
+    //   calc(100% - 4px) 11px,
+    //   calc(100% - 3px) 12px,
+    //   100% 100%,
+    //   0 100%
+    // );
   }
   .arrow {
     position: relative;
