@@ -625,13 +625,15 @@ watch(
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.isWarning && __g) {
           //防止地图没有
+          warnVisible.value = true;
           let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
           pileParams.value = {
             eid: store.detailParams.equipmentId,
             warnId: store.detailParams.warnId
           };
-          warnVisible.value = true;
+          
           handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+          console.log('store.detailParams',store.detailParams)
         }
       }
     }

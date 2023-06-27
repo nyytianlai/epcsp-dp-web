@@ -36,6 +36,8 @@
           unit="MW"
           mode="noneArea"
           :chartStyle="{ height: '2.3rem' }"
+          :customOption="{ grid:{top:getRemvalue(48)} }"
+         
         />
       </div>
       <div class="social-benefit">
@@ -51,6 +53,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { getRemvalue } from '@/utils/index';
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
 import { ref, inject, onMounted } from 'vue';
 import {
@@ -203,6 +206,9 @@ onMounted(() => {
 }
 
 .today-runing {
+:deep(.unit-box){
+  margin-top: 4px;
+}
   .charging-realtime-power {
     margin-top: 16px;
   }
@@ -252,6 +258,12 @@ onMounted(() => {
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
+    :deep(.unit) {
+      text-align: center;
+      color: #64DEF6;
+      font-size: 12px;
+      display: block;
+    }
   }
 }
 </style>

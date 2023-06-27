@@ -42,6 +42,11 @@
     </div>
   </panel>
   <panel type="right">
+    <div class="today-power-info">
+      <title-column title="今日充电实时功率信息" />
+      <charging-realtime-power :data="powerInfoNumData" />
+      <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" :customOption="{animation:false}"/>
+    </div>
     <div class="today-num-info">
       <title-column title="今日充电设施数据信息" />
       <tabs :data="todayTabs" @changeTab="(data) => handleChangeTab(data, 'today')" />
@@ -51,21 +56,16 @@
         </template>
       </div>
     </div>
-    <div class="today-power-info">
-      <title-column title="今日充电实时功率信息" />
-      <charging-realtime-power :data="powerInfoNumData" />
-      <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" />
-    </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
       <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
-      <warning-list :data="warningListData" @handleClick="handleWarnClick" />
+      <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem"/>
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
   <today-warn-dialog v-if="dialogTableVisible" :visible="dialogTableVisible" @closed="handleCloseTodayWarnDialog" />
-  <enterprise-rank-list-dialog v-if="dialogRankVisible" :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
+  <enterprise-rank-list-dialog :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
 </template>
 <script lang="ts" setup>
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
@@ -388,6 +388,7 @@ onUnmounted(() => {
 }
 
 .today-num-info {
+  margin-top: 20px;
   .tabs {
     margin-top: 8px;
   }
@@ -421,7 +422,6 @@ onUnmounted(() => {
 }
 
 .today-power-info {
-  margin-top: 24px;
 
   :deep(.charging-realtime-power) {
     margin-top: 12px;

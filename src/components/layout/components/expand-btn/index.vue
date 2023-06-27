@@ -180,7 +180,6 @@ const handleSearch = async (value) => {
   top: 2px;
   right: 5px;
   background: rgba(84, 181, 255, 0.1);
-  border: 1px solid rgba(84, 181, 255, 0.8);
   border-radius: 2px;
   ::-webkit-input-placeholder {
     color: rgba(255, 255, 255, 0.7);

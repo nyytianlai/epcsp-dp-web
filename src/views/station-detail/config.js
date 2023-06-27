@@ -1905,8 +1905,9 @@ export const baoqingRealtimeOption = () => {
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
+  console.log('hours',hours)
   const seriesData = [];
-  for (let i = 0; i < hours; i++) {
+  for (let i = 0; i <= hours; i++) {
     const random = Math.floor(Math.random() * 30);
     seriesData.push(random);
   }
@@ -1962,7 +1963,7 @@ export const baoqingWarnOption = {
       '06:00',
       '07:00',
       '08:00',
-      '09:09',
+      '09:00',
       '10:00',
       '11:00',
       '12:00',
