@@ -3,8 +3,25 @@
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import { getHtmlUrl } from '@/global/config/map';
 import {requestGeojsonData} from './api.js'
-import request from '@sutpc/axios';
 const aircityObj = inject('aircityObj');
+const { useEmitt } = aircityObj.value;
+useEmitt('AIRCITY_EVENT', async (e) => {
+  // 编写自己的业务
+  // console.log('事件监听', e);
+  if (e.eventtype === 'MarkerCallBack') {
+    let arearName = e.ID?.split('-')[1];
+    if (e.Data === 'mouseover') {
+      //鼠标悬浮事件
+      changeXzqhColor('qu-' + arearName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
+    }
+     else if (e.Data === 'mouseout') {
+      changeXzqhColor('qu-' + arearName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
+    }
+  }
+});
+const changeXzqhColor = (polygonId: string, newVal: [number, number, number, number]) => {
+  aircityObj.value.acApi.polygon.setColor(polygonId, newVal);
+};
 
 const addBar = async (
   res: [{ areaCode: string; enrollment: number; visits: number }],

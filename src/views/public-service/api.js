@@ -20,14 +20,23 @@ export const hotCharging = (data) => {
   });
 };
 // 地图街道柱状图
-export const jdMonthRate = (areacode) => {
-  return request.get({
-    url: '/massService/queryStatisticsLeftAreaToMonthUseRatio',
-    data: {
-      areacode
-    }
-  });
-};
+// export const jdMonthRate = (areacode) => {
+//   return request.get({
+//     url: '/massService/queryStatisticsLeftAreaToMonthUseRatio',
+//     data: {
+//       areacode
+//     }
+//   });
+// };
+// 地图街道撒点
+// export const getQuPoint = (areaCode) => {
+//   return request.post({
+//     url: '/massService/locationInfoByArea',
+//     data: {
+//       areaCode
+//     }
+//   });
+// };
 // 右下-本月日均利用率 以及地图柱状图
 export const monthRate = () => {
   return request.get({

@@ -219,7 +219,7 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
   return {
     grid: {
       top: getRemvalue(50),
-      bottom: getRemvalue(24),
+      bottom: getRemvalue(28),
       right: getRemvalue(5),
       left: getRemvalue(42)
     },
@@ -256,7 +256,7 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
     xAxis: {
       type: 'category',
       data: xaxis,
-
+      offset: getRemvalue(10),
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
@@ -908,7 +908,6 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       smooth: true,
       showSymbol: false,
       name: '新能源充电',
-      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [
@@ -929,7 +928,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       smooth: true,
       showSymbol: false,
       name: '光伏',
-      yAxisIndex: 1,
+
     },
         {
       data: list.map((item) => [
@@ -1588,7 +1587,6 @@ export const lineElectricDataFun = (data = []) => {
       smooth: true,
       showSymbol: false,
       name: '新能源充电',
-      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [
@@ -1609,7 +1607,6 @@ export const lineElectricDataFun = (data = []) => {
       smooth: true,
       showSymbol: false,
       name: '光伏发电',
-      yAxisIndex: 1,
     },
     {
       data: list.map((item) => [

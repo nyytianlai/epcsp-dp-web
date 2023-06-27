@@ -30,7 +30,7 @@ import bus from '@/utils/bus';
 
 const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
-// const currentPosition = computed(() => store.currentPosition);
+const currentPosition = computed(() => store.currentPosition);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
 const aircityObj = inject('aircityObj');
@@ -43,10 +43,14 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标高亮
   console.log('点击外面的点数据', e);
   if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Id?.includes('stationOverview-')) {
+    if (e.Id?.includes('stationOut-')) {
+      if (currentPosition.value !== '') {
+        store.changeCurrentPositionBak(currentPosition.value);
+        store.changeCurrentPosition('');
+      }
       //关闭上一个高亮其他站点
       currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
-      __g.marker.delete('stationOverview-hight');
+      __g.marker.delete('stationOut-hight');
       //关闭上一个高亮充电站
       currtentStation.stationId1 ? await __g.marker.hidePopupWindow(currtentStation.stationId1) : '';
       quRef.value.hideHighLightNormalStation();
@@ -70,8 +74,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
   //关闭弹窗
   if (e.eventtype === 'MarkerCallBack' && e.Data == 'closeStationHighLight') {
-    if (e.ID?.includes('stationOverview-')) {
-      __g.marker.delete('stationOverview-hight');
+    if (e.ID?.includes('stationOut-')) {
+      __g.marker.delete('stationOut-hight');
       __g.marker.show(currtentStation.stationId1);
     }
   }
@@ -136,7 +140,7 @@ const addOutStation = async (module: number, jdcode: string) => {
         let module = fieldTrans[key]['iconType'];
         let xoffset = getStrLength(item[stationName]) * 6;
         let o1 = {
-          id: `stationOverview-${key}-${index}`,
+          id: `stationOut-${key}-${index}`,
           groupId: 'jdStation',
           userData: JSON.stringify(item),
           coordinateType: 2,
@@ -168,6 +172,7 @@ const addOutStation = async (module: number, jdcode: string) => {
           o1['popupSize'] = [popupSizeX, 60]; //弹窗大小
           o1['popupOffset'] = [-popupSizeX / 2, -100]; //弹窗偏移
           o1['autoHidePopupWindow'] = false;
+          o1.id = `stationOut-${key}-${item.stationId}`;
         }
         pointArr.push(o1);
       });
@@ -180,7 +185,7 @@ const addHighLightStation = async (item, stationType: string) => {
   let popName = fieldTrans[stationType].popName;
   let iconType = fieldTrans[stationType].iconType;
   let o1 = {
-    id: 'stationOverview-hight',
+    id: 'stationOut-hight',
     groupId: 'jdStation',
     userData: JSON.stringify(item),
     coordinateType: 2,
@@ -199,8 +204,8 @@ const addHighLightStation = async (item, stationType: string) => {
     autoHeight: true
   };
   await __g.marker.add(o1, null);
-  __g.marker.showPopupWindow('stationOverview-hight');
-  await __g.marker.focus('stationOverview-hight', 100, 1, [-90.991409, -90.380768, 0]);
+  __g.marker.showPopupWindow('stationOut-hight');
+  await __g.marker.focus('stationOut-hight', 100, 1, [-90.991409, -90.380768, 0]);
   await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 

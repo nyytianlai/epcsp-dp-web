@@ -90,7 +90,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'http://10.10.2.63:9109',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/promotion/, '')
-        }
+        },
+        //[env.VITE_API_BASEPATH]: {
+        //   target: env.VITE_BASE_URL,
+        //   changeOrigin: true,
+        //   rewrite: (path) => path.replace(/^\/web\/epcsp\/dp\/api/, '')
+        // },
       }
     }
   };

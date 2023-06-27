@@ -93,6 +93,8 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
     };
     barArr.push(o);
   });
+  await __g.marker.deleteByGroupId(`rectBar-jd`);
+  await __g.marker.deleteByGroupId(`rectBar-qu`);
   await __g.marker.add(barArr);
   await __g.marker.showAllPopupWindow();
 };

@@ -3,7 +3,7 @@
     <!-- <page-num :data="state.pageNumData" /> -->
     <panel>
       <div class="left-container">
-        <div class="box">
+        <div class="box line-box">
           <div class="box-title">新能源汽车充电站</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.chargingStations" :key="index">
@@ -11,7 +11,7 @@
             </template>
           </div>
         </div>
-        <div class="box">
+        <div class="box line-box">
           <div class="box-title">储能站</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.energyStations" :key="index">
@@ -19,7 +19,7 @@
             </template>
           </div>
         </div>
-        <div class="box">
+        <div class="box line-box">
           <div class="box-title">光伏站</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.photovoltaicStations" :key="index">
@@ -27,7 +27,7 @@
             </template>
           </div>
         </div>
-        <div class="box">
+        <div class="box line-box">
           <div class="box-title">电动自行车充换电柜</div>
           <div class="num-wrap">
             <template
@@ -38,7 +38,7 @@
             </template>
           </div>
         </div>
-        <div class="box">
+        <div class="box line-box">
           <div class="box-title">换电站</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.changeElectric" :key="index">
@@ -59,8 +59,8 @@
           >
             <div class="card-type">{{ item.stationType }}</div>
             <img :src="item.stationPic" alt="" />
-
-            <el-tooltip :content="item.stationName || ''" placement="top">
+            <div class="card-name" v-if="item.stationName.length<9">{{ item.stationName }}</div>
+            <el-tooltip :content="item.stationName || ''" placement="top" v-else>
               <div class="card-name">{{ item.stationName }}</div>
             </el-tooltip>
           </div>
@@ -79,26 +79,26 @@
       <div class="box carbon-sort">
         <title-column title="分类碳减排量" />
         <!-- <ec-resize :option="lineCarbonOption" /> -->
-        <line-time-chart-both
+        <line-time-chart
           :data="lineCarbonData"
           :colors="co2Color"
-          mode="temp"
           yaxisName="吨"
+          mode="onlyLine"
           unit=""
-          :chartStyle="{ height: '2.3rem', width: '4.8rem' }"
-          :customOption="{ legend: { left: 0 } }"
+          :chartStyle="{ height: '2.3rem',width:'4.3rem'}"
+          :customOption="{ legend: { itemGap:getRemvalue(10),left:0 } }"
         />
       </div>
       <div class="box ele">
         <title-column title="充储放电数据" />
-        <line-time-chart-both
+        <line-time-chart
           :data="lineElectricData"
           :colors="ElectricColor"
           yaxisName="万kwh"
-          mode="temp"
+          mode="onlyLine"
           unit=""
-          :chartStyle="{ height: '2.3rem', width: '4.8rem' }"
-          :customOption="{ legend: { left: 0 } }"
+          :chartStyle="{ height: '2.3rem',width:'4.3rem'}"
+          :customOption="{ legend: { itemGap:getRemvalue(0),left:0 }}"
         />
       </div>
     </panel>
@@ -107,6 +107,7 @@
 </template>
 
 <script lang="ts" setup>
+import { getRemvalue } from '@/utils/index';
 import { reactive, onMounted, inject, ref } from 'vue';
 import {
   pageNumFun,
@@ -232,7 +233,7 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 .left-container {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   background: linear-gradient(
     90.1deg,
     rgba(37, 177, 255, 0.02) 0.08%,
@@ -241,13 +242,12 @@ onMounted(async () => {
   mix-blend-mode: normal;
   border-radius: 2px;
   padding-top: 12px;
-  padding-bottom: 12px;
 
   .box-title {
     font-weight: 500;
     font-size: 18px;
     color: #ffffff;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 
     &::before {
       content: '';
@@ -300,7 +300,6 @@ onMounted(async () => {
 
   .ec-wrap {
     margin-top: 16px;
-    margin-left: -60px;
   }
 }
 
@@ -379,5 +378,15 @@ onMounted(async () => {
   height: 230px;
   width: 100%;
   margin-top: 12px;
+}
+.line-box {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid;
+  border-image: linear-gradient(90deg,rgba(0, 106, 207, .1) 10%, rgba(0, 163, 233, .9) 50%,rgba(0, 106, 207, .1) 100% ) 2 2 2 2;
+  &:nth-last-of-type(1){
+    border: none;
+  }
+
 }
 </style>
