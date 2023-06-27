@@ -100,6 +100,7 @@ const err = (error) => {
     console.log('error.message', error.message);
     if (typeof error.message === 'string' && error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
+    } else if (error.code === 'ERR_CANCELED'){
     } else {
       Message({ type: 'error', message: error.message });
     }
@@ -109,6 +110,7 @@ const err = (error) => {
 axios.interceptors.response.use((response) => {
   const res = response;
   if (res && res.status !== 200) {
+    console.log('resultMsg:' , res)
     const type = response.request.responseType;
     if (type === 'blob') {
       return res;
@@ -125,6 +127,7 @@ axios.interceptors.response.use((response) => {
     }
     return Promise.reject(new Error(res.message || 'Error'));
   } else {
+    // console.log('resultMsg:' , res)
     if (res.data.resultCode && res.data.resultCode !== 'TCM-000') {
       const msg = JSON.parse(res.data.resultMsg);
       Message({ type: 'error', message: msg.exceptionMessage || 'Error' });

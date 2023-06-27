@@ -27,6 +27,7 @@ import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
+import { Return } from '@icon-park/vue-next';
 
 const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
@@ -52,7 +53,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
       __g.marker.delete('stationOut-hight');
       //关闭上一个高亮充电站
-      currtentStation.stationId1 ? await __g.marker.hidePopupWindow(currtentStation.stationId1) : '';
+      currtentStation.stationId1
+        ? await __g.marker.hidePopupWindow(currtentStation.stationId1)
+        : '';
       quRef.value.hideHighLightNormalStation();
       storeVisible.changeShowComponent(true);
       storeVisible.changeShowDetail({
@@ -214,8 +217,15 @@ defineExpose({});
 onMounted(async () => {
   addQuBar();
   bus.on('addBar', async (e) => {
-    const { data: res } = await getStreetBar({ areaCode: e.quCode });
-    rectBar4Ref.value.addBar(e.type, res, e.quCode);
+    // const { data: res } = await getStreetBar({ areaCode: e.quCode });
+    // rectBar4Ref.value.addBar(e.type, res, e.quCode);
+    try {
+      const { data: res } = await getStreetBar({ areaCode: e.quCode });
+      rectBar4Ref.value.addBar(e.type, res, e.quCode);
+    } catch (err) {
+      console.log('请求中断错误', err);
+      return;
+    }
   });
 });
 
