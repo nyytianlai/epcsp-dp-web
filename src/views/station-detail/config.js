@@ -560,7 +560,7 @@ export const facilitiesLabel = (stationId) => {
         value: '充电集控终端',
         id: 'charging-centralized-control-terminal',
         type: 'customAngleMarker',
-        camera: [494459.422, 2495552.755, 25.212, -12.0, 169.600002, 2],
+        camera: [494465.020625, 2495555.3925, 25.748376, -5.967556, 159.053345, 2],
         position: [494455.70875, 2495552, 25.17718994140625],
         img: 'chargingTerminal'
       },
@@ -1921,7 +1921,7 @@ export const baoqingRealtimeOption = () => {
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
-  console.log('hours',hours)
+  console.log('hours', hours);
   const seriesData = [];
   for (let i = 0; i <= hours; i++) {
     const random = Math.floor(Math.random() * 30);
