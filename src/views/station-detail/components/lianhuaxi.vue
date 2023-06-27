@@ -107,7 +107,7 @@ const infoListFun = (data?: Data) => {
     },
     {
       label: '联系方式：',
-      value: '010-2891029839' || '--'
+      value: '13682341234' || '--'
     }
   ];
 };

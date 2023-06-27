@@ -66,26 +66,36 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     },
     server: {
       proxy: {
-        ['/freedata']: {
-          target: `http://${env.VITE_FD_URL}`,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/freedata/, '')
-        },
+        // 接口代理
         ['/web']: {
           target: env.VITE_BASE_URL,
           changeOrigin: true
           // rewrite: (path) => path.replace(/^\/web/, '')
         },
+        // 飞渡geojson数据转发
+        ['/freedata']: {
+          target: `http://${env.VITE_FD_URL}/`,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/freedata/, '')
+        },
+        // 飞渡视频流数据转发
         ['/freedo']: {
-          target: `ws://${env.VITE_FD_URL}/webSocket`,
+          target: `ws://${env.VITE_FD_URL}/`,
           changeOrigin: true,
           ws: true,
+          rewrite: (path) => path.replace(/^\/freedo/, '')
         },
+        // 宣传视频
         ['/promotion']: {
           target: 'http://10.10.2.63:9109',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/promotion/, '')
-        }
+        },
+        //[env.VITE_API_BASEPATH]: {
+        //   target: env.VITE_BASE_URL,
+        //   changeOrigin: true,
+        //   rewrite: (path) => path.replace(/^\/web\/epcsp\/dp\/api/, '')
+        // },
       }
     }
   };

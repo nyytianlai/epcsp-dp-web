@@ -511,6 +511,8 @@ export const facilitiesLabel = (stationId) => {
       {
         value: '实时监测中心',
         id: '实时监测展示中心',
+        type: 'customAngleMarker',
+        camera: [529468.861, 2520349.212, 47.814, -36.0, -104.999996, 2],
         position: [529466.175, 2520360.16, 42.725927734375],
         img: 'monitorCenter'
       },
@@ -529,18 +531,24 @@ export const facilitiesLabel = (stationId) => {
       {
         value: '充电终端',
         id: '充电终端',
+        type: 'customAngleMarker',
+        camera: [529478.721, 2520347.989, 34.255, -19.425051, -103.241957, 2],
         position: [529477.8025, 2520351.84, 32.137705078125],
         img: 'chargingTerminal'
       },
       {
         value: '光伏电池板',
         id: '光伏电池板',
+        type: 'customAngleMarker',
+        camera: [529489.451, 2520341.212, 46.46, -43.126306, -145.107255, 2],
         position: [529473.83, 2520347.68, 35.1907373046875],
         img: 'PVPanel'
       },
       {
         value: '充电站',
         id: '充电站',
+        type: 'customAngleMarker',
+        camera: [529477.747812, 2520330.100313, 35.466946, -0.030306, -104.800781, 2],
         position: [529477.7975, 2520344.8000000003, 34.6154541015625],
         img: 'chargingStation'
       }
@@ -550,25 +558,33 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '充电集控终端',
-        id: '充电集控终端',
+        id: 'charging-centralized-control-terminal',
+        type: 'customAngleMarker',
+        camera: [494459.422, 2495552.755, 25.212, -12.0, 169.600002, 2],
         position: [494455.70875, 2495552, 25.17718994140625],
         img: 'chargingTerminal'
       },
       {
         value: 'V2G桩',
-        id: 'V2G桩',
+        id: 'V2G-pile',
+        type: 'customAngleMarker',
+        camera: [494462.151, 2495536.641, 25.595, -6.4, 169.799997, 2],
         position: [494458.6175, 2495536, 25.014765625],
         img: 'V2G'
       },
       {
         value: '液冷大功率充电终端',
-        id: '液冷大功率充电终端',
+        id: 'high-power-charging-terminal',
+        type: 'customAngleMarker',
+        camera: [494455.913, 2495573.056, 25.894, -21.2, 170.800003, 2],
         position: [494452.315, 2495571.52, 25.58055908203125],
         img: 'chargingTerminal'
       },
       {
         value: '充电堆',
-        id: '充电堆',
+        id: 'charging-stack',
+        type: 'customAngleMarker',
+        camera: [494462.128125, 2495576.0375, 30.344631, -26.933886, -164.908112, 2],
         position: [494452.72375, 2495578.24, 26.920390625],
         img: 'chargingStack'
       },
@@ -1905,8 +1921,9 @@ export const baoqingRealtimeOption = () => {
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
+  console.log('hours',hours)
   const seriesData = [];
-  for (let i = 0; i < hours; i++) {
+  for (let i = 0; i <= hours; i++) {
     const random = Math.floor(Math.random() * 30);
     seriesData.push(random);
   }
@@ -1962,7 +1979,7 @@ export const baoqingWarnOption = {
       '06:00',
       '07:00',
       '08:00',
-      '09:09',
+      '09:00',
       '10:00',
       '11:00',
       '12:00',
