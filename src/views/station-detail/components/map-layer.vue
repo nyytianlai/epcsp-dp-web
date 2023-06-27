@@ -201,7 +201,7 @@ const addFacilitiesLabel = async (id) => {
 
     let xoffset = (getStrLength(item.value) * 12 + 30) / 2;
     let o1 = {
-      id: item.type && item.type === 'hongli' ? item.id : 'facilitiesLabel-' + item.id,
+      id: item.type ? item.id : 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',
       userData: JSON.stringify(item),
       coordinate: item.position, //坐标位置
