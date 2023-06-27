@@ -106,7 +106,7 @@ const hanldeTab = (item) => {
 
   .back-btn {
     position: absolute;
-    left: 253px;
+    right: 1790px;
     top: 30px;
     z-index: 10;
   }

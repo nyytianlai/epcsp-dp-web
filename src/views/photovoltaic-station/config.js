@@ -1,5 +1,5 @@
 import gfzzl from './images/gfzzl.png';
-import zjzrl from './images/zjzrl.png';
+import bwzrl from './images/bwzrl.png';
 import jrqyzs from './images/jrqyzs.png';
 import tyfsqd from './images/tyfsqd.png';
 import jrswdl from './images/jrswdl.png';
@@ -40,6 +40,12 @@ export const cdzzlFun = (data = {}) => {
       num: 1190,
       unit: '个',
       name: '光伏站总量'
+    },
+    {
+      img: bwzrl,
+      num: 351.31,
+      unit: 'MW',
+      name: '并网总容量'
     },
     {
       img: jrqyzs,

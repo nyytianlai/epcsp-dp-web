@@ -36,7 +36,7 @@
           unit="MW"
           mode="noneArea"
           :chartStyle="{ height: '2.3rem' }"
-          :customOption="{ grid:{top:getRemvalue(48)} }"
+          :customOption="{ grid:{top:getRemvalue(48),right:getRemvalue(32)} }"
          
         />
       </div>

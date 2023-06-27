@@ -7,7 +7,7 @@
         <title-column title="充换电柜整体信息" icon="chargings-replacement" />
         <div class="num-wrap">
           <template v-for="(item, index) in cardData" :key="index">
-            <num-card :data="item" classStyleType="bottomDown" />
+            <num-tile-card :data="item" />
           </template>
         </div>
       </div>
@@ -49,7 +49,7 @@
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
-        <warning-list :data="warningListData" @handleClick="handleWarnClick" />
+        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.3rem"/>
       </div>
     </panel>
     <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
@@ -189,23 +189,28 @@ onMounted(() => {
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
   .num-wrap {
-    display: flex;
-    justify-content: space-around;
-    height: 160px;
-    padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(
-      255.75deg,
-      rgba(37, 177, 255, 0.02) 23.33%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
-    mix-blend-mode: normal;
-    box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
-    border-radius: 4px;
+
+    :deep(.num-tile-card) {
+      img{
+        width: 74px;
+      }
+      .name {
+        margin-left: 28px;
+      }
+      .num-box{
+        width: 110px;
+        margin-left: 41px;
+        text-align: right;
+      }
+      &:nth-of-type(n + 1) {
+        margin-top: 12px;
+      }
+    }
   }
 }
 .charging-type {
-  margin-top: 26px;
+  margin-top: 12px;
   :deep(.pie-wrap) {
     margin-top: 22px;
   }

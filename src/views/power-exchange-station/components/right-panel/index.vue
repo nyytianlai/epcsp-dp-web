@@ -90,6 +90,7 @@ onMounted(() => {
   }
 }
 .today-warning-message {
+  margin-top: 20px;
   :deep(.warning-list) {
     margin-top: 16px;
   }

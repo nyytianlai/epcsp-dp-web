@@ -11,9 +11,9 @@
           </template>
         </div>
       </div>
-      <div class="surf-sort">
+      <!-- <div class="surf-sort">
         <num-tile-card :data="unitTotal" />
-      </div>
+      </div> -->
       <div class="company-rank">
         <title-column title="光伏站排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
@@ -174,7 +174,7 @@ onMounted(() => {
 .photovoltaic-station-overview {
   .num-wrap {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
