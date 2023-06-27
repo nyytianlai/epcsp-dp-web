@@ -192,7 +192,7 @@ export const powerTodayCardOption = {
     top: 30,
     bottom: 24,
     right: 15,
-    left: 42
+    left: 48
   },
   tooltip: {
     backgroundColor: 'transparent',
@@ -257,6 +257,9 @@ export const powerTodayCardOption = {
     },
     axisTick: {
       show: false
+    },
+    nameTextStyle: {
+      align:'right'
     },
     axisLabel: {
       fontFamily: 'Helvetica',
