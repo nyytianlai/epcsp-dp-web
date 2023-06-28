@@ -13,8 +13,7 @@
       </el-tab-pane>
     </el-tabs>
     <ul class="info-content">
-      <li class="info-item" v-for="(item, index) in infoList" :key="index"
-       >
+      <li class="info-item" v-for="(item, index) in infoList" :key="index">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
           <span class="name">{{ item.name }}</span>
@@ -27,11 +26,11 @@
       </li>
     </ul>
     <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
-      :chartStyle="{ height: '1.8rem' }" :customOption="customOption" />
+      :chartStyle="{ height: '1.8rem' }" :customOption="customOption" mode="haveTab"/>
   </div>
 </template>
 <script setup>
-import { ref, inject, onMounted,watch } from 'vue';
+import { ref, inject, onMounted, watch,onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
@@ -160,7 +159,7 @@ const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   return [
     {
-      data: data?.map((item) => [yearMonthDay + `${item.time}:00`, item.count]),
+      data: data?.map((item) => [item.time, item.count]),
       type: 'line',
       smooth: true,
       name: dynamicActive.value?.name
@@ -183,7 +182,7 @@ const getEquipmentDynamicInfo = async (index = 0) => {
   const params = getParams(tabList.value[index]);
   selectTabData.value = params;
   const res = await selectEquipmentDynamicInfo(params);
-  console.log('params',params)
+  console.log('params', params)
   if (res?.data) {
     infoList.value = infoListFun(res?.data);
     dynamicActive.value = infoList.value[4];
@@ -205,20 +204,29 @@ const getEquipmentDynamicInfoGroupByTime = async () => {
 };
 const handleClickDynamic = (item) => {
   dynamicActive.value = item;
-  console.log('dynamicActive.value',dynamicActive.value)
+  console.log('dynamicActive.value', dynamicActive.value)
   getEquipmentDynamicInfoGroupByTime();
 };
+let timer = null
 onMounted(() => {
-  
+
 });
-watch(()=>pileData.value.equipmentId,async(newVal)=>{
-  console.log('pileData.value',newVal)
+onUnmounted(()=>{
+    console.log('timer',timer)
+    clearInterval(timer);
+    timer = null;
+})
+
+watch(() => pileData.value.equipmentId, async (newVal) => {
+  console.log('pileData.value', newVal)
   tabList.value = tabsFun()
   await getEquipmentDynamicInfo();
-  
-  
-},{
-  immediate:true
+  timer = setInterval(() => {
+    getEquipmentDynamicInfo();
+  }, 900000)
+
+}, {
+  immediate: true
 })
 </script>
 <style lang="less" scoped>

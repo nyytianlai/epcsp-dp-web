@@ -739,7 +739,8 @@ onBeforeUnmount(async () => {
   cursor: pointer;
 
   img {
-    height: 19.5px;
+    height: 24px;
+    width: 24px;
     border-radius: 1px;
     cursor: pointer;
   }

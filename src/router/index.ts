@@ -13,7 +13,6 @@ import type { NProgressOptions } from 'nprogress';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Layout from '@/components/layout/index.vue';
-import Layout2 from '@/components/layout2/index.vue';
 
 export const routes = [
   {
@@ -117,20 +116,6 @@ let routesMap = [
     ]
   },
 
-  {
-    path: '/overviews',
-    name: 'Overviews',
-    meta: { title: '总览' },
-    component: Layout2,
-    children: [
-      {
-        name: 'overviewsAll',
-        path: '/overviews/all',
-        meta: { title: '总览', keepAlive: false },
-        component: () => import('@/views/iframe/index.vue')
-      }
-    ]
-  },
   ...routes,
   {
     path: '/login',

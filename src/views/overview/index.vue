@@ -59,7 +59,7 @@
           >
             <div class="card-type">{{ item.stationType }}</div>
             <img :src="item.stationPic" alt="" />
-            <div class="card-name" v-if="item.stationName.length<9">{{ item.stationName }}</div>
+            <div class="card-name" v-if="item.stationName.length < 9">{{ item.stationName }}</div>
             <el-tooltip :content="item.stationName || ''" placement="top" v-else>
               <div class="card-name">{{ item.stationName }}</div>
             </el-tooltip>
@@ -85,8 +85,8 @@
           yaxisName="吨"
           mode="onlyLine"
           unit=""
-          :chartStyle="{ height: '2.3rem',width:'4.3rem'}"
-          :customOption="{ legend: { itemGap:getRemvalue(10),left:0 } }"
+          :chartStyle="{ height: '2.3rem', width: '4.3rem' }"
+          :customOption="{ legend: { itemGap: getRemvalue(10), left: 0 } }"
         />
       </div>
       <div class="box ele">
@@ -97,8 +97,8 @@
           yaxisName="万kwh"
           mode="onlyLine"
           unit=""
-          :chartStyle="{ height: '2.3rem',width:'4.3rem'}"
-          :customOption="{ legend: { itemGap:getRemvalue(0),left:0 }}"
+          :chartStyle="{ height: '2.3rem', width: '4.3rem' }"
+          :customOption="{ legend: { itemGap: getRemvalue(0), left: 0 } }"
         />
       </div>
     </panel>
@@ -118,7 +118,6 @@ import {
   stationTabType,
   ecOptionFun,
   lineCarbonDataFun,
-  lineCarbonOptionFun,
   lineElectricDataFun,
   changeElectricFun
 } from './config.js';
@@ -129,7 +128,12 @@ import PageNum from '@/components/page-num/index.vue';
 import Panel from '@/components//panel/index.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
-import { selectHrStationInfoForOverview, chargingStation,totalStatistics,yearChargingStation } from './api.js';
+import {
+  selectHrStationInfoForOverview,
+  chargingStation,
+  totalStatistics,
+  yearChargingStation
+} from './api.js';
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
 const co2Color = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
@@ -145,9 +149,12 @@ const state = reactive({
   changeElectric: []
 });
 // 左一柱状图
-const chongdianzhan = ref(0)
+const chongdianzhan = ref(0);
 const ecOption = ref(
-  ecOptionFun([2001, 2811, 4011, 5910, chongdianzhan.value], ['2019年', '2020年', '2021年', '2022年', '2023年'])
+  ecOptionFun(
+    [2001, 2811, 4011, 5910, chongdianzhan.value],
+    ['2019年', '2020年', '2021年', '2022年', '2023年']
+  )
 );
 // 左二折线图
 const lineCarbonData = ref(lineCarbonDataFun());
@@ -192,41 +199,35 @@ const handleStation = (item) => {
   console.log('item', item);
   switch (item.code) {
     case 1:
-      ecOption.value = ecOptionFun(
-        chongdianzhan.value,
-        [ '2020年', '2021年', '2022年', '2023年']
-      );
+      ecOption.value = ecOptionFun(chongdianzhan.value, ['2020年', '2021年', '2022年', '2023年']);
       break;
-      case 3:
-      ecOption.value = ecOptionFun(
-        [19, 22, 29, 35],
-        ['2020年', '2021年', '2022年', '2023年'],3
-      );
+    case 3:
+      ecOption.value = ecOptionFun([19, 22, 29, 35], ['2020年', '2021年', '2022年', '2023年'], 3);
       break;
   }
 };
 // 获取历年
-const loadYearChargingStation = async()=>{
-  const res = await yearChargingStation()
-  console.log('yearChargingStation',res.data)
-  chongdianzhan.value =  res.data
-  console.log('chongdianzhan.value',chongdianzhan.value)
-  ecOption.value =  ecOptionFun(chongdianzhan.value, [ '2020年', '2021年', '2022年', '2023年'])
-}
+const loadYearChargingStation = async () => {
+  const res = await yearChargingStation();
+  // console.log('yearChargingStation',res.data)
+  chongdianzhan.value = res.data;
+  // console.log('chongdianzhan.value',chongdianzhan.value)
+  ecOption.value = ecOptionFun(chongdianzhan.value, ['2020年', '2021年', '2022年', '2023年']);
+};
 // 获取电动自行车
-const loadTotalStatistics = async()=>{
-  const res = await totalStatistics()
+const loadTotalStatistics = async () => {
+  const res = await totalStatistics();
   state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun(res.data);
-}
+};
 onMounted(async () => {
   state.pageNumData = pageNumFun();
   state.energyStations = energyStationFun();
   state.photovoltaicStations = photovoltaicStationFun();
- 
+
   state.changeElectric = changeElectricFun();
   loadSelectHrStationInfoForOverview();
-   loadChargingStation();
-   loadTotalStatistics();
+  loadChargingStation();
+  loadTotalStatistics();
   loadYearChargingStation();
 });
 </script>
@@ -383,10 +384,15 @@ onMounted(async () => {
   margin-bottom: 12px;
   padding-bottom: 12px;
   border-bottom: 1px solid;
-  border-image: linear-gradient(90deg,rgba(0, 106, 207, .1) 10%, rgba(0, 163, 233, .9) 50%,rgba(0, 106, 207, .1) 100% ) 2 2 2 2;
-  &:nth-last-of-type(1){
+  border-image: linear-gradient(
+      90deg,
+      rgba(0, 106, 207, 0.1) 10%,
+      rgba(0, 163, 233, 0.9) 50%,
+      rgba(0, 106, 207, 0.1) 100%
+    )
+    2 2 2 2;
+  &:nth-last-of-type(1) {
     border: none;
   }
-
 }
 </style>

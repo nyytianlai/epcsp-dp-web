@@ -282,4 +282,7 @@ onMounted(() => {
 :deep(.title-column) {
   margin: 12px 0;
 }
+.page.page-num-wrap {
+  justify-content: space-evenly;
+}
 </style>

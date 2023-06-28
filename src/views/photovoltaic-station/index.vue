@@ -18,7 +18,7 @@
         <title-column title="光伏站排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
         <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
-        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="4.2rem" />
+        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="5.8rem" />
       </div>
     </panel>
     <!-- 右侧 -->
@@ -57,15 +57,12 @@ import { ref, onMounted, inject } from 'vue';
 import {
   pageNumFun,
   cdzzlFun,
-  surfSortPieDataFun,
-  surfTitle,
   companyRank,
   jrgfdzFun,
   powerTodayTitle,
   powerTodayCardFun,
   linePowerDataFun,
-  socialBenefitFun,
-  unitTotalFun
+  socialBenefitFun
 } from './config';
 import { capacityRanking, projectRanking } from './api.js';
 import { electricData } from './data';
@@ -78,15 +75,10 @@ const aircityObj: Aircity = inject('aircityObj');
 let mapLayerRef = ref(null);
 
 const lineStateColor = ['blue'];
-const surfSortColor = ['#E5CC48', '#3254DD', '#4BDEFF'];
 // 顶部数据
 const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
 const cardData = ref(cdzzlFun());
-// 并网总容量
-const unitTotal = ref(unitTotalFun());
-// 上网方式分类
-const surfSortPieData = ref(surfSortPieDataFun());
 // 企业排名
 const companyRankData = ref([]);
 // 企业排名总量
@@ -133,7 +125,7 @@ const loadProjectRanking = async () => {
 };
 // 企业排名tab点击
 const handleCompany = (item) => {
-  console.log('item', item);
+  // console.log('item', item);
   companyRankData.value = item.code === 1 ? stationRnk.value : lightRank.value;
   companyRankTotal.value = companyRankData.value[0].num;
 };
@@ -142,25 +134,24 @@ const handleCompany = (item) => {
 const handleTodayElecData = () => {
   const hours = dayjs().hour();
   const minutes = dayjs().minute();
-  console.log(hours, minutes);
+  // console.log(hours, minutes);
   let count = 0;
   for (let i = 0; i < electricData.length; i++) {
     const date = electricData[i].time.split(':');
     // 判断小时和分钟是否小于当前时刻
     if (hours > Number(date[0]) || (Number(date[0]) <= hours && Number(date[1]) <= minutes)) {
       count += electricData[i].power;
-      console.log('electricData[i]',electricData[i])
-      powerTodayCard.value =  powerTodayCardFun({realtime:electricData[i].power})
+      console.log('electricData[i]', electricData[i]);
+      powerTodayCard.value = powerTodayCardFun({ realtime: electricData[i].power });
     }
     // console.log(dayjs(    ).format('YYYY-MM-DD HH:mm'));
     // xAxis.push(dayjs().set('hour', i).set('minute', '00').format('YYYY-MM-DD HH:mm'));
   }
-  console.log(count);
   todayElec.value = count;
   cardTodayData.value = jrgfdzFun({
     radiation: 892,
-    total: (todayElec.value *0.05).toFixed(2),
-    onlineElec: (todayElec.value *0.05 * 0.4).toFixed(2)
+    total: (todayElec.value * 0.05).toFixed(2),
+    onlineElec: (todayElec.value * 0.05 * 0.4).toFixed(2)
   });
 };
 

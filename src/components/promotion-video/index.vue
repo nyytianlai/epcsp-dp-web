@@ -17,11 +17,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 const videoRef = ref();
 const muted = ref(true);
-const videoUrl = ref('/promotion/lx/videos/home_video.mp4');
+const videoUrl = ref(`${import.meta.env.VITE_BASE_PATH}promotion/lx/videos/home_video.mp4`);
 // const videoUrl = ref('http://localhost:20020/promotion/videos/home_video.mp4');
 const store = useVisibleComponentStore();
 // 视频播放状态

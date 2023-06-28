@@ -174,7 +174,8 @@ const handleStationFloor = async (floor: number) => {
   __g.marker.clear();
   switch (floor) {
     case 0:
-      await __g.camera.set(529798.801353, 2510062.688584, 131.746738, -38.302208, 93.702721, 2);
+      // await __g.camera.set(529798.801353, 2510062.688584, 131.746738, -38.302208, 93.702721, 2);
+      await __g.camera.set(529794.542891, 2510059.552969, 131.746738, -38.302212, 90.678322, 2);
       break;
     case 1:
       await __g.camera.set(529790.102871, 2510018.366211, 114.9771, -63.408031, 91.262276, 2);
@@ -198,10 +199,10 @@ const handleStationFloor = async (floor: number) => {
   });
 };
 const handleClickMenu = async (menu) => {
-  if (selectMenu.value === menu.id) {
-    handleStationFloor(selectFloor.value);
-    // return;
-  }
+  // if (selectMenu.value === menu.id) {
+  handleStationFloor(selectFloor.value);
+  // return;
+  // }
   selectMenu.value = menu.id;
   await __g.marker.clear();
   switch (selectFloor.value) {
@@ -315,27 +316,24 @@ onUnmounted(() => {
 }
 
 .plan {
-  background: radial-gradient(
-      48.84% 50.6% at 50% 48.19%,
-      rgba(0, 144, 225, 0.35) 0%,
-      rgba(5, 118, 223, 0.03) 100%
-    ),
-    #000000;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url('./images/baoqing-plan-bg.png');
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 105px;
   bottom: 0;
   z-index: 1000;
   .plan-img {
-    width: 100%;
-    height: 100%;
+    
+    width: 1669px;
+    height: 827px;
     background-image: url('./images/plan.png');
     background-repeat: no-repeat;
-    background-repeat: no-repeat;
-    background-size: 70% 70%;
-    background-position: center 230px;
+    background-size: 100% 100%;
     margin: auto;
+    margin-top: 69px;
   }
 }
 
