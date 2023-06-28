@@ -25,7 +25,7 @@
     const areaCode = urlParams.get("areaCode");
     var xData = ["递铺街道"];
 
-    var data1 = paramsValue.v2GCount?[paramsValue.v2GCount]:[0]; //底部数据
+    var data1 = paramsValue.v2gCount?[paramsValue.v2gCount]:[0]; //底部数据
     var data2 = paramsValue.superCount?[paramsValue.superCount]:[0]; //中底
     var data3 = paramsValue.noQuickCount?[paramsValue.noQuickCount]:[0]; //中顶
     var data4 = paramsValue.quickCount?[paramsValue.quickCount]:[0]; //顶部
@@ -52,12 +52,12 @@
       colorCollection[11]=colorCollection[9]
     }else if(paramsValue.superCount){
       colorCollection[11]=colorCollection[7]
-    }else if(paramsValue.v2GCount){
+    }else if(paramsValue.v2gCount){
       colorCollection[11]=colorCollection[5]
     }
 
     //设置底部圆颜色和有数据的柱子颜色一致
-    if(paramsValue.v2GCount){
+    if(paramsValue.v2gCount){
     }else if(paramsValue.superCount){
       colorCollection[4]=colorCollection[6]
     }else if(paramsValue.noQuickCount){

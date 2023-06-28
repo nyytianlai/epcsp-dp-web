@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, provide, nextTick } from 'vue';
+import { ref, reactive, onMounted, provide, nextTick,inject } from 'vue';
 import { operatorInfoList } from '../api.js';
 import { columnDataRankFun } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
@@ -170,7 +170,7 @@ const handleGoDetail = (item) => {
       isHr: item.isHr
     }
   });
-  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item);
 };
 const handleClosed = () => {
   emit('close');

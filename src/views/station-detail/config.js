@@ -712,6 +712,10 @@ export const facilitiesLabel = (stationId) => {
 export const currentLabel = () => {
   return [
     {
+      value: '380V 50HZ',
+      position: [504791.74562500004, 2499561.2800000003, 92.600009765625]
+    },
+    {
       value: '312V 46HZ',
       position: [504774.7628125, 2499640.8000000003, 92.8]
     },

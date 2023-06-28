@@ -27,8 +27,8 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
   let countIsZero = []; //存储值都是0的区域 都是0的话 不在图上展示柱状图
   res.data.forEach((element) => {
     let countItem = 0;
-    element.v2GCount = element.v2GCount ? element.v2GCount * 300 : 0;
-    ['noQuickCount', 'quickCount', 'superCount', 'v2GCount'].forEach((i) => {
+    element.v2gCount = element.v2gCount ? element.v2gCount * 300 : 0;
+    ['noQuickCount', 'quickCount', 'superCount', 'v2gCount'].forEach((i) => {
       if (element[i]) {
         countItem = countItem + element[i];
       }
