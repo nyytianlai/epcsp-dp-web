@@ -65,7 +65,7 @@ const addBar = async (
     if (!countObj.length) {
       return;
     }
-    let contentHeight = 190;
+    let contentHeight = 160;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
@@ -83,8 +83,8 @@ const addBar = async (
         countObj[0].countNumber
       }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}&moudleName=${moudleName}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [200, contentHeight + 100],
-      popupOffset: [-125, -140], //弹窗偏移
+      popupSize: [60, contentHeight+10],
+      popupOffset: [-60, -80], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };

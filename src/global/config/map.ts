@@ -210,6 +210,7 @@ export const toSingleStation = async (
     [key: string]: any;
   }
 ) => {
+  debugger
   let info = await __g.marker.get('station-' + value.stationId);
   console.log('获取站点信息', info);
   value['lng'] = Number(value.stationLng);
