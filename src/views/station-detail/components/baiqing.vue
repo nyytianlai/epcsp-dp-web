@@ -198,10 +198,10 @@ const handleStationFloor = async (floor: number) => {
   });
 };
 const handleClickMenu = async (menu) => {
-  if (selectMenu.value === menu.id) {
-    handleStationFloor(selectFloor.value);
-    // return;
-  }
+  // if (selectMenu.value === menu.id) {
+  handleStationFloor(selectFloor.value);
+  // return;
+  // }
   selectMenu.value = menu.id;
   await __g.marker.clear();
   switch (selectFloor.value) {
