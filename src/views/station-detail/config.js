@@ -703,6 +703,8 @@ export const facilitiesLabel = (stationId) => {
         img: '5GAntenna'
       }
     ];
+  } else {
+    return [];
   }
 };
 //民乐站电流标签
