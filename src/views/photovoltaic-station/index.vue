@@ -18,7 +18,7 @@
         <title-column title="光伏站排名" icon="photovoltaic" />
         <tabs :data="companyRank" @changeTab="handleCompany" />
         <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
-        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="4.2rem" />
+        <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="5.8rem" />
       </div>
     </panel>
     <!-- 右侧 -->

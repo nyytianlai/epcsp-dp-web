@@ -91,7 +91,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/promotion/, '')
         },
-        //[env.VITE_API_BASEPATH]: {
+        // [env.VITE_API_BASEPATH]: {
         //   target: env.VITE_BASE_URL,
         //   changeOrigin: true,
         //   rewrite: (path) => path.replace(/^\/web\/epcsp\/dp\/api/, '')
