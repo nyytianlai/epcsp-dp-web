@@ -55,6 +55,8 @@ import { tableColumnFun } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
 import RankDetail from './rank-detail.vue';
+import { toSingleStation } from '@/global/config/map';
+
 interface Props {
   visible: boolean;
 }
@@ -62,6 +64,8 @@ const props = withDefaults(defineProps<Props>(), {
   visible: false
 });
 const emit = defineEmits(['close']);
+const aircityObj = inject('aircityObj');
+
 // 详情弹窗
 const rankDetailVisible = ref(false);
 const rankDetail = ref();
@@ -166,6 +170,7 @@ const handleGoDetail = (item) => {
       isHr: item.row.isHr
     }
   });
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
 };
 const handleClosed = () => {
   emit('close');

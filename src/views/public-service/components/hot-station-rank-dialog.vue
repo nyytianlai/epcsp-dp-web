@@ -71,11 +71,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted,inject } from 'vue';
 import { stationRankingDetail } from '../api.js';
 import { columnDataHotFun, filters } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { toSingleStation } from '@/global/config/map';
 
 import Icon from '@sutpc/vue3-svg-icon';
 interface Props {
@@ -87,6 +88,8 @@ const props = withDefaults(defineProps<Props>(), {
   timeType: 'day'
 });
 const emit = defineEmits(['close']);
+const aircityObj = inject('aircityObj');
+
 // 默认区
 const defaultArea = ref([
   440303, 440304, 440305, 440306, 440307, 440308, 440309, 440310, 440311, 440343, 441521
@@ -166,6 +169,7 @@ const handleDetailHot = (item) => {
       isHr: item.row.isHr
     }
   });
+  aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
 };
 // 热门筛选
 const handleFilter = (value, data) => {

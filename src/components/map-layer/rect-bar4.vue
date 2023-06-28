@@ -3,12 +3,13 @@
 import { inject, onMounted, onBeforeUnmount } from 'vue';
 import request from '@sutpc/axios';
 import { getHtmlUrl } from '@/global/config/map';
-import {requestGeojsonData} from './api.js'
+import { requestGeojsonData } from './api.js';
 
 const aircityObj = inject('aircityObj');
 
 const { useEmitt } = aircityObj.value;
 let barPositionBak = [];
+// let hightLightPosition = '';
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
@@ -17,11 +18,19 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     let quName = e.ID?.split('-')[1];
     if (e.Data === 'mouseover') {
       //鼠标悬浮事件
-      // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
-      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
+      // if (hightLightPosition !== quName) {
+        // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[200,290])
+        changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
+        // hightLightPosition = quName;
+        // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 9);
+      // }
     } else if (e.Data === 'mouseout') {
       // await aircityObj.value.acApi.marker.setPopupSize(e.ID,[80,190])
-      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
+      // if (hightLightPosition !== '') {
+        // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 1);
+        changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
+        // hightLightPosition = '';
+      // }
     }
   }
 });
@@ -78,7 +87,11 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      // priority: item.properties.PRIORITY
     };
+    // if(idEnd=='光明区'){
+    //   o['priority']=9
+    // }
     barArr.push(o);
   });
   await aircityObj.value.acApi.marker.add(barArr);
