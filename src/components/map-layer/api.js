@@ -104,9 +104,7 @@ export const getQuStationWithAlarm = (data) => {
 // 获取geojson数据
 export const requestGeojsonData = (fileName) => {
   return request.get({
-    baseURL: '/freedata',
-    url: `/data/geojson/${fileName}.geojson`,
+    baseURL: import.meta.env.VITE_BASE_PATH + 'freedata',
+    url: `/data/geojson/${fileName}.geojson`
   });
 };
-
-
