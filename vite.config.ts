@@ -91,11 +91,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/promotion/, '')
         },
-        // [env.VITE_API_BASEPATH]: {
-        //   target: env.VITE_BASE_URL,
-        //   changeOrigin: true,
-        //   rewrite: (path) => path.replace(/^\/web\/epcsp\/dp\/api/, '')
-        // },
+        // 宣传视频
+        ['/hr-station-pic']: {
+          target: 'http://10.226.0.231:9000/hr-station-pic/',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/hr-station-pic/, '')
+        }
       }
     }
   };
