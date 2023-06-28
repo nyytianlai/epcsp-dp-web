@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
   .content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin-left: 10px;
   }
   li {
     mix-blend-mode: normal;
