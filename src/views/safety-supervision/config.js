@@ -331,22 +331,6 @@ export const realtimeStateDataFun = (code = 1, data = {}) => {
 };
 
 export const realtimeTrendFun = (data = [], type = 1) => {
-  // const timeData = () =>
-  //   new Array(25)
-  //     .fill(0)
-  //     .map((item, index) => [
-  //       dayjs().hour(index).format('YYYY-MM-DD HH:00'),
-  //       Math.ceil(Math.random() * 100)
-  //     ]);
-  // return [
-  //   {
-  //     data: timeData(),
-  //     type: 'line',
-  //     smooth: true,
-  //     name: '告警数'
-  //   }
-  // ];
-
   if (type === 1) {
     // 日
 
@@ -515,20 +499,17 @@ export const messageColumnKeyListFun = (type = 1) => {
     {
       prop: 'unAffirmCnt',
       label: '未确认',
-      minWidth: 1.5,
-
+      minWidth: 1.5
     },
     {
       prop: 'affirmCnt',
       label: '已确认',
-      minWidth: 1.5,
-
+      minWidth: 1.5
     },
     {
       prop: 'recCnt',
       label: '已恢复',
-      minWidth: 1.5,
-
+      minWidth: 1.5
     },
     { prop: 'contactPerson', label: '负责人', minWidth: 1.5 },
     { prop: 'contactTel', label: '联系电话', minWidth: 2 }
