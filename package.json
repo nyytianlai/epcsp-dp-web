@@ -6,6 +6,7 @@
     "dev": "vite --mode base --host",
     "build": "vite build --mode pro",
     "build:pro": "vite build --mode pro",
+    "build:zwy": "vite build --mode zwy",
     "prepare": "husky install",
     "preview": "vite preview"
   },

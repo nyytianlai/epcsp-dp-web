@@ -190,6 +190,7 @@ onBeforeUnmount(() => {
   .content {
     display: flex;
     flex-wrap: wrap;
+    margin-left: 10px;
   }
   li {
     mix-blend-mode: normal;
@@ -204,6 +205,7 @@ onBeforeUnmount(() => {
     position: relative;
     margin-right: 16px;
     margin-bottom: 12px;
+    text-align: center;
     cursor: pointer;
     &:nth-child(4n) {
       margin-right: 0;

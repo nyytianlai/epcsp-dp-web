@@ -12,16 +12,23 @@
       <li class="warning-info" :class="{ 'click-item': item.isClick, 'grey': Number(item.isInvalid) }" v-for="(item, index) in data"
         :key="index" @click="handleClick(item)">
         <span class="date">{{ item.date ? dayjs(item.date).format('HH:mm:ss') : '--' }}</span>
-        <span class="message text-ellipsis-1">
-          <!-- <el-tooltip :content="item.message || ''" placement="top"> -->
-          {{ item.message || '' }}
-          <!-- </el-tooltip> -->
+        <span class="message text-ellipsis-1" v-if="item?.message.length>12">
+          <el-tooltip :content="item.message || ''" placement="top">
+            {{ item.message || '' }}
+          </el-tooltip>
         </span>
-        <span class="area text-ellipsis-1">
+        <span class="message text-ellipsis-1" v-else>
+          {{ item.message || '' }}
+        </span>
+        <span class="area text-ellipsis-1" v-if="item?.area.length>8">
           <el-tooltip :content="item.area || ''" placement="top">
             {{ item.area || '' }}
           </el-tooltip>
         </span>
+        <span class="area" v-else>
+            {{ item.area || '' }}
+        </span>
+
       </li>
     </ul>
     <no-data v-else />

@@ -100,7 +100,7 @@
     @handleClose="handleCloseBqDialog"></BaoqingDialog>
 </template>
 <script lang="ts" setup>
-import { ref, inject, watch, computed, reactive } from 'vue';
+import { ref, inject, watch, computed, reactive,onUnmounted } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
@@ -595,6 +595,7 @@ const handleDetail = (data) => {
   pileType.value = 'pile';
   pileVisible.value = true;
 };
+let timer = null;
 watch(
   () => store.detailParams,
   () => {
@@ -631,10 +632,14 @@ watch(
             eid: store.detailParams.equipmentId,
             warnId: store.detailParams.warnId
           };
-          
+
           handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
-          console.log('store.detailParams',store.detailParams)
+          console.log('store.detailParams', store.detailParams)
         }
+        timer = setInterval(() => {
+          getEquipmentStatusByStationId();
+          getStationRealTimePowerByStationId()
+        }, 900000)
       }
     }
   },
@@ -643,6 +648,10 @@ watch(
     immediate: true
   }
 );
+onUnmounted(() => {
+  clearInterval(timer);
+  timer = null;
+})
 // onMounted(() => {
 //   getStationStatistics();
 //   getStationInfoByStationId();
@@ -668,7 +677,8 @@ watch(
   cursor: pointer;
 
   img {
-    height: 19.5px;
+    width: 24px;
+    height: 24px;
     border-radius: 1px;
   }
 }
@@ -801,12 +811,14 @@ watch(
   justify-content: space-between;
 }
 
-.wran-year-list-box{
+.wran-year-list-box {
   height: 180px;
   overflow-y: auto;
-  .wran-year-list{
+
+  .wran-year-list {
     margin-top: 12px;
   }
+
   .year-name {
     margin-left: 6px;
     color: #FFF;
