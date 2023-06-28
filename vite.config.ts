@@ -90,6 +90,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'http://10.10.2.63:9109',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/promotion/, '')
+        },
+        // 宣传视频
+        ['/hr-station-pic']: {
+          target: 'http://10.226.0.231:9000/hr-station-pic/',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/hr-station-pic/, '')
         }
       }
     }

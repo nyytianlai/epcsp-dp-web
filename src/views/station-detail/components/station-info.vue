@@ -3,9 +3,14 @@
     <div class="name-wrap">
       <div class="icon"></div>
       <div class="name">
-        <span class="station-name">
+        <el-tooltip :content="data?.stationName" placement="top" v-if="data?.stationName?.length > 13">
+          <div class="station-name">
+            {{ data?.stationName || '--' }}
+          </div>
+        </el-tooltip>
+        <div class="station-name" v-else>
           {{ data?.stationName || '--' }}
-        </span>
+        </div>
         <span class="company-name">
           {{ data?.operatorName || '--' }}
         </span>
@@ -114,11 +119,9 @@ watch(data, () => {
 </script>
 <style lang="less" scoped>
 .station-info {
-  background: linear-gradient(
-    255.75deg,
-    rgba(37, 177, 255, 0.04) 23.33%,
-    rgba(19, 83, 119, 0.4) 100%
-  );
+  background: linear-gradient(255.75deg,
+      rgba(37, 177, 255, 0.04) 23.33%,
+      rgba(19, 83, 119, 0.4) 100%);
   mix-blend-mode: normal;
   box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
   backdrop-filter: blur(2px);
@@ -129,24 +132,33 @@ watch(data, () => {
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 16px;
+
   .name-wrap {
     display: flex;
     align-items: flex-start;
+
     .icon {
       width: 82px;
       height: 68px;
       background: url(./images/company.png) no-repeat;
       background-size: 100% 100%;
     }
+
     .name {
       margin-left: 17px;
       display: flex;
       flex-direction: column;
+
       .station-name {
+        width: 260px;
         font-weight: 500;
         font-size: 20px;
         line-height: 32px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+
       .company-name {
         margin-top: 4px;
         line-height: 16px;
@@ -154,6 +166,7 @@ watch(data, () => {
       }
     }
   }
+
   .info-list {
     line-height: 20px;
     margin-top: 8px;
@@ -162,10 +175,12 @@ watch(data, () => {
       margin-bottom: 6px;
       display: flex;
       white-space: nowrap;
+
       &:nth-last-of-type(1) {
         margin-bottom: 0;
       }
     }
+
     label {
       color: rgba(238, 253, 255, 0.6);
       min-width: 70px;
@@ -180,29 +195,25 @@ watch(data, () => {
   position: absolute;
   left: 0;
   top: 0;
+
   &.blue {
-    background: linear-gradient(
-      93.04deg,
-      #04a1cf 0.63%,
-      #bae7ff 184.61%,
-      rgba(255, 255, 255, 0) 510.76%
-    );
+    background: linear-gradient(93.04deg,
+        #04a1cf 0.63%,
+        #bae7ff 184.61%,
+        rgba(255, 255, 255, 0) 510.76%);
   }
+
   &.gray {
-    background: linear-gradient(
-      93.04deg,
-      #a8a7a5 0.63%,
-      #dddddd 184.61%,
-      rgba(255, 255, 255, 0) 510.76%
-    );
+    background: linear-gradient(93.04deg,
+        #a8a7a5 0.63%,
+        #dddddd 184.61%,
+        rgba(255, 255, 255, 0) 510.76%);
   }
+
   &.yellow {
-    background: linear-gradient(
-      93.04deg,
-      #cfa204 0.63%,
-      #fffcba 184.61%,
-      rgba(255, 255, 255, 0) 510.76%
-    );
+    background: linear-gradient(93.04deg,
+        #cfa204 0.63%,
+        #fffcba 184.61%,
+        rgba(255, 255, 255, 0) 510.76%);
   }
-}
-</style>
+}</style>

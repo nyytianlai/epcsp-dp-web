@@ -316,27 +316,24 @@ onUnmounted(() => {
 }
 
 .plan {
-  background: radial-gradient(
-      48.84% 50.6% at 50% 48.19%,
-      rgba(0, 144, 225, 0.35) 0%,
-      rgba(5, 118, 223, 0.03) 100%
-    ),
-    #000000;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url('./images/baoqing-plan-bg.png');
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 105px;
   bottom: 0;
   z-index: 1000;
   .plan-img {
-    width: 100%;
-    height: 100%;
+    
+    width: 1669px;
+    height: 827px;
     background-image: url('./images/plan.png');
     background-repeat: no-repeat;
-    background-repeat: no-repeat;
-    background-size: 70% 70%;
-    background-position: center 230px;
+    background-size: 100% 100%;
     margin: auto;
+    margin-top: 69px;
   }
 }
 

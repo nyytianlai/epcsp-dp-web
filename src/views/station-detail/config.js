@@ -222,7 +222,6 @@ export const lianhuaRealtimeOption = () => {
   ];
   const index = time.findIndex((i) => {
     const temp = i.split(':')[0];
-    console.log('h', h, 'tt', temp);
     return h === temp;
   });
   // 获取副本
@@ -1262,7 +1261,7 @@ export const stationWarnOption = {
     top: 30,
     bottom: 24,
     right: 15,
-    left: 42
+    left: 25
   },
   tooltip: {
     backgroundColor: 'transparent',
@@ -1918,7 +1917,6 @@ export const baoqingRealtimeOption = () => {
 };
 const baoqingWarnDataFun = () => {
   const hours = dayjs().hour();
-  console.log('hours', hours);
   const seriesData = [];
   for (let i = 0; i <= hours; i++) {
     const random = Math.floor(Math.random() * 30);
@@ -2170,7 +2168,6 @@ export const popRealtimeOption = () => {
   ];
   const index = time.findIndex((i) => {
     const temp = i.split(':')[0];
-    console.log('h', h, 'tt', temp);
     return h === temp;
   });
   // 获取副本
@@ -2467,7 +2464,6 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
       temp.push(i);
     }
   });
-  console.log('ressss', temp);
   return temp;
 };
 export const batteryMsgFun = (data = {}) => {
@@ -2507,3 +2503,35 @@ export const batteryMsgFun = (data = {}) => {
     }
   ];
 };
+export const timeRandom = {
+  '05:00': 0,
+  '05:30': 5,
+  '06:00': 10,
+  '06:30': 15,
+  '07:00': 25,
+  '07:30': 35,
+  '08:00': 50,
+  '08:30': 65,
+  '09:00': 75,
+  '09:30': 80,
+  '10:00': 85,
+  '10:30': 90,
+  '11:00': 95,
+  '11:30': 98,
+  '12:00': 100,
+  '12:30': 100,
+  '13:00': 98,
+  '13:30': 95,
+  '14:00': 90,
+  '14:30': 88,
+  '15:00': 85,
+  '15:30': 75,
+  '16:00': 65,
+  '16:30': 50,
+  '17:00': 35,
+  '17:30': 25,
+  '18:00': 15,
+  '18:30': 10,
+  '19:00': 5,
+  '19:30': 0,
+}
