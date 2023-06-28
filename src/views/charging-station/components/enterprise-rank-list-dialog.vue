@@ -112,7 +112,7 @@ const loadOperatorInfoList = async () => {
   const res = await operatorInfoList(obj);
   rankTableData.value = res.data.list;
   pageObj.total = res.data.total;
-  console.log('res', res);
+  // console.log('res', res);
 };
 // 运营商排序
 const handleSort = (item) => {
@@ -166,8 +166,8 @@ const handleGoDetail = (item) => {
     show: true,
     params: {
       operatorId: operatorId.value,
-      stationId: item.row.stationId,
-      isHr: item.row.isHr
+      stationId: item.stationId,
+      isHr: item.isHr
     }
   });
   aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
