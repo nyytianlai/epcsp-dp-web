@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, inject } from 'vue';
 import MapLayer from './components/map-layer.vue';
 import LeftPanel from './components/left-panel/index.vue';
 import RightPanel from './components/right-panel/index.vue';
