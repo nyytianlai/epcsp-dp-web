@@ -12,30 +12,34 @@ export const setMoveCarSpeed = async (__g, value:number) => {
   );
 };
 
-export const handleClickFocus = (__g,layerId, eid, status) => {
+export const handleClickFocus = async(__g,layerId, eid, status,afterLocatedFn=()=>{}) => {
   //清除绿色高亮
-  __g.tileLayer.stopHighlightAllActors();
+  await __g.tileLayer.stopHighlightAllActors();
   //删除红色
-  __g.misc.callBPFunction({
+  await __g.misc.callBPFunction({
     objectName: 'BP_Warning_2',
     functionName: 'PauseTimer'
   });
-  __g.marker.deleteByGroupId('warningPointGroup');
+  await __g.marker.deleteByGroupId('warningPointGroup');
   // 查询充电桩信息
-  __g?.tileLayer?.getActorInfo(
+  await __g?.tileLayer?.getActorInfo(
     {
       id: layerId,
       objectIds: [eid]
     },
-    (res) => {
-      if (!res?.data) return;
+    async (res) => {
+      if (!res?.data) {
+        afterLocatedFn()
+        return
+      };
       const rotation = res?.data[0].rotation;
       //定位过去
-      __g?.tileLayer?.focusActor(layerId, eid, 3, 2, [
+      console.log('pppppp')
+      await __g?.tileLayer?.focusActor(layerId, eid, 3, 2, [
         rotation[0] - 12,
         rotation[1] - 92,
         0
-      ]);
+      ],afterLocatedFn);
       //故障高亮
       if (+status === 255) {
         // const { location } = res.data[0];

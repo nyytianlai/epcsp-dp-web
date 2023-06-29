@@ -5,7 +5,7 @@
         v-for="(item, index) in data"
         :key="index"
         :class="[stateFormate(item.status)?.code, warnStateFormate(item.isAlarm)?.code]"
-        @click="emit('handleClickState', item.eid, item.status,item)"
+        @click="emit('handleClickState', item.eid, item.status, item)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
         <icon
@@ -128,7 +128,7 @@ const customFun = async (data) => {
           rotation: [0, 0, 0], // 世界坐标系旋转
           localRotation: [0, 0, 0], //模型自身旋转
           // scale: [3, 3, 3], //模型缩放
-          scale: [10, 10,10], //模型缩放
+          scale: [10, 10, 10], //模型缩放
           smoothMotion: 1 //1: 平滑移动，0: 跳跃移动
         };
         arr.push(top);
@@ -173,9 +173,15 @@ watch([data, aircityObj], (newVal) => {
     noUseEquipment.push('006694'); //隐藏车辆充电那个动画
     let layerId1 = getTreeLayerIdByName('带ID充电中静态车辆', mapStore.treeInfo);
     let layerId2 = getTreeLayerIdByName('带ID的静态车辆', mapStore.treeInfo);
+    let layerId3 = getTreeLayerIdByName('充电车充电线', mapStore.treeInfo);
     __g.tileLayer.hideActors([{ id: layerId1, objectIds: noUseEquipment }]);
     __g.tileLayer.hideActors([{ id: layerId2, objectIds: noUseEquipment }]);
+    __g.tileLayer.hideActors([{ id: layerId3, objectIds: noUseEquipment }]);
     __g.marker.hide(noUseEquipment);
+    let noUseEquipment1 = noUseEquipment.map((element) => {
+      return element + '-1';
+    });
+    __g.tileLayer.hideActors([{ id: layerId3, objectIds: noUseEquipment1 }]);
   }
 });
 onBeforeUnmount(() => {

@@ -6,27 +6,42 @@
       #pop-panel{
         width: 180px;
         height:160px; 
-        background: url('../images/rectbarPop.png') no-repeat ;
-        background-size:180px 100%;
         position: fixed;
       }
+      .tooltip-img {
+      margin-left: 6px;
+      }
       .title{
-          position: absolute;
+        position: relative;
           height: 24px;  
-          left: 30px;
-          top: 0px;
-          font-weight: 600;
+          font-weight: bold;
           font-size: 16px;
           line-height: 24px;
           color: #FFFFFF;
-          text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+          text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
         }
+        .title-word {
+      z-index: 99;
+      position: relative;
+      bottom: 5px;
+      /* left: 3px; */
+    }
+
+    .title-bg {
+      clip-path: polygon(0 0, 79% 0, 100% 100%, 0% 100%);
+      position: relative;
+      top:  -15px;
+      left: 0;
+      background: rgba(0, 255, 249, 1);
+      width: 70%;
+      height: 15px;
+      z-index: -10;
+    }
         .content{
-          position: absolute;
-          margin: 2px 12px;
-          top: 30px;
-          width: 144px;
-          height: 120px;
+          clip-path: polygon(90% 0, 100% 13%, 100% 100%, 10% 100%, 0 87%, 0 0);
+      background: rgba(0, 48, 71, 0.95);
+      box-shadow: inset 0px 0px 16px rgba(75, 223, 255, 1);
+      padding: 12px;
         }
         li{
            display: flex;
@@ -50,23 +65,7 @@
           align-items: center;
           text-align: center;
           margin-right: 2px;
-          /* background: linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text; */
         }
-        /* .num1{
-          color: #00B3FF;
-        }
-        .num2{
-          color: #F6FB2B;
-        }
-        .num3{
-          color: #99B1FF;
-        }
-        .num4{
-          color: #00F7FF;
-        } */
     </style>
   </head>
   <body style="height: 100%; width: 100%; margin: 0; pointer-events: none;z-index: -99;">
@@ -223,7 +222,10 @@
             //柱子高度中*100是怎么算出来的:假设柱子的高度都是盛满容器的,此时-131+160-(Number(paramsValue.charge)*100)/yMax-60 的位置应该是弹框刚好在盛满容器柱子处是合适的
             formatter: function (params) {
               return `    <div id="pop-panel">
-     <div class="title">${quName}</div>
+                <div class="title">
+      <img src="../images/position.png" class="tooltip-img"> <span class="title-word">${quName}</span>
+      <div class="title-bg"></div>
+      </div>
      <div class="content">
       <li>充电站<div class="liRight"><span class="num num3" style="color: #00B3FF;">${paramsValue.chargingStation}</span>个</div></li>
       <li>储能站<div class="liRight"><sapn class="num num1" style="color: #F6FB2B;">${paramsValue.energyStorageStation}</sapn>个</div></li>

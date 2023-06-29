@@ -1,13 +1,13 @@
 <template>
   <div class="baoqing-child">
-    <el-select v-model="systemValue" placeholder="请选择" class="select">
+    <!-- <el-select v-model="systemValue" placeholder="请选择" class="select">
       <el-option
         v-for="item in baoqingSytemStatusData"
         :key="item.value"
         :label="item.value"
         :value="item.value"
       />
-    </el-select>
+    </el-select> -->
     <Back name="宝清储能站" class="back-btn" @click="handleBack" />
     <div class="video-box">
       <video
@@ -105,10 +105,10 @@ const hanldeTab = (item) => {
   }
 
   .back-btn {
-    position: absolute;
-    right: 1790px;
-    top: 30px;
-    z-index: 10;
+    position: relative;
+    // right: 1790px;
+    // top: 30px;
+    z-index: 20;
   }
 }
 
