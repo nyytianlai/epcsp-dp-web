@@ -94,7 +94,7 @@ const carChargingAnimation = async () => {
       control3dts(__g, [id], true);
       await __g.marker.show('chargeIcon');
       await carChargingCameraTour();
-    }, 18000)
+    }, 25000)
   );
 };
 const resetCarChargingAnimation = async () => {
