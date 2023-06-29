@@ -90,13 +90,8 @@ const carChargingAnimation = async () => {
   }, 4000);
   mapStore.changeRequestTimer(
     setTimeout(async () => {
-      // await __g.misc.callBPFunction({
-      //   //桩充电插上车
-      //   objectName: 'BP_GroupActor2',
-      //   functionName: 'SetMeshHidden',
-      //   paramType: 0,
-      //   paramValue: false
-      // });
+      let id = getTreeLayerIdByName('车辆充电充电线', mapStore.treeInfo);
+      control3dts(__g, [id], true);
       await __g.marker.show('chargeIcon');
       await carChargingCameraTour();
     }, 18000)
@@ -110,6 +105,8 @@ const resetCarChargingAnimation = async () => {
     paramValue: true
   });
   await __g.marker.hide('chargeIcon');
+  let id = getTreeLayerIdByName('车辆充电充电线', mapStore.treeInfo);
+  control3dts(__g, [id], false);
 };
 const carChargingCameraTour = async () => {
   await __g.cameraTour.delete('1');

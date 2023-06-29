@@ -516,6 +516,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
       ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
       : '';
   }
+  await beforeAddOrExitHrStation(isShow);//添加完成后再清一次数据
 };
 
 let quFeatures = [];
