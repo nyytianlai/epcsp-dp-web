@@ -20,7 +20,7 @@
         <span class="message text-ellipsis-1" v-else>
           {{ item.message || '' }}
         </span>
-        <span class="area text-ellipsis-1" v-if="item?.area.length>8">
+        <span class="area text-ellipsis-1" v-if="item?.area.length>6">
           <el-tooltip :content="item.area || ''" placement="top">
             {{ item.area || '' }}
           </el-tooltip>

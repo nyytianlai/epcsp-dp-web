@@ -65,7 +65,7 @@ const addBar = async (
         countObj[0]
       )}&areaCode=${areaCode}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [185, contentHeight + 70],
+      popupSize: [185, contentHeight + 80],
       popupOffset: [-110, -100], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,

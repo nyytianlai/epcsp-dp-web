@@ -179,7 +179,7 @@ watch(
   () => pileData.value,
   (newVal) => {
     listDataLeft.value = listDataLeftFun(newVal);
-    listDataRight.value = listDataLeftFun(newVal);
+    listDataRight.value = listDataRightFun(newVal);
   },
   {
     deep: true,

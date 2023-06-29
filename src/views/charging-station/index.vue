@@ -19,18 +19,11 @@
     </div>
     <div class="pile-charger">
       <div class="pile-charger-header">
-        <tabs
-          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
-          @changeTab="(data) => handleChangeTab(data, 'charger')"
-        />
+        <tabs :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="(data) => handleChangeTab(data, 'charger')" />
         <div class="right-tab-btn">
-          <div
-            v-for="(item, index) in tabList"
-            :key="index"
-            class="tab-btn"
-            :class="{ active: curBtn === item.value }"
-            @click="handleTabBtn(item)"
-          >
+          <div v-for="(item, index) in tabList" :key="index" class="tab-btn" :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)">
             {{ item.name }}
           </div>
         </div>
@@ -44,23 +37,15 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list
-        :data="projectList"
-        :totalNum="projectTotalNum"
-        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'"
-      />
+      <rank-list :data="projectList" :totalNum="projectTotalNum"
+        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'" />
     </div>
   </panel>
   <panel type="right">
     <div class="today-power-info">
       <title-column title="今日充电实时功率信息" />
       <charging-realtime-power :data="powerInfoNumData" />
-      <line-time-chart
-        :data="lineTimeData"
-        unit="kW"
-        :colors="lineTimeColors"
-        :customOption="{ animation: false }"
-      />
+      <line-time-chart :data="lineTimeData" unit="kW" :colors="lineTimeColors" :customOption="{ animation: false }" />
     </div>
     <div class="today-num-info">
       <title-column title="今日充电设施数据信息" />
@@ -73,23 +58,22 @@
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <warning-tabs
-        :data="warningTabsData"
-        @changeTab="(data) => handleChangeTab(data, 'warning')"
-      />
-      <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+      <div class="warnin-container-box" ref="warningDom">
+
+
+        <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
+        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+      </div>
+
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <today-warn-dialog
-    v-if="dialogTableVisible"
-    :visible="dialogTableVisible"
-    @closed="handleCloseTodayWarnDialog"
-  />
+  <today-warn-dialog v-if="dialogTableVisible" :visible="dialogTableVisible" @closed="handleCloseTodayWarnDialog" />
   <enterprise-rank-list-dialog :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
 </template>
 <script lang="ts" setup>
+import Loading from '@sutpc/vue3-loading';
 import { onMounted, onUnmounted, ref, inject } from 'vue';
 import {
   overTotalCount,
@@ -126,6 +110,8 @@ import ChargingRealtimePower from './components/charging-realtime-power.vue';
 interface Aircity {
   value: object;
 }
+const warningDom = ref(null)
+
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
 // 左二图的tab
@@ -187,6 +173,7 @@ const handleChangeTab = (data, type) => {
     getDayEquInfo(data.code);
   } else if (type === 'warning') {
     getAlarmInfo([data.code]);
+
   }
 };
 
@@ -261,7 +248,10 @@ const getAlarmInfo = async (level) => {
     pageNum: 1,
     pageSize: 1000
   };
+  console.log('warningDom.value', warningDom.value)
+  Loading.add(warningDom.value)
   const res = await alarmInfo(params);
+  Loading.remove(warningDom.value)
   if (res.data && res.data.list) {
     warningListData.value = res.data.list.map((item) => {
       return {
@@ -309,7 +299,7 @@ const handleWarnClick = async (station) => {
   // setTimeout(() => {
   console.log('9999');
   showStationDetailPanel(storeVisible, station);
-  // }, 1500);
+  // }, 15000);
 };
 // 运营企业排名详情点击
 const handleDetailClick = () => {
@@ -330,6 +320,7 @@ const handleTabBtn = (item) => {
 let timer = null;
 let timer2 = null;
 onMounted(() => {
+  console.log('warningDom.value', warningDom.value)
   getOverTotalCount();
   getTotalFacilities();
   getTotalEquipment();
@@ -363,11 +354,9 @@ onUnmounted(() => {
     height: 160px;
     padding: 0 22px;
     margin-top: 16px;
-    background: linear-gradient(
-      255.75deg,
-      rgba(37, 177, 255, 0.02) 23.33%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
+    background: linear-gradient(255.75deg,
+        rgba(37, 177, 255, 0.02) 23.33%,
+        rgba(37, 177, 255, 0.2) 100%);
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
@@ -412,6 +401,7 @@ onUnmounted(() => {
 
 .today-num-info {
   margin-top: 20px;
+
   .tabs {
     margin-top: 8px;
   }
@@ -424,11 +414,9 @@ onUnmounted(() => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 11px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -459,11 +447,9 @@ onUnmounted(() => {
     :deep(.num-card) {
       padding: 20px;
       width: 100%;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
+      background: linear-gradient(258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%);
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));

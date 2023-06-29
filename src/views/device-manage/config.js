@@ -87,7 +87,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         },
         {
-          value: data?.chargeCountByChargeTypeDto?.v2GCount,
+          value: data?.chargeCountByChargeTypeDto?.v2gCount,
           // value: 21,
           name: 'V2G桩',
           code: 4,
@@ -109,7 +109,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: '个'
         },
         { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
-        { value: data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G桩', unit: '个' }
+        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G桩', unit: '个' }
       ];
     }
   } else {
@@ -138,7 +138,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         },
         {
-          value: data?.chargeCountByChargeTypeDto?.v2GCount,
+          value: data?.chargeCountByChargeTypeDto?.v2gCount,
           name: 'V2G枪',
           code: 4,
           unit: '个',
@@ -159,7 +159,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: '个'
         },
         { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
-        { value: data?.chargeCountByElectricityTypeDto?.v2GCount, name: 'V2G枪', unit: '个' }
+        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
       ];
     }
   }
@@ -237,14 +237,14 @@ export const chargingTypesFun = (data = {}) => {
   return [
     {
       img: dqzx,
-      num: data?.onlineCount,
+      num: data?.onlineCount || 0,
       unit: '个',
       name: '当前在线',
       classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: dqlx,
-      num: data?.offlineCount,
+      num: data?.offlineCount || 0,
       unit: '个',
       name: '当前离线',
       classStyleType: 'leftRightStyleGray6656'
@@ -288,14 +288,14 @@ export const chargingRunDataFun = (data = {}) => {
   return [
     {
       img: dqsyl,
-      num: data?.useRate + '%',
+      num: data?.useRate? data?.useRate + '%' : '0%',
       // unit: '%',
       name: '当前使用率',
       classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
-      num: data?.troubleRate + '%',
+      num: data?.troubleRate? data?.troubleRate + '%' : '0%',
       // unit: '%',
       name: '当前故障率',
       classStyleType: 'leftRightStyleGray6656'

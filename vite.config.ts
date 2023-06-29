@@ -96,6 +96,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           target: 'http://10.226.0.231:9000/hr-station-pic/',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/hr-station-pic/, '')
+        },
+        // 宣传视频
+        ['/station-camera']: {
+          target: 'http://10.226.0.231:9000/station-camera/',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/station-camera/, '')
         }
       }
     }
