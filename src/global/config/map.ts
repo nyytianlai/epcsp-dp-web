@@ -84,6 +84,7 @@ export const getHtmlUrl = () => {
     // return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
     return 'http://127.0.0.1:5500/public';
+    // return 'http://10.10.50.212:5500/public'
   } else {
     return location.origin;
   }
