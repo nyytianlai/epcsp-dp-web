@@ -268,7 +268,6 @@ const deleteJdData = async () => {
       return `rectBar${buttomTabCode.value}-` + i;
     })
   );
-  console.log(`rectBar${buttomTabCode.value}-`, ids);
 };
 const deleteSingleJdData = async () => {
   let ids = filterJdNameArrByQuName(currentQu.value);
@@ -285,6 +284,11 @@ const isShowJdPolygon = async (isShow: Boolean) => {
   await __g.polygon[o](
     ids.map((i) => {
       return 'jd-' + i;
+    })
+  );
+  await __g.marker[o](
+    ids.map((i) => {
+      return 'jdName-' + i;
     })
   );
 };
@@ -459,6 +463,8 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
     isShow ? deleteJdData() : '';
   } else if (currentPositionBak.value.includes('街道')) {
     isShow ? __g.marker.hideByGroupId('jdStation') : '';
+    //删除街道的名字
+
   }
 };
 //添加站点
