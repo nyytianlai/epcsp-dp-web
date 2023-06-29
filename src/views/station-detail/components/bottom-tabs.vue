@@ -46,9 +46,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, toRefs, toRef, inject } from 'vue';
+import { ref, toRefs, toRef, inject,computed } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
+import { useMapStore } from '@/stores/map';
+
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 interface SubMenu {
@@ -76,6 +78,8 @@ const props = withDefaults(defineProps<PropsType>(), {
 const emit = defineEmits('handleSelect');
 const { tabData } = toRefs(props);
 // console.log('传过来的底部菜单数据', tabData);
+const store = useMapStore();
+const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
 const selectIndex = ref(null);
 const activeTab = ref();
@@ -117,6 +121,7 @@ const handleRoaming = async (value) => {
       return 'facilitiesLabel-' + ele;
     });
     await __g.marker.show(data);
+    await __g.marker.show(JSON.parse(value.iconIdList));
   }
   if (value.viewInfoType === 't1') {
     // let time = value.viewName == '车辆充电' ? 3 : 6;
@@ -128,9 +133,9 @@ const handleRoaming = async (value) => {
   }
 };
 const handleClick = async (item, sub) => {
-  // if (item.viewInfoType !== 't2' || (sub && sub.viewInfoType !== 't2')) {
+  if (item.viewInfoType !== 't2' || (sub && sub.viewInfoType !== 't2' || currentHrStationID.value==='-1')) {
     await __g.marker.hideByGroupId('stationFacilitiesLabel');
-  // }
+  }
   await __g.cameraTour.pause();
   if (sub) {
     item.isHover = false;
