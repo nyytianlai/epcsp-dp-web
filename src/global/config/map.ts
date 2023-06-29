@@ -81,9 +81,9 @@ export const getImageUrl = (dir: string) => {
 };
 export const getHtmlUrl = () => {
   if (import.meta.env.MODE === 'base') {
-    return 'http://10.10.50.136:5500/public';
+    // return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
-    // return 'http://127.0.0.1:5500/public';
+    return 'http://127.0.0.1:5500/public';
   } else {
     return location.origin;
   }
@@ -210,7 +210,6 @@ export const toSingleStation = async (
     [key: string]: any;
   }
 ) => {
-  debugger
   let info = await __g.marker.get('station-' + value.stationId);
   console.log('获取站点信息', info);
   value['lng'] = Number(value.stationLng);

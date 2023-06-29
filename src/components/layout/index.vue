@@ -12,7 +12,7 @@
     <div class="my-tab-wrap">
       <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
-    <time-weather />
+    <!-- <time-weather /> -->
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
