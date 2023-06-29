@@ -75,16 +75,13 @@ const updateHeatMap = () => {
   }, 1 * 60 * 60 * 1000);
 };
 const addHeatMap = async () => {
-  // await __g.heatmap.clear();
   const { data: res } = await getHeatMap();
-  // console.log('热力图数据', res);
   let realTimePower = res.map((item) => {
     return item.realTimePower;
   });
 
   let heightStart = Math.min(...realTimePower);
   let heightEnd = Math.max(...realTimePower);
-  console.log(heightStart, heightEnd);
   // let bbox = [474756.13,2477776.28, -20, 622300.98,2546813.48, 344.58];
   let bbox = [474756.13, 2477776.28, -200, 622300.98, 2546813.48, 344.58];
   let range = [0, 6000];
