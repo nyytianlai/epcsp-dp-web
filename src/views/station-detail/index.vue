@@ -169,6 +169,12 @@ const headerDataMsg = {
     status: '开路',
     code: '12837479W900Q00D0'
   },
+  batteryCluster: {
+    icon: 'batteryCluster',
+    name: '#1电池簇',
+    status: '开路',
+    code: '12837479W900Q00D0'
+  },
   bmsConversionCabinet: {
     icon: 'pcs',
     name: 'BMS规约转换柜',
@@ -411,7 +417,8 @@ useEmitt &&
         if (
           e.ObjectID &&
           (e.ObjectID?.indexOf('pcsCabinet') !== -1 ||
-            e.ObjectID?.indexOf('batteryCluste') !== -1)
+            e.ObjectID?.indexOf('batteryCluste') !== -1 ||
+            e.ObjectID?.indexOf('batteryCluster') !== -1)
           // e.ObjectID?.indexOf('bmsConversionCabinet') !== -1
           // e.ObjectID?.indexOf('photovoltaicPanels') !== -1
         ) {

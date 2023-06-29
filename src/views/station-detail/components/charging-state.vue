@@ -179,7 +179,7 @@ watch([data, aircityObj], (newVal) => {
     __g.tileLayer.hideActors([{ id: layerId3, objectIds: noUseEquipment }]);
     __g.marker.hide(noUseEquipment);
     let noUseEquipment1 = noUseEquipment.map((element) => {
-      return element + '-1';
+      return element + '_1';
     });
     __g.tileLayer.hideActors([{ id: layerId3, objectIds: noUseEquipment1 }]);
   }
