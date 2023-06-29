@@ -100,7 +100,7 @@
     @handleClose="handleCloseBqDialog"></BaoqingDialog>
 </template>
 <script lang="ts" setup>
-import { ref, inject, watch, computed, reactive,onUnmounted } from 'vue';
+import { ref, inject, watch, computed, reactive, onUnmounted } from 'vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import stationInfo from './components/station-info.vue';
@@ -598,7 +598,7 @@ const handleDetail = (data) => {
 let timer = null;
 watch(
   () => store.detailParams,
-  () => {
+  async () => {
     if (store.detailParams.stationId) {
       getButtomMenuData();
       if (store.detailParams.trueStation) {
@@ -626,14 +626,21 @@ watch(
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.isWarning && __g) {
           //防止地图没有
-          warnVisible.value = true;
           let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
-          pileParams.value = {
-            eid: store.detailParams.equipmentId,
-            warnId: store.detailParams.warnId
-          };
+          await handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255, () => {
+            // 飞行时间2s
+            setTimeout(() => {
+              warnVisible.value = true;
+              pileParams.value = {
+                eid: store.detailParams.equipmentId,
+                warnId: store.detailParams.warnId
+              };
+            }, 2500)
 
-          handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
+          });
+
+
+
           console.log('store.detailParams', store.detailParams)
         }
         timer = setInterval(() => {
