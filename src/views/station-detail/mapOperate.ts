@@ -28,9 +28,13 @@ export const handleClickFocus = async(__g,layerId, eid, status,afterLocatedFn=()
       objectIds: [eid]
     },
     async (res) => {
-      if (!res?.data) return;
+      if (!res?.data) {
+        afterLocatedFn()
+        return
+      };
       const rotation = res?.data[0].rotation;
       //定位过去
+      console.log('pppppp')
       await __g?.tileLayer?.focusActor(layerId, eid, 3, 2, [
         rotation[0] - 12,
         rotation[1] - 92,
