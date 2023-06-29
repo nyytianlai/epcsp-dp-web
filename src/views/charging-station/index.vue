@@ -56,10 +56,13 @@
         </template>
       </div>
     </div>
-    <div class="today-warning-message">
+    <div class="today-warning-message" >
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
       <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
-      <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+        <div class="warnin-container-box" ref="warningDom">
+          <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+        </div>
+      
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
@@ -68,6 +71,7 @@
   <enterprise-rank-list-dialog :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
 </template>
 <script lang="ts" setup>
+import Loading from '@sutpc/vue3-loading';
 import { onMounted, onUnmounted, ref, inject } from 'vue';
 import {
   overTotalCount,
@@ -104,6 +108,7 @@ import ChargingRealtimePower from './components/charging-realtime-power.vue';
 interface Aircity {
   value: object;
 }
+const warningDom = ref(null)
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
 // 左二图的tab
@@ -165,6 +170,7 @@ const handleChangeTab = (data, type) => {
     getDayEquInfo(data.code);
   } else if (type === 'warning') {
     getAlarmInfo([data.code]);
+    
   }
 };
 
@@ -239,7 +245,10 @@ const getAlarmInfo = async (level) => {
     pageNum: 1,
     pageSize: 1000
   };
+  console.log('warningDom.value',warningDom.value)
+  Loading.add(warningDom.value)
   const res = await alarmInfo(params);
+  Loading.remove(warningDom.value)
   if (res.data && res.data.list) {
     warningListData.value = res.data.list.map((item) => {
       return {
@@ -308,6 +317,7 @@ const handleTabBtn = (item) => {
 let timer = null;
 let timer2 = null;
 onMounted(() => {
+  console.log('warningDom.value',warningDom.value)
   getOverTotalCount();
   getTotalFacilities();
   getTotalEquipment();
