@@ -56,13 +56,15 @@
         </template>
       </div>
     </div>
-    <div class="today-warning-message" >
+    <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
-        <div class="warnin-container-box" ref="warningDom">
-          <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
-        </div>
-      
+      <div class="warnin-container-box" ref="warningDom">
+
+
+        <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning')" />
+        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+      </div>
+
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
@@ -109,6 +111,7 @@ interface Aircity {
   value: object;
 }
 const warningDom = ref(null)
+
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
 // 左二图的tab
@@ -170,7 +173,7 @@ const handleChangeTab = (data, type) => {
     getDayEquInfo(data.code);
   } else if (type === 'warning') {
     getAlarmInfo([data.code]);
-    
+
   }
 };
 
@@ -245,7 +248,7 @@ const getAlarmInfo = async (level) => {
     pageNum: 1,
     pageSize: 1000
   };
-  console.log('warningDom.value',warningDom.value)
+  console.log('warningDom.value', warningDom.value)
   Loading.add(warningDom.value)
   const res = await alarmInfo(params);
   Loading.remove(warningDom.value)
@@ -294,8 +297,8 @@ const handleWarnClick = async (station) => {
   }
 
   // setTimeout(() => {
-    console.log('9999');
-    showStationDetailPanel(storeVisible, station);
+  console.log('9999');
+  showStationDetailPanel(storeVisible, station);
   // }, 15000);
 };
 // 运营企业排名详情点击
@@ -317,7 +320,7 @@ const handleTabBtn = (item) => {
 let timer = null;
 let timer2 = null;
 onMounted(() => {
-  console.log('warningDom.value',warningDom.value)
+  console.log('warningDom.value', warningDom.value)
   getOverTotalCount();
   getTotalFacilities();
   getTotalEquipment();
