@@ -24,7 +24,7 @@
       </div>
     </template>
     <DialogMsg v-if="mode === 'pcsCabinet'"></DialogMsg>
-    <DdialogBattery v-if="mode === 'batteryCluste'"></DdialogBattery>
+    <DdialogBattery v-if="mode === 'batteryCluste' || mode === 'batteryCluster'"></DdialogBattery>
   </el-dialog>
 </template>
 <script lang="ts" setup>

@@ -552,7 +552,7 @@ export const facilitiesLabel = (stationId) => {
     return [
       {
         value: '充电集控终端',
-        id: 'charging-centralized-control-terminal',
+        id: '充电集控终端',
         type: 'customAngleMarker',
         camera: [494465.020625, 2495555.3925, 25.748376, -5.967556, 159.053345, 2],
         position: [494455.70875, 2495552, 25.17718994140625],
@@ -560,7 +560,7 @@ export const facilitiesLabel = (stationId) => {
       },
       {
         value: 'V2G桩',
-        id: 'V2G-pile',
+        id: 'V2G桩',
         type: 'customAngleMarker',
         camera: [494462.151, 2495536.641, 25.595, -6.4, 169.799997, 2],
         position: [494458.6175, 2495536, 25.014765625],
@@ -568,7 +568,7 @@ export const facilitiesLabel = (stationId) => {
       },
       {
         value: '液冷大功率充电终端',
-        id: 'high-power-charging-terminal',
+        id: '液冷大功率充电终端',
         type: 'customAngleMarker',
         camera: [494455.913, 2495573.056, 25.894, -21.2, 170.800003, 2],
         position: [494452.315, 2495571.52, 25.58055908203125],
@@ -576,7 +576,7 @@ export const facilitiesLabel = (stationId) => {
       },
       {
         value: '充电堆',
-        id: 'charging-stack',
+        id: '充电堆',
         type: 'customAngleMarker',
         camera: [494462.128125, 2495576.0375, 30.344631, -26.933886, -164.908112, 2],
         position: [494452.72375, 2495578.24, 26.920390625],
