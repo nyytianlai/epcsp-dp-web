@@ -256,7 +256,6 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
     xAxis: {
       type: 'category',
       data: xaxis,
-      offset: getRemvalue(10),
       boundaryGap: ['2%', '2%'],
       axisLine: {
         lineStyle: {
