@@ -40,22 +40,20 @@
     <!-- <el-button type="primary" @click="handleSearch">搜索</el-button> -->
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref, inject } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { infoObj, returnStationPointConfig, toSingleStation,showStationDetailPanel } from '@/global/config/map';
+import { infoObj, toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
-import bus from '@/utils/bus';
 
 const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
 const aircityObj = inject('aircityObj');
 const searchInput = ref('');
 const isSearchCollapsed = ref(false);
-
+const __g = aircityObj.value?.acApi;
 const handleClick = () => {
-  const __g = aircityObj.value?.acApi;
   isCollapsed.value = !isCollapsed.value;
   store.changeShowPanel(!isCollapsed.value);
   if (store.showDetail) return;
@@ -86,7 +84,7 @@ const handleSearch = async (value) => {
   console.log('搜索框选择数据', value);
   searchInput.value = '';
   isSearchCollapsed.value = false;
-  showStationDetailPanel(store,value)
+  showStationDetailPanel(store, value);
   __g && toSingleStation(__g, value);
 };
 </script>
@@ -181,6 +179,9 @@ const handleSearch = async (value) => {
   right: 5px;
   background: rgba(84, 181, 255, 0.1);
   border-radius: 2px;
+  .el-input__wrapper {
+    box-shadow: none;
+  }
   ::-webkit-input-placeholder {
     color: rgba(255, 255, 255, 0.7);
   }
