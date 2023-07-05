@@ -24,25 +24,32 @@
       <tabs :data="tabsData" />
       <button-base>查看更多</button-base>
       <warning-list :data="warningListData" />
-      <bottom-menu-tabs :data="tabsData"/>
+      <bottom-menu-tabs :data="tabsData" />
       <warning-tabs :data="warningTabsData" />
       <area-rank-list :data="areaRankData" :totalNum="totalNum" />
-      <pie-chart/>
-      <line-time-chart  />
+      <pie-chart />
+      <line-time-chart />
     </el-space>
   </div>
 </template>
 <script setup>
-import {ref} from 'vue'
-import { cdsszlFun, projectListFun, tabDataFun,warningListFun,warningTabsDataFun,areaRankDataFun } from './config.js';
+import { ref } from 'vue';
+import {
+  cdsszlFun,
+  projectListFun,
+  tabDataFun,
+  warningListFun,
+  warningTabsDataFun,
+  areaRankDataFun
+} from './config.js';
 const cardData = ref(cdsszlFun());
 const projectList = ref(projectListFun());
 const totalNum = ref(6399);
 const tabsData = ref(tabDataFun());
-const warningListData = ref(warningListFun())
-const select = ref('Option2')
-const warningTabsData = ref(warningTabsDataFun())
-const areaRankData = ref(areaRankDataFun())
+const warningListData = ref(warningListFun());
+const select = ref('Option2');
+const warningTabsData = ref(warningTabsDataFun());
+const areaRankData = ref(areaRankDataFun());
 </script>
 <style lang="less" scoped>
 .components-wrap {
@@ -63,9 +70,8 @@ const areaRankData = ref(areaRankDataFun())
   box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
   border-radius: 4px;
 }
-:deep(.el-space){
-  .el-space__item{
-
+:deep(.el-space) {
+  .el-space__item {
     width: 400px;
   }
 }
