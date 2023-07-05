@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts" setup>
-import { getRemvalue } from '@/utils/index';
 import { onMounted, ref } from 'vue';
+import { getRemvalue } from '@/utils/index';
 import {
   stationTabType,
   ecOptionFun,
