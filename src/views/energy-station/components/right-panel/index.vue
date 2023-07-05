@@ -30,12 +30,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, onMounted } from 'vue';
+import { ref } from 'vue';
 import { getRemvalue } from '@/utils/index';
 import { runingFun, todayLine, linePowerDataFun, socialBenefitFun } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
 const lineStateColor = ['green', '#FF7723'];
-//今日最大顶峰能力
+// 今日最大顶峰能力
 const chargingRealPower = ref(69.02);
 // 储能电站运行信息
 const runingData = ref(runingFun());

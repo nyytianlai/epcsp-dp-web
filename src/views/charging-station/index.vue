@@ -11,11 +11,11 @@
   <left-panel />
   <right-panel />
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
-  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+  <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, inject } from 'vue';
-import { overTotalCount, dayPower } from './api.js';
+import { overTotalCount } from './api.js';
 import { pageNumFun, bottomTabDataFun } from './config.js';
 import MapLayer from './components/map-layer.vue';
 import PageNum from '@/components/page-num/index.vue';
@@ -24,19 +24,16 @@ import RightPanel from './components/right-panel/index.vue';
 interface Aircity {
   value: object;
 }
-// 左二图的tab
 const aircityObj: Aircity = inject('aircityObj');
-let mapLayerRef = ref(null);
+const mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
-// 充电功率
-const powerInfoNumData = ref(0);
-//底部button
+// 底部button
 const bottomTabsData = ref(bottomTabDataFun());
 
 const changeButtomTab = (item) => {
   console.log('底部切换', item);
-  let value = item.code === 1 ? true : false;
+  const value = item.code === 1 ? true : false;
   mapLayerRef.value.setRectBarVisibility(value);
   mapLayerRef.value.setHeatMapVisibility(!value);
 };
@@ -44,12 +41,6 @@ const changeButtomTab = (item) => {
 const getOverTotalCount = async () => {
   const res = await overTotalCount();
   pageNumData.value = pageNumFun(res.data);
-};
-
-//今日充电功率信息
-const getDayPower = async () => {
-  const res = await dayPower();
-  powerInfoNumData.value = res.data;
 };
 
 onMounted(() => {

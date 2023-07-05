@@ -89,7 +89,7 @@
     </div>
   </panel>
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
-  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+  <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
   <warn-info-list-dialog
     v-if="dialogTableVisible"
     :visible="dialogTableVisible"
@@ -150,7 +150,6 @@ import { tableColumnFun } from '@/global/commonFun.js';
 import {
   pageNumFun,
   totalWarningTabsFun,
-  areaRankDataFun,
   warningMonitorTabsFun,
   warningMonitorPieDataFun,
   realtimeStateTabsFun,
@@ -168,50 +167,14 @@ import {
   alarmLevelAndTypeByTIme,
   getOnlineStatus
 } from './api.js';
-import { dataType } from 'element-plus/es/components/table-v2/src/common';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
 import ScrollTable from './components/scroll-table.vue';
 import MapLayer from './components/map-layer.vue';
-import LineChart from './components/line-chart.vue';
 import WarnInfoListDialog from './components/warn-info-list-dialog.vue';
 import dayjs from 'dayjs';
-const storeVisible = useVisibleComponentStore();
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-const realtimeTrendOption = reactive({
-  grid: {
-    top: '10%',
-    left: '10%',
-    right: '5%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'category',
-    data: [],
-    axisLabel: {
-      color: '#fff'
-    },
-    axisTick: {
-      show: false
-    }
-  },
-  yAxis: {
-    type: 'value',
-    splitLine: {
-      lineStyle: {
-        color: '#062B58',
-        type: 'dashed'
-      }
-    },
-    axisLabel: {
-      color: '#fff'
-    }
-  },
-  series: []
-});
 const dialogTableVisible = ref(false);
 const pageObj = reactive({
   pageSize: 8,

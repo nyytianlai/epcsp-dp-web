@@ -49,13 +49,12 @@
         </div>
       </div>
     </panel>
-    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+    <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, inject } from 'vue';
 import {
-  pageNumFun,
   cdzzlFun,
   companyRank,
   jrgfdzFun,
@@ -72,11 +71,11 @@ interface Aircity {
   value: object;
 }
 const aircityObj: Aircity = inject('aircityObj');
-let mapLayerRef = ref(null);
+const mapLayerRef = ref(null);
 
 const lineStateColor = ['blue'];
 // 顶部数据
-const pageNumData = ref(pageNumFun());
+// const pageNumData = ref(pageNumFun());
 //光伏电站总览数据
 const cardData = ref(cdzzlFun());
 // 企业排名
