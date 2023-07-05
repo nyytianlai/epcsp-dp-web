@@ -68,7 +68,7 @@
       <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3rem" />
     </div>
   </panel>
-  <map-layer v-if="aircityObj"></map-layer>
+  <map-layer v-if="aircityObj" />
   <hot-station-rank-dialog
     v-if="dialogTableVisibleHot"
     :visible="dialogTableVisibleHot"
@@ -98,7 +98,6 @@ import {
   pageNumFun,
   chargingStationTabsFun,
   deviceDataFun,
-  chargingTypesTabsFun,
   chargingTypePieDataFun,
   ecOptionFun
 } from './config.js';
@@ -128,7 +127,7 @@ const chargingStationTabs = ref(chargingStationTabsFun());
 const pageNumData = ref(pageNumFun());
 // 实时设备信息
 const deviceData = ref(deviceDataFun());
-const chargingTypesTabs = ref(chargingTypesTabsFun());
+// const chargingTypesTabs = ref(chargingTypesTabsFun());
 const chargingTypePieData = ref(chargingTypePieDataFun());
 // 本月利用率情况
 const monthRateData = ref([]);

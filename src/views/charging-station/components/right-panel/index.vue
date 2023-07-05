@@ -21,12 +21,12 @@
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <div class="warnin-container-box" ref="warningDom">
+      <div ref="warningDom" class="warnin-container-box">
         <warning-tabs
           :data="warningTabsData"
           @changeTab="(data) => handleChangeTab(data, 'warning')"
         />
-        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.2rem" />
+        <warning-list :data="warningListData" height="2.2rem" @handleClick="handleWarnClick" />
       </div>
     </div>
   </panel>
@@ -54,7 +54,6 @@ import ChargingRealtimePower from '../charging-realtime-power.vue';
 interface Aircity {
   value: object;
 }
-// 左二图的tab
 const storeVisible = useVisibleComponentStore();
 const aircityObj: Aircity = inject('aircityObj');
 const warningDom = ref(null);
@@ -72,12 +71,12 @@ const lineTimeColors = ['blue'];
 // 今日告警信息tabData
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
-//实时功率图表
+// 实时功率图表
 const getTimePowerGraph = async () => {
   const res = await timePowerGraph();
   lineTimeData.value = lineTimeDataFun(res.data);
   if (res.data.length) {
-    const data = res.data;
+    const data = res.data || [];
     const info = {
       totalPower: data[data.length - 1].ratedPower,
       realTimePower: data[data.length - 1].realTimePower
@@ -89,18 +88,19 @@ const getTimePowerGraph = async () => {
 // 今日告警信息点击
 const handleWarnClick = async (station) => {
   console.log('ssss', station);
-  station.isWarning = true;
-  station.warnId = station.id;
+  const data = { ...station };
+  data.isWarning = true;
+  data.warnId = station.id;
   // 告警详情
-  station['isFly'] = false;
+  data['isFly'] = false;
   console.log('11111');
   if (aircityObj.value) {
-    await toSingleStation(aircityObj.value?.acApi, station);
+    await toSingleStation(aircityObj.value?.acApi, data);
   }
 
   // setTimeout(() => {
   console.log('9999');
-  showStationDetailPanel(storeVisible, station);
+  showStationDetailPanel(storeVisible, data);
   // }, 15000);
 };
 

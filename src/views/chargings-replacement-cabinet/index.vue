@@ -49,16 +49,15 @@
       </div>
       <div class="today-warning-message">
         <title-column title="今日告警信息" icon="chargings-replacement" />
-        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.3rem"/>
+        <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.3rem" />
       </div>
     </panel>
-    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+    <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, inject } from 'vue';
 import {
-  pageNumFun,
   chdsszlFun,
   chargingType,
   chargingTypeDataFun,
@@ -74,11 +73,11 @@ interface Aircity {
   value: object;
 }
 const aircityObj: Aircity = inject('aircityObj');
-let mapLayerRef = ref(null);
+const mapLayerRef = ref(null);
 const chargingColor = ['#E5CC48', '#3254DD', '#4BDEFF', '#CEF6FF'];
 const stateColor = ['green', '#FF7723'];
 // 顶部数据
-const pageNumData = ref(pageNumFun());
+// const pageNumData = ref(pageNumFun());
 //充换电设施总量统计数据
 const cardData = ref(chdsszlFun());
 // 充换电设施类型
@@ -192,13 +191,13 @@ onMounted(() => {
     margin-top: 16px;
 
     :deep(.num-tile-card) {
-      img{
+      img {
         width: 74px;
       }
       .name {
         margin-left: 28px;
       }
-      .num-box{
+      .num-box {
         width: 110px;
         margin-left: 41px;
         text-align: right;

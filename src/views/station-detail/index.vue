@@ -16,28 +16,42 @@
     <div class="device-info">
       <title-column title="设备设施信息" />
       <div class="pile-charger-header">
-        <tabs :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs" @changeTab="handleChargeChange" />
+        <tabs
+          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          @changeTab="handleChargeChange"
+        />
         <div class="right-tab-btn">
-          <div v-for="(item, index) in tabList" :key="index" class="tab-btn" :class="{ active: curBtn === item.value }"
-            @click="handleTabBtn(item)">
+          <div
+            v-for="(item, index) in tabList"
+            :key="index"
+            class="tab-btn"
+            :class="{ active: curBtn === item.value }"
+            @click="handleTabBtn(item)"
+          >
             {{ item.name }}
           </div>
         </div>
       </div>
-      <pie-chart class="device-total-pie" :data="chargingStationPieData" :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
-        :colors="chargingColors" />
+      <pie-chart
+        class="device-total-pie"
+        :data="chargingStationPieData"
+        :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
+        :colors="chargingColors"
+      />
     </div>
     <div class="warning-message">
       <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
-      <warning-tabs :data="warningTabsData" @changeTab="(data) => handleChangeTab(data, 'warning-message')"
-        v-if="isShowList" />
+      <warning-tabs
+        :data="warningTabsData"
+        @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+        v-if="isShowList"
+      />
       <div class="wran-year-list-box" v-if="isShowList">
         <div class="wran-year-list" v-for="(item, index) in warningListYearData" :key="index">
           <div class="year-name">{{ index }}</div>
           <warning-list @handleClick="clickWarningList" :data="item" height="fit-content" />
         </div>
       </div>
-
 
       <!-- <line-time-chart
         v-if="!isShowList"
@@ -56,7 +70,10 @@
     </div>
     <div class="device-use-info">
       <title-column title="充电设施日使用信息" />
-      <tabs :data="chargingTypesTabs" @changeTab="(data) => handleChangeTab(data, 'device-use-info')" />
+      <tabs
+        :data="chargingTypesTabs"
+        @changeTab="(data) => handleChangeTab(data, 'device-use-info')"
+      />
       <div class="num-wrap">
         <template v-for="(item, index) in chargingTypesData" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -65,8 +82,12 @@
     </div>
     <div class="station-power">
       <title-column title="站点实时功率" />
-      <line-time-chart unit="kW" :data="linePowerData" :colors="realtimePowerColors"
-        :chartStyle="{ height: '2.22rem' }" />
+      <line-time-chart
+        unit="kW"
+        :data="linePowerData"
+        :colors="realtimePowerColors"
+        :chartStyle="{ height: '2.22rem' }"
+      />
       <!-- <line-time-chart
         unit="kW"
         :data="linePowerData"
@@ -81,23 +102,55 @@
   </div>
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
-  <pile-dialog :visible="pileVisible" :type="pileType" :pileVideoData="pileVideoData" :pileParams="pileParams"
-    @close="hanldeCloseCameraDialog" @click-warn="handleWarn" />
-  <warningBox v-model:visible="warnVisible" :pileParams="pileParams" @close="handleClose" @click-detail="handleDetail" />
+  <pile-dialog
+    :visible="pileVisible"
+    :type="pileType"
+    :pileVideoData="pileVideoData"
+    :pileParams="pileParams"
+    @close="hanldeCloseCameraDialog"
+    @click-warn="handleWarn"
+  />
+  <warningBox
+    v-model:visible="warnVisible"
+    :pileParams="pileParams"
+    @close="handleClose"
+    @click-detail="handleDetail"
+  />
   <map-layer v-if="aircityObj" />
 
   <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
-    <el-table :data="alarmTableData" height="6.19rem" style="width: 100%" class="custom-dialog-table">
-      <el-table-column v-for="(item, index) in columnData" :key="index" v-bind="item" :show-overflow-tooltip="true"
-        :formatter="tableColumnFun">
+    <el-table
+      :data="alarmTableData"
+      height="6.19rem"
+      style="width: 100%"
+      class="custom-dialog-table"
+    >
+      <el-table-column
+        v-for="(item, index) in columnData"
+        :key="index"
+        v-bind="item"
+        :show-overflow-tooltip="true"
+        :formatter="tableColumnFun"
+      >
         <!-- <template #default="scope"></template> -->
       </el-table-column>
     </el-table>
-    <el-pagination :page-size="pageObj.pageSize" layout="prev, pager, next" :total="pageObj.total" :background="true"
-      :current-page="pageObj.currentPage" @current-change="handPageChange" />
+    <el-pagination
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChange"
+    />
   </custom-dialog>
-  <BaoqingDialog :mode="tileLayerDialogMode" :headerData="state.headerData" :visible="showBqDialog" v-if="showBqDialog"
-    @handleClose="handleCloseBqDialog"></BaoqingDialog>
+  <BaoqingDialog
+    :mode="tileLayerDialogMode"
+    :headerData="state.headerData"
+    :visible="showBqDialog"
+    v-if="showBqDialog"
+    @handleClose="handleCloseBqDialog"
+  ></BaoqingDialog>
 </template>
 <script lang="ts" setup>
 import { ref, inject, watch, computed, reactive, onUnmounted } from 'vue';
@@ -131,24 +184,21 @@ import {
   pageNumFun,
   deviceInfoDataFun,
   warningTabsDataFun,
-  warningListFun,
   chargingTypesTabsFun,
   chargingTypesFun,
   linePowerDataFun,
   columnDataFun,
-  realtimeTrendFun,
   stationWarnFun,
   stationWarnOption,
   chargingStationTabsFun,
   chargingStationGunTabsFun,
-  chargingStationPieDataFun,
-  tileLayerIds
+  chargingStationPieDataFun
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import BaoqingDialog from './components/baoqing-dialog.vue';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const realtimePowerColors = ['green'];
@@ -212,10 +262,9 @@ const params = ref({
 const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
-const warnColor = ['#FF6B4B'];
+// const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
-const isHonglixi = computed(() => store.detailParams?.stationId === '-3');
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -249,7 +298,7 @@ const pileParams = ref();
 //告警信息
 const warningTabsData = ref(warningTabsDataFun());
 const warningListData = ref([]);
-const warningListYearData = ref({})
+const warningListYearData = ref({});
 //站点充电桩状态
 const chargingStateData = ref([]);
 const chargingStateDataObj = ref({});
@@ -347,15 +396,15 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
       // 遍历信息
       warningListData.value.forEach((i) => {
         // 转换日期格式
-        const date = dayjs(i.alarmTime).format('DD/MM/YYYY')
+        const date = dayjs(i.alarmTime).format('DD/MM/YYYY');
         // 利用对象属性的唯一性进行数据过滤
         if (!warningListYearData.value[date]) {
-          warningListYearData.value[date] = []
+          warningListYearData.value[date] = [];
         }
 
-        warningListYearData.value[date].push(i)
-      })
-      console.log('temp', warningListYearData.value)
+        warningListYearData.value[date].push(i);
+      });
+      console.log('temp', warningListYearData.value);
     } else {
       warningListYearData.value = {};
     }
@@ -393,7 +442,7 @@ const handleChangeTab = (data, type) => {
   if (type === 'device-use-info') {
     getEquipmentUseRateByStationId(data.code);
   } else if (type === 'warning-message') {
-    warningListYearData.value = {}
+    warningListYearData.value = {};
     getWarningInfoByStationId(data.code, 1, 10);
   }
 };
@@ -495,8 +544,8 @@ const focusToPile = async (eid, status, item = {}) => {
     pileVisible.value = true;
     handleClickFocus(__g, layerId, eid, status);
   } else {
-    const modelData = chargingStateData.value.find(model => model.eid === eid)
-    console.log('modelData', modelData)
+    const modelData = chargingStateData.value.find((model) => model.eid === eid);
+    console.log('modelData', modelData);
     if (modelData) {
       // 告警
       pileParams.value = {
@@ -597,7 +646,7 @@ const handleDetail = (data) => {
   warnVisible.value = false;
   //打开详情框
   pileParams.value = {
-    eid: data.eid,
+    eid: data.eid
   };
   pileType.value = 'pile';
   pileVisible.value = true;
@@ -642,18 +691,15 @@ watch(
                 eid: store.detailParams.equipmentId,
                 warnId: store.detailParams.warnId
               };
-            }, 2500)
-
+            }, 2500);
           });
 
-
-
-          console.log('store.detailParams', store.detailParams)
+          console.log('store.detailParams', store.detailParams);
         }
         timer = setInterval(() => {
           getEquipmentStatusByStationId();
-          getStationRealTimePowerByStationId()
-        }, 900000)
+          getStationRealTimePowerByStationId();
+        }, 900000);
       }
     }
   },
@@ -665,7 +711,7 @@ watch(
 onUnmounted(() => {
   clearInterval(timer);
   timer = null;
-})
+});
 // onMounted(() => {
 //   getStationStatistics();
 //   getStationInfoByStationId();
@@ -765,9 +811,11 @@ onUnmounted(() => {
     :deep(.num-card) {
       width: 49%;
       padding: 24px 0 18px;
-      background: linear-gradient(258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%);
+      background: linear-gradient(
+        258.38deg,
+        rgba(37, 177, 255, 0.1) 2.46%,
+        rgba(37, 177, 255, 0) 100%
+      );
       mix-blend-mode: normal;
       box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
       filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -835,7 +883,7 @@ onUnmounted(() => {
 
   .year-name {
     margin-left: 6px;
-    color: #FFF;
+    color: #fff;
     font-size: 20px;
     font-family: DIN Condensed;
     font-weight: 700;

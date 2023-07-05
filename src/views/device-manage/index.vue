@@ -61,7 +61,7 @@
         unit="个"
         yAxisMode1="auto"
         :yAxisMode2="40000"
-        :customOption="{yAxis:[{min:40000}]}"
+        :customOption="{ yAxis: [{ min: 40000 }] }"
       />
     </div>
     <div class="charging-runing">
@@ -83,7 +83,7 @@
       />
     </div>
   </panel>
-  <map-layer v-if="aircityObj" ref="mapLayerRef"></map-layer>
+  <map-layer v-if="aircityObj" ref="mapLayerRef" />
   <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   <custom-dialog v-model:visible="dialogTotalVisible" title="充电站设施列表">
     <template #titleSearch>
@@ -162,7 +162,6 @@ import Icon from '@sutpc/vue3-svg-icon';
 import MapLayer from './components/map-layer.vue';
 import ChargingNumImages from './components/charging-num-images.vue';
 import ChargingRealtimePower from './components/charging-realtime-power.vue';
-import { deepClone } from '@/utils';
 import {
   selectChargeCount,
   selectChargeCountByArea,
@@ -180,7 +179,6 @@ import {
   chargingStationTabsFun,
   chargingStationGunTabsFun,
   chargingStationPieDataFun,
-  areaRankDataFun,
   chargingTypesTabsFun,
   chargingTypesFun,
   lineStateDataFun,
@@ -200,7 +198,7 @@ const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
 const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const storeVisible = useVisibleComponentStore();
 const aircityObj = inject('aircityObj');
-let mapLayerRef = ref(null);
+const mapLayerRef = ref(null);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 // 充电桩数量信息
