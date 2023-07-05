@@ -19,12 +19,15 @@
           </span>
         </span>
         <div class="bottom-bar">
-          <div class="line" v-for="(item, i) in new Array(5)" :key="i"></div>
+          <div class="line" v-for="(idx, i) in new Array(5)" :key="i"></div>
           <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }"></div>
         </div>
         <span class="num" :style="numMaxWidth">
           <span>{{ formatWithToLocalString(item.num) }}</span>
-          <span class="unit"><span v-if="showPer">/</span>{{ item.unit }}</span>
+          <span class="unit">
+            <span v-if="showPer">/</span>
+            {{ item.unit }}
+          </span>
         </span>
       </li>
     </ul>
@@ -44,7 +47,7 @@ interface Props {
   data: Idata[];
   totalNum: number;
   height: string;
-  showPer?: boolean
+  showPer?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   height: '2.12rem',
