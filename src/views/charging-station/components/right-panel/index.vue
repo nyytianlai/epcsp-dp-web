@@ -125,7 +125,7 @@ const getAlarmInfo = async (level) => {
     pageNum: 1,
     pageSize: 1000
   };
-  console.log('warningDom.value', warningDom.value);
+  // console.log('warningDom.value', warningDom.value);
   Loading.add(warningDom.value);
   const res = await alarmInfo(params);
   Loading.remove(warningDom.value);

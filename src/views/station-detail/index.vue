@@ -234,7 +234,6 @@ const headerDataMsg = {
   photovoltaicPanels: {}
 };
 
-let markerId = '';
 // 是否展示告警
 const warnVisible = ref(false);
 // 左二图的tab
