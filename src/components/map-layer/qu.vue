@@ -76,7 +76,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     }
     if (e.Data.includes('click')) {
       let areaCode = e.Data.split('-')[1];
-      if (e.ID?.includes('区') && props.module !== 4) {        
+      if (e.ID?.includes('区') && props.module !== 4) {
         let quName = e.ID.split('-')[1];
         if (quName === currentQu.value) {
           return;
@@ -464,7 +464,6 @@ const beforeAddOrExitHrStation = async (isShow: boolean) => {
   } else if (currentPositionBak.value.includes('街道')) {
     isShow ? __g.marker.hideByGroupId('jdStation') : '';
     //删除街道的名字
-
   }
 };
 //添加站点
@@ -522,7 +521,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
       ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
       : '';
   }
-  await beforeAddOrExitHrStation(isShow);//添加完成后再清一次数据
+  await beforeAddOrExitHrStation(isShow); //添加完成后再清一次数据
 };
 
 let quFeatures = [];
@@ -687,6 +686,9 @@ onMounted(async () => {
     store.changeCurrentPosition('');
     await setQuVisibility(false);
     await __g.marker.hideByGroupId('jdStation');
+    if (e.stationId === '118') {
+      e.isFly = true;
+    }
     addHrStation(e.stationId, true, e.isFly);
   });
   hideAllStation3dt(__g, store.treeInfo);
