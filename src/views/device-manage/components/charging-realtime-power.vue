@@ -17,13 +17,13 @@
     </div>
   </div>
 </template>
-<script setup>
-import { toRefs, onMounted, reactive } from 'vue';
+<script lang="ts" setup>
+import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 const props = defineProps({
   data: {
-    type: String || Number,
+    type: Number || String,
     default: 0
   }
 });
