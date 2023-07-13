@@ -100,7 +100,7 @@ const err = (error) => {
     console.log('error.message', error.message);
     if (typeof error.message === 'string' && error.message.includes('timeout')) {
       Message({ type: 'error', message: '网络超时' });
-    } else if (error.code === 'ERR_CANCELED'){
+    } else if (error.code === 'ERR_CANCELED') {
     } else {
       Message({ type: 'error', message: error.message });
     }
@@ -110,12 +110,12 @@ const err = (error) => {
 axios.interceptors.response.use((response) => {
   const res = response;
   if (res && res.status !== 200) {
-    console.log('resultMsg:' , res)
+    console.log('resultMsg:', res);
     const type = response.request.responseType;
     if (type === 'blob') {
       return res;
     }
-    if (res.status === 510 && res.message.includes('认证权限异常')) {
+    if (res.status === 510 && res.message.includes('会话信息不存在')) {
       Message({ type: 'error', message: '很抱歉，登录已过期，请重新登录!' });
       setTimeout(() => {
         store.removeTokens().then(() => {
@@ -131,7 +131,7 @@ axios.interceptors.response.use((response) => {
     if (res.data.resultCode && res.data.resultCode !== 'TCM-000') {
       const msg = JSON.parse(res.data.resultMsg);
       Message({ type: 'error', message: msg.exceptionMessage || 'Error' });
-      if (res.data.resultCode === 'TCM-108') {
+      if (res.data.resultCode === 'TCM-108' || msg.exceptionMessage.includes('会话信息不存在')) {
         setTimeout(() => {
           sessionStorage.removeItem('profile');
           // removeToken()

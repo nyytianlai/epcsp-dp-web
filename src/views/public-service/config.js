@@ -16,7 +16,7 @@ export const clientRealtimeTrend = [
 ];
 export const lineStateDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  const nowTime = dayjs().format('HH')
+  const nowTime = dayjs().format('HH');
 
   const data1 = [
     {
@@ -103,8 +103,8 @@ export const lineStateDataFun = (data = []) => {
   const index = data1.findIndex((i) => {
     return nowTime === i.time;
   });
-  let data2 = deepClone(data1)
-  data2.splice(index+1)
+  let data2 = deepClone(data1);
+  data2.splice(index + 1);
   return [
     {
       data: data2.map((item) => [yearMonthDay + item.time, item.onlineCount]),
@@ -505,32 +505,32 @@ export const ecOptionFun = (data = [], xaxis = []) => {
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 1,
-                color: '#13ABC2'
+                color: 'rgba(0, 163, 255, 0.000001)'
               },
               {
                 offset: 0,
-                color: 'rgba(0, 163, 255, 0.000001)'
+                color: '#13ABC2'
               }
             ]);
           }
         }
-      },
-      {
-        // 顶部
-        tooltip: {
-          show: false
-        },
-        type: 'pictorialBar',
-        itemStyle: {
-          // 顶部
-          color: '#13ABC2'
-        },
-        symbol: 'rect',
-        symbolSize: ['16', '3'],
-        symbolPosition: 'end',
-        data: data,
-        z: 3
       }
+      // {
+      //   // 顶部
+      //   tooltip: {
+      //     show: false
+      //   },
+      //   type: 'pictorialBar',
+      //   itemStyle: {
+      //     // 顶部
+      //     color: '#13ABC2'
+      //   },
+      //   symbol: 'rect',
+      //   symbolSize: ['16', '3'],
+      //   symbolPosition: 'end',
+      //   data: data,
+      //   z: 3
+      // }
     ]
   };
 };
@@ -608,57 +608,57 @@ export const mapQuBar = () => {
   return [
     {
       areaCode: 440303,
-      enrollment:24667,
+      enrollment: 24667,
       visits: 1265
     },
     {
       areaCode: 440304,
-      enrollment:42456,
+      enrollment: 42456,
       visits: 2678
     },
     {
       areaCode: 440305,
-      enrollment:38543,
+      enrollment: 38543,
       visits: 2346
     },
     {
       areaCode: 440306,
-      enrollment:42345,
+      enrollment: 42345,
       visits: 3142
     },
     {
       areaCode: 440307,
-      enrollment:55284,
+      enrollment: 55284,
       visits: 2689
     },
     {
       areaCode: 440308,
-      enrollment:14567,
+      enrollment: 14567,
       visits: 690
     },
     {
       areaCode: 440309,
-      enrollment:50879,
+      enrollment: 50879,
       visits: 3786
     },
     {
       areaCode: 440310,
-      enrollment:21567,
+      enrollment: 21567,
       visits: 1461
     },
     {
       areaCode: 440311,
-      enrollment:12345,
+      enrollment: 12345,
       visits: 476
     },
     {
       areaCode: 440343,
-      enrollment:9683,
+      enrollment: 9683,
       visits: 478
     },
     {
       areaCode: 441521,
-      enrollment:6542,
+      enrollment: 6542,
       visits: 312
     }
   ];
