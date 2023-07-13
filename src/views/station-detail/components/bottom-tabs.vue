@@ -46,7 +46,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, toRefs, toRef, inject,computed } from 'vue';
+import { ref, toRefs, toRef, inject, computed } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
@@ -133,7 +133,11 @@ const handleRoaming = async (value) => {
   }
 };
 const handleClick = async (item, sub) => {
-  if (item.viewInfoType !== 't2' || (sub && sub.viewInfoType !== 't2' || currentHrStationID.value==='-1')) {
+  if (
+    item.viewInfoType !== 't2' ||
+    (sub && sub.viewInfoType !== 't2') ||
+    currentHrStationID.value === '-1'
+  ) {
     await __g.marker.hideByGroupId('stationFacilitiesLabel');
   }
   await __g.cameraTour.pause();
