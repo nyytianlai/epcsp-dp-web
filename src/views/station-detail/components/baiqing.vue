@@ -253,6 +253,7 @@ onMounted(() => {
           // 漫游视角
           console.log(viewInfo);
           // __g.camera.set(...viewInfo, 0);
+          __g.marker.hideByGroupId('stationFacilitiesLabel');
           break;
         case 'v2':
           // 站内设施
@@ -326,7 +327,6 @@ onUnmounted(() => {
   bottom: 0;
   z-index: 1000;
   .plan-img {
-    
     width: 1669px;
     height: 827px;
     background-image: url('./images/plan.png');
