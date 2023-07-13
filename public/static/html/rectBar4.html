@@ -1,18 +1,35 @@
 <!DOCTYPE html>
-<html style="height: 100%; width: 100%">
+<html >
   <head>
     <meta charset="utf-8" />
     <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      html,body{
+        height: 100%; width: 100%
+      }
+      body{
+        pointer-events: none;z-index: -99;
+      }
+      #chart-panel{
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        pointer-events: auto;
+      }
       #pop-panel{
         width: 180px;
         height:160px; 
         position: fixed;
       }
       .tooltip-img {
-      margin-left: 6px;
+        margin-left: 6px;
       }
       .title{
-        position: relative;
+          position: relative;
           height: 24px;  
           font-weight: bold;
           font-size: 16px;
@@ -21,41 +38,41 @@
           text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.5);
         }
         .title-word {
-      z-index: 99;
-      position: relative;
-      bottom: 5px;
-      /* left: 3px; */
-    }
+          z-index: 99;
+          position: relative;
+          bottom: 5px;
+          /* left: 3px; */
+        }
 
-    .title-bg {
-      clip-path: polygon(0 0, 79% 0, 100% 100%, 0% 100%);
-      position: relative;
-      top:  -15px;
-      left: 0;
-      background: rgba(0, 255, 249, 1);
-      width: 70%;
-      height: 15px;
-      z-index: -10;
-    }
+        .title-bg {
+          clip-path: polygon(0 0, 79% 0, 100% 100%, 0% 100%);
+          position: relative;
+          top:  -15px;
+          left: 0;
+          background: rgba(0, 255, 249, 1);
+          width: 70%;
+          height: 15px;
+          z-index: -10;
+        }
         .content{
           clip-path: polygon(90% 0, 100% 13%, 100% 100%, 10% 100%, 0 87%, 0 0);
-      background: rgba(0, 48, 71, 0.95);
-      box-shadow: inset 0px 0px 16px rgba(75, 223, 255, 1);
-      padding: 12px;
+          background: rgba(0, 48, 71, 0.95);
+          box-shadow: inset 0px 0px 16px rgba(75, 223, 255, 1);
+          padding: 12px;
         }
         li{
-           display: flex;
-           justify-content: space-between;
-           text-align: center;
-           font-style: normal;
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+          font-style: normal;
           font-weight: 400;
           font-size: 12px;
           line-height: 24px;
           color: rgba(255, 255, 255, 0.8);
-          }
-          .liRight{
-            display: flex;
-          }
+        }
+        .liRight{
+          display: flex;
+        }
         .num{
           font-style: normal;
           font-weight: 700;
@@ -68,8 +85,8 @@
         }
     </style>
   </head>
-  <body style="height: 100%; width: 100%; margin: 0; pointer-events: none;z-index: -99;">
-    <div id="chart-panel" style="height: 100%; width: 100%;position: absolute;bottom: 0px;pointer-events: auto;"></div>
+  <body >
+    <div id="chart-panel"></div>
   <!-- <body style="height: 10px; width: 10px; margin: 0;background-color: #FFFFFF; pointer-events: none;">
     <div id="chart-panel" style="height: 100%; width: 100%;position: absolute;bottom: 0px;background-color: bisque; pointer-events: auto;"></div> -->
     <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
@@ -87,7 +104,7 @@
       ];
       const yMax=Number(urlParams.get("yMax"))
       console.log('最大值',yMax);
-      const topBar= Math.max(paramsValue.chargingStation,paramsValue.cabinet,paramsValue.energyStorageStation,paramsValue.photovoltaic,paramsValue.powerStation)// 当前五根柱子中做高的值
+      const topBar= Math.max(paramsValue.chargingStation,paramsValue.cabinet,paramsValue.energyStorageStation,paramsValue.photovoltaic,paramsValue.powerStation)// 当前五根柱子中最高的值
       const quName = urlParams.get("quName");
       const areaCode=urlParams.get("areaCode");
       const contentHeight=urlParams.get("contentHeight");
@@ -208,7 +225,7 @@
         tooltip: {
             trigger: "axis",
             axisPointer: {
-              type: "shadow",
+              type: "none",
             },
             backgroundColor: "rgba(9, 24, 48, 0.0)",
             borderColor: "rgba(75, 253, 238, 0.0)",

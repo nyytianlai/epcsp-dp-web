@@ -1,35 +1,48 @@
 <!DOCTYPE html>
 <!-- http://echarts.zhangmuchen.top/#/detail?cid=xFJL-TEbNv -->
-<html style="height: 100%; width: 100%">
-
+<html >
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  html,body{
+    height: 100%; width: 100%
+  }
+  body{
+    bottom: 30px;
+  }
+  #chart-panel{
+    height: 100%; width: 100%
+  }
+</style>
 <head>
   <meta charset="utf-8" />
 </head>
 
-<body style="height: 100%; width: 100%; margin: 0;bottom: 30px;">
+<body >
   <!-- <div id="chart-panel" style="height: 263px; width: 88px"></div> -->
-  <div id="chart-panel" style="height: 100%; width: 100%"></div>
+  <div id="chart-panel"></div>
   <script type="text/javascript" src="../js/echarts@5.2.0.min.js"></script>
 
   <script type="text/javascript">
-    var dom = document.getElementById("chart-panel");
-    var myChart = echarts.init(dom);
-    var option;
-    var app = {};
-    var v2GCountMultiple=300
-    var urlParams = new URLSearchParams(location.search);
+    let dom = document.getElementById("chart-panel");
+    let myChart = echarts.init(dom);
+    let app = {};
+    let v2GCountMultiple=300
+    let urlParams = new URLSearchParams(location.search);
     let paramsValue = JSON.parse(urlParams.get("value"));
     console.log("value",paramsValue)
     const yMax = Number(urlParams.get("yMax"));
     console.log("最大值", yMax);
     const areaCode = urlParams.get("areaCode");
-    var xData = ["递铺街道"];
+    let xData = ["递铺街道"];
 
-    var data1 = paramsValue.v2gCount?[paramsValue.v2gCount]:[0]; //底部数据
-    var data2 = paramsValue.superCount?[paramsValue.superCount]:[0]; //中底
-    var data3 = paramsValue.noQuickCount?[paramsValue.noQuickCount]:[0]; //中顶
-    var data4 = paramsValue.quickCount?[paramsValue.quickCount]:[0]; //顶部
-    var data5 = [data1[0] + data2[0] + data3[0]+ data4[0]];
+    let data1 = paramsValue.v2gCount?[paramsValue.v2gCount]:[0]; //底部数据
+    let data2 = paramsValue.superCount?[paramsValue.superCount]:[0]; //中底
+    let data3 = paramsValue.noQuickCount?[paramsValue.noQuickCount]:[0]; //中顶
+    let data4 = paramsValue.quickCount?[paramsValue.quickCount]:[0]; //顶部
+    let data5 = [data1[0] + data2[0] + data3[0]+ data4[0]];
 
     const colorCollection = [
       ["#90D9D8", "#5D9D9D", "#ACF2F2", "#B6FFFF", "#C1FBFC"],//底 柱子 
@@ -66,7 +79,7 @@
       colorCollection[4]=colorCollection[10]
     }
  
-    var option = {
+    let option = {
       animation: false,
       // backgroundColor: '#030446',
       // tooltip: {
@@ -76,7 +89,7 @@
       //   },
 
       //   formatter: function (parms) {
-      //     var str =
+      //     let str =
       //       "名称：" +
       //       parms[0].axisValue +
       //       "</br>" +

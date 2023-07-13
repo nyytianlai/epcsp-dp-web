@@ -10,7 +10,7 @@ import sszs from './images/sszs.png';
 // import telaidian from './images/telaidian.png';
 // import lianhuaxi from './images/lianhuaxi.png';
 // import minle from './images/minle.png';
-import { simplifyNum,getRemvalue } from '@/utils/index';
+import { simplifyNum, getRemvalue } from '@/utils/index';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils';
 export const pageNumFun = (data = {}) => {
@@ -212,7 +212,7 @@ export const stationTabType = [
   // }
 ];
 
-export const ecOptionFun = (data = [], xaxis = [],code=1) => {
+export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
   xaxis = xaxis.map((i) => {
     return { value: i, textStyle: { overflow: 'break', width: 100 } };
   });
@@ -243,12 +243,12 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       borderWidth: 0,
       textStyle: {
         color: '#fff',
-        fontSize:getRemvalue(16)
+        fontSize: getRemvalue(16)
       },
       axisPointer: {
         type: 'shadow'
       },
-      formatter: `{b}：{c}${code ===1?'个':'万千瓦'}`
+      formatter: `{b}：{c}${code === 1 ? '个' : '万千瓦'}`
       // formatter:(params)=>{
       //   return params[0].value + '个'
       // }
@@ -278,10 +278,10 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
     },
     yAxis: {
       type: 'value',
-      name: `单位/${code ===1?'个':'万千瓦'}`,
+      name: `单位/${code === 1 ? '个' : '万千瓦'}`,
       nameTextStyle: {
         color: '#B4C0CC',
-        fontSize:getRemvalue(16)
+        fontSize: getRemvalue(16)
       },
       minInterval: 1,
       axisLine: {
@@ -310,7 +310,7 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
       {
         data: data,
         type: 'bar',
-        name: `${code ===1?'数量':'规模'}`,
+        name: `${code === 1 ? '数量' : '规模'}`,
         barWidth: getRemvalue(18),
         label: {
           show: true,
@@ -324,573 +324,573 @@ export const ecOptionFun = (data = [], xaxis = [],code=1) => {
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 1,
-                color: '#88C6FF'
+                color: 'rgba(0, 58, 255, 0.0001)'
               },
               {
                 offset: 0,
-                color: 'rgba(0, 58, 255, 0.0001)'
+                color: '#88C6FF'
               }
             ]);
           }
         }
-      },
-      {
-        // 顶部
-        tooltip: {
-          show: false
-        },
-        type: 'pictorialBar',
-        itemStyle: {
-          // 顶部
-          color: '#13ABC2'
-        },
-        symbol: 'rect',
-        symbolSize: [getRemvalue(18), getRemvalue(5)],
-        symbolPosition: 'end',
-        data: data,
-        z: 3
       }
+      // {
+      //   // 顶部
+      //   tooltip: {
+      //     show: false
+      //   },
+      //   type: 'pictorialBar',
+      //   itemStyle: {
+      //     // 顶部
+      //     color: '#13ABC2'
+      //   },
+      //   symbol: 'rect',
+      //   symbolSize: [getRemvalue(18), getRemvalue(5)],
+      //   symbolPosition: 'end',
+      //   data: data,
+      //   z: 3
+      // }
     ]
   };
 };
 const carbon = [
   {
-      "date": "2023/5/10",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "67 ",
-      "energy": "60 ",
-      "light": "1366"
-  },
-  {
-      "date": "2023/5/11",
-      "newCharging": "8195 ",
-      "change": "50 ",
-      "bike": "66 ",
-      "energy": "58 ",
-      "light": "1065"
-  },
-  {
-      "date": "2023/5/12",
-      "newCharging": "8100 ",
-      "change": "50 ",
-      "bike": "79 ",
-      "energy": "59 ",
-      "light": "1186"
-  },
-  {
-      "date": "2023/5/13",
-      "newCharging": "6922 ",
-      "change": "42 ",
-      "bike": "62 ",
-      "energy": "60 ",
-      "light": "1282"
-  },
-  {
-      "date": "2023/5/14",
-      "newCharging": "6763 ",
-      "change": "41 ",
-      "bike": "64 ",
-      "energy": "60 ",
-      "light": "1410"
-  },
-  {
-      "date": "2023/5/15",
-      "newCharging": "8116 ",
-      "change": "50 ",
-      "bike": "65 ",
-      "energy": "63 ",
-      "light": "203"
-  },
-  {
-      "date": "2023/5/16",
-      "newCharging": "7893 ",
-      "change": "48 ",
-      "bike": "67 ",
-      "energy": "63 ",
-      "light": "139"
-  },
-  {
-      "date": "2023/5/17",
-      "newCharging": "7718 ",
-      "change": "47 ",
-      "bike": "62 ",
-      "energy": "59 ",
-      "light": "327"
-  },
-  {
-      "date": "2023/5/18",
-      "newCharging": "8116 ",
-      "change": "50 ",
-      "bike": "65 ",
-      "energy": "63 ",
-      "light": "203"
-  },
-  {
-      "date": "2023/5/19",
-      "newCharging": "7893 ",
-      "change": "48 ",
-      "bike": "67 ",
-      "energy": "63 ",
-      "light": "139"
-  },
-  {
-      "date": "2023/5/20",
-      "newCharging": "6493 ",
-      "change": "40 ",
-      "bike": "90 ",
-      "energy": "62 ",
-      "light": "1366"
-  },
-  {
-      "date": "2023/5/21",
-      "newCharging": "6556 ",
-      "change": "40 ",
-      "bike": "83 ",
-      "energy": "60 ",
-      "light": "1333"
-  },
-  {
-      "date": "2023/5/22",
-      "newCharging": "8187 ",
-      "change": "50 ",
-      "bike": "79 ",
-      "energy": "58 ",
-      "light": "1366"
+    date: '2023/5/10',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '67 ',
+    energy: '60 ',
+    light: '1366'
+  },
+  {
+    date: '2023/5/11',
+    newCharging: '8195 ',
+    change: '50 ',
+    bike: '66 ',
+    energy: '58 ',
+    light: '1065'
+  },
+  {
+    date: '2023/5/12',
+    newCharging: '8100 ',
+    change: '50 ',
+    bike: '79 ',
+    energy: '59 ',
+    light: '1186'
+  },
+  {
+    date: '2023/5/13',
+    newCharging: '6922 ',
+    change: '42 ',
+    bike: '62 ',
+    energy: '60 ',
+    light: '1282'
+  },
+  {
+    date: '2023/5/14',
+    newCharging: '6763 ',
+    change: '41 ',
+    bike: '64 ',
+    energy: '60 ',
+    light: '1410'
+  },
+  {
+    date: '2023/5/15',
+    newCharging: '8116 ',
+    change: '50 ',
+    bike: '65 ',
+    energy: '63 ',
+    light: '203'
+  },
+  {
+    date: '2023/5/16',
+    newCharging: '7893 ',
+    change: '48 ',
+    bike: '67 ',
+    energy: '63 ',
+    light: '139'
+  },
+  {
+    date: '2023/5/17',
+    newCharging: '7718 ',
+    change: '47 ',
+    bike: '62 ',
+    energy: '59 ',
+    light: '327'
+  },
+  {
+    date: '2023/5/18',
+    newCharging: '8116 ',
+    change: '50 ',
+    bike: '65 ',
+    energy: '63 ',
+    light: '203'
+  },
+  {
+    date: '2023/5/19',
+    newCharging: '7893 ',
+    change: '48 ',
+    bike: '67 ',
+    energy: '63 ',
+    light: '139'
+  },
+  {
+    date: '2023/5/20',
+    newCharging: '6493 ',
+    change: '40 ',
+    bike: '90 ',
+    energy: '62 ',
+    light: '1366'
+  },
+  {
+    date: '2023/5/21',
+    newCharging: '6556 ',
+    change: '40 ',
+    bike: '83 ',
+    energy: '60 ',
+    light: '1333'
+  },
+  {
+    date: '2023/5/22',
+    newCharging: '8187 ',
+    change: '50 ',
+    bike: '79 ',
+    energy: '58 ',
+    light: '1366'
   },
   {
-      "date": "2023/5/23",
-      "newCharging": "7798 ",
-      "change": "48 ",
-      "bike": "62 ",
-      "energy": "62 ",
-      "light": "1263"
+    date: '2023/5/23',
+    newCharging: '7798 ',
+    change: '48 ',
+    bike: '62 ',
+    energy: '62 ',
+    light: '1263'
   },
   {
-      "date": "2023/5/24",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "67 ",
-      "energy": "60 ",
-      "light": "1366"
+    date: '2023/5/24',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '67 ',
+    energy: '60 ',
+    light: '1366'
   },
   {
-      "date": "2023/5/25",
-      "newCharging": "8195 ",
-      "change": "50 ",
-      "bike": "66 ",
-      "energy": "58 ",
-      "light": "1065"
+    date: '2023/5/25',
+    newCharging: '8195 ',
+    change: '50 ',
+    bike: '66 ',
+    energy: '58 ',
+    light: '1065'
   },
   {
-      "date": "2023/5/26",
-      "newCharging": "8100 ",
-      "change": "50 ",
-      "bike": "79 ",
-      "energy": "59 ",
-      "light": "1186"
+    date: '2023/5/26',
+    newCharging: '8100 ',
+    change: '50 ',
+    bike: '79 ',
+    energy: '59 ',
+    light: '1186'
   },
   {
-      "date": "2023/5/27",
-      "newCharging": "6922 ",
-      "change": "42 ",
-      "bike": "62 ",
-      "energy": "60 ",
-      "light": "1282"
+    date: '2023/5/27',
+    newCharging: '6922 ',
+    change: '42 ',
+    bike: '62 ',
+    energy: '60 ',
+    light: '1282'
   },
   {
-      "date": "2023/5/28",
-      "newCharging": "6763 ",
-      "change": "41 ",
-      "bike": "64 ",
-      "energy": "60 ",
-      "light": "1410"
+    date: '2023/5/28',
+    newCharging: '6763 ',
+    change: '41 ',
+    bike: '64 ',
+    energy: '60 ',
+    light: '1410'
   },
   {
-      "date": "2023/5/29",
-      "newCharging": "8116 ",
-      "change": "50 ",
-      "bike": "65 ",
-      "energy": "63 ",
-      "light": "203"
+    date: '2023/5/29',
+    newCharging: '8116 ',
+    change: '50 ',
+    bike: '65 ',
+    energy: '63 ',
+    light: '203'
   },
   {
-      "date": "2023/5/30",
-      "newCharging": "7893 ",
-      "change": "48 ",
-      "bike": "67 ",
-      "energy": "63 ",
-      "light": "139"
+    date: '2023/5/30',
+    newCharging: '7893 ',
+    change: '48 ',
+    bike: '67 ',
+    energy: '63 ',
+    light: '139'
   },
   {
-      "date": "2023/5/31",
-      "newCharging": "7718 ",
-      "change": "56 ",
-      "bike": "62 ",
-      "energy": "59 ",
-      "light": "327"
+    date: '2023/5/31',
+    newCharging: '7718 ',
+    change: '56 ',
+    bike: '62 ',
+    energy: '59 ',
+    light: '327'
   },
   {
-      "date": "2023/6/1",
-      "newCharging": "7806 ",
-      "change": "48 ",
-      "bike": "74 ",
-      "energy": "59 ",
-      "light": "287"
+    date: '2023/6/1',
+    newCharging: '7806 ',
+    change: '48 ',
+    bike: '74 ',
+    energy: '59 ',
+    light: '287'
   },
   {
-      "date": "2023/6/2",
-      "newCharging": "7949 ",
-      "change": "49 ",
-      "bike": "77 ",
-      "energy": "62 ",
-      "light": "390"
+    date: '2023/6/2',
+    newCharging: '7949 ',
+    change: '49 ',
+    bike: '77 ',
+    energy: '62 ',
+    light: '390'
   },
   {
-      "date": "2023/6/3",
-      "newCharging": "7089 ",
-      "change": "43 ",
-      "bike": "67 ",
-      "energy": "57 ",
-      "light": "134"
+    date: '2023/6/3',
+    newCharging: '7089 ',
+    change: '43 ',
+    bike: '67 ',
+    energy: '57 ',
+    light: '134'
   },
   {
-      "date": "2023/6/4",
-      "newCharging": "6851 ",
-      "change": "42 ",
-      "bike": "62 ",
-      "energy": "60 ",
-      "light": "1171"
+    date: '2023/6/4',
+    newCharging: '6851 ',
+    change: '42 ',
+    bike: '62 ',
+    energy: '60 ',
+    light: '1171'
   },
   {
-      "date": "2023/6/5",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "62 ",
-      "energy": "63 ",
-      "light": "195"
+    date: '2023/6/5',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '62 ',
+    energy: '63 ',
+    light: '195'
   },
   {
-      "date": "2023/6/6",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "61 ",
-      "energy": "62 ",
-      "light": "390"
+    date: '2023/6/6',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '61 ',
+    energy: '62 ',
+    light: '390'
   },
   {
-      "date": "2023/6/7",
-      "newCharging": "8195 ",
-      "change": "50 ",
-      "bike": "65 ",
-      "energy": "65 ",
-      "light": "1366"
+    date: '2023/6/7',
+    newCharging: '8195 ',
+    change: '50 ',
+    bike: '65 ',
+    energy: '65 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/8",
-      "newCharging": "7543 ",
-      "change": "56 ",
-      "bike": "74 ",
-      "energy": "58 ",
-      "light": "1269"
+    date: '2023/6/8',
+    newCharging: '7543 ',
+    change: '56 ',
+    bike: '74 ',
+    energy: '58 ',
+    light: '1269'
   },
   {
-      "date": "2023/6/9",
-      "newCharging": "7670 ",
-      "change": "47 ",
-      "bike": "79 ",
-      "energy": "59 ",
-      "light": "1366"
+    date: '2023/6/9',
+    newCharging: '7670 ',
+    change: '47 ',
+    bike: '79 ',
+    energy: '59 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/10",
-      "newCharging": "6843 ",
-      "change": "42 ",
-      "bike": "61 ",
-      "energy": "59 ",
-      "light": "390"
+    date: '2023/6/10',
+    newCharging: '6843 ',
+    change: '42 ',
+    bike: '61 ',
+    energy: '59 ',
+    light: '390'
   },
   {
-      "date": "2023/6/11",
-      "newCharging": "7320 ",
-      "change": "45 ",
-      "bike": "60 ",
-      "energy": "62 ",
-      "light": "293"
+    date: '2023/6/11',
+    newCharging: '7320 ',
+    change: '45 ',
+    bike: '60 ',
+    energy: '62 ',
+    light: '293'
   },
   {
-      "date": "2023/6/12",
-      "newCharging": "7798 ",
-      "change": "48 ",
-      "bike": "63 ",
-      "energy": "63 ",
-      "light": "195"
+    date: '2023/6/12',
+    newCharging: '7798 ',
+    change: '48 ',
+    bike: '63 ',
+    energy: '63 ',
+    light: '195'
   },
   {
-      "date": "2023/6/13",
-      "newCharging": "7718 ",
-      "change": "47 ",
-      "bike": "66 ",
-      "energy": "64 ",
-      "light": "1562"
+    date: '2023/6/13',
+    newCharging: '7718 ',
+    change: '47 ',
+    bike: '66 ',
+    energy: '64 ',
+    light: '1562'
   },
   {
-      "date": "2023/6/14",
-      "newCharging": "7638 ",
-      "change": "47 ",
-      "bike": "64 ",
-      "energy": "62 ",
-      "light": "390"
+    date: '2023/6/14',
+    newCharging: '7638 ',
+    change: '47 ',
+    bike: '64 ',
+    energy: '62 ',
+    light: '390'
   },
   {
-      "date": "2023/6/15",
-      "newCharging": "8148 ",
-      "change": "50 ",
-      "bike": "74 ",
-      "energy": "64 ",
-      "light": "1757"
+    date: '2023/6/15',
+    newCharging: '8148 ',
+    change: '50 ',
+    bike: '74 ',
+    energy: '64 ',
+    light: '1757'
   },
   {
-      "date": "2023/6/16",
-      "newCharging": "7861 ",
-      "change": "48 ",
-      "bike": "74 ",
-      "energy": "60 ",
-      "light": "390"
+    date: '2023/6/16',
+    newCharging: '7861 ',
+    change: '48 ',
+    bike: '74 ',
+    energy: '60 ',
+    light: '390'
   },
   {
-      "date": "2023/6/17",
-      "newCharging": "7559 ",
-      "change": "46 ",
-      "bike": "67 ",
-      "energy": "64 ",
-      "light": "1562"
+    date: '2023/6/17',
+    newCharging: '7559 ',
+    change: '46 ',
+    bike: '67 ',
+    energy: '64 ',
+    light: '1562'
   },
   {
-      "date": "2023/6/18",
-      "newCharging": "7161 ",
-      "change": "44 ",
-      "bike": "67 ",
-      "energy": "64 ",
-      "light": "1366"
+    date: '2023/6/18',
+    newCharging: '7161 ',
+    change: '44 ',
+    bike: '67 ',
+    energy: '64 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/19",
-      "newCharging": "7638 ",
-      "change": "47 ",
-      "bike": "66 ",
-      "energy": "63 ",
-      "light": "195"
+    date: '2023/6/19',
+    newCharging: '7638 ',
+    change: '47 ',
+    bike: '66 ',
+    energy: '63 ',
+    light: '195'
   },
   {
-      "date": "2023/6/20",
-      "newCharging": "8068 ",
-      "change": "49 ",
-      "bike": "90 ",
-      "energy": "62 ",
-      "light": "1366"
+    date: '2023/6/20',
+    newCharging: '8068 ',
+    change: '49 ',
+    bike: '90 ',
+    energy: '62 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/21",
-      "newCharging": "7845 ",
-      "change": "48 ",
-      "bike": "83 ",
-      "energy": "60 ",
-      "light": "1366"
+    date: '2023/6/21',
+    newCharging: '7845 ',
+    change: '48 ',
+    bike: '83 ',
+    energy: '60 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/22",
-      "newCharging": "8195 ",
-      "change": "50 ",
-      "bike": "79 ",
-      "energy": "58 ",
-      "light": "1366"
+    date: '2023/6/22',
+    newCharging: '8195 ',
+    change: '50 ',
+    bike: '79 ',
+    energy: '58 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/23",
-      "newCharging": "7798 ",
-      "change": "48 ",
-      "bike": "62 ",
-      "energy": "62 ",
-      "light": "1366"
+    date: '2023/6/23',
+    newCharging: '7798 ',
+    change: '48 ',
+    bike: '62 ',
+    energy: '62 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/24",
-      "newCharging": "6763 ",
-      "change": "41 ",
-      "bike": "67 ",
-      "energy": "60 ",
-      "light": "1366"
+    date: '2023/6/24',
+    newCharging: '6763 ',
+    change: '41 ',
+    bike: '67 ',
+    energy: '60 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/25",
-      "newCharging": "6286 ",
-      "change": "38 ",
-      "bike": "66 ",
-      "energy": "58 ",
-      "light": "1366"
+    date: '2023/6/25',
+    newCharging: '6286 ',
+    change: '38 ',
+    bike: '66 ',
+    energy: '58 ',
+    light: '1366'
   },
   {
-      "date": "2023/6/26",
-      "newCharging": "7782 ",
-      "change": "48 ",
-      "bike": "79 ",
-      "energy": "59 ",
-      "light": "390"
+    date: '2023/6/26',
+    newCharging: '7782 ',
+    change: '48 ',
+    bike: '79 ',
+    energy: '59 ',
+    light: '390'
   },
   {
-      "date": "2023/6/27",
-      "newCharging": "7718 ",
-      "change": "47 ",
-      "bike": "62 ",
-      "energy": "60 ",
-      "light": "390"
+    date: '2023/6/27',
+    newCharging: '7718 ',
+    change: '47 ',
+    bike: '62 ',
+    energy: '60 ',
+    light: '390'
   },
   {
-      "date": "2023/6/28",
-      "newCharging": "7559 ",
-      "change": "46 ",
-      "bike": "64 ",
-      "energy": "60 ",
-      "light": "586"
+    date: '2023/6/28',
+    newCharging: '7559 ',
+    change: '46 ',
+    bike: '64 ',
+    energy: '60 ',
+    light: '586'
   },
   {
-      "date": "2023/6/29",
-      "newCharging": "8116 ",
-      "change": "50 ",
-      "bike": "65 ",
-      "energy": "63 ",
-      "light": "586"
+    date: '2023/6/29',
+    newCharging: '8116 ',
+    change: '50 ',
+    bike: '65 ',
+    energy: '63 ',
+    light: '586'
   },
   {
-      "date": "2023/6/30",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "67 ",
-      "energy": "63 ",
-      "light": "586"
+    date: '2023/6/30',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '67 ',
+    energy: '63 ',
+    light: '586'
   },
   {
-      "date": "2023/7/1",
-      "newCharging": "7002 ",
-      "change": "43 ",
-      "bike": "62 ",
-      "energy": "59 ",
-      "light": "390"
+    date: '2023/7/1',
+    newCharging: '7002 ',
+    change: '43 ',
+    bike: '62 ',
+    energy: '59 ',
+    light: '390'
   },
   {
-      "date": "2023/7/2",
-      "newCharging": "6779 ",
-      "change": "42 ",
-      "bike": "74 ",
-      "energy": "59 ",
-      "light": "390"
+    date: '2023/7/2',
+    newCharging: '6779 ',
+    change: '42 ',
+    bike: '74 ',
+    energy: '59 ',
+    light: '390'
   },
   {
-      "date": "2023/7/3",
-      "newCharging": "8148 ",
-      "change": "50 ",
-      "bike": "77 ",
-      "energy": "62 ",
-      "light": "390"
-  },
-  {
-      "date": "2023/7/4",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "67 ",
-      "energy": "57 ",
-      "light": "1366"
-  },
-  {
-      "date": "2023/7/5",
-      "newCharging": "7798 ",
-      "change": "48 ",
-      "bike": "62 ",
-      "energy": "60 ",
-      "light": "1171"
-  },
-  {
-      "date": "2023/7/6",
-      "newCharging": "8355 ",
-      "change": "51 ",
-      "bike": "62 ",
-      "energy": "63 ",
-      "light": "195"
-  },
-  {
-      "date": "2023/7/7",
-      "newCharging": "8355 ",
-      "change": "56 ",
-      "bike": "61 ",
-      "energy": "62 ",
-      "light": "390"
-  },
-  {
-      "date": "2023/7/8",
-      "newCharging": "6604 ",
-      "change": "40 ",
-      "bike": "65 ",
-      "energy": "65 ",
-      "light": "1366"
-  },
-  {
-      "date": "2023/7/9",
-      "newCharging": "6906 ",
-      "change": "42 ",
-      "bike": "74 ",
-      "energy": "58 ",
-      "light": "1269"
-  },
-  {
-      "date": "2023/7/10",
-      "newCharging": "7670 ",
-      "change": "47 ",
-      "bike": "79 ",
-      "energy": "59 ",
-      "light": "1366"
-  },
-  {
-      "date": "2023/7/11",
-      "newCharging": "7638 ",
-      "change": "47 ",
-      "bike": "61 ",
-      "energy": "59 ",
-      "light": "390"
-  },
-  {
-      "date": "2023/7/12",
-      "newCharging": "8116 ",
-      "change": "50 ",
-      "bike": "60 ",
-      "energy": "62 ",
-      "light": "293"
-  },
-  {
-      "date": "2023/7/13",
-      "newCharging": "7798 ",
-      "change": "48 ",
-      "bike": "63 ",
-      "energy": "63 ",
-      "light": "195"
-  },
-  {
-      "date": "2023/7/14",
-      "newCharging": "7718 ",
-      "change": "47 ",
-      "bike": "66 ",
-      "energy": "64 ",
-      "light": "1562"
-  },
-  {
-      "date": "2023/7/15",
-      "newCharging": "6357 ",
-      "change": "39 ",
-      "bike": "64 ",
-      "energy": "62 ",
-      "light": "390"
+    date: '2023/7/3',
+    newCharging: '8148 ',
+    change: '50 ',
+    bike: '77 ',
+    energy: '62 ',
+    light: '390'
+  },
+  {
+    date: '2023/7/4',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '67 ',
+    energy: '57 ',
+    light: '1366'
+  },
+  {
+    date: '2023/7/5',
+    newCharging: '7798 ',
+    change: '48 ',
+    bike: '62 ',
+    energy: '60 ',
+    light: '1171'
+  },
+  {
+    date: '2023/7/6',
+    newCharging: '8355 ',
+    change: '51 ',
+    bike: '62 ',
+    energy: '63 ',
+    light: '195'
+  },
+  {
+    date: '2023/7/7',
+    newCharging: '8355 ',
+    change: '56 ',
+    bike: '61 ',
+    energy: '62 ',
+    light: '390'
+  },
+  {
+    date: '2023/7/8',
+    newCharging: '6604 ',
+    change: '40 ',
+    bike: '65 ',
+    energy: '65 ',
+    light: '1366'
+  },
+  {
+    date: '2023/7/9',
+    newCharging: '6906 ',
+    change: '42 ',
+    bike: '74 ',
+    energy: '58 ',
+    light: '1269'
+  },
+  {
+    date: '2023/7/10',
+    newCharging: '7670 ',
+    change: '47 ',
+    bike: '79 ',
+    energy: '59 ',
+    light: '1366'
+  },
+  {
+    date: '2023/7/11',
+    newCharging: '7638 ',
+    change: '47 ',
+    bike: '61 ',
+    energy: '59 ',
+    light: '390'
+  },
+  {
+    date: '2023/7/12',
+    newCharging: '8116 ',
+    change: '50 ',
+    bike: '60 ',
+    energy: '62 ',
+    light: '293'
+  },
+  {
+    date: '2023/7/13',
+    newCharging: '7798 ',
+    change: '48 ',
+    bike: '63 ',
+    energy: '63 ',
+    light: '195'
+  },
+  {
+    date: '2023/7/14',
+    newCharging: '7718 ',
+    change: '47 ',
+    bike: '66 ',
+    energy: '64 ',
+    light: '1562'
+  },
+  {
+    date: '2023/7/15',
+    newCharging: '6357 ',
+    change: '39 ',
+    bike: '64 ',
+    energy: '62 ',
+    light: '390'
   }
-]
+];
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   // console.log('carbon', carbon);
@@ -906,49 +906,36 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电',
+      name: '新能源充电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.energy.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.energy.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '储能'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.light.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.light.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏',
-
+      name: '光伏'
     },
-        {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.bike.trim()
-      ]),
+    {
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.bike.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '自行车充换电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.change.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.change.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '换电'
-    },
+    }
     // {
     //   data: list.map((item) => [
     //     dayjs(item.date).format('MM-DD').toString(),
@@ -1034,540 +1021,540 @@ export const lineCarbonOptionFun = {
 };
 const Electric = [
   {
-      "date":"2023/5/10",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"214"
-  },
-  {
-      "date":"2023/5/11",
-      "newCharging":"1030 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"167"
-  },
-  {
-      "date":"2023/5/12",
-      "newCharging":"1018 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"186"
-  },
-  {
-      "date":"2023/5/13",
-      "newCharging":"870 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"201"
-  },
-  {
-      "date":"2023/5/14",
-      "newCharging":"850 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"221"
-  },
-  {
-      "date":"2023/5/15",
-      "newCharging":"1020 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"32"
-  },
-  {
-      "date":"2023/5/16",
-      "newCharging":"992 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"22"
-  },
-  {
-      "date":"2023/5/17",
-      "newCharging":"970 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"51"
-  },
-  {
-      "date":"2023/5/18",
-      "newCharging":"1020 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"32"
-  },
-  {
-      "date":"2023/5/19",
-      "newCharging":"992 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"22"
-  },
-  {
-      "date":"2023/5/20",
-      "newCharging":"816 ",
-      "change":"5 ",
-      "bike":"11 ",
-      "energy":"12 ",
-      "light":"214"
-  },
-  {
-      "date":"2023/5/21",
-      "newCharging":"824 ",
-      "change":"5 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"209"
-  },
-  {
-      "date":"2023/5/22",
-      "newCharging":"1029 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/5/10',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/5/11',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '167'
+  },
+  {
+    date: '2023/5/12',
+    newCharging: '1018 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '186'
+  },
+  {
+    date: '2023/5/13',
+    newCharging: '870 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '201'
+  },
+  {
+    date: '2023/5/14',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '221'
+  },
+  {
+    date: '2023/5/15',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
+  },
+  {
+    date: '2023/5/16',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
+  },
+  {
+    date: '2023/5/17',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '51'
+  },
+  {
+    date: '2023/5/18',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
+  },
+  {
+    date: '2023/5/19',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
+  },
+  {
+    date: '2023/5/20',
+    newCharging: '816 ',
+    change: '5 ',
+    bike: '11 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/5/21',
+    newCharging: '824 ',
+    change: '5 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '209'
+  },
+  {
+    date: '2023/5/22',
+    newCharging: '1029 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/5/23",
-      "newCharging":"980 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"198"
+    date: '2023/5/23',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '198'
   },
   {
-      "date":"2023/5/24",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/5/24',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/5/25",
-      "newCharging":"1030 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"167"
+    date: '2023/5/25',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '167'
   },
   {
-      "date":"2023/5/26",
-      "newCharging":"1018 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"186"
+    date: '2023/5/26',
+    newCharging: '1018 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '186'
   },
   {
-      "date":"2023/5/27",
-      "newCharging":"870 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"201"
+    date: '2023/5/27',
+    newCharging: '870 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '201'
   },
   {
-      "date":"2023/5/28",
-      "newCharging":"850 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"221"
+    date: '2023/5/28',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '221'
   },
   {
-      "date":"2023/5/29",
-      "newCharging":"1020 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"32"
+    date: '2023/5/29',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
   },
   {
-      "date":"2023/5/30",
-      "newCharging":"992 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"22"
+    date: '2023/5/30',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
   },
   {
-      "date":"2023/5/31",
-      "newCharging":"970 ",
-      "change":"7 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"51"
+    date: '2023/5/31',
+    newCharging: '970 ',
+    change: '7 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '51'
   },
   {
-      "date":"2023/6/1",
-      "newCharging":"981 ",
-      "change":"6 ",
-      "bike":"9 ",
-      "energy":"12 ",
-      "light":"45"
+    date: '2023/6/1',
+    newCharging: '981 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '45'
   },
   {
-      "date":"2023/6/2",
-      "newCharging":"999 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/2',
+    newCharging: '999 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/3",
-      "newCharging":"891 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"11 ",
-      "light":"21"
+    date: '2023/6/3',
+    newCharging: '891 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '11 ',
+    light: '21'
   },
   {
-      "date":"2023/6/4",
-      "newCharging":"861 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"184"
+    date: '2023/6/4',
+    newCharging: '861 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '184'
   },
   {
-      "date":"2023/6/5",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"31"
+    date: '2023/6/5',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
   },
   {
-      "date":"2023/6/6",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/6',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/7",
-      "newCharging":"1030 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"214"
+    date: '2023/6/7',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '214'
   },
   {
-      "date":"2023/6/8",
-      "newCharging":"948 ",
-      "change":"7 ",
-      "bike":"9 ",
-      "energy":"12 ",
-      "light":"199"
+    date: '2023/6/8',
+    newCharging: '948 ',
+    change: '7 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '199'
   },
   {
-      "date":"2023/6/9",
-      "newCharging":"964 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/9',
+    newCharging: '964 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/10",
-      "newCharging":"860 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/10',
+    newCharging: '860 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/11",
-      "newCharging":"920 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"46"
+    date: '2023/6/11',
+    newCharging: '920 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '46'
   },
   {
-      "date":"2023/6/12",
-      "newCharging":"980 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"31"
+    date: '2023/6/12',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
   },
   {
-      "date":"2023/6/13",
-      "newCharging":"970 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"245"
+    date: '2023/6/13',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '245'
   },
   {
-      "date":"2023/6/14",
-      "newCharging":"960 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/14',
+    newCharging: '960 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/15",
-      "newCharging":"1024 ",
-      "change":"6 ",
-      "bike":"9 ",
-      "energy":"13 ",
-      "light":"275"
+    date: '2023/6/15',
+    newCharging: '1024 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '13 ',
+    light: '275'
   },
   {
-      "date":"2023/6/16",
-      "newCharging":"988 ",
-      "change":"6 ",
-      "bike":"9 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/16',
+    newCharging: '988 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/17",
-      "newCharging":"950 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"245"
+    date: '2023/6/17',
+    newCharging: '950 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '245'
   },
   {
-      "date":"2023/6/18",
-      "newCharging":"900 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"214"
+    date: '2023/6/18',
+    newCharging: '900 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '214'
   },
   {
-      "date":"2023/6/19",
-      "newCharging":"960 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"31"
+    date: '2023/6/19',
+    newCharging: '960 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
   },
   {
-      "date":"2023/6/20",
-      "newCharging":"1014 ",
-      "change":"6 ",
-      "bike":"11 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/20',
+    newCharging: '1014 ',
+    change: '6 ',
+    bike: '11 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/21",
-      "newCharging":"986 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/21',
+    newCharging: '986 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/22",
-      "newCharging":"1030 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/22',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/23",
-      "newCharging":"980 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/23',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/24",
-      "newCharging":"850 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/24',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/25",
-      "newCharging":"790 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"214"
+    date: '2023/6/25',
+    newCharging: '790 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
   },
   {
-      "date":"2023/6/26",
-      "newCharging":"978 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/26',
+    newCharging: '978 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/27",
-      "newCharging":"970 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/6/27',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/6/28",
-      "newCharging":"950 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"92"
+    date: '2023/6/28',
+    newCharging: '950 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '92'
   },
   {
-      "date":"2023/6/29",
-      "newCharging":"1020 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"92"
+    date: '2023/6/29',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '92'
   },
   {
-      "date":"2023/6/30",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"92"
+    date: '2023/6/30',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '92'
   },
   {
-      "date":"2023/7/1",
-      "newCharging":"880 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/7/1',
+    newCharging: '880 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/7/2",
-      "newCharging":"852 ",
-      "change":"5 ",
-      "bike":"9 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/7/2',
+    newCharging: '852 ',
+    change: '5 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '61'
   },
   {
-      "date":"2023/7/3",
-      "newCharging":"1024 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"61"
-  },
-  {
-      "date":"2023/7/4",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"11 ",
-      "light":"214"
-  },
-  {
-      "date":"2023/7/5",
-      "newCharging":"980 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"184"
-  },
-  {
-      "date":"2023/7/6",
-      "newCharging":"1050 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"31"
-  },
-  {
-      "date":"2023/7/7",
-      "newCharging":"1050 ",
-      "change":"7 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
-  },
-  {
-      "date":"2023/7/8",
-      "newCharging":"830 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"214"
-  },
-  {
-      "date":"2023/7/9",
-      "newCharging":"868 ",
-      "change":"5 ",
-      "bike":"9 ",
-      "energy":"12 ",
-      "light":"199"
-  },
-  {
-      "date":"2023/7/10",
-      "newCharging":"964 ",
-      "change":"6 ",
-      "bike":"10 ",
-      "energy":"12 ",
-      "light":"214"
-  },
-  {
-      "date":"2023/7/11",
-      "newCharging":"960 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
-  },
-  {
-      "date":"2023/7/12",
-      "newCharging":"1020 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"46"
-  },
-  {
-      "date":"2023/7/13",
-      "newCharging":"980 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"31"
-  },
-  {
-      "date":"2023/7/14",
-      "newCharging":"970 ",
-      "change":"6 ",
-      "bike":"8 ",
-      "energy":"13 ",
-      "light":"245"
-  },
-  {
-      "date":"2023/7/15",
-      "newCharging":"799 ",
-      "change":"5 ",
-      "bike":"8 ",
-      "energy":"12 ",
-      "light":"61"
+    date: '2023/7/3',
+    newCharging: '1024 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/7/4',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '11 ',
+    light: '214'
+  },
+  {
+    date: '2023/7/5',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '184'
+  },
+  {
+    date: '2023/7/6',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
+  },
+  {
+    date: '2023/7/7',
+    newCharging: '1050 ',
+    change: '7 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/7/8',
+    newCharging: '830 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '214'
+  },
+  {
+    date: '2023/7/9',
+    newCharging: '868 ',
+    change: '5 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '199'
+  },
+  {
+    date: '2023/7/10',
+    newCharging: '964 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/7/11',
+    newCharging: '960 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/7/12',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '46'
+  },
+  {
+    date: '2023/7/13',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
+  },
+  {
+    date: '2023/7/14',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '245'
+  },
+  {
+    date: '2023/7/15',
+    newCharging: '799 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
   }
 ];
 export const lineElectricDataFun = (data = []) => {
@@ -1585,49 +1572,36 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电',
+      name: '新能源充电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.energy.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.energy.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '储能放电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.light.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.light.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏发电',
+      name: '光伏发电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.bike.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.bike.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '自行车充换电'
     },
     {
-      data: list.map((item) => [
-        dayjs(item.date).format('MM-DD').toString(),
-        item.change.trim()
-      ]),
+      data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.change.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
       name: '换电'
-    },
-
+    }
   ];
 };
 
