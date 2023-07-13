@@ -19,22 +19,22 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Data === 'mouseover') {
       //鼠标悬浮事件
       // if (hightLightPosition !== quName) {
-        changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
-        // hightLightPosition = quName;
-        // console.log('11111111','rectBar1-' + quName);
-        
-        // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 9);
-        // await aircityObj.value.acApi.marker.hidePopupWindow('rectBar1-' + quName);
-        // await aircityObj.value.acApi.marker.showPopupWindow('rectBar1-' + quName);
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.6]);
+      // hightLightPosition = quName;
+      // console.log('11111111','rectBar1-' + quName);
+
+      // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 9);
+      // await aircityObj.value.acApi.marker.hidePopupWindow('rectBar1-' + quName);
+      // await aircityObj.value.acApi.marker.showPopupWindow('rectBar1-' + quName);
       // }
     } else if (e.Data === 'mouseout') {
       // if (hightLightPosition !== '') {
-        changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
-        // setTimeout(async () => {
-        //   // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 1);
-        //   await aircityObj.value.acApi.marker.showPopupWindow('rectBar1-' + quName);
-        // }, 100);
-        // hightLightPosition = '';
+      changeXzqhColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
+      // setTimeout(async () => {
+      //   // await aircityObj.value.acApi.marker.setPriority('rectBar1-' + quName, 1);
+      //   await aircityObj.value.acApi.marker.showPopupWindow('rectBar1-' + quName);
+      // }, 100);
+      // hightLightPosition = '';
       // }
     }
   }
@@ -91,7 +91,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       popupSize: [200, contentHeight + 160],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
-      displayMode: 2 ,//智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
       priority: item.properties.PRIORITY
     };
     // if(idEnd=='光明区'){

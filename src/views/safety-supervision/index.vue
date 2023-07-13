@@ -8,580 +8,64 @@
 -->
 <template>
   <page-num :data="pageNumData" bgcType="red-bgc" />
-  <panel>
-    <div class="total-warning-num">
-      <title-column title="累计告警数据信息" />
-      <tabs
-        :data="totalWarningTabs"
-        @changeTab="(data) => handleChangeTab(data, 'total-warning')"
-        v-model="messageWarningType"
-      >
-        <button-base @handleClick="handleClickMessageBtn">查看更多</button-base>
-      </tabs>
-      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
-    </div>
-    <div class="area-warning-num">
-      <title-column
-        title="行政区告警数据情况"
-        :showTabBtn="true"
-        :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '月' },
-          { value: 3, name: '年' }
-        ]"
-        @handleTabBtn="handleWarmYearBtn"
-      />
-      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="3.7rem" />
-    </div>
-  </panel>
-  <panel type="right">
-    <div class="warning-monitor">
-      <title-column
-        title="今日设备告警监控"
-        :showBtn="true"
-        btnText="告警列表"
-        @handleClick="handleClick"
-      />
-      <tabs
-        :data="warningMonitorTabs"
-        @changeTab="(data) => handleChangeTab(data, 'warning-monitor')"
-      />
-      <pie-chart
-        :data="warningMonitorPieData"
-        :mode="totalCurCode === 1 && bottomCode === 1 ? 'canChoose' : 'default'"
-        @choose="handleChoose"
-        :colors="warningMonitorColors"
-      />
-    </div>
-    <div class="realtime-state">
-      <title-column title="实时状态情况" />
-      <tabs
-        :data="realtimeStateTabs"
-        @changeTab="(data) => handleChangeTab(data, 'realtime-state')"
-      />
-      <div class="num-wrap">
-        <template v-for="(item, index) in realtimeStateData" :key="index">
-          <num-card
-            :data="item"
-            @click="handleBall(item)"
-            :class="{ 'ball-active': nowStatus === 3 && item.isChoose, cursor: nowStatus === 3 }"
-          />
-        </template>
-      </div>
-    </div>
-    <div class="realtime-trend">
-      <title-column
-        title="实时告警趋势情况"
-        :showTabBtn="true"
-        :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '周' },
-          { value: 3, name: '月' }
-        ]"
-        @handleTabBtn="handleYearBtn"
-      />
-      <line-time-chart
-        :data="realtimeTrend"
-        :chartStyle="{ height: '2.55rem' }"
-        :colors="['#FF6B4B']"
-        mode="haveTab"
-      />
-    </div>
-  </panel>
-  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
-  <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
-  <warn-info-list-dialog
-    v-if="dialogTableVisible"
-    :visible="dialogTableVisible"
-    @closed="handleCloseWarnInfoDialog"
+  <left-panel :bottomCode="bottomCode" />
+  <right-panel
+    :bottomCode="bottomCode"
+    :totalCurCode="totalCurCode"
+    @handleTotalCurCodeChange="handleTotalCurCodeChange"
+    @handleChargeTypeChange="handleChargeTypeChange"
   />
-  <custom-dialog
-    v-model:visible="dialogTableMessageVisible"
-    :title="messageDialogTitle"
-    @closed="
-      () => {
-        inputWarnLeft = null;
-      }
-    "
-  >
-    <template #titleSearch>
-      <el-input
-        v-model="inputWarnLeft"
-        placeholder="请输入"
-        class="search-input"
-        @change="handleSearchWarnLeft"
-      >
-        <template #suffix>
-          <icon :size="12" icon="svg-icon:search" />
-        </template>
-      </el-input>
-    </template>
-    <el-table
-      :data="messageTableData"
-      height="6.19rem"
-      style="width: 100%"
-      class="custom-dialog-table"
-      @sort-change="handleSort"
-      :default-sort="{ prop: 'cnt', order: 'descending' }"
-    >
-      <el-table-column
-        v-for="(item, index) in messageColumnData"
-        :key="index"
-        v-bind="item"
-        :show-overflow-tooltip="true"
-        :formatter="tableColumnFun"
-        :sortable="item.sortable"
-        :sort-orders="item.sortOrders"
-      ></el-table-column>
-    </el-table>
-    <el-pagination
-      :page-size="pageObj.pageSize"
-      layout="prev, pager, next"
-      :total="pageObj.total"
-      :background="true"
-      :current-page="pageObj.currentPage"
-      @current-change="(value) => handPageChange(value)"
-    />
-  </custom-dialog>
+
+  <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" :activeValue="bottomCode" />
+  <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
 </template>
 <script lang="ts" setup>
 import { ref, onMounted, reactive, inject } from 'vue';
-import { tableColumnFun } from '@/global/commonFun.js';
-import {
-  pageNumFun,
-  totalWarningTabsFun,
-  areaRankDataFun,
-  warningMonitorTabsFun,
-  warningMonitorPieDataFun,
-  realtimeStateTabsFun,
-  realtimeStateDataFun,
-  realtimeTrendFun,
-  bottomTabDataFun,
-  columnKeyListFun,
-  messageColumnKeyListFun
-} from './config.js';
-import {
-  getAlarmUpStatics,
-  safetySupervisionAccumulated,
-  districtAlarmStatics,
-  alarmLevelAndTypeByTime,
-  alarmLevelAndTypeByTIme,
-  getOnlineStatus
-} from './api.js';
-import { dataType } from 'element-plus/es/components/table-v2/src/common';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import Icon from '@sutpc/vue3-svg-icon';
-import ScrollTable from './components/scroll-table.vue';
+import { pageNumFun, bottomTabDataFun } from './config.js';
+import { getAlarmUpStatics } from './api.js';
 import MapLayer from './components/map-layer.vue';
-import LineChart from './components/line-chart.vue';
-import WarnInfoListDialog from './components/warn-info-list-dialog.vue';
-import dayjs from 'dayjs';
-const storeVisible = useVisibleComponentStore();
+import LeftPanel from './components/left-panel/index.vue';
+import RightPanel from './components/right-panel/index.vue';
 
 const aircityObj = inject('aircityObj');
 let mapLayerRef = ref(null);
-const realtimeTrendOption = reactive({
-  grid: {
-    top: '10%',
-    left: '10%',
-    right: '5%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'category',
-    data: [],
-    axisLabel: {
-      color: '#fff'
-    },
-    axisTick: {
-      show: false
-    }
-  },
-  yAxis: {
-    type: 'value',
-    splitLine: {
-      lineStyle: {
-        color: '#062B58',
-        type: 'dashed'
-      }
-    },
-    axisLabel: {
-      color: '#fff'
-    }
-  },
-  series: []
-});
-const dialogTableVisible = ref(false);
-const pageObj = reactive({
-  pageSize: 8,
-  total: 0,
-  currentPage: 1
-});
-// 左一搜索
-const inputWarnLeft = ref();
-const warningMonitorColors = ['#E10105', '#DD6701', '#FAF102'];
-// 告警级别tab高亮
-const totalCurCode = ref(1);
-// 累计告警数据信息弹窗显隐
-const dialogTableMessageVisible = ref(false);
-const messageDialogTitle = ref('运营商告警列表');
-const messageColumnData = ref(messageColumnKeyListFun());
-const messageTableData = ref([]);
-const messageWarningType = ref(1);
-// 告警趋势
-const dayTypeAlarm = ref(1);
-// 左侧球的数据
-const realtimeState = ref([]);
 // 底部icon的code
 const bottomCode = ref(1);
+// 告警级别tab高亮
+const totalCurCode = ref(1);
 //地图底部tab切换
 const changeButtomTab = (item) => {
   bottomCode.value = item.code;
   console.log('底部切换', item);
   mapLayerRef.value.buttomTabChange(item.code);
-  warningMonitorPieData.value.forEach((i) => {
-    // 切换底部icon饼图全部高亮
-    i.isChoose = item.code === 1;
-  });
-  // 切换为充电站状态则全部高亮
-  realtimeStateData.value.forEach((i) => {
-    i.isChoose = item.code === 2;
-  });
 };
-// 排序
-const sort = ref(0);
-// 排序类型
-const sortType = ref(2);
-// 充电桩实时按钮
-const nowStatus = ref(3);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const getAlarmUpStaticsData = async () => {
   let { data } = await getAlarmUpStatics();
   pageNumData.value = pageNumFun(data || {});
 };
-// 累计告警数据信息
-const totalWarningTabs = ref(totalWarningTabsFun());
-const scrollTableData = ref([]);
-const columnKeyList = ref(columnKeyListFun());
-const getSafetySupervisionAccumulated = async (
-  type,
-  pageOffset = 1,
-  pageSize = 10000,
-  input = null,
-  sort = null,
-  sortType = null
-) => {
-  const params = {
-    type,
-    pageOffset,
-    pageSize,
-    name: input,
-    sort,
-    sortType
-  };
-  let { data } = await safetySupervisionAccumulated(params);
-  return data;
-};
-// 左二的时间类型
-const dayTypeWarn = ref(1);
-const handleClickMessageBtn = async () => {
-  pageObj.currentPage = 1;
-  messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
-  dialogTableMessageVisible.value = true;
-  messageColumnData.value = messageColumnKeyListFun(messageWarningType.value);
-  loadGetSafetySupervisionAccumulated();
-};
 
-//行政区告警数据
-// const areaRankData = ref(areaRankDataFun())
-const areaRankData = ref([]);
-// const areaTotalNum = ref(6399);
-const areaTotalNum = ref(0);
-const getDistrictAlarmStatics = async () => {
-  let { data } = await districtAlarmStatics({ dayType: dayTypeWarn.value });
-  let newData = data?.map((item) => {
-    return {
-      ...item,
-      unit: '次',
-      num: item.cnt,
-      name: item.areaName
-    };
-  });
-  areaRankData.value = newData || [];
-  areaTotalNum.value = newData[0]?.cnt || 0;
-};
-//今日设备告警监控
-const warningMonitorTabs = ref(warningMonitorTabsFun());
-const warningMonitorPieData = ref([]);
-const getAlarmLevelAndTypeByTime = async (param) => {
-  let { data } = await alarmLevelAndTypeByTime(param);
-  let type1 = {
-    1: '一级人身安全',
-    2: '二级设备安全',
-    3: '三级告警提示'
-  };
-  let extraName = {
-    1: '人身安全',
-    2: '设备安全',
-    3: '告警提示'
-  };
-  let type2 = {
-    1: '充电系统',
-    2: '电池系统',
-    3: '配电系统'
-  };
-
-  let newData = null;
-  const dataObj = {};
-  data?.map((item) => {
-    if (param.type === 1) {
-      dataObj[item.alarmLevel] = item.cnt;
-    } else {
-      dataObj[item.alarmType] = item.cnt;
-    }
-  });
-  newData = warningMonitorPieDataFun(param.type, dataObj);
-
-  warningMonitorPieData.value = newData;
-};
-//实时状态情况
-const realtimeStateTabs = ref(realtimeStateTabsFun());
-const realtimeStateData = ref(realtimeStateDataFun());
-// 实时告警趋势情况
-const realtimeTrend = ref(realtimeTrendFun());
-const getAlarmLevelAndTypeByTIme = async () => {
-  let { data } = await alarmLevelAndTypeByTIme({ dayType: dayTypeAlarm.value });
-  // console.log('data', data);
-  // console.log('dayTypeAlarm', dayTypeAlarm.value);
-  realtimeTrend.value = realtimeTrendFun(data || [], dayTypeAlarm.value);
-  // realtimeTrendOption.series = realtimeTrend.value;
-  // console.log(realtimeTrend);
-};
 //底部button
 const bottomTabsData = ref(bottomTabDataFun());
-const handleChangeTab = async (data, type) => {
-  console.log('走这里了嘛', data, type);
-  if (type === 'total-warning') {
-    columnKeyList.value = columnKeyListFun(data.code);
-    scrollTableData.value = [];
-    //累计告警数据信息
-    scrollTableData.value = (await getSafetySupervisionAccumulated(data.code))?.dataList || [];
-  } else if (type === 'warning-monitor') {
-    // 今日设备告警监控
-    // warningMonitorPieData.value = warningMonitorPieDataFun(data.code);
-    if (data.code == 1 && bottomCode.value == 1) {
-      mapLayerRef.value.buttomTabChange(bottomCode.value);
-    }
-    totalCurCode.value = data.code;
-    let obj = {
-      type: data.code,
-      // startTime:'2023-04-03 14:22:34',
-      // endTime: '2023-04-06 14:22:34'
-      startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-    };
-    getAlarmLevelAndTypeByTime(obj);
-  } else if (type === 'realtime-state') {
-    // 实时状态情况
-    if (data.code == 3 && bottomCode.value == 2) {
-      mapLayerRef.value.buttomTabChange(bottomCode.value);
-    }
-    nowStatus.value = data.code;
-    getOnlineStatusData(data.code);
+const handleTotalCurCodeChange = (code) => {
+  totalCurCode.value = code;
+  if (code === 1 && bottomCode.value === 1) {
+    mapLayerRef.value.buttomTabChange(bottomCode.value);
+  }
+  if (code === 3 && bottomCode.value === 2) {
+    mapLayerRef.value.buttomTabChange(bottomCode.value);
   }
 };
-
-const getOnlineStatusData = async (type) => {
-  const res = await getOnlineStatus(type);
-  // console.log(res, '------online');
-  realtimeState.value = res.data;
-  realtimeStateData.value = realtimeStateDataFun(type, res.data);
-};
-
-const handleClick = () => {
-  // pageObj.currentPage = 1;
-  dialogTableVisible.value = true;
-};
-const handleCloseWarnInfoDialog = () => {
-  dialogTableVisible.value = false;
-};
-
-// 获取左一警告信息
-const loadGetSafetySupervisionAccumulated = async () => {
-  const data = await getSafetySupervisionAccumulated(
-    messageWarningType.value,
-    pageObj.currentPage,
-    pageObj.pageSize,
-    inputWarnLeft.value,
-    sort.value,
-    sortType.value
-  );
-  messageTableData.value = data?.dataList || [];
-  pageObj.total = data?.totalData || 0;
-};
-// table数据
-const handPageChange = async (value) => {
-  pageObj.currentPage = value;
-  loadGetSafetySupervisionAccumulated();
-};
-// 右三日周年点击
-const handleYearBtn = (value) => {
-  console.log(value);
-  dayTypeAlarm.value = value.value;
-  getAlarmLevelAndTypeByTIme();
-};
-// 左二行政区
-const handleWarmYearBtn = (value) => {
-  console.log(value);
-  dayTypeWarn.value = value.value;
-  console.log('dataType.value', dayTypeWarn.value);
-  getDistrictAlarmStatics();
-};
-
-// 告警选中
-const handleChoose = (item) => {
-  console.log('告警选中', item);
-  if (bottomCode.value !== 1) {
-    return;
-  }
-  // bottomCode.value = 1;
-  // 今日设备告警交互，实时状态变false
-  realtimeStateData.value.forEach((i) => {
-    i.isChoose = false;
-  });
-  //todo
+const handleChargeTypeChange = (item) => {
   mapLayerRef.value.alarmTypeChange(item);
-};
-// 实时状态球选中
-const handleBall = (item) => {
-  if (bottomCode.value !== 2) {
-    return;
-  }
-  if (nowStatus.value !== 3) return;
-  item.isChoose = !item.isChoose;
-  // bottomCode.value = 2;
-  // 实时状态情况交互，今日设备告警监控变false
-  warningMonitorPieData.value.forEach((i) => {
-    i.isChoose = false;
-  });
-  console.log('ball', item);
-  // todo
-  mapLayerRef.value.alarmTypeChange(item);
-};
-
-// 左一详情搜索
-const handleSearchWarnLeft = () => {
-  loadGetSafetySupervisionAccumulated();
-};
-// 左一排序
-const handleSort = (item) => {
-  console.log('item', item);
-  if (item.order) {
-    // 存在排序
-    const sortTypeNum = {
-      ascending: 1,
-      descending: 2
-    };
-    const sortIndex = {
-      cnt: 0,
-      unAffirmCnt: 1,
-      affirmCnt: 2,
-      recCnt: 3
-    };
-    sort.value = sortIndex[item.prop];
-    sortType.value = sortTypeNum[item.order];
-  } else {
-    //不存在排序
-    sort.value = null;
-    sortType.value = null;
-  }
-
-  loadGetSafetySupervisionAccumulated();
 };
 onMounted(async () => {
-  let obj = {
-    type: 1,
-    // startTime:'2023-04-03 14:22:34',
-    // endTime: '2023-04-06 14:22:34'
-    startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-    // endTime: dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-    endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
-  };
   getAlarmUpStaticsData();
-  getDistrictAlarmStatics();
-  getAlarmLevelAndTypeByTime(obj);
-  getAlarmLevelAndTypeByTIme();
-  getOnlineStatusData(3);
-  scrollTableData.value = (await getSafetySupervisionAccumulated(1))?.dataList || [];
 });
 </script>
 
 <style lang="less" scoped>
-.total-warning-num {
-  .tabs {
-    margin-top: 16px;
-    position: relative;
-    .button-base {
-      position: absolute;
-      bottom: 7px;
-      right: 0;
-    }
-  }
-  .el-table {
-    margin-top: 12px;
-  }
-}
-.area-warning-num {
-  margin-top: 20px;
-  .area-rank-wrap {
-    margin-top: 16px;
-  }
-}
-.warning-monitor {
-  .tabs {
-    margin-top: 16px;
-  }
-  .pie-wrap {
-    margin-top: 18px;
-    :deep(.legend-wrap) {
-      .legend {
-        width: 230px;
-      }
-      .right-info {
-        width: 100px;
-      }
-    }
-  }
-}
-.realtime-state {
-  margin-top: 16px;
-  .tabs {
-    margin-top: 16px;
-  }
-  :deep(.num-wrap) {
-    height: 157px;
-    margin-top: 25px;
-    display: flex;
-    justify-content: space-between;
-  }
-  :deep(.num-wrap > .ball-active) {
-    img {
-      transform: scale(1.2);
-    }
-  }
-  :deep(.num-wrap > .cursor) {
-    cursor: pointer;
-  }
-}
-.realtime-trend {
-  margin-top: 23px;
-  .ec-wrap {
-    margin-top: 14px;
-  }
-}
 .filter {
   cursor: pointer;
 }

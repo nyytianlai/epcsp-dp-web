@@ -1,0 +1,110 @@
+<template>
+  <panel type="right">
+    <div class="today-runing">
+      <title-column title="今日储能站运行信息" icon="energy-station" />
+      <charging-realtime-power :data="chargingRealPower" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in runingData" :key="index">
+          <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
+        </template>
+      </div>
+      <tabs :data="todayLine" />
+      <line-time-chart-both
+        :data="lineStateData"
+        :colors="lineStateColor"
+        unit="MW"
+        mode="noneArea"
+        :chartStyle="{ height: '2.3rem' }"
+        :customOption="{ grid: { top: getRemvalue(48), right: getRemvalue(32) } }"
+      />
+    </div>
+    <div class="social-benefit">
+      <title-column title="社会效益信息" icon="energy-station" />
+      <div class="num-wrap">
+        <template v-for="(item, index) in socialBenefit" :key="index">
+          <num-card :data="item" />
+        </template>
+      </div>
+    </div>
+  </panel>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { getRemvalue } from '@/utils/index';
+import { runingFun, todayLine, linePowerDataFun, socialBenefitFun } from '../../config.js';
+import ChargingRealtimePower from '../charging-realtime-power.vue';
+const lineStateColor = ['green', '#FF7723'];
+// 今日最大顶峰能力
+const chargingRealPower = ref(69.02);
+// 储能电站运行信息
+const runingData = ref(runingFun());
+// 折线图
+const lineStateData = ref(linePowerDataFun());
+// 社会效益信息
+const socialBenefit = ref(socialBenefitFun());
+</script>
+
+<style lang="less" scoped>
+.today-runing {
+  :deep(.unit-box) {
+    margin-top: 4px;
+  }
+  .charging-realtime-power {
+    margin-top: 16px;
+  }
+
+  .num-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .num-card {
+      margin-bottom: 20px;
+
+      &:nth-last-of-type(1),
+      &:nth-last-of-type(2) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  :deep(.tabs) {
+    margin-top: 22px;
+  }
+
+  :deep(.ec-wrap) {
+    margin-top: 18px;
+  }
+}
+
+.social-benefit {
+  margin-top: 29px;
+
+  .num-wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 160px;
+    padding: 0 9px;
+    margin-top: 16px;
+    background: linear-gradient(
+      258.38deg,
+      rgba(37, 177, 255, 0.1) 2.46%,
+      rgba(37, 177, 255, 0) 100%
+    );
+    mix-blend-mode: normal;
+    box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+    filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+    border-radius: 2px;
+    :deep(.unit) {
+      text-align: center;
+      color: #64def6;
+      font-size: 12px;
+      display: block;
+    }
+  }
+}
+</style>

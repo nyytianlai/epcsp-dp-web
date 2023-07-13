@@ -1,6 +1,6 @@
 <template>
   <div class="power-exchange-station">
-    <map-layer :ref="(el) => (mapLayerRef = el)" v-if="aircityObj"></map-layer>
+    <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
     <LeftPanel />
     <RightPanel />
   </div>
@@ -14,5 +14,5 @@ interface Aircity {
   value: object;
 }
 const aircityObj: Aircity = inject('aircityObj');
-let mapLayerRef = ref(null);
+const mapLayerRef = ref(null);
 </script>

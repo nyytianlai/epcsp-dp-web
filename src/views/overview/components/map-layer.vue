@@ -21,13 +21,12 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useMapStore } from '@/stores/map';
-import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
+// import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
-import { Return } from '@icon-park/vue-next';
 
 const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
