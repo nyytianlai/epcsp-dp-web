@@ -896,7 +896,10 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   // console.log('carbon', carbon);
   let list = deepClone(carbon);
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
-  list.splice(index + 1);
+  if (index !== -1) {
+    list.splice(index + 1);
+  }
+
   return [
     {
       data: list.map((item) => [
@@ -1561,7 +1564,9 @@ export const lineElectricDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   let list = deepClone(Electric);
   const index = Electric.findIndex((i) => i.date.trim() == yearMonthDay);
-  list.splice(index + 1);
+  if (index !== -1) {
+    list.splice(index + 1);
+  }
 
   return [
     {
