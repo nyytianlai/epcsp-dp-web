@@ -81,9 +81,9 @@ export const getImageUrl = (dir: string) => {
 };
 export const getHtmlUrl = () => {
   if (import.meta.env.MODE === 'base') {
-    return 'http://10.10.50.136:5500/public';
+    // return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
-    // return 'http://127.0.0.1:5500/public';
+    return 'http://127.0.0.1:5500/public';
     // return 'http://10.10.50.212:5500/public'
   } else {
     return location.origin;
@@ -225,7 +225,7 @@ export const toSingleStation = async (
     await __g.marker.add([o], null);
   }
   await bus.emit('searchEnterStation', value);
-  console.log('3333333333')
+  console.log('3333333333');
 };
 
 export const showStationDetailPanel = (storeVisible, item) => {
@@ -244,9 +244,14 @@ export const showStationDetailPanel = (storeVisible, item) => {
 };
 
 //外层站点高亮卡片定位
-export const focusToHihtLightPop=async (longitude, latitude,__g)=>{
+export const focusToHihtLightPop = async (longitude, latitude, __g) => {
   let pcs = GCJ02_2_4547(longitude, latitude);
-  let offsetx=100;
-  let offsety=100
-  await __g.camera.lookAtBBox([pcs[0]-offsetx,pcs[1],100,pcs[0]+offsetx,pcs[1]+offsety,100], -44.9, -89.44, 1)
-}
+  let offsetx = 100;
+  let offsety = 100;
+  await __g.camera.lookAtBBox(
+    [pcs[0] - offsetx, pcs[1], 100, pcs[0] + offsetx, pcs[1] + offsety, 100],
+    -44.9,
+    -89.44,
+    1
+  );
+};
