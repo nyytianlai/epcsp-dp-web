@@ -35,7 +35,7 @@ export const getQuStationWithAlarm = (areaCode) => {
   });
 };
 export const getAlarmUpStatics = () => {
-  return request.post({
+  return request.get({
     url: '/safetySupervision/getAlarmUpStatics'
   });
 };

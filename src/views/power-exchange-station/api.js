@@ -4,7 +4,7 @@ import { mapRequestCancelId } from '@/global/config/map';
 //充换电柜区柱状图
 export const getDistrictBar = () => {
   request.cancel(mapRequestCancelId);
-  return request.post({
+  return request.get({
     url: '/powerStation/stationCountAreaMap',
     cancelId: mapRequestCancelId
   });

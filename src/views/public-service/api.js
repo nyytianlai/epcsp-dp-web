@@ -45,7 +45,7 @@ export const monthRate = () => {
 };
 // 大屏-公众服务-市民反馈，调取/personFeedback/query 中台默认接口
 export const personFeedback = () => {
-  return request.post({
+  return request.get({
     url: '/massService/citizenFeedback'
   });
 };
@@ -88,5 +88,3 @@ export const feedbackDetail = (data) => {
     data
   });
 };
-
-

@@ -4,7 +4,7 @@ import { mapRequestCancelId } from '@/global/config/map';
 //充换电柜区柱状图
 export const getDistrictBar = () => {
   request.cancel(mapRequestCancelId);
-  return request.post({
+  return request.get({
     url: '/chargingCabinet/cabinetCountAreaMap',
     cancelId: mapRequestCancelId
   });
@@ -29,13 +29,13 @@ export const getStreetPoint = (data) => {
 };
 //充换电柜总量统计
 export const totalStatistics = () => {
-  return request.post({
-    url: '/chargingCabinet/totalStatistics',
+  return request.get({
+    url: '/chargingCabinet/totalStatistics'
   });
 };
 //
 export const typeAndNumber = () => {
-  return request.post({
-    url: '/chargingCabinet/typeAndNumber',
+  return request.get({
+    url: '/chargingCabinet/typeAndNumber'
   });
 };
