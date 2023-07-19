@@ -9,15 +9,15 @@
 import request from '@sutpc/axios';
 import { mapRequestCancelId } from '@/global/config/map';
 
-//总览区级柱状图
+//充电站区级柱状图
 export const getRectBar = () => {
   request.cancel(mapRequestCancelId);
-  return request.post({
+  return request.get({
     url: '/dp/api/v1/overview/selectChargeEquipmentByArea',
     cancelId: mapRequestCancelId
   });
 };
-//总览街道级柱状图
+//充电站街道级柱状图
 export const getRectBarByStreet = (areaCode) => {
   request.cancel(mapRequestCancelId);
   return request.post({

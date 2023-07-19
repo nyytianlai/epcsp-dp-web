@@ -4,7 +4,7 @@ import { mapRequestCancelId } from '@/global/config/map';
 //储能站区柱状图
 export const getDistrictBar = () => {
   request.cancel(mapRequestCancelId);
-  return request.post({
+  return request.get({
     url: '/energyStorage/areaMap',
     cancelId: mapRequestCancelId
   });
@@ -29,7 +29,7 @@ export const getStreetPoint = (data) => {
 };
 //站点容量排名
 export const capacityRanking = () => {
-  return request.post({
-    url: '/energyStorage/capacityRanking',
+  return request.get({
+    url: '/energyStorage/capacityRanking'
   });
 };
