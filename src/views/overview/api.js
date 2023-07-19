@@ -4,20 +4,20 @@ import { mapRequestCancelId } from '@/global/config/map';
 // 数字孪生站点
 export const selectHrStationInfoForOverview = () => {
   return request.get({
-    url: '/dp/api/v1/equipmentManage/selectHrStationInfoForOverview',
+    url: '/dp/api/v1/equipmentManage/selectHrStationInfoForOverview'
   });
 };
 // 新能源汽车充电站
 export const chargingStation = () => {
-  return request.post({
-    url: '/overviews/all/chargingStation',
+  return request.get({
+    url: '/overviews/all/chargingStation'
   });
 };
 
 //总览区柱状图
 export const getDistrictBar = () => {
   request.cancel(mapRequestCancelId);
-  return request.post({
+  return request.get({
     url: '/overviews/all/areaMap',
     cancelId: mapRequestCancelId
   });
@@ -42,13 +42,13 @@ export const getStreetPoint = (data) => {
 };
 //电动自行车
 export const totalStatistics = () => {
-  return request.post({
-    url: '/chargingCabinet/totalStatistics',
+  return request.get({
+    url: '/chargingCabinet/totalStatistics'
   });
 };
 // 历年数据
 export const yearChargingStation = () => {
-  return request.post({
-    url: '/overviews/all/yearChargingStation',
+  return request.get({
+    url: '/overviews/all/yearChargingStation'
   });
 };
