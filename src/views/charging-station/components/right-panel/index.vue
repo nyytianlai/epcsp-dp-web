@@ -163,6 +163,7 @@ onMounted(() => {
   getAlarmInfo(['1']);
   getTimePowerGraph();
   getAlarmCount();
+  getDayEquInfo(realtimeCode.value);
   timer = setInterval(() => {
     getDayEquInfo(realtimeCode.value);
     // getDayPower();
