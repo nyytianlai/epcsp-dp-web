@@ -49,7 +49,7 @@
         <div
           class="ue-item"
           v-for="item in state.digitalTwinSites"
-          :key="item.id"
+          :key="item.stationId"
           @click="handlePlayUeVideo(item)"
         >
           <div class="card-type">{{ item.stationType }}</div>
