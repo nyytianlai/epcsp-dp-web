@@ -97,7 +97,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/hr-station-pic/, '')
         },
-        // 宣传视频
+        // 民乐站摄像头视频
         ['/station-camera']: {
           target: 'http://10.226.0.231:9000/station-camera/',
           changeOrigin: true,

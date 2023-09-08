@@ -68,7 +68,7 @@ export const chargingTypeDataFun = (data = []) => {
       value: data?.[1]?.intAmount,
       name: data?.[1]?.type,
       unit: '个'
-    },
+    }
   ];
 };
 export const todayFacilities = [
@@ -81,8 +81,8 @@ export const todayFacilities = [
     label: '换电柜'
   }
 ];
-export const todayFacilitiesCardFun = (data = {},code=1) => {
-  if(code === 1){
+export const todayFacilitiesCardFun = (data = {}, code = 1) => {
+  if (code === 1) {
     return [
       {
         img: ztsyl,
@@ -99,7 +99,7 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
         classStyleType: 'leftRightStyleYellow'
       }
     ];
-  }else if(code===2){
+  } else if (code === 2) {
     return [
       {
         img: ztsyl,
@@ -117,7 +117,6 @@ export const todayFacilitiesCardFun = (data = {},code=1) => {
       }
     ];
   }
-
 };
 export const powerTodayCardFun = (data = {}) => {
   return [
@@ -247,7 +246,7 @@ export const linePowerDataFun = (data = []) => {
     {
       time: '21',
       useRate: 2681,
-      troubleRate:2815
+      troubleRate: 2815
     },
     {
       time: '22',
@@ -261,10 +260,10 @@ export const linePowerDataFun = (data = []) => {
     }
   ];
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  const nowTime = dayjs().format('HH')
-  const index = data.findIndex(i=>i.time === nowTime)
-  let dataC = deepClone(data)
-  dataC.splice(index+1)
+  const nowTime = dayjs().format('HH');
+  const index = data.findIndex((i) => i.time === nowTime);
+  let dataC = deepClone(data);
+  dataC.splice(index + 1);
   return [
     {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),

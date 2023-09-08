@@ -96,7 +96,7 @@ export const dayPower = () => {
 };
 
 // 今日告警统计数据
-export const alarmCount = (params) => {
+export const alarmCount = () => {
   return request.post({
     url: '/dp/api/v1/overview/alarmCount',
     data: {

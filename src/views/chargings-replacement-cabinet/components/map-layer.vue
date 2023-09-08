@@ -23,7 +23,7 @@ import request from '@sutpc/axios';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
-import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
 import { getStrLength } from '@/utils/index';
 
@@ -45,7 +45,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         store.changeCurrentPositionBak(currentPosition.value);
         store.changeCurrentPosition('');
       }
-      currtentStation.stationId ? await __g.marker.show(currtentStation.stationId):'';
+      currtentStation.stationId ? await __g.marker.show(currtentStation.stationId) : '';
       __g.marker.delete('stationOut-hight');
       currtentStation = JSON.parse(e.UserData);
       currtentStation['stationId'] = e.Id;
@@ -122,9 +122,9 @@ const addHighLightStation = async (item) => {
     imageSize: [70, 209], //图片的尺寸
     range: [1, 150000], //可视范围
     imagePath: getImageByCloud('hlSta400'),
-    popupURL: `${getHtmlUrl()}/static/html/chargingsCabinetStationPop.html?value=${
-      JSON.stringify(item)
-    }`, //弹窗HTML链接
+    popupURL: `${getHtmlUrl()}/static/html/chargingsCabinetStationPop.html?value=${JSON.stringify(
+      item
+    )}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     popupSize: [400, 245.6], //弹窗大小
     popupOffset: [-224, -223], //弹窗偏移
@@ -135,7 +135,7 @@ const addHighLightStation = async (item) => {
   };
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOut-hight');
-  await focusToHihtLightPop(item.longitude, item.latitude,__g)
+  await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 
 onMounted(async () => {
