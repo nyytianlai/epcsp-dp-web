@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-17 15:04:38
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-12 15:24:44
- * @FilePath: \epcsp-dp-web\src\views\station-detail\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" />
   <panel v-if="isShowBoth">
@@ -553,7 +545,6 @@ const focusToPile = async (eid, status, item = {}) => {
       };
     }
     warnVisible.value = true;
-    console.log(layerId, store.detailParams.equipmentId);
     handleClickFocus(__g, layerId, eid, status);
     // handleClickFocus(__g, layerId, store.detailParams.equipmentId, 255);
   }
