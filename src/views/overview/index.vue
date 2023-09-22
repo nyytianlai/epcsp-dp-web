@@ -48,7 +48,7 @@ onMounted(async () => {
   background-size: 100%;
   position: absolute;
   top: 148px;
-  right: 452px;
+  right: 22%;
   z-index: 999;
 }
 </style>

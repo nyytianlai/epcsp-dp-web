@@ -7,12 +7,12 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <div class="subject-layout">
-    <header-area />
+  <div class="subject-layout" :class="{'layout-no-header' : !showHeader}">
+    <header-area v-if="showHeader"/>
     <div class="my-tab-wrap">
       <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
-    <time-weather />
+    <time-weather  v-if="showHeader"/>
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
@@ -69,6 +69,11 @@ import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
 import { getTreeLayerIdByName } from '@/global/config/map';
+
+import { getHashParam, getUrlParam } from '@sutpc/zebra';
+
+const showHeader = !(getHashParam('h') == '0' || getUrlParam('h') == '0');
+
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
@@ -156,6 +161,13 @@ provide('aircityObj', aircityObj);
   width: 100%;
   height: 100%;
   background-color: #000317;
+  --header-height: 40px;
+  &.layout-no-header {
+    --header-height: 0px;
+    .backBox {
+      top: 30px;
+    }
+  }
 }
 
 .subject-container {
@@ -187,9 +199,9 @@ provide('aircityObj', aircityObj);
 
 .my-tab-wrap {
   position: absolute;
-  top: 68px;
+  top: calc(var(--header-height));
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(30px);
   z-index: 100;
   .date-picker {
     position: absolute;
@@ -285,7 +297,8 @@ provide('aircityObj', aircityObj);
     height: 41px;
     background-image: url('./images/bottom-tabs-bg.png');
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: auto;
+    background-position: center;
   }
   :deep(.bottom-tabs) {
     margin: auto;

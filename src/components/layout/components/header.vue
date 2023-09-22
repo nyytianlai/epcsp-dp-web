@@ -12,13 +12,13 @@
     <img
       src="../images//header-line-move.png"
       class="header_line_move"
-      :style="{ top: `${step * -0.91}rem` }"
+      :style="headerMoveStyle"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 const step = ref(0);
 const timeId = ref();
 const moveImg = () => {
@@ -36,6 +36,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearInterval(timeId.value);
 });
+
+const headerMoveStyle = computed(() => {
+  return { transform: `translateY(${step.value * -0.91}rem)` }
+})
 </script>
 
 <style lang="less" scoped>
@@ -58,14 +62,16 @@ onBeforeUnmount(() => {
 }
 .subject-header {
   height: 80px;
-  width: 100%;
+  width: 1920px;
   position: absolute;
-  left: 0;
+  left: 50%;
   top: 0;
+  transform: translateX(-50%);
   z-index: 100;
   background-image: url(../images/header.png);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: auto 100%;
+  background-position: center;
   overflow: hidden;
   .header_line_move {
     position: absolute;

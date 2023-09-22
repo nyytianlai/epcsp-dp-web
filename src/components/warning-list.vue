@@ -50,7 +50,7 @@ interface Props {
   height?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  height: '1.72rem'
+  height: ''
 });
 const emit = defineEmits(['handleClick']);
 const { data } = toRefs(props);
@@ -122,15 +122,19 @@ const handleClick = (item) => {
     }
 
     .message {
-      max-width: 140px;
-      min-width: 140px;
+      flex: 1;
+      width: 0;
+      // max-width: 140px;
+      // min-width: 140px;
       margin-right: 22px;
       color: #fff;
     }
 
     .area {
-      max-width: 150px;
-      min-width: 120px;
+      flex: 1;
+      width: 0;
+      // max-width: 150px;
+      // min-width: 120px;
       color: #fff;
     }
   }

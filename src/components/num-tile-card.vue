@@ -42,7 +42,7 @@ const numStlyle = computed(() => {
 </script>
 <style lang="less" scoped>
 .num-tile-card {
-  width: 400px;
+  width: 100%;
   height: fit-content;
   background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
   mix-blend-mode: normal;
