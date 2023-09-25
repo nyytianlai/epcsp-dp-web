@@ -20,6 +20,9 @@ import themeLib from '@sutpc/theme-lib';
 import { createPinia } from 'pinia'
 // import { setConfig } from '@sutpc/config';
 
+import { setToken } from '@/utils/auth';
+import { getUrlParam, getHashParam } from '@sutpc/zebra';
+
 import '@purge-icons/generated';
 import 'virtual:svg-icons-register';
 import '@/router/permission'
@@ -32,6 +35,13 @@ dayjs.locale(zhcn);
 // 需要给这个dayjs也设置中文，否则可能出现日期格式化显示英文的情况
 elDayjs.locale(zhcn);
 const pinia = createPinia()
+
+const urlToken = getUrlParam('token') || getHashParam('token');
+
+if (urlToken) {
+  setToken(urlToken);
+}
+
 const app = createApp(App);
 
 app.use(ElementPlus, {
@@ -48,12 +58,3 @@ themeLib.changeTheme({
 }).then(() => {
   app.mount('#app');
 });
-
-// 通过setConfig修改图表的文字缩放倍数
-// setConfig({
-//   echarts: {
-//     fontSizeScale: 2
-//   }
-// });
-// 通过设置根节点文字大小，修改整体的rem尺寸
-// document.documentElement.style.fontSize = '24px';
