@@ -9,6 +9,10 @@
 <template>
   <div class="subject-layout" :class="{'layout-no-header' : !showHeader}">
     <header-area v-if="showHeader"/>
+    <!-- 在h=0不显示头部，飞渡地图头部中间会显示aircity的logo，用这个标记给他遮挡住 -->
+    <div class="layout-header-mask">
+      
+    </div>
     <div class="my-tab-wrap">
       <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
@@ -72,6 +76,7 @@ import { getTreeLayerIdByName } from '@/global/config/map';
 
 import { getHashParam, getUrlParam } from '@sutpc/zebra';
 
+// 当url带参数h=0时，不显示头部
 const showHeader = !(getHashParam('h') == '0' || getUrlParam('h') == '0');
 
 const mapStore = useMapStore();
@@ -168,6 +173,19 @@ provide('aircityObj', aircityObj);
       top: 30px;
     }
   }
+}
+
+.layout-header-mask {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  // height: 80px;
+  // background: #02080b;
+  z-index: 18;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .subject-container {
