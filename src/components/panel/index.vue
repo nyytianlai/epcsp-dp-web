@@ -81,7 +81,7 @@ const panelShow = computed(() => {
   position: absolute;
   top: 126px;
   left: 30px;
-  width: 20%;
+  width: 21%;
   height: calc(100% - 166px);
   z-index: 20;
   .circle-bg {
