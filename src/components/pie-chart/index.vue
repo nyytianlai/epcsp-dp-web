@@ -182,8 +182,11 @@ const handleCanChoose = (item) => {
 
 <style lang="less" scoped>
 .pie-wrap {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .pie-chart-wrap {
   width: 188px;

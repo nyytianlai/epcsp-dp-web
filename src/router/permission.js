@@ -13,7 +13,7 @@ import { getToken } from '@/utils/auth';
 const whiteList = ['/login'];
 router.beforeEach(async (to, from, next) => {
   const hasToken = getToken();
-  const hasProfile = sessionStorage.getItem('profile');
+  const hasProfile = sessionStorage.getItem('token');
   if (hasToken && hasProfile) {
     const storeVisible = useVisibleComponentStore();
     const store = useMapStore();

@@ -67,6 +67,7 @@ watch(() => data.value, (newVal, oldVal) => {
 <style lang="less" scoped>
 .charging-realtime-power {
   display: flex;
+  justify-content: center;
   height: 100px;
   background: linear-gradient(255.75deg,
       rgba(37, 177, 255, 0.02) 23.33%,

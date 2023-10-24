@@ -1,63 +1,68 @@
 <template>
   <panel>
-    <div class="left-container">
-      <div class="box line-box">
-        <div class="box-title">新能源汽车充电站</div>
-        <div class="num-wrap">
-          <template v-for="(item, index) in state.chargingStations" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-          </template>
+    <div class="left-wrap">
+      <div class="left-title-container">
+        <div class="left-title__panel line-box">
+          <div class="box-title">新能源汽车充电站</div>
+          <div class="num-wrap">
+            <template v-for="(item, index) in state.chargingStations" :key="index">
+              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            </template>
+          </div>
+        </div>
+        <div class="left-title__panel line-box">
+          <div class="box-title">储能站</div>
+          <div class="num-wrap">
+            <template v-for="(item, index) in state.energyStations" :key="index">
+              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            </template>
+          </div>
+        </div>
+        <div class="left-title__panel line-box">
+          <div class="box-title">光伏站</div>
+          <div class="num-wrap">
+            <template v-for="(item, index) in state.photovoltaicStations" :key="index">
+              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            </template>
+          </div>
+        </div>
+        <div class="left-title__panel line-box">
+          <div class="box-title">电动自行车充换电柜</div>
+          <div class="num-wrap">
+            <template
+              v-for="(item, index) in state.chargingsReplacementCabinetStations"
+              :key="index"
+            >
+              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            </template>
+          </div>
+        </div>
+        <div class="left-title__panel line-box">
+          <div class="box-title">换电站</div>
+          <div class="num-wrap">
+            <template v-for="(item, index) in state.changeElectric" :key="index">
+              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+            </template>
+          </div>
         </div>
       </div>
-      <div class="box line-box">
-        <div class="box-title">储能站</div>
-        <div class="num-wrap">
-          <template v-for="(item, index) in state.energyStations" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-          </template>
-        </div>
-      </div>
-      <div class="box line-box">
-        <div class="box-title">光伏站</div>
-        <div class="num-wrap">
-          <template v-for="(item, index) in state.photovoltaicStations" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-          </template>
-        </div>
-      </div>
-      <div class="box line-box">
-        <div class="box-title">电动自行车充换电柜</div>
-        <div class="num-wrap">
-          <template v-for="(item, index) in state.chargingsReplacementCabinetStations" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-          </template>
-        </div>
-      </div>
-      <div class="box line-box">
-        <div class="box-title">换电站</div>
-        <div class="num-wrap">
-          <template v-for="(item, index) in state.changeElectric" :key="index">
-            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-          </template>
-        </div>
-      </div>
-    </div>
 
-    <div class="box">
-      <title-column title="数字孪生站点" />
-      <div class="ue-list">
-        <div
-          class="ue-item"
-          v-for="item in state.digitalTwinSites"
-          :key="item.id"
-          @click="handlePlayUeVideo(item)"
-        >
-          <div class="card-type">{{ item.stationType }}</div>
-          <img :src="item.stationPic" alt="" />
-          <div class="card-name" v-if="item.stationName.length < 9">{{ item.stationName }}</div>
-          <el-tooltip :content="item.stationName || ''" placement="top" v-else>
-            <div class="card-name">{{ item.stationName }}</div>
-          </el-tooltip>
+      <div class="box">
+        <title-column title="数字孪生站点" />
+        <div class="ue-list">
+          <div
+            class="ue-item"
+            v-for="item in state.digitalTwinSites"
+            :key="item.id"
+            @click="handlePlayUeVideo(item)"
+          >
+            <div class="card-type">{{ item.stationType }}</div>
+            <img :src="item.stationPic" alt="" />
+            <div class="card-name" v-if="item.stationName.length < 9">{{ item.stationName }}</div>
+            <el-tooltip :content="item.stationName || ''" placement="top" v-else>
+              <div class="card-name">{{ item.stationName }}</div>
+            </el-tooltip>
+          </div>
         </div>
       </div>
     </div>
@@ -128,7 +133,16 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
-.left-container {
+.left-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.left-title-container {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   margin-bottom: 12px;
   background: linear-gradient(
     90.1deg,
@@ -137,7 +151,7 @@ onMounted(async () => {
   );
   mix-blend-mode: normal;
   border-radius: 2px;
-  padding-top: 12px;
+  // padding-top: 12px;
 
   .box-title {
     font-weight: 500;
@@ -158,13 +172,25 @@ onMounted(async () => {
     }
   }
 }
+.left-title__panel {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+}
 .num-wrap {
+  height: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 16px;
+  align-items: center;
+  // margin-top: 16px;
 
   :deep(.num-card) {
-    width: 49%;
+    // width: 49%;
+    flex: 1;
+    width: 0;
+    display: flex;
+    justify-content: center;
     // padding: 24px 0 11px;
     // background: linear-gradient(
     //   258.38deg,

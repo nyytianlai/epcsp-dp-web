@@ -1,27 +1,29 @@
 <template>
   <panel type="right">
-    <div class="box">
-      <title-column title="储能站整体信息" icon="energy-station" />
-      <pie-chart
-        :data="powerExchangeStatusData"
-        totalName="储能站/个"
-        :colors="powerExchangeChartColor"
-      />
-    </div>
-    <div class="box power-msg-today">
-      <title-column title="今日换电次数信息" icon="chargings-replacement" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in powerTodayCard" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
+    <div class="right-box-wrap">
+      <div class="box box1">
+        <title-column title="储能站整体信息" icon="energy-station" />
+        <pie-chart
+          :data="powerExchangeStatusData"
+          totalName="储能站/个"
+          :colors="powerExchangeChartColor"
+        />
       </div>
-      <div class="ec-box">
-        <ec-resize :option="powerTodayCardOption" />
+      <div class="box power-msg-today">
+        <title-column title="今日换电次数信息" icon="chargings-replacement" />
+        <div class="num-wrap">
+          <template v-for="(item, index) in powerTodayCard" :key="index">
+            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+          </template>
+        </div>
+        <div class="ec-box">
+          <ec-resize :option="powerTodayCardOption" />
+        </div>
       </div>
-    </div>
-    <div class="box today-warning-message">
-      <title-column title="今日告警信息" icon="chargings-replacement" />
-      <warning-list height="2.9rem" :data="warningListData" @handleClick="handleWarnClick" />
+      <div class="box today-warning-message">
+        <title-column title="今日告警信息" icon="chargings-replacement" />
+        <warning-list height="2.9rem" :data="warningListData" @handleClick="handleWarnClick" />
+      </div>
     </div>
   </panel>
 </template>
@@ -54,6 +56,22 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+.right-box-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .box {
+    flex: 1;
+    height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .box1 {
+    flex: 0;
+    height: 220px;
+  }
+}
 .power-msg-today {
   .num-wrap {
     margin-top: 12px;

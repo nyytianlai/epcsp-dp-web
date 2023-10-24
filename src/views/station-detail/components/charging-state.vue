@@ -196,6 +196,7 @@ onBeforeUnmount(() => {
   .content {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
     margin-left: 10px;
   }
   li {

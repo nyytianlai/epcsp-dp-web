@@ -77,7 +77,7 @@ let quRef = ref(null);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
-
+__g.reset(4);
 const setLegendData = (code: 1 | 2) => {
   let legendListData = code == 1 ? legendListData1 : legendListData2;
   legendListData.forEach((item) => {

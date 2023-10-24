@@ -32,7 +32,7 @@ store.changeStationType([1, 2, 3, 4]);
 let updateHeatMapInterval = null; //定时更新热力图的定时器
 const aircityObj = inject('aircityObj');
 aircityObj.value?.acApi.reset();
-
+aircityObj.value?.acApi.reset(4);
 let quRef = ref(null);
 let rectBarRef = ref(null);
 const legendType = ref('normal');

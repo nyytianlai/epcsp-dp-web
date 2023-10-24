@@ -48,6 +48,13 @@ const panelShow = computed(() => {
   return store.panelShow;
 });
 </script>
+<style lang="less">
+.layout-no-header {
+  .page-num-wrap {
+    top: 30px !important;
+  }
+}
+</style>
 <style lang="less" scoped>
 .page-num-wrap {
   position: absolute;
