@@ -196,9 +196,8 @@ onBeforeUnmount(() => {
   .content {
     display: flex;
     flex-wrap: wrap;
-    // justify-content: space-around;
     justify-content: flex-start;
-    margin-left: 10px;
+    gap: 12px;
   }
   li {
     mix-blend-mode: normal;
@@ -206,18 +205,19 @@ onBeforeUnmount(() => {
     backdrop-filter: blur(1px);
     border-radius: 1px;
     width: 84px;
+    max-width: calc((100% - 36px) / 4);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin-right: 16px;
+    // margin-right: 16px;
     margin-bottom: 12px;
     text-align: center;
     cursor: pointer;
-    &:nth-child(4n) {
-      margin-right: 0;
-    }
+    // &:nth-child(4n) {
+    //   margin-right: 0;
+    // }
     .type {
       position: absolute;
       top: 5px;

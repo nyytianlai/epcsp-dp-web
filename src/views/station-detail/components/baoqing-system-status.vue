@@ -49,6 +49,8 @@ onBeforeUnmount(() => { });
   .content {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: flex-start;
+    gap: 12px;
   }
 
   li {
@@ -59,13 +61,14 @@ onBeforeUnmount(() => { });
     backdrop-filter: blur(1px);
     border-radius: 1px;
     width: 84px;
+    max-width: calc((100% - 36px) / 3);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin-right: 16px;
-    margin-bottom: 12px;
+    // margin-right: 16px;
+    // margin-bottom: 12px;
     cursor: pointer;
 
     &:nth-child(4n) {

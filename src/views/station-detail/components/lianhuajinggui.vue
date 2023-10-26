@@ -102,7 +102,9 @@ onMounted(() => {
 
   .content {
     display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
+    gap: 16px;
   }
 
   li {
@@ -111,18 +113,17 @@ onMounted(() => {
     backdrop-filter: blur(1px);
     border-radius: 1px;
     width: 84px;
+    max-width: calc((100% - 48px) / 4);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin-right: 16px;
-    margin-bottom: 12px;
     cursor: pointer;
 
-    &:nth-child(4n) {
-      margin-right: 0;
-    }
+    // &:nth-child(4n) {
+    //   margin-right: 0;
+    // }
 
     &.crystalline-silicon-offline {
       .state {
