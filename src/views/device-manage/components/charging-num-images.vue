@@ -60,9 +60,10 @@ const handleClick = (item) => {
   width: 100%;
   overflow: hidden auto;
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  // grid-template-columns: repeat(2, 1fr);
+  // grid-template-rows: repeat(2, 1fr);
   gap: 12px;
   .img-content {
     cursor: pointer;
@@ -71,6 +72,7 @@ const handleClick = (item) => {
     align-items: center;
     position: relative;
     align-items: center;
+    max-width: calc((100% - 12px) / 2);
     // width: 128px;
     
     // &:nth-child(2n) {

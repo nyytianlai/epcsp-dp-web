@@ -226,24 +226,23 @@ onMounted(async () => {
 
 .ue-list {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 10px;
   margin-top: 16px;
 }
 .ue-item {
+  margin: 0 auto;
   width: 128px;
   height: 104px;
-  margin-right: 8px;
-  margin-bottom: 12px;
+  max-width: calc((100% - 20px) / 3);
   position: relative;
   cursor: pointer;
 
-  &:nth-child(3n) {
-    margin-right: 0;
-  }
-
   img {
     width: 128px;
+    max-width: 100%;
     height: 80px;
   }
 
