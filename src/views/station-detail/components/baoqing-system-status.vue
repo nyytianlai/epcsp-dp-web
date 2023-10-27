@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap" >
-    <ul class="content" v-if="data && data.length">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
+    <ul class="content four-column-wrap" v-if="data && data.length">
+      <li class="four-column-item" v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code" @click="handleClick(item)">
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <!-- <span class="power text-ellipsis-1">{{ item.value }}</span> -->
         <span class="state">
@@ -46,34 +46,27 @@ onBeforeUnmount(() => { });
   height: 345px;
   margin-top: 12px;
 
-  .content {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: flex-start;
-    gap: 12px;
-  }
+  // .content {
+  //   display: grid;
+  //   grid-template-columns: 1fr 1fr 1fr 1fr;
+  // }
 
   li {
-
+    // margin: 0 auto;
     background: linear-gradient(255.75deg, rgba(37, 255, 150, 0.03) 23.33%, rgba(10, 75, 13, 0.3) 100%);
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 85, 113, 0.2);
     backdrop-filter: blur(1px);
     border-radius: 1px;
-    width: 84px;
-    max-width: calc((100% - 36px) / 3);
+    // width: 50%;
+    // min-width: 84px;
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    // margin-right: 16px;
-    // margin-bottom: 12px;
+    // margin-bottom: 16px;
     cursor: pointer;
-
-    &:nth-child(4n) {
-      margin-right: 0;
-    }
 
     &.baoqing-online {
       .state {

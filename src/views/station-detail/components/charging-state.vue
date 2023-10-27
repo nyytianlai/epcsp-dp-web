@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap">
-    <ul class="content" v-if="data && data.length">
-      <li
+    <ul class="content four-column-wrap" v-if="data && data.length">
+      <li class="four-column-item"
         v-for="(item, index) in data"
         :key="index"
         :class="[stateFormate(item.status)?.code, warnStateFormate(item.isAlarm)?.code]"
@@ -193,26 +193,27 @@ onBeforeUnmount(() => {
   overflow: hidden auto;
   height: 345px;
   margin-top: 12px;
-  .content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 12px;
-  }
+  // .content {
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: flex-start;
+  //   // gap: 12px;
+  // }
   li {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 85, 113, 0.2);
     backdrop-filter: blur(1px);
     border-radius: 1px;
-    width: 84px;
-    max-width: calc((100% - 36px) / 4);
+    // width: 21%;
+    // max-width: calc((100% - 36px) / 4);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     // margin-right: 16px;
-    margin-bottom: 12px;
+    // margin-bottom: 12px;
+    // margin-right: 5%;
     text-align: center;
     cursor: pointer;
     // &:nth-child(4n) {
