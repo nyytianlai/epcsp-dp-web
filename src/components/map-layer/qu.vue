@@ -365,11 +365,17 @@ const addJdStation = async (jdCode: string) => {
   });
   let pointArr = [];
   console.log('station接口', res);
-
+  const imgName = {
+    1: 'station50',
+    2: 'station50',
+    3: 'stationpoint-ccz',
+    4: 'stationpoint-v2g',
+    5: 'stationpoint-ccz-oubiao'
+  };
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
     item['xoffset'] = xoffset;
-    item['stationType'] = 50;
+    item['stationType'] = imgName[item.stationLogo] || 'station50';
     let o1 = returnStationPointConfig(item);
     // allStationID.push('station-' + item.stationId);
     if (item.isHr == 0) {
