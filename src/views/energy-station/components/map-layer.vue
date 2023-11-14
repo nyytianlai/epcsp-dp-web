@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-18 20:40:18
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:45:18
- * @FilePath: \epcsp-dp-web\src\views\overall\components\map-layer.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <qu ref="quRef" :module="200" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
   <rect-bar-out ref="rectBarOutRef"></rect-bar-out>
@@ -24,7 +16,7 @@ import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
-import { getImageByCloud, getHtmlUrl,focusToHihtLightPop } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
 
 const store = useMapStore();
@@ -46,7 +38,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         store.changeCurrentPositionBak(currentPosition.value);
         store.changeCurrentPosition('');
       }
-      currtentStation.stationId ? await __g.marker.show(currtentStation.stationId):'';
+      currtentStation.stationId ? await __g.marker.show(currtentStation.stationId) : '';
       __g.marker.delete('stationOut-hight');
       currtentStation = JSON.parse(e.UserData);
       currtentStation['stationId'] = e.Id;
@@ -121,7 +113,7 @@ const addOutStation = async (module: number, jdcode: string) => {
   await __g.marker.add(pointArr, null);
 };
 
-const addHighLightStation = async (item) => {  
+const addHighLightStation = async (item) => {
   let o1 = {
     id: 'stationOut-hight',
     groupId: 'jdStation',
@@ -132,21 +124,19 @@ const addHighLightStation = async (item) => {
     imageSize: [70, 209], //图片的尺寸
     range: [1, 150000], //可视范围
     imagePath: getImageByCloud('hlSta200'),
-    popupURL: `${getHtmlUrl()}/static/html/energyStationPop.html?value=${
-      JSON.stringify(item)
-    }`, //弹窗HTML链接
+    popupURL: `${getHtmlUrl()}/static/html/energyStationPop.html?value=${JSON.stringify(item)}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     popupSize: [400, 245.6], //弹窗大小
     popupOffset: [-224, -223], //弹窗偏移 左右 上下
     autoHidePopupWindow: false,
-    fixedSize:true,
+    fixedSize: true,
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     displayMode: 2,
     autoHeight: true
   };
   await __g.marker.add(o1, null);
   __g.marker.showPopupWindow('stationOut-hight');
-  await focusToHihtLightPop(item.longitude, item.latitude,__g)
+  await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 
 onMounted(async () => {

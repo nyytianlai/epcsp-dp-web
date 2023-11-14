@@ -1,11 +1,3 @@
-/*
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-05-09 19:39:47
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:56:20
- * @FilePath: \epcsp-dp-web\src\components\map-layer\api.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import request from '@sutpc/axios';
 import { mapRequestCancelId } from '@/global/config/map';
 

@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-18 20:40:18
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:55:16
- * @FilePath: \epcsp-dp-web\src\components\map-layer\qu.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="./images/back.png" alt="" @click="back" />
@@ -71,7 +63,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   // console.log('事件监听', e);
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data == 'closeStationHighLight') {
-      //关闭 点击非高渲染站点添加的动态圈圈
+      // 关闭 点击非高渲染站点添加的动态圈圈
       __g.radiationPoint.clear();
     }
     if (e.Data.includes('click')) {
@@ -111,16 +103,16 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       }
       state.currentSelectStation = stationInfo;
       if (stationInfo.isHr !== 0) {
-        //普通站点
+        // 普通站点
         highLightNormalStation(stationInfo);
         enterStationInfo(stationInfo);
         return;
       }
-      //是高渲染站点
+      // 是高渲染站点
       changeStationStyle(e.Id, 'hr', [311, 499], [-156, 499]);
 
       if (currentHrStationID.value === e.Id) {
-        //连续两次点击相同站点 进入高渲染站点
+        // 连续两次点击相同站点 进入高渲染站点
         enterStationInfo(stationInfo);
         __g.marker.hideByGroupId('jdStation');
         addHrStation(stationInfo.stationId, true);
@@ -134,7 +126,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
 
   if (e.eventtype === 'CameraStopMove' && currentPosition.value !== '') {
-    //当前不处于站点内
+    // 当前不处于站点内
     const { worldLocation: centerCoord } = await getMapCenterCoord(aircityObj.value);
     // addCenterPoint([centerCoord[0], centerCoord[1]])
     let cameraQuName = pointInWhichDistrict([centerCoord[0], centerCoord[1]]);
@@ -143,10 +135,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     // console.log('cameraJdInfo', cameraJdInfo);
     // console.log('重新请求数据');
     if (cameraQuName && currentQu.value !== cameraQuName) {
-      //当前相机位置所在区和当前区不一致
+      // 当前相机位置所在区和当前区不一致
       handleQuChange(cameraQuName, cameraJdInfo);
     } else if (cameraQuName) {
-      //当前相机位置所在区和当前区一致
+      // 当前相机位置所在区和当前区一致
       if (currentPosition.value.includes('街道') && cameraJdInfo.JDNAME !== currentJd.value) {
         addStationPoint(cameraJdInfo.JDCODE);
         store.changeCurrentPositionBak(currentPosition.value);

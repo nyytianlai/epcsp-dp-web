@@ -118,19 +118,4 @@ onMounted(async () => {
   width: 100%;
   margin-top: 12px;
 }
-.line-box {
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid;
-  border-image: linear-gradient(
-      90deg,
-      rgba(0, 106, 207, 0.1) 10%,
-      rgba(0, 163, 233, 0.9) 50%,
-      rgba(0, 106, 207, 0.1) 100%
-    )
-    2 2 2 2;
-  &:nth-last-of-type(1) {
-    border: none;
-  }
-}
 </style>

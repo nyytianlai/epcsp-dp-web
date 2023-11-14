@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-26 11:35:17
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-04 14:09:50
- * @FilePath: \epcsp-dp-web\src\views\station-detail\components\bottom-tabs.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="bottom-tabs" :class="[`bg-${tabData.length}`]">
     <div

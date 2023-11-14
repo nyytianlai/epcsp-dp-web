@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-11 17:39:05
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 10:06:16
- * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
- * @Description: 排名列表 有项目名称
--->
 <template>
   <div class="area-rank-wrap" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">

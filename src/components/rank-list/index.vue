@@ -1,13 +1,5 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-11 17:39:05
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 10:07:04
- * @FilePath: \epcsp-dp-web\src\components\rank-list.vue
- * @Description: 排名列表 有项目名称
--->
 <template>
-  <div class="rank-list-wrap" :style="{height:height}">
+  <div class="rank-list-wrap" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <div class="top-info">
@@ -27,13 +19,13 @@
         </div>
       </li>
     </ul>
-    <no-data v-else/>
+    <no-data v-else />
   </div>
 </template>
 <script setup lang="ts">
-import {toRefs,ref } from 'vue'
+import { toRefs, ref } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
-import { formatWithToLocalString } from '@/global/commonFun.js'
+import { formatWithToLocalString } from '@/global/commonFun.js';
 interface Idata {
   name: string;
   num: number;
@@ -43,10 +35,10 @@ type Itype = 'top-down' | 'left-right';
 interface Props {
   data: Idata[];
   totalNum: number;
-  height:string
+  height: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  height:'2.4rem'
+  height: '2.4rem'
 });
 const { data, totalNum } = toRefs(props);
 </script>

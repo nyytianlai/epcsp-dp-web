@@ -27,13 +27,19 @@ import { ref, toRefs, inject, watch, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
-
+interface Data {
+  eid?: string;
+  isAlarm?: number | string;
+  status?: number;
+  chargingType: string;
+  equipmentName?: string;
+}
 const mapStore = useMapStore();
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
-    type: Object,
+    type: Array as () => Data[],
     default: []
   }
 });
