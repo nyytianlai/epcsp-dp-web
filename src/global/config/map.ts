@@ -83,7 +83,7 @@ export const getHtmlUrl = () => {
   if (import.meta.env.MODE === 'base') {
     // return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
-    return 'http://127.0.0.1:5500/public';
+    return 'http://127.0.0.1:5501/public';
     // return 'http://10.10.50.212:5500/public'
   } else {
     return location.origin;
@@ -126,7 +126,7 @@ export const add3dt = async (__g, fileName: string) => {
   });
 };
 export const delete3dt = async (__g, ids: string[]) => {
-  await __g.tileLayer.delete(ids);
+  __g.tileLayer.delete(ids);
 };
 
 export const isShowActors = async (__g, layerid: string, ids: string[], isShow: boolean) => {

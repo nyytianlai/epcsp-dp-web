@@ -17,7 +17,7 @@ export const getJdStation = (streetId) => {
     }
   });
 };
-// 设备管理/充电桩数量 /dp/api/v1/equipmentManage/selectChargeCount
+// 设备管理充电枪/充电桩数量 /dp/api/v1/equipmentManage/selectChargeCount
 export const selectChargeCount = (data) => {
   return request.get({
     url: '/dp/api/v1/equipmentManage/selectChargeCount',

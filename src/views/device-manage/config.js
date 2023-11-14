@@ -105,16 +105,33 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
+          isChoose: false,
           unit: '个'
         },
-        { value: data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
+          name: '交流桩',
+          isChoose: false,
+          unit: '个'
+        },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流桩',
+          isChoose: false,
           unit: '个'
         },
-        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
-        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G桩', unit: '个' }
+        {
+          value: data?.chargeCountByElectricityTypeDto?.otherCount,
+          name: '其他桩',
+          isChoose: false,
+          unit: '个'
+        },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.v2gCount,
+          name: 'V2G桩',
+          isChoose: false,
+          unit: '个'
+        }
       ];
       break;
     case 'cdqlx':

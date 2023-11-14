@@ -10,7 +10,7 @@
         class="device-total-pie"
         :data="chargingStationPieData"
         :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
-        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        :mode="isCanChoose ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
       />
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, toRefs, watch } from 'vue';
+import { ref, onMounted, toRefs, watch, computed } from 'vue';
 import { selectChargeCount, selectChargeCountByArea, selectHrStationInfo } from '../../api.js';
 import {
   chargingStationTabsFun,
@@ -67,7 +67,7 @@ const emit = defineEmits([
   'handleTotalCurCodeChange',
   'handleChargeTypeChange'
 ]);
-const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
+const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB', '#ED8ECA'];
 const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 // 行政区充电次数情况时间
 const dayType = ref(1);
@@ -88,7 +88,9 @@ const areaTotalNum = ref(0);
 // 充电设施总量
 const handleChoose = (item) => {
   console.log('充电设施总量', item);
-  emit('handleChargeTypeChange', item);
+  if (chargeTab.value === 'cdzlx' || chargeTab.value === 'cdqlx') {
+    emit('handleChargeTypeChange', item);
+  }
 };
 // 充电设施总量详情
 const handleDetailClick = () => {
@@ -106,10 +108,10 @@ const handleChangeTab = (data, type) => {
 };
 // 设备管理/充电桩数量
 const getSelectChargeCount = async (code) => {
-  if (!chargingStationData.value) {
-    const res = await selectChargeCount({ type: bottomBtnCur.value });
-    chargingStationData.value = res.data;
-  }
+  // if (!chargingStationData.value) {
+  const res = await selectChargeCount({ type: bottomBtnCur.value });
+  chargingStationData.value = res.data;
+  // }
   chargingStationPieData.value = chargingStationPieDataFun(code, chargingStationData.value);
 };
 //设备管理/行政区充电次数情况
@@ -138,6 +140,15 @@ const getSelectHrStationInfo = async () => {
     chargingNum.value = [];
   }
 };
+const handleClose = () => {
+  dialogTotalVisible.value = false;
+};
+// 行政区充电次数情况tab点击
+const handleYearBtn = (item) => {
+  console.log('item', item);
+  dayType.value = item.value;
+  getSelectChargeCountByArea();
+};
 watch(
   () => bottomBtnCur.value,
   (newVal) => {
@@ -151,15 +162,7 @@ watch(
     getSelectChargeCount(chargeTab.value);
   }
 );
-const handleClose = () => {
-  dialogTotalVisible.value = false;
-};
-// 行政区充电次数情况tab点击
-const handleYearBtn = (item) => {
-  console.log('item', item);
-  dayType.value = item.value;
-  getSelectChargeCountByArea();
-};
+const isCanChoose = computed(() => ['cdzlx', 'cdqlx'].includes(chargeTab.value));
 onMounted(() => {
   getSelectChargeCount(chargeTab.value);
   getSelectChargeCountByArea();
