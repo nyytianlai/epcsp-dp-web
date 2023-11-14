@@ -75,10 +75,11 @@ const dayType = ref(1);
 const dialogTotalVisible = ref(false);
 
 const chargingStationData = ref(null);
-// 充电桩数量信息
+// 充电设施总览 - 充电桩/枪数量信息
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
-const chargingStationPieData = ref(chargingStationPieDataFun());
+const chargingStationPieData = ref([]);
+const chargeTab = ref('cdzlx');
 // 设备管理/充电站数字孪生
 const chargingNum = ref([]);
 //充电高峰区域情况
@@ -94,26 +95,22 @@ const handleDetailClick = () => {
   dialogTotalVisible.value = true;
 };
 const handleChangeTab = (data, type) => {
+  chargeTab.value = data.code;
   if (type === 'charging-station') {
     //切换充电桩数量信息
-    if (data.code === 1) {
-      emit('handleTotalCurCodeChange', data.code);
+    if (data.code === 'cdzlx') {
+      emit('handleTotalCurCodeChange', data.index);
     }
-    getSelectChargeCount(data.code, bottomBtnCur.value);
+    getSelectChargeCount(data.code);
   }
 };
 // 设备管理/充电桩数量
-const getSelectChargeCount = async (type, maintab) => {
+const getSelectChargeCount = async (code) => {
   if (!chargingStationData.value) {
     const res = await selectChargeCount({ type: bottomBtnCur.value });
-    console.log('res', res);
     chargingStationData.value = res.data;
   }
-  chargingStationPieData.value = chargingStationPieDataFun(
-    type,
-    chargingStationData.value,
-    maintab
-  );
+  chargingStationPieData.value = chargingStationPieDataFun(code, chargingStationData.value);
 };
 //设备管理/行政区充电次数情况
 const getSelectChargeCountByArea = async () => {
@@ -146,7 +143,12 @@ watch(
   (newVal) => {
     // 重新获取充电设施总量
     console.log(newVal);
-    getSelectChargeCount(totalCurCode.value, bottomBtnCur.value);
+    if (newVal === 1) {
+      chargeTab.value = 'cdzlx';
+    } else {
+      chargeTab.value = 'cdqlx';
+    }
+    getSelectChargeCount(chargeTab.value);
   }
 );
 const handleClose = () => {
@@ -159,7 +161,7 @@ const handleYearBtn = (item) => {
   getSelectChargeCountByArea();
 };
 onMounted(() => {
-  getSelectChargeCount(1, 1);
+  getSelectChargeCount(chargeTab.value);
   getSelectChargeCountByArea();
   getSelectHrStationInfo();
 });

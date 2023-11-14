@@ -2326,13 +2326,13 @@ export const pageNumLianhuaxiFun = (data = {}) => {
 export const chargingStationTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 'cdzlx',
       chargingType: 'speed',
       typeCharge: 'pile',
       label: '充电桩类型'
     },
     {
-      code: 2,
+      code: 'cdzdllx',
       chargingType: 'electricity',
       typeCharge: 'pile',
       label: '充电桩电流类型'
@@ -2342,24 +2342,23 @@ export const chargingStationTabsFun = () => {
 export const chargingStationGunTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 'cdqlx',
       chargingType: 'speed',
       typeCharge: 'gun',
       label: '充电枪类型'
     },
     {
-      code: 2,
+      code: 'cdqdllx',
       chargingType: 'electricity',
       typeCharge: 'gun',
       label: '充电枪电流类型'
     }
   ];
 };
-export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
+export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
   let res = [];
-  if (maintab === 1) {
-    // 充电桩
-    if (code === 1) {
+  switch (code) {
+    case 'cdzlx':
       res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
@@ -2394,7 +2393,8 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         }
       ];
-    } else {
+      break;
+    case 'cdzdllx':
       res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
@@ -2410,10 +2410,8 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
         { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G桩', unit: '个' }
       ];
-    }
-  } else {
-    // 充电枪
-    if (code === 1) {
+      break;
+    case 'cdqlx':
       res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
@@ -2444,7 +2442,8 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         }
       ];
-    } else {
+      break;
+    case 'cdqdllx':
       res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
@@ -2460,15 +2459,12 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
         { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
       ];
-    }
+      break;
+    default:
+      break;
   }
-  const temp = [];
-  res.map((i) => {
-    if (i.value !== 0) {
-      temp.push(i);
-    }
-  });
-  return temp;
+  res = res.filter((i) => i.value);
+  return res;
 };
 export const batteryMsgFun = (data = {}) => {
   return [
@@ -2537,5 +2533,5 @@ export const timeRandom = {
   '18:00': 15,
   '18:30': 10,
   '19:00': 5,
-  '19:30': 0,
-}
+  '19:30': 0
+};

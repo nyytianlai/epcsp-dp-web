@@ -9,7 +9,7 @@
       <title-column title="设备设施信息" />
       <div class="pile-charger-header">
         <tabs
-          :data="curBtn === 1 ? chargingStationTabs : chargingStationGunTabs"
+          :data="curBtn === 'cdzlx' ? chargingStationTabs : chargingStationGunTabs"
           @changeTab="handleChargeChange"
         />
         <div class="right-tab-btn">
@@ -27,7 +27,7 @@
       <pie-chart
         class="device-total-pie"
         :data="chargingStationPieData"
-        :totalName="curBtn === 1 ? '充电桩总数' : '充电枪总数'"
+        :totalName="curBtn === 'cdzlx' ? '充电桩总数' : '充电枪总数'"
         :colors="chargingColors"
       />
     </div>
@@ -191,7 +191,6 @@ import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import BaoqingDialog from './components/baoqing-dialog.vue';
 import dayjs from 'dayjs';
-const chargingStationPieData = ref(chargingStationPieDataFun());
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const realtimePowerColors = ['green'];
 const showBqDialog = ref(false);
@@ -229,14 +228,15 @@ const headerDataMsg = {
 // 是否展示告警
 const warnVisible = ref(false);
 // 左二图的tab
-const curBtn = ref(1);
-const chargeTab = ref(1);
+const curBtn = ref('cdzlx');
+const chargeTab = ref('cdzlx');
+const chargingStationPieData = ref([]);
 // 充电类型
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
 const tabList = ref([
-  { value: 1, name: '桩', index: 'pile' },
-  { value: 2, name: '枪', index: 'gun' }
+  { value: 'cdzlx', name: '桩', index: 1 },
+  { value: 'cdqlx', name: '枪', index: 2 }
 ]);
 const chargeData = ref();
 // 设备类型
@@ -318,14 +318,8 @@ const loadSelectDetailChargeCount = async () => {
     operatorId: store.detailParams.operatorId,
     stationId: store.detailParams.stationId
   });
-  // console.log('res', res)
   chargeData.value = res.data;
-  chargingStationPieData.value = chargingStationPieDataFun(
-    chargeTab.value,
-    chargeData.value,
-    curBtn.value
-  );
-  console.log('chargingStationPieData.value', chargingStationPieData.value);
+  chargingStationPieData.value = chargingStationPieDataFun(chargeTab.value, chargeData.value);
 };
 const getAlarmLevelAndTypeByTIme = async () => {
   if (!store.detailParams.stationId) {
@@ -606,9 +600,9 @@ const handleChargeChange = (item) => {
 // 桩枪切换
 const handleTabBtn = (data) => {
   curBtn.value = data.value;
-  equipmentType.value = curBtn.value;
-  // console.log('data', data)
-  // console.log('curBtn.value', curBtn.value)
+  chargeTab.value = data.value;
+  equipmentType.value = data.index;
+
   loadSelectDetailChargeCount();
 };
 
