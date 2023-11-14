@@ -57,7 +57,7 @@ const addQuPoint = async (quCode: string) => {
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
     item['xoffset'] = xoffset;
-    item['stationType'] = 50;
+    item['stationType'] = 'station50';
     let o1 = returnStationPointConfig(item);
     // allStationID.push('station-' + item.stationId);
     if (item.isHr == 0) {
