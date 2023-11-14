@@ -1,32 +1,34 @@
 <template>
   <panel type="right">
-    <div class="today-power-info">
-      <title-column title="今日充电实时功率信息" />
-      <charging-realtime-power :data="powerInfoNumData" />
-      <line-time-chart
-        :data="lineTimeData"
-        unit="kW"
-        :colors="lineTimeColors"
-        :customOption="{ animation: false }"
-      />
-    </div>
-    <div class="today-num-info">
-      <title-column title="今日充电设施数据信息" />
-      <tabs :data="todayTabs" @changeTab="(data) => handleChangeTab(data, 'today')" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in todayInfoNumData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
-      </div>
-    </div>
-    <div class="today-warning-message">
-      <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
-      <div ref="warningDom" class="warnin-container-box">
-        <warning-tabs
-          :data="warningTabsData"
-          @changeTab="(data) => handleChangeTab(data, 'warning')"
+    <div class="right-panel-wrap">
+      <div class="today-power-info">
+        <title-column title="今日充电实时功率信息" />
+        <charging-realtime-power :data="powerInfoNumData" />
+        <line-time-chart
+          :data="lineTimeData"
+          unit="kW"
+          :colors="lineTimeColors"
+          :customOption="{ animation: false }"
         />
-        <warning-list :data="warningListData" height="2.2rem" @handleClick="handleWarnClick" />
+      </div>
+      <div class="today-num-info">
+        <title-column title="今日充电设施数据信息" />
+        <tabs :data="todayTabs" @changeTab="(data) => handleChangeTab(data, 'today')" />
+        <div class="num-wrap">
+          <template v-for="(item, index) in todayInfoNumData" :key="index">
+            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+          </template>
+        </div>
+      </div>
+      <div class="today-warning-message">
+        <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
+        <div ref="warningDom" class="flex-v-1 flex-v warnin-container-box">
+          <warning-tabs
+            :data="warningTabsData"
+            @changeTab="(data) => handleChangeTab(data, 'warning')"
+          />
+          <warning-list class="flex-v-1" :data="warningListData" @handleClick="handleWarnClick" />
+        </div>
       </div>
     </div>
   </panel>
@@ -182,6 +184,11 @@ onUnmounted(() => {
 </script>
 
 <style lang="less" scoped>
+.right-panel-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .today-num-info {
   margin-top: 20px;
 
@@ -220,6 +227,10 @@ onUnmounted(() => {
 }
 
 .today-warning-message {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
   margin-top: 21px;
 
   .warning-tabs {
@@ -229,17 +240,17 @@ onUnmounted(() => {
   .warning-list {
     margin-top: 18px;
 
-    :deep(.warning-info) {
-      .message {
-        min-width: 2rem;
-        max-width: 2rem;
-      }
+    // :deep(.warning-info) {
+    //   .message {
+    //     min-width: 2rem;
+    //     max-width: 2rem;
+    //   }
 
-      .area {
-        min-width: 0.8rem;
-        max-width: 0.8rem;
-      }
-    }
+    //   .area {
+    //     min-width: 0.8rem;
+    //     max-width: 0.8rem;
+    //   }
+    // }
   }
 }
 

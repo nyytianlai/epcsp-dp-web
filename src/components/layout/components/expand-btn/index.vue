@@ -89,6 +89,14 @@ const handleSearch = async (value) => {
 };
 </script>
 <style lang="less">
+.layout-no-header {
+  .expand-btn {
+    top: 27px;
+  }
+  .expand-btn-search {
+    top: 27px;
+  }
+}
 .expand-btn {
   width: 63px;
   height: auto;

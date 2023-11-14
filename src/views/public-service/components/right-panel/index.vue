@@ -1,32 +1,34 @@
 <template>
   <panel type="right">
-    <div class="today-runing">
-      <title-column title="今日储能电站运行信息" icon="energy-station" />
-      <client-usage :data="clientUsageCount" />
-    </div>
-    <div class="realtime-info">
-      <tabs :data="clientInfo" />
-      <div class="num-wrap">
-        <template v-for="(item, index) in deviceData" :key="index">
-          <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-        </template>
+    <div class="public-service-wrap">
+      <div class="today-runing">
+        <title-column title="今日储能电站运行信息" icon="energy-station" />
+        <client-usage :data="clientUsageCount" />
       </div>
+      <div class="realtime-info">
+        <tabs :data="clientInfo" />
+        <div class="num-wrap">
+          <template v-for="(item, index) in deviceData" :key="index">
+            <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+          </template>
+        </div>
 
-      <tabs :data="clientRealtimeTrend" />
-      <line-time-chart
-        :data="lineStateData"
-        :colors="lineStateColor"
-        :chartStyle="{ height: '2.2rem' }"
-      />
-      <!-- <tabs
+        <tabs :data="clientRealtimeTrend" />
+        <line-time-chart
+          :data="lineStateData"
+          :colors="lineStateColor"
+          :chartStyle="{ height: '2.2rem' }"
+        />
+        <!-- <tabs
         :data="chargingTypesTabs"
         @changeTab="(data) => handleChangeTab(data, 'charging-types')"
       />
       <pie-chart :data="chargingTypePieData" /> -->
-    </div>
-    <div class="month-rate">
-      <title-column title="行政区设备利用率情况" />
-      <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" height="3rem" />
+      </div>
+      <div class="month-rate">
+        <title-column title="行政区设备利用率情况" />
+        <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" />
+      </div>
     </div>
   </panel>
 </template>
@@ -94,6 +96,11 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+.public-service-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .realtime-info {
   .num-wrap {
     display: flex;
@@ -133,8 +140,14 @@ onMounted(() => {
   }
 }
 .month-rate {
+  flex: 1;
+  height: 0;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
   .area-rank-wrap {
+    height: 100% !important;
+    overflow: auto;
     margin-top: 23px;
   }
 }

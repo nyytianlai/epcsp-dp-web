@@ -1,28 +1,30 @@
 <template>
   <panel>
-    <div class="total-warning-num">
-      <title-column title="累计告警数据信息" />
-      <tabs
-        :data="totalWarningTabs"
-        @changeTab="(data) => handleChangeTab(data, 'total-warning')"
-        v-model="messageWarningType"
-      >
-        <button-base @handleClick="handleClickMessageBtn">查看更多</button-base>
-      </tabs>
-      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
-    </div>
-    <div class="area-warning-num">
-      <title-column
-        title="行政区告警数据情况"
-        :showTabBtn="true"
-        :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '月' },
-          { value: 3, name: '年' }
-        ]"
-        @handleTabBtn="handleWarmYearBtn"
-      />
-      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="3.7rem" />
+    <div class="left-panel-wrap flex-v">
+      <div class="total-warning-num flex-v-1 flex-v">
+        <title-column title="累计告警数据信息" />
+        <tabs
+          :data="totalWarningTabs"
+          @changeTab="(data) => handleChangeTab(data, 'total-warning')"
+          v-model="messageWarningType"
+        >
+          <button-base @handleClick="handleClickMessageBtn">查看更多</button-base>
+        </tabs>
+        <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
+      </div>
+      <div class="area-warning-num flex-v-1 flex-v">
+        <title-column
+          title="行政区告警数据情况"
+          :showTabBtn="true"
+          :tabList="[
+            { value: 1, name: '日' },
+            { value: 2, name: '月' },
+            { value: 3, name: '年' }
+          ]"
+          @handleTabBtn="handleWarmYearBtn"
+        />
+        <area-rank-list class="flex-v-1" :data="areaRankData" :totalNum="areaTotalNum" />
+      </div>
     </div>
   </panel>
   <warn-count-list-dialog
@@ -123,6 +125,11 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
+.left-panel-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .total-warning-num {
   .tabs {
     margin-top: 16px;

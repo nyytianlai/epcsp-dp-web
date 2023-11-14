@@ -29,6 +29,7 @@ const aircityObj = inject('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 __g.reset();
+__g.reset(4);
 let currtentStation = {};
 
 useEmitt('AIRCITY_EVENT', async (e) => {

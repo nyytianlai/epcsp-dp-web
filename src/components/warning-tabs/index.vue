@@ -67,7 +67,8 @@ watch(data, (newVal) => {
 <style lang="less" scoped>
 .warning-tabs {
   display: flex;
-  width: 429px;
+  // width: 429px;
+  width: 100%;
   justify-content: space-around;
   .tab {
     display: flex;

@@ -1,6 +1,7 @@
 <template>
   <panel type="right">
-    <div class="box station">
+    <div class="right-panel-wrap">
+      <div class="box station">
       <title-column title="充储设施历年规模统计" />
       <tabs :data="stationTabType" @changeTab="handleStation" />
       <div class="ec-box">
@@ -16,7 +17,6 @@
         yaxisName="吨"
         mode="onlyLine"
         unit=""
-        :chartStyle="{ height: '2.3rem', width: '4.3rem' }"
         :customOption="{ legend: { itemGap: getRemvalue(10), left: 0 } }"
       />
     </div>
@@ -28,10 +28,11 @@
         yaxisName="万kwh"
         mode="onlyLine"
         unit=""
-        :chartStyle="{ height: '2.3rem', width: '4.3rem' }"
         :customOption="{ legend: { itemGap: getRemvalue(0), left: 0 } }"
       />
     </div>
+    </div>
+    
   </panel>
 </template>
 
@@ -82,14 +83,23 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
+.right-panel-wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .box {
-  margin-bottom: 20px;
-
-  &:last-child {
-    margin-bottom: 0;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  + .box {
+    margin-top: 20px;
   }
 
   .ec-wrap {
+    flex: 1;
+    height: 0;
     margin-top: 16px;
   }
 }

@@ -44,7 +44,7 @@ let rectBar2Ref = ref(null);
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
-
+__g.reset(4);
 const getBarData = () => {
   const data = mapQuBar();
   rectBar2Ref.value.addBar(data, 'qu');

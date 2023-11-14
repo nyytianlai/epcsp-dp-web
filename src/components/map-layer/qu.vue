@@ -677,6 +677,7 @@ defineExpose({
 });
 onMounted(async () => {
   __g.reset();
+  __g.reset(4);
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
     request.cancel(mapRequestCancelId);
@@ -728,11 +729,12 @@ onMounted(async () => {
   );
 });
 
-onBeforeUnmount(async () => {
+onBeforeUnmount(() => {
   bus.off('toHr');
   bus.off('hrBackSz');
   bus.off('searchEnterStation');
-  await __g.reset();
+  __g.reset();
+  __g.reset(4);
 });
 </script>
 <style lang="less" scoped>

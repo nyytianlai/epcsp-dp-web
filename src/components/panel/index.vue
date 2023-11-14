@@ -31,6 +31,15 @@ const panelShow = computed(() => {
   return store.panelShow;
 });
 </script>
+
+<style lang="less">
+.layout-no-header {
+  .panel {
+    top: 80px !important;
+  }
+}
+</style>
+
 <style lang="less" scoped>
 .mask-bgc {
   // background: linear-gradient(
@@ -48,8 +57,8 @@ const panelShow = computed(() => {
   );
   opacity: 0.9;
   border-radius: 4px;
-  width: 470px;
-  height: 1080px;
+  width: 20%;
+  height: 100%;
   position: absolute;
   top: 0;
   z-index: 1;
@@ -72,7 +81,8 @@ const panelShow = computed(() => {
   position: absolute;
   top: 126px;
   left: 30px;
-  width: 400px;
+  width: 21%;
+  height: calc(100% - 166px);
   z-index: 20;
   .circle-bg {
     position: absolute;

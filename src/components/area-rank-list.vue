@@ -69,7 +69,8 @@ const numMaxWidth = computed(() => {
 .content {
   display: flex;
   flex-direction: column;
-  width: 403px;
+  // width: 403px;
+  width: 100%;
   position: relative;
 }
 .list-item {

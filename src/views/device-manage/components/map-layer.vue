@@ -18,7 +18,7 @@ import bus from '@/utils/bus';
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
 __g.reset();
-
+__g.reset(4);
 const store = useMapStore();
 //所在位置 深圳市 xx区 xx站(取值'')
 const currentPosition = computed(() => store.currentPosition);
