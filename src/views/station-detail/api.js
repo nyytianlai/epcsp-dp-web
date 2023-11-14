@@ -1,11 +1,3 @@
-/*
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-19 17:24:43
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 14:16:59
- * @FilePath: \epcsp-dp-web\src\api\stationDetail.js
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import request from '@sutpc/axios';
 
 // 高渲染站点详情/底部菜单栏，stationId:站点id，operatorId:运营商id

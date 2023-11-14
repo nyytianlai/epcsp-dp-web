@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-18 20:40:18
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:45:18
- * @FilePath: \epcsp-dp-web\src\views\overall\components\map-layer.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <qu ref="quRef" :module="400" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
   <rect-bar-out ref="rectBarOutRef"></rect-bar-out>

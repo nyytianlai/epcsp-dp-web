@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-13 10:01:39
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 11:42:46
- * @FilePath: \epcsp-dp-web\src\components\warning-list.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="warning-list" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">
@@ -16,10 +8,12 @@
         :key="index"
         @click="handleClick(item)"
       >
-        <span class="date">{{ item.date ? dayjs(item.date).format('YYYY-MM-DD HH:mm:ss') : '--' }}</span>
+        <span class="date">
+          {{ item.date ? dayjs(item.date).format('YYYY-MM-DD HH:mm:ss') : '--' }}
+        </span>
         <span class="message text-ellipsis-1">
           <el-tooltip :content="item.message || ''" placement="top">
-          {{ item.message || '' }}
+            {{ item.message || '' }}
           </el-tooltip>
         </span>
         <span class="area text-ellipsis-1">

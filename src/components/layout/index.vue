@@ -1,22 +1,12 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-11 10:23:38
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:13:17
- * @FilePath: \epcsp-dp-web\src\components\layout\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
-  <div class="subject-layout" :class="{'layout-no-header' : !showHeader}">
-    <header-area v-if="showHeader"/>
+  <div class="subject-layout" :class="{ 'layout-no-header': !showHeader }">
+    <header-area v-if="showHeader" />
     <!-- 在h=0不显示头部，飞渡地图头部中间会显示aircity的logo，用这个标记给他遮挡住 -->
-    <div class="layout-header-mask">
-      
-    </div>
+    <div class="layout-header-mask"></div>
     <div class="my-tab-wrap">
       <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
-    <time-weather  v-if="showHeader"/>
+    <time-weather v-if="showHeader" />
     <div class="subject-container">
       <div class="main-content">
         <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
@@ -91,7 +81,7 @@ const routed = useRoute();
 const navDropList = ref(routes.slice(0, routes.length));
 const excludeViews = ref([]);
 const includeViews = ref([]);
-const cloudHost = `${location.host}/freedo`
+const cloudHost = `${location.host}/freedo`;
 const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showDetail = computed(() => store.showDetail);
@@ -282,7 +272,6 @@ provide('aircityObj', aircityObj);
   background: rgba(4, 22, 43, 0.4);
   color: #ffffff;
   z-index: 20;
-  
 
   img {
     height: 24px;

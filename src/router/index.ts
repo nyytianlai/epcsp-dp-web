@@ -1,11 +1,3 @@
-/*
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-11 09:55:35
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 17:59:04
- * @FilePath: \template-bigscreen-vue3\src\router\index.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Loading from '@sutpc/vue3-loading';
 import defaultDemo from './default-demo';

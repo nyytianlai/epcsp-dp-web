@@ -1,18 +1,15 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-13 10:01:39
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-05 11:42:46
- * @FilePath: \epcsp-dp-web\src\components\warning-list.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="warning-list" :style="{ height: height }">
     <ul class="content" v-if="data && data.length">
-      <li class="warning-info" :class="{ 'click-item': item.isClick, 'grey': Number(item.isInvalid) }" v-for="(item, index) in data"
-        :key="index" @click="handleClick(item)">
+      <li
+        class="warning-info"
+        :class="{ 'click-item': item.isClick, grey: Number(item.isInvalid) }"
+        v-for="(item, index) in data"
+        :key="index"
+        @click="handleClick(item)"
+      >
         <span class="date">{{ item.date ? dayjs(item.date).format('HH:mm:ss') : '--' }}</span>
-        <span class="message text-ellipsis-1" v-if="item?.message.length>12">
+        <span class="message text-ellipsis-1" v-if="item?.message.length > 12">
           <el-tooltip :content="item.message || ''" placement="top">
             {{ item.message || '' }}
           </el-tooltip>
@@ -20,15 +17,14 @@
         <span class="message text-ellipsis-1" v-else>
           {{ item.message || '' }}
         </span>
-        <span class="area text-ellipsis-1" v-if="item?.area.length>6">
+        <span class="area text-ellipsis-1" v-if="item?.area.length > 6">
           <el-tooltip :content="item.area || ''" placement="top">
             {{ item.area || '' }}
           </el-tooltip>
         </span>
         <span class="area" v-else>
-            {{ item.area || '' }}
+          {{ item.area || '' }}
         </span>
-
       </li>
     </ul>
     <no-data v-else />
@@ -43,7 +39,7 @@ interface Idata {
   message: string;
   area: string;
   isClick?: boolean;
-  isInvalid?: number | string
+  isInvalid?: number | string;
 }
 interface Props {
   data: Idata[];
@@ -154,4 +150,5 @@ const handleClick = (item) => {
       color: rgba(255, 255, 255, 0.8);
     }
   }
-}</style>
+}
+</style>

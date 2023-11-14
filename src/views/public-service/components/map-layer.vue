@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-20 15:25:12
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 19:53:43
- * @FilePath: \epcsp-dp-web\src\views\public-service\components\map-layer.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <qu :module="4" @addQuPoint="addQuPoint"></qu>
   <rect-bar2 ref="rectBar2Ref"></rect-bar2>
@@ -18,8 +10,14 @@
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import rectBar2 from '@/components/map-layer/rect-bar2.vue';
-import { inject, onMounted, onBeforeUnmount, ref, computed,reactive } from 'vue';
-import { layerNameQuNameArr, infoObj, getImageUrl, returnStationPointConfig,getImageByCloud } from '@/global/config/map';
+import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
+import {
+  layerNameQuNameArr,
+  infoObj,
+  getImageUrl,
+  returnStationPointConfig,
+  getImageByCloud
+} from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 // import { getQuPoint } from '../api.js';
@@ -50,9 +48,9 @@ const getBarData = () => {
   rectBar2Ref.value.addBar(data, 'qu');
 };
 
-const addQuPoint=async (quCode: string)=>{
+const addQuPoint = async (quCode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
-  const { data: res } = await getQuPoint(quCode)
+  const { data: res } = await getQuPoint(quCode);
   let pointArr = [];
   console.log('station接口', res);
 
@@ -81,7 +79,7 @@ const addQuPoint=async (quCode: string)=>{
     pointArr.push(o1);
   });
   await __g.marker.add(pointArr, null);
-}
+};
 const sendJdBarData = async (value: { type: string; quCode: string }) => {
   // const { data: res } = await jdMonthRate(value.quCode);
   // rectBar2Ref.value.addBar(res.data, value.type, value.quCode);

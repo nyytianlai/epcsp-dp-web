@@ -127,7 +127,6 @@ const getAlarmInfo = async (level) => {
     pageNum: 1,
     pageSize: 1000
   };
-  // console.log('warningDom.value', warningDom.value);
   Loading.add(warningDom.value);
   const res = await alarmInfo(params);
   Loading.remove(warningDom.value);
@@ -160,7 +159,6 @@ const handleCloseTodayWarnDialog = () => {
 let timer = null;
 let timer2 = null;
 onMounted(() => {
-  console.log('warningDom.value', warningDom.value);
   // getDayPower();
   getAlarmInfo(['1']);
   getTimePowerGraph();
