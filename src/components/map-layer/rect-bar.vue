@@ -78,12 +78,11 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
         countObj[0].superCount
       }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      // popupSize: [80, contentHeight], //弹窗大小
-      // popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移
       popupSize: [200, contentHeight + 160],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
-      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      priority: item.properties.PRIORITY
     };
     barArr.push(o);
   });
