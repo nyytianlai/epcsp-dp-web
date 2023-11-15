@@ -36,11 +36,13 @@ export const pageNumFun = (data = {}) => {
 export const chargingStationTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 'cdzlx',
+      index: 1,
       label: '充电桩类型'
     },
     {
-      code: 2,
+      code: 'cdzdllx',
+      index: 2,
       label: '充电桩电流类型'
     }
   ];
@@ -48,20 +50,22 @@ export const chargingStationTabsFun = () => {
 export const chargingStationGunTabsFun = () => {
   return [
     {
-      code: 1,
+      code: 'cdqlx',
+      index: 1,
       label: '充电枪类型'
     },
     {
-      code: 2,
+      code: 'cdqdllx',
+      index: 2,
       label: '充电枪电流类型'
     }
   ];
 };
 export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
-  if (maintab === 1) {
-    // 充电桩
-    if (code === 1) {
-      return [
+  let res = [];
+  switch (code) {
+    case 'cdzlx':
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           // value: 29982,
@@ -95,27 +99,43 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         }
       ];
-    } else {
-      return [
+      break;
+    case 'cdzdllx':
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
+          isChoose: false,
           unit: '个'
         },
-        { value: data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流桩', unit: '个' },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
+          name: '交流桩',
+          isChoose: false,
+          unit: '个'
+        },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流桩',
+          isChoose: false,
           unit: '个'
         },
-        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他桩', unit: '个' },
-        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G桩', unit: '个' }
+        {
+          value: data?.chargeCountByElectricityTypeDto?.otherCount,
+          name: '其他桩',
+          isChoose: false,
+          unit: '个'
+        },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.v2gCount,
+          name: 'V2G桩',
+          isChoose: false,
+          unit: '个'
+        }
       ];
-    }
-  } else {
-    // 充电枪
-    if (code === 1) {
-      return [
+      break;
+    case 'cdqlx':
+      res = [
         {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           name: '快充枪',
@@ -145,8 +165,9 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: true
         }
       ];
-    } else {
-      return [
+      break;
+    case 'cdqdllx':
+      res = [
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流枪',
@@ -161,8 +182,12 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
         { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
         { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
       ];
-    }
+      break;
+    default:
+      break;
   }
+  res = res.filter((i) => i.value);
+  return res;
 };
 
 export const areaRankDataFun = () => {
@@ -288,14 +313,14 @@ export const chargingRunDataFun = (data = {}) => {
   return [
     {
       img: dqsyl,
-      num: data?.useRate? data?.useRate + '%' : '0%',
+      num: data?.useRate ? data?.useRate + '%' : '0%',
       // unit: '%',
       name: '当前使用率',
       classStyleType: 'leftRightStyleGreen6656'
     },
     {
       img: dqgzl,
-      num: data?.troubleRate? data?.troubleRate + '%' : '0%',
+      num: data?.troubleRate ? data?.troubleRate + '%' : '0%',
       // unit: '%',
       name: '当前故障率',
       classStyleType: 'leftRightStyleGray6656'

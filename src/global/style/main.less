@@ -1,3 +1,14 @@
 @import './reset.less';
 @import './fontStyle.less';
 @import './global.less';
+
+.four-column-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.four-column-item {
+    width: 50%;
+    min-width: 84px;
+    margin: 0 auto 16px auto;
+}

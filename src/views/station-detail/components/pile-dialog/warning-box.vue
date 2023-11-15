@@ -40,6 +40,7 @@ import { selectEquipmentWarningInfoByEquipmentId } from './api.js';
 const emit = defineEmits(['update:visible', 'closed', 'click-detail']);
 const headerData = ref({});
 const pileData = ref({});
+provide('pileData', pileData);
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -130,20 +131,6 @@ watch(
 const handleBasic = (data) => {
   emit('click-detail', data);
 };
-watch(
-  () => visible.value,
-  (newVal) => {
-    console.log('newValnewVal', newVal);
-    isShow.value = false;
-    if (newVal) {
-      getEquipmentInfoByEquipmentIdData();
-    }
-  },
-  {
-    immediate: true
-  }
-);
-provide('pileData', pileData);
 </script>
 <style lang="less">
 .warning-pile-alarm {

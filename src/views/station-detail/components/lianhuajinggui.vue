@@ -1,7 +1,7 @@
 <template>
   <div class="charging-wrap">
-    <ul class="content" v-if="state.list && state.list.length">
-      <li v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code"
+    <ul class="content four-column-wrap" v-if="state.list && state.list.length">
+      <li class="four-column-item" v-for="(item, index) in data" :key="index" :class="stateFormate(item.status)?.code"
         @click="handleClickDJ(item)">
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.calcVal || item.value }}W</span>
@@ -100,29 +100,30 @@ onMounted(() => {
   height: 345px;
   margin-top: 12px;
 
-  .content {
-    display: flex;
-    flex-wrap: wrap;
-  }
+  // .content {
+  //   display: flex;
+  //   justify-content: flex-start;
+  //   flex-wrap: wrap;
+  //   gap: 16px;
+  // }
 
   li {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(21, 85, 113, 0.2);
     backdrop-filter: blur(1px);
     border-radius: 1px;
-    width: 84px;
+    // width: 84px;
+    // max-width: calc((100% - 48px) / 4);
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin-right: 16px;
-    margin-bottom: 12px;
     cursor: pointer;
 
-    &:nth-child(4n) {
-      margin-right: 0;
-    }
+    // &:nth-child(4n) {
+    //   margin-right: 0;
+    // }
 
     &.crystalline-silicon-offline {
       .state {

@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-26 16:35:27
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-09 09:56:11
- * @FilePath: \epcsp-dp-web\src\views\station-detail\components\map-layer.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <BaoQing v-if="currentHrStationID === '-1'" />
   <LianHuaPopup v-if="currentHrStationID === '-2'" />
@@ -42,7 +34,7 @@ const currentHrStationID = computed(() => {
     return mapStore.currentHrStationID.split('-')[1];
   }
 }); //当前点击的高渲染站点id
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 const params = {
   operatorId: '398461164' || store.detailParams?.operatorId,
@@ -143,11 +135,11 @@ const addChageingIcon = async (data, id?: string) => {
       coordinate: element.coord, //坐标位置
       anchors: [-22, 93.6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [44, 93.6], //图片的尺寸
-      range: [0, 150], //可视范围
+      range: [0, 500], //可视范围
       imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      displayMode: 0,
-      occlusionCull: true
+      displayMode: 2,
+      occlusionCull: false
     };
     pointArr.push(o1);
   });
@@ -266,7 +258,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   __g.marker.deleteByGroupId('stationFacilitiesLabel');
   __g.marker.deleteByGroupId('warningPointGroup');
+  __g.marker.deleteByGroupId('stationChargeIcon');
   bus.off('handleTabSelect');
+  delete3dt(__g, ['NewYYSFB']);
   resetTab3dt();
 });
 </script>

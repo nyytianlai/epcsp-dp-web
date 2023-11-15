@@ -1,11 +1,3 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-17 09:12:43
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:35:10
- * @FilePath: \epcsp-dp-web\src\views\device-manage\components\charging-num-images.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="images-wrap">
     <template v-if="data && data?.length">
@@ -15,16 +7,15 @@
         :key="index"
         @click="handleClick(item)"
       >
-      <div class="img-content__inner">
-        <img :src="item.stationPic" alt="" />
-        <!-- <span class="type">{{ item.stationType }}</span> -->
-        <span class="name text-ellipsis-1">
-          <el-tooltip class="box-item" :content="item.stationName" placement="top">
-            {{ item.stationName }}
-          </el-tooltip>
-        </span>
-      </div>
-        
+        <div class="img-content__inner">
+          <img :src="item.stationPic" alt="" />
+          <!-- <span class="type">{{ item.stationType }}</span> -->
+          <span class="name text-ellipsis-1">
+            <el-tooltip class="box-item" :content="item.stationName" placement="top">
+              {{ item.stationName }}
+            </el-tooltip>
+          </span>
+        </div>
       </div>
     </template>
     <no-data v-else />
@@ -60,9 +51,10 @@ const handleClick = (item) => {
   width: 100%;
   overflow: hidden auto;
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  // grid-template-columns: repeat(2, 1fr);
+  // grid-template-rows: repeat(2, 1fr);
   gap: 12px;
   .img-content {
     cursor: pointer;
@@ -71,8 +63,9 @@ const handleClick = (item) => {
     align-items: center;
     position: relative;
     align-items: center;
+    max-width: calc((100% - 12px) / 2);
     // width: 128px;
-    
+
     // &:nth-child(2n) {
     //   margin-right: 0;
     // }

@@ -1,28 +1,16 @@
-<!--
- * @Author: xiang cao caoxiang@sutpc.com
- * @Date: 2023-04-11 10:23:38
- * @LastEditors: xiang cao caoxiang@sutpc.com
- * @LastEditTime: 2023-05-10 11:13:17
- * @FilePath: \epcsp-dp-web\src\components\layout\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
-  <div class="subject-layout" :class="{'layout-no-header' : !showHeader}">
-    <header-area v-if="showHeader"/>
+  <div class="subject-layout" :class="{ 'layout-no-header': !showHeader }">
+    <header-area v-if="showHeader" />
     <!-- 在h=0不显示头部，飞渡地图头部中间会显示aircity的logo，用这个标记给他遮挡住 -->
-    <div class="layout-header-mask">
-      
-    </div>
+    <div class="layout-header-mask"></div>
     <div class="my-tab-wrap">
       <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
     </div>
-    <time-weather  v-if="showHeader"/>
+    <time-weather v-if="showHeader" />
     <div class="subject-container">
       <div class="main-content">
-        <!-- <base-ac :cloudHost=cloudHost :connectCloudManger=false iid="1690982686647"> -->
-        <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
-          <hawk-eye v-if="ifHawkEye"></hawk-eye>
-        </base-ac>
+        <base-ac @aircityObjReady="handleAircityObjReady" />
+
         <expand-btn />
         <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
           <img src="./images/back.png" alt="" @click="router.push('/overview')" />
@@ -57,7 +45,6 @@
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
 import { routes } from '@/router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-import { storeToRefs } from 'pinia';
 import { h } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useMapStore } from '@/stores/map';
@@ -65,14 +52,13 @@ import { useUeStore } from '@/stores/ue';
 import HeaderArea from './components/header.vue';
 import NavTab from './components/nav-tab/index.vue';
 import BottomTabs from './components/bottom-tabs/index.vue';
-import BaseAc from '@sutpc/vue3-aircity';
+import BaseAc from '@/components/map-layer/layer.vue';
 import HawkEye from '@/components/map-layer/hawk-eye.vue';
 import TimeWeather from './components/time-weather.vue';
 import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
-import { getTreeLayerIdByName } from '@/global/config/map';
 
 import { getHashParam, getUrlParam } from '@sutpc/zebra';
 
@@ -83,21 +69,19 @@ const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const store = useVisibleComponentStore();
 const uestore = useUeStore();
-const { treeInfo } = storeToRefs(useMapStore());
-const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 const wrapperMap = new Map();
 const router = useRouter();
 const routed = useRoute();
 const navDropList = ref(routes.slice(0, routes.length));
 const excludeViews = ref([]);
 const includeViews = ref([]);
-const cloudHost = `${location.host}/freedo`
-const aircityObj = ref(null);
 const showComponent = computed(() => store.showComponent);
 const showDetail = computed(() => store.showDetail);
 const showPromitionVideo = computed(() => store.showPromitionVideo);
 const showUeVideo = computed(() => uestore.showUeVideo);
 const station = ref('');
+const aircityObj = ref(null);
+provide('aircityObj', aircityObj);
 const getkeepAliveList = (list, flag = false) => {
   list.forEach((item) => {
     const isDropChildren = flag || item?.meta?.isDropChildren;
@@ -137,15 +121,8 @@ const wrap = (fullPath, component) => {
     return h(wrapper);
   }
 };
-const handleMapReady = async (obj) => {
-  aircityObj.value = obj;
-  window.aircityObj = obj;
-  const ref = await aircityObj.value.acApi.infoTree.get();
-  treeInfo.value = ref.infotree;
-  // console.log('图层树数据', treeInfo.value);
-  //规避民乐站在expolrer里面关闭无法点击的bug
-  let ids = getTreeLayerIdByName('118默认展示', ref.infotree);
-  await aircityObj.value.acApi.infoTree.hide(ids);
+const handleAircityObjReady = (val) => {
+  aircityObj.value = val;
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
 const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));
@@ -158,7 +135,6 @@ onMounted(async () => {
     store.changeShowPromitionVideo(true);
   }
 });
-provide('aircityObj', aircityObj);
 </script>
 
 <style lang="less" scoped>
@@ -282,7 +258,6 @@ provide('aircityObj', aircityObj);
   background: rgba(4, 22, 43, 0.4);
   color: #ffffff;
   z-index: 20;
-  
 
   img {
     height: 24px;

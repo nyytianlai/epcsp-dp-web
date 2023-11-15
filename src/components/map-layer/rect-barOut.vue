@@ -1,7 +1,6 @@
 <template></template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount } from 'vue';
-import request from '@sutpc/axios';
+import { inject, onBeforeUnmount } from 'vue';
 import { requestGeojsonData } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
@@ -83,7 +82,7 @@ const addBar = async (
         countObj[0].countNumber
       }&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}&moudleName=${moudleName}`, //弹窗HTML链接
       autoHidePopupWindow: false,
-      popupSize: [60, contentHeight+10],
+      popupSize: [60, contentHeight + 10],
       popupOffset: [-60, -80], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,

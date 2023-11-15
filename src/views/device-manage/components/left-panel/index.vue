@@ -10,7 +10,7 @@
         class="device-total-pie"
         :data="chargingStationPieData"
         :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
-        :mode="totalCurCode === 1 ? 'canChoose' : 'default'"
+        :mode="isCanChoose ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
       />
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, toRefs, watch } from 'vue';
+import { ref, onMounted, toRefs, watch, computed } from 'vue';
 import { selectChargeCount, selectChargeCountByArea, selectHrStationInfo } from '../../api.js';
 import {
   chargingStationTabsFun,
@@ -67,7 +67,7 @@ const emit = defineEmits([
   'handleTotalCurCodeChange',
   'handleChargeTypeChange'
 ]);
-const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB'];
+const chargingStationColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#BEE5FB', '#ED8ECA'];
 const chargingGunColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 // 行政区充电次数情况时间
 const dayType = ref(1);
@@ -75,10 +75,11 @@ const dayType = ref(1);
 const dialogTotalVisible = ref(false);
 
 const chargingStationData = ref(null);
-// 充电桩数量信息
+// 充电设施总览 - 充电桩/枪数量信息
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
-const chargingStationPieData = ref(chargingStationPieDataFun());
+const chargingStationPieData = ref([]);
+const chargeTab = ref('cdzlx');
 // 设备管理/充电站数字孪生
 const chargingNum = ref([]);
 //充电高峰区域情况
@@ -87,33 +88,31 @@ const areaTotalNum = ref(0);
 // 充电设施总量
 const handleChoose = (item) => {
   console.log('充电设施总量', item);
-  emit('handleChargeTypeChange', item);
+  if (chargeTab.value === 'cdzlx' || chargeTab.value === 'cdqlx') {
+    emit('handleChargeTypeChange', item);
+  }
 };
 // 充电设施总量详情
 const handleDetailClick = () => {
   dialogTotalVisible.value = true;
 };
 const handleChangeTab = (data, type) => {
+  chargeTab.value = data.code;
   if (type === 'charging-station') {
     //切换充电桩数量信息
-    if (data.code === 1) {
-      emit('handleTotalCurCodeChange', data.code);
+    if (data.code === 'cdzlx') {
+      emit('handleTotalCurCodeChange', data.index);
     }
-    getSelectChargeCount(data.code, bottomBtnCur.value);
+    getSelectChargeCount(data.code);
   }
 };
 // 设备管理/充电桩数量
-const getSelectChargeCount = async (type, maintab) => {
-  if (!chargingStationData.value) {
-    const res = await selectChargeCount({ type: bottomBtnCur.value });
-    console.log('res', res);
-    chargingStationData.value = res.data;
-  }
-  chargingStationPieData.value = chargingStationPieDataFun(
-    type,
-    chargingStationData.value,
-    maintab
-  );
+const getSelectChargeCount = async (code) => {
+  // if (!chargingStationData.value) {
+  const res = await selectChargeCount({ type: bottomBtnCur.value });
+  chargingStationData.value = res.data;
+  // }
+  chargingStationPieData.value = chargingStationPieDataFun(code, chargingStationData.value);
 };
 //设备管理/行政区充电次数情况
 const getSelectChargeCountByArea = async () => {
@@ -141,14 +140,6 @@ const getSelectHrStationInfo = async () => {
     chargingNum.value = [];
   }
 };
-watch(
-  () => bottomBtnCur.value,
-  (newVal) => {
-    // 重新获取充电设施总量
-    console.log(newVal);
-    getSelectChargeCount(totalCurCode.value, bottomBtnCur.value);
-  }
-);
 const handleClose = () => {
   dialogTotalVisible.value = false;
 };
@@ -158,8 +149,22 @@ const handleYearBtn = (item) => {
   dayType.value = item.value;
   getSelectChargeCountByArea();
 };
+watch(
+  () => bottomBtnCur.value,
+  (newVal) => {
+    // 重新获取充电设施总量
+    console.log(newVal);
+    if (newVal === 1) {
+      chargeTab.value = 'cdzlx';
+    } else {
+      chargeTab.value = 'cdqlx';
+    }
+    getSelectChargeCount(chargeTab.value);
+  }
+);
+const isCanChoose = computed(() => ['cdzlx', 'cdqlx'].includes(chargeTab.value));
 onMounted(() => {
-  getSelectChargeCount(1, 1);
+  getSelectChargeCount(chargeTab.value);
   getSelectChargeCountByArea();
   getSelectHrStationInfo();
 });
