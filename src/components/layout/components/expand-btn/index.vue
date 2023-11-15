@@ -41,15 +41,17 @@ import { stationSearch } from './api.js';
 
 const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const searchInput = ref('');
 const isSearchCollapsed = ref(false);
-const __g = aircityObj.value?.acApi;
+// const __g = aircityObj.value?.acApi;
 const handleClick = () => {
   isCollapsed.value = !isCollapsed.value;
   store.changeShowPanel(!isCollapsed.value);
   if (store.showDetail) return;
-  isCollapsed.value ? __g.camera.set(infoObj.szViewFull, 0.2) : __g.camera.set(infoObj.szView, 0.2);
+  isCollapsed.value
+    ? aircityObj.value?.acApi.camera.set(infoObj.szViewFull, 0.2)
+    : aircityObj.value?.acApi.camera.set(infoObj.szView, 0.2);
 };
 
 // 远程搜索方法
@@ -77,7 +79,7 @@ const handleSearch = async (value) => {
   searchInput.value = '';
   isSearchCollapsed.value = false;
   showStationDetailPanel(store, value);
-  __g && toSingleStation(__g, value);
+  toSingleStation(aircityObj.value?.acApi, value);
 };
 </script>
 <style lang="less">
