@@ -43,7 +43,7 @@
           <icon icon="svg-icon:people" />
           <div class="info">
             <span class="top">
-              <span class="name-pile">李某某-欢乐谷比亚迪充电站-安全负责人</span>
+              <span class="name-pile">李强-比亚迪民乐充电站-安全负责人</span>
             </span>
             <span class="pile-code">18283993910</span>
           </div>
@@ -51,7 +51,7 @@
       </template>
       <div class="user-info">
         <icon icon="svg-icon:people-big" :style="{ fontSize: '2.94rem' }" />
-        <span class="user-name">李某某</span>
+        <span class="user-name">李强</span>
         <span class="time">00:00:00</span>
         <div class="btn-wrap">
           <span

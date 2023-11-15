@@ -2,7 +2,7 @@
   <panel type="right">
     <div class="public-service-wrap">
       <div class="today-runing">
-        <title-column title="今日储能电站运行信息" icon="energy-station" />
+        <title-column title="客户端使用情况" icon="energy-station" />
         <client-usage :data="clientUsageCount" />
       </div>
       <div class="realtime-info">

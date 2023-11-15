@@ -1,6 +1,7 @@
 <template>
   <panel>
     <div class="left-wrap">
+      <title-column title="站点类型统计" />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <div class="box-title">新能源汽车充电站</div>
@@ -139,8 +140,10 @@ onMounted(async () => {
   flex-direction: column;
 }
 .left-title-container {
+  margin-top: 10px;
   flex: 1;
-  height: 0;
+  // height: 0;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
@@ -174,7 +177,7 @@ onMounted(async () => {
 }
 .left-title__panel {
   flex: 1;
-  height: 0;
+  // height: 0;
   display: flex;
   flex-direction: column;
 }

@@ -135,7 +135,7 @@ const addChageingIcon = async (data, id?: string) => {
       coordinate: element.coord, //坐标位置
       anchors: [-22, 93.6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [44, 93.6], //图片的尺寸
-      range: [0, 500], //可视范围
+      range: [0, 150], //可视范围
       imagePath: `${import.meta.env.VITE_FD_FileURL}/data/images/charge.gif`,
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       displayMode: 2,
