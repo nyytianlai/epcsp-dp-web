@@ -83,13 +83,13 @@ export const getHtmlUrl = () => {
   if (import.meta.env.MODE === 'base') {
     // return 'http://10.10.50.136:5500/public';
     // return 'http://10.10.48.84:5500/public';
-    return 'http://127.0.0.1:5500/public';
+    return 'http://127.0.0.1:5501/public';
     // return 'http://10.10.50.212:5500/public'
   } else {
     return location.origin;
   }
 };
-export const getImageByCloud = (picName: string) => {
+export const getImageByCloud = (picName: any) => {
   return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
 };
 
@@ -161,7 +161,7 @@ export const returnStationPointConfig = (item: {
   lat: number;
   stationName: string;
   xoffset: number;
-  stationType: number;
+  stationType: number | string;
 }) => {
   // 弹框字数*16+弹框默认宽度，方便计算弹框大小和位移
   const popupWidth = 146; // 弹框默认宽度
@@ -212,12 +212,20 @@ export const toSingleStation = async (
   }
 ) => {
   let info = await __g.marker.get('station-' + value.stationId);
+  const imgName = {
+    1: 'station50',
+    2: 'station50',
+    3: 'stationpoint-ccz',
+    4: 'stationpoint-v2g',
+    5: 'stationpoint-ccz-oubiao'
+  };
   console.log('获取站点信息', info);
   value['lng'] = Number(value.stationLng);
   value['lat'] = Number(value.stationLat);
-  value['stationType'] = 50;
+  value['stationType'] = imgName[value.stationLogo] || 'station50';
   //普通站点
   if (!info.data.length) {
+    console.log('普通站点', value);
     //不存在
     let xoffset = value.stationName.length * 12;
     value['xoffset'] = xoffset;
@@ -225,7 +233,6 @@ export const toSingleStation = async (
     await __g.marker.add([o], null);
   }
   await bus.emit('searchEnterStation', value);
-  console.log('3333333333');
 };
 
 export const showStationDetailPanel = (storeVisible, item) => {
