@@ -3,22 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      
       #chart-panel{
         height: 100%;
         width: 100%;
         position: absolute;
         bottom: 0px;left: 50px;
         pointer-events: auto;
+        z-index: 1;
       }
       #pop-panel{
         width: 180px;
         height:170px; 
         /* background: url('../images/rectbarPop3.png') no-repeat; */
         position: fixed;
-        background-size: 100% 100%;
-        /* left: -20px; */
-        /* z-index: 99999; */
+        z-index: 10;
       }
       .title{
           /* position: absolute; */
@@ -63,10 +61,10 @@
           font-size: 12px;
           line-height: 24px;
           color: rgba(255, 255, 255, 0.8);
-          }
-          .liRight{
-            display: flex;
-          }
+        }
+        .liRight{
+          display: flex;
+        }
         .num{
           font-style: normal;
           font-weight: 700;
@@ -205,6 +203,7 @@
             axisPointer: {
               type: "shadow",
             },
+            appendToBody: true,
             backgroundColor: "rgba(9, 24, 48, 0.0)",
             borderColor: "rgba(75, 253, 238, 0.0)",
             textStyle: {
