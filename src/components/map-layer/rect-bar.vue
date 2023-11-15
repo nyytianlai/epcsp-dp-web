@@ -58,7 +58,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
         ? i.areaCode == item.properties.QUCODE
         : i.streetId == item.properties.JDCODE;
     });
-    let contentHeight = 190;
+    let contentHeight = 160;
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
@@ -80,7 +80,7 @@ const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
       autoHidePopupWindow: false,
       // popupSize: [80, contentHeight], //弹窗大小
       // popupOffset: [-80, -contentHeight / 2.5], //弹窗偏移
-      popupSize: [220, contentHeight + 100],
+      popupSize: [200, contentHeight + 160],
       popupOffset: [-125, -140], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
