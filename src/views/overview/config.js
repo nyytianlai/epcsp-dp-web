@@ -355,7 +355,7 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
 };
 const carbon = [
   {
-    date: '2023/5/10',
+    date: '2023/9/10',
     newCharging: '8355 ',
     change: '51 ',
     bike: '67 ',
@@ -363,7 +363,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/5/11',
+    date: '2023/9/11',
     newCharging: '8195 ',
     change: '50 ',
     bike: '66 ',
@@ -371,7 +371,7 @@ const carbon = [
     light: '1065'
   },
   {
-    date: '2023/5/12',
+    date: '2023/9/12',
     newCharging: '8100 ',
     change: '50 ',
     bike: '79 ',
@@ -379,7 +379,7 @@ const carbon = [
     light: '1186'
   },
   {
-    date: '2023/5/13',
+    date: '2023/9/13',
     newCharging: '6922 ',
     change: '42 ',
     bike: '62 ',
@@ -387,7 +387,7 @@ const carbon = [
     light: '1282'
   },
   {
-    date: '2023/5/14',
+    date: '2023/9/14',
     newCharging: '6763 ',
     change: '41 ',
     bike: '64 ',
@@ -395,7 +395,7 @@ const carbon = [
     light: '1410'
   },
   {
-    date: '2023/5/15',
+    date: '2023/9/15',
     newCharging: '8116 ',
     change: '50 ',
     bike: '65 ',
@@ -403,7 +403,7 @@ const carbon = [
     light: '203'
   },
   {
-    date: '2023/5/16',
+    date: '2023/9/16',
     newCharging: '7893 ',
     change: '48 ',
     bike: '67 ',
@@ -411,7 +411,7 @@ const carbon = [
     light: '139'
   },
   {
-    date: '2023/5/17',
+    date: '2023/9/17',
     newCharging: '7718 ',
     change: '47 ',
     bike: '62 ',
@@ -419,7 +419,7 @@ const carbon = [
     light: '327'
   },
   {
-    date: '2023/5/18',
+    date: '2023/9/18',
     newCharging: '8116 ',
     change: '50 ',
     bike: '65 ',
@@ -427,7 +427,7 @@ const carbon = [
     light: '203'
   },
   {
-    date: '2023/5/19',
+    date: '2023/9/19',
     newCharging: '7893 ',
     change: '48 ',
     bike: '67 ',
@@ -435,7 +435,7 @@ const carbon = [
     light: '139'
   },
   {
-    date: '2023/5/20',
+    date: '2023/9/20',
     newCharging: '6493 ',
     change: '40 ',
     bike: '90 ',
@@ -443,7 +443,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/5/21',
+    date: '2023/9/21',
     newCharging: '6556 ',
     change: '40 ',
     bike: '83 ',
@@ -451,7 +451,7 @@ const carbon = [
     light: '1333'
   },
   {
-    date: '2023/5/22',
+    date: '2023/9/22',
     newCharging: '8187 ',
     change: '50 ',
     bike: '79 ',
@@ -459,7 +459,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/5/23',
+    date: '2023/9/23',
     newCharging: '7798 ',
     change: '48 ',
     bike: '62 ',
@@ -467,7 +467,7 @@ const carbon = [
     light: '1263'
   },
   {
-    date: '2023/5/24',
+    date: '2023/9/24',
     newCharging: '8355 ',
     change: '51 ',
     bike: '67 ',
@@ -475,7 +475,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/5/25',
+    date: '2023/9/25',
     newCharging: '8195 ',
     change: '50 ',
     bike: '66 ',
@@ -483,7 +483,7 @@ const carbon = [
     light: '1065'
   },
   {
-    date: '2023/5/26',
+    date: '2023/9/26',
     newCharging: '8100 ',
     change: '50 ',
     bike: '79 ',
@@ -491,7 +491,7 @@ const carbon = [
     light: '1186'
   },
   {
-    date: '2023/5/27',
+    date: '2023/9/27',
     newCharging: '6922 ',
     change: '42 ',
     bike: '62 ',
@@ -499,7 +499,7 @@ const carbon = [
     light: '1282'
   },
   {
-    date: '2023/5/28',
+    date: '2023/9/28',
     newCharging: '6763 ',
     change: '41 ',
     bike: '64 ',
@@ -507,7 +507,7 @@ const carbon = [
     light: '1410'
   },
   {
-    date: '2023/5/29',
+    date: '2023/9/29',
     newCharging: '8116 ',
     change: '50 ',
     bike: '65 ',
@@ -515,7 +515,7 @@ const carbon = [
     light: '203'
   },
   {
-    date: '2023/5/30',
+    date: '2023/9/30',
     newCharging: '7893 ',
     change: '48 ',
     bike: '67 ',
@@ -523,15 +523,7 @@ const carbon = [
     light: '139'
   },
   {
-    date: '2023/5/31',
-    newCharging: '7718 ',
-    change: '56 ',
-    bike: '62 ',
-    energy: '59 ',
-    light: '327'
-  },
-  {
-    date: '2023/6/1',
+    date: '2023/10/1',
     newCharging: '7806 ',
     change: '48 ',
     bike: '74 ',
@@ -539,7 +531,7 @@ const carbon = [
     light: '287'
   },
   {
-    date: '2023/6/2',
+    date: '2023/10/2',
     newCharging: '7949 ',
     change: '49 ',
     bike: '77 ',
@@ -547,7 +539,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/3',
+    date: '2023/10/3',
     newCharging: '7089 ',
     change: '43 ',
     bike: '67 ',
@@ -555,7 +547,7 @@ const carbon = [
     light: '134'
   },
   {
-    date: '2023/6/4',
+    date: '2023/10/4',
     newCharging: '6851 ',
     change: '42 ',
     bike: '62 ',
@@ -563,7 +555,7 @@ const carbon = [
     light: '1171'
   },
   {
-    date: '2023/6/5',
+    date: '2023/10/5',
     newCharging: '8355 ',
     change: '51 ',
     bike: '62 ',
@@ -571,7 +563,7 @@ const carbon = [
     light: '195'
   },
   {
-    date: '2023/6/6',
+    date: '2023/10/6',
     newCharging: '8355 ',
     change: '51 ',
     bike: '61 ',
@@ -579,7 +571,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/7',
+    date: '2023/10/7',
     newCharging: '8195 ',
     change: '50 ',
     bike: '65 ',
@@ -587,7 +579,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/8',
+    date: '2023/10/8',
     newCharging: '7543 ',
     change: '56 ',
     bike: '74 ',
@@ -595,7 +587,7 @@ const carbon = [
     light: '1269'
   },
   {
-    date: '2023/6/9',
+    date: '2023/10/9',
     newCharging: '7670 ',
     change: '47 ',
     bike: '79 ',
@@ -603,7 +595,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/10',
+    date: '2023/10/10',
     newCharging: '6843 ',
     change: '42 ',
     bike: '61 ',
@@ -611,7 +603,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/11',
+    date: '2023/10/11',
     newCharging: '7320 ',
     change: '45 ',
     bike: '60 ',
@@ -619,7 +611,7 @@ const carbon = [
     light: '293'
   },
   {
-    date: '2023/6/12',
+    date: '2023/10/12',
     newCharging: '7798 ',
     change: '48 ',
     bike: '63 ',
@@ -627,7 +619,7 @@ const carbon = [
     light: '195'
   },
   {
-    date: '2023/6/13',
+    date: '2023/10/13',
     newCharging: '7718 ',
     change: '47 ',
     bike: '66 ',
@@ -635,7 +627,7 @@ const carbon = [
     light: '1562'
   },
   {
-    date: '2023/6/14',
+    date: '2023/10/14',
     newCharging: '7638 ',
     change: '47 ',
     bike: '64 ',
@@ -643,7 +635,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/15',
+    date: '2023/10/15',
     newCharging: '8148 ',
     change: '50 ',
     bike: '74 ',
@@ -651,7 +643,7 @@ const carbon = [
     light: '1757'
   },
   {
-    date: '2023/6/16',
+    date: '2023/10/16',
     newCharging: '7861 ',
     change: '48 ',
     bike: '74 ',
@@ -659,7 +651,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/17',
+    date: '2023/10/17',
     newCharging: '7559 ',
     change: '46 ',
     bike: '67 ',
@@ -667,7 +659,7 @@ const carbon = [
     light: '1562'
   },
   {
-    date: '2023/6/18',
+    date: '2023/10/18',
     newCharging: '7161 ',
     change: '44 ',
     bike: '67 ',
@@ -675,7 +667,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/19',
+    date: '2023/10/19',
     newCharging: '7638 ',
     change: '47 ',
     bike: '66 ',
@@ -683,7 +675,7 @@ const carbon = [
     light: '195'
   },
   {
-    date: '2023/6/20',
+    date: '2023/10/20',
     newCharging: '8068 ',
     change: '49 ',
     bike: '90 ',
@@ -691,7 +683,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/21',
+    date: '2023/10/21',
     newCharging: '7845 ',
     change: '48 ',
     bike: '83 ',
@@ -699,7 +691,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/22',
+    date: '2023/10/22',
     newCharging: '8195 ',
     change: '50 ',
     bike: '79 ',
@@ -707,7 +699,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/23',
+    date: '2023/10/23',
     newCharging: '7798 ',
     change: '48 ',
     bike: '62 ',
@@ -715,7 +707,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/24',
+    date: '2023/10/24',
     newCharging: '6763 ',
     change: '41 ',
     bike: '67 ',
@@ -723,7 +715,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/25',
+    date: '2023/10/25',
     newCharging: '6286 ',
     change: '38 ',
     bike: '66 ',
@@ -731,7 +723,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/6/26',
+    date: '2023/10/26',
     newCharging: '7782 ',
     change: '48 ',
     bike: '79 ',
@@ -739,7 +731,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/27',
+    date: '2023/10/27',
     newCharging: '7718 ',
     change: '47 ',
     bike: '62 ',
@@ -747,7 +739,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/6/28',
+    date: '2023/10/28',
     newCharging: '7559 ',
     change: '46 ',
     bike: '64 ',
@@ -755,7 +747,7 @@ const carbon = [
     light: '586'
   },
   {
-    date: '2023/6/29',
+    date: '2023/10/29',
     newCharging: '8116 ',
     change: '50 ',
     bike: '65 ',
@@ -763,7 +755,7 @@ const carbon = [
     light: '586'
   },
   {
-    date: '2023/6/30',
+    date: '2023/10/30',
     newCharging: '8355 ',
     change: '51 ',
     bike: '67 ',
@@ -771,7 +763,15 @@ const carbon = [
     light: '586'
   },
   {
-    date: '2023/7/1',
+    date: '2023/10/31',
+    newCharging: '7718 ',
+    change: '56 ',
+    bike: '62 ',
+    energy: '59 ',
+    light: '327'
+  },
+  {
+    date: '2023/11/1',
     newCharging: '7002 ',
     change: '43 ',
     bike: '62 ',
@@ -779,7 +779,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/7/2',
+    date: '2023/11/2',
     newCharging: '6779 ',
     change: '42 ',
     bike: '74 ',
@@ -787,7 +787,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/7/3',
+    date: '2023/11/3',
     newCharging: '8148 ',
     change: '50 ',
     bike: '77 ',
@@ -795,7 +795,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/7/4',
+    date: '2023/11/4',
     newCharging: '8355 ',
     change: '51 ',
     bike: '67 ',
@@ -803,7 +803,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/7/5',
+    date: '2023/11/5',
     newCharging: '7798 ',
     change: '48 ',
     bike: '62 ',
@@ -811,7 +811,7 @@ const carbon = [
     light: '1171'
   },
   {
-    date: '2023/7/6',
+    date: '2023/11/6',
     newCharging: '8355 ',
     change: '51 ',
     bike: '62 ',
@@ -819,7 +819,7 @@ const carbon = [
     light: '195'
   },
   {
-    date: '2023/7/7',
+    date: '2023/11/7',
     newCharging: '8355 ',
     change: '56 ',
     bike: '61 ',
@@ -827,7 +827,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/7/8',
+    date: '2023/11/8',
     newCharging: '6604 ',
     change: '40 ',
     bike: '65 ',
@@ -835,7 +835,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/7/9',
+    date: '2023/11/9',
     newCharging: '6906 ',
     change: '42 ',
     bike: '74 ',
@@ -843,7 +843,7 @@ const carbon = [
     light: '1269'
   },
   {
-    date: '2023/7/10',
+    date: '2023/11/10',
     newCharging: '7670 ',
     change: '47 ',
     bike: '79 ',
@@ -851,7 +851,7 @@ const carbon = [
     light: '1366'
   },
   {
-    date: '2023/7/11',
+    date: '2023/11/11',
     newCharging: '7638 ',
     change: '47 ',
     bike: '61 ',
@@ -859,7 +859,7 @@ const carbon = [
     light: '390'
   },
   {
-    date: '2023/7/12',
+    date: '2023/11/12',
     newCharging: '8116 ',
     change: '50 ',
     bike: '60 ',
@@ -867,7 +867,7 @@ const carbon = [
     light: '293'
   },
   {
-    date: '2023/7/13',
+    date: '2023/11/13',
     newCharging: '7798 ',
     change: '48 ',
     bike: '63 ',
@@ -875,7 +875,7 @@ const carbon = [
     light: '195'
   },
   {
-    date: '2023/7/14',
+    date: '2023/11/14',
     newCharging: '7718 ',
     change: '47 ',
     bike: '66 ',
@@ -883,7 +883,7 @@ const carbon = [
     light: '1562'
   },
   {
-    date: '2023/7/15',
+    date: '2023/11/15',
     newCharging: '6357 ',
     change: '39 ',
     bike: '64 ',
@@ -1023,424 +1023,9 @@ export const lineCarbonOptionFun = {
   series: []
 };
 const Electric = [
+   
   {
-    date: '2023/5/10',
-    newCharging: '1050 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/5/11',
-    newCharging: '1030 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '167'
-  },
-  {
-    date: '2023/5/12',
-    newCharging: '1018 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '186'
-  },
-  {
-    date: '2023/5/13',
-    newCharging: '870 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '201'
-  },
-  {
-    date: '2023/5/14',
-    newCharging: '850 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '221'
-  },
-  {
-    date: '2023/5/15',
-    newCharging: '1020 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '32'
-  },
-  {
-    date: '2023/5/16',
-    newCharging: '992 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '22'
-  },
-  {
-    date: '2023/5/17',
-    newCharging: '970 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '51'
-  },
-  {
-    date: '2023/5/18',
-    newCharging: '1020 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '32'
-  },
-  {
-    date: '2023/5/19',
-    newCharging: '992 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '22'
-  },
-  {
-    date: '2023/5/20',
-    newCharging: '816 ',
-    change: '5 ',
-    bike: '11 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/5/21',
-    newCharging: '824 ',
-    change: '5 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '209'
-  },
-  {
-    date: '2023/5/22',
-    newCharging: '1029 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/5/23',
-    newCharging: '980 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '198'
-  },
-  {
-    date: '2023/5/24',
-    newCharging: '1050 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/5/25',
-    newCharging: '1030 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '167'
-  },
-  {
-    date: '2023/5/26',
-    newCharging: '1018 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '186'
-  },
-  {
-    date: '2023/5/27',
-    newCharging: '870 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '201'
-  },
-  {
-    date: '2023/5/28',
-    newCharging: '850 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '221'
-  },
-  {
-    date: '2023/5/29',
-    newCharging: '1020 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '32'
-  },
-  {
-    date: '2023/5/30',
-    newCharging: '992 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '22'
-  },
-  {
-    date: '2023/5/31',
-    newCharging: '970 ',
-    change: '7 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '51'
-  },
-  {
-    date: '2023/6/1',
-    newCharging: '981 ',
-    change: '6 ',
-    bike: '9 ',
-    energy: '12 ',
-    light: '45'
-  },
-  {
-    date: '2023/6/2',
-    newCharging: '999 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/3',
-    newCharging: '891 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '11 ',
-    light: '21'
-  },
-  {
-    date: '2023/6/4',
-    newCharging: '861 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '184'
-  },
-  {
-    date: '2023/6/5',
-    newCharging: '1050 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '31'
-  },
-  {
-    date: '2023/6/6',
-    newCharging: '1050 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/7',
-    newCharging: '1030 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/8',
-    newCharging: '948 ',
-    change: '7 ',
-    bike: '9 ',
-    energy: '12 ',
-    light: '199'
-  },
-  {
-    date: '2023/6/9',
-    newCharging: '964 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/10',
-    newCharging: '860 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/11',
-    newCharging: '920 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '46'
-  },
-  {
-    date: '2023/6/12',
-    newCharging: '980 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '31'
-  },
-  {
-    date: '2023/6/13',
-    newCharging: '970 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '245'
-  },
-  {
-    date: '2023/6/14',
-    newCharging: '960 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/15',
-    newCharging: '1024 ',
-    change: '6 ',
-    bike: '9 ',
-    energy: '13 ',
-    light: '275'
-  },
-  {
-    date: '2023/6/16',
-    newCharging: '988 ',
-    change: '6 ',
-    bike: '9 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/17',
-    newCharging: '950 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '245'
-  },
-  {
-    date: '2023/6/18',
-    newCharging: '900 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/19',
-    newCharging: '960 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '31'
-  },
-  {
-    date: '2023/6/20',
-    newCharging: '1014 ',
-    change: '6 ',
-    bike: '11 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/21',
-    newCharging: '986 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/22',
-    newCharging: '1030 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/23',
-    newCharging: '980 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/24',
-    newCharging: '850 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/25',
-    newCharging: '790 ',
-    change: '5 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '214'
-  },
-  {
-    date: '2023/6/26',
-    newCharging: '978 ',
-    change: '6 ',
-    bike: '10 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/27',
-    newCharging: '970 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '61'
-  },
-  {
-    date: '2023/6/28',
-    newCharging: '950 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '12 ',
-    light: '92'
-  },
-  {
-    date: '2023/6/29',
-    newCharging: '1020 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '92'
-  },
-  {
-    date: '2023/6/30',
-    newCharging: '1050 ',
-    change: '6 ',
-    bike: '8 ',
-    energy: '13 ',
-    light: '92'
-  },
-  {
-    date: '2023/7/1',
+    date: '2023/9/1',
     newCharging: '880 ',
     change: '5 ',
     bike: '8 ',
@@ -1448,7 +1033,7 @@ const Electric = [
     light: '61'
   },
   {
-    date: '2023/7/2',
+    date: '2023/9/2',
     newCharging: '852 ',
     change: '5 ',
     bike: '9 ',
@@ -1456,7 +1041,7 @@ const Electric = [
     light: '61'
   },
   {
-    date: '2023/7/3',
+    date: '2023/9/3',
     newCharging: '1024 ',
     change: '6 ',
     bike: '10 ',
@@ -1464,7 +1049,7 @@ const Electric = [
     light: '61'
   },
   {
-    date: '2023/7/4',
+    date: '2023/9/4',
     newCharging: '1050 ',
     change: '6 ',
     bike: '8 ',
@@ -1472,7 +1057,7 @@ const Electric = [
     light: '214'
   },
   {
-    date: '2023/7/5',
+    date: '2023/9/5',
     newCharging: '980 ',
     change: '6 ',
     bike: '8 ',
@@ -1480,7 +1065,7 @@ const Electric = [
     light: '184'
   },
   {
-    date: '2023/7/6',
+    date: '2023/9/6',
     newCharging: '1050 ',
     change: '6 ',
     bike: '8 ',
@@ -1488,7 +1073,7 @@ const Electric = [
     light: '31'
   },
   {
-    date: '2023/7/7',
+    date: '2023/9/7',
     newCharging: '1050 ',
     change: '7 ',
     bike: '8 ',
@@ -1496,7 +1081,7 @@ const Electric = [
     light: '61'
   },
   {
-    date: '2023/7/8',
+    date: '2023/9/8',
     newCharging: '830 ',
     change: '5 ',
     bike: '8 ',
@@ -1504,7 +1089,7 @@ const Electric = [
     light: '214'
   },
   {
-    date: '2023/7/9',
+    date: '2023/9/9',
     newCharging: '868 ',
     change: '5 ',
     bike: '9 ',
@@ -1512,7 +1097,7 @@ const Electric = [
     light: '199'
   },
   {
-    date: '2023/7/10',
+    date: '2023/9/10',
     newCharging: '964 ',
     change: '6 ',
     bike: '10 ',
@@ -1520,7 +1105,7 @@ const Electric = [
     light: '214'
   },
   {
-    date: '2023/7/11',
+    date: '2023/9/11',
     newCharging: '960 ',
     change: '6 ',
     bike: '8 ',
@@ -1528,7 +1113,7 @@ const Electric = [
     light: '61'
   },
   {
-    date: '2023/7/12',
+    date: '2023/9/12',
     newCharging: '1020 ',
     change: '6 ',
     bike: '8 ',
@@ -1536,7 +1121,7 @@ const Electric = [
     light: '46'
   },
   {
-    date: '2023/7/13',
+    date: '2023/9/13',
     newCharging: '980 ',
     change: '6 ',
     bike: '8 ',
@@ -1544,7 +1129,7 @@ const Electric = [
     light: '31'
   },
   {
-    date: '2023/7/14',
+    date: '2023/9/14',
     newCharging: '970 ',
     change: '6 ',
     bike: '8 ',
@@ -1552,13 +1137,431 @@ const Electric = [
     light: '245'
   },
   {
-    date: '2023/7/15',
+    date: '2023/9/15',
     newCharging: '799 ',
     change: '5 ',
     bike: '8 ',
     energy: '12 ',
     light: '61'
+  },
+  {
+    date: '2023/10/10',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/10/11',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '167'
+  },
+  {
+    date: '2023/10/12',
+    newCharging: '1018 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '186'
+  },
+  {
+    date: '2023/10/13',
+    newCharging: '870 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '201'
+  },
+  {
+    date: '2023/10/14',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '221'
+  },
+  {
+    date: '2023/10/15',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
+  },
+  {
+    date: '2023/10/16',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
+  },
+  {
+    date: '2023/10/17',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '51'
+  },
+  {
+    date: '2023/10/18',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
+  },
+  {
+    date: '2023/10/19',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
+  },
+  {
+    date: '2023/10/20',
+    newCharging: '816 ',
+    change: '5 ',
+    bike: '11 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/10/21',
+    newCharging: '824 ',
+    change: '5 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '209'
+  },
+  {
+    date: '2023/10/22',
+    newCharging: '1029 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/10/23',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '198'
+  },
+  {
+    date: '2023/10/24',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/10/25',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '167'
+  },
+  {
+    date: '2023/10/26',
+    newCharging: '1018 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '186'
+  },
+  {
+    date: '2023/10/27',
+    newCharging: '870 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '201'
+  },
+  {
+    date: '2023/10/28',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '221'
+  },
+  {
+    date: '2023/10/29',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '32'
+  },
+  {
+    date: '2023/10/30',
+    newCharging: '992 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '22'
+  },
+  {
+    date: '2023/10/31',
+    newCharging: '970 ',
+    change: '7 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '51'
+  },
+  
+  {
+    date: '2023/11/1',
+    newCharging: '981 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '45'
+  },
+  {
+    date: '2023/11/2',
+    newCharging: '999 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/3',
+    newCharging: '891 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '11 ',
+    light: '21'
+  },
+  {
+    date: '2023/11/4',
+    newCharging: '861 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '184'
+  },
+  {
+    date: '2023/11/5',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
+  },
+  {
+    date: '2023/11/6',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/7',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/8',
+    newCharging: '948 ',
+    change: '7 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '199'
+  },
+  {
+    date: '2023/11/9',
+    newCharging: '964 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/10',
+    newCharging: '860 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/11',
+    newCharging: '920 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '46'
+  },
+  {
+    date: '2023/11/12',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
+  },
+  {
+    date: '2023/11/13',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '245'
+  },
+  {
+    date: '2023/11/14',
+    newCharging: '960 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/15',
+    newCharging: '1024 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '13 ',
+    light: '275'
+  },
+  {
+    date: '2023/11/16',
+    newCharging: '988 ',
+    change: '6 ',
+    bike: '9 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/17',
+    newCharging: '950 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '245'
+  },
+  {
+    date: '2023/11/18',
+    newCharging: '900 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/19',
+    newCharging: '960 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '31'
+  },
+  {
+    date: '2023/11/20',
+    newCharging: '1014 ',
+    change: '6 ',
+    bike: '11 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/21',
+    newCharging: '986 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/22',
+    newCharging: '1030 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/23',
+    newCharging: '980 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/24',
+    newCharging: '850 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/25',
+    newCharging: '790 ',
+    change: '5 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '214'
+  },
+  {
+    date: '2023/11/26',
+    newCharging: '978 ',
+    change: '6 ',
+    bike: '10 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/27',
+    newCharging: '970 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '61'
+  },
+  {
+    date: '2023/11/28',
+    newCharging: '950 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '12 ',
+    light: '92'
+  },
+  {
+    date: '2023/11/29',
+    newCharging: '1020 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '92'
+  },
+  {
+    date: '2023/11/30',
+    newCharging: '1050 ',
+    change: '6 ',
+    bike: '8 ',
+    energy: '13 ',
+    light: '92'
   }
+ 
 ];
 export const lineElectricDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');

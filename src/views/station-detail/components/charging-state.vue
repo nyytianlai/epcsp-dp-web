@@ -176,7 +176,24 @@ watch([data, aircityObj], (newVal) => {
         }
       })
       .filter((item) => item);
-    noUseEquipment.push('006694'); //隐藏车辆充电那个动画
+    // noUseEquipment.push('006694'); //隐藏车辆充电那个动画
+        let ids = [
+      '006694',
+      '334225_1',
+      '334222_2',
+      '334224_1',
+      '334245_2',
+      '334247_1',
+      '334232_1',
+      '334257_2',
+      '334236_2',
+      '334259_2',
+      '334262_1',
+      '334264_1',
+      '334249_1',
+      '334250_2'
+    ];
+    noUseEquipment = noUseEquipment.concat(ids);
     let layerId1 = getTreeLayerIdByName('带ID充电中静态车辆', mapStore.treeInfo);
     let layerId2 = getTreeLayerIdByName('带ID的静态车辆', mapStore.treeInfo);
     let layerId3 = getTreeLayerIdByName('充电车充电线', mapStore.treeInfo);
