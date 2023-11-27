@@ -19,6 +19,8 @@
 
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import config from '@sutpc/config';
+
 const step = ref(0);
 const timeId = ref();
 const moveImg = () => {
@@ -38,7 +40,7 @@ onBeforeUnmount(() => {
 });
 
 const headerMoveStyle = computed(() => {
-  return { transform: `translateY(${step.value * -0.91}rem)` }
+  return { transform: `translateY(${step.value * -1 * (91*config.sizeScale)}px)` }
 })
 </script>
 

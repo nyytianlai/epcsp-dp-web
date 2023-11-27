@@ -12,7 +12,9 @@ import gsap from 'gsap'
 import {getRemvalue} from '@/utils'
 import { emitChangeFn } from 'element-plus';
 
-const HEIGHT_PER_NUMBER = ref(42) // 每个数字所占高度
+import config from '@sutpc/config';
+
+const HEIGHT_PER_NUMBER = ref(42 * config.sizeScale) // 每个数字所占高度
 const numberList = ref([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 const props = defineProps({
   num: {
@@ -30,7 +32,7 @@ const yp = ref(0)
 const animation = (newVal = 0, oldVal = 0) => {
   const newValIndex = numberList.value.findIndex(i => i === newVal)
   const oldValIndex = numberList.value.findIndex(i => i === oldVal)
-  yp.value = getRemvalue((oldValIndex - newValIndex) * HEIGHT_PER_NUMBER.value)
+  yp.value = ((oldValIndex - newValIndex) * HEIGHT_PER_NUMBER.value)
   // console.log('yp'+props.id, yp.value)
   // console.log('oldYp'+props.id, oldYp.value)
   if (typeof newVal !== 'string') {

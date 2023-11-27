@@ -255,8 +255,8 @@ onMounted(async () => {
     margin-top: 16px;
   }
   :deep(.num-wrap) {
-    height: 157px;
-    margin-top: 25px;
+    // height: 157px;
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
   }
@@ -270,9 +270,18 @@ onMounted(async () => {
   }
 }
 .realtime-trend {
-  margin-top: 23px;
+  margin-top: 15px;
   .ec-wrap {
     margin-top: 14px;
+  }
+}
+.num-wrap {
+  container-type: inline-size;
+  container-name: numWrap;
+  @container numWrap (min-width: 500px) {
+    .num-card {
+      flex-direction: row;
+    }
   }
 }
 </style>

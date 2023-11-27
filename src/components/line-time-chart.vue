@@ -11,6 +11,8 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
 import { deepClone } from '@/utils';
+import { getRemvalue } from '@/utils/index';
+
 interface Idata {
   x: number;
   y: number;
@@ -251,7 +253,7 @@ const ecOptionFun = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 14,
+        fontSize: getRemvalue(14),
         color: '#C6D1DB'
       }
     },
@@ -271,7 +273,7 @@ const ecOptionFun = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 18,
         color: '#B4C0CC',
         formatter: (value, index) => {
@@ -296,7 +298,7 @@ const ecOptionFun = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 16,
         color: '#B4C0CC',
         formatter: (value) => {
@@ -374,7 +376,7 @@ const ecOptionFunMode = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 14,
+        fontSize: getRemvalue(14),
         color: '#C6D1DB'
       }
     },
@@ -395,7 +397,7 @@ const ecOptionFunMode = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 18,
         color: '#B4C0CC'
       },
@@ -413,7 +415,7 @@ const ecOptionFunMode = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 16,
         color: '#B4C0CC',
         formatter: (value) => {
@@ -492,7 +494,7 @@ const ecOptionFunOnlyLine = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         color: '#C6D1DB'
       }
     },
@@ -513,7 +515,7 @@ const ecOptionFunOnlyLine = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 18,
         color: '#B4C0CC'
       },
@@ -534,7 +536,7 @@ const ecOptionFunOnlyLine = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: 12,
+        fontSize: getRemvalue(14),
         lineHeight: 16,
         color: '#B4C0CC',
         formatter: (value) => {

@@ -157,8 +157,8 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 22px;
+    // height: 160px;
+    padding: 5px 22px;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -168,6 +168,13 @@ onMounted(() => {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
+    container-type: inline-size;
+    container-name: numCard;
+    @container numCard (min-width: 500px) {
+      .num-card {
+        flex-direction: row;
+      }
+    }
   }
 }
 .operating-company {

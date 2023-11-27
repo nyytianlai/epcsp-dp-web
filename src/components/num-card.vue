@@ -238,5 +238,7 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       }
     }
   }
+  
 }
+
 </style>
