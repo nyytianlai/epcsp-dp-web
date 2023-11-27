@@ -23,7 +23,11 @@ axios.interceptors.request.use(
     config.headers['sutpc-login-app'] = GlobalConfig.app;
     config.headers['sutpc-login-tenant'] = GlobalConfig.tenant;
     config.headers['login-mode'] = import.meta.env.VITE_LOGIN_MODE;
-    const username = sessionStorage.getItem('login-username');
+    /**
+     * 接入第三方登录时，通过url传入token的方式，会存在sessionStorage没有登录用户名的问题
+     * 从而这里获取不到用户名，而导致接口弹窗错误
+     */
+    const username = sessionStorage.getItem('login-username') || 'jiaochenbin@sutpc.com';
     if (username) {
       config.headers['sutpc-login-username'] = username;
     }
