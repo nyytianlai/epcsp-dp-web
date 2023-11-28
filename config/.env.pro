@@ -27,4 +27,4 @@ VITE_FD_URL=10.10.50.136:3480 #开发环境  //斜对面电脑
 VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境  //斜对面电脑
 
 # 应用名称，用于网页头部等
-VITE_APP_TITLE = 电力充储放一张图
+VITE_APP_TITLE = 电力充储放一张网
