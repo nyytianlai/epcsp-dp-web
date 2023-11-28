@@ -17,7 +17,8 @@ VITE_BASE_URL=http://sit-tpaas.sutpc.com:8080 #测试环境
 VITE_LOGIN_MODE=SUTPC-LOGIN
 # 打包路径
 VITE_BASE_PATH = /
-
+# 是否跳转到登录页面
+VITE_REDIRECT_LOGIN = 1
 
 # 飞渡地图服务地址
 VITE_FD_URL=10.10.50.136:3480 #开发环境  //斜对面电脑
