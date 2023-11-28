@@ -17,7 +17,12 @@ const aircityObj = ref(null);
 const mapStore = useMapStore();
 const currentPosition = computed(() => mapStore.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
 const ifHawkEye = computed(() => currentPosition.value.includes('市'));
-const cloudHost = `${location.host}/freedo`;
+
+// 原来是通过nginx配置转发的飞渡流
+// const cloudHost = `${location.host}/freedo`;
+// 20231128在证数局调试时，要用本地临时的飞渡服务地址
+const cloudHost = `http://${import.meta.env.VITE_FD_URL}/freedo`
+
 const handleMapReady = async (obj) => {
   aircityObj.value = obj;
   emit('aircityObjReady', obj);
