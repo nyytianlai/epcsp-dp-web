@@ -87,7 +87,7 @@ export const getHtmlUrl = () => {
     return import.meta.env.VITE_LOCAL_DEV_SERVER;
     // return 'http://10.10.50.212:5500/public'
   } else {
-    return location.origin;
+    return location.origin + location.pathname;
   }
 };
 export const getImageByCloud = (picName: any) => {

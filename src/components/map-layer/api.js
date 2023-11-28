@@ -95,8 +95,14 @@ export const getQuStationWithAlarm = (data) => {
 };
 // 获取geojson数据
 export const requestGeojsonData = (fileName) => {
+
+  let baseURL = import.meta.env.VITE_FD_DATA_URL;
+  if (!baseURL) {
+    baseURL = import.meta.env.VITE_BASE_PATH + 'freedata';
+  }
+  
   return request.get({
-    baseURL: import.meta.env.VITE_BASE_PATH + 'freedata',
+    baseURL,
     url: `/data/geojson/${fileName}.geojson`
   });
 };
