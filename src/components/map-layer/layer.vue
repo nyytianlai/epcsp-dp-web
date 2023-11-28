@@ -21,7 +21,10 @@ const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 // 原来是通过nginx配置转发的飞渡流
 // const cloudHost = `${location.host}/freedo`;
 // 20231128在证数局调试时，要用本地临时的飞渡服务地址
-const cloudHost = `http://${import.meta.env.VITE_FD_URL}/freedo`
+let cloudHost = import.meta.env.VITE_FD_URL;
+if (!cloudHost) {
+  cloudHost = `${location.host}/freedo`;
+}
 
 const handleMapReady = async (obj) => {
   aircityObj.value = obj;
