@@ -36,14 +36,14 @@
         unit="%"
         :colors="lineRunColor"
         yAxisMode1="auto"
-        :yAxisMode2="2"
+        :yAxisMode2="2" :style="bottomChartStyle"
       />
     </div>
   </panel>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import {
   selectPowerSumByDayTime,
   selectChargeEquipmentStatus,
@@ -60,6 +60,7 @@ import {
   lineRunDataFun
 } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
+import config from '@sutpc/config';
 
 const lineStateColor = ['green', 'blue'];
 const lineRunColor = ['green', '#FF7723'];
@@ -75,6 +76,13 @@ const lineStateData = ref(lineStateDataFun());
 const chargingRunTabs = ref(chargingRunTabsFun());
 const chargingRunData = ref(chargingRunDataFun());
 const lineRunData = ref(lineRunDataFun());
+
+const bottomChartStyle = computed(() => {
+  return {
+    height: 140 * config.sizeScale + 'px'
+  }
+})
+
 const handleChangeTab = (data, type) => {
   if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态

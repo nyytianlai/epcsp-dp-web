@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { merge } from 'lodash';
 import { deepClone } from '@/utils';
 import { getRemvalue } from '@/utils/index';
+import config from '@sutpc/config';
 
 interface Idata {
   x: number;
@@ -241,10 +242,10 @@ function simplifyNum(number) {
 const ecOptionFun = () => {
   let option = {
     grid: {
-      top: 30,
-      bottom: 24,
-      right: 15,
-      left: 42
+      top: 30 * config.sizeScale,
+      bottom: 24 * config.sizeScale,
+      right: 15 * config.sizeScale,
+      left: 42 * config.sizeScale,
     },
     legend: {
       itemWidth: 16,
@@ -274,7 +275,7 @@ const ecOptionFun = () => {
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
         fontSize: getRemvalue(14),
-        lineHeight: 18,
+        lineHeight: 18 * config.sizeScale,
         color: '#B4C0CC',
         formatter: (value, index) => {
           return dayjs(value).format('HH:00');
@@ -299,7 +300,7 @@ const ecOptionFun = () => {
       axisLabel: {
         fontFamily: 'Helvetica',
         fontSize: getRemvalue(14),
-        lineHeight: 16,
+        lineHeight: 16 * config.sizeScale,
         color: '#B4C0CC',
         formatter: (value) => {
           return value ? simplifyNum(value) : '';
@@ -482,10 +483,10 @@ const ecOptionFunMode = () => {
 const ecOptionFunOnlyLine = () => {
   let option = {
     grid: {
-      top: 50,
-      bottom: 24,
-      right: 15,
-      left: 42
+      top: 60 * config.sizeScale,
+      bottom: 24 * config.sizeScale,
+      right: 15 * config.sizeScale,
+      left: 42 * config.sizeScale,
     },
     legend: {
       itemWidth: 16,
@@ -494,7 +495,7 @@ const ecOptionFunOnlyLine = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        // fontSize: getRemvalue(12),
         color: '#C6D1DB'
       }
     },
@@ -515,8 +516,8 @@ const ecOptionFunOnlyLine = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
-        lineHeight: 18,
+        // fontSize: getRemvalue(12),
+        lineHeight: 18 * config.sizeScale,
         color: '#B4C0CC'
       },
       splitLine: {
@@ -537,7 +538,7 @@ const ecOptionFunOnlyLine = () => {
       axisLabel: {
         fontFamily: 'Helvetica',
         fontSize: getRemvalue(14),
-        lineHeight: 16,
+        lineHeight: 16 * config.sizeScale,
         color: '#B4C0CC',
         formatter: (value) => {
           return value ? simplifyNum(value) : '';

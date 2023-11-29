@@ -89,9 +89,10 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <div class="backBox">
+  <!-- <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
-  </div>
+  </div> -->
+  <Goback @click="backSz" />
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
   <pile-dialog
@@ -157,6 +158,7 @@ import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
+import Goback from '@/components/goback/index.vue';
 
 // import WarnList from './components/warn-list.vue';
 import {
@@ -708,24 +710,24 @@ onUnmounted(() => {
 // });
 </script>
 <style lang="less" scoped>
-.backBox {
-  position: absolute;
-  height: 19.5px;
-  left: 86px;
-  top: 75px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
+// .backBox {
+//   position: absolute;
+//   height: 19.5px;
+//   left: 86px;
+//   top: 75px;
+//   display: flex;
+//   background: rgba(4, 22, 43, 0.4);
 
-  color: #ffffff;
-  z-index: 20;
-  cursor: pointer;
+//   color: #ffffff;
+//   z-index: 20;
+//   cursor: pointer;
 
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 1px;
-  }
-}
+//   img {
+//     width: 24px;
+//     height: 24px;
+//     border-radius: 1px;
+//   }
+// }
 
 .station-info {
   margin-top: 12px;

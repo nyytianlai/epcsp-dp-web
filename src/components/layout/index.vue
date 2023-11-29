@@ -12,9 +12,10 @@
         <base-ac @aircityObjReady="handleAircityObjReady" />
 
         <expand-btn />
-        <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
+        <!-- <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
           <img src="./images/back.png" alt="" @click="router.push('/overview')" />
-        </div>
+        </div> -->
+        <Goback  v-show="currentPosition === '深圳市' && isShowMenu" @click="router.push('/overview')" />
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -59,6 +60,7 @@ import StationDetail from '@/views/station-detail/index.vue';
 import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
+import Goback from '@/components/goback/index.vue';
 
 import { getHashParam, getUrlParam } from '@sutpc/zebra';
 
@@ -145,9 +147,6 @@ onMounted(async () => {
   --header-height: 40px;
   &.layout-no-header {
     --header-height: 0px;
-    .backBox {
-      top: 30px;
-    }
   }
 }
 
@@ -187,6 +186,7 @@ onMounted(async () => {
   height: 100%;
 }
 .main-content {
+  position: relative;
   height: 100%;
   width: 100%;
 }
@@ -249,23 +249,23 @@ onMounted(async () => {
   top: 0;
   left: 0;
 }
-.backBox {
-  position: absolute;
-  height: 19.5px;
-  left: 86px;
-  top: 75px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
-  color: #ffffff;
-  z-index: 20;
+// .backBox {
+//   position: absolute;
+//   height: 19.5px;
+//   left: 86px;
+//   top: 75px;
+//   display: flex;
+//   background: rgba(4, 22, 43, 0.4);
+//   color: #ffffff;
+//   z-index: 20;
 
-  img {
-    height: 24px;
-    width: 24px;
-    border-radius: 1px;
-    cursor: pointer;
-  }
-}
+//   img {
+//     height: 24px;
+//     width: 24px;
+//     border-radius: 1px;
+//     cursor: pointer;
+//   }
+// }
 .name {
   position: absolute;
   height: 36px;

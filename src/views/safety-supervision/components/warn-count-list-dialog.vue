@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="messageTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
@@ -42,11 +42,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, reactive, toRefs } from 'vue';
+import { computed, ref, onMounted, reactive, toRefs } from 'vue';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { messageColumnKeyListFun } from '../config.js';
 import { safetySupervisionAccumulated } from '../api.js';
 import Icon from '@sutpc/vue3-svg-icon';
+import config from '@sutpc/config';
+
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -71,6 +73,11 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px'
+});
+
 // table数据
 const handPageChange = async (value) => {
   pageObj.currentPage = value;

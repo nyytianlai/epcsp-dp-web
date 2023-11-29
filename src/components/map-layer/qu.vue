@@ -1,7 +1,8 @@
 <template>
-  <div class="backBox" v-show="currentPosition !== '深圳市'">
+  <!-- <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="./images/back.png" alt="" @click="back" />
-  </div>
+  </div> -->
+<Goback v-show="currentPosition !== '深圳市'" @click="back"></Goback>
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, reactive, computed } from 'vue';
@@ -25,6 +26,7 @@ import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { lianhuajingguiData } from '@/views/station-detail/config.js';
+import Goback from '@/components/goback/index.vue';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
@@ -736,30 +738,30 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="less" scoped>
-.backBox {
-  position: absolute;
-  height: 19.5px;
-  left: 86px;
-  top: 75px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
-  color: #ffffff;
-  z-index: 20;
-  cursor: pointer;
+// .backBox {
+//   // position: absolute;
+//   // height: 19.5px;
+//   // left: 86px;
+//   // top: 75px;
+//   // display: flex;
+//   // background: rgba(4, 22, 43, 0.4);
+//   // color: #ffffff;
+//   // z-index: 20;
+//   // cursor: pointer;
 
-  img {
-    height: 24px;
-    width: 24px;
-    border-radius: 1px;
-    cursor: pointer;
-  }
+//   // img {
+//   //   height: 24px;
+//   //   width: 24px;
+//   //   border-radius: 1px;
+//   //   cursor: pointer;
+//   // }
 
-  .quName {
-    font-size: 16px;
-    line-height: 22px;
-    // background: rgba(4, 22, 43, 0.5);
-    // border: 1px solid rgba(148, 148, 148, 0.3);
-    padding: 7px 16px;
-  }
-}
+//   .quName {
+//     font-size: 16px;
+//     line-height: 22px;
+//     // background: rgba(4, 22, 43, 0.5);
+//     // border: 1px solid rgba(148, 148, 148, 0.3);
+//     padding: 7px 16px;
+//   }
+// }
 </style>

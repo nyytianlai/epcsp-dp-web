@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="rankTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, provide, nextTick,inject } from 'vue';
+import { computed, ref, reactive, onMounted, provide, nextTick,inject } from 'vue';
 import { operatorInfoList } from '../api.js';
 import { columnDataRankFun } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
@@ -56,6 +56,7 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
 import RankDetail from './rank-detail.vue';
 import { toSingleStation } from '@/global/config/map';
+import config from '@sutpc/config';
 
 interface Props {
   visible: boolean;
@@ -92,6 +93,11 @@ const pageObj = reactive({
   currentPage: 1
 });
 // 获取运营企业信息
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px';
+});
+
 const loadOperatorInfoList = async () => {
   if (columnDataRank.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
