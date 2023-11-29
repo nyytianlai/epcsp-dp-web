@@ -10,7 +10,7 @@
           @click="handleCurrentTab(item)"
           @mouseover="handleHover(item)"
           @mouseout="handleOut(item)"
-          :style="{marginRight:index === 1?'652px':'31px'}"
+          :style="getNavItemStyle(index)"
           :class="[{ active: activeTitle === item.path }]"
         >
           <div
@@ -59,6 +59,9 @@
 </template>
 
 <script>
+
+import config from '@sutpc/config';
+
 export default {
   components: {},
   props: {
@@ -113,6 +116,15 @@ export default {
     }
   },
   methods: {
+    getNavItemStyle(index) {
+      let marginRightValue = 31 * config.sizeScale;
+      if (index === 1) {
+        marginRightValue = 652 * config.sizeScale;
+      }
+      return {
+        marginRight: marginRightValue + 'px'
+      }
+    },
     handleCurrentTab(data) {
       if (
         (Object.prototype.hasOwnProperty.call(data.meta, 'disabled') && data.meta.disabled) ||
