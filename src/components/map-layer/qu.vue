@@ -517,9 +517,10 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     isShow ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3) : '';
   } else if (stationId === '-1') {
     //宝清储能站
-    isShow
-      ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
-      : '';
+    // isShow
+    //   ? await __g.camera.set(529799.333953, 2510087.387759, 128.986729, -33.399971, 89.799957, 3)
+    //   : '';
+    isShow && await __g.camera.lookAt(529793.6875, 2510017.2800000003, 76.9559326171875, 40, -33.399971, 89.799957, 3)
   }
   await beforeAddOrExitHrStation(isShow); //添加完成后再清一次数据
 };
