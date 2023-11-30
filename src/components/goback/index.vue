@@ -1,5 +1,5 @@
 <template>
-    <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
+    <div class="backBox">
         <img src="./images/back.png" alt="" @click="emits('click')" />
     </div>
 </template>
