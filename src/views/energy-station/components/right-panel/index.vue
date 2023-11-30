@@ -15,7 +15,7 @@
         unit="MW"
         mode="noneArea"
         :chartStyle="{ height: '2.3rem' }"
-        :customOption="{ grid: { top: getRemvalue(48), right: getRemvalue(32) } }"
+        :customOption="{ grid: { top: scale(48), right: scale(32) } }"
       />
     </div>
     <div class="social-benefit">
@@ -31,9 +31,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { getRemvalue } from '@/utils/index';
 import { runingFun, todayLine, linePowerDataFun, socialBenefitFun } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
+import { scale } from '@sutpc/config';
+
 const lineStateColor = ['green', '#FF7723'];
 // 今日最大顶峰能力
 const chargingRealPower = ref(69.02);

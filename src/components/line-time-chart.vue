@@ -11,8 +11,8 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
 import { deepClone } from '@/utils';
-import { getRemvalue } from '@/utils/index';
-import config from '@sutpc/config';
+// import { getRemValue } from '@/utils/index';
+import config, { scale } from '@sutpc/config';
 
 interface Idata {
   x: number;
@@ -242,10 +242,10 @@ function simplifyNum(number) {
 const ecOptionFun = () => {
   let option = {
     grid: {
-      top: 30 * config.sizeScale,
-      bottom: 24 * config.sizeScale,
-      right: 15 * config.sizeScale,
-      left: 42 * config.sizeScale,
+      top: scale(30),
+      bottom: scale(24),
+      right: scale(15),
+      left: scale(42),
     },
     legend: {
       itemWidth: 16,
@@ -254,7 +254,7 @@ const ecOptionFun = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         color: '#C6D1DB'
       }
     },
@@ -262,21 +262,21 @@ const ecOptionFun = () => {
       name: '',
       type: 'time',
       boundaryGap: ['2%', '2%'],
-      axisLine: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
-      axisTick: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
+      // axisLine: {
+      //   lineStyle: {
+      //     color: '#BAE7FF'
+      //   }
+      // },
+      // axisTick: {
+      //   lineStyle: {
+      //     color: '#BAE7FF'
+      //   }
+      // },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
-        lineHeight: 18 * config.sizeScale,
-        color: '#B4C0CC',
+        fontSize: scale(14),
+        lineHeight: scale(18),
+        // color: '#B4C0CC',
         formatter: (value, index) => {
           return dayjs(value).format('HH:00');
         },
@@ -299,16 +299,16 @@ const ecOptionFun = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: getRemvalue(14),
-        lineHeight: 16 * config.sizeScale,
-        color: '#B4C0CC',
+        fontSize: scale(14),
+        lineHeight: scale(16),
+        // color: '#B4C0CC',
         formatter: (value) => {
           return value ? simplifyNum(value) : '';
         }
       },
       splitLine: {
         lineStyle: {
-          color: 'rgba(230, 247, 255, 0.2)',
+          // color: 'rgba(230, 247, 255, 0.2)',
           type: 'dashed'
         }
       }
@@ -377,7 +377,7 @@ const ecOptionFunMode = () => {
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         color: '#C6D1DB'
       }
     },
@@ -386,21 +386,21 @@ const ecOptionFunMode = () => {
       type: 'category',
       data: data.value[0].data?.map((i) => i[0]),
       boundaryGap: ['2%', '2%'],
-      axisLine: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
-      axisTick: {
-        lineStyle: {
-          color: '#BAE7FF'
-        }
-      },
+      // axisLine: {
+      //   lineStyle: {
+      //     color: '#BAE7FF'
+      //   }
+      // },
+      // axisTick: {
+      //   lineStyle: {
+      //     color: '#BAE7FF'
+      //   }
+      // },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         lineHeight: 18,
-        color: '#B4C0CC'
+        // color: '#B4C0CC'
       },
       splitLine: {
         show: false
@@ -416,7 +416,7 @@ const ecOptionFunMode = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         lineHeight: 16,
         color: '#B4C0CC',
         formatter: (value) => {
@@ -483,19 +483,19 @@ const ecOptionFunMode = () => {
 const ecOptionFunOnlyLine = () => {
   let option = {
     grid: {
-      top: 60 * config.sizeScale,
-      bottom: 24 * config.sizeScale,
-      right: 15 * config.sizeScale,
-      left: 42 * config.sizeScale,
+      top: scale(60),
+      bottom: scale(24),
+      right: scale(15),
+      left: scale(42),
     },
     legend: {
-      itemWidth: 16,
-      itemHeight: 10,
+      itemWidth: scale(16),
+      itemHeight: scale(10),
       right: 0,
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        // fontSize: getRemvalue(12),
+        // fontSize: scale(12),
         color: '#C6D1DB'
       }
     },
@@ -516,8 +516,8 @@ const ecOptionFunOnlyLine = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        // fontSize: getRemvalue(12),
-        lineHeight: 18 * config.sizeScale,
+        // fontSize: scale(12),
+        lineHeight: scale(18),
         color: '#B4C0CC'
       },
       splitLine: {
@@ -537,8 +537,8 @@ const ecOptionFunOnlyLine = () => {
       },
       axisLabel: {
         fontFamily: 'Helvetica',
-        fontSize: getRemvalue(14),
-        lineHeight: 16 * config.sizeScale,
+        fontSize: scale(14),
+        lineHeight: scale(16),
         color: '#B4C0CC',
         formatter: (value) => {
           return value ? simplifyNum(value) : '';

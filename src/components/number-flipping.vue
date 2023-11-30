@@ -9,12 +9,12 @@
 <script setup lang="ts">
 import { ref, watch, nextTick,onMounted,toRefs } from 'vue'
 import gsap from 'gsap'
-import {getRemvalue} from '@/utils'
-import { emitChangeFn } from 'element-plus';
+// import {getRemvalue} from '@/utils'
+// import { emitChangeFn } from 'element-plus';
 
-import config from '@sutpc/config';
+import { scale } from '@sutpc/config';
 
-const HEIGHT_PER_NUMBER = ref(42 * config.sizeScale) // 每个数字所占高度
+const HEIGHT_PER_NUMBER = ref(scale(42)) // 每个数字所占高度
 const numberList = ref([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 const props = defineProps({
   num: {

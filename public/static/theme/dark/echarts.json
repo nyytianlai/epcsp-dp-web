@@ -200,26 +200,26 @@
       "axisLine": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisTick": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisLabel": {
           "show": true,
           "textStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "splitLine": {
           "show": true,
           "lineStyle": {
               "color": [
-                  "#084e58"
+                  "rgba(230, 247, 255, 0.2)"
               ]
           }
       },
@@ -237,26 +237,26 @@
       "axisLine": {
           "show": true,
           "lineStyle": {
-              "color": "#e0ffff"
+              "color": "#B4C0CC"
           }
       },
       "axisTick": {
           "show": true,
           "lineStyle": {
-              "color": "#e0ffff"
+              "color": "#B4C0CC"
           }
       },
       "axisLabel": {
           "show": true,
           "textStyle": {
-              "color": "#e0ffff"
+              "color": "#B4C0CC"
           }
       },
       "splitLine": {
           "show": true,
           "lineStyle": {
               "color": [
-                  "#084e58"
+                  "rgba(230, 247, 255, 0.2)"
               ]
           }
       },
@@ -274,26 +274,26 @@
       "axisLine": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisTick": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisLabel": {
           "show": true,
           "textStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "splitLine": {
           "show": true,
           "lineStyle": {
               "color": [
-                  "#084e58"
+                "rgba(230, 247, 255, 0.2)"
               ]
           }
       },
@@ -311,26 +311,26 @@
       "axisLine": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisTick": {
           "show": true,
           "lineStyle": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       },
       "axisLabel": {
           "show": true,
           "textStyle": {
-              "color": "#e0ffff"
+              "color": "#B4C0CC"
           }
       },
       "splitLine": {
           "show": true,
           "lineStyle": {
               "color": [
-                  "#084e58"
+                "rgba(230, 247, 255, 0.2)"
               ]
           }
       },
@@ -430,11 +430,11 @@
   },
   "markPoint": {
       "label": {
-          "color": "#ffffff"
+          "color": "#B4C0CC"
       },
       "emphasis": {
           "label": {
-              "color": "#ffffff"
+              "color": "#B4C0CC"
           }
       }
   }

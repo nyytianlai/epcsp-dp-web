@@ -17,7 +17,7 @@
         yaxisName="吨"
         mode="onlyLine"
         unit=""
-        :customOption="{ legend: { itemGap: getRemvalue(10), left: 0 } }"
+        :customOption="{ legend: { itemGap: scale(10), left: 0 } }"
       />
     </div>
     <div class="box ele">
@@ -28,7 +28,7 @@
         yaxisName="万kwh"
         mode="onlyLine"
         unit=""
-        :customOption="{ legend: { itemGap: getRemvalue(0), left: 0 } }"
+        :customOption="{ legend: { itemGap: scale(0), left: 0 } }"
       />
     </div>
     </div>
@@ -38,7 +38,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import { getRemvalue } from '@/utils/index';
 import {
   stationTabType,
   ecOptionFun,
@@ -47,6 +46,8 @@ import {
 } from '../../config.js';
 import { yearChargingStation } from '../../api.js';
 import EcResize from '@sutpc/vue3-ec-resize';
+import { scale } from '@sutpc/config';
+
 const co2Color = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
 const ElectricColor = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
 // 左一柱状图
