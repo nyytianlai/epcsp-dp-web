@@ -20,7 +20,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { deepClone } from '@/utils';
 import { scale } from '@sutpc/config';
 

@@ -9,7 +9,7 @@
 import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { deepClone } from '@/utils';
 // import { getRemValue } from '@/utils/index';
 import config, { scale } from '@sutpc/config';
