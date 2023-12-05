@@ -7,8 +7,8 @@ import vitePluginSutpcLessDeep from 'vite-plugin-sutpc-less-deep';
 import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
-import { createHtmlPlugin } from 'vite-plugin-html';
-import rollupPluginVisualizer from 'rollup-plugin-visualizer';
+// import { createHtmlPlugin } from 'vite-plugin-html';
+// import rollupPluginVisualizer from 'rollup-plugin-visualizer';
 // import AutoImport from 'unplugin-auto-import/vite'
 
 import type { UserConfig, ConfigEnv } from 'vite';
@@ -30,7 +30,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       rollupOptions: {
         input: {
           index: './index.html',
-          popup: './html/popup.html'
+          popup: './popup.html'
         }
       }
     },
@@ -42,29 +42,29 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vitePluginSutpcIconPark(),
       vitePluginSutpcCommon(),
       createSvgIconsPlugin(),
-      createHtmlPlugin({
-        pages: [{
-          entry: '/src/main.ts',
-          filename: 'index.html',
-          template: 'index.html',
-          injectOptions: {
-            data: {
-              title: env.VITE_APP_TITLE
-            },
-          },
-        }, {
-          entry: '/src/popup-main.ts',
-          filename: 'popup.html',
-          template: 'popup.html'
-        }]
-      }),
-      isBuild && rollupPluginVisualizer({
-        emitFile: true,//是否被触摸
-        filename: "analyze.html",//生成分析网页文件名
-        open: true,//在默认用户代理中打开生成的文件
-        gzipSize: true,//从源代码中收集 gzip 大小并将其显示在图表中
-        brotliSize: true,//从源代码中收集 brotli 大小并将其显示在图表中
-      }),
+      // createHtmlPlugin({
+      //   pages: [{
+      //     entry: '/src/main.ts',
+      //     filename: 'index.html',
+      //     template: 'index.html',
+      //     injectOptions: {
+      //       data: {
+      //         title: env.VITE_APP_TITLE
+      //       },
+      //     },
+      //   }, {
+      //     entry: '/src/popup-main.ts',
+      //     filename: 'popup.html',
+      //     template: 'popup.html'
+      //   }]
+      // }),
+      // isBuild && rollupPluginVisualizer({
+      //   emitFile: true,//是否被触摸
+      //   filename: "analyze.html",//生成分析网页文件名
+      //   open: true,//在默认用户代理中打开生成的文件
+      //   gzipSize: true,//从源代码中收集 gzip 大小并将其显示在图表中
+      //   brotliSize: true,//从源代码中收集 brotli 大小并将其显示在图表中
+      // }),
     ],
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.less', '.css'],

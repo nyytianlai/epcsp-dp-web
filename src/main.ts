@@ -5,6 +5,7 @@ import { setupRouter } from './router/index.js';
 // 请求和loading的配置
 import '@/global/js/request';
 import ElementPlus from 'element-plus';
+import 'element-plus/theme-chalk/index.css';
 import zhLocale from 'element-plus/es/locale/lang/zh-cn';
 import '@/global/style/main.less';
 import registerComponents from '@/global/js/components';
@@ -37,8 +38,9 @@ if (urlToken) {
   setToken(urlToken);
 }
 
-themeLib.configTheme(['dark']);
-
+themeLib.configTheme(['dark'], {
+  loadElCss: false
+});
 
 function createRootApp() {
 
