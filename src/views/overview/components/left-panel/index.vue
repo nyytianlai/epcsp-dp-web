@@ -50,7 +50,8 @@
 
       <div class="box">
         <title-column title="数字孪生站点" />
-        <div class="ue-list">
+        <div class="use-list-container">
+          <div class="ue-list">
           <div
             class="ue-item"
             v-for="item in state.digitalTwinSites"
@@ -65,6 +66,8 @@
             </el-tooltip>
           </div>
         </div>
+        </div>
+        
       </div>
     </div>
   </panel>
@@ -228,24 +231,40 @@ onMounted(async () => {
 }
 
 .ue-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 10px;
+  justify-content: space-between;
+  place-content: pace-evenly;
   margin-top: 16px;
 }
+.use-list-container {
+  resize: horizontal;
+  container-name: ueList;
+  container-type: inline-size;
+}
+@container ueList (min-width: 500px) {
+    .ue-list {
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 1fr;
+    }
+  }
+
 .ue-item {
-  margin: 0 auto;
-  width: 128px;
-  height: 104px;
-  max-width: calc((100% - 20px) / 3);
+  display: grid;
+  width: 100%;
+  height: 100%;
   position: relative;
   cursor: pointer;
 
   img {
-    width: 128px;
-    max-width: 100%;
+    width: 100%;
     height: 80px;
   }
 

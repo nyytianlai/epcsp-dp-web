@@ -9,7 +9,10 @@
     <time-weather v-if="showHeader" />
     <div class="subject-container">
       <div class="main-content">
-        <base-ac @aircityObjReady="handleAircityObjReady" />
+        <div class="base-ac-wrap">
+          <base-ac @aircityObjReady="handleAircityObjReady" />
+        </div>
+        
 
         <expand-btn />
         <!-- <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
@@ -145,6 +148,9 @@ onMounted(async () => {
   height: 100%;
   background-color: #000317;
   --header-height: 40px;
+
+  --left-width: 21%;
+  --right-width: 21%;
   &.layout-no-header {
     --header-height: 0px;
   }
@@ -189,6 +195,12 @@ onMounted(async () => {
   position: relative;
   height: 100%;
   width: 100%;
+}
+.base-ac-wrap {
+  position: relative;
+  height: calc(100% + 50px);
+  width: 100%;
+  transform: translateY(-50px);
 }
 
 .my-tab-wrap {

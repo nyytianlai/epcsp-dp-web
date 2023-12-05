@@ -73,6 +73,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
+
     let o = {
       id: 'rectBar1-' + idEnd,
       groupId: `rectBar`,
@@ -83,7 +84,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       range: [1, 1000000], //可视范围
       imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: `${getHtmlUrl()}/static/html/rectBar4.html?value=${JSON.stringify(
+      popupURL: `${getHtmlUrl()}/popup.html?com=rect-bar4&value=${JSON.stringify(
         countObj[0]
       )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色

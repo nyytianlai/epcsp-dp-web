@@ -138,7 +138,8 @@ onBeforeUnmount(() => {
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   position: absolute;
   top: 350px;
-  left: 650px;
+  // left: 650px;
+  left: calc(var(--left-width) + 100px);
   z-index: 99;
 
   .pop-icon {

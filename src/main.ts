@@ -67,7 +67,7 @@ function createRootApp() {
   
     // 假定1920 1080尺寸的屏幕，在pc端显示器上看，文字需要小一点才合适，一般14px是比较正常的文字大小
     // 但是14px的文字在1920 1080的大屏幕上看时，需要把字放大一些，至于放大多少是在跟设计师讨论之后定的一个倍数
-    let commonScale = 1.1;
+    let commonScale = 1.2;
   
     let echartsScale = 1.1667;
   
