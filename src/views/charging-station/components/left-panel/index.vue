@@ -35,10 +35,9 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list
+      <rank-list class="operating-company__list"
         :data="projectList"
         :totalNum="projectTotalNum"
-        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'"
       />
     </div>
   </panel>
@@ -178,8 +177,11 @@ onMounted(() => {
   }
 }
 .operating-company {
-  margin-top: 23px;
-
+  // margin-top: 23px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
     margin-top: 16px;
   }
@@ -192,7 +194,7 @@ onMounted(() => {
 }
 
 .pile-charger {
-  margin-top: 16px;
+  // margin-top: 16px;
 
   .num-wrap {
     display: flex;
@@ -239,5 +241,9 @@ onMounted(() => {
 .active {
   background: rgba(84, 181, 255, 0.8);
   color: #ffffff;
+}
+.operating-company__list {
+  flex: 1;
+  height: 0;
 }
 </style>

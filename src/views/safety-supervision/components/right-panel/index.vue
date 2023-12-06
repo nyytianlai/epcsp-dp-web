@@ -47,7 +47,6 @@
       />
       <line-time-chart
         :data="realtimeTrend"
-        :chartStyle="{ height: '2.55rem' }"
         :colors="['#FF6B4B']"
         mode="haveTab"
       />
@@ -234,11 +233,17 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 .warning-monitor {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
     margin-top: 16px;
   }
   .pie-wrap {
-    margin-top: 18px;
+    flex: 1;
+    height: 0;
+    margin-top: 10px;
     :deep(.legend-wrap) {
       .legend {
         width: 230px;
@@ -270,9 +275,15 @@ onMounted(async () => {
   }
 }
 .realtime-trend {
-  margin-top: 15px;
+  flex: 1;
+  height: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   .ec-wrap {
-    margin-top: 14px;
+    flex: 1;
+    height: 0;
+    margin-top: 10px;
   }
 }
 .num-wrap {

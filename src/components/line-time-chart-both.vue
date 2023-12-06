@@ -1,5 +1,5 @@
 <template>
-  <div class="ec-wrap" :style="chartStyle">
+  <div class="ec-wrap">
     <div class="unit-box">
       <div class="unit" v-if="unit">
         <icon :icon="`svg-icon:${colors[0]}`" class="filter" />
@@ -556,8 +556,9 @@ watch(
 <style lang="less" scoped>
 .ec-wrap {
   width: 100%;
+  height: 100%;
   min-width: 200px;
-  height: 189px;
+  // height: 189px;
   position: relative;
   .unit {
     font-weight: 400;

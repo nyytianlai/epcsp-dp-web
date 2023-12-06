@@ -52,7 +52,7 @@
         :colors="warnColor"
         mode="haveTab"
       /> -->
-      <EcResize v-if="!isShowList" :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
+      <EcResize v-if="!isShowList" class="warning-ec-wrap" :option="state.realtimeTrend" />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -77,8 +77,7 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="realtimePowerColors"
-        :chartStyle="{ height: '2.22rem' }"
+        :colors="realtimePowerColors" class="station-power__chart"
       />
       <!-- <line-time-chart
         unit="kW"
@@ -734,7 +733,11 @@ onUnmounted(() => {
 }
 
 .device-info {
-  margin-top: 20px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  // margin-top: 20px;
 
   :deep(.num-wrap) {
     display: flex;
@@ -770,33 +773,49 @@ onUnmounted(() => {
   }
 }
 
+.device-total-pie.pie-wrap {
+  margin-top: 10px;
+  flex: 1;
+  height: 0;
+}
+
 .warning-message {
-  margin-top: 16px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  // margin-top: 16px;
 
   .warning-tabs {
-    margin-top: 14px;
+    margin-top: 10px;
   }
 
   .warning-list {
-    margin-top: 14px;
+    flex: 1;
+    height: 0;
+    margin-top: 10px;
+  }
+  .warning-ec-wrap {
+    flex: 1;
+    height: 0;
   }
 }
 
 .device-use-info {
-  margin-top: 20px;
+  margin-top: 10px;
 
   .tabs {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 10px;
 
     :deep(.num-card) {
       width: 49%;
-      padding: 24px 0 18px;
+      padding: 20px 0 20px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -819,12 +838,25 @@ onUnmounted(() => {
   }
 }
 
-.station-power {
-  margin-top: 16px;
+.charging-bar-state {
+  flex: 1.5;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+}
 
+.station-power {
+  margin-top: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   .ec-wrap {
-    margin-top: 16px;
+    margin-top: 10px;
   }
+}
+.station-power__chart {
+  flex: 1;
+  height: 0;
 }
 
 .right-tab-btn {
@@ -854,7 +886,7 @@ onUnmounted(() => {
 }
 
 .pile-charger-header {
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
 }

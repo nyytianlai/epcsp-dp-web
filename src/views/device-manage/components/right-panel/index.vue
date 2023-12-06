@@ -36,7 +36,7 @@
         unit="%"
         :colors="lineRunColor"
         yAxisMode1="auto"
-        :yAxisMode2="2" :style="bottomChartStyle"
+        :yAxisMode2="2"
       />
     </div>
   </panel>
@@ -142,18 +142,23 @@ onUnmounted(() => {
 <style lang="less" scoped>
 .charging-types,
 .charging-runing {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 10px;
 
     :deep(.num-card) {
       width: 49%;
-      padding: 24px 0 18px;
+      padding: 10px 0 10px;
+      // padding: 24px 0 18px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -182,15 +187,15 @@ onUnmounted(() => {
 
 .charging-runing {
   .tabs {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .num-wrap {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .ec-wrap {
-    margin-top: 22px;
+    margin-top: 10px;
   }
 }
 
