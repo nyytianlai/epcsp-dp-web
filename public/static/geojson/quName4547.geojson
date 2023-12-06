@@ -1,0 +1,18 @@
+{
+"type": "FeatureCollection",
+"name": "quName2000",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4547" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 1, "QUNAME": "福田区", "QUCODE": "440304" }, "geometry": { "type": "Point", "coordinates": [ 501501.093441902776249, 2493977.977692358195782 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 2, "QUNAME": "罗湖区", "QUCODE": "440303" }, "geometry": { "type": "Point", "coordinates": [ 512288.119616585958283, 2496374.313964804634452 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 4, "QUNAME": "坪山区", "QUCODE": "440310" }, "geometry": { "type": "Point", "coordinates": [ 536642.683507948997431, 2506064.978762051556259 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 5, "QUNAME": "盐田区", "QUCODE": "440308" }, "geometry": { "type": "Point", "coordinates": [ 523687.151208324008621, 2497963.820665221195668 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 6, "QUNAME": "宝安区", "QUCODE": "440306" }, "geometry": { "type": "Point", "coordinates": [ 485959.808009100612253, 2502076.76284110173583 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 7, "QUNAME": "光明区", "QUCODE": "440311" }, "geometry": { "type": "Point", "coordinates": [ 489754.381986930442508, 2514273.207890559919178 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 8, "QUNAME": "龙岗区", "QUCODE": "440307" }, "geometry": { "type": "Point", "coordinates": [ 522767.193761694303248, 2509054.945292073767632 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 9, "QUNAME": "龙华区", "QUCODE": "440309" }, "geometry": { "type": "Point", "coordinates": [ 500099.510960730782244, 2506362.34595547337085 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 10, "QUNAME": "大鹏新区", "QUCODE": "440343" }, "geometry": { "type": "Point", "coordinates": [ 549181.023653607699089, 2497186.779785914346576 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 3, "QUNAME": "南山区", "QUCODE": "440305" }, "geometry": { "type": "Point", "coordinates": [ 491294.200518236728385, 2491780.293415881227702 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 22, "QUNAME": "深汕特别合作区", "QUCODE": "441521" }, "geometry": { "type": "Point", "coordinates": [ 606571.467630835482851, 2526171.611464169807732 ] } }
+]
+}

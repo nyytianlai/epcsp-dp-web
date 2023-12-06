@@ -7,9 +7,8 @@ import vitePluginSutpcLessDeep from 'vite-plugin-sutpc-less-deep';
 import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
-// import { createHtmlPlugin } from 'vite-plugin-html';
+import { ViteEjsPlugin } from "vite-plugin-ejs";
 // import rollupPluginVisualizer from 'rollup-plugin-visualizer';
-// import AutoImport from 'unplugin-auto-import/vite'
 
 import type { UserConfig, ConfigEnv } from 'vite';
 
@@ -42,22 +41,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vitePluginSutpcIconPark(),
       vitePluginSutpcCommon(),
       createSvgIconsPlugin(),
-      // createHtmlPlugin({
-      //   pages: [{
-      //     entry: '/src/main.ts',
-      //     filename: 'index.html',
-      //     template: 'index.html',
-      //     injectOptions: {
-      //       data: {
-      //         title: env.VITE_APP_TITLE
-      //       },
-      //     },
-      //   }, {
-      //     entry: '/src/popup-main.ts',
-      //     filename: 'popup.html',
-      //     template: 'popup.html'
-      //   }]
-      // }),
+      ViteEjsPlugin({
+        title: env.VITE_APP_TITLE
+      })
       // isBuild && rollupPluginVisualizer({
       //   emitFile: true,//是否被触摸
       //   filename: "analyze.html",//生成分析网页文件名

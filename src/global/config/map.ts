@@ -1,5 +1,6 @@
 import bus from '@/utils/bus';
 import { GCJ02_2_4547 } from '@/utils/index';
+import { joinPaths } from '@sutpc/zebra';
 export const mapRequestCancelId = 'mapRequest';
 const quNameArr = [
   '盐田区',
@@ -91,7 +92,12 @@ export const getHtmlUrl = () => {
   }
 };
 export const getImageByCloud = (picName: any) => {
-  return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
+  // return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
+  let urlPre = import.meta.env.VITE_LOCAL_DEV_SERVER;
+  if (!urlPre) {
+    urlPre = location.origin + import.meta.env.VITE_BASE_PATH;
+  }
+  return joinPaths(urlPre, `/static/images/${picName}.png`);
 };
 
 //区名字和区code互转
