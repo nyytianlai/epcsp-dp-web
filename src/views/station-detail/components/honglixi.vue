@@ -158,12 +158,19 @@ const batteryMsg = ref(batteryMsgFun());
 }
 .battery-msg {
   margin-top: 29px;
-
+  container-type: inline-size;
+  container-name: batteryMsg;
+  @container batteryMsg (min-width: 500px) {
+    @{deep} {
+      .num-card.top-down {
+        flex-direction: row;
+      }
+    }
+  }
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 9px;
+    padding: 20px 9px;
     margin-top: 16px;
     background: linear-gradient(
       258.38deg,
@@ -177,8 +184,14 @@ const batteryMsg = ref(batteryMsgFun());
   }
 }
 .realtime {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   margin-top: 20px;
   .chart {
+    flex: 1;
+    height: 0;
     margin-top: 16px;
   }
 }

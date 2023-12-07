@@ -35,13 +35,13 @@
         </template>
       </div>
     </div>
-    <div class="">
+    <div class="station-warning-message">
       <title-column title="站点告警信息" />
-      <EcResize :option="state.lianhuaWarnOptions" :style="{ height: '2.3rem' }" />
+      <EcResize class="warning-message-ec" :option="state.lianhuaWarnOptions" />
     </div>
   </panel>
   <panel type="right">
-    <div class="">
+    <div class="guijing-com-status">
       <title-column title="单晶硅组件状态" />
       <lianhuajinggui :data="lianhuajingguiData" />
     </div>
@@ -53,9 +53,10 @@
         </template>
       </div>
     </div>
-    <div class="">
+    <div class="station-realtime-power">
       <title-column title="站点实时功率" />
-      <EcResize :option="state.lianhuaRealtimeOptions" :style="{ height: '2.3rem' }" />
+      <EcResize class="realtime-ec" :option="state.lianhuaRealtimeOptions" />
+      <!-- <EcResize :option="state.lianhuaRealtimeOptions" :style="{ height: '2.3rem' }" /> -->
     </div>
   </panel>
 </template>
@@ -267,7 +268,31 @@ onMounted(() => {
   }
 }
 
+.guijing-com-status {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  @{deep} {
+    .charging-wrap {
+      flex: 1;
+      height: 0;
+    }
+  }
+}
+
+.station-realtime-power {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  .realtime-ec {
+    flex: 1;
+    height: 0;
+  }
+}
 .device-info {
+  container-name: deviceInfo;
+  container-type: inline-size;
   .num-wrap {
     margin-top: 16px;
 
@@ -277,6 +302,11 @@ onMounted(() => {
       }
     }
   }
+  @container deviceInfo (min-width: 500px) {
+    .num-wrap {
+      display: flex;
+    }
+  }
 }
 
 :deep(.title-column) {
@@ -284,5 +314,15 @@ onMounted(() => {
 }
 .page.page-num-wrap {
   justify-content: space-evenly;
+}
+.station-warning-message {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  .warning-message-ec {
+    flex: 1;
+    height: 0;
+  }
 }
 </style>
