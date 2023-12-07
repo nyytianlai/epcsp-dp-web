@@ -1,7 +1,8 @@
 <template>
-  <div class="backBox" v-show="currentPosition !== '深圳市'">
+  <!-- <div class="backBox" v-show="currentPosition !== '深圳市'">
     <img src="./images/back.png" alt="" @click="back" />
-  </div>
+  </div> -->
+<Goback v-show="currentPosition !== '深圳市'" @click="back"></Goback>
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, reactive, computed } from 'vue';
@@ -25,6 +26,7 @@ import { setMoveCarSpeed } from '@/views/station-detail/mapOperate';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { lianhuajingguiData } from '@/views/station-detail/config.js';
+import Goback from '@/components/goback/index.vue';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
@@ -474,50 +476,72 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     //站内移动的车
     // isShow ? add3dt(__g, 'ML_VehicleSpline') : delete3dt(__g, ['ML_VehicleSpline']);
     // setMoveCarSpeed(__g, 0.2); //默认全程显示但是关不掉的3dt
-    isShow && fly
-      ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, -44.205788, 146.805252, 3)
-      : '';
+
+    // isShow && fly
+    //   ? __g.camera.set(504820.001094, 2499705.067188, 213.286289, -44.205788, 146.805252, 3)
+    //   : '';
+    isShow && fly && __g.camera.lookAt(504715.7940625, 2499630.88, 93.90845703125, 75, -44.205788, 146.805252, 3)
+
     isShow ? '' : __g.marker.deleteByGroupId('stationFacilitiesLabel');
     isShow ? '' : __g.marker.deleteByGroupId('stationChargeIcon');
   } else if (stationId === '440202003') {
     //奥特迅电力大厦后广场充电站
-    isShow
-      ? __g.camera.set(494480.218672, 2495531.893906, 29.262388, -10.561944, -147.549225, 3)
-      : '';
+    // isShow
+    //   ? __g.camera.set(494480.218672, 2495531.893906, 29.262388, -10.561944, -147.549225, 3)
+    //   : '';
+
+      isShow && __g.camera.lookAt(494460.9175, 2495543.36, 24.810595703125, 10, -10.561944, -147.549225, 3)
   } else if (stationId === '-3') {
     //红荔西5G示范站
-    isShow
-      ? __g.camera.set(
-          502289.292344,
-          2494191.124687,
-          29.467019,
-          -28.290888,
-          -26.48897,
-          3,
-          function () {
-            setTimeout(() => {
-              bus.emit('focusToMachineRoom');
-            }, 3500);
-          }
-        )
-      : '';
+    // isShow
+    //   ? __g.camera.set(
+    //       502289.292344,
+    //       2494191.124687,
+    //       29.467019,
+    //       -28.290888,
+    //       -26.48897,
+    //       3,
+    //       function () {
+    //         setTimeout(() => {
+    //           bus.emit('focusToMachineRoom');
+    //         }, 3500);
+    //       }
+    //     )
+    //   : '';
+    isShow && __g.camera.lookAt(502320.17625, 2494208, 10.8156640625, 20, -28.290888, -26.48897, 3, function () {
+      setTimeout(() => {
+        bus.emit('focusToMachineRoom');
+      }, 3500);
+    });
+
   } else if (stationId === '4403070124') {
     //深圳国际低碳城光储充放一体化示范站
     // isShow ? __g.camera.set(529405.624, 2520340.663, 79.013, -19.599998, -18.199905, 3) : '';
-    isShow
-      ? __g.camera.set(529466.091631, 2520325.591406, 47.088174, -27.166912, -75.541977, 3)
-      : '';
+    // isShow
+    //   ? __g.camera.set(529466.091631, 2520325.591406, 47.088174, -27.166912, -75.541977, 3)
+    //   : '';
+    isShow && __g.camera.lookAt(529473.71, 2520352.32, 33.37879150390625, 15, -27.166912, -75.541977, 3)
+
   } else if (stationId === '144') {
     //充电有道欢乐谷快充站
     isShow ? __g.camera.set(497235.795, 2494003.925, 63.319, -30.799998, -123.799998, 3) : '';
+
+    // isShow && __g.camera.lookAt(497184.4625, 2494049.44, 18.5383837890625, 35, -26.047546, -168.892746, 3);
+    // isShow && __g.camera.lookAtBBox([
+    // 497195.40625, 2494076.75, 20.538406372070312,
+    // 497187.21875, 2494059.25, 18.538375854492188
+    // ], -30.799998, -123.799998, 3);
+
   } else if (stationId === '-2') {
     //莲花村
-    isShow ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3) : '';
+    // isShow ? __g.camera.set(506419, 2494952.02125, 31.401526, -43.560394, -148.53862, 3) : '';
+    isShow && __g.camera.lookAt(506407.835625, 2494958.24, 18.411395263671874, 10, -43.560394, -148.53862, 3);
   } else if (stationId === '-1') {
     //宝清储能站
-    isShow
-      ? await __g.camera.set(529799.333953, 2510087.387759, 148.986729, -33.399971, 89.799957, 3)
-      : '';
+    // isShow
+    //   ? await __g.camera.set(529799.333953, 2510087.387759, 128.986729, -33.399971, 89.799957, 3)
+    //   : '';
+    isShow && await __g.camera.lookAt(529793.6875, 2510017.2800000003, 76.9559326171875, 40, -33.399971, 89.799957, 3)
   }
   await beforeAddOrExitHrStation(isShow); //添加完成后再清一次数据
 };
@@ -736,30 +760,30 @@ onBeforeUnmount(() => {
 });
 </script>
 <style lang="less" scoped>
-.backBox {
-  position: absolute;
-  height: 19.5px;
-  left: 86px;
-  top: 75px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
-  color: #ffffff;
-  z-index: 20;
-  cursor: pointer;
+// .backBox {
+//   // position: absolute;
+//   // height: 19.5px;
+//   // left: 86px;
+//   // top: 75px;
+//   // display: flex;
+//   // background: rgba(4, 22, 43, 0.4);
+//   // color: #ffffff;
+//   // z-index: 20;
+//   // cursor: pointer;
 
-  img {
-    height: 24px;
-    width: 24px;
-    border-radius: 1px;
-    cursor: pointer;
-  }
+//   // img {
+//   //   height: 24px;
+//   //   width: 24px;
+//   //   border-radius: 1px;
+//   //   cursor: pointer;
+//   // }
 
-  .quName {
-    font-size: 16px;
-    line-height: 22px;
-    // background: rgba(4, 22, 43, 0.5);
-    // border: 1px solid rgba(148, 148, 148, 0.3);
-    padding: 7px 16px;
-  }
-}
+//   .quName {
+//     font-size: 16px;
+//     line-height: 22px;
+//     // background: rgba(4, 22, 43, 0.5);
+//     // border: 1px solid rgba(148, 148, 148, 0.3);
+//     padding: 7px 16px;
+//   }
+// }
 </style>

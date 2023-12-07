@@ -259,7 +259,7 @@ watch(
 }
 </style>
 <style lang="less">
-.phone-dialog {
+.phone-dialog.el-dialog {
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
   .el-dialog__header {

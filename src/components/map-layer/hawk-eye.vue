@@ -43,7 +43,7 @@ onBeforeUnmount(() => {});
 img {
   position: absolute;
   top: 303px;
-  right: 482px;
+  right: calc(21% + 40px);
   height: 162px;
   width: 162px;
   border: 2.00713px dashed #4bdeff;

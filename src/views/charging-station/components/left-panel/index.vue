@@ -35,10 +35,9 @@
     <div class="operating-company">
       <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list
+      <rank-list class="operating-company__list"
         :data="projectList"
         :totalNum="projectTotalNum"
-        :height="totalChargerIndex === 1 ? '3.4rem' : '2.4rem'"
       />
     </div>
   </panel>
@@ -157,8 +156,8 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 22px;
+    // height: 160px;
+    padding: 5px 22px;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -168,11 +167,21 @@ onMounted(() => {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
+    container-type: inline-size;
+    container-name: numCard;
+    @container numCard (min-width: 500px) {
+      .num-card {
+        flex-direction: row;
+      }
+    }
   }
 }
 .operating-company {
-  margin-top: 23px;
-
+  // margin-top: 23px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
     margin-top: 16px;
   }
@@ -185,23 +194,22 @@ onMounted(() => {
 }
 
 .pile-charger {
-  margin-top: 16px;
+  // margin-top: 16px;
 
   .num-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;
 
     .num-card {
-      margin-bottom: 20px;
-
-      &:nth-last-of-type(1),
-      &:nth-last-of-type(2) {
-        margin-bottom: 0;
-      }
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
 }
@@ -232,5 +240,9 @@ onMounted(() => {
 .active {
   background: rgba(84, 181, 255, 0.8);
   color: #ffffff;
+}
+.operating-company__list {
+  flex: 1;
+  height: 0;
 }
 </style>

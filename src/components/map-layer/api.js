@@ -1,4 +1,4 @@
-import request from '@sutpc/axios';
+import request, { getStaticFile } from '@sutpc/axios';
 import { mapRequestCancelId } from '@/global/config/map';
 
 //充电站区级柱状图
@@ -95,8 +95,15 @@ export const getQuStationWithAlarm = (data) => {
 };
 // 获取geojson数据
 export const requestGeojsonData = (fileName) => {
-  return request.get({
-    baseURL: import.meta.env.VITE_BASE_PATH + 'freedata',
-    url: `/data/geojson/${fileName}.geojson`
-  });
+
+  // let baseURL = import.meta.env.VITE_FD_DATA_URL;
+  // if (!baseURL) {
+  //   baseURL = import.meta.env.VITE_BASE_PATH + 'freedata';
+  // }
+  
+  // return request.get({
+  //   baseURL,
+  //   url: `/data/geojson/${fileName}.geojson`
+  // });
+  return getStaticFile(`static/geojson/${fileName}.geojson`)
 };

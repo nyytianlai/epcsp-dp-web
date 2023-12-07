@@ -15,7 +15,7 @@
       <title-column title="光伏站排名" icon="photovoltaic" />
       <tabs :data="companyRank" @changeTab="handleCompany" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
-      <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="5.8rem" />
+      <rank-list :data="companyRankData" :totalNum="companyRankTotal" />
     </div>
   </panel>
 </template>
@@ -80,8 +80,7 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-around;
-    height: 160px;
-    padding: 0 22px;
+    padding: 20px 22px;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -91,6 +90,21 @@ onMounted(() => {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
+    resize: horizontal;
+    container-type: inline-size;
+    container-name: numWrap;
+  }
+}
+
+@container numWrap (min-width: 500px) {
+  .num-card.top-down {
+    flex-direction: row;
+    @{deep} {
+      .icon {
+        width: 70px;
+        margin-right: 10px;
+      }
+    }
   }
 }
 
@@ -103,18 +117,28 @@ onMounted(() => {
 }
 
 .company-rank {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   margin-top: 20px;
 
-  :deep(.tabs) {
-    margin-top: 16px;
-  }
+  @{deep} {
+    .tabs {
+      margin-top: 16px;
+    }
 
-  :deep(.area-rank-wrap) {
-    margin-top: 20px;
-    width: 430px;
+    .area-rank-wrap {
+      margin-top: 20px;
+      width: 430px;
 
-    .unit {
-      color: #fff;
+      .unit {
+        color: #fff;
+      }
+    }
+    .rank-list-wrap {
+      flex: 1;
+      height: 0;
     }
   }
 }

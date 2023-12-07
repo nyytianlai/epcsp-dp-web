@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="alarmTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
     >
@@ -90,13 +90,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, inject } from 'vue';
+import { computed, ref, reactive, onMounted, inject } from 'vue';
 import { alarmInfo } from '../api.js';
 import { columnDataFun, filtersAlarmLevelName, filtersAlarmTypeName } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { toSingleStation,showStationDetailPanel } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
+import config from '@sutpc/config';
+
 interface Props {
   visible: boolean;
 }
@@ -123,6 +125,11 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px';
+});
+
 const getTableAlarm = async () => {
   const params = {
     alarmLevel: alarmLevel.value,

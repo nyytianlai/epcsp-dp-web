@@ -5,7 +5,7 @@ import stateGrayS from './images/state-gray-s.png';
 import stateGreenS from './images/state-green-s.png';
 import stateYellowB from './images/state-yellow-b.png';
 import stateYellowS from './images/state-yellow-s.png';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import dayjs from 'dayjs';
 export const pageNumFun = (data) => {
   return [

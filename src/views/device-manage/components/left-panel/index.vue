@@ -172,18 +172,24 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .charging-station-num {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
     margin-top: 16px;
   }
 
   .pie-wrap {
     margin-top: 20px;
+    flex: 1;
+    height: 0;
   }
 }
 
 .charging-peak-area {
-  margin-top: 17px;
-
+  flex: 1;
+  height: 0;
   .area-rank-wrap {
     margin-top: 16px;
   }

@@ -1,6 +1,11 @@
 <template>
   <div class="active-message">
-    <el-tabs v-model="activeName" class="beveled-tabs" @tab-click="handleClick" :class="`tabs-length${tabList.length}`">
+    <el-tabs
+      v-model="activeName"
+      class="beveled-tabs"
+      @tab-click="handleClick"
+      :class="`tabs-length${tabList.length}`"
+    >
       <el-tab-pane :name="item.name" v-for="(item, index) in tabList" :key="index">
         <template #label>
           <span class="custom-tabs-label">
@@ -25,12 +30,21 @@
         </div>
       </li>
     </ul>
-    <line-time-chart :unit="dynamicActive.unit" :data="linePowerData" :colors="['#00FFF9']"
-      :chartStyle="{ height: '1.8rem' }" :customOption="customOption" mode="haveTab"/>
+    <line-time-chart
+      :unit="dynamicActive.unit"
+      :data="linePowerData"
+      :colors="['#00FFF9']"
+      :chartStyle="{
+        width: '100%',
+        height: '1.8rem'
+      }"
+      :customOption="customOption"
+      mode="haveTab"
+    />
   </div>
 </template>
 <script setup>
-import { ref, inject, onMounted, watch,onUnmounted } from 'vue';
+import { ref, inject, onMounted, watch, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
@@ -47,14 +61,18 @@ const infoListFun = (data = {}) => {
     {
       icon: 'cdl',
       name: '累计充电量',
-      value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
+      value:
+        data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
       dynamicType: 1,
       unit: 'kWh'
     },
     {
       icon: 'fdl',
       name: '累计放电量',
-      value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
+      value:
+        data?.disChargeElectricity === 0
+          ? data.disChargeElectricity
+          : data.disChargeElectricity || '--',
       dynamicType: 2,
       unit: 'kWh'
     },
@@ -138,8 +156,7 @@ const stateFormate = (state) => {
   }[state];
 };
 const tabsFun = () => {
-  const arr = [
-  ];
+  const arr = [];
   if (pileData.value?.gunInfoVoList?.length) {
     pileData.value?.gunInfoVoList.slice(0, 2).map((item) => {
       arr.push({
@@ -182,7 +199,7 @@ const getEquipmentDynamicInfo = async (index = 0) => {
   const params = getParams(tabList.value[index]);
   selectTabData.value = params;
   const res = await selectEquipmentDynamicInfo(params);
-  console.log('params', params)
+  console.log('params', params);
   if (res?.data) {
     infoList.value = infoListFun(res?.data);
     dynamicActive.value = infoList.value[4];
@@ -204,30 +221,31 @@ const getEquipmentDynamicInfoGroupByTime = async () => {
 };
 const handleClickDynamic = (item) => {
   dynamicActive.value = item;
-  console.log('dynamicActive.value', dynamicActive.value)
+  console.log('dynamicActive.value', dynamicActive.value);
   getEquipmentDynamicInfoGroupByTime();
 };
-let timer = null
-onMounted(() => {
-
+let timer = null;
+onMounted(() => {});
+onUnmounted(() => {
+  console.log('timer', timer);
+  clearInterval(timer);
+  timer = null;
 });
-onUnmounted(()=>{
-    console.log('timer',timer)
-    clearInterval(timer);
-    timer = null;
-})
 
-watch(() => pileData.value.equipmentId, async (newVal) => {
-  console.log('pileData.value', newVal)
-  tabList.value = tabsFun()
-  await getEquipmentDynamicInfo();
-  timer = setInterval(() => {
-    getEquipmentDynamicInfo();
-  }, 900000)
-
-}, {
-  immediate: true
-})
+watch(
+  () => pileData.value.equipmentId,
+  async (newVal) => {
+    console.log('pileData.value', newVal);
+    tabList.value = tabsFun();
+    await getEquipmentDynamicInfo();
+    timer = setInterval(() => {
+      getEquipmentDynamicInfo();
+    }, 900000);
+  },
+  {
+    immediate: true
+  }
+);
 </script>
 <style lang="less" scoped>
 .active-message {

@@ -17,7 +17,10 @@
         <line-time-chart
           :data="lineStateData"
           :colors="lineStateColor"
-          :chartStyle="{ height: '2.2rem' }"
+          :chartStyle="{
+          width: '100%',
+          height: '2.2rem'
+        }"
         />
         <!-- <tabs
         :data="chargingTypesTabs"

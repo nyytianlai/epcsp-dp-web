@@ -39,7 +39,7 @@
       <title-column title="告警信息" icon="car" />
       <div class="warn-list-box" v-for="(item, index) in warnList" :key="index">
         <div class="warn-date">{{ dayjs(item.date).format('MM/DD/YYYY') }}</div>
-        <warning-list :data="item.data" class="warn-child-list" height="2.48rem" />
+        <warning-list :data="item.data" class="warn-child-list" />
       </div>
     </div>
   </panel>
@@ -54,7 +54,7 @@
     </div>
     <div class="realTime">
       <title-column title="实时充放情况" icon="car" />
-      <EcResize :option="baoqingRealtimeOption()" class="chart" :style="{ height: '2.3rem' }" />
+      <EcResize :option="baoqingRealtimeOption()" class="chart" />
     </div>
   </panel>
   <BaoqingChild
@@ -276,7 +276,15 @@ const handleCardClick = (item) => {
 }
 
 .warn-data {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .warn-list-box {
+    flex: 1;
+    height: 0;
+    display: flex;
+    flex-direction: column;
     margin-top: 16px;
 
     .warn-date {
@@ -287,15 +295,30 @@ const handleCardClick = (item) => {
   }
   .warn-child-list {
     margin-top: 8px;
+    flex: 1;
+    height: 0;
   }
 }
 .system-status {
-  height: 550px;
+  flex: 1;
+  height: 0;
+  // height: 550px;
 }
 .realTime {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
   margin-top: 20px;
   .chart {
+    flex: 1;
+    height: 0;
     margin-top: 14px;
   }
+}
+.system-status-box {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
 }
 </style>

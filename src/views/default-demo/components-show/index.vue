@@ -20,7 +20,12 @@
       <warning-tabs :data="warningTabsData" />
       <area-rank-list :data="areaRankData" :totalNum="totalNum" />
       <pie-chart />
-      <line-time-chart />
+      <line-time-chart
+        :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
+      />
     </el-space>
   </div>
 </template>

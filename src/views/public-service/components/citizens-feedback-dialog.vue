@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="detailTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
     >
@@ -62,11 +62,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue';
+import { computed, ref, reactive, onMounted } from 'vue';
 import { filtersDetail, columnDataDetailFun } from '../config.js';
 import { feedbackDetail } from '../api.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import Icon from '@sutpc/vue3-svg-icon';
+import config from '@sutpc/config';
+
 interface Props {
   visible: boolean;
   timeType: string;
@@ -88,6 +90,10 @@ const pageObj = reactive({
   total: 0,
   currentPage: 1
 });
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px';
+})
 // 获取市民列表
 const loadFeedbackDetail = async () => {
   // 在第一次请求的时候，生成序号

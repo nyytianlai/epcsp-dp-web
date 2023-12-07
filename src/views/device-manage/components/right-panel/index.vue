@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import {
   selectPowerSumByDayTime,
   selectChargeEquipmentStatus,
@@ -60,6 +60,7 @@ import {
   lineRunDataFun
 } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
+import config from '@sutpc/config';
 
 const lineStateColor = ['green', 'blue'];
 const lineRunColor = ['green', '#FF7723'];
@@ -75,6 +76,13 @@ const lineStateData = ref(lineStateDataFun());
 const chargingRunTabs = ref(chargingRunTabsFun());
 const chargingRunData = ref(chargingRunDataFun());
 const lineRunData = ref(lineRunDataFun());
+
+const bottomChartStyle = computed(() => {
+  return {
+    height: 140 * config.sizeScale + 'px'
+  }
+})
+
 const handleChangeTab = (data, type) => {
   if (type === 'charging-types') {
     // 设备管理/充电桩-枪状态
@@ -134,18 +142,23 @@ onUnmounted(() => {
 <style lang="less" scoped>
 .charging-types,
 .charging-runing {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .tabs {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 10px;
 
     :deep(.num-card) {
       width: 49%;
-      padding: 24px 0 18px;
+      padding: 10px 0 10px;
+      // padding: 24px 0 18px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -174,15 +187,15 @@ onUnmounted(() => {
 
 .charging-runing {
   .tabs {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .num-wrap {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .ec-wrap {
-    margin-top: 22px;
+    margin-top: 10px;
   }
 }
 

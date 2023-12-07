@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="totalTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
@@ -72,13 +72,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, inject, onMounted, toRefs } from 'vue';
+import { ref, reactive, inject, onMounted, toRefs, computed } from 'vue';
 import { selectStationInfoByPage } from '../api.js';
 import { columnDataFun, filters } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
+import config from '@sutpc/config';
+
 const emit = defineEmits(['close']);
 const props = defineProps({
   visible: {
@@ -86,6 +88,11 @@ const props = defineProps({
     default: false
   }
 });
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px';
+});
+
 const { visible } = toRefs(props);
 const aircityObj = inject('aircityObj');
 const storeVisible = useVisibleComponentStore();

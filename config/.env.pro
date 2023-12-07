@@ -17,13 +17,14 @@ VITE_BASE_URL=http://sit-tpaas.sutpc.com:8080 #测试环境
 VITE_LOGIN_MODE=SUTPC-LOGIN
 # 打包路径
 VITE_BASE_PATH = /
-
+# 是否跳转到登录页面
+VITE_REDIRECT_LOGIN = 0
 
 # 飞渡地图服务地址
-VITE_FD_URL=10.10.50.136:3480 #开发环境  //斜对面电脑
+# VITE_FD_URL=10.10.50.136:3480 #开发环境  //斜对面电脑
 # VITE_FD_URL=location.hostname:3480 #开发环境  //斜对面电脑
 # 飞渡文件磁盘地址
 VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境  //斜对面电脑
 
 # 应用名称，用于网页头部等
-VITE_APP_TITLE = 电力充储放一张图
+VITE_APP_TITLE = 电力充储放一张网

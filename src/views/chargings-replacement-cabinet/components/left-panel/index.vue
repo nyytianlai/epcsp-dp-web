@@ -109,10 +109,11 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .chargings-replacement-cabinet-overview {
+  container-name: overview;
+  container-type: inline-size;
   .num-wrap {
-    margin-top: 16px;
-
-    :deep(.num-tile-card) {
+    margin-top: 10px;
+    @{deep} {
       img {
         width: 74px;
       }
@@ -124,24 +125,58 @@ onMounted(() => {
         margin-left: 41px;
         text-align: right;
       }
-      &:nth-of-type(n + 1) {
-        margin-top: 12px;
+      .num-tile-card {
+        &:nth-of-type(n + 1) {
+          margin-top: 12px;
+        }
       }
     }
   }
+  @container overview (min-width: 500px) {
+  .num-wrap {
+    display: flex;
+    gap: 20px;
+    @{deep} {
+      .num-tile-card {
+        justify-content: flex-start;
+      }
+      .num-box {
+        margin-left: 0;
+        width: 0;
+        flex: 1;
+      }
+    }
+    
+  }
 }
+}
+
 .charging-type {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
   margin-top: 12px;
-  :deep(.pie-wrap) {
-    margin-top: 22px;
+  @{deep} {
+    .pie-wrap {
+      flex: 1;
+      height: 0;
+      margin-top: 20px;
+    }
   }
 }
 .company-facilities-rank {
-  margin-top: 20px;
-  :deep(.area-rank-wrap) {
-    margin-top: 20px;
-    .unit {
-      color: #fff;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  @{deep} {
+    .area-rank-wrap {
+      flex: 1;
+      height: 0;
+      .unit {
+        color: #fff;
+      }
     }
   }
 }

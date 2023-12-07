@@ -1,5 +1,6 @@
 import { booleanPointInPolygon, point, polygon } from '@turf/turf';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
+import config from '@sutpc/config';
 import proj4 from 'proj4';
 proj4.defs('EPSG:4490', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
 proj4.defs(
@@ -112,13 +113,15 @@ export function getRemvalue(value: number | number[]) {
   if (!clientHeight) return
   if (typeof value !== 'object') {
     // 单个数值
-    const fontSize = clientHeight / 1080
-    result = value * fontSize
+    // const fontSize = clientHeight / 1080
+    // result = value * fontSize
+    result = value * config.sizeScale;
   } else if (Array.isArray(value)) {
     // 数组
     result = []
     value.forEach((item) => {
-      const res = item * (clientHeight / 1080)
+      // const res = item * (clientHeight / 1080)
+      const res = item * config.sizeScale;
       result.push(res)
     })
   }

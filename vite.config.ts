@@ -7,8 +7,8 @@ import vitePluginSutpcLessDeep from 'vite-plugin-sutpc-less-deep';
 import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
-import { createHtmlPlugin } from 'vite-plugin-html';
-// import AutoImport from 'unplugin-auto-import/vite'
+import { ViteEjsPlugin } from "vite-plugin-ejs";
+// import rollupPluginVisualizer from 'rollup-plugin-visualizer';
 
 import type { UserConfig, ConfigEnv } from 'vite';
 
@@ -25,7 +25,13 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     envDir: pathResolve('config'),
     base: env.VITE_BASE_PATH,
     build: {
-      target: 'esnext' //browsers can handle the latest ES features
+      target: 'esnext', //browsers can handle the latest ES features
+      rollupOptions: {
+        input: {
+          index: './index.html',
+          popup: './popup.html'
+        }
+      }
     },
     plugins: [
       vue(),
@@ -35,17 +41,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       vitePluginSutpcIconPark(),
       vitePluginSutpcCommon(),
       createSvgIconsPlugin(),
-      createHtmlPlugin({
-        inject: {
-          data: {
-            title: env.VITE_APP_TITLE
-          }
-        }
+      ViteEjsPlugin({
+        title: env.VITE_APP_TITLE
       })
-      // AutoImport({//注册
-      //   imports: ['vue', 'vue-router'],
-      //   dts: 'src/auto-import.d.ts'
-      // })
+      // isBuild && rollupPluginVisualizer({
+      //   emitFile: true,//是否被触摸
+      //   filename: "analyze.html",//生成分析网页文件名
+      //   open: true,//在默认用户代理中打开生成的文件
+      //   gzipSize: true,//从源代码中收集 gzip 大小并将其显示在图表中
+      //   brotliSize: true,//从源代码中收集 brotli 大小并将其显示在图表中
+      // }),
     ],
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.less', '.css'],

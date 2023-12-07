@@ -181,10 +181,13 @@ const handleCanChoose = (item) => {
   justify-content: center;
 }
 .pie-chart-wrap {
-  width: 188px;
-  height: 188px;
+  height: 100%;
+  width: 100%;
+  // width: 188px;
+  // height: 188px;
   background: url(./images/circle-bgc.png) no-repeat;
-  background-size: 100% 100%;
+  background-size: auto 100%;
+  background-position: center;
   position: relative;
   .total-content {
     position: absolute;

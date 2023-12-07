@@ -1,5 +1,5 @@
 <template>
-  <div class="rank-list-wrap" :style="{ height: height }">
+  <div class="rank-list-wrap">
     <ul class="content" v-if="data && data.length">
       <li class="list-item" v-for="(item, index) in data" :key="index">
         <div class="top-info">
@@ -35,10 +35,8 @@ type Itype = 'top-down' | 'left-right';
 interface Props {
   data: Idata[];
   totalNum: number;
-  height: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  height: '2.4rem'
 });
 const { data, totalNum } = toRefs(props);
 </script>

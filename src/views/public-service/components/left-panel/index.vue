@@ -141,23 +141,34 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .hot-charging {
-  margin-top: 24px;
+  flex: 1;
+  height: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   .rank-list-wrap {
     margin-top: 16px;
+    flex: 1;
+    height: 0;
   }
   .tabs {
     margin-top: 10px;
   }
 }
 .citizens-feedback {
-  margin-top: 20px;
+  flex: 1;
+  height: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   .el-table {
-    margin-top: 11px;
+    margin-top: 10px;
   }
 }
 .ec-box {
-  height: 288px;
   width: 100%;
+  flex: 1;
+  height: 0;
   margin-top: 12px;
 }
 </style>

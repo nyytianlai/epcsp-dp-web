@@ -14,7 +14,7 @@
       <title-column title="储能站排名" icon="energy-station" />
       <tabs :data="rankTabType" @changeTab="handleRank" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" /> -->
-      <rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.9rem" />
+      <rank-list :data="companyRankData" :totalNum="companyRankTotal"  />
     </div>
   </panel>
 </template>
@@ -101,6 +101,10 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .energy-station-overview {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   .num-wrap {
     display: flex;
     justify-content: space-between;
@@ -119,11 +123,17 @@ onMounted(() => {
 
   :deep(.pie-wrap) {
     margin-top: 22px;
+    flex: 1;
+    height: 0;
   }
 }
 
 .company-rank {
-  margin-top: 20px;
+  flex: 1;
+  height: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
 
   :deep(.tabs) {
     margin-top: 22px;

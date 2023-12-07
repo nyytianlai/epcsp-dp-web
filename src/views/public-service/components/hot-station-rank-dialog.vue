@@ -14,7 +14,7 @@
     </template>
     <el-table
       :data="hotTableData"
-      height="6.19rem"
+      :height="tableHeight"
       style="width: 100%"
       class="custom-dialog-table"
       @sort-change="handleSort"
@@ -71,13 +71,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted,inject } from 'vue';
+import { ref, reactive, onMounted,inject, computed } from 'vue';
 import { stationRankingDetail } from '../api.js';
 import { columnDataHotFun, filters } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
-
+import config from '@sutpc/config';
 import Icon from '@sutpc/vue3-svg-icon';
 interface Props {
   visible: boolean;
@@ -114,6 +114,10 @@ const storeVisible = useVisibleComponentStore();
 const handleSearchHot = () => {
   loadStationRankingDetail();
 };
+
+const tableHeight = computed(() => {
+  return 600 * config.sizeScale + 'px';
+})
 // 获取热门列表
 const loadStationRankingDetail = async () => {
   const res = await stationRankingDetail({

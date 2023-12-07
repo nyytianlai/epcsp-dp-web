@@ -15,7 +15,7 @@
         unit="MW"
         mode="noneArea"
         :chartStyle="{ height: '2.3rem' }"
-        :customOption="{ grid: { top: getRemvalue(48), right: getRemvalue(32) } }"
+        :customOption="{ grid: { top: scale(48), right: scale(32) } }"
       />
     </div>
     <div class="social-benefit">
@@ -31,9 +31,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { getRemvalue } from '@/utils/index';
 import { runingFun, todayLine, linePowerDataFun, socialBenefitFun } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
+import { scale } from '@sutpc/config';
+
 const lineStateColor = ['green', '#FF7723'];
 // 今日最大顶峰能力
 const chargingRealPower = ref(69.02);
@@ -47,11 +48,15 @@ const socialBenefit = ref(socialBenefitFun());
 
 <style lang="less" scoped>
 .today-runing {
+  flex: 2;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   :deep(.unit-box) {
     margin-top: 4px;
   }
   .charging-realtime-power {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .num-wrap {
@@ -63,7 +68,7 @@ const socialBenefit = ref(socialBenefitFun());
     padding-right: 10px;
 
     .num-card {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
 
       &:nth-last-of-type(1),
       &:nth-last-of-type(2) {
@@ -77,18 +82,25 @@ const socialBenefit = ref(socialBenefitFun());
   }
 
   :deep(.ec-wrap) {
-    margin-top: 18px;
+    flex: 1;
+    height: 0;
+    margin-top: 10px;
   }
 }
 
 .social-benefit {
-  margin-top: 29px;
-
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  container-type: inline-size;
+  resize: horizontal;
+  container-name: benefit;
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 9px;
+    flex: 1;
+    height: 0;
+    padding: 20px 20px;
     margin-top: 16px;
     background: linear-gradient(
       258.38deg,
@@ -104,6 +116,19 @@ const socialBenefit = ref(socialBenefitFun());
       color: #64def6;
       font-size: 12px;
       display: block;
+    }
+  }
+}
+@container benefit (min-width: 600px) {
+  .num-wrap {
+    @{deep} {
+      .num-card {
+        display: flex;
+        flex-direction: row;
+        .icon {
+          width: 100px;
+        }
+      }
     }
   }
 }

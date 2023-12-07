@@ -214,7 +214,8 @@ onBeforeUnmount(() => {
 <style lang="less" scoped>
 .charging-wrap {
   overflow: hidden auto;
-  height: 345px;
+  // height: 345px;
+  height: 100%;
   margin-top: 12px;
   // .content {
   //   display: flex;

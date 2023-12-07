@@ -133,7 +133,7 @@ const handleBasic = (data) => {
 };
 </script>
 <style lang="less">
-.warning-pile-alarm {
+.warning-pile-alarm.el-dialog {
   height: 582px;
   width: 845px;
   background: radial-gradient(

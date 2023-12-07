@@ -52,7 +52,7 @@
         :colors="warnColor"
         mode="haveTab"
       /> -->
-      <EcResize v-if="!isShowList" :option="state.realtimeTrend" :style="{ height: '2.55rem' }" />
+      <EcResize v-if="!isShowList" class="warning-ec-wrap" :option="state.realtimeTrend" />
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -77,8 +77,10 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="realtimePowerColors"
-        :chartStyle="{ height: '2.22rem' }"
+        :colors="realtimePowerColors" class="station-power__chart" :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
       />
       <!-- <line-time-chart
         unit="kW"
@@ -89,9 +91,10 @@
     </div>
   </panel>
   <lianhuaxi v-if="isLianhuaxi" />
-  <div class="backBox">
+  <!-- <div class="backBox">
     <img src="./images/back.png" alt="" @click="backSz" />
-  </div>
+  </div> -->
+  <Goback @click="backSz" />
   <bottom-tabs :tabData="tabData" v-if="!isHr && tabHasData" />
   <!-- isHr是0 是高渲染站点 -->
   <pile-dialog
@@ -157,6 +160,7 @@ import PileDialog from './components/pile-dialog/pile-dialog.vue';
 import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
+import Goback from '@/components/goback/index.vue';
 
 // import WarnList from './components/warn-list.vue';
 import {
@@ -708,31 +712,35 @@ onUnmounted(() => {
 // });
 </script>
 <style lang="less" scoped>
-.backBox {
-  position: absolute;
-  height: 19.5px;
-  left: 86px;
-  top: 75px;
-  display: flex;
-  background: rgba(4, 22, 43, 0.4);
+// .backBox {
+//   position: absolute;
+//   height: 19.5px;
+//   left: 86px;
+//   top: 75px;
+//   display: flex;
+//   background: rgba(4, 22, 43, 0.4);
 
-  color: #ffffff;
-  z-index: 20;
-  cursor: pointer;
+//   color: #ffffff;
+//   z-index: 20;
+//   cursor: pointer;
 
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 1px;
-  }
-}
+//   img {
+//     width: 24px;
+//     height: 24px;
+//     border-radius: 1px;
+//   }
+// }
 
 .station-info {
   margin-top: 12px;
 }
 
 .device-info {
-  margin-top: 20px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  // margin-top: 20px;
 
   :deep(.num-wrap) {
     display: flex;
@@ -768,33 +776,49 @@ onUnmounted(() => {
   }
 }
 
+.device-total-pie.pie-wrap {
+  margin-top: 10px;
+  flex: 1;
+  height: 0;
+}
+
 .warning-message {
-  margin-top: 16px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  // margin-top: 16px;
 
   .warning-tabs {
-    margin-top: 14px;
+    margin-top: 10px;
   }
 
   .warning-list {
-    margin-top: 14px;
+    flex: 1;
+    height: 0;
+    margin-top: 10px;
+  }
+  .warning-ec-wrap {
+    flex: 1;
+    height: 0;
   }
 }
 
 .device-use-info {
-  margin-top: 20px;
+  margin-top: 10px;
 
   .tabs {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
+    margin-top: 10px;
 
     :deep(.num-card) {
       width: 49%;
-      padding: 24px 0 18px;
+      padding: 20px 0 20px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -817,12 +841,25 @@ onUnmounted(() => {
   }
 }
 
-.station-power {
-  margin-top: 16px;
+.charging-bar-state {
+  flex: 1.5;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+}
 
+.station-power {
+  margin-top: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   .ec-wrap {
-    margin-top: 16px;
+    margin-top: 10px;
   }
+}
+.station-power__chart {
+  flex: 1;
+  height: 0;
 }
 
 .right-tab-btn {
@@ -852,7 +889,7 @@ onUnmounted(() => {
 }
 
 .pile-charger-header {
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
 }

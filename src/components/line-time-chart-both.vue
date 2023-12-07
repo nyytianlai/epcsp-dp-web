@@ -1,5 +1,5 @@
 <template>
-  <div class="ec-wrap" :style="chartStyle">
+  <div class="ec-wrap">
     <div class="unit-box">
       <div class="unit" v-if="unit">
         <icon :icon="`svg-icon:${colors[0]}`" class="filter" />
@@ -17,13 +17,13 @@
 
 <script setup lang="ts">
 import Icon from '@sutpc/vue3-svg-icon';
-import { getRemvalue } from '@/utils/index';
-
 import { toRefs, ref, watch } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import { deepClone } from '@/utils';
+import { scale } from '@sutpc/config';
+
 interface Idata {
   x: number;
   y: number;
@@ -225,19 +225,19 @@ const ecOptionBothSideFun = () => {
   console.log('data', data.value);
   let option = {
     grid: {
-      top: getRemvalue(43),
-      bottom: getRemvalue(24),
-      right: getRemvalue(50),
-      left: getRemvalue(42)
+      top: scale(43),
+      bottom: scale(24),
+      right: scale(50),
+      left: scale(42)
     },
     legend: {
-      itemWidth: getRemvalue(16),
-      itemHeight: getRemvalue(10),
+      itemWidth: scale(16),
+      itemHeight: scale(10),
       right: 0,
-      top: getRemvalue(-5),
+      top: scale(-5),
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         color: '#C6D1DB'
       }
     },
@@ -257,8 +257,8 @@ const ecOptionBothSideFun = () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
-        lineHeight: getRemvalue(20),
+        fontSize: scale(14),
+        lineHeight: scale(20),
         color: '#B4C0CC',
         formatter: (value, index) => {
           return dayjs(value).format('HH:00');
@@ -283,8 +283,8 @@ const ecOptionBothSideFun = () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: getRemvalue(14),
-          lineHeight: getRemvalue(18),
+          fontSize: scale(14),
+          lineHeight: scale(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -307,8 +307,8 @@ const ecOptionBothSideFun = () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: getRemvalue(14),
-          lineHeight: getRemvalue(18),
+          fontSize: scale(14),
+          lineHeight: scale(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -391,19 +391,19 @@ const ecOptionBothSideFun = () => {
 const ecOptionBothSideYaxisFun= () => {
   let option = {
     grid: {
-      top: getRemvalue(54),
-      bottom: getRemvalue(28),
-      right: getRemvalue(41),
-      left: getRemvalue(42)
+      top: scale(54),
+      bottom: scale(28),
+      right: scale(41),
+      left: scale(42)
     },
     legend: {
-      itemWidth: getRemvalue(16),
-      itemHeight: getRemvalue(12),
+      itemWidth: scale(16),
+      itemHeight: scale(12),
       right: 0,
       top: 0,
       textStyle: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
+        fontSize: scale(14),
         color: '#C6D1DB'
       }
     },
@@ -424,8 +424,8 @@ const ecOptionBothSideYaxisFun= () => {
       },
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
-        fontSize: getRemvalue(14),
-        lineHeight: getRemvalue(20),
+        fontSize: scale(14),
+        lineHeight: scale(20),
         color: '#B4C0CC'
       },
       splitLine: {
@@ -443,8 +443,8 @@ const ecOptionBothSideYaxisFun= () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: getRemvalue(14),
-          lineHeight: getRemvalue(18),
+          fontSize: scale(14),
+          lineHeight: scale(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -467,8 +467,8 @@ const ecOptionBothSideYaxisFun= () => {
         },
         axisLabel: {
           fontFamily: 'Helvetica',
-          fontSize: getRemvalue(14),
-          lineHeight: getRemvalue(18),
+          fontSize: scale(14),
+          lineHeight: scale(18),
           color: '#B4C0CC',
           formatter: (value) => {
             return value ? simplifyNum(value) : '';
@@ -556,8 +556,9 @@ watch(
 <style lang="less" scoped>
 .ec-wrap {
   width: 100%;
+  height: 100%;
   min-width: 200px;
-  height: 189px;
+  // height: 189px;
   position: relative;
   .unit {
     font-weight: 400;

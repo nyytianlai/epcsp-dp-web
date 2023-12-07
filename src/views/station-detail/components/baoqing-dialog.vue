@@ -50,8 +50,8 @@ const props = defineProps({
 
 const { visible } = toRefs(props);
 </script>
-<style lang="less" scoped>
-.pile-dialog {
+<style lang="less" >
+.pile-dialog.el-dialog {
   width: 845px;
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
