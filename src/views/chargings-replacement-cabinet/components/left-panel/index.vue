@@ -151,8 +151,6 @@ onMounted(() => {
 }
 }
 
-
-
 .charging-type {
   height: 200px;
   display: flex;

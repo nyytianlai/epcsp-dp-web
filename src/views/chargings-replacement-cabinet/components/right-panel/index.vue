@@ -20,10 +20,6 @@
         :data="lineStateData"
         :colors="stateColor"
         unit="次"
-        :chartStyle="{
-          width: '100%',
-          height: '1.89rem'
-        }"
       />
     </div>
     <div class="today-warning-message">
@@ -83,79 +79,101 @@ onMounted(() => {
 <style lang="less" scoped>
 .today-facilities {
   :deep(.tabs) {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 }
 .today-facilities {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    margin-top: 16px;
-    margin-bottom: 20px;
-    :deep(.num-card) {
-      width: 49%;
-      padding: 24px 0 18px;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
-      mix-blend-mode: normal;
-      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
-      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
-      border-radius: 2px;
-      justify-content: center;
-      .info {
-        flex-direction: column;
-        .name {
-          margin-bottom: 0;
+    margin: 10px 0;
+    gap: 20px;
+    @{deep} {
+      .num-card {
+        flex: 1;
+        width: 0;
+        padding: 15px 0 18px;
+        background: linear-gradient(
+          258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%
+        );
+        mix-blend-mode: normal;
+        box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+        filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+        border-radius: 2px;
+        justify-content: center;
+        .info {
+          flex-direction: column;
+          .name {
+            margin-bottom: 0;
+          }
         }
       }
     }
   }
 }
 .power-msg-today {
-  margin-top: 26px;
-}
-.power-msg-today {
+  flex: 1;
+  height: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
   .num-wrap {
     margin-top: 12px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    :deep(.num-card) {
-      padding: 20px 0;
-      width: 49%;
-      background: linear-gradient(
-        258.38deg,
-        rgba(37, 177, 255, 0.1) 2.46%,
-        rgba(37, 177, 255, 0) 100%
-      );
-      mix-blend-mode: normal;
-      box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
-      filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
-      border-radius: 2px;
-      justify-content: center;
-      .info {
-        flex-direction: column;
-        .value {
-          font-size: 28px !important;
+    @{deep} {
+      .num-card {
+        flex: 1;
+        width: 0;
+        padding: 15px 0;
+        background: linear-gradient(
+          258.38deg,
+          rgba(37, 177, 255, 0.1) 2.46%,
+          rgba(37, 177, 255, 0) 100%
+        );
+        mix-blend-mode: normal;
+        box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
+        filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
+        border-radius: 2px;
+        justify-content: center;
+        .info {
+          flex-direction: column;
+          .value {
+            font-size: 28px !important;
+          }
+          .name {
+            margin-bottom: 0;
+          }
         }
-        .name {
-          margin-bottom: 0;
+        .icon {
+          width: 54px !important;
+          height: 54px !important;
         }
       }
-      .icon {
-        width: 54px !important;
-        height: 54px !important;
-      }
+    }
+  }
+  @{deep} {
+    .ec-wrap {
+      flex: 1;
+      height: 0;
     }
   }
 }
 .today-warning-message {
-  margin-top: 26px;
-  :deep(.warning-list) {
-    margin-top: 16px;
+  height: 30%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  @{deep} {
+    .warning-list {
+      flex: 1;
+      height: 0;
+      margin-top: 10px;
+    }
   }
+  
 }
 </style>

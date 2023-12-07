@@ -19,7 +19,7 @@
     <div class="company-rank">
       <title-column title="今日站点换电次数排名" icon="battery" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
-      <rank-list :data="rankData" :totalNum="rankTotal" height="4.2rem" />
+      <rank-list :data="rankData" :totalNum="rankTotal" />
     </div>
   </panel>
 </template>
@@ -43,15 +43,23 @@ const { cardData, rankData, rankTotal, deviceInfoData } = toRefs(state);
 
 <style lang="less" scoped>
 .box {
-  margin-bottom: 22px;
+  container-type: inline-size;
+  container-name: numBox;
+  @container numBox (min-width: 500px) {
+    @{deep} {
+      .num-card.top-down {
+        flex-direction: row;
+      }
+    }
+  }
   &:last-child {
     margin-bottom: 0;
   }
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 22px;
+    // height: 160px;
+    padding: 20px 22px;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -65,6 +73,16 @@ const { cardData, rankData, rankTotal, deviceInfoData } = toRefs(state);
 }
 
 .company-rank {
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
   margin-top: 22px;
+  @{deep} {
+    .rank-list-wrap {
+      flex: 1;
+      height: 0;
+    }
+  }
 }
 </style>
