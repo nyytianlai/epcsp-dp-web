@@ -197,20 +197,19 @@ onMounted(() => {
   // margin-top: 16px;
 
   .num-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
     padding-top: 30px;
     padding-left: 10px;
     padding-right: 10px;
 
     .num-card {
-      margin-bottom: 20px;
-
-      &:nth-last-of-type(1),
-      &:nth-last-of-type(2) {
-        margin-bottom: 0;
-      }
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
     }
   }
 }
