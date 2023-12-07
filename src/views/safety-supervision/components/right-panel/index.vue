@@ -48,7 +48,10 @@
       <line-time-chart
         :data="realtimeTrend"
         :colors="['#FF6B4B']"
-        mode="haveTab"
+        mode="haveTab" :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
       />
     </div>
   </panel>

@@ -15,7 +15,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="lineStateColor" unit="MW" />
+      <line-time-chart :data="lineStateData" :colors="lineStateColor" unit="MW"/>
     </div>
     <div class="social-benefit">
       <title-column title="社会效益信息" icon="photovoltaic" />
@@ -84,8 +84,8 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    height: 160px;
-    padding: 0 9px;
+    // height: 160px;
+    padding: 10px 9px;
     margin-top: 16px;
     background: linear-gradient(
       258.38deg,
@@ -96,6 +96,15 @@ onMounted(() => {
     box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
     border-radius: 2px;
+    resize: horizontal;
+    container-name: numWrap;
+    container-type: inline-size;
+  }
+
+  @container numWrap (min-width: 500px){
+    .num-card.top-down {
+      flex-direction: row;
+    }
   }
 
   :deep(.num-card) {
@@ -108,19 +117,31 @@ onMounted(() => {
 }
 
 .power-msg-today {
-  margin-top: 26px;
+  flex: 1;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  @{deep} {
+    .ec-wrap {
+      flex: 1;
+      height: 0;
+    }
+  }
 }
 
 .power-msg-today {
   .num-wrap {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     margin-top: 16px;
     margin-bottom: 20px;
 
     :deep(.num-card) {
-      width: 49%;
-      padding: 24px 0 18px;
+      flex: 1;
+      width: 0;
+      padding: 10px 0 18px;
       background: linear-gradient(
         258.38deg,
         rgba(37, 177, 255, 0.1) 2.46%,
@@ -144,8 +165,10 @@ onMounted(() => {
 }
 
 .social-benefit {
-  margin-top: 24px;
-
+  margin-top: 20px;
+  resize: horizontal;
+  container-name: benefit;
+  container-type: inline-size;
   .num-wrap {
     margin-top: 16px;
 
@@ -154,6 +177,12 @@ onMounted(() => {
         margin-top: 12px;
       }
     }
+  }
+}
+@container benefit (min-width: 500px) {
+  .num-wrap {
+    display: flex;
+    gap: 20px;
   }
 }
 </style>

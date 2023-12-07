@@ -77,7 +77,10 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="realtimePowerColors" class="station-power__chart"
+        :colors="realtimePowerColors" class="station-power__chart" :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
       />
       <!-- <line-time-chart
         unit="kW"

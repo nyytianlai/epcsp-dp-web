@@ -9,6 +9,10 @@
           unit="kW"
           :colors="lineTimeColors"
           :customOption="{ animation: false }"
+          :chartStyle="{
+            width: '100%',
+            height: '1.89rem'
+          }"
         />
       </div>
       <div class="today-num-info">

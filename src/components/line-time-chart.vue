@@ -34,10 +34,10 @@ interface Props {
   yaxisName?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  chartStyle: () => ({
-    width: '100%',
-    height: '1.89rem'
-  }),
+  // chartStyle: () => ({
+  //   width: '100%',
+  //   height: '1.89rem'
+  // }),
   unit: '个',
   colors: () => ['green', 'blue'],
   data: () => [],

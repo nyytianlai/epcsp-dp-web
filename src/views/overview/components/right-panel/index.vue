@@ -16,7 +16,10 @@
         :colors="co2Color"
         yaxisName="吨"
         mode="onlyLine"
-        unit=""
+        unit="" :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
         :customOption="{ legend: { itemGap: scale(10), left: 0 } }"
       />
     </div>
@@ -27,7 +30,10 @@
         :colors="ElectricColor"
         yaxisName="万kwh"
         mode="onlyLine"
-        unit=""
+        unit="" :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
         :customOption="{ legend: { itemGap: scale(0), left: 0 } }"
       />
     </div>

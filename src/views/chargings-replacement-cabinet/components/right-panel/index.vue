@@ -16,7 +16,15 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="stateColor" unit="次" />
+      <line-time-chart
+        :data="lineStateData"
+        :colors="stateColor"
+        unit="次"
+        :chartStyle="{
+          width: '100%',
+          height: '1.89rem'
+        }"
+      />
     </div>
     <div class="today-warning-message">
       <title-column title="今日告警信息" icon="chargings-replacement" />
