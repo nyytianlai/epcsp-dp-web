@@ -8,7 +8,7 @@
 -->
 <template>
   <div class="header-bgc"></div>
-  <div class="subject-header">
+  <div class="subject-header" :class="isHeaderEN ? 'header-en' : ''">
     <img
       src="../images//header-line-move.png"
       class="header_line_move"
@@ -21,6 +21,7 @@
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import config from '@sutpc/config';
 
+const isHeaderEN = import.meta.env.VITE_HEADER_EN == 1;
 const step = ref(0);
 const timeId = ref();
 const moveImg = () => {
@@ -75,6 +76,9 @@ const headerMoveStyle = computed(() => {
   background-size: auto 100%;
   background-position: center;
   overflow: hidden;
+  &.header-en {
+    background-image: url(../images/header-en.png);
+  }
   .header_line_move {
     position: absolute;
     top: 0;
