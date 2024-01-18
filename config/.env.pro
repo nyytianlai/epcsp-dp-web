@@ -28,3 +28,6 @@ VITE_FD_FileURL=D:/FreeDo/Cloud/SDK # 开发环境  //斜对面电脑
 
 # 应用名称，用于网页头部等
 VITE_APP_TITLE = 电力充储放一张网
+
+# 头部是否使用包含英文的头部，设置为1表示使用包含英文的头部，0为不包含英文的头部
+VITE_HEADER_EN = 1
