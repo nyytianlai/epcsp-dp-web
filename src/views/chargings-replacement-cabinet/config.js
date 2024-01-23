@@ -86,7 +86,7 @@ export const todayFacilitiesCardFun = (data = {}, code = 1) => {
     return [
       {
         img: ztsyl,
-        num: 47.83,
+        num: 62.66,
         unit: '%',
         name: '整体使用率',
         classStyleType: 'leftRightStyleGreen'
@@ -110,7 +110,7 @@ export const todayFacilitiesCardFun = (data = {}, code = 1) => {
       },
       {
         img: zxzl,
-        num: 1503,
+        num: 1927,
         unit: '',
         name: '在线总量',
         classStyleType: 'leftRightStyleYellow'
