@@ -92,7 +92,6 @@ export const getHtmlUrl = () => {
   }
 };
 export const getImageByCloud = (picName: any) => {
-  // return `${import.meta.env.VITE_FD_FileURL}/data/images/${picName}.png`;
   let urlPre = import.meta.env.VITE_LOCAL_DEV_SERVER;
   if (!urlPre) {
     urlPre = location.origin + import.meta.env.VITE_BASE_PATH;
@@ -126,7 +125,7 @@ export const control3dts = async (__g, ids: string[], isShow: boolean) => {
 export const add3dt = async (__g, fileName: string) => {
   await __g.tileLayer.add({
     id: fileName,
-    fileName: `${import.meta.env.VITE_FD_FileURL}/data/3dt/民乐/${fileName}.3dt`, //3dt文件路径
+    fileName: `${import.meta.env.VITE_FD_FileURL}/民乐/${fileName}.3dt`, //3dt文件路径
     location: [0, 0, 92.5], //坐标位置
     rotation: [0, 0, 0], //旋转角度
     scale: [1, 1, 1] //缩放大小
