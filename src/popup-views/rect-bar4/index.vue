@@ -35,7 +35,7 @@ const contentHeight = getUrlParam('contentHeight');
 const ecStyle = computed(() => {
   return {
     height: contentHeight + 'px',
-    width: '180px'
+    width: '180px',
   };
 });
 
@@ -167,15 +167,16 @@ const ecOption = computed(() => {
       formatter: function (params) {
         return `    <div id="pop-panel">
           <div class="title">
-<img src="../images/position.png" class="tooltip-img"> <span class="title-word">${quName}</span>
+<img src="static/images/position.png" class="tooltip-img"> 
+<span class="title-word">${quName}</span>
 <div class="title-bg"></div>
 </div>
 <div class="content">
-<li>充电站<div class="liRight"><span class="num num3" style="color: #00B3FF;">${paramsValue.chargingStation}</span>个</div></li>
-<li>储能站<div class="liRight"><sapn class="num num1" style="color: #F6FB2B;">${paramsValue.energyStorageStation}</sapn>个</div></li>
-<li>光伏站<div class="liRight"><span class="num num2" style="color: #99B1FF;">${paramsValue.photovoltaic}</span>个</div></li>
-<li>充换电柜<div class="liRight"><span class="num num4" style="color: #00F7FF;">${paramsValue.cabinet}</span>个</div></li>
-<li>换电站<div class="liRight"><span class="num num5" style="color:  #FFA800;">${paramsValue.powerStation}</span>个</div></li>
+<li>充电站<div class="liRight"><span class="num num3" style="color: #00B3FF;">${paramsValue.chargingStation ?? 0}</span>个</div></li>
+<li>储能站<div class="liRight"><sapn class="num num1" style="color: #F6FB2B;">${paramsValue.energyStorageStation ?? 0}</sapn>个</div></li>
+<li>光伏站<div class="liRight"><span class="num num2" style="color: #99B1FF;">${paramsValue.photovoltaic ?? 0}</span>个</div></li>
+<li>充换电柜<div class="liRight"><span class="num num4" style="color: #00F7FF;">${paramsValue.cabinet ?? 0}</span>个</div></li>
+<li>换电站<div class="liRight"><span class="num num5" style="color:  #FFA800;">${paramsValue.powerStation ?? 0}</span>个</div></li>
 </div>
 </div>`;
       }
