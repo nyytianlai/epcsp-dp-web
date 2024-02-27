@@ -9,7 +9,7 @@
           v-for="(item, index) in formatWithToLocalString(data)"
           :key="index"
           :num="item === '.' || item === ',' ? item : Number(item)"
-          :id="index"
+          :id="`${index}`"
           @resize="hanldeResize"
         ></numberFlipping>
       </div>

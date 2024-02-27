@@ -3,16 +3,16 @@
 "name": "barPosition2000",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4547" } },
 "features": [
-{ "type": "Feature", "properties": { "OBJECTID": 1, "QUNAME": "福田区", "QUCODE": "440304" }, "geometry": { "type": "Point", "coordinates": [ 505918.775596583611332, 2492681.260535013396293 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 2, "QUNAME": "罗湖区", "QUCODE": "440303" }, "geometry": { "type": "Point", "coordinates": [ 517451.94105399819091, 2496319.327442277222872 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 4, "QUNAME": "坪山区", "QUCODE": "440310" }, "geometry": { "type": "Point", "coordinates": [ 537514.229200162691996, 2512068.197447056882083 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 5, "QUNAME": "盐田区", "QUCODE": "440308" }, "geometry": { "type": "Point", "coordinates": [ 529240.519704934442416, 2499895.401478952728212 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 6, "QUNAME": "宝安区", "QUCODE": "440306" }, "geometry": { "type": "Point", "coordinates": [ 483587.254033252189402, 2507788.953941479790956 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 7, "QUNAME": "光明区", "QUCODE": "440311" }, "geometry": { "type": "Point", "coordinates": [ 492269.528986295277718, 2518108.004912183154374 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 8, "QUNAME": "龙岗区", "QUCODE": "440307" }, "geometry": { "type": "Point", "coordinates": [ 525509.510550454491749, 2511382.811300200875849 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 9, "QUNAME": "龙华区", "QUCODE": "440309" }, "geometry": { "type": "Point", "coordinates": [ 501962.838807273714337, 2509009.74641913222149 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 10, "QUNAME": "大鹏新区", "QUCODE": "440343" }, "geometry": { "type": "Point", "coordinates": [ 548827.083653651294298, 2501577.94710540631786 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 3, "QUNAME": "南山区", "QUCODE": "440305" }, "geometry": { "type": "Point", "coordinates": [ 494902.864943699212745, 2493295.840980593115091 ] } },
-{ "type": "Feature", "properties": { "OBJECTID": 22, "QUNAME": "深汕特别合作区", "QUCODE": "441521" }, "geometry": { "type": "Point", "coordinates": [ 606373.26220697525423, 2530233.754143388941884 ] } }
+{ "type": "Feature", "properties": { "OBJECTID": 1, "QUNAME": "福田区", "QUCODE": "440304", "PRIORITY": 0 }, "geometry": { "type": "Point", "coordinates": [ 505918.775596583611332, 2492681.260535013396293 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 2, "QUNAME": "罗湖区", "QUCODE": "440303", "PRIORITY": 0 }, "geometry": { "type": "Point", "coordinates": [ 517451.94105399819091, 2496319.327442277222872 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 4, "QUNAME": "坪山区", "QUCODE": "440310", "PRIORITY": 2 }, "geometry": { "type": "Point", "coordinates": [ 537514.229200162691996, 2512068.197447056882083 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 5, "QUNAME": "盐田区", "QUCODE": "440308", "PRIORITY": 0 }, "geometry": { "type": "Point", "coordinates": [ 529240.519704934442416, 2499895.401478952728212 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 6, "QUNAME": "宝安区", "QUCODE": "440306", "PRIORITY": 1 }, "geometry": { "type": "Point", "coordinates": [ 483587.254033252189402, 2507788.953941479790956 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 7, "QUNAME": "光明区", "QUCODE": "440311", "PRIORITY": 2 }, "geometry": { "type": "Point", "coordinates": [ 492269.528986295277718, 2518108.004912183154374 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 8, "QUNAME": "龙岗区", "QUCODE": "440307", "PRIORITY": 0  }, "geometry": { "type": "Point", "coordinates": [ 525509.510550454491749, 2511382.811300200875849 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 9, "QUNAME": "龙华区", "QUCODE": "440309", "PRIORITY": 0  }, "geometry": { "type": "Point", "coordinates": [ 501962.838807273714337, 2509009.74641913222149 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 10, "QUNAME": "大鹏新区", "QUCODE": "440343", "PRIORITY": 0  }, "geometry": { "type": "Point", "coordinates": [ 548827.083653651294298, 2501577.94710540631786 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 3, "QUNAME": "南山区", "QUCODE": "440305", "PRIORITY": 0  }, "geometry": { "type": "Point", "coordinates": [ 494902.864943699212745, 2493295.840980593115091 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 22, "QUNAME": "深汕特别合作区", "QUCODE": "441521", "PRIORITY": 0  }, "geometry": { "type": "Point", "coordinates": [ 606373.26220697525423, 2530233.754143388941884 ] } }
 ]
 }
