@@ -89,16 +89,17 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       // popupBackgroundColor: [1.0, 0.5, 0.5, 0.5], //弹窗背景颜色
       autoHidePopupWindow: false,
-      popupSize: [200, contentHeight + 160],
-      popupOffset: [-125, -140], //弹窗偏移
+      popupSize: [200, 160],
+      popupOffset: [-125, -60], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
-      displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
-      priority: item.properties.PRIORITY
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      // priority: item.properties.PRIORITY
     };
     // if(idEnd=='光明区'){
     //   o['priority']=9
     // }
     barArr.push(o);
+    console.log(o);
   });
   await aircityObj.value.acApi.marker.add(barArr);
   await aircityObj.value.acApi.marker.showAllPopupWindow();

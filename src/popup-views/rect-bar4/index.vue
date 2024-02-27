@@ -369,6 +369,7 @@ const handleInstanceReady = (ecInstance) => {
   position: absolute;
   bottom: 0px;
   pointer-events: auto;
+  /* background-color: rgba(255, 255, 255, 0.5); */
 }
 #pop-panel {
   width: 180px;
