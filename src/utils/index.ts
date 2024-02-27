@@ -1,5 +1,5 @@
 import { booleanPointInPolygon, point, polygon } from '@turf/turf';
-import { gcj02ToWgs84 } from '@sutpc/zebra';
+import { gcj02ToWgs84, joinPaths } from '@sutpc/zebra';
 import config from '@sutpc/config';
 import proj4 from 'proj4';
 proj4.defs('EPSG:4490', '+proj=longlat +ellps=GRS80 +no_defs +type=crs');
@@ -146,4 +146,38 @@ export function getRemChartvalue(value: number | number[]) {
     })
   }
   return result
+}
+
+/**
+ * 获取弹窗html的地址，弹窗页面可以有如下2种形式：
+ * 1. 使用public目录下的静态页面
+ * 2. 【建议】使用popup.html，传入渲染的组件名称，组件写在src/popup-views/目录下，组件名称和组件的文件夹或文件名称一致
+ **/
+export function getPopupHtml({ usePopupHtml = true, com = '', htmlUrl = '', params = {} as any }) {
+  params.fontSize = document.documentElement.style.fontSize;
+  params.sizeScale = config.sizeScale;
+  params.echartsScale = config.echarts.sizeScale;
+
+  let prodHtmlPrefix = location.origin + import.meta.env.VITE_BASE_PATH;
+
+  if (import.meta.env.DEV) {
+    /**
+     * 更新vite-plugin-sutpc-common到^1.1.0以上，启动服务时带--host参数
+     * 会自动生成配置项：VITE_LOCAL_SERVER
+     */
+    prodHtmlPrefix = import.meta.env.VITE_LOCAL_SERVER;
+  }
+
+  if (usePopupHtml) {
+    params.com = com;
+    htmlUrl = joinPaths(prodHtmlPrefix, 'popup.html');
+  } else {
+    htmlUrl = joinPaths(prodHtmlPrefix, htmlUrl);
+  }
+
+  let paramStrArr = Object.entries(params).map(([key, value]) => {
+    return key + '=' + value;
+  });
+
+  return htmlUrl + '?' + paramStrArr.join('&');
 }
