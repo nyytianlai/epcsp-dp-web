@@ -29,6 +29,7 @@ const topBar = Math.max(
   paramsValue.powerStation
 ); // 当前五根柱子中最高的值
 const quName = getUrlParam('quName');
+const hideToolTip = !!Number(getUrlParam('hideToolTip'));
 const areaCode = getUrlParam('areaCode');
 const contentHeight = getUrlParam('contentHeight');
 
@@ -150,6 +151,7 @@ const ecOption = computed(() => {
   return {
     //  backgroundColor: '#030446',
     tooltip: {
+      show: !hideToolTip,
       trigger: 'axis',
       axisPointer: {
         type: 'none'
@@ -355,21 +357,30 @@ const handleInstanceReady = (ecInstance) => {
   });
   ecInstance.on('mouseover', function (params) {
     ue.dtspoi.postevent(`mouseover`);
+    ue.dtspoi.postevent(`mouseover-${JSON.stringify({ ...paramsValue, contentHeight, quName })}`);
   });
   ecInstance.on('mouseout', function (params) {
     ue.dtspoi.postevent(`mouseout`);
+    ue.dtspoi.postevent(`mouseout-${JSON.stringify({ ...paramsValue, contentHeight, quName })}`);
   });
 };
 </script>
 
 <style>
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  /* background-color: red; */
+}
 .ec-wrap {
   height: 100%;
   width: 100%;
   position: absolute;
   bottom: 0px;
   pointer-events: auto;
-  /* background-color: rgba(255, 255, 255, 0.5); */
+  /* background-color: rgba(255, 255, 255, 0.8); */
 }
 #pop-panel {
   width: 180px;

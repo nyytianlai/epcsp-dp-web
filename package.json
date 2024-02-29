@@ -68,7 +68,7 @@
     "vite-plugin-ejs": "~1.6.0",
     "vite-plugin-html": "^3.2.0",
     "vite-plugin-purge-icons": "^0.9.1",
-    "vite-plugin-sutpc-common": "^1.0.2",
+    "vite-plugin-sutpc-common": "^1.1.0",
     "vite-plugin-sutpc-icon-park": "^1.0.1",
     "vite-plugin-sutpc-less-deep": "^1.0.1",
     "vite-plugin-sutpc-lib-static-import": "^2.0.0",
