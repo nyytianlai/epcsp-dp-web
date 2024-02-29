@@ -86,7 +86,7 @@ const drawHoverBarMarker = async (data, show = false) => {
     }),
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     autoHidePopupWindow: false,
-    popupSize: [180, 140],
+    popupSize: [180, 160],
     popupOffset: [-125, -contentHeight / 7 - 140], //弹窗偏移
     autoHeight: false, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
