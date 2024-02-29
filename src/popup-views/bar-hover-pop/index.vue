@@ -1,7 +1,7 @@
 <template>
   <div id="pop-panel">
     <div class="title">
-      <img src="static/images/position.png" class="tooltip-img" />
+      <img src="./images/position.png" class="tooltip-img" />
       <span class="title-word">{{ paramsValue.quName }}</span>
       <div class="title-bg"></div>
     </div>
