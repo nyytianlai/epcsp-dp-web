@@ -8,3 +8,5 @@ dist-ssr
 pnpm-debug
 components.d.ts
 .history
+.chat
+.vscode
