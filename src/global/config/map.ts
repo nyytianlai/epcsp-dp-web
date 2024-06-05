@@ -1,6 +1,9 @@
 import bus from '@/utils/bus';
 import { GCJ02_2_4547 } from '@/utils/index';
 import { joinPaths } from '@sutpc/zebra';
+
+import { transformCoordsByType } from '@/utils/map-coord-tools';
+
 export const mapRequestCancelId = 'mapRequest';
 const quNameArr = [
   '盐田区',
@@ -88,13 +91,14 @@ export const getHtmlUrl = () => {
     return import.meta.env.VITE_LOCAL_SERVER;
     // return 'http://10.10.50.212:5500/public'
   } else {
-    return location.origin + location.pathname;
+    return (import.meta.env.VITE_RESOURCE_URL || location.origin) + location.pathname;
   }
 };
 export const getImageByCloud = (picName: any) => {
   let urlPre = import.meta.env.VITE_LOCAL_SERVER;
   if (!urlPre) {
-    urlPre = location.origin + import.meta.env.VITE_BASE_PATH;
+    urlPre =
+      (import.meta.env.VITE_RESOURCE_URL || location.origin) + import.meta.env.VITE_BASE_PATH;
   }
   return joinPaths(urlPre, `/static/images/${picName}.png`);
 };
@@ -179,8 +183,8 @@ export const returnStationPointConfig = (item: {
     id: 'station-' + item.stationId,
     groupId: 'jdStation',
     userData: JSON.stringify(item),
-    coordinateType: 2,
-    coordinate: [item.lng, item.lat], //坐标位置
+    // coordinateType: 2,
+    coordinate: transformCoordsByType([item.lng, item.lat], 2), //坐标位置
     anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
     imageSize: [55, 150], //图片的尺寸
     range: [1, 150000], //可视范围

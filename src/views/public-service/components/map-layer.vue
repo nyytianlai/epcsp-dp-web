@@ -22,6 +22,7 @@ import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 // import { getQuPoint } from '../api.js';
 import { mapQuBar } from '../config.js';
+import { transformCoordsByType } from '@/utils/map-coord-tools';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3, 4]);
@@ -65,8 +66,8 @@ const addQuPoint = async (quCode: string) => {
         id: 'station-' + index + '-' + item.isHr,
         groupId: 'jdStation',
         userData: item.isHr + '',
-        coordinateType: 2,
-        coordinate: [item.lng, item.lat],
+        // coordinateType: 2,
+        coordinate: transformCoordsByType([item.lng, item.lat], 2),
         anchors: [-11.5, 200],
         imageSize: [33, 36],
         range: [1, 150000],

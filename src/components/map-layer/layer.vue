@@ -1,5 +1,10 @@
 <template>
-  <base-ac :cloudHost="cloudHost" @map-ready="handleMapReady">
+  <base-ac
+    :cloudHost="cloudHost"
+    :option="fdOption"
+    :cloudMangerInfo="{ command: 'GetOneFreeInstance' }"
+    @map-ready="handleMapReady"
+  >
     <hawk-eye v-if="ifHawkEye"></hawk-eye>
   </base-ac>
 </template>
@@ -25,6 +30,10 @@ let cloudHost = import.meta.env.VITE_FD_URL;
 if (!cloudHost) {
   cloudHost = `${location.host}/freedo`;
 }
+
+const fdOption = {
+  useHttps: import.meta.env.VITE_FD_HTTPS === 'true' ? true : false
+};
 
 const handleMapReady = async (obj) => {
   aircityObj.value = obj;

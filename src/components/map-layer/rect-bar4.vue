@@ -67,6 +67,14 @@ const drawHoverBarMarker = async (data, show = false) => {
   await aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
   if (!show || !data || !chartHover) return;
   const contentHeight = +data.contentHeight;
+  const mPopUpUrl = getPopupHtml({
+    usePopupHtml: true,
+    com: 'bar-hover-pop',
+    params: {
+      value: JSON.stringify(data)
+    }
+  });
+  console.log(mPopUpUrl, 'mPopUpUrl');
   const marker = {
     id: data.areaCode + 'bar-hover-pop',
     groupId: 'bar-hover-pop',
@@ -77,13 +85,7 @@ const drawHoverBarMarker = async (data, show = false) => {
     range: [1, 1000000], //可视范围
     imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-    popupURL: getPopupHtml({
-      usePopupHtml: true,
-      com: 'bar-hover-pop',
-      params: {
-        value: JSON.stringify(data)
-      }
-    }),
+    popupURL: mPopUpUrl,
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     autoHidePopupWindow: false,
     popupSize: [180, 160],
@@ -142,20 +144,19 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       countObj[0]?.powerStation || 0
     );
     let contentHeight = Math.max((160 * itemMax) / yMax, 60);
-    console.log(
-      getPopupHtml({
-        usePopupHtml: true,
-        com: 'rect-bar4',
-        params: {
-          value: JSON.stringify({ ...countObj[0], coordinates: item.geometry.coordinates }),
-          yMax: yMax * 1.1,
-          contentHeight: contentHeight,
-          quName: idEnd,
-          areaCode,
-          hideToolTip: 1
-        }
-      })
-    );
+    const oPopUpUrl = getPopupHtml({
+      usePopupHtml: true,
+      com: 'rect-bar4',
+      params: {
+        value: JSON.stringify({ ...countObj[0], coordinates: item.geometry.coordinates }),
+        yMax: yMax * 1.5,
+        contentHeight: contentHeight + 80,
+        quName: idEnd,
+        areaCode,
+        hideToolTip: 1
+      }
+    });
+    console.log(oPopUpUrl, 'oPopUpUrl');
     let o = {
       id: 'rectBar1-' + idEnd,
       groupId: `rectBar`,
@@ -169,18 +170,7 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       // popupURL: `${getHtmlUrl()}/popup.html?com=rect-bar4&value=${JSON.stringify(
       //   countObj[0]
       // )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
-      popupURL: getPopupHtml({
-        usePopupHtml: true,
-        com: 'rect-bar4',
-        params: {
-          value: JSON.stringify({ ...countObj[0], coordinates: item.geometry.coordinates }),
-          yMax: yMax * 1.5,
-          contentHeight: contentHeight + 80,
-          quName: idEnd,
-          areaCode,
-          hideToolTip: 1
-        }
-      }),
+      popupURL: oPopUpUrl,
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
       popupSize: [180, contentHeight],

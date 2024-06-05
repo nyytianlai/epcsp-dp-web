@@ -53,17 +53,15 @@ export const getStrLength = function (str) {
 //简单的防抖函数
 var timeout;
 export function debounce(func, wait) {
-  
   return function () {
-      var context = this;
-      var args = arguments;
-      clearTimeout(timeout)
-      timeout = setTimeout(function () {
-          func.apply(context, args)
-      }, wait);
+    var context = this;
+    var args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      func.apply(context, args);
+    }, wait);
   };
-};
-
+}
 
 // 深拷贝
 // 深拷贝
@@ -107,10 +105,10 @@ export function simplifyNum(number) {
 }
 // 翻页屏幕自适应
 export function getRemvalue(value: number | number[]) {
-  let result
-  const docEl = document.documentElement
-  const clientHeight = window.innerHeight || docEl.clientHeight || document.body.clientHeight
-  if (!clientHeight) return
+  let result;
+  const docEl = document.documentElement;
+  const clientHeight = window.innerHeight || docEl.clientHeight || document.body.clientHeight;
+  if (!clientHeight) return;
   if (typeof value !== 'object') {
     // 单个数值
     // const fontSize = clientHeight / 1080
@@ -118,34 +116,34 @@ export function getRemvalue(value: number | number[]) {
     result = value * config.sizeScale;
   } else if (Array.isArray(value)) {
     // 数组
-    result = []
+    result = [];
     value.forEach((item) => {
       // const res = item * (clientHeight / 1080)
       const res = item * config.sizeScale;
-      result.push(res)
-    })
+      result.push(res);
+    });
   }
-  return result
+  return result;
 }
 // 地图 echart屏幕自适应
 export function getRemChartvalue(value: number | number[]) {
-  let result
-  const docEl = document.documentElement
-  const clientWidth = window.innerWidth || docEl.clientWidth || document.body.clientWidth
-  if (!clientWidth) return
+  let result;
+  const docEl = document.documentElement;
+  const clientWidth = window.innerWidth || docEl.clientWidth || document.body.clientWidth;
+  if (!clientWidth) return;
   if (typeof value !== 'object') {
     // 单个数值
-    const fontSize = clientWidth / 1920
-    result = value * fontSize
+    const fontSize = clientWidth / 1920;
+    result = value * fontSize;
   } else if (Array.isArray(value)) {
     // 数组
-    result = []
+    result = [];
     value.forEach((item) => {
-      const res = item * (clientWidth / 1920)
-      result.push(res)
-    })
+      const res = item * (clientWidth / 1920);
+      result.push(res);
+    });
   }
-  return result
+  return result;
 }
 
 /**
@@ -158,7 +156,8 @@ export function getPopupHtml({ usePopupHtml = true, com = '', htmlUrl = '', para
   params.sizeScale = config.sizeScale;
   params.echartsScale = config.echarts.sizeScale;
 
-  let prodHtmlPrefix = location.origin + import.meta.env.VITE_BASE_PATH;
+  let prodHtmlPrefix =
+    (import.meta.env.VITE_RESOURCE_URL || location.origin) + import.meta.env.VITE_BASE_PATH;
 
   if (import.meta.env.DEV) {
     /**

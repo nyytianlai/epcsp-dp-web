@@ -27,6 +27,7 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 import { lianhuajingguiData } from '@/views/station-detail/config.js';
 import Goback from '@/components/goback/index.vue';
+import { transformCoordsByType } from '@/utils/map-coord-tools';
 
 const storeVisible = useVisibleComponentStore();
 const store = useMapStore();
@@ -159,8 +160,8 @@ const highLightNormalStation = async (obj) => {
   let o = {
     id: '1',
     userData: obj.stationId,
-    coordinate: [obj.lng, obj.lat], //辐射圈坐标位置
-    coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
+    coordinate: transformCoordsByType([obj.lng, obj.lat], 2), //辐射圈坐标位置
+    // coordinateType: 2, //坐标系类型，取值范围：0为Projection类型，1为WGS84类型，2为火星坐标系(GCJ02)，3为百度坐标系(BD09)，默认值：0
     radius: 60, //辐射半径
     rippleNumber: 3, //波纹数量
     color: [255 / 255, 191 / 255, 0 / 255, 1], //颜色
@@ -386,8 +387,8 @@ const addJdStation = async (jdCode: string) => {
         id: 'station-' + index + '-' + item.isHr,
         groupId: 'jdStation',
         userData: item.isHr + '',
-        coordinateType: 2,
-        coordinate: [item.lng, item.lat],
+        // coordinateType: 2,
+        coordinate: transformCoordsByType([item.lng, item.lat], 2),
         anchors: [-11.5, 200],
         imageSize: [33, 36],
         range: [1, 150000],
@@ -438,8 +439,8 @@ const addQuStationWithAlarmInfo = async (jdCode: string) => {
         id: 'station-' + index + '-' + item.isHr,
         groupId: 'jdStation',
         userData: item.isHr + '',
-        coordinateType: 2,
-        coordinate: [item.lng, item.lat],
+        // coordinateType: 2,
+        coordinate: transformCoordsByType([item.lng, item.lat], 2),
         anchors: [-11.5, 210],
         imageSize: [33, 36],
         range: [1, 150000],

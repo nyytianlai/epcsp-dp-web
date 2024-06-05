@@ -16,6 +16,8 @@ import bus from '@/utils/bus';
 import { getDistrict, getStreet, getPoint } from '../api';
 import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
+
+import { transformCoordsByType } from '@/utils/map-coord-tools';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 
@@ -90,8 +92,8 @@ const getPoints = async (module, jdcode) => {
       id: 'stationOut-' + index,
       groupId: 'jdStation',
       userData: JSON.stringify(item),
-      coordinateType: 2,
-      coordinate: [item.longitude, item.latitude], //坐标位置
+      // coordinateType: 2,
+      coordinate: transformCoordsByType([item.longitude, item.latitude], 2), //坐标位置
       anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [55, 150], //图片的尺寸
       range: [1, 150000], //可视范围
@@ -123,8 +125,8 @@ const addHighLightStation = async (item) => {
     id: 'stationOut-hight',
     groupId: 'jdStation',
     userData: JSON.stringify(item),
-    coordinateType: 2,
-    coordinate: [item.longitude, item.latitude], //坐标位置
+    // coordinateType: 2,
+    coordinate: transformCoordsByType([item.longitude, item.latitude], 2), //坐标位置
     anchors: [-35, 200], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
     imageSize: [70, 209], //图片的尺寸
     range: [1, 150000], //可视范围
