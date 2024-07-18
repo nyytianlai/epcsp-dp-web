@@ -184,7 +184,10 @@ const addOutStation = async (module: number, jdcode: string) => {
       });
     }
   }
-  await __g.marker.add(pointArr, null);
+  // await __g.marker.add(pointArr, null);
+  setTimeout(() => {
+    __g.marker.add(pointArr, null);
+  }, 1000);
 };
 
 const addHighLightStation = async (item, stationType: string) => {
