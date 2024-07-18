@@ -9,7 +9,7 @@
 NODE_ENV = production
 
 # 接口前缀
-VITE_API_BASEPATH=/web/epcsp/dp/api/
+VITE_API_BASEPATH=/web/ecpsp/damengdp/api/
 #服务地址
 VITE_BASE_URL=http://sit-tpaas.sutpc.com:8080 #测试环境
 
