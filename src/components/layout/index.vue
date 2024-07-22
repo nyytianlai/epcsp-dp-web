@@ -12,13 +12,15 @@
         <div class="base-ac-wrap">
           <base-ac @aircityObjReady="handleAircityObjReady" />
         </div>
-        
 
         <expand-btn />
         <!-- <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
           <img src="./images/back.png" alt="" @click="router.push('/overview')" />
         </div> -->
-        <Goback  v-show="currentPosition === '深圳市' && isShowMenu" @click="router.push('/overview')" />
+        <Goback
+          v-show="currentPosition === '深圳市' && isShowMenu"
+          @click="router.push('/overview')"
+        />
         <router-view v-slot="{ Component, route }">
           <keep-alive :exclude="excludeViews">
             <Transition>
@@ -47,7 +49,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, provide, nextTick } from 'vue';
-import { routes } from '@/router';
+import { routes, specialRoutes } from '@/router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { h } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -77,7 +79,12 @@ const uestore = useUeStore();
 const wrapperMap = new Map();
 const router = useRouter();
 const routed = useRoute();
-const navDropList = ref(routes.slice(0, routes.length));
+// const navDropList = ref(routes.slice(0, routes.length));
+const navDropList = computed(() => {
+  return [routes, specialRoutes].find((item) =>
+    item.some((o) => o.children.some((el) => el.name === routed.name))
+  );
+});
 const excludeViews = ref([]);
 const includeViews = ref([]);
 const showComponent = computed(() => store.showComponent);
@@ -130,7 +137,15 @@ const handleAircityObjReady = (val) => {
   aircityObj.value = val;
 };
 const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
-const isShowMenu = computed(() => routed.name && routesName.includes(routed.name));
+const specialCceneRoutesName = [
+  'superChargingBuilding',
+  'virtualElectric',
+  'parkingCharging',
+  'powerCombine'
+];
+const isShowMenu = computed(
+  () => routed.name && [...routesName, ...specialCceneRoutesName].includes(routed.name as string)
+);
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
@@ -302,7 +317,7 @@ onMounted(async () => {
     height: 41px;
     background-image: url('./images/bottom-tabs-bg.png');
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: 100% 100%;
     background-position: center;
   }
   :deep(.bottom-tabs) {

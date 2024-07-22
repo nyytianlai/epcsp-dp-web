@@ -64,6 +64,66 @@ export const routes = [
     ]
   }
 ];
+
+export const specialRoutes = [
+  {
+    path: '/super-charge',
+    name: 'superCharge',
+    meta: { title: '超充建设' },
+    component: Layout,
+    children: [
+      {
+        name: 'superChargingBuilding',
+        path: '/super-charging/building',
+        meta: { title: '超充建设', keepAlive: false },
+        component: () => import('@/views/special-scene/super-charging-building/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/virtual',
+    name: 'virtual',
+    meta: { title: '虚拟电厂' },
+    component: Layout,
+    children: [
+      {
+        name: 'virtualElectric',
+        path: '/virtual/electric',
+        meta: { title: '虚拟电厂', keepAlive: false },
+        component: () => import('@/views/special-scene/virtual-electric/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/parking',
+    name: 'parking',
+    meta: { title: '停充一体' },
+    component: Layout,
+    children: [
+      {
+        name: 'parkingCharging',
+        path: '/parking/supervision',
+        meta: { title: '停充一体', keepAlive: false },
+        component: () => import('@/views/special-scene/parking-charging/index.vue')
+      }
+    ]
+  },
+  {
+    path: '/power',
+    name: 'power',
+    meta: { title: '交能融合' },
+    component: Layout,
+    children: [
+      {
+        name: 'powerCombine',
+        path: '/power/combine',
+        meta: { title: '交能融合', keepAlive: false },
+        component: () => import('@/views/special-scene/power-combine/index.vue')
+      }
+    ]
+  }
+];
+
 let routesMap = [
   {
     path: '/',
@@ -104,11 +164,18 @@ let routesMap = [
         name: 'PowerExchangeStation',
         meta: { title: '换电站', keepAlive: false },
         component: () => import('@/views/power-exchange-station/index.vue')
+      },
+      {
+        path: '/special-scene',
+        name: 'SpecialScene',
+        meta: { title: '亮点场景', keepAlive: false },
+        component: () => import('@/views/special-scene/index.vue')
       }
     ]
   },
 
   ...routes,
+  ...specialRoutes,
   {
     path: '/login',
     name: 'Login',
