@@ -83,13 +83,13 @@ export const specialRoutes = [
   {
     path: '/virtual',
     name: 'virtual',
-    meta: { title: '虚拟电厂' },
+    meta: { title: '虚拟电厂', disabled: true },
     component: Layout,
     children: [
       {
         name: 'virtualElectric',
         path: '/virtual/electric',
-        meta: { title: '虚拟电厂', keepAlive: false },
+        meta: { title: '虚拟电厂', keepAlive: false, disabled: true },
         component: () => import('@/views/special-scene/virtual-electric/index.vue')
       }
     ]
@@ -97,13 +97,13 @@ export const specialRoutes = [
   {
     path: '/parking',
     name: 'parking',
-    meta: { title: '停充一体' },
+    meta: { title: '停充一体', disabled: true },
     component: Layout,
     children: [
       {
         name: 'parkingCharging',
         path: '/parking/supervision',
-        meta: { title: '停充一体', keepAlive: false },
+        meta: { title: '停充一体', keepAlive: false, disabled: true },
         component: () => import('@/views/special-scene/parking-charging/index.vue')
       }
     ]
@@ -111,13 +111,13 @@ export const specialRoutes = [
   {
     path: '/power',
     name: 'power',
-    meta: { title: '交能融合' },
+    meta: { title: '交能融合', disabled: true },
     component: Layout,
     children: [
       {
         name: 'powerCombine',
         path: '/power/combine',
-        meta: { title: '交能融合', keepAlive: false },
+        meta: { title: '交能融合', keepAlive: false, disabled: true },
         component: () => import('@/views/special-scene/power-combine/index.vue')
       }
     ]

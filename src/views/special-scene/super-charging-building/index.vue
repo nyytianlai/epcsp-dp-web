@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-22 15:19:08
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-22 16:19:38
+ * @LastEditTime: 2024-07-23 14:29:28
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/super-charging-building/index.vue
 -->
@@ -54,6 +54,11 @@ const changeButtomTab = (item) => {
   height: 100%;
   display: grid;
   row-gap: 16px;
+
+  > div {
+    min-width: 0;
+    min-height: 0;
+  }
 
   &.left {
     grid-template-rows: 468px 1fr;

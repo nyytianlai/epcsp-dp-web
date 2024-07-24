@@ -3,7 +3,12 @@
     <title-column title="今日运行排名" />
     <tabs :data="operationRankTabType" @changeTab="handleStation" />
     <div class="distributed-content">
-      <rank-list class="operating-rank__list" :data="projectList" :totalNum="projectTotalNum" />
+      <rank-list
+        class="operating-rank__list"
+        :data="projectList"
+        :totalNum="projectTotalNum"
+        height="100%"
+      />
     </div>
   </div>
 </template>
@@ -11,8 +16,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { operationRankTabType } from '../config.js';
-const projectTotalNum = ref(0);
-const projectList = ref([]);
+const projectTotalNum = ref(140);
+const projectList = ref([
+  { name: '北京', value: 100 },
+  { name: '上海', value: 90 },
+  { name: '广州', value: 80 },
+  { name: '深圳', value: 70 },
+  { name: '杭州', value: 60 },
+  { name: '南京', value: 50 },
+  { name: '成都', value: 40 },
+  { name: '重庆', value: 30 },
+  { name: '武汉', value: 20 },
+  { name: '西安', value: 10 }
+]);
 const handleStation = (item) => {
   console.log('item', item);
   switch (item.code) {
@@ -47,6 +63,7 @@ const handleStation = (item) => {
     .operating-rank__list {
       width: 100%;
       height: 100%;
+      padding-left: 12px;
     }
   }
 }

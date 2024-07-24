@@ -1,13 +1,27 @@
 <template>
   <div class="area-distributed">
-    <title-column title="行政区分布情况" />
+    <title-column title="运行趋势" />
     <tabs :data="operationTabType" @changeTab="handleStation" />
-    <div class="distributed-content"></div>
+    <div class="distributed-content">
+      <ec-resize :option="ecOption" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { operationTabType } from '../config.js';
+import { ref, onMounted } from 'vue';
+import {
+  operationTabType,
+  operationTrendConfig,
+  chartColorList,
+  getBaseChartOption
+} from '../config.js';
+import { scale } from '@sutpc/config';
+import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
+import dayjs from 'dayjs';
+
+const ecOption = ref(getBaseChartOption());
+
 const handleStation = (item) => {
   console.log('item', item);
   switch (item.code) {
@@ -17,6 +31,53 @@ const handleStation = (item) => {
       break;
   }
 };
+
+const drawChart = async () => {
+  await getEcharts();
+  const option = getBaseChartOption();
+  const legendData = [];
+  const series = [];
+  const generateData = () => {
+    return Array.from(new Array(7), (i, n) => [
+      dayjs()
+        .subtract(6 - n, 'days')
+        .format('DD日'),
+      (Math.random() * 500).toFixed(0)
+    ]);
+  };
+  operationTrendConfig().forEach((item, i) => {
+    series.push({
+      name: item.name,
+      color: chartColorList[i],
+      type: item.type,
+      symbol: 'none',
+      barWidth: item.type === 'bar' && scale(14),
+      yAxisIndex: i,
+      data: generateData()
+    });
+
+    legendData.push({
+      name: item.name,
+      icon: 'circle',
+      color: chartColorList[i],
+      itemStyle: {
+        color: chartColorList[i]
+      }
+    });
+  });
+  ecOption.value = {
+    ...option,
+    yAxis: [option.yAxis, option.yAxis],
+    legend: {
+      ...option.legend,
+      data: legendData
+    },
+    series
+  };
+  console.log(ecOption.value);
+};
+
+onMounted(drawChart);
 </script>
 
 <style scoped lang="less">

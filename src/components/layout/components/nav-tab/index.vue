@@ -6,12 +6,16 @@
         <div
           v-for="(item, index) in navDropList"
           :key="item.name"
-          class="nav-item"
+          :class="[
+            { active: activeTitle === item.path },
+            { hasDrop: item.meta.isDropChildren },
+            { disabled: item.meta.disabled },
+            'nav-item'
+          ]"
           @click="handleCurrentTab(item)"
           @mouseover="handleHover(item)"
           @mouseout="handleOut(item)"
           :style="getNavItemStyle(index)"
-          :class="[{ active: activeTitle === item.path }]"
         >
           <div
             :class="[
@@ -59,7 +63,6 @@
 </template>
 
 <script>
-
 import config from '@sutpc/config';
 
 export default {
@@ -123,7 +126,7 @@ export default {
       }
       return {
         marginRight: marginRightValue + 'px'
-      }
+      };
     },
     handleCurrentTab(data) {
       if (
@@ -133,6 +136,7 @@ export default {
         return;
       }
       let path = data.children?.length ? data.children[0].path : data.path;
+      if (data.children && data.children[0]?.meta.disabled) return;
       if (path === this.$route.fullPath) return;
       this.$router.push(path);
     },
@@ -177,37 +181,43 @@ export default {
     background: rgba(84, 181, 255, 0.1);
     border: 1px solid rgba(84, 181, 255, 0.3);
     position: relative;
-    color: #BBE1FF;
-    &.active{
-      background: rgba(84, 181, 255, 0.3);
-      border: 1px solid #54B5FF;
-      color: #FFFFFF;
+    color: #bbe1ff;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: #999999;
     }
-    &:last-of-type{
+
+    &.active {
+      background: rgba(84, 181, 255, 0.3);
+      border: 1px solid #54b5ff;
+      color: #ffffff;
+    }
+    &:last-of-type {
       margin-right: 0 !important;
     }
     .corner {
       position: absolute;
-      width: .02rem;
-      height: .02rem;
-      background: #3CD4FA;
+      width: 0.02rem;
+      height: 0.02rem;
+      background: #3cd4fa;
     }
-  
+
     .left-top-dot {
       top: -1px;
       left: -1px;
     }
-  
+
     .left-bottom-dot {
       bottom: -1px;
       left: -1px;
     }
-  
+
     .right-top-dot {
       top: -1px;
       right: -1px;
     }
-  
+
     .right-bottom-dot {
       right: -1px;
       bottom: -1px;

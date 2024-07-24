@@ -14,7 +14,23 @@ import { areaDistributedTabType, columnKeyListFun } from '../config.js';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 const columnKeyList = ref(columnKeyListFun());
 
-const scrollTableData = ref([]);
+const scrollTableData = ref([
+  {
+    areaName: '南山区',
+    stationCount: 201,
+    equipmentCount: 2
+  },
+  {
+    areaName: '罗湖区',
+    stationCount: 201,
+    equipmentCount: 2
+  },
+  {
+    areaName: '福田区',
+    stationCount: 201,
+    equipmentCount: 2
+  }
+]);
 
 const handleStation = (item) => {
   console.log('item', item);
