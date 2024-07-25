@@ -1,8 +1,8 @@
 <template>
   <div class="area-distributed">
     <title-column title="今日运行排名" />
-    <tabs :data="operationRankTabType" @changeTab="handleStation" />
-    <div class="distributed-content">
+    <tabs v-model="selectType" :data="operationRankTabType" />
+    <div class="distributed-content" v-loading="isLoading">
       <rank-list
         class="operating-rank__list"
         :data="projectList"
@@ -14,30 +14,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { operationRankTabType } from '../config.js';
+import Api from '../api.js';
+const isLoading = ref(false);
 const projectTotalNum = ref(140);
-const projectList = ref([
-  { name: '北京', value: 100 },
-  { name: '上海', value: 90 },
-  { name: '广州', value: 80 },
-  { name: '深圳', value: 70 },
-  { name: '杭州', value: 60 },
-  { name: '南京', value: 50 },
-  { name: '成都', value: 40 },
-  { name: '重庆', value: 30 },
-  { name: '武汉', value: 20 },
-  { name: '西安', value: 10 }
-]);
-const handleStation = (item) => {
-  console.log('item', item);
-  switch (item.code) {
-    case 1:
-      break;
-    case 3:
-      break;
-  }
+const selectType = ref(operationRankTabType[0].code);
+const projectList = ref([]);
+const getProjectList = async () => {
+  isLoading.value = true;
+  try {
+    const method = Api[selectType.value];
+    const nameCode = selectType.value === 'getStationChargeStat' ? 'stationName' : 'operatorName';
+    if (!method) return;
+    const res = await method();
+    projectList.value = res.data?.map((item) => ({
+      name: item[nameCode],
+      unit: 'Kwh',
+      num: item.chargePower
+    }));
+  } catch (error) {}
+  isLoading.value = false;
 };
+watch(() => selectType.value, getProjectList, {
+  immediate: true,
+  deep: true
+});
 </script>
 
 <style scoped lang="less">

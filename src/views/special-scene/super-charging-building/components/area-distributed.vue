@@ -1,46 +1,36 @@
 <template>
   <div class="area-distributed">
     <title-column title="行政区分布情况" />
-    <tabs :data="areaDistributedTabType" @changeTab="handleStation" />
+    <tabs v-model="selectType" :data="areaDistributedTabType" />
     <div class="distributed-content">
-      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
+      <scroll-table
+        :scrollTableData="scrollTableData"
+        :columnKeyList="columnKeyList"
+        style="height: 100%"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { areaDistributedTabType, columnKeyListFun } from '../config.js';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
-const columnKeyList = ref(columnKeyListFun());
+import Api from '../api.js';
 
-const scrollTableData = ref([
-  {
-    areaName: '南山区',
-    stationCount: 201,
-    equipmentCount: 2
-  },
-  {
-    areaName: '罗湖区',
-    stationCount: 201,
-    equipmentCount: 2
-  },
-  {
-    areaName: '福田区',
-    stationCount: 201,
-    equipmentCount: 2
-  }
-]);
+const selectType = ref(areaDistributedTabType[0].code);
 
-const handleStation = (item) => {
-  console.log('item', item);
-  switch (item.code) {
-    case 1:
-      break;
-    case 3:
-      break;
-  }
+const columnKeyList = computed(() => {
+  return columnKeyListFun(selectType.value);
+});
+
+const scrollTableData = ref([]);
+
+const getData = async () => {
+  const res = await Api.getAreaDistribute();
+  scrollTableData.value = res?.data;
 };
+getData();
 </script>
 
 <style scoped lang="less">

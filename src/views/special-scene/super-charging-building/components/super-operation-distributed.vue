@@ -1,35 +1,64 @@
 <template>
   <div class="super-operation-distributed">
     <title-column title="超充营运分布情况" />
-    <tabs :data="superOperationTabType" @changeTab="handleStation" />
-    <div class="super-operation-distributed-content" ref="chartWrapper">
+    <tabs v-model="selectType" :data="superOperationTabType" />
+    <div
+      class="super-operation-distributed-content"
+      v-show="!isAreaDistributed"
+      ref="chartWrapper"
+      v-loading="isLoading"
+    >
       <ec-resize :option="ecOption" />
       <div class="chart-center">
         <img :src="pieCenter" />
       </div>
     </div>
+    <div
+      class="super-operation-distributed-content"
+      v-show="isAreaDistributed"
+      v-loading="isLoading"
+    >
+      <scroll-table
+        :scrollTableData="scrollTableData"
+        :columnKeyList="superDistribuetedColumns"
+        style="height: 100%"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { superOperationTabType, chartColorList, piewChartConfig } from '../config.js';
+import { ref, watch, computed } from 'vue';
+import { superOperationTabType, chartColorList, superDistribuetedColumns } from '../config.js';
 import { scale } from '@sutpc/config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
+import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import pieCenter from '../images/pie-chart-center-icon.png';
+import Api from '../api.js';
 const ecOption = ref();
+const selectType = ref(superOperationTabType[0].code);
 const chartWrapper = ref();
-const handleStation = (item) => {
-  console.log('item', item);
-  switch (item.code) {
-    case 1:
-      break;
-    case 3:
-      break;
-  }
+const isLoading = ref(false);
+const scrollTableData = ref([]);
+
+const isAreaDistributed = computed(() => selectType.value === 'getConstructionStationDistribute');
+
+const getData = async () => {
+  isLoading.value = true;
+  try {
+    const method = Api[selectType.value];
+    if (!method) return;
+    const res = await method();
+    if (isAreaDistributed.value) {
+      scrollTableData.value = res.data;
+    } else {
+      drawChart(res.data);
+    }
+  } catch (error) {}
+  isLoading.value = false;
 };
 
-const drawChart = async () => {
+const drawChart = async (data = []) => {
   await getEcharts();
   if (!chartWrapper.value) return;
   const style = chartWrapper.value.getBoundingClientRect();
@@ -39,10 +68,13 @@ const drawChart = async () => {
         type: 'pie',
         center: ['50%', '50%'],
         radius: ['40%', '60%'],
-        data: piewChartConfig.map((item, i) => ({
-          name: item.name,
+        data: data.map((item, i) => ({
+          name: item.level,
           color: chartColorList[i],
-          value: item.value
+          itemStyle: {
+            color: chartColorList[i]
+          },
+          value: item.stationNum
         })),
         label: {
           formatter: (param) => {
@@ -93,7 +125,15 @@ const drawChart = async () => {
   ecOption.value = option;
 };
 
-onMounted(drawChart);
+watch(
+  () => selectType.value,
+  () => {
+    getData();
+  },
+  {
+    immediate: true
+  }
+);
 </script>
 
 <style scoped lang="less">

@@ -27,7 +27,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(['update:modelValue', 'changeTab']);
 const { data } = toRefs(props);
-const activeTab = ref(data.value[0]?.code);
+const activeTab = ref(props.modelValue || data.value[0]?.code);
 watch(
   () => props.data,
   (newVal) => {

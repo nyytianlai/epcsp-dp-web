@@ -1,15 +1,20 @@
 <template>
   <div class="area-distributed">
     <title-column title="运行趋势" />
-    <tabs :data="operationTabType" @changeTab="handleStation" />
-    <div class="distributed-content">
-      <ec-resize :option="ecOption" />
+    <tabs v-model="selectType" :data="operationTabType" />
+    <div class="distributed-content" v-loading="isLoading">
+      <ec-resize :option="ecOption" v-show="!isEmpty" />
+      <no-data v-show="isEmpty" />
+      <div class="unit">
+        <div>单位：次</div>
+        <div>单位：度</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import {
   operationTabType,
   operationTrendConfig,
@@ -19,32 +24,37 @@ import {
 import { scale } from '@sutpc/config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
+import Api from '../api.js';
+
+const selectType = ref(operationTabType[0].code);
+const isEmpty = ref(false);
+const isLoading = ref(false);
 
 const ecOption = ref(getBaseChartOption());
 
-const handleStation = (item) => {
-  console.log('item', item);
-  switch (item.code) {
-    case 1:
-      break;
-    case 3:
-      break;
-  }
+const getData = async () => {
+  isLoading.value = true;
+  try {
+    const fd = operationTabType.find((item) => item.code === selectType.value);
+    const timeRange = fd?.timeRange || [];
+    const res = await Api.getChargeTrend({
+      startTime: timeRange[0],
+      endTime: timeRange[1],
+      timeDimension: selectType.value, // 时间统计维度|hour-小时;date-日期
+      stationType: 3 // 充电站类型|1、慢充； 2、快充 ；3、超充
+    });
+    isEmpty.value = !res.data.length;
+    drawChart(res.data);
+  } catch (error) {}
+  isLoading.value = false;
 };
 
-const drawChart = async () => {
+const drawChart = async (data = []) => {
   await getEcharts();
   const option = getBaseChartOption();
   const legendData = [];
   const series = [];
-  const generateData = () => {
-    return Array.from(new Array(7), (i, n) => [
-      dayjs()
-        .subtract(6 - n, 'days')
-        .format('DD日'),
-      (Math.random() * 500).toFixed(0)
-    ]);
-  };
+
   operationTrendConfig().forEach((item, i) => {
     series.push({
       name: item.name,
@@ -53,7 +63,7 @@ const drawChart = async () => {
       symbol: 'none',
       barWidth: item.type === 'bar' && scale(14),
       yAxisIndex: i,
-      data: generateData()
+      data: data.map((obj) => [obj.time, obj[item.code]])
     });
 
     legendData.push({
@@ -70,6 +80,7 @@ const drawChart = async () => {
     yAxis: [option.yAxis, option.yAxis],
     legend: {
       ...option.legend,
+      right: scale(60),
       data: legendData
     },
     series
@@ -77,7 +88,13 @@ const drawChart = async () => {
   console.log(ecOption.value);
 };
 
-onMounted(drawChart);
+watch(
+  () => selectType.value,
+  () => {
+    getData();
+  },
+  { immediate: true, deep: true }
+);
 </script>
 
 <style scoped lang="less">
@@ -89,6 +106,7 @@ onMounted(drawChart);
   row-gap: 12px;
 
   .distributed-content {
+    position: relative;
     flex: 1;
     min-height: 0;
     border-radius: 4px;
@@ -99,6 +117,19 @@ onMounted(drawChart);
       rgba(37, 177, 255, 0.02) 16.882%,
       rgba(37, 177, 255, 0.2) 100%
     );
+
+    .unit {
+      position: absolute;
+      left: 8px;
+      right: 4px;
+      top: 4px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      font-size: 12px;
+      font-weight: 400;
+      color: #b4c0cc;
+    }
   }
 }
 </style>

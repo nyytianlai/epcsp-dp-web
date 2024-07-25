@@ -7,7 +7,7 @@
         v-for="item in cardConfig1"
         :key="`${item.name}${item.type}${item.unit}`"
       >
-        <img class="card-icon" :src="item.icon" />
+        <img class="card-icon" draggable="false" :src="item.icon" />
         <div class="card-info">
           <div class="card-data">
             <template v-for="(child, i) in item.children" :key="child.name">
@@ -31,7 +31,7 @@
         v-for="item in cardConfig2"
         :key="`${item.name}${item.type}${item.unit}`"
       >
-        <img class="card-icon" :src="item.icon" />
+        <img class="card-icon" draggable="false" :src="item.icon" />
         <div class="card-info">
           <div class="card-data">
             <template v-for="(child, i) in item.children" :key="child.name">
@@ -43,7 +43,10 @@
           <div class="card-name">
             {{ item.name }}
             <template v-for="(child, i) in item.children" :key="child.name">
-              <span>{{ child.name ?? '--' }} {{ child.seprate || '' }}</span>
+              <span>
+                {{ child.name ?? '--' }}
+              </span>
+              <p>{{ child.seprate || '' }}</p>
             </template>
             {{ item.type }}
           </div>
@@ -56,8 +59,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { getCardConfig1, getCardConfig2 } from '../config.js';
+import Api from '../api.js';
 const cardConfig1 = ref(getCardConfig1());
 const cardConfig2 = ref(getCardConfig2());
+const getData = async () => {
+  const res = await Api.getSuperChargeStationCount();
+  cardConfig1.value = getCardConfig1(res?.data || {});
+  cardConfig2.value = getCardConfig2(res?.data || {});
+};
+getData();
 </script>
 
 <style scoped lang="less">
@@ -94,6 +104,7 @@ const cardConfig2 = ref(getCardConfig2());
       .card-icon {
         flex: 0 0 90px;
         width: 90px;
+        user-select: none;
       }
 
       .card-info {

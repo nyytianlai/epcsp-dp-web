@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-22 15:19:08
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-23 14:29:28
+ * @LastEditTime: 2024-07-25 15:08:16
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/super-charging-building/index.vue
 -->
@@ -22,14 +22,14 @@
         <SuperOperationDistributed />
       </div>
     </panel>
-    <map-layer v-if="aircityObj" />
+    <MapLayer v-if="aircityObj" :selectBtmTab="selectBtmTab" />
     <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { inject, ref } from 'vue';
-// import MapLayer from './components/map-layer.vue';
+import MapLayer from './map-layers/map-layer.vue';
 import { bottomTabDataFun, pageNumFun } from './config.js';
 import PageNum from '@/components/page-num/index.vue';
 import SuperStation from './components/super-station.vue';
@@ -37,15 +37,22 @@ import AreaDistributed from './components/area-distributed.vue';
 import OperationTrend from './components/operation-trend.vue';
 import OperationRank from './components/operation-rank.vue';
 import SuperOperationDistributed from './components/super-operation-distributed.vue';
+import Api from './api.js';
 // 底部button
 const bottomTabsData = ref(bottomTabDataFun());
+const selectBtmTab = ref(bottomTabsData.value[0]);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
 const aircityObj = inject('aircityObj');
 const changeButtomTab = (item) => {
-  console.log('底部切换', item);
-  const value = item.code === 1 ? true : false;
+  selectBtmTab.value = item;
 };
+
+const getData = async () => {
+  const res = await Api.overTodayCount();
+  pageNumData.value = pageNumFun(res.data);
+};
+getData();
 </script>
 
 <style lang="less" scoped>
