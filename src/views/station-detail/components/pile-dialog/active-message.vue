@@ -331,14 +331,15 @@ watch(
   .info-content {
     display: flex;
     flex-wrap: wrap;
+    gap: 12px;
 
     .info-item {
       background: #375374;
       display: flex;
-      width: 186px;
+      flex: 0 0 calc(25% - 9px);
       padding: 12px 0 12px 12px;
-      margin-right: 12px;
-      margin-bottom: 12px;
+      // margin-right: 12px;
+      // margin-bottom: 12px;
       align-items: center;
       border: 1px solid transparent;
       cursor: pointer;
