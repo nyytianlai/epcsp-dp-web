@@ -18,7 +18,7 @@ import { ref, watch } from 'vue';
 import { operationRankTabType } from '../config.js';
 import Api from '../api.js';
 const isLoading = ref(false);
-const projectTotalNum = ref(140);
+const projectTotalNum = ref(0);
 const selectType = ref(operationRankTabType[0].code);
 const projectList = ref([]);
 const getProjectList = async () => {
@@ -28,11 +28,14 @@ const getProjectList = async () => {
     const nameCode = selectType.value === 'getStationChargeStat' ? 'stationName' : 'operatorName';
     if (!method) return;
     const res = await method();
-    projectList.value = res.data?.map((item) => ({
-      name: item[nameCode],
-      unit: 'Kwh',
-      num: item.chargePower
-    }));
+    projectTotalNum.value = Math.max(...res.data.map((item) => +item.chargeCapacity));
+    projectList.value = res.data?.map((item) => {
+      return {
+        name: item[nameCode],
+        unit: 'Kwh',
+        num: item.chargeCapacity
+      };
+    });
   } catch (error) {}
   isLoading.value = false;
 };

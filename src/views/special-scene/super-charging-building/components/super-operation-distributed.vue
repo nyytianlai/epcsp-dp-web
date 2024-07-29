@@ -8,10 +8,11 @@
       ref="chartWrapper"
       v-loading="isLoading"
     >
-      <ec-resize :option="ecOption" />
-      <div class="chart-center">
+      <ec-resize :option="ecOption" v-show="!isEmpty" />
+      <div class="chart-center" v-show="!isEmpty">
         <img :src="pieCenter" />
       </div>
+      <no-data v-show="isEmpty" />
     </div>
     <div
       class="super-operation-distributed-content"
@@ -40,6 +41,7 @@ const selectType = ref(superOperationTabType[0].code);
 const chartWrapper = ref();
 const isLoading = ref(false);
 const scrollTableData = ref([]);
+const isEmpty = ref(true);
 
 const isAreaDistributed = computed(() => selectType.value === 'getConstructionStationDistribute');
 
@@ -53,6 +55,7 @@ const getData = async () => {
       scrollTableData.value = res.data;
     } else {
       drawChart(res.data);
+      isEmpty.value = !res.data.length;
     }
   } catch (error) {}
   isLoading.value = false;
@@ -106,9 +109,10 @@ const drawChart = async (data = []) => {
           }
         },
         labelLine: {
-          length: 5,
+          length: scale(8),
           length2: 10,
-          showAbove: true
+          showAbove: true,
+          minTurnAngle: 120
         },
         labelLayout: function (params) {
           const isLeft = params.labelRect.x < style.width / 2;
@@ -121,7 +125,6 @@ const drawChart = async (data = []) => {
       }
     ]
   };
-  console.log(option);
   ecOption.value = option;
 };
 
@@ -169,8 +172,8 @@ watch(
       pointer-events: none;
 
       img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -185,8 +188,8 @@ watch(
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 90px;
-        height: 90px;
+        width: 88px;
+        height: 88px;
         border-radius: 50%;
         background: url('../images/pie-cahrt-center-bg.png') no-repeat center center;
         background-size: 100% 100%;
@@ -198,8 +201,8 @@ watch(
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         background-image: radial-gradient(
           circle at 50% 50%,

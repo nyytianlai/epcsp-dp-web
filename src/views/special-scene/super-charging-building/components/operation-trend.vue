@@ -75,6 +75,11 @@ const drawChart = async (data = []) => {
       }
     });
   });
+  option.xAxis.axisLabel.formatter = (params) => {
+    return selectType.value === operationTabType[0].code
+      ? params + '时'
+      : dayjs(params).format('DD日');
+  };
   ecOption.value = {
     ...option,
     yAxis: [option.yAxis, option.yAxis],
@@ -85,7 +90,6 @@ const drawChart = async (data = []) => {
     },
     series
   };
-  console.log(ecOption.value);
 };
 
 watch(

@@ -251,15 +251,18 @@ export const chartColorList = [
 export const superDistribuetedColumns = [
   {
     prop: 'constructionCode',
-    label: '场所类型'
+    label: '场所类型',
+    width: 4
   },
   {
     prop: 'stationNum',
-    label: '超充站(个)'
+    label: '超充站(个)',
+    width: 2
   },
   {
     prop: 'equipmentNum',
-    label: '超充桩(个)'
+    label: '超充桩(个)',
+    width: 2
   }
 ];
 
@@ -312,9 +315,8 @@ export const getBaseChartOption = () => {
         show: false
       },
       axisLabel: {
-        fontSize: scale(14),
-        lineHeight: scale(10),
-        color: '#D0DEEE'
+        fontSize: scale(12),
+        color: 'rgba(255,255,255,0.85)'
         // interval: 0
       },
       splitLine: {
@@ -331,10 +333,8 @@ export const getBaseChartOption = () => {
         show: false
       },
       axisLabel: {
-        fontFamily: 'Helvetica',
-        fontSize: scale(14),
-        lineHeight: scale(18),
-        color: '#B4C0CC'
+        fontSize: scale(12),
+        color: 'rgba(255,255,255,0.85)'
       },
       splitLine: {
         lineStyle: {

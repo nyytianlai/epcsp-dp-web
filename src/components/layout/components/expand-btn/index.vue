@@ -5,11 +5,7 @@
     <icon :icon="`svg-icon:${isCollapsed ? 'expand' : 'collapse'}`" />
     <span class="text">{{ isCollapsed ? '一键展开' : '一键收起' }}</span>
   </div>
-  <div
-    class="expand-btn-search expand-btn-right"
-    @mouseenter="() => (isSearchCollapsed = true)"
-    @mouseleave="() => (isSearchCollapsed = false)"
-  >
+  <div class="expand-btn-search expand-btn-right" @mouseenter="handleOver" @mouseleave="handleOut">
     <div class="down-wrap"></div>
     <div class="up-wrap"></div>
     <el-autocomplete
@@ -39,6 +35,7 @@ import { infoObj, toSingleStation, showStationDetailPanel } from '@/global/confi
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
 
+let timer;
 const store = useVisibleComponentStore();
 const isCollapsed = ref(false);
 const aircityObj = inject<any>('aircityObj');
@@ -80,6 +77,18 @@ const handleSearch = async (value) => {
   isSearchCollapsed.value = false;
   showStationDetailPanel(store, value);
   toSingleStation(aircityObj.value?.acApi, value);
+};
+
+const handleOut = () => {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    isSearchCollapsed.value = false;
+  }, 500);
+};
+
+const handleOver = () => {
+  clearTimeout(timer);
+  isSearchCollapsed.value = true;
 };
 </script>
 <style lang="less">
