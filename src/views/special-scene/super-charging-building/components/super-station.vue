@@ -69,9 +69,10 @@ const getData = async () => {
     const res = await Api.getSuperChargeStationCount();
     cardConfig1.value = getCardConfig1(res?.data || {});
     cardConfig2.value = getCardConfig2(res?.data || {});
-  } finally {
+  } catch (err) {
     cardConfig1.value = getCardConfig1({});
     cardConfig2.value = getCardConfig2({});
+  } finally {
     loading.value = false;
   }
 };
