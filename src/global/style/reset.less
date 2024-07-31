@@ -1,9 +1,11 @@
 html,
 body,
 #app {
+  width: 100%;
   height: 100%;
   font-size: 14px;
   font-family: 'PingFang SC', 'Microsoft Yahei', monospace;
+  overflow: hidden;
 }
 
 ul,
@@ -159,6 +161,11 @@ ol {
     border-right-color: rgba(2, 15, 37, 0.9) !important;
     border-left-color: rgba(2, 15, 37, 0.9) !important;
   }
+}
+
+.el-loading-spinner {
+  margin-top: 0 !important;
+  transform: translateY(-50%);
 }
 
 // for Webkit

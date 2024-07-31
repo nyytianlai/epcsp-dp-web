@@ -2,14 +2,32 @@
   <transition>
     <div class="page-num-wrap" :class="bgcType" v-if="panelShow">
       <div class="num-wrap" v-for="(item, index) in data" :key="index">
-        <span class="name" :style="{ color: item.nameColor }">{{ item.name }}</span>
+        <span class="name" :style="{ color: item.nameColor }">
+          <template v-if="item.children?.length" v-for="(el, i) in item.children" :key="el.name">
+            <span>{{ el.name }}</span>
+            <p class="seprate" v-if="i < item.children.length - 1">/</p>
+          </template>
+          <span>{{ item.name }}</span>
+        </span>
         <span class="num-unit">
           <span class="num">
-            {{
-              item.digits
-                ? formatWithToLocalString(item.num, item.digits)
-                : formatWithToLocalString(item.num)
-            }}
+            <template v-if="item.children?.length" v-for="(el, i) in item.children" :key="el.name">
+              <span :style="{ color: el.nameColor }">
+                {{
+                  item.digits
+                    ? formatWithToLocalString(el.num, el.digits)
+                    : formatWithToLocalString(el.num)
+                }}
+              </span>
+              <p class="seprate" v-if="i < item.children.length - 1">/</p>
+            </template>
+            <template v-else>
+              {{
+                item.digits
+                  ? formatWithToLocalString(item.num, item.digits)
+                  : formatWithToLocalString(item.num)
+              }}
+            </template>
           </span>
           <span class="unit">{{ item.unit }}</span>
         </span>
@@ -29,6 +47,7 @@ interface Idata {
   unit: string;
   nameColor?: string;
   digits?: string | number;
+  children?: Idata[];
 }
 interface Props {
   data: Idata[];
@@ -70,21 +89,37 @@ const panelShow = computed(() => {
     flex-direction: column;
     justify-content: flex-start;
     .name {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
       font-family: 'Inter';
       font-weight: 400;
       font-size: 18px;
       line-height: 21px;
       color: #64def6;
       transform: matrix(1, 0, -0.25, 0.97, 0, 0);
+      white-space: nowrap;
+    }
+    .seprate {
+      margin: 0 2px;
     }
     .num-unit {
       font-family: 'PangMenZhengDao';
       transform: matrix(1, 0, -0.06, 1, 0, 0);
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: baseline;
       .num {
         font-weight: 400;
         font-size: 25px;
         line-height: 28px;
         margin-right: 7px;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: baseline;
+      }
+      .seprate {
+        font-size: 18px;
       }
       .unit {
         font-weight: 400;

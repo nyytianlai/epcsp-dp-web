@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   module: 0
 });
 
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value.acApi;
 const { useEmitt, player: aircityPlay } = aircityObj.value;
 const currentPosition = computed(() => store.currentPosition); //所在位置 深圳市 xx区 xx街道 xx站(取值'')
@@ -206,9 +206,7 @@ const enterStationInfo = (stationInfo) => {
   storeVisible.changeShowDetail({
     show: true,
     params: {
-      operatorId: stationInfo.operatorId,
-      stationId: stationInfo.stationId,
-      isHr: stationInfo.isHr,
+      ...stationInfo,
       equipmentId: stationInfo.eid
     }
   });
@@ -342,7 +340,7 @@ const resetSz = async (value = true) => {
   await __g.camera.set(infoObj.szView, 0.2);
   await deleteJdData();
   await __g.marker.deleteByGroupId('jdStation');
-  value ? await setQuVisibility(true) : '';
+  value && (await setQuVisibility(true));
   store.changeCurrentPosition('深圳市');
   store.changeCurrentPositionBak('');
   store.changeCurrentHrStationId('');

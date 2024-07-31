@@ -9,11 +9,11 @@
           </span>
           <span class="num">
             <span>{{ formatWithToLocalString(item.num) }}</span>
-            <span class="unit">/{{ item.unit }}</span>
+            <span class="unit">{{ item.unit || '' }}</span>
           </span>
         </div>
         <div class="bottom-bar">
-          <div class="progress" :style="{ width: `${(item.num / totalNum) * 100}%` }">
+          <div class="progress" :style="{ width: `${(item.num / totalNum) * 100 || 0}%` }">
             <icon icon="svg-icon:circle-point" />
           </div>
         </div>
@@ -36,8 +36,7 @@ interface Props {
   data: Idata[];
   totalNum: number;
 }
-const props = withDefaults(defineProps<Props>(), {
-});
+const props = withDefaults(defineProps<Props>(), {});
 const { data, totalNum } = toRefs(props);
 </script>
 <style lang="less" scoped>
@@ -104,6 +103,7 @@ const { data, totalNum } = toRefs(props);
     height: 100%;
     background: linear-gradient(270deg, #13adc4 0%, #0b2f55 100%);
     position: relative;
+    transition: width 0.3s linear;
     .el-icon {
       position: absolute;
       font-size: 12px;
