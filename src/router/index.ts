@@ -164,13 +164,13 @@ let routesMap = [
         name: 'PowerExchangeStation',
         meta: { title: '换电站', keepAlive: false },
         component: () => import('@/views/power-exchange-station/index.vue')
-      },
-      {
-        path: '/special-scene',
-        name: 'SpecialScene',
-        meta: { title: '亮点场景', keepAlive: false },
-        component: () => import('@/views/special-scene/index.vue')
       }
+      // {
+      //   path: '/special-scene',
+      //   name: 'SpecialScene',
+      //   meta: { title: '亮点场景', keepAlive: false },
+      //   component: () => import('@/views/special-scene/index.vue')
+      // }
     ]
   },
 
