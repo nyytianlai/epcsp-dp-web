@@ -36,7 +36,9 @@ const getProjectList = async () => {
         num: item.chargeCapacity
       };
     });
-  } catch (error) {}
+  } catch (error) {
+    projectList.value = [];
+  }
   isLoading.value = false;
 };
 watch(() => selectType.value, getProjectList, {

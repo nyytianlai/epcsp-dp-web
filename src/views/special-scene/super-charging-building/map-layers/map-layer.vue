@@ -291,7 +291,7 @@ const addOutStation = async (module: number, jdcode: string) => {
 };
 
 const addHighLightStation = async (item) => {
-  let width = item.stationName?.length * 38 + 60;
+  let width = item.stationName?.length * 36 + 120;
   let o1 = {
     id: 'stationOut-hight',
     groupId: 'jdStation',
@@ -301,7 +301,7 @@ const addHighLightStation = async (item) => {
     anchors: [-35, 209], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
     imageSize: [70, 209], //图片的尺寸
     range: [1, 150000], //可视范围
-    imagePath: getImageByCloud('superSta'),
+    imagePath: getImageByCloud('stationSuper'),
     popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${item.stationName}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     popupSize: [scale(width), scale(80)], //弹窗大小

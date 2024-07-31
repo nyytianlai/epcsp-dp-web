@@ -250,7 +250,7 @@ const chargeData = ref();
 const equipmentType = ref(1);
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 const useEmitt = aircityObj.value?.useEmitt;
 const params = ref({
@@ -258,7 +258,7 @@ const params = ref({
   stationId: store.detailParams?.stationId
 });
 // const pageNumData = ref(pageNumFun());
-const stationInfoData = ref({});
+const stationInfoData = ref<any>({});
 const deviceInfoData = ref(deviceInfoDataFun());
 // const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
@@ -352,9 +352,9 @@ const getAlarmLevelAndTypeByTIme = async () => {
 const getStationStatistics = async () => {
   const res = await selectStationStatistics(params.value);
   // pageNumData.value = pageNumFun(res?.data);
-  // pageNumData.value = store.detailParams?.isSuper
-  //   ? getSuperHeaderData(res?.data, store.detailParams?.equipType)
-  //   : pageNumFun(res?.data);
+  pageNumData.value = store.detailParams?.isSuper
+    ? getSuperHeaderData(res?.data, store.detailParams?.equipType)
+    : pageNumFun(res?.data);
 };
 //设备详情/站点信息
 const getStationInfoByStationId = async () => {
@@ -371,7 +371,7 @@ const getEquipmentCountByStationId = async () => {
   }
 };
 //设备详情/告警信息列表
-const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999, type) => {
+const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999, type?) => {
   const res = await selectWarningInfoByStationId({
     ...params.value,
     alarmLevel,
@@ -438,7 +438,7 @@ const getWarningStatisticByStationId = async () => {
   const res = await selectWarningStatisticByStationId(params.value);
   warningTabsData.value = warningTabsDataFun(res?.data);
 };
-const handleChangeTab = (data, type) => {
+const handleChangeTab = (data: any, type) => {
   if (type === 'device-use-info') {
     getEquipmentUseRateByStationId(data.code);
   } else if (type === 'warning-message') {
@@ -531,7 +531,7 @@ useEmitt &&
     }
   });
 // 定位到桩弹窗
-const focusToPile = async (eid, status, item = {}) => {
+const focusToPile = async (eid, status, item: any = {}) => {
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   if (item.isAlarm === 1) {
@@ -743,7 +743,7 @@ onUnmounted(() => {
 // }
 
 .isSuper {
-  width: 800px !important;
+  width: 900px !important;
 }
 
 .station-info {

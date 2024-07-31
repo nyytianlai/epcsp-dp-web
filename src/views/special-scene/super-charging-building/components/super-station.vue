@@ -70,6 +70,8 @@ const getData = async () => {
     cardConfig1.value = getCardConfig1(res?.data || {});
     cardConfig2.value = getCardConfig2(res?.data || {});
   } finally {
+    cardConfig1.value = getCardConfig1({});
+    cardConfig2.value = getCardConfig2({});
     loading.value = false;
   }
 };
@@ -132,9 +134,9 @@ getData();
           -webkit-background-clip: text;
           background-clip: text;
           background: linear-gradient(
-              rgb(0, 247, 255) 0%,
-              rgb(213, 254, 255) 52.08%,
-              rgb(0, 247, 255) 100%
+              rgb(0, 128, 255) 0%,
+              rgb(255, 255, 255) 52.08%,
+              rgb(0, 124, 248) 100%
             )
             text;
           -webkit-text-fill-color: transparent;

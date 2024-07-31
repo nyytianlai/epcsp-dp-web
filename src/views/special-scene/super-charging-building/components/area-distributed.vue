@@ -31,7 +31,9 @@ const getData = async () => {
   try {
     const res = await Api.getAreaDistribute();
     scrollTableData.value = res?.data;
-  } catch (error) {}
+  } catch (error) {
+    scrollTableData.value = [];
+  }
   loading.value = false;
 };
 getData();

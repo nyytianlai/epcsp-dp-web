@@ -57,7 +57,9 @@ const getData = async () => {
       drawChart(res?.data);
       isEmpty.value = !res?.data?.length;
     }
-  } catch (error) {}
+  } catch (error) {
+    isEmpty.value = true;
+  }
   isLoading.value = false;
 };
 

@@ -976,7 +976,7 @@ export const deviceInfoDataFun = (data = {}) => {
 export const warningTabsDataFun = (data = []) => {
   const levelData = {};
   data?.map((item) => {
-    levelData[item.levelType] = item.levelCount;
+    levelData[item?.levelType] = item?.levelCount;
   });
   return [
     {
@@ -2552,7 +2552,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         {
           name: '超充',
           nameColor: '#64DEF6',
-          num: ''
+          num: data?.superStationChargeCapacity
         }
       ]
     },
@@ -2569,7 +2569,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         {
           name: '超充',
           nameColor: '#64DEF6',
-          num: ''
+          num: data?.superStationChargeCount
         }
       ]
     },
@@ -2586,26 +2586,26 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         {
           name: '超充',
           nameColor: '#64DEF6',
-          num: ''
+          num: data?.superStationChargeDuration
         }
       ]
     },
     {
-      name: '故障次数',
+      name: '站点故障次数',
       num: data?.stationFailureNumber,
       nameColor: '#64DEF6',
-      unit: '次',
-      children: [
-        {
-          name: type ? '站点' : '充电桩',
-          num: data?.stationFailureNumber
-        },
-        {
-          name: '超充',
-          nameColor: '#64DEF6',
-          num: ''
-        }
-      ]
+      unit: '次'
+      // children: [
+      //   {
+      //     name: type ? '站点' : '充电桩',
+      //     num: data?.stationFailureNumber
+      //   },
+      //   {
+      //     name: '超充',
+      //     nameColor: '#64DEF6',
+      //     num: ''
+      //   }
+      // ]
     }
   ];
 };
