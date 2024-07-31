@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-22 15:19:08
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-25 15:08:16
+ * @LastEditTime: 2024-07-30 16:58:57
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/super-charging-building/index.vue
 -->
@@ -22,13 +22,13 @@
         <SuperOperationDistributed />
       </div>
     </panel>
-    <MapLayer v-if="aircityObj" :selectBtmTab="selectBtmTab" />
+    <MapLayer v-if="aircityObj?.acApi" :selectBtmTab="selectBtmTab" />
     <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { inject, ref } from 'vue';
+import { inject, ref, watch } from 'vue';
 import MapLayer from './map-layers/map-layer.vue';
 import { bottomTabDataFun, pageNumFun } from './config.js';
 import PageNum from '@/components/page-num/index.vue';
@@ -43,14 +43,14 @@ const bottomTabsData = ref(bottomTabDataFun());
 const selectBtmTab = ref(bottomTabsData.value[0]);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const changeButtomTab = (item) => {
   selectBtmTab.value = item;
 };
 
 const getData = async () => {
   const res = await Api.overTodayCount();
-  pageNumData.value = pageNumFun(res.data);
+  pageNumData.value = pageNumFun(res?.data);
 };
 getData();
 </script>

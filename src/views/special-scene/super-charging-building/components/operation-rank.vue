@@ -29,10 +29,10 @@ const getProjectList = async () => {
     if (!method) return;
     const res = await method();
     projectTotalNum.value = Math.max(...res.data.map((item) => +item.chargeCapacity));
-    projectList.value = res.data?.map((item) => {
+    projectList.value = res?.data?.map((item) => {
       return {
         name: item[nameCode],
-        unit: 'Kwh',
+        unit: 'kWh',
         num: item.chargeCapacity
       };
     });

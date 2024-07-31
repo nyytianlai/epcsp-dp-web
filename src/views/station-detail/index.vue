@@ -1,5 +1,5 @@
 <template>
-  <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" />
+  <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" :class="{ isSuper }" />
   <panel v-if="isShowBoth">
     <div class="station-info">
       <title-column title="充电站点信息" />
@@ -77,7 +77,9 @@
       <line-time-chart
         unit="kW"
         :data="linePowerData"
-        :colors="realtimePowerColors" class="station-power__chart" :chartStyle="{
+        :colors="realtimePowerColors"
+        class="station-power__chart"
+        :chartStyle="{
           width: '100%',
           height: '1.89rem'
         }"
@@ -177,6 +179,7 @@ import {
   selectDetailChargeCount
 } from './api.js';
 import {
+  getSuperHeaderData,
   pageNumFun,
   deviceInfoDataFun,
   warningTabsDataFun,
@@ -254,12 +257,17 @@ const params = ref({
   operatorId: store.detailParams?.operatorId,
   stationId: store.detailParams?.stationId
 });
-const pageNumData = ref(pageNumFun());
+// const pageNumData = ref(pageNumFun());
 const stationInfoData = ref({});
 const deviceInfoData = ref(deviceInfoDataFun());
 // const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
+const isSuper = computed(() => store.detailParams?.isSuper);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
+const pageNumData = ref(
+  store.detailParams?.isSuper ? getSuperHeaderData({}, store.detailParams?.equipType) : pageNumFun()
+);
+console.log(store.detailParams, store.detailParams?.isSuper);
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -343,7 +351,10 @@ const getAlarmLevelAndTypeByTIme = async () => {
 // 统计数据
 const getStationStatistics = async () => {
   const res = await selectStationStatistics(params.value);
-  pageNumData.value = pageNumFun(res?.data);
+  // pageNumData.value = pageNumFun(res?.data);
+  // pageNumData.value = store.detailParams?.isSuper
+  //   ? getSuperHeaderData(res?.data, store.detailParams?.equipType)
+  //   : pageNumFun(res?.data);
 };
 //设备详情/站点信息
 const getStationInfoByStationId = async () => {
@@ -730,6 +741,10 @@ onUnmounted(() => {
 //     border-radius: 1px;
 //   }
 // }
+
+.isSuper {
+  width: 800px !important;
+}
 
 .station-info {
   margin-top: 12px;

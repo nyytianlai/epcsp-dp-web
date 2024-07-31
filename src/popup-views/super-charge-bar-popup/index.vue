@@ -8,7 +8,7 @@
     <div class="value">
       <template v-for="item in config" :key="item.name">
         <span :style="{ color: item.color }">{{ paramsValue[item.code] ?? '--' }}</span>
-        {{ item.seprate || '' }}
+        <p class="seperate" v-if="item.seprate">{{ item.seprate || '' }}</p>
       </template>
     </div>
   </div>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { getUrlParam } from '@sutpc/zebra';
 const paramsValue = JSON.parse(getUrlParam('value') || '{}');
+const dataCode = paramsValue?.dataCode || [];
 const config = [
   {
     code: '',
@@ -35,7 +36,12 @@ const config = [
     name: '营运',
     color: '#2EFFFF'
   }
-];
+].map((item, i) => {
+  return {
+    ...item,
+    code: dataCode[i]
+  };
+});
 </script>
 
 <style scoped lang="less">
@@ -53,7 +59,7 @@ body,
   justify-content: center;
   padding: 0 8px;
   row-gap: 4px;
-  background: rgba(#226fc2, 0.8);
+  background: rgba(#09294b, 0.8);
 
   .name {
     display: flex;
@@ -72,6 +78,10 @@ body,
 
     span {
       font-size: 18px;
+    }
+
+    .seperate {
+      margin: 0 2px;
     }
   }
 }

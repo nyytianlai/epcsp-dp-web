@@ -5,7 +5,7 @@
     <div class="distributed-content" v-loading="isLoading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
-      <div class="unit">
+      <div class="unit" v-show="!isEmpty">
         <div>单位：次</div>
         <div>单位：度</div>
       </div>
@@ -43,9 +43,11 @@ const getData = async () => {
       timeDimension: selectType.value, // 时间统计维度|hour-小时;date-日期
       stationType: 3 // 充电站类型|1、慢充； 2、快充 ；3、超充
     });
-    isEmpty.value = !res.data.length;
-    drawChart(res.data);
-  } catch (error) {}
+    isEmpty.value = !res?.data?.length;
+    drawChart(res?.data);
+  } catch (error) {
+    isEmpty.value = true;
+  }
   isLoading.value = false;
 };
 

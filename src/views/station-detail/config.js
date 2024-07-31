@@ -2535,3 +2535,77 @@ export const timeRandom = {
   '19:00': 5,
   '19:30': 0
 };
+
+// 超充站点顶部数据
+export const getSuperHeaderData = (data = {}, type = 0) => {
+  return [
+    {
+      name: '充电量',
+      num: data?.stationChargeCapacity,
+      unit: 'kWh',
+      nameColor: '#64DEF6',
+      children: [
+        {
+          name: type ? '站点' : '站点',
+          num: data?.stationChargeCapacity
+        },
+        {
+          name: '超充',
+          nameColor: '#64DEF6',
+          num: ''
+        }
+      ]
+    },
+    {
+      name: '充电次数',
+      num: data?.stationChargeCount,
+      nameColor: '#64DEF6',
+      unit: '次',
+      children: [
+        {
+          name: type ? '站点' : '站点',
+          num: data?.stationChargeCount
+        },
+        {
+          name: '超充',
+          nameColor: '#64DEF6',
+          num: ''
+        }
+      ]
+    },
+    {
+      name: '充电时长',
+      num: Math.round(data?.stationChargeDuration),
+      unit: '小时',
+      nameColor: '#64DEF6',
+      children: [
+        {
+          name: type ? '站点' : '站点',
+          num: Math.round(data?.stationChargeDuration)
+        },
+        {
+          name: '超充',
+          nameColor: '#64DEF6',
+          num: ''
+        }
+      ]
+    },
+    {
+      name: '故障次数',
+      num: data?.stationFailureNumber,
+      nameColor: '#64DEF6',
+      unit: '次',
+      children: [
+        {
+          name: type ? '站点' : '充电桩',
+          num: data?.stationFailureNumber
+        },
+        {
+          name: '超充',
+          nameColor: '#64DEF6',
+          num: ''
+        }
+      ]
+    }
+  ];
+};

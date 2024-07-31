@@ -7,27 +7,26 @@
 <script lang="ts" setup>
 import EcResizeTiny, { useEcharts } from '@sutpc/vue3-echarts-tiny';
 import { getUrlParam } from '@sutpc/zebra';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const { isEchartsReady } = useEcharts();
 
-const paramsValue = JSON.parse(getUrlParam('value') || '');
+const paramsValue = JSON.parse(getUrlParam('value') || '{}');
+const dataCode = paramsValue.dataCode || [];
 
 const VALUE = [
-  { value: paramsValue.chargingStation, label: { offset: [38, -6] } }, // 规划
-  { value: paramsValue.cabinet, label: { offset: [0, 2] } }, // 建设
-  { value: paramsValue.energyStorageStation, label: { offset: [-38, -6] } } // 营运
-];
+  { value: 0, label: { offset: [38, -6] } }, // 规划
+  { value: 0, label: { offset: [0, 2] } }, // 建设
+  { value: 0, label: { offset: [-38, -6] } } // 营运
+].map((item, i) => {
+  return {
+    ...item,
+    value: paramsValue[dataCode[i]]
+  };
+});
 const yMax = Number(getUrlParam('yMax'));
-const topBar = Math.max(
-  paramsValue.chargingStation,
-  paramsValue.cabinet,
-  paramsValue.energyStorageStation,
-  paramsValue.photovoltaic,
-  paramsValue.powerStation
-); // 当前五根柱子中最高的值
+
 const quName = getUrlParam('quName');
-const hideToolTip = !!Number(getUrlParam('hideToolTip'));
 const areaCode = getUrlParam('areaCode');
 const contentHeight = getUrlParam('contentHeight');
 

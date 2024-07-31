@@ -2,7 +2,7 @@
   <div class="area-distributed">
     <title-column title="行政区分布情况" />
     <tabs v-model="selectType" :data="areaDistributedTabType" />
-    <div class="distributed-content">
+    <div class="distributed-content" v-loading="loading">
       <scroll-table
         :scrollTableData="scrollTableData"
         :columnKeyList="columnKeyList"
@@ -19,7 +19,7 @@ import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue'
 import Api from '../api.js';
 
 const selectType = ref(areaDistributedTabType[0].code);
-
+const loading = ref(true);
 const columnKeyList = computed(() => {
   return columnKeyListFun(selectType.value);
 });
@@ -27,8 +27,12 @@ const columnKeyList = computed(() => {
 const scrollTableData = ref([]);
 
 const getData = async () => {
-  const res = await Api.getAreaDistribute();
-  scrollTableData.value = res?.data;
+  loading.value = true;
+  try {
+    const res = await Api.getAreaDistribute();
+    scrollTableData.value = res?.data;
+  } catch (error) {}
+  loading.value = false;
 };
 getData();
 </script>

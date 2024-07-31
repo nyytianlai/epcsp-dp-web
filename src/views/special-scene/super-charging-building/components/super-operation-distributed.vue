@@ -52,10 +52,10 @@ const getData = async () => {
     if (!method) return;
     const res = await method();
     if (isAreaDistributed.value) {
-      scrollTableData.value = res.data;
+      scrollTableData.value = res?.data;
     } else {
-      drawChart(res.data);
-      isEmpty.value = !res.data.length;
+      drawChart(res?.data);
+      isEmpty.value = !res?.data?.length;
     }
   } catch (error) {}
   isLoading.value = false;
@@ -66,13 +66,29 @@ const drawChart = async (data = []) => {
   if (!chartWrapper.value) return;
   const style = chartWrapper.value.getBoundingClientRect();
   const option = {
+    tooltip: {
+      show: true,
+      confine: true,
+      borderColor: 'transparent',
+      backgroundColor: 'rgba(9, 41, 75, 0.8)',
+      borderWidth: 0,
+      formatter: (param) => {
+        return `
+              <div class="tooltip-wrapper">
+                <div class="circle" style="background-color: ${param.color}"></div>
+                <div class="tip-name">${param.name}</div>
+                <div class="tip-data">${param.value ?? '--'}个（${param.percent ?? '--'}%）</div>
+              </div>
+            `;
+      }
+    },
     series: [
       {
         type: 'pie',
         center: ['50%', '50%'],
         radius: ['40%', '60%'],
         data: data.map((item, i) => ({
-          name: item.level,
+          name: item.levelName,
           color: chartColorList[i],
           itemStyle: {
             color: chartColorList[i]
@@ -211,6 +227,33 @@ watch(
         );
       }
     }
+  }
+}
+:deep(.tooltip-wrapper) {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  .circle {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
+
+  .tip-name {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  .tip-data {
+    margin-left: 20px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 900;
   }
 }
 </style>

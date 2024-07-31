@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-25 15:18:27
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-25 16:43:07
+ * @LastEditTime: 2024-07-30 14:47:40
  * @Description: 超充站、桩柱状图图层
  * @FilePath: /epcsp-dp-web/src/components/map-layer/super-charge-bar.vue
 -->
@@ -62,7 +62,7 @@ const drawHoverBarMarker = async (data, show = false) => {
       value: JSON.stringify(data)
     }
   });
-  console.log(mPopUpUrl, 'mPopUpUrl');
+  console.log(data);
   const marker = {
     id: data.areaCode + 'bar-hover-pop',
     groupId: 'bar-hover-pop',
@@ -97,12 +97,16 @@ const getBarPositionByQuName = (quName: string) => {
   return quItem[0].geometry.coordinates;
 };
 
-const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
+const addBar = async (type: 'qu' | 'jd', res: [], streetCode?: string, equipType = 0) => {
+  await aircityObj.value.acApi.marker.deleteByGroupId('rectBar');
+  const dataCode = equipType
+    ? ['stationPlanNum', 'stationBuildNum', 'stationOperateNum']
+    : ['equipmentPlanNum', 'equipmentBuildNum', 'equipmentOperateNum'];
   chartHover = false;
   let barArr = [];
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
   let stationCount = res.map((item) => {
-    return item.cabinet > item.chargingStation ? item.cabinet : item.chargingStation;
+    return Math.max(...dataCode.map((o) => +item[o] || 0));
   });
   let yMax = Math.max(...stationCount);
   const res1 = await requestGeojsonData(fileName);
@@ -110,32 +114,27 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
   barPositionBak = res1.features;
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
-      return item.properties.QUCODE === streetId;
+      return item.properties.QUCODE === streetCode;
     });
   }
   res1.features.forEach((item, index) => {
-    let countObj: any = res.filter((i) => {
-      return type === 'qu'
-        ? i.areaCode == item.properties.QUCODE
-        : i.streetId == item.properties.JDCODE;
-    });
+    const countObj: any =
+      res.find((i: any) => {
+        return type === 'qu'
+          ? `${i.areaCode}` == `${item.properties.QUCODE}`
+          : `${i.streetId}` == `${item.properties.JDCODE}`;
+      }) || {};
 
     let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
 
-    const itemMax = Math.max(
-      countObj[0]?.cabinet || 0,
-      countObj[0]?.chargingStation || 0,
-      countObj[0]?.energyStorageStation || 0,
-      countObj[0]?.photovoltaic || 0,
-      countObj[0]?.powerStation || 0
-    );
+    const itemMax = Math.max(...dataCode.map((o) => +countObj[o] || 0));
     let contentHeight = Math.max((180 * itemMax) / yMax, 60);
     const oPopUpUrl = getPopupHtml({
       usePopupHtml: true,
       com: 'rect-bar3',
       params: {
-        value: JSON.stringify({ ...countObj[0], coordinates: item.geometry.coordinates }),
+        value: JSON.stringify({ ...countObj, coordinates: item.geometry.coordinates, dataCode }),
         yMax: yMax * 1.3,
         contentHeight: contentHeight,
         quName: idEnd,
@@ -143,7 +142,6 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
         hideToolTip: 1
       }
     });
-    console.log(oPopUpUrl, 'oPopUpUrl');
     let o = {
       id: 'rectBar1-' + idEnd,
       groupId: `rectBar`,
@@ -154,9 +152,6 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       range: [1, 1000000], //可视范围
       imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      // popupURL: `${getHtmlUrl()}/popup.html?com=rect-bar4&value=${JSON.stringify(
-      //   countObj[0]
-      // )}&yMax=${yMax}&contentHeight=${contentHeight}&quName=${idEnd}&areaCode=${areaCode}`, //弹窗HTML链接
       popupURL: oPopUpUrl,
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
@@ -166,13 +161,10 @@ const addBar = async (type: 'qu' | 'jd', res: [], streetId?: string) => {
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
       // priority: item.properties.PRIORITY
     };
-    // if(idEnd=='光明区'){
-    //   o['priority']=9
-    // }
     barArr.push(o);
   });
-  await aircityObj.value.acApi.marker.add(barArr);
-  await aircityObj.value.acApi.marker.showAllPopupWindow();
+  await aircityObj.value.acApi.marker.add(barArr, null);
+  aircityObj.value.acApi.marker.showAllPopupWindow(null);
 };
 const changeXzqhColor = (polygonId: string, newVal: [number, number, number, number]) => {
   aircityObj.value.acApi.polygon.setColor(polygonId, newVal);

@@ -90,8 +90,8 @@ export const getCardConfig2 = (data = {}) =>
           seprate: '/'
         },
         {
-          name: '充电桩)',
-          code: 'equipmentTagApplyNum',
+          name: '超充枪)',
+          code: 'connectorTagApplyNum',
           value: ''
         }
       ]
@@ -108,8 +108,8 @@ export const getCardConfig2 = (data = {}) =>
           seprate: '/'
         },
         {
-          name: '充电桩)',
-          code: 'equipmentTagApplyPassNum',
+          name: '超充枪)',
+          code: 'connectorTagApplyPassNum',
           value: ''
         }
       ]
@@ -138,7 +138,7 @@ export const bottomTabDataFun = () => {
       label: '超充站'
     },
     {
-      code: 2,
+      code: 0,
       label: '超充桩'
     }
   ];
@@ -250,7 +250,7 @@ export const chartColorList = [
 
 export const superDistribuetedColumns = [
   {
-    prop: 'constructionCode',
+    prop: 'constructionName',
     label: '场所类型',
     width: 4
   },
@@ -293,7 +293,7 @@ export const getBaseChartOption = () => {
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(0, 163, 255, 0.5)',
+      backgroundColor: 'rgba(9, 41, 75, 0.8)',
       borderWidth: 0,
       textStyle: {
         color: '#fff',

@@ -1,7 +1,7 @@
 <template>
   <div class="super-station-overview">
     <title-column title="超充总览" />
-    <div class="overview-content">
+    <div class="overview-content" v-loading="loading">
       <div
         class="card-item"
         v-for="item in cardConfig1"
@@ -62,10 +62,16 @@ import { getCardConfig1, getCardConfig2 } from '../config.js';
 import Api from '../api.js';
 const cardConfig1 = ref(getCardConfig1());
 const cardConfig2 = ref(getCardConfig2());
+const loading = ref(true);
 const getData = async () => {
-  const res = await Api.getSuperChargeStationCount();
-  cardConfig1.value = getCardConfig1(res?.data || {});
-  cardConfig2.value = getCardConfig2(res?.data || {});
+  loading.value = true;
+  try {
+    const res = await Api.getSuperChargeStationCount();
+    cardConfig1.value = getCardConfig1(res?.data || {});
+    cardConfig2.value = getCardConfig2(res?.data || {});
+  } finally {
+    loading.value = false;
+  }
 };
 getData();
 </script>

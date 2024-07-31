@@ -1,4 +1,4 @@
-import request from '@sutpc/axios';
+import request, { getStaticFile } from '@sutpc/axios';
 import { mapRequestCancelId } from '@/global/config/map';
 export default {
   // 左上方-超充站总量
@@ -17,37 +17,47 @@ export default {
   },
   // 右上方-运行趋势
   getChargeTrend(data) {
+    request.cancel('/dp/superChargeStation/getChargeTrend');
     return request.post({
       url: '/dp/superChargeStation/getChargeTrend',
-      data
+      data,
+      cancelId: '/dp/superChargeStation/getChargeTrend'
     });
   },
   // 右中-运营商运行排名
   getOperatorChargeStat() {
+    request.cancel('/dp/superChargeStation/getOperatorChargeStat');
     return request.post({
       url: '/dp/superChargeStation/getOperatorChargeStat',
-      data: {}
+      data: {},
+      cancelId: '/dp/superChargeStation/getOperatorChargeStat'
     });
   },
   // 右中-超充站运行排名
   getStationChargeStat() {
+    request.cancel('/dp/superChargeStation/getOperatorChargeStat');
     return request.post({
       url: '/dp/superChargeStation/getStationChargeStat',
-      data: {}
+      data: {},
+      cancelId: '/dp/superChargeStation/getOperatorChargeStat'
     });
   },
   // 右下-超充运营情况:场所分布
   getConstructionStationDistribute() {
+    request.cancel('/dp/superChargeStation/getConstructionStationDistribute');
     return request.post({
       url: '/dp/superChargeStation/getConstructionStationDistribute',
-      data: {}
+      data: {},
+      cancelId: '/dp/superChargeStation/getConstructionStationDistribute'
     });
   },
   // 右下-超充运营情况:功率分布
   getChargeCapacityDistribute() {
+    request.cancel('/dp/superChargeStation/getConstructionStationDistribute');
     return request.post({
       url: '/dp/superChargeStation/getChargeCapacityDistribute',
-      data: {}
+      data: {},
+      cancelId: '/dp/superChargeStation/getConstructionStationDistribute'
     });
   },
   // 顶部-超充站-总览上面4个指标:今日
@@ -61,18 +71,30 @@ export default {
   //总览区柱状图
   getDistrictBar() {
     request.cancel(mapRequestCancelId);
-    return request.get({
-      url: '/overviews/all/areaMap',
-      cancelId: mapRequestCancelId
+    return request.post({
+      url: '/dp/superChargeStation/getAreaDistribute',
+      data: {}
     });
   },
-  //总览街道柱状图
+  //地图-街道分布情况
   getStreetBar(data) {
     request.cancel(mapRequestCancelId);
     return request.post({
-      url: '/overviews/all/streetMap',
+      url: '/dp/superChargeStation/getStreetDistribute',
       data,
       cancelId: mapRequestCancelId
     });
+  },
+  //地图-超充站分布情况
+  getScStationDistribute(data) {
+    request.cancel(mapRequestCancelId);
+    return request.post({
+      url: '/dp/superChargeStation/getScStationDistribute',
+      data,
+      cancelId: mapRequestCancelId
+    });
+  },
+  requestGeojsonData(fileName) {
+    return getStaticFile(`static/geojson/${fileName}.geojson`);
   }
 };

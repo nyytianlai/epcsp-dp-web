@@ -1,5 +1,5 @@
 <template>
-  <ScrollTable
+  <el-table
     style="width: 100%; height: 3.44rem"
     :autoScroll="false"
     :interval="5000"
@@ -19,12 +19,14 @@
       :show-overflow-tooltip="true"
       :formatter="tableColumnFun"
     ></el-table-column>
-  </ScrollTable>
+    <template #empty>
+      <no-data />
+    </template>
+  </el-table>
 </template>
 
 <script setup>
 import { ref, onMounted, reactive, watch } from 'vue';
-import ScrollTable from '@sutpc/vue3-scroll-table';
 import { tableColumnFun } from '@/global/commonFun.js';
 const props = defineProps({
   scrollTableData: {
@@ -46,4 +48,8 @@ let currentChange = (row) => {
 };
 </script>
 
-<style lang="less"></style>
+<style lang="less" scoped>
+:deep(.el-scrollbar__view) {
+  height: 100%;
+}
+</style>
