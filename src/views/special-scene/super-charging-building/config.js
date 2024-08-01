@@ -186,14 +186,14 @@ export const operationTabType = [
   {
     code: 'hour',
     label: '今日',
-    timeRange: [dayjs().format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD 23:59:59')]
+    timeRange: [dayjs().format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD HH:mm:ss')]
   },
   {
     code: 'date',
     label: '近七日',
     timeRange: [
       dayjs().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'),
-      dayjs().format('YYYY-MM-DD 23:59:59')
+      dayjs().format('YYYY-MM-DD HH:mm:ss')
     ]
   }
 ];
