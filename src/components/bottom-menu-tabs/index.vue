@@ -48,7 +48,7 @@ const handleSelect = (item) => {
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 56px;
   background-position: bottom left;
-  pointer-events: all;
+  pointer-events: none;
   .tab {
     width: 105px;
     height: 83px;
@@ -61,6 +61,8 @@ const handleSelect = (item) => {
     margin-right: 108px;
     cursor: pointer;
     position: relative;
+
+    pointer-events: all;
     &.active {
       background-image: url(./images/active.png);
       &::before {

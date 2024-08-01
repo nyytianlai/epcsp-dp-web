@@ -17,6 +17,7 @@
 import { ref, watch } from 'vue';
 import { operationRankTabType } from '../config.js';
 import Api from '../api.js';
+import dayjs from 'dayjs';
 const isLoading = ref(false);
 const projectTotalNum = ref(0);
 const selectType = ref(operationRankTabType[0].code);
@@ -27,7 +28,10 @@ const getProjectList = async () => {
     const method = Api[selectType.value];
     const nameCode = selectType.value === 'getStationChargeStat' ? 'stationName' : 'operatorName';
     if (!method) return;
-    const res = await method();
+    const res = await method({
+      startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+    });
     projectTotalNum.value = Math.max(...res.data.map((item) => +item.chargeCapacity));
     projectList.value = res?.data?.map((item) => {
       return {
