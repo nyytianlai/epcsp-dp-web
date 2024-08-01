@@ -25,20 +25,20 @@ export default {
     });
   },
   // 右中-运营商运行排名
-  getOperatorChargeStat() {
+  getOperatorChargeStat(data = {}) {
     request.cancel('/dp/superChargeStation/getOperatorChargeStat');
     return request.post({
       url: '/dp/superChargeStation/getOperatorChargeStat',
-      data: {},
+      data,
       cancelId: '/dp/superChargeStation/getOperatorChargeStat'
     });
   },
   // 右中-超充站运行排名
-  getStationChargeStat() {
+  getStationChargeStat(data = {}) {
     request.cancel('/dp/superChargeStation/getOperatorChargeStat');
     return request.post({
       url: '/dp/superChargeStation/getStationChargeStat',
-      data: {},
+      data,
       cancelId: '/dp/superChargeStation/getOperatorChargeStat'
     });
   },
@@ -90,6 +90,16 @@ export default {
     request.cancel(mapRequestCancelId);
     return request.post({
       url: '/dp/superChargeStation/getScStationDistribute',
+      data,
+      cancelId: mapRequestCancelId
+    });
+  },
+  //地图-撒点-通用
+  // 设备管理/根据街道id查询站点信息，streetId:街道id；equipmentType（必填）:1-桩；2-枪；chargeType（选填）：1-快充；2-慢充；3-超充；4-V2G
+  selectStationInfoByStreetId(data) {
+    request.cancel(mapRequestCancelId);
+    return request.post({
+      url: '/dp/api/v1/equipmentManage/selectStationInfoByStreetId',
       data,
       cancelId: mapRequestCancelId
     });

@@ -262,12 +262,14 @@ const stationInfoData = ref<any>({});
 const deviceInfoData = ref(deviceInfoDataFun());
 // const warnColor = ['#FF6B4B'];
 const isHr = computed(() => store.detailParams?.isHr);
-const isSuper = computed(() => store.detailParams?.isSuper);
+// 是否为超充站
+const isSuper = computed(
+  () => store.detailParams?.isSuper || store.detailParams?.stationLogo === '3'
+);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const pageNumData = ref(
-  store.detailParams?.isSuper ? getSuperHeaderData({}, store.detailParams?.equipType) : pageNumFun()
+  isSuper.value ? getSuperHeaderData({}, store.detailParams?.equipType) : pageNumFun()
 );
-console.log(store.detailParams, store.detailParams?.isSuper);
 const tabHasData = ref(false);
 const tabData = ref([]);
 // 实时告警趋势情况
@@ -352,7 +354,7 @@ const getAlarmLevelAndTypeByTIme = async () => {
 const getStationStatistics = async () => {
   const res = await selectStationStatistics(params.value);
   // pageNumData.value = pageNumFun(res?.data);
-  pageNumData.value = store.detailParams?.isSuper
+  pageNumData.value = isSuper.value
     ? getSuperHeaderData(res?.data, store.detailParams?.equipType)
     : pageNumFun(res?.data);
 };
