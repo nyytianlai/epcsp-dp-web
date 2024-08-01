@@ -73,14 +73,16 @@ const panelShow = computed(() => {
   left: 50%;
   transform: translateX(-50%);
   z-index: 19;
-  width: 746px;
+  width: fit-content !important;
   height: 79px;
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 70px;
   background-position: bottom left;
   padding: 0 64px 30px 76px;
+  // padding: 0 0 30px 0;
   display: flex;
   justify-content: space-between;
+  column-gap: 18px;
   &.red-bgc {
     background-image: url(./images/bottom-red-bgc.png);
   }
@@ -117,6 +119,7 @@ const panelShow = computed(() => {
         display: flex;
         flex-flow: row nowrap;
         align-items: baseline;
+        white-space: nowrap;
       }
       .seprate {
         font-size: 18px;
