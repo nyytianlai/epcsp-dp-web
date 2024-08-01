@@ -63,7 +63,7 @@ const drawChart = async (data = []) => {
       color: chartColorList[i],
       type: item.type,
       symbol: 'none',
-      barWidth: item.type === 'bar' && scale(14),
+      barWidth: item.type === 'bar' && scale(10),
       yAxisIndex: i,
       data: data.map((obj) => [obj.time, obj[item.code]])
     });

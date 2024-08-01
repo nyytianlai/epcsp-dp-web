@@ -124,7 +124,7 @@ export const columnKeyListFun = (type = 'Plan') => {
     {
       prop: 'areaName',
       label: '行政区名称',
-      width: 4
+      width: 3
     },
     { prop: `station${type}Num`, label: '超充站(个)', width: 2 },
     { prop: `equipment${type}Num`, label: '超充桩(个)', width: 2 }
@@ -242,8 +242,8 @@ export const superOperationTabType = [
 ];
 
 export const chartColorList = [
-  'rgb(50, 84, 221)',
-  'rgb(229, 204, 72)',
+  'rgb(34, 118, 252)',
+  'rgb(255, 207, 95)',
   'rgb(75, 222, 255)',
   'rgb(190, 229, 251)'
 ];
@@ -336,6 +336,8 @@ export const getBaseChartOption = () => {
         fontSize: scale(12),
         color: 'rgba(255,255,255,0.85)'
       },
+      splitNumber: 3,
+      // minInterval: 1,
       splitLine: {
         lineStyle: {
           color: 'rgba(230, 247, 255, 0.2)',
