@@ -40,8 +40,8 @@ const ecStyle = computed(() => {
 const ecOption = computed(() => {
   const offsetX = 15;
   const offsetY = 6; //和CubeTop上的点一起控制柱子顶部的四边形高度
-  const offsetX1 = [50, 0, -50, -85, -95]; //控制柱子之间的距离 负数往左移
-  const offsetY1 = [-8, 0, -16, 10, 10]; //控制柱子的上下距离 负数往上移
+  const offsetX1 = [56, 0, -56]; //控制柱子之间的距离 负数往左移
+  const offsetY1 = [0, 0, 0]; //控制柱子的上下距离 负数往上移
   // 绘制左侧面
   const CubeLeft = echarts.graphic.extendShape({
     shape: {
@@ -115,9 +115,9 @@ const ecOption = computed(() => {
   const barColor = [
     [
       //蓝色 规划
-      ['#0091B0', '#00529D'],
-      ['#4AD9FC', '#096FA8'],
-      ['#B6F2FF', '#B6F2FF']
+      ['#044E9D', '#00529D'],
+      ['#05A0FF', '#096FA8'],
+      ['#05A0FF', '#05A0FF']
     ],
     [
       //紫色 光伏站
