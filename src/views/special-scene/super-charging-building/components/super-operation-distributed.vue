@@ -95,7 +95,7 @@ const drawChart = async (data = []) => {
           itemStyle: {
             color: chartColorList[i]
           },
-          value: item.stationNum
+          value: item.equipmentNum
         })),
         label: {
           formatter: (param) => {

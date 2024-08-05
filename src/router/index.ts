@@ -206,7 +206,7 @@ if (import.meta.env.DEV) {
 const router = createRouter({
   history: createWebHashHistory(),
   strict: true,
-  routes: routesMap,
+  routes: routesMap as any,
   scrollBehavior: () => ({ left: 0, top: 0 })
 });
 
