@@ -69,13 +69,13 @@ export const specialRoutes = [
   {
     path: '/super-charge',
     name: 'superCharge',
-    meta: { title: '超充建设' },
+    meta: { title: '超充之城' },
     component: Layout,
     children: [
       {
         name: 'superChargingBuilding',
         path: '/super-charging/building',
-        meta: { title: '超充建设', keepAlive: false },
+        meta: { title: '超充之城', keepAlive: false },
         component: () => import('@/views/special-scene/super-charging-building/index.vue')
       }
     ]
@@ -206,7 +206,7 @@ if (import.meta.env.DEV) {
 const router = createRouter({
   history: createWebHashHistory(),
   strict: true,
-  routes: routesMap,
+  routes: routesMap as any,
   scrollBehavior: () => ({ left: 0, top: 0 })
 });
 
