@@ -429,7 +429,8 @@ const addQuStationWithAlarmInfo = async (jdCode: string) => {
   res.forEach((item, index) => {
     let xoffset = item.stationName.length * 12;
     item['xoffset'] = xoffset;
-    item['stationType'] = item.status ? 'station' + item.status : 'station50';
+    // item['stationType'] = item.status ? 'station' + item.status : 'station50';
+    item['stationType'] = 'station255';
     item.stationName = item.stationName + '(' + item.warningCount + ')';
     let o1 = returnStationPointConfig(item);
     if (item.isHr == 0) {
