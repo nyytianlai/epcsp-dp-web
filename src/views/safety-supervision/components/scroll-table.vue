@@ -13,9 +13,9 @@
       v-for="(item, index) in columnKeyList"
       :key="index"
       :prop="item.prop"
-      align="left"
       :label="item.label"
       :min-width="item.width"
+      :align="item.align"
       :show-overflow-tooltip="true"
       :formatter="tableColumnFun"
     ></el-table-column>

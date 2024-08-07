@@ -1,11 +1,3 @@
-<!--
- * @Author: niyayong@sutpc.com
- * @Date: 2024-07-22 15:19:08
- * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-22 15:22:16
- * @Description: 
- * @FilePath: /epcsp-dp-web/src/views/special-scene/safety-supervision/index.vue
--->
 <template>
   <div class="special-scene">
     <panel class="special-scene-panel left"></panel>
@@ -16,7 +8,7 @@
 
 <script lang="ts" setup>
 import { inject } from 'vue';
-// import MapLayer from './components/map-layer.vue';
+import MapLayer from './map-layers/map-layer.vue';
 const aircityObj = inject('aircityObj');
 </script>
 
@@ -25,5 +17,9 @@ const aircityObj = inject('aircityObj');
   width: 100%;
   height: 100%;
   display: grid;
+  > div {
+    min-width: 0;
+    min-height: 0;
+  }
 }
 </style>

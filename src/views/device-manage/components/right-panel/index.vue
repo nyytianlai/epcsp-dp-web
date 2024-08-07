@@ -80,8 +80,8 @@ const lineRunData = ref(lineRunDataFun());
 const bottomChartStyle = computed(() => {
   return {
     height: 140 * config.sizeScale + 'px'
-  }
-})
+  };
+});
 
 const handleChangeTab = (data, type) => {
   if (type === 'charging-types') {
@@ -104,7 +104,7 @@ const getSelectPowerSumByDayTime = async () => {
 // 设备管理/充电桩-枪状态
 const getSelectChargeEquipmentStatus = async (type) => {
   const res = await selectChargeEquipmentStatus(type);
-  chargingTypesData.value = chargingTypesFun(res.data);
+  chargingTypesData.value = chargingTypesFun(res?.data);
 };
 //设备管理/充电桩-枪状态分时列表
 const getChargeEquipmentStatusByTime = async (type) => {

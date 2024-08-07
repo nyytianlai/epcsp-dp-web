@@ -136,16 +136,8 @@ const wrap = (fullPath, component) => {
 const handleAircityObjReady = (val) => {
   aircityObj.value = val;
 };
-const routesName = ['ChargingStation', 'deviceManage', 'safetySupervision', 'publicService'];
-const specialCceneRoutesName = [
-  'superChargingBuilding',
-  'virtualElectric',
-  'parkingCharging',
-  'powerCombine'
-];
-const isShowMenu = computed(
-  () => routed.name && [...routesName, ...specialCceneRoutesName].includes(routed.name as string)
-);
+const routesName = [...routes, ...specialRoutes].map((item) => item.children[0]?.name);
+const isShowMenu = computed(() => routed.name && [...routesName].includes(routed.name as string));
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
