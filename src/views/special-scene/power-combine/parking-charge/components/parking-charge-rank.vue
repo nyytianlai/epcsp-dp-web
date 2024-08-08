@@ -17,7 +17,7 @@
         ref="refList"
         v-for="(item, i) in rankData"
         :key="item.name"
-        @mouseover="handleOver(i)"
+        @mouseover="handleOver(i, item)"
         @mouseleave="handleLeave"
       >
         <div class="rank-info">
@@ -43,17 +43,17 @@
         ref="popoverRef"
         :virtual-ref="triggerRef"
         trigger="hover"
-        title="With title"
         virtual-triggering
         :teleported="false"
+        popper-class="rank-popover"
       >
         <div class="data-tip">
           停车位数
-          <span :style="{ color: legend[0].color }">2827</span>
+          <span :style="{ color: legend[0].color }">{{ popoverData[legend[0].code] }}</span>
         </div>
         <div class="data-tip">
           充电枪数
-          <span :style="{ color: legend[1].color }">2827</span>
+          <span :style="{ color: legend[1].color }">{{ popoverData[legend[1].code] }}</span>
         </div>
         <div class="data-tip">
           停充配比
@@ -69,6 +69,7 @@ import { ref, computed } from 'vue';
 
 const loading = ref(true);
 const triggerRef = ref();
+const popoverData = ref({});
 const refList = ref([]);
 const legend = [
   {
@@ -111,13 +112,13 @@ const rankData = [
   }
 ];
 
-const handleOver = (i) => {
+const handleOver = (i, item) => {
   triggerRef.value = refList.value[i];
-  console.log(triggerRef.value, '11111111111', refList.value, i);
+  popoverData.value = item;
 };
 
 const handleLeave = () => {
-  triggerRef.value = null;
+  // triggerRef.value = null;
 };
 
 const getData = async () => {
@@ -215,8 +216,8 @@ getData();
     &:nth-of-type(2),
     &:nth-of-type(3) {
       .rank-index {
-        border: 1px;
-        border-image: linear-gradient(to right, rgb(24, 144, 255), rgb(30, 231, 231)) 1;
+        border: solid 1px;
+        border-image: linear-gradient(to right, rgb(24, 144, 255), rgb(30, 231, 231));
         background-color: transparent;
       }
     }
@@ -248,14 +249,17 @@ getData();
     }
   }
 
-  .data-tip {
-    display: flex;
-    flex-flow: row nowrap;
-    column-gap: 10px;
-    font-size: 12px;
-    color: rgb(255, 255, 255);
-    span {
-      font-size: 18px;
+  :deep(.rank-popover) {
+    padding: 10px 12px;
+    .data-tip {
+      display: flex;
+      flex-flow: row nowrap;
+      column-gap: 10px;
+      font-size: 12px;
+      color: rgb(255, 255, 255);
+      span {
+        font-size: 18px;
+      }
     }
   }
 }

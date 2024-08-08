@@ -1,12 +1,21 @@
 <template>
   <div class="bus-power-distributed">
     <title-column title="巴士剩余电量分布" />
+    <div class="distributed-content" v-loading="loading">
+      <scroll-table
+        :scrollTableData="scrollTableData"
+        :columnKeyList="powerDistributedColumn"
+        style="height: 100%"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-
+import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
+import { powerDistributedColumn } from '../config';
+const scrollTableData = ref([]);
 const loading = ref(true);
 
 const getData = async () => {

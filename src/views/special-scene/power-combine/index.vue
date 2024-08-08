@@ -1,5 +1,5 @@
 <template>
-  <div class="special-scene">
+  <div class="special-scene-index">
     <TrafficPower v-if="selectBtmTab === bottomTabsData[0].code" />
     <ParkingCharge v-else />
     <bottom-menu-tabs
@@ -23,13 +23,8 @@ const changeButtomTab = (item) => {
 </script>
 
 <style lang="less" scoped>
-.special-scene-panel {
+.special-scene-index {
   width: 100%;
   height: 100%;
-  display: grid;
-  > div {
-    min-width: 0;
-    min-height: 0;
-  }
 }
 </style>

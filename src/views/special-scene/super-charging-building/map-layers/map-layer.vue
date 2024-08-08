@@ -33,7 +33,7 @@ const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
 const currentPosition = computed(() => store.currentPosition);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
-
+let timer;
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -285,7 +285,8 @@ const addOutStation = async (module: number, jdcode: string) => {
     pointArr.push(o1);
   });
   // __g.marker.add(pointArr, null);
-  setTimeout(() => {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
     __g.marker.add(pointArr, null);
   }, 1000);
 };
@@ -328,7 +329,11 @@ bus.on('addBar', async (e: any) => {
   }
 });
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
+  clearTimeout(timer);
+  await __g.marker.deleteByGroupId('bar-hover-pop');
+  await __g.marker.deleteByGroupId('rectBar');
+  await __g.marker.deleteByGroupId('jdStation');
   bus.off('addBar');
 });
 

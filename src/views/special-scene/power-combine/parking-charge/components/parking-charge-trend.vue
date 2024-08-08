@@ -111,12 +111,12 @@ getData();
     min-height: 0;
     border-radius: 4px;
 
-    box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.04), inset 0px 0px 35px 0px rgba(41, 76, 179, 0.2);
-    background: linear-gradient(
-      219.05deg,
-      rgba(37, 177, 255, 0.02) 16.882%,
-      rgba(37, 177, 255, 0.2) 100%
-    );
+    // box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.04), inset 0px 0px 35px 0px rgba(41, 76, 179, 0.2);
+    // background: linear-gradient(
+    //   219.05deg,
+    //   rgba(37, 177, 255, 0.02) 16.882%,
+    //   rgba(37, 177, 255, 0.2) 100%
+    // );
 
     .unit {
       position: absolute;
