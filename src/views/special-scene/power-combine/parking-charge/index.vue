@@ -1,11 +1,11 @@
 <template>
   <div class="special-scene">
-    <panel class="special-scene-panel left">
+    <panel>
       <ParkingChargeOverview />
       <ParkingChargeDistributed />
       <ParkingChargeRank />
     </panel>
-    <panel class="special-scene-panel right" type="right">
+    <panel type="right">
       <ParkingChargeOperation />
       <ParkingChargeArea />
       <ParkingChargeTrend />
@@ -27,13 +27,19 @@ const aircityObj = inject('aircityObj');
 </script>
 
 <style lang="less" scoped>
-.special-scene-panel {
-  width: 100%;
-  height: 100%;
+:deep(.panel) {
   display: grid;
   > div {
     min-width: 0;
     min-height: 0;
+  }
+
+  &.left {
+    grid-template-rows: auto 260px 1fr;
+  }
+
+  &.right {
+    grid-template-rows: auto 300px 1fr;
   }
 }
 </style>

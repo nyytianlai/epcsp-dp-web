@@ -1,6 +1,9 @@
 <template>
   <div class="area-distributed">
     <title-column title="可调容量区域分布" />
+    <div class="distributed-content">
+      <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="100%" />
+    </div>
   </div>
 </template>
 
@@ -8,6 +11,22 @@
 import { ref, computed } from 'vue';
 
 const loading = ref(true);
+const areaTotalNum = ref(100);
+
+const areaRankData = computed(() => {
+  return [
+    { name: '区域1', num: 10, unit: '%' },
+    { name: '区域2', num: 20 },
+    { name: '区域3', num: 30 },
+    { name: '区域4', num: 40 },
+    { name: '区域5', num: 50 },
+    { name: '区域6', num: 60 },
+    { name: '区域7', num: 70 },
+    { name: '区域8', num: 80 },
+    { name: '区域9', num: 90 },
+    { name: '区域10', num: 100 }
+  ];
+});
 
 const getData = async () => {
   loading.value = true;

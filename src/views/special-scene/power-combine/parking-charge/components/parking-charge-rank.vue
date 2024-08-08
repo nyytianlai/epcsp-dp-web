@@ -109,6 +109,21 @@ const rankData = [
     name: '停车场5',
     cw: 1000,
     cdq: 1000
+  },
+  {
+    name: '停车场3',
+    cw: 1000,
+    cdq: 1000
+  },
+  {
+    name: '停车场4',
+    cw: 1000,
+    cdq: 1000
+  },
+  {
+    name: '停车场5',
+    cw: 1000,
+    cdq: 1000
   }
 ];
 
@@ -217,7 +232,7 @@ getData();
     &:nth-of-type(3) {
       .rank-index {
         border: solid 1px;
-        border-image: linear-gradient(to right, rgb(24, 144, 255), rgb(30, 231, 231));
+        border-image: linear-gradient(to right, rgb(30, 231, 231), rgb(24, 144, 255)) 1 1;
         background-color: transparent;
       }
     }

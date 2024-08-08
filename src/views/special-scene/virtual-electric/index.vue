@@ -27,13 +27,19 @@ const aircityObj = inject('aircityObj');
 </script>
 
 <style lang="less" scoped>
-.special-scene-panel {
-  width: 100%;
-  height: 100%;
+:deep(.panel) {
   display: grid;
   > div {
     min-width: 0;
     min-height: 0;
+  }
+
+  &.left {
+    grid-template-rows: auto 270px 1fr;
+  }
+
+  &.right {
+    grid-template-rows: auto 300px 1fr;
   }
 }
 </style>
