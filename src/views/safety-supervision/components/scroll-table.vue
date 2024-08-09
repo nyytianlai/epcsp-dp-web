@@ -11,14 +11,17 @@
   >
     <el-table-column
       v-for="(item, index) in columnKeyList"
+      v-slot="scope"
       :key="index"
       :prop="item.prop"
-      align="left"
       :label="item.label"
       :min-width="item.width"
+      :align="item.align"
       :show-overflow-tooltip="true"
       :formatter="tableColumnFun"
-    ></el-table-column>
+    >
+      <slot v-if="$slots[item.prop]" :name="item.prop" :row="scope.row" />
+    </el-table-column>
     <template #empty>
       <no-data />
     </template>
