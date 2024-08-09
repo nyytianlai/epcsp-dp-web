@@ -15,11 +15,14 @@
 import { ref, computed } from 'vue';
 import { parkingChargeAreaColumn } from '../config';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
+import Api from '../api'
 const loading = ref(true);
 const scrollTableData = ref([]);
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.parkChargingAreaDistribution()
+    scrollTableData.value = res?.data || []
   } catch (error) {}
   loading.value = false;
 };

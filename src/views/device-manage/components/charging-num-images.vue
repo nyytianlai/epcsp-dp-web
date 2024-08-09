@@ -45,8 +45,6 @@ const handleClick = (item) => {
 };
 </script>
 <style lang="less" scoped>
-
-
 .images-wrap {
   width: 100%;
   overflow: hidden auto;
@@ -92,7 +90,6 @@ const handleClick = (item) => {
       bottom: 0;
     }
   }
-  
 
   .img-content__inner {
     position: relative;
@@ -105,10 +102,10 @@ const handleClick = (item) => {
   container-type: inline-size;
   container-name: imageWrap;
 }
-  @container imageWrap (min-width: 600px) {
-    .images-wrap {
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: 1fr;
-    }
+@container imageWrap (min-width: 600px) {
+  .images-wrap {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
   }
+}
 </style>

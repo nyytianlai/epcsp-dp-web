@@ -17,6 +17,7 @@ import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
 import dayjs from 'dayjs';
+import Api from '../api';
 
 const isEmpty = ref(false);
 const loading = ref(false);
@@ -24,25 +25,17 @@ const loading = ref(false);
 const chartConfig = [
   {
     name: '充电枪利用率',
-    code: 'cdqlyl',
+    code: 'dailyGunUtilizationRate',
     color: '0, 255, 249',
     unit: '%'
   },
   {
     name: '车位利用率',
-    code: 'cwlyl',
+    code: 'dailyParkingSpaceUtilizationRate',
     color: '0, 83, 255',
     unit: '%'
   }
 ];
-const data = Array.from({ length: 7 }, (_, i) => ({
-  time: dayjs()
-    .subtract(7 - i, 'days')
-    .format('MM-DD'),
-  cdqlyl: (Math.random() * 100).toFixed(1),
-  cwlyl: (Math.random() * 100).toFixed(1)
-}));
-
 const ecOption = ref(getBaseChartOption());
 
 const drawChart = async (data = []) => {
@@ -87,14 +80,18 @@ const drawChart = async (data = []) => {
     series
   };
 };
-onMounted(() => drawChart(data));
 const getData = async () => {
   loading.value = true;
   try {
-  } catch (error) {}
+    const res = await Api.parkChargingRunTrend();
+    drawChart(res.data);
+    isEmpty.value = !res.data.length;
+  } catch (error) {
+    isEmpty.value = true;
+  }
   loading.value = false;
 };
-getData();
+onMounted(getData);
 </script>
 
 <style scoped lang="less">

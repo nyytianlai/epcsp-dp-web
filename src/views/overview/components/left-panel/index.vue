@@ -52,22 +52,21 @@
         <title-column title="数字孪生站点" />
         <div class="use-list-container">
           <div class="ue-list">
-          <div
-            class="ue-item"
-            v-for="item in state.digitalTwinSites"
-            :key="item.id"
-            @click="handlePlayUeVideo(item)"
-          >
-            <div class="card-type">{{ item.stationType }}</div>
-            <img :src="item.stationPic" alt="" />
-            <div class="card-name" v-if="item.stationName.length < 9">{{ item.stationName }}</div>
-            <el-tooltip :content="item.stationName || ''" placement="top" v-else>
-              <div class="card-name">{{ item.stationName }}</div>
-            </el-tooltip>
+            <div
+              class="ue-item"
+              v-for="item in state.digitalTwinSites"
+              :key="item.id"
+              @click="handlePlayUeVideo(item)"
+            >
+              <div class="card-type">{{ item.stationType }}</div>
+              <img :src="item.stationPic" alt="" />
+              <div class="card-name" v-if="item.stationName.length < 9">{{ item.stationName }}</div>
+              <el-tooltip :content="item.stationName || ''" placement="top" v-else>
+                <div class="card-name">{{ item.stationName }}</div>
+              </el-tooltip>
+            </div>
           </div>
         </div>
-        </div>
-        
       </div>
     </div>
   </panel>
@@ -250,11 +249,11 @@ onMounted(async () => {
   container-type: inline-size;
 }
 @container ueList (min-width: 500px) {
-    .ue-list {
-      grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: 1fr;
-    }
+  .ue-list {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
   }
+}
 
 .ue-item {
   display: grid;

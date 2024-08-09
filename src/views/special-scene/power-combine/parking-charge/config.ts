@@ -6,17 +6,17 @@ export const parkingChargeAreaColumn = [
     width: 3
   },
   {
-    prop: 'soltNum',
+    prop: 'totalParkingSpace',
     label: '车位数(个)',
     width: 3.5
   },
   {
-    prop: 'connectorNum',
+    prop: 'totalGun',
     label: '充电枪数(个)',
     width: 4
   },
   {
-    prop: 'rate',
+    prop: 'stopChargeRatio',
     label: '车充配比',
     width: 3
   }
@@ -28,13 +28,13 @@ export const parkingChargeOperationColumn = [
     width: 2
   },
   {
-    prop: 'parkingNum',
+    prop: 'dailyParkingVolume',
     label: '停车量(辆)',
     width: 2,
     align: 'center'
   },
   {
-    prop: 'power',
+    prop: 'dailyChargingVolume',
     label: '充电量(kWh)',
     width: 2,
     align: 'center'

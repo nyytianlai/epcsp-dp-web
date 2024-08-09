@@ -68,34 +68,29 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标高亮
   if (e.eventtype === 'LeftMouseButtonClick') {
     console.log('点击外面的点数据', e);
-
     if (e.Id?.includes('stationOut-')) {
-      if (currentPosition.value !== '') {
-        store.changeCurrentPositionBak(currentPosition.value);
-        store.changeCurrentPosition('');
-      }
       //关闭上一个高亮其他站点
-      currtentStation.stationId1 ? await __g.marker.show(currtentStation.stationId1) : '';
+      if (currtentStation.stationId1 === e.Id) return;
+      currtentStation.stationId1 && (await __g.marker.show(currtentStation.stationId1));
       __g.marker.delete('stationOut-hight');
       //关闭上一个高亮充电站
-      currtentStation.stationId1
-        ? await __g.marker.hidePopupWindow(currtentStation.stationId1)
-        : '';
+      currtentStation.stationId1 && (await __g.marker.hidePopupWindow(currtentStation.stationId1));
       quRef.value.hideHighLightNormalStation();
-      storeVisible.changeShowComponent(true);
-      storeVisible.changeShowDetail({
-        show: false,
-        params: {}
-      });
+
       currtentStation = JSON.parse(e.UserData);
       currtentStation['stationId1'] = e.Id;
 
-      await __g.marker.hide(e.Id);
       currtentStation.isSuper = true;
       currtentStation.equipType = props.selectBtmTab.code;
-      addHighLightStation(currtentStation);
-      quRef.value.highLightNormalStation(currtentStation);
-      quRef.value.enterStationInfo(currtentStation);
+
+      if (currtentStation?.isHr == 0 && currtentStation?.hrId) {
+        bus.emit('toHr', currtentStation);
+      } else {
+        await __g.marker.hide(e.Id);
+        quRef.value.enterStationInfo(currtentStation);
+        addHighLightStation(currtentStation);
+        quRef.value.highLightNormalStation(currtentStation);
+      }
     }
   }
   //关闭弹窗
@@ -103,6 +98,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.ID?.includes('stationOut-')) {
       __g.marker.delete('stationOut-hight');
       __g.marker.show(currtentStation.stationId1);
+      currtentStation = {};
     }
   }
 
@@ -264,7 +260,7 @@ const addOutStation = async (module: number, jdcode: string) => {
     let o1 = {
       id: `stationOut-super-chargingStation-${item.stationId}-${index}`,
       groupId: 'jdStation',
-      userData: JSON.stringify(item),
+      userData: JSON.stringify({ ...item }),
       coordinate: transformCoordsByType([item.lng, item.lat], 2), //坐标位置
       anchors: [-21.5, 141.5], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [43, 141.5], //图片的尺寸
@@ -306,7 +302,7 @@ const addHighLightStation = async (item) => {
     popupURL: `${getHtmlUrl()}/static/html/stationPop.html?value=${item.stationName}`, //弹窗HTML链接
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     popupSize: [scale(width), scale(80)], //弹窗大小
-    popupOffset: [-scale(width / 2), -209 / 2], //弹窗偏移
+    popupOffset: [-scale(width) / 2, -209 / 2], //弹窗偏移
     autoHidePopupWindow: false,
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     displayMode: 2,

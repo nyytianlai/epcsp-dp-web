@@ -83,7 +83,7 @@ export const specialRoutes = [
   {
     path: '/virtual',
     name: 'virtual',
-    meta: { title: '虚拟电厂' },
+    meta: { title: '虚拟电厂', disabled: true },
     component: Layout,
     children: [
       {

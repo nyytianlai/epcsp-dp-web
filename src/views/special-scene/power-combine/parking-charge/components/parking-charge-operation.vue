@@ -1,12 +1,14 @@
 <template>
   <div class="parking-charge-operation">
     <title-column title="停充日均运行总览" />
-    <div class="distributed-content">
+    <div class="distributed-content" v-loading="loading">
       <div class="top-card-item" v-for="item in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">{{ item.value ?? '--' }}</span>
+            <span class="value fontSize32DIN">
+              {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
+            </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
@@ -18,46 +20,49 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
+const totalData = ref({});
 const bottomCardConfig = [
   {
     name: '车位利用率',
-    code: '',
-    value: '56.3',
+    code: 'dailyParkingSpaceUtilizationRate',
+    value: '',
     unit: '%',
     icon: new URL('../images/parking-car.png', import.meta.url).href
   },
   {
     name: '充电枪利用率',
-    code: '',
-    value: '56.3',
+    code: 'dailyGunUtilizationRate',
+    value: '',
     unit: '%',
     icon: new URL('../images/gun.png', import.meta.url).href
   },
   {
     name: '充电量',
-    code: '',
-    value: '2203',
+    code: 'dailyChargingVolume',
+    value: '',
     unit: 'kWh',
     icon: new URL('../images/power.png', import.meta.url).href
   },
   {
     name: '充电时长',
-    code: '',
-    value: '126',
+    code: 'dailyChargingDuration',
+    value: '',
     unit: '小时',
     icon: new URL('../images/charge-time.png', import.meta.url).href
   },
   {
     name: '停车量',
-    code: '',
-    value: '2203',
+    code: 'dailyParkingVolume',
+    value: '',
     unit: '辆',
     icon: new URL('../images/parking-num.png', import.meta.url).href
   },
   {
     name: '停车时长',
-    code: '',
-    value: '126',
+    code: 'dailyParkingDuration',
+    value: '',
     unit: '小时',
     icon: new URL('../images/parking-time.png', import.meta.url).href
   }
@@ -67,6 +72,8 @@ const loading = ref(true);
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.parkChargingRunOverview();
+    totalData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };

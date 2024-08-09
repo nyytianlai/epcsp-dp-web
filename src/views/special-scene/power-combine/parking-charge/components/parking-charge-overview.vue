@@ -1,5 +1,5 @@
 <template>
-  <div class="parking-charge-overview">
+  <div class="parking-charge-overview" v-loading="loading">
     <title-column title="停充接入总览" />
     <div class="parking-charge-rate">
       <div class="top-card-list">
@@ -7,7 +7,9 @@
           <img :src="item.icon" class="icon" />
           <div class="card-data">
             <div class="card-value">
-              <span class="value fontSize32DIN">{{ item.value ?? '--' }}</span>
+              <span class="value fontSize32DIN">
+                {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
+              </span>
               <span class="unit">{{ item.unit || '' }}</span>
             </div>
             <div class="card-name">{{ item.name }}</div>
@@ -18,7 +20,9 @@
         <div class="left-line"></div>
         <div class="rate-data">
           {{ rate.name }}
-          <span class="fontSize28DIN">{{ rate.value ?? '--' }}</span>
+          <span class="fontSize28DIN">
+            {{ formatWithToLocalString(totalData[rate.code]) ?? '--' }}
+          </span>
         </div>
         <div class="right-line"></div>
       </div>
@@ -28,7 +32,9 @@
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">{{ item.value ?? '--' }}</span>
+            <span class="value fontSize32DIN">
+              {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
+            </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
@@ -40,20 +46,23 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
 const loading = ref(true);
+const totalData = ref({});
 
 const topCardConfig = [
   {
     name: '总车位数',
-    code: '',
-    value: '1163',
+    code: 'totalParkingSpace',
+    value: '',
     unit: '个',
     icon: new URL('../images/parking.png', import.meta.url).href
   },
   {
     name: '充电枪数',
-    code: '',
-    value: '1020',
+    code: 'totalGun',
+    value: '',
     unit: '个',
     icon: new URL('../images/charge.png', import.meta.url).href
   }
@@ -61,22 +70,22 @@ const topCardConfig = [
 
 const rate = {
   name: '停充配比',
-  code: '',
-  value: '3.5:1'
+  code: 'stopChargeRatio',
+  value: ''
 };
 
 const bottomCardConfig = [
   {
     name: '停车场数量',
-    code: '',
-    value: '1020',
+    code: 'totalParkingLot',
+    value: '',
     unit: '个',
     icon: new URL('../images/parking-num.png', import.meta.url).href
   },
   {
     name: '充电站数量',
-    code: '',
-    value: '1020',
+    code: 'totalChargingStation',
+    value: '',
     unit: '个',
     icon: new URL('../images/station-num.png', import.meta.url).href
   }
@@ -85,6 +94,8 @@ const bottomCardConfig = [
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.parkChargingOverview();
+    totalData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };
@@ -117,11 +128,11 @@ getData();
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
-      column-gap: 6px;
+      column-gap: 4px;
 
       .icon {
-        width: 86px;
-        flex: 0 0 86px;
+        width: 79px;
+        flex: 0 0 79px;
       }
 
       .card-data {
@@ -169,7 +180,7 @@ getData();
     .top-card-list {
       display: flex;
       flex-flow: row nowrap;
-      column-gap: 12px;
+      column-gap: 8px;
     }
 
     .rate-wrapper {

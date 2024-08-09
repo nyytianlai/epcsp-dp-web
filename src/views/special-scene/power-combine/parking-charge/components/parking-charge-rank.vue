@@ -11,20 +11,20 @@
         {{ item.name }}
       </div>
     </div>
-    <div class="distributed-content">
+    <div class="distributed-content" v-loading="loading">
       <div
         class="rank-list-item"
         ref="refList"
         v-for="(item, i) in rankData"
-        :key="item.name"
+        :key="item.stationName"
         @mouseover="handleOver(i, item)"
         @mouseleave="handleLeave"
       >
         <div class="rank-info">
           <div class="rank-index">{{ i + 1 }}</div>
-          <div class="rank-name">{{ item.name }}</div>
+          <div class="rank-name">{{ item.stationName }}</div>
           <div class="rank-data">
-            {{ legend.map((o) => item[o.code] ?? '--').join(':') }}
+            {{ item.stopChargeRatio ?? '--' }}
           </div>
         </div>
         <div class="rank-bar">
@@ -36,109 +36,72 @@
           ></div>
         </div>
       </div>
-      <el-popover
-        v-if="triggerRef"
-        placement="top"
-        effect="dark"
-        ref="popoverRef"
-        :virtual-ref="triggerRef"
-        trigger="hover"
-        virtual-triggering
-        :teleported="false"
-        popper-class="rank-popover"
-      >
-        <div class="data-tip">
-          停车位数
-          <span :style="{ color: legend[0].color }">{{ popoverData[legend[0].code] }}</span>
-        </div>
-        <div class="data-tip">
-          充电枪数
-          <span :style="{ color: legend[1].color }">{{ popoverData[legend[1].code] }}</span>
-        </div>
-        <div class="data-tip">
-          停充配比
-          <span>1:2</span>
-        </div>
-      </el-popover>
+      <no-data v-if="!rankData.length" />
     </div>
+    <el-popover
+      v-if="triggerRef"
+      placement="top"
+      effect="dark"
+      ref="popoverRef"
+      :virtual-ref="triggerRef"
+      trigger="hover"
+      virtual-triggering
+      :teleported="false"
+      popper-class="rank-popover"
+    >
+      <div class="data-tip">
+        停车位数
+        <span :style="{ color: legend[0].color }">{{ popoverData[legend[0].code] }}</span>
+      </div>
+      <div class="data-tip">
+        充电枪数
+        <span :style="{ color: legend[1].color }">{{ popoverData[legend[1].code] }}</span>
+      </div>
+      <div class="data-tip">
+        停充配比
+        <span>{{ popoverData.stopChargeRatio ?? '--' }}</span>
+      </div>
+    </el-popover>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Api from '../api';
 
 const loading = ref(true);
 const triggerRef = ref();
-const popoverData = ref({});
+const popoverData = ref<any>({});
 const refList = ref([]);
+const rankData = ref<any>([]);
 const legend = [
   {
     name: '车位',
-    code: 'cw',
+    code: 'totalParkingSpace',
     color: 'rgb(34, 118, 252)'
   },
   {
     name: '充电枪',
-    code: 'cdq',
+    code: 'totalGun',
     color: 'rgb(0, 212, 212)'
-  }
-];
-
-const rankData = [
-  {
-    name: '停车场1',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场2',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场3',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场4',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场5',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场3',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场4',
-    cw: 1000,
-    cdq: 1000
-  },
-  {
-    name: '停车场5',
-    cw: 1000,
-    cdq: 1000
   }
 ];
 
 const handleOver = (i, item) => {
   triggerRef.value = refList.value[i];
+  console.log(item);
   popoverData.value = item;
 };
 
 const handleLeave = () => {
-  // triggerRef.value = null;
+  triggerRef.value = null;
 };
 
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.parkChargingRank();
+    rankData.value = res.data || [];
   } catch (error) {}
   loading.value = false;
 };
@@ -272,6 +235,7 @@ getData();
       column-gap: 10px;
       font-size: 12px;
       color: rgb(255, 255, 255);
+      align-items: center;
       span {
         font-size: 18px;
       }

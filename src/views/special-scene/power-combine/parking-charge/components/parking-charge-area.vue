@@ -6,7 +6,13 @@
         :scrollTableData="scrollTableData"
         :columnKeyList="parkingChargeOperationColumn"
         style="height: 100%"
-      />
+      >
+        <template #rate="{ row }">
+          {{ row.dailyParkingSpaceUtilizationRate ?? '--' }}/{{
+            row.dailyGunUtilizationRate ?? '--'
+          }}
+        </template>
+      </scroll-table>
     </div>
   </div>
 </template>
@@ -15,12 +21,15 @@
 import { ref, computed } from 'vue';
 import { parkingChargeOperationColumn } from '../config';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
+import Api from '../api';
 const scrollTableData = ref([]);
 const loading = ref(true);
 
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.parkChargingAreaRunOverview();
+    scrollTableData.value = res.data || [];
   } catch (error) {}
   loading.value = false;
 };
