@@ -2,12 +2,12 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-06 10:02:57
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-09 15:55:59
+ * @LastEditTime: 2024-08-09 17:46:37
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/power-combine/parking-charge/map-layers/map-layer.vue
 -->
 <template>
-  <qu ref="quRef" :module="200" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
+  <qu ref="quRef" :module="200" @addQuBar="addQuBar"></qu>
   <legend-list
     :legendList="legendListData"
     :legendName="'数量'"
@@ -90,7 +90,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 const addQuBar = async () => {
   if (!barData?.length) {
-    const { data: res } = await Api.parkChargingAreaDistribution();
+    const { data: res } = await Api.parkChargingDistribution({});
     barData = res;
   }
   addBar('qu', barData);
@@ -121,7 +121,8 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
           : `${i.streetId}` == `${item.properties.JDCODE}`;
       }) || {};
 
-    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    // let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
+    let idEnd = type === 'qu' ? item.properties.QUNAME : '';
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
 
     const itemMax = Math.max(countObj.totalParkingSpace || 0, countObj.totalGun || 0);
@@ -170,7 +171,7 @@ const addOutStation = async (module: number, jdcode: string) => {
 bus.on('addBar', async (e: any) => {
   try {
     barData = [];
-    const { data: res } = await Api.getStreetBar({ areaCode: e.quCode });
+    const { data: res } = await Api.parkChargingDistribution({ areaCode: e.quCode });
     addBar(e.type, res, e.quCode);
   } catch (err) {
     console.log('请求中断错误', err);

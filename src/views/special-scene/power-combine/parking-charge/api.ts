@@ -43,12 +43,12 @@ export default {
       data: {}
     });
   },
-  //总览区柱状图
-  getDistrictBar() {
+  //停车区域 、 街道 、站点 分布
+  parkChargingDistribution(data) {
     request.cancel(mapRequestCancelId);
     return request.post({
-      url: '/dp/superChargeStation/getAreaDistribute',
-      data: {}
+      url: '/parkCharging/parkChargingDistribution',
+      data
     });
   },
   //地图-街道分布情况
