@@ -1,7 +1,8 @@
 <template>
-  <router-view />
+  <LocalProvider><router-view /></LocalProvider>
 </template>
 <script setup>
+import LocalProvider from '@/locales/locale-provider.vue';
 // import { ref, onMounted } from 'vue';
 // import { useSystemStore } from '@/stores/system';
 // const store = useSystemStore();
