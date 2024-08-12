@@ -30,7 +30,8 @@ const getProjectList = async () => {
     if (!method) return;
     const res = await method({
       startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      limitSize: 10
     });
     projectTotalNum.value = Math.max(...res.data.map((item) => +item.chargeCapacity));
     projectList.value = res?.data?.map((item) => {
