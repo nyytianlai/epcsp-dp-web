@@ -89,15 +89,15 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           code: 3,
           unit: '个',
           isChoose: true
-        },
-        {
-          value: data?.chargeCountByChargeTypeDto?.v2gCount,
-          // value: 21,
-          name: 'V2G桩',
-          code: 4,
-          unit: '个',
-          isChoose: true
         }
+        // {
+        //   value: data?.chargeCountByChargeTypeDto?.v2gCount,
+        //   // value: 21,
+        //   name: 'V2G桩',
+        //   code: 4,
+        //   unit: '个',
+        //   isChoose: true
+        // }
       ];
       break;
     case 'cdzdllx':
