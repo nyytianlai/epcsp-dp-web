@@ -8,10 +8,13 @@ import Qu from '@/components/map-layer/qu.vue';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { getImageByCloud } from '@/global/config/map';
+import { useRoute } from 'vue-router';
 import Api from '../api';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
+
+const route = useRoute();
 
 const getData = async () => {
   const res = await Promise.all([
@@ -62,6 +65,10 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
     idList.push(marker.id);
   });
   await __g.marker.add(pointList, null);
+  if (route.name !== 'virtualElectric') {
+    __g?.marker?.deleteByGroupId('area-point-layer');
+    return;
+  }
   __g.marker.showPopupWindow(idList);
 };
 

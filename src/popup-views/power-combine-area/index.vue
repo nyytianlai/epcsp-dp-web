@@ -57,6 +57,7 @@ body,
     align-items: center;
 
     column-gap: 12px;
+    white-space: nowrap;
 
     .name {
       font-size: 12px;
@@ -66,6 +67,7 @@ body,
     .value {
       font-size: 18px;
       font-weight: 700;
+      font-family: 'DIN Condensed';
     }
   }
 }
