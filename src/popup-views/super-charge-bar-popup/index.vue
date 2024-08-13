@@ -77,6 +77,7 @@ body,
 
     span {
       font-size: 18px;
+      font-family: 'DIN Condensed';
     }
 
     .seperate {
