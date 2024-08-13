@@ -125,13 +125,13 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           name: '其他桩',
           isChoose: false,
           unit: '个'
-        },
-        {
-          value: data?.chargeCountByElectricityTypeDto?.v2gCount,
-          name: 'V2G桩',
-          isChoose: false,
-          unit: '个'
         }
+        // {
+        //   value: data?.chargeCountByElectricityTypeDto?.v2gCount,
+        //   name: 'V2G桩',
+        //   isChoose: false,
+        //   unit: '个'
+        // }
       ];
       break;
     case 'cdqlx':
@@ -156,14 +156,14 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           code: 3,
           unit: '个',
           isChoose: true
-        },
-        {
-          value: data?.chargeCountByChargeTypeDto?.v2gCount,
-          name: 'V2G枪',
-          code: 4,
-          unit: '个',
-          isChoose: true
         }
+        // {
+        //   value: data?.chargeCountByChargeTypeDto?.v2gCount,
+        //   name: 'V2G枪',
+        //   code: 4,
+        //   unit: '个',
+        //   isChoose: true
+        // }
       ];
       break;
     case 'cdqdllx':
@@ -179,8 +179,8 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           name: '交直流枪',
           unit: '个'
         },
-        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' },
-        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
+        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个' }
+        // { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
       ];
       break;
     default:
