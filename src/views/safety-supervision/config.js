@@ -336,7 +336,7 @@ export const realtimeTrendFun = (data = [], type = 1) => {
 
     return [
       {
-        data: data.map((item) => [item.time + ':00:00', item.cnt]),
+        data: data.map((item) => [item.time, item.cnt]),
         type: 'line',
         smooth: true,
         name: '告警数'

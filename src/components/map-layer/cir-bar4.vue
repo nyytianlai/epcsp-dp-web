@@ -1,7 +1,7 @@
 <template></template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount } from 'vue';
-import { getEquipmentBar, getEquipmentBarByStreet,requestGeojsonData } from './api.js';
+import { getEquipmentBar, getEquipmentBarByStreet, requestGeojsonData } from './api.js';
 import { getHtmlUrl } from '@/global/config/map';
 
 const aircityObj = inject('aircityObj');
@@ -28,15 +28,16 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
   res.data.forEach((element) => {
     let countItem = 0;
     element.v2gCount = element.v2gCount ? element.v2gCount * 300 : 0;
-    ['noQuickCount', 'quickCount', 'superCount', 'v2gCount'].forEach((i) => {
+    // ['noQuickCount', 'quickCount', 'superCount', 'v2gCount']
+    ['noQuickCount', 'quickCount', 'superCount'].forEach((i) => {
       if (element[i]) {
         countItem = countItem + element[i];
       }
     });
-    if(obj.type === 'jd'){
+    if (obj.type === 'jd') {
       countItem ? '' : countIsZero.push(element.streetId);
-    }else{
-      countItem ? '' : countIsZero.push(element.areaCode+'');
+    } else {
+      countItem ? '' : countIsZero.push(element.areaCode + '');
     }
     count.push(countItem);
   });
@@ -45,7 +46,7 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
 
   let yMax = Math.max(...count);
   const fileName = obj.type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
-  const res1 =await requestGeojsonData(fileName);
+  const res1 = await requestGeojsonData(fileName);
   if (obj.type === 'jd') {
     res1.features = res1.features.filter((item) => {
       return item.properties.QUCODE === obj.quCode;
@@ -63,8 +64,11 @@ const addBar = async (obj: { code: 1 | 2; type: 'qu' | 'jd'; chargeType: []; quC
         return i.streetId == item.properties.JDCODE;
       });
     }
-    console.log('countObj',countIsZero,item.properties.JDCODE, JSON.stringify(countObj[0]));
-    if (countIsZero.includes(item.properties.QUCODE) || countIsZero.includes(item.properties.JDCODE)) {
+    console.log('countObj', countIsZero, item.properties.JDCODE, JSON.stringify(countObj[0]));
+    if (
+      countIsZero.includes(item.properties.QUCODE) ||
+      countIsZero.includes(item.properties.JDCODE)
+    ) {
       return;
     }
 
