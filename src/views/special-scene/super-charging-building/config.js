@@ -1,5 +1,86 @@
 import { scale } from '@sutpc/config';
 import dayjs from 'dayjs';
+
+export const getOperatCardConfig = (data = {}) => {
+  return [
+    {
+      name: '营运',
+      color: '#00D2D9',
+      children: [
+        {
+          name: '超充站',
+          code: 'stationOperateNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+        },
+        {
+          name: '超充桩',
+          code: 'equipmentOperateNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+        },
+        {
+          name: '装机功率',
+          code: 'stationOperateNum',
+          value: null,
+          icon: new URL('./images/zhuangjigonglv.png', import.meta.url).href
+        },
+        {
+          name: '超充运营商',
+          code: 'stationOperateCompanyNum',
+          value: null,
+          icon: new URL('./images/chaochongyunyingshang.png', import.meta.url).href
+        }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
+    },
+    {
+      name: '建设中',
+      color: '#3A60EE',
+      children: [
+        {
+          name: '超充站',
+          code: 'stationBuildNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+        },
+        {
+          name: '超充桩',
+          code: 'equipmentBuildNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+        }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
+    },
+    {
+      name: '规划',
+      color: '#17A4FA',
+      children: [
+        {
+          name: '超充站',
+          code: 'stationPlanNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+        },
+        {
+          name: '超充桩',
+          code: 'equipmentPlanNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+        }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
+    }
+  ];
+};
+
 export const getCardConfig1 = (data = {}) =>
   [
     {
@@ -79,38 +160,44 @@ export const getCardConfig1 = (data = {}) =>
 export const getCardConfig2 = (data = {}) =>
   [
     {
-      name: '超充标识申请数',
+      name: '超充标识',
       unit: '个',
-      icon: new URL('./images/apply.png', import.meta.url).href,
+      typeName: '充电站',
+      icon: new URL('./images/super-station.png', import.meta.url).href,
       children: [
         {
-          name: '(充电站',
+          name: '申请',
           code: 'stationTagApplyNum',
           value: '',
-          seprate: '/'
+          seprate: '/',
+          color: '#84C2FF'
         },
         {
-          name: '超充枪)',
-          code: 'connectorTagApplyNum',
-          value: ''
+          name: '申请通过数',
+          code: 'stationTagApplyPassNum',
+          value: '',
+          color: '#00F7FF'
         }
       ]
     },
     {
-      name: '超充标识申请通过数',
+      name: '超充标识',
       unit: '个',
-      icon: new URL('./images/approved.png', import.meta.url).href,
+      typeName: '充电枪',
+      icon: new URL('./images/super-equipment.png', import.meta.url).href,
       children: [
         {
-          name: '(充电站',
-          code: 'stationTagApplyPassNum',
+          name: '申请',
+          code: 'connectorTagApplyNum',
           value: '',
-          seprate: '/'
+          seprate: '/',
+          color: '#84C2FF'
         },
         {
-          name: '超充枪)',
+          name: '申请通过数',
           code: 'connectorTagApplyPassNum',
-          value: ''
+          value: '',
+          color: '#00F7FF'
         }
       ]
     }
@@ -169,16 +256,16 @@ export const pageNumFun = (data = {}) => {
 };
 export const areaDistributedTabType = [
   {
-    code: 'Plan',
-    label: '规划'
+    code: 'Operate',
+    label: '营运'
   },
   {
     code: 'Build',
     label: '建设'
   },
   {
-    code: 'Operate',
-    label: '运营'
+    code: 'Plan',
+    label: '规划'
   }
 ];
 
