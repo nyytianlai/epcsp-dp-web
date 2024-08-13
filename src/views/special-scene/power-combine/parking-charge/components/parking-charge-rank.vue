@@ -89,7 +89,6 @@ const legend = [
 
 const handleOver = (i, item) => {
   triggerRef.value = refList.value[i];
-  console.log(item);
   popoverData.value = item;
 };
 

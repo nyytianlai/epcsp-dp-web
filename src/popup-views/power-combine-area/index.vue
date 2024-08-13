@@ -49,7 +49,6 @@ body,
   flex-flow: column nowrap;
   justify-content: center;
   padding: 0 8px;
-  row-gap: 4px;
   background: rgba(#09294b, 0.8);
 
   .data-row {
