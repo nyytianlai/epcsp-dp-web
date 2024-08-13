@@ -175,7 +175,7 @@ onMounted(() => {
   }, 1000 * 60);
   timer2 = setInterval(() => {
     getTimePowerGraph();
-  }, 5000);
+  }, 1000 * 30);
 });
 onUnmounted(() => {
   clearInterval(timer);
