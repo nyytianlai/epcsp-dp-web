@@ -354,5 +354,17 @@ watch(
     immediate: true
   }
 );
+
+watch(
+  () => currentPosition.value,
+  () => {
+    if (currentPosition.value) {
+      currtentStation = {};
+    }
+  },
+  {
+    deep: true
+  }
+);
 </script>
 <style lang="less" scoped></style>
