@@ -34,13 +34,12 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
         value: JSON.stringify({ ...dataObj })
       }
     });
-    const maxData = Math.max(
-      Number(dataObj?.adjustableCapacity || 0),
-      Number(dataObj?.adjustableResource || 0),
-      Number(dataObj?.installedCapacity || 0),
-      Number(dataObj?.virtualPowerPlantNum || 0)
+    const maxLen = Math.max(
+      `${dataObj?.adjustableCapacity || 0}`.length,
+      `${dataObj?.adjustableResource || 0}`.length,
+      `${dataObj?.installedCapacity || 0}`.length,
+      `${dataObj?.virtualPowerPlantNum || 0}`.length
     );
-    const maxLen = `${maxData}`?.length;
     const marker = {
       id: `${item.properties.QUCODE}`,
       groupId: 'area-point-layer',
@@ -54,8 +53,8 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
       popupURL: oPopUpUrl,
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
-      popupSize: [scale(110 + maxLen * 18), scale(110)],
-      popupOffset: [-scale(110 + maxLen * 18) / 2 - 5, -scale(55) - 5], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 8), scale(110)],
+      popupOffset: [-scale(100 + maxLen * 8) / 2 - 5, -scale(55) - 5], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2
     };
