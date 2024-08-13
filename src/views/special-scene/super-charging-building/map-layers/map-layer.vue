@@ -85,6 +85,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
       if (currtentStation?.isHr == 0 && currtentStation?.hrId) {
         bus.emit('toHr', currtentStation);
+        quRef.value.enterStationInfo(currtentStation);
       } else {
         await __g.marker.hide(e.Id);
         quRef.value.enterStationInfo(currtentStation);
