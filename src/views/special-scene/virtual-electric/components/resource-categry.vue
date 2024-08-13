@@ -2,14 +2,14 @@
   <div class="resource-categry">
     <title-column title="资源分布占比" />
     <div class="distributed-content" v-loading="loading">
-      <div class="chart-wrapper">
-        <ec-resize :option="ecOption" v-show="!isEmpty" />
+      <div class="chart-wrapper" v-show="!isEmpty">
+        <ec-resize :option="ecOption" />
         <div class="chart-center">
           <div class="data fontSize28DIN">{{ total ?? '--' }}</div>
           <div class="unit">MVA</div>
         </div>
       </div>
-      <div class="legend-wrapper">
+      <div class="legend-wrapper" v-show="!isEmpty">
         <div class="legend-item" v-for="(item, index) in pieConfig" :key="item.name">
           <div class="legend-name" :style="`--color: ${item.color}`">{{ item.name }}</div>
           <div class="legend-value fontSize16DIN">{{ item.percentVl ?? '--' }}%</div>
