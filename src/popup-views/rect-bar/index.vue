@@ -15,8 +15,6 @@ var urlParams = new URLSearchParams(location.search);
 let paramsValue = urlParams.get('value') ? urlParams.get('value').split(',') : [44, 55, 66];
 
 const VALUE = [{ value: Number(paramsValue[1]), label: { offset: [0, -10] } }];
-console.log(VALUE);
-console.log(paramsValue);
 const yMax = Number(urlParams.get('yMax'));
 const quName = urlParams.get('quName');
 const areaCode = urlParams.get('areaCode');
@@ -25,14 +23,14 @@ const contentHeight = Number(urlParams.get('contentHeight'));
 const ecStyle = computed(() => {
   return {
     height: contentHeight + 'px',
-    width: '180px'
+    width: '60px'
   };
 });
 
 const ecOption = computed(() => {
   const offsetX = 15;
   const offsetY = 6; //和CubeTop上的点一起控制柱子顶部的四边形高度
-  const offsetX1 = [56, 12]; //控制柱子之间的距离 负数往左移
+  const offsetX1 = [-74, 0]; //控制柱子之间的距离 负数往左移
   const offsetY1 = [0, 0, 0]; //控制柱子的上下距离 负数往上移
   // 绘制左侧面
   const CubeLeft = echarts.graphic.extendShape({
@@ -106,29 +104,29 @@ const ecOption = computed(() => {
 
   const barColor = [
     [
-      //蓝色 规划
-      ['#044E9D', '#00529D'],
-      ['#05A0FF', '#096FA8'],
-      ['#05A0FF', '#05A0FF']
+      //非高亮 蓝色
+      ['#0091B0', '#00529D'],
+      ['#4AD9FC', '#096FA8'],
+      ['#B6F2FF', '#B6F2FF']
     ],
     [
-      //高亮色 充换电柜
+      //高亮 绿色
       ['#267A7B', '#03817D'],
       ['#59FFFF', '#117370'],
       ['#B6F2FF', '#B6F2FF']
     ]
   ];
-
   return {
     grid: {
-      left: '-35%',
+      left: '0',
       right: '10%',
-      top: '30%',
-      bottom: '0'
+      top: 30,
+      bottom: '0',
+      containLabel: true
     },
     xAxis: {
       type: 'category',
-      data: ['1001', '1002', '1003'],
+      data: ['1001'],
       axisLine: {
         show: true,
         lineStyle: {
@@ -147,7 +145,7 @@ const ecOption = computed(() => {
     },
     yAxis: {
       type: 'value',
-      max: yMax,
+      max: yMax * 1.1,
       axisLine: {
         show: true,
         lineStyle: {
@@ -258,6 +256,30 @@ const ecOption = computed(() => {
               }
             ]
           };
+        },
+        data: VALUE
+      },
+      {
+        type: 'bar',
+        label: {
+          normal: {
+            show: true,
+            position: ['center', 'top'],
+
+            formatter: (e) => {
+              return e.value;
+            },
+            fontSize: 14,
+            color: '#E6F7FF',
+            backgroundColor: {
+              image: new URL('./images/back.png', import.meta.url).href
+            },
+            height: 25,
+            padding: [8, 10, -2, 10]
+          }
+        },
+        itemStyle: {
+          color: 'transparent'
         },
         data: VALUE
       }

@@ -1,12 +1,12 @@
 <template>
   <div class="resource-overview">
     <title-column title="资源接入总览" />
-    <div class="distributed-content">
+    <div class="distributed-content" v-loading="loading">
       <div class="top-card-item" v-for="item in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">{{ item.value ?? '--' }}</span>
+            <span class="value fontSize32DIN">{{ allData[item.code] ?? '--' }}</span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
@@ -18,39 +18,41 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import Api from '../api';
+const allData = ref({});
 const bottomCardConfig = [
   {
     name: '虚拟电厂数量',
-    code: '',
-    value: '2838',
+    code: 'virtualPowerPlantNum',
+    value: null,
     unit: '家',
     icon: new URL('../images/xndcsl.png', import.meta.url).href
   },
   {
     name: '可调资源',
-    code: '',
-    value: '5633',
+    code: 'adjustableResource',
+    value: null,
     unit: '个',
     icon: new URL('../images/ktzy.png', import.meta.url).href
   },
   {
     name: '报装容量',
-    code: '',
-    value: '2203',
+    code: 'installedCapacity',
+    value: null,
     unit: 'MVA',
     icon: new URL('../images/bzrl.png', import.meta.url).href
   },
   {
     name: '可调节容量',
-    code: '',
-    value: '126',
+    code: 'adjustableCapacity',
+    value: null,
     unit: 'MW',
     icon: new URL('../images/ktjrl.png', import.meta.url).href
   },
   {
     name: '实时接入功率',
-    code: '',
-    value: '2203',
+    code: 'realTimeAccessPower',
+    value: null,
     unit: 'MW',
     icon: new URL('../images/ssjrgl.png', import.meta.url).href
   }
@@ -60,6 +62,8 @@ const loading = ref(true);
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.resourceAccessOverview();
+    allData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };
