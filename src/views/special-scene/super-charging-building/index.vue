@@ -68,7 +68,7 @@ getData();
   }
 
   &.left {
-    grid-template-rows: 468px 1fr;
+    grid-template-rows: auto 1fr;
   }
 
   &.right {

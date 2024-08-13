@@ -1,0 +1,54 @@
+@import './fontStyle.less';
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  font-family: 'PingFang SC', 'Microsoft Yahei', monospace;
+  overflow: hidden;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* 滚动条样式 S */
+@--scrollbar-track-color: rgba(0, 0, 0, 0.5);
+@--scrollbar-thumb-color: transparent;
+
+// for Mozilla
+@-moz-document url-prefix() {
+  * {
+    scrollbar-color: @--scrollbar-track-color @--scrollbar-thumb-color !important;
+    scrollbar-width: thin !important;
+  }
+}
+// for Webkit
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: @--scrollbar-track-color;
+  &:hover {
+    background-color: lighten(@--scrollbar-track-color, 20%);
+  }
+}
+::-webkit-scrollbar-track-piece {
+  border-radius: 4px;
+  background-color: @--scrollbar-thumb-color;
+}
+::-webkit-scrollbar-corner {
+  background-color: @--scrollbar-thumb-color;
+}

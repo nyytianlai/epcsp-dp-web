@@ -5,14 +5,14 @@
       <div class="chart-wrapper">
         <ec-resize :option="ecOption" v-show="!isEmpty" />
         <div class="chart-center">
-          <div class="data fontSize28DIN">3232.71</div>
+          <div class="data fontSize28DIN">{{ total ?? '--' }}</div>
           <div class="unit">MVA</div>
         </div>
       </div>
       <div class="legend-wrapper">
         <div class="legend-item" v-for="(item, index) in pieConfig" :key="item.name">
           <div class="legend-name" :style="`--color: ${item.color}`">{{ item.name }}</div>
-          <div class="legend-value fontSize16DIN">{{ item.value ?? '--' }}%</div>
+          <div class="legend-value fontSize16DIN">{{ item.percentVl ?? '--' }}%</div>
         </div>
       </div>
       <no-data v-show="isEmpty" />
@@ -25,59 +25,30 @@ import { ref, computed, onMounted } from 'vue';
 import { scale } from '@sutpc/config';
 import { pieColorList } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
+import Api from '../api';
 const loading = ref(true);
 const ecOption = ref();
-const isEmpty = ref(false);
-
-const pieConfig = [
-  {
-    name: '充换电设施',
-    value: '5'
-  },
-  {
-    name: '分布式光伏',
-    value: '10'
-  },
-  {
-    name: '智能楼宇',
-    value: '20'
-  },
-  {
-    name: '5G基站',
-    value: '5'
-  },
-  {
-    name: '可中断负荷',
-    value: '5'
-  },
-  {
-    name: '电化学储能',
-    value: '5'
-  },
-  {
-    name: '冰蓄冷',
-    value: '5'
-  },
-  {
-    name: 'XXXXX',
-    value: '5'
-  },
-  {
-    name: '冰蓄冷',
-    value: '5'
-  },
-  {
-    name: 'XXXXX',
-    value: '5'
-  }
-].map((item, i) => ({
-  ...item,
-  color: pieColorList[i] ? pieColorList[i] : pieColorList[i - pieColorList.length]
-}));
-
+const pieConfig = ref([]);
+const isEmpty = computed(() => {
+  return !pieConfig.value.length;
+});
+const total = ref(0);
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.resourceDistribution();
+
+    pieConfig.value =
+      res?.data?.map((item, i) => {
+        total.value += Number(item.number || 0);
+        return {
+          name: item.resourceType?.replaceAll(' ', ''),
+          value: item.number,
+          percentVl: item.proportion,
+          color: pieColorList[i] ? pieColorList[i] : pieColorList[i % pieColorList.length]
+        };
+      }) || [];
+    drawChart(pieConfig.value);
   } catch (error) {}
   loading.value = false;
 };
@@ -96,7 +67,9 @@ const drawChart = async (data = []) => {
               <div class="tooltip-wrapper">
                 <div class="circle" style="background-color: ${param.color}"></div>
                 <div class="tip-name">${param.name}</div>
-                <div class="tip-data">${param.value ?? '--'}个（${param.percent ?? '--'}%）</div>
+                <div class="tip-data">${param.value ?? '--'}个（${
+          param?.data?.percentVl ?? '--'
+        }%）</div>
               </div>
             `;
       }
@@ -112,7 +85,8 @@ const drawChart = async (data = []) => {
           itemStyle: {
             color: pieColorList[i]
           },
-          value: item.value
+          value: item.value,
+          percentVl: item.percentVl
         })),
         label: {
           show: false
@@ -123,9 +97,8 @@ const drawChart = async (data = []) => {
   ecOption.value = option;
 };
 onMounted(() => {
-  drawChart(pieConfig);
+  getData();
 });
-getData();
 </script>
 
 <style scoped lang="less">
