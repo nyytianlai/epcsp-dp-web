@@ -21,7 +21,7 @@ export const getOperatCardConfig = (data = {}) => {
         },
         {
           name: '装机功率',
-          code: 'stationOperateNum',
+          code: 'sscRatedPower',
           value: null,
           icon: new URL('./images/zhuangjigonglv.png', import.meta.url).href
         },
