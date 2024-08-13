@@ -11,25 +11,29 @@ export const getOperatCardConfig = (data = {}) => {
           name: '超充站',
           code: 'stationOperateNum',
           value: null,
-          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个'
         },
         {
           name: '超充桩',
           code: 'equipmentOperateNum',
           value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个'
         },
         {
           name: '装机功率',
           code: 'sscRatedPower',
           value: null,
-          icon: new URL('./images/zhuangjigonglv.png', import.meta.url).href
+          icon: new URL('./images/zhuangjigonglv.png', import.meta.url).href,
+          unit: 'kW'
         },
         {
           name: '超充运营商',
           code: 'stationOperateCompanyNum',
           value: null,
-          icon: new URL('./images/chaochongyunyingshang.png', import.meta.url).href
+          icon: new URL('./images/chaochongyunyingshang.png', import.meta.url).href,
+          unit: '家'
         }
       ].map((e) => {
         e.value = data && data[e.code];
@@ -44,13 +48,15 @@ export const getOperatCardConfig = (data = {}) => {
           name: '超充站',
           code: 'stationBuildNum',
           value: null,
-          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个'
         },
         {
           name: '超充桩',
           code: 'equipmentBuildNum',
           value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个'
         }
       ].map((e) => {
         e.value = data && data[e.code];
@@ -65,13 +71,15 @@ export const getOperatCardConfig = (data = {}) => {
           name: '超充站',
           code: 'stationPlanNum',
           value: null,
-          icon: new URL('./images/chaochongzhan.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个'
         },
         {
           name: '超充桩',
           code: 'equipmentPlanNum',
           value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个'
         }
       ].map((e) => {
         e.value = data && data[e.code];
