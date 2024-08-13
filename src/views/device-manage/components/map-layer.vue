@@ -47,12 +47,12 @@ let legendListData = reactive([
     color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
     name: '超充桩',
     type: false
-  },
-  {
-    color: 'linear-gradient(178.17deg, #B9FFFF 4.74%, #214D4B 95.4%)',
-    name: 'V2G桩',
-    type: false
   }
+  // {
+  //   color: 'linear-gradient(178.17deg, #B9FFFF 4.74%, #214D4B 95.4%)',
+  //   name: 'V2G桩',
+  //   type: false
+  // }
 ]);
 
 const setLegendData = (code: 1 | 2) => {
