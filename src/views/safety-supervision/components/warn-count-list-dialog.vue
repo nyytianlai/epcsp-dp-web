@@ -2,7 +2,7 @@
   <custom-dialog v-model:visible="visible" :title="messageDialogTitle" @closed="$emit('close')">
     <template #titleSearch>
       <el-input
-        v-model="inputWarnLeft"
+        v-model.trim="inputWarnLeft"
         placeholder="请输入"
         class="search-input"
         @change="handleSearchWarnLeft"
@@ -75,7 +75,7 @@ const pageObj = reactive({
 });
 
 const tableHeight = computed(() => {
-  return 600 * config.sizeScale + 'px'
+  return 600 * config.sizeScale + 'px';
 });
 
 // table数据

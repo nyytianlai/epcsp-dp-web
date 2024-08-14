@@ -2,7 +2,7 @@
   <custom-dialog title="热门充电站排名" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
       <el-input
-        v-model="inputHot"
+        v-model.trim="inputHot"
         placeholder="请输入"
         class="search-input"
         @change="handleSearchHot"
@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted,inject, computed } from 'vue';
+import { ref, reactive, onMounted, inject, computed } from 'vue';
 import { stationRankingDetail } from '../api.js';
 import { columnDataHotFun, filters } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
@@ -117,7 +117,7 @@ const handleSearchHot = () => {
 
 const tableHeight = computed(() => {
   return 600 * config.sizeScale + 'px';
-})
+});
 // 获取热门列表
 const loadStationRankingDetail = async () => {
   const res = await stationRankingDetail({

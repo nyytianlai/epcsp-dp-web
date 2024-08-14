@@ -2,7 +2,7 @@
   <custom-dialog v-model:visible="props.visible" title="告警信息列表" @closed="handleClosed">
     <template #titleSearch>
       <el-input
-        v-model="inputWarn"
+        v-model.trim="inputWarn"
         placeholder="请输入"
         class="search-input"
         @change="handleSearchWarn"
@@ -161,8 +161,8 @@ const handleDetailWarn = (item) => {
   // dialogTableVisible.value = false;
   // 展示站点
 
-  item.isWarning = true
-  item.warnId = item.id
+  item.isWarning = true;
+  item.warnId = item.id;
   showStationDetailPanel(storeVisible, item.row);
   item.row['isFly'] = false;
   aircityObj?.value && toSingleStation(aircityObj?.value?.acApi, item.row);

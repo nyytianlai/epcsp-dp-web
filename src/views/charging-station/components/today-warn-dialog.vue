@@ -2,7 +2,7 @@
   <custom-dialog title="告警信息列表" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
       <el-input
-        v-model="inputWarn"
+        v-model.trim="inputWarn"
         placeholder="请输入"
         class="search-input"
         @change="handleSearchWarn"
@@ -94,7 +94,7 @@ import { computed, ref, reactive, onMounted, inject } from 'vue';
 import { alarmInfo } from '../api.js';
 import { columnDataFun, filtersAlarmLevelName, filtersAlarmTypeName } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
-import { toSingleStation,showStationDetailPanel } from '@/global/config/map';
+import { toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Icon from '@sutpc/vue3-svg-icon';
 import config from '@sutpc/config';
@@ -189,8 +189,8 @@ const handleDetailWarn = (item) => {
   console.log('item', item);
   // dialogTableVisible.value = false;
   // 展示站点
-  item.isWarning = true
-  item.warnId = item.id
+  item.isWarning = true;
+  item.warnId = item.id;
   showStationDetailPanel(storeVisible, item.row);
   item.row['isFly'] = false;
   aircityObj.value && toSingleStation(aircityObj.value?.acApi, item.row);
