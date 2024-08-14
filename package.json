@@ -26,7 +26,7 @@
     "@sutpc/vue3-theme-util": "^1.0.0",
     "@turf/turf": "^6.5.0",
     "dayjs": "^1.11.6",
-    "echarts": "^5.4.3",
+    "echarts": "5.4.3",
     "element-plus": "^2.2.20",
     "gsap": "^3.12.1",
     "js-cookie": "^3.0.5",
