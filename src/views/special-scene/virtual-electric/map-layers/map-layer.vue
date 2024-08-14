@@ -26,6 +26,7 @@ const getData = async () => {
 
 const drawAreaLayer = async (data = [], areaPosition = []) => {
   await __g.marker.deleteByGroupId('area-point-layer');
+  await __g.marker.deleteByGroupId('rectBar');
   const pointList = [];
   const idList = [];
   areaPosition.forEach((item) => {

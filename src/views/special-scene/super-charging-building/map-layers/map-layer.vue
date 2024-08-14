@@ -342,9 +342,9 @@ watch(
       await __g.reset();
       isInit = true;
     }
-    await quRef.value.deleteJdData();
+    await quRef.value?.deleteJdData();
     await __g.marker.deleteByGroupId('rectBar');
-    await quRef.value.resetSz();
+    await quRef.value?.resetSz();
     if (oldVal !== undefined) {
       addQuBar();
     }
