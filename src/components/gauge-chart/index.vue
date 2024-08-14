@@ -1,13 +1,13 @@
 <template>
   <div class="chart-wrap">
-    <div class="chart" ref="gaugeChart"></div>
+    <ec-resize :option="ecOption" />
     <div class="road-bg"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import * as echarts from 'echarts';
 import { ref, watch, onMounted, nextTick } from 'vue';
+import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 
 const props = defineProps({
@@ -20,8 +20,9 @@ const props = defineProps({
     default: ''
   }
 });
-const gaugeChart = ref();
 const myChart = ref();
+
+const ecOption = ref();
 
 const chartDataChange = (value) => {
   let colorInit = {};
@@ -88,9 +89,8 @@ const chartDataChange = (value) => {
   });
 };
 
-const initChart = (data) => {
-  let chartDom = gaugeChart.value;
-  myChart.value = echarts.init(chartDom);
+const initChart = async (data) => {
+  await getEcharts();
   let colorInit = {
     type: 'radial',
     x: 0.5,
@@ -227,20 +227,13 @@ const initChart = (data) => {
       }
     ]
   };
-  window.addEventListener('resize', function () {
-    myChart.value?.resize();
-  });
-  option && myChart.value.setOption(option);
+  ecOption.value = option;
 };
 watch(
   () => props.speed,
   async () => {
     await nextTick();
-    if (myChart.value) {
-      chartDataChange(props.speed || 0);
-    } else {
-      initChart([{ value: props.speed || 0 }]);
-    }
+    initChart([{ value: props.speed || 0 }]);
   }
 );
 </script>
