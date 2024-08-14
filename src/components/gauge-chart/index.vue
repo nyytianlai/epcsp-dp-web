@@ -235,7 +235,7 @@ const initChart = (data) => {
 watch(
   () => props.speed,
   () => {
-    chartDataChange(props.speed);
+    chartDataChange(props.speed || 0);
   }
 );
 onMounted(() => {
