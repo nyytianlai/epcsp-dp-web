@@ -2,7 +2,7 @@
   <custom-dialog title="市民反馈情况列表" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
       <el-input
-        v-model="inputDetail"
+        v-model.trim="inputDetail"
         placeholder="请输入"
         class="search-input"
         @change="handleSearchDetail"
@@ -93,7 +93,7 @@ const pageObj = reactive({
 
 const tableHeight = computed(() => {
   return 600 * config.sizeScale + 'px';
-})
+});
 // 获取市民列表
 const loadFeedbackDetail = async () => {
   // 在第一次请求的时候，生成序号

@@ -2,7 +2,7 @@
   <custom-dialog v-model:visible="visible" title="充电站设施列表" @close="handleClose">
     <template #titleSearch>
       <el-input
-        v-model="inputTotal"
+        v-model.trim="inputTotal"
         placeholder="请输入"
         class="search-input"
         @change="handleSearch"

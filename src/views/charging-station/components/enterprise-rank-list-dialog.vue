@@ -2,7 +2,7 @@
   <custom-dialog title="运营企业排名列表" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
       <el-input
-        v-model="inputRank"
+        v-model.trim="inputRank"
         placeholder="请输入"
         class="search-input"
         @change="handleSearch"
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive, onMounted, provide, nextTick,inject } from 'vue';
+import { computed, ref, reactive, onMounted, provide, nextTick, inject } from 'vue';
 import { operatorInfoList } from '../api.js';
 import { columnDataRankFun } from '../config.js';
 import { tableColumnFun } from '@/global/commonFun.js';
