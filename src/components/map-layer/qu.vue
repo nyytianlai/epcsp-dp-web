@@ -73,6 +73,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       let areaCode = e.Data.split('-')[1];
       if (e.ID?.includes('区') && props.module !== 4) {
         let quName = e.ID.split('-')[1];
+        if (!quView[quName]) return;
         if (quName === currentQu.value) {
           return;
         }

@@ -32,6 +32,7 @@
     let v2GCountMultiple=300
     let urlParams = new URLSearchParams(location.search);
     let paramsValue = JSON.parse(urlParams.get("value"));
+    console.log(paramsValue)
     console.log("value",paramsValue)
     const yMax = Number(urlParams.get("yMax"));
     console.log("最大值", yMax);

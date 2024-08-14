@@ -26,7 +26,7 @@ const currentJdCode = computed(() => store.currentJdCode);
 const buttomTabCode = computed(() => store.buttomTabCode);
 const stationType = computed(() => new Set(store.stationType));
 const requestTimer = computed(() => store.requestTimer);
-store.changeStationType([1, 2, 3, 4]);
+store.changeStationType([1, 2, 3]);
 
 let quRef = ref(null);
 let cirBar4Ref = ref(null);
@@ -67,7 +67,7 @@ const setLegendData = (code: 1 | 2) => {
 const buttomTabChange = async (code: 1 | 2) => {
   await quRef.value.deleteJdData();
   store.changeButtomTabCode(code);
-  store.changeStationType([1, 2, 3, 4]);
+  store.changeStationType([1, 2, 3]);
   setLegendData(code);
   await __g.marker.deleteByGroupId('rectBar-qu');
   await __g.marker.deleteByGroupId('rectBar-jd');

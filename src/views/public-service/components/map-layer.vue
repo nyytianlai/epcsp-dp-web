@@ -25,7 +25,7 @@ import { mapQuBar } from '../config.js';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
-store.changeStationType([1, 2, 3, 4]);
+store.changeStationType([1, 2, 3]);
 let legendNameData = ref('人数/人');
 let legendListData = reactive([
   {
