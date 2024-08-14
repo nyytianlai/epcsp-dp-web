@@ -1,13 +1,15 @@
 <template>
   <div class="dispatcher-operation">
     <title-column title="调度运行情况" />
-    <div class="card-row" v-for="o in type" :key="o.code">
+    <div class="card-row" v-for="(o, i) in type" :key="o.code">
       <div class="static-type">{{ o.name }}</div>
       <div class="top-card-item" v-for="item in cardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">{{ item.value ?? '--' }}</span>
+            <span class="value fontSize32DIN">
+              {{ formatWithToLocalString(totalData[item.code[o.code]]) ?? '--' }}
+            </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
@@ -19,24 +21,26 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
 
 const loading = ref(true);
+const totalData = ref({});
+
 const type = [
-  { name: '今日', code: '1' },
-  { name: '累计', code: '2' }
+  { name: '今日', code: 0 },
+  { name: '累计', code: 1 }
 ];
 const cardConfig = [
   {
     name: '削峰调节次数',
-    code: '',
-    value: '2838',
+    code: ['dispatchNumToday', 'dispatchNumAcc'],
     unit: '次',
     icon: new URL('../images/xftjcs.png', import.meta.url).href
   },
   {
     name: '削峰调节量',
-    code: '',
-    value: '2838',
+    code: ['dispatchAmountToday', 'dispatchAmountAcc'],
     unit: 'MW',
     icon: new URL('../images/xftjl.png', import.meta.url).href
   }
@@ -45,6 +49,8 @@ const cardConfig = [
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.dispatchInfo();
+    totalData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };

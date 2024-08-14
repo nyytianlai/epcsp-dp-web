@@ -235,11 +235,11 @@ const initChart = (data) => {
 watch(
   () => props.speed,
   () => {
-    // chartDataChange(props.speed);
+    chartDataChange(props.speed);
   }
 );
 onMounted(() => {
-  initChart([{ value: 50 }]);
+  initChart([{ value: 0 }]);
 });
 </script>
 

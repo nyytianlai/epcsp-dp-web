@@ -79,7 +79,6 @@ export const getBaseChartOption = () => {
         fontSize: scale(12),
         color: 'rgba(255,255,255,0.85)'
       },
-      splitNumber: 3,
       // minInterval: 1,
       splitLine: {
         lineStyle: {

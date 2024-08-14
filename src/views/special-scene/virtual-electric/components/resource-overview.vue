@@ -6,7 +6,12 @@
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">{{ allData[item.code] ?? '--' }}</span>
+            <span
+              class="value fontSize32DIN"
+              :title="`${formatWithToLocalString(allData[item.code])}${item.unit || ''}`"
+            >
+              {{ formatWithToLocalString(allData[item.code]) }}
+            </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
@@ -18,6 +23,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 const allData = ref({});
 const bottomCardConfig = [
@@ -109,6 +115,8 @@ getData();
     }
 
     .card-data {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-flow: column nowrap;
     }
@@ -126,9 +134,13 @@ getData();
       .value {
         font-weight: 700;
         color: rgb(0, 247, 255);
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
       }
 
       .unit {
+        width: fit-content;
         font-size: 14px;
         color: rgb(0, 247, 255);
       }
