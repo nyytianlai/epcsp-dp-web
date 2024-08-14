@@ -8,7 +8,7 @@
           <img draggable="false" :src="card.icon" class="icon" />
           <div class="card-data">
             <div class="card-value">
-              <span class="value fontSize32DIN">{{ card.value ?? '--' }}</span>
+              <span class="value fontSize32DIN">{{ formatWithToLocalString(card.value) }}</span>
               <span class="unit">{{ card.unit || '' }}</span>
             </div>
             <div class="card-name">{{ card.name }}</div>
@@ -26,7 +26,7 @@
             <div class="card-data">
               <template v-for="(child, i) in item.children" :key="child.name">
                 <span class="fontSize28DIN" :style="{ color: child.color }">
-                  {{ child.value ?? '--' }}
+                  {{ formatWithToLocalString(child.value) }}
                 </span>
                 <p>{{ child.seprate || '' }}</p>
               </template>
@@ -36,7 +36,7 @@
               {{ item.name }}
               <span>{{ item.typeName }}</span>
               <template v-for="(child, i) in item.children" :key="child.name">
-                {{ child.name ?? '--' }}
+                {{ child.name }}
                 <p>{{ child.seprate || '' }}</p>
               </template>
               {{ item.type }}
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { getCardConfig2, getOperatCardConfig } from '../config.js';
+import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api.js';
 const cardConfig1 = ref(getOperatCardConfig());
 const cardConfig2 = ref(getCardConfig2());

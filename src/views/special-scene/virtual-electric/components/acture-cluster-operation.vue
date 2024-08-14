@@ -16,6 +16,7 @@ import { ref, computed, onMounted } from 'vue';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
+import Api from '../api';
 import dayjs from 'dayjs';
 
 const isEmpty = ref(false);
@@ -24,30 +25,23 @@ const loading = ref(false);
 const chartConfig = [
   {
     name: '基线',
-    code: 'cdqlyl',
+    code: 'baseline',
     color: '255, 119, 35',
     unit: 'MW'
   },
   {
     name: '计划',
-    code: 'cwlyl',
+    code: 'planNum',
     color: '0, 255, 249',
     unit: 'MW'
   },
   {
     name: '实际',
-    code: 'cwlyl',
+    code: 'actualNum',
     color: '0, 83, 255',
     unit: 'MW'
   }
 ];
-const data = Array.from({ length: 7 }, (_, i) => ({
-  time: dayjs()
-    .subtract(7 - i, 'days')
-    .format('MM-DD'),
-  cdqlyl: (Math.random() * 100).toFixed(1),
-  cwlyl: (Math.random() * 100).toFixed(1)
-}));
 
 const ecOption = ref(getBaseChartOption());
 
@@ -76,15 +70,19 @@ const drawChart = async (data = []) => {
     series
   };
 };
-onMounted(() => drawChart(data));
 
 const getData = async () => {
   loading.value = true;
   try {
-  } catch (error) {}
+    const res = await Api.adjustDemandHourInfo();
+    isEmpty.value = !res?.data?.length;
+    drawChart(res?.data || []);
+  } catch (error) {
+    isEmpty.value = true;
+  }
   loading.value = false;
 };
-getData();
+onMounted(getData);
 </script>
 
 <style scoped lang="less">

@@ -5,7 +5,7 @@
       <div class="chart-wrapper" v-show="!isEmpty">
         <ec-resize :option="ecOption" />
         <div class="chart-center">
-          <div class="data fontSize28DIN">{{ total ?? '--' }}</div>
+          <div class="data fontSize28DIN">{{ formatWithToLocalString(total) }}</div>
           <div class="unit">MVA</div>
         </div>
       </div>
@@ -25,6 +25,7 @@ import { ref, computed, onMounted } from 'vue';
 import { scale } from '@sutpc/config';
 import { pieColorList } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
+import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 const loading = ref(true);
 const ecOption = ref();
@@ -67,7 +68,7 @@ const drawChart = async (data = []) => {
               <div class="tooltip-wrapper">
                 <div class="circle" style="background-color: ${param.color}"></div>
                 <div class="tip-name">${param.name}</div>
-                <div class="tip-data">${param.value ?? '--'}个（${
+                <div class="tip-data">${formatWithToLocalString(param.value) ?? '--'}个（${
           param?.data?.percentVl ?? '--'
         }%）</div>
               </div>

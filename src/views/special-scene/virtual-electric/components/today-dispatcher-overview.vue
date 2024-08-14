@@ -7,7 +7,7 @@
           <img class="icon" :src="item.icon" />
           <div class="card-data">
             <div class="value fontSize24DIN">
-              {{ item.value }}
+              {{ formatWithToLocalString(allData[item.code]) ?? '--' }}
               <span class="fontSize16DIN">{{ item.unit }}</span>
             </div>
             <div class="name">{{ item.name }}</div>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="right-guage">
-        <GaugeChart :speed="50" :coord="'完成率(%)'" v-show="!isEmpty" />
+        <GaugeChart :speed="allData.finishRate" :coord="'完成率(%)'" v-show="!isEmpty" />
       </div>
     </div>
   </div>
@@ -25,29 +25,29 @@
 import { ref, computed, onMounted } from 'vue';
 import { scale } from '@sutpc/config';
 import GaugeChart from '@/components/gauge-chart/index.vue';
+import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
 
 const loading = ref(true);
 const isEmpty = ref(false);
+const allData = ref<any>({});
 
 const leftConfig = [
   {
     name: '计划总量',
-    code: '',
-    value: '2712',
+    code: 'plan',
     unit: 'MW',
     icon: new URL('../images/jhzl.png', import.meta.url).href
   },
   {
     name: '执行总量',
-    code: '',
-    value: '2712',
+    code: 'actual',
     unit: 'MW',
     icon: new URL('../images/zxzl.png', import.meta.url).href
   },
   {
     name: '偏差总量',
-    code: '',
-    value: '2712',
+    code: 'deviation',
     unit: 'MW',
     icon: new URL('../images/pczl.png', import.meta.url).href
   }
@@ -56,6 +56,8 @@ const leftConfig = [
 const getData = async () => {
   loading.value = true;
   try {
+    const res = await Api.adjustOverview();
+    allData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };
@@ -113,6 +115,7 @@ getData();
       .card-data {
         display: flex;
         flex-flow: column nowrap;
+        white-space: nowrap;
       }
 
       .value {

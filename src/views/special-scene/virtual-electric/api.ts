@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-13 14:31:47
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-13 14:33:09
+ * @LastEditTime: 2024-08-14 17:16:13
  * @Description:
  * @FilePath: /epcsp-dp-web/src/views/special-scene/virtual-electric/api.ts
  */
@@ -30,61 +30,25 @@ export default {
       data
     });
   },
-  // 右上-停充运行总览
-  parkChargingRunOverview(data = {}) {
+  // 右上-调度运行情况
+  dispatchInfo(data = {}) {
     return request.post({
-      url: '/parkCharging/parkChargingRunOverview',
+      url: '/virtualPowerPlant/dispatchInfo',
       data
     });
   },
-  // 右中-区域停充运行情况
-  parkChargingAreaRunOverview(data = {}) {
+  // 右中-今日调度总览
+  adjustOverview(data = {}) {
     return request.post({
-      url: '/parkCharging/parkChargingAreaRunOverview',
+      url: '/virtualPowerPlant/adjustOverview',
       data
     });
   },
-  // 右下-停充运行趋势分析
-  parkChargingRunTrend() {
+  // 右下-实时聚合运行情况
+  adjustDemandHourInfo() {
     return request.post({
-      url: '/parkCharging/parkChargingRunTrend',
+      url: '/virtualPowerPlant/adjustDemandHourInfo',
       data: {}
-    });
-  },
-  //停车区域 、 街道 、站点 分布
-  parkChargingDistribution(data) {
-    request.cancel(mapRequestCancelId);
-    return request.post({
-      url: '/parkCharging/parkChargingDistribution',
-      data
-    });
-  },
-  //地图-街道分布情况
-  getStreetBar(data) {
-    request.cancel(mapRequestCancelId);
-    return request.post({
-      url: '/dp/superChargeStation/getStreetDistribute',
-      data,
-      cancelId: mapRequestCancelId
-    });
-  },
-  //地图-超充站分布情况
-  getScStationDistribute(data) {
-    request.cancel(mapRequestCancelId);
-    return request.post({
-      url: '/dp/superChargeStation/getScStationDistribute',
-      data,
-      cancelId: mapRequestCancelId
-    });
-  },
-  //地图-撒点-通用
-  // 设备管理/根据街道id查询站点信息，streetId:街道id；equipmentType（必填）:1-桩；2-枪；chargeType（选填）：1-快充；2-慢充；3-超充；4-V2G
-  selectStationInfoByStreetId(data) {
-    request.cancel(mapRequestCancelId);
-    return request.post({
-      url: '/dp/api/v1/equipmentManage/selectStationInfoByStreetId',
-      data,
-      cancelId: mapRequestCancelId
     });
   },
   requestGeojsonData(fileName) {
