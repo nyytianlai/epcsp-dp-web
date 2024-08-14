@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import * as echarts from 'echarts';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, nextTick } from 'vue';
 import { scale } from '@sutpc/config';
 
 const props = defineProps({
@@ -234,13 +234,15 @@ const initChart = (data) => {
 };
 watch(
   () => props.speed,
-  () => {
-    chartDataChange(props.speed || 0);
+  async () => {
+    await nextTick();
+    if (myChart.value) {
+      chartDataChange(props.speed || 0);
+    } else {
+      initChart([{ value: props.speed || 0 }]);
+    }
   }
 );
-onMounted(() => {
-  initChart([{ value: 0 }]);
-});
 </script>
 
 <style lang="less" scoped>
