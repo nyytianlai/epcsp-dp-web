@@ -15,20 +15,26 @@ export const pageNumFun = (data) => {
       unit: '个',
       nameColor: '#FF6B4B'
     },
+    // {
+    //   name: '当前告警总数',
+    //   num: data?.dealCount,
+    //   unit: '个',
+    //   nameColor: '#F9E900'
+    // },
+    // {
+    //   name: '已确认总数',
+    //   num: data?.affirmCount,
+    //   unit: '个',
+    //   nameColor: '#FF6B4B'
+    // },
     {
-      name: '当前告警总数',
-      num: data?.dealCount,
-      unit: '个',
-      nameColor: '#F9E900'
-    },
-    {
-      name: '已确认总数',
-      num: data?.affirmCount,
+      name: '已发生',
+      num: data?.occurCount,
       unit: '个',
       nameColor: '#FF6B4B'
     },
     {
-      name: '已恢复总数',
+      name: '已恢复',
       num: data?.recCount,
       unit: '个',
       nameColor: '#FF6B4B'
@@ -477,8 +483,8 @@ export const columnKeyListFun = (type = 1) => {
       width: 4
     },
     { prop: 'cnt', label: '告警数', width: 2 },
-    { prop: 'affirmCnt', label: '已确认', width: 2 },
-    { prop: 'recCnt', label: '恢复数', width: 2 }
+    { prop: 'occurCount', label: '已发生', width: 2 },
+    { prop: 'affirmCnt', label: '已恢复', width: 2 }
   ];
 };
 
