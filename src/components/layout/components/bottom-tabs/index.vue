@@ -6,13 +6,19 @@
       v-for="tab in tabs"
       :key="tab.type"
       @click="handleTabClick(tab)"
-    ></div>
+    >
+      <div class="icon">
+        <Icon :icon="`svg-icon:${activeTab !== tab.name ? tab.type : `${tab.type}-active`}`" />
+      </div>
+      <div class="text">{{ tab.text }}</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import Icon from '@sutpc/vue3-svg-icon';
 interface Tab {
   type: string;
   text?: string;
@@ -24,7 +30,7 @@ const tabs = [
   {
     text: '总览',
     name: 'Overview',
-    type: 'overview',
+    type: 'overview-all',
     path: '/overview'
   },
   {
@@ -36,7 +42,7 @@ const tabs = [
   {
     text: '储能站',
     name: 'EnergyStation',
-    type: 'energy-station',
+    type: 'energy-station-page',
     path: '/energy-station'
   },
   {
@@ -79,6 +85,7 @@ const handleTabClick = (tab: Tab) => {
   display: flex;
 }
 .tab {
+  position: relative;
   width: 94px;
   height: 93px;
   margin-right: 20px;
@@ -88,47 +95,78 @@ const handleTabClick = (tab: Tab) => {
   &:last-child {
     margin-right: 0;
   }
-}
-.overview {
-  background-image: url('./images/overview.png');
+
   &.active {
-    background-image: url('./images/overview-active.png');
+    .text {
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 0 0 4px #ffa115;
+    }
+
+    .icon {
+      color: #f8b44e;
+    }
+  }
+
+  .text {
+    position: absolute;
+    left: 0;
+    bottom: 14px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(#fff, 0.8);
+    font-style: italic;
+    font-family: 'PingFang SC';
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .icon {
+    font-size: 76px;
+    padding-top: 8px;
   }
 }
-.charging-station {
-  background-image: url('./images/charging-station.png');
-  &.active {
-    background-image: url('./images/charging-station-active.png');
-  }
-}
-.energy-station {
-  background-image: url('./images/energy-station.png');
-  &.active {
-    background-image: url('./images/energy-station-active.png');
-  }
-}
-.photovoltaic-station {
-  background-image: url('./images/photovoltaic-station.png');
-  &.active {
-    background-image: url('./images/photovoltaic-station-active.png');
-  }
-}
-.chargings-replacement-cabinet {
-  background-image: url('./images/chargings-replacement-cabinet.png');
-  &.active {
-    background-image: url('./images/chargings-replacement-cabinet-active.png');
-  }
-}
-.power-exchange-station {
-  background-image: url('./images/power-exchange-station.png');
-  &.active {
-    background-image: url('./images/power-exchange-station-active.png');
-  }
-}
-.special-scene {
-  background-image: url('./images/special-scene.png');
-  &.active {
-    background-image: url('./images/special-scene-active.png');
-  }
-}
+// .overview {
+//   background-image: url('./images/overview.png');
+//   &.active {
+//     background-image: url('./images/overview-active.png');
+//   }
+// }
+// .charging-station {
+//   background-image: url('./images/charging-station.png');
+//   &.active {
+//     background-image: url('./images/charging-station-active.png');
+//   }
+// }
+// .energy-station {
+//   background-image: url('./images/energy-station.png');
+//   &.active {
+//     background-image: url('./images/energy-station-active.png');
+//   }
+// }
+// .photovoltaic-station {
+//   background-image: url('./images/photovoltaic-station.png');
+//   &.active {
+//     background-image: url('./images/photovoltaic-station-active.png');
+//   }
+// }
+// .chargings-replacement-cabinet {
+//   background-image: url('./images/chargings-replacement-cabinet.png');
+//   &.active {
+//     background-image: url('./images/chargings-replacement-cabinet-active.png');
+//   }
+// }
+// .power-exchange-station {
+//   background-image: url('./images/power-exchange-station.png');
+//   &.active {
+//     background-image: url('./images/power-exchange-station-active.png');
+//   }
+// }
+// .special-scene {
+//   background-image: url('./images/special-scene.png');
+//   &.active {
+//     background-image: url('./images/special-scene-active.png');
+//   }
+// }
 </style>
