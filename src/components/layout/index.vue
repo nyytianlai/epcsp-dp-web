@@ -1,50 +1,53 @@
 <template>
-  <div class="subject-layout" :class="{ 'layout-no-header': !showHeader }">
-    <header-area v-if="showHeader" />
-    <!-- 在h=0不显示头部，飞渡地图头部中间会显示aircity的logo，用这个标记给他遮挡住 -->
-    <div class="layout-header-mask"></div>
-    <div class="my-tab-wrap">
-      <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
-    </div>
-    <time-weather v-if="showHeader" />
-    <div class="subject-container">
-      <div class="main-content">
-        <div class="base-ac-wrap">
-          <base-ac @aircityObjReady="handleAircityObjReady" />
-        </div>
+  <locale-provider>
+    <div class="subject-layout" :class="{ 'layout-no-header': !showHeader }">
+      <header-area v-if="showHeader" />
+      <!-- 在h=0不显示头部，飞渡地图头部中间会显示aircity的logo，用这个标记给他遮挡住 -->
+      <div class="layout-header-mask"></div>
+      <div class="my-tab-wrap">
+        <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
+      </div>
+      <time-weather v-if="showHeader" />
+      <!-- <locale-dropdown class="locale-dropdown-wrap"></locale-dropdown> -->
+      <div class="subject-container">
+        <div class="main-content">
+          <div class="base-ac-wrap">
+            <base-ac @aircityObjReady="handleAircityObjReady" />
+          </div>
 
-        <expand-btn />
-        <!-- <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
-          <img src="./images/back.png" alt="" @click="router.push('/overview')" />
-        </div> -->
-        <Goback
-          v-show="currentPosition === '深圳市' && isShowMenu"
-          @click="router.push('/overview')"
-        />
-        <router-view v-slot="{ Component, route }">
-          <keep-alive :exclude="excludeViews">
-            <Transition>
-              <component
-                v-show="showComponent"
-                :is="wrap(route.fullPath, Component)"
-                :key="route.fullPath"
-              />
-            </Transition>
-          </keep-alive>
-        </router-view>
-        <Transition>
-          <station-detail v-if="showDetail" />
-        </Transition>
-        <div class="bottom-tabs-box" v-if="!isShowMenu && !showDetail">
-          <bottom-tabs />
-          <div class="bottom-tabs-bg"></div>
+          <expand-btn />
+          <!-- <div class="backBox" v-show="currentPosition === '深圳市' && isShowMenu">
+            <img src="./images/back.png" alt="" @click="router.push('/overview')" />
+          </div> -->
+          <Goback
+            v-show="currentPosition === '深圳市' && isShowMenu"
+            @click="router.push('/overview')"
+          />
+          <router-view v-slot="{ Component, route }">
+            <keep-alive :exclude="excludeViews">
+              <Transition>
+                <component
+                  v-show="showComponent"
+                  :is="wrap(route.fullPath, Component)"
+                  :key="route.fullPath"
+                />
+              </Transition>
+            </keep-alive>
+          </router-view>
+          <Transition>
+            <station-detail v-if="showDetail" />
+          </Transition>
+          <div class="bottom-tabs-box" v-if="!isShowMenu && !showDetail">
+            <bottom-tabs />
+            <div class="bottom-tabs-bg"></div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <PromotionVideo v-if="showPromitionVideo" />
-    <UeVideo v-if="showUeVideo" :station="station" />
-  </div>
+      <PromotionVideo v-if="showPromitionVideo" />
+      <UeVideo v-if="showUeVideo" :station="station" />
+    </div>
+  </locale-provider>
 </template>
 
 <script lang="ts" setup>
@@ -66,6 +69,8 @@ import ExpandBtn from './components/expand-btn/index.vue';
 import PromotionVideo from '@/components/promotion-video/index.vue';
 import UeVideo from '@/components/ue-video/index.vue';
 import Goback from '@/components/goback/index.vue';
+import LocaleDropdown from '@/components/layout/components/locale-dropdown.vue';
+import localeProvider from '@/locales/locale-provider.vue';
 
 import { getHashParam, getUrlParam } from '@sutpc/zebra';
 
@@ -317,5 +322,20 @@ onMounted(async () => {
     position: relative;
     bottom: -4px;
   }
+}
+
+.locale-dropdown-wrap {
+  position: absolute;
+  top: 38px;
+  right: 290px;
+  width: 20px;
+  height: 20px;
+  background: #089be4;
+  text-align: center;
+  z-index: 100;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

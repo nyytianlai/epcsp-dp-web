@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <!-- <page-num :data="state.pageNumData" /> -->
-
     <left-panel />
     <right-panel />
     <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />

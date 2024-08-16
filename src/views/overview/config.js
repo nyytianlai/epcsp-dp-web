@@ -15,25 +15,40 @@ import dayjs from 'dayjs';
 import { deepClone } from '@/utils';
 import { scale } from '@sutpc/config';
 
+import i18n from '@/locales/i18n'; 
+const { t } = i18n.global;
+const configHead  = `overview.config`;
 export const pageNumFun = (data = {}) => {
   return [
     {
       name: '年累计生产绿电',
+      i18nKey: 'nljscld',
+      displayName: t(`${configHead}.pageNumFun.nljscld`),
       // num: data?.cumulativeCharge,
       num: 2.13,
-      unit: data?.cumulativeChargeUnit || '亿kWh'
+      unit: data?.cumulativeChargeUnit || '亿kWh',
+      unitI18nKey: 'bilKWh',
+      displayUnit: data?.cumulativeChargeUnit || t(`${configHead}.pageNumFun.bilKWh`),
     },
     {
       name: '年累计CO²减排量',
       // num: data?.cumChargeCount,
+      i18nKey: 'nljco2jpl',
+      displayName: t(`${configHead}.pageNumFun.nljco2jpl`),
       num: 195.42,
-      unit: data?.cumChargeCountUnit || '万吨'
+      unit: data?.cumChargeCountUnit || '万吨',
+      unitI18nKey: 'wanT',
+      displayUnit: data?.cumChargeCountUnit || t(`${configHead}.pageNumFun.wanT`),
     },
     {
       name: '本年累计削峰电量',
       // num: data?.cumChargeTime,
+      i18nKey: 'bnljxfdl',
+      displayName: t(`${configHead}.pageNumFun.bnljxfdl`),
       num: 4.58,
-      unit: data?.cumChargeTimeUnit || '亿kWh'
+      unit: data?.cumChargeTimeUnit || '亿kWh',
+      unitI18nKey: 'bilKWh',
+      displayUnit: data?.cumChargeTimeUnit || t(`${configHead}.pageNumFun.bilKWh`),
     }
   ];
 };
@@ -45,6 +60,10 @@ export const chargingStationsFun = (data = {}) => {
       num: data?.totalChargingStations,
       unit: '/个',
       name: '充电站总数',
+      i18nKey: 'cdzhangs',
+      displayName:  t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit:  t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -52,6 +71,10 @@ export const chargingStationsFun = (data = {}) => {
       num: data?.yearTotalCharge,
       unit: '/亿KWh',
       name: '年充电量',
+      i18nKey: 'ncdl',
+      displayName:  t(`${configHead}.chargingStationsFun.ncdl`),
+      unitI18nKey: 'unitBilKWh',
+      displayUnit:  t(`${configHead}.chargingStationsFun.unitBilKWh`),
       classStyleType: 'leftRightStyleYellow5858'
     }
   ];
@@ -64,6 +87,10 @@ export const energyStationFun = (data = {}) => {
       num: 15,
       unit: '/个',
       name: '储能站总数',
+      i18nKey: 'cnzzs',
+      displayName:  t(`${configHead}.energyStationFun.cnzzs`),
+      unitI18nKey: 'unitGe',
+      displayUnit:  t(`${configHead}.energyStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -71,10 +98,15 @@ export const energyStationFun = (data = {}) => {
       num: 1926,
       unit: '/次',
       name: '年充放电数',
+      i18nKey: 'ncfds',
+      displayName:  t(`${configHead}.energyStationFun.ncfds`),
+      unitI18nKey: 'unitCi',
+      displayUnit:  t(`${configHead}.energyStationFun.unitCi`),
       classStyleType: 'leftRightStyleYellow5858'
     }
   ];
 };
+
 export const photovoltaicStationFun = (data = {}) => {
   return [
     {
@@ -82,6 +114,10 @@ export const photovoltaicStationFun = (data = {}) => {
       num: 1190,
       unit: '/个',
       name: '光伏站总数',
+      i18nKey: 'gfzzs',
+      displayName:  t(`${configHead}.photovoltaicStationFun.gfzzs`),
+      unitI18nKey: 'unitGe',
+      displayUnit:  t(`${configHead}.photovoltaicStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -89,10 +125,15 @@ export const photovoltaicStationFun = (data = {}) => {
       num: 2.13,
       unit: '/亿KWh',
       name: '年发电量',
+      i18nKey: 'nfdl',
+      displayName:  t(`${configHead}.photovoltaicStationFun.nfdl`),
+      unitI18nKey: 'unitBilKWh',
+      displayUnit:  t(`${configHead}.photovoltaicStationFun.unitBilKWh`),
       classStyleType: 'leftRightStyleYellow5858'
     }
   ];
 };
+
 export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
@@ -100,6 +141,10 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
       num: data?.total,
       unit: '/个',
       name: '设施总数',
+      i18nKey: 'sszs',
+      displayName:  t(`${configHead}.chargingsReplacementCabinetFun.sszs`),
+      unitI18nKey: 'unitGe',
+      displayUnit:  t(`${configHead}.chargingsReplacementCabinetFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -107,6 +152,10 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
       num: data?.yearChargingCapacity,
       unit: '/亿KWh',
       name: '年充电量',
+      i18nKey: 'ncdl',
+      displayName:  t(`${configHead}.chargingsReplacementCabinetFun.ncdl`),
+      unitI18nKey: 'unitBilKWh',
+      displayUnit:  t(`${configHead}.chargingsReplacementCabinetFun.unitBilKWh`),
       classStyleType: 'leftRightStyleYellow5858'
     }
   ];
@@ -191,10 +240,13 @@ export const digitalTwinSiteFun = () => {
     }
   ];
 };
+
 export const stationTabType = [
   {
     code: 1,
-    label: '充电站'
+    label: '充电站',
+    i18nKey: 'czd',
+    displayLabel:  t(`${configHead}.stationTabType.czd`)
   },
   // {
   //   code: 2,
@@ -202,7 +254,9 @@ export const stationTabType = [
   // },
   {
     code: 3,
-    label: '光伏站'
+    label: '光伏站',
+    i18nKey: 'gfz',
+    displayLabel:  t(`${configHead}.stationTabType.gfz`)
   }
   // {
   //   code: 4,
@@ -250,7 +304,7 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: `{b}：{c}${code === 1 ? '个' : '万千瓦'}`
+      formatter: `{b}：{c}${code === 1 ? t(`${configHead}.ecOptionFun.unitGe`)|| '个' : t(`${configHead}.ecOptionFun.unitWKW`)||'万千瓦'}`
       // formatter:(params)=>{
       //   return params[0].value + '个'
       // }
@@ -280,7 +334,7 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
     },
     yAxis: {
       type: 'value',
-      name: `单位/${code === 1 ? '个' : '万千瓦'}`,
+      name: `单位/${code === 1 ? t(`${configHead}.ecOptionFun.unitGe`)||'个' : t(`${configHead}.ecOptionFun.unitWKW`)||'万千瓦'}`,
       nameTextStyle: {
         color: '#B4C0CC',
         fontSize: scale(16)
@@ -312,7 +366,7 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
       {
         data: data,
         type: 'bar',
-        name: `${code === 1 ? '数量' : '规模'}`,
+        name: `${code === 1 ? t(`${configHead}.ecOptionFun.number`) ||'数量' : t(`${configHead}.ecOptionFun.scale`)||'规模'}`,
         barWidth: scale(18),
         label: {
           show: true,
@@ -893,6 +947,8 @@ const carbon = [
     light: '390'
   }
 ];
+
+
 export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   // console.log('carbon', carbon);
@@ -911,35 +967,40 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电'
+      name: '新能源充电',
+      displayName:  t(`${configHead}.lineCarbonDataFun.xnycd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.energy.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '储能'
+      name: '储能',
+      displayName:  t(`${configHead}.lineCarbonDataFun.cn`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.light.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏'
+      name: '光伏',
+      displayName:  t(`${configHead}.lineCarbonDataFun.gf`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.bike.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '自行车充换电'
+      name: '自行车充换电',
+      displayName:  t(`${configHead}.lineCarbonDataFun.zxcchd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.change.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '换电'
+      name: '换电',
+      displayName:  t(`${configHead}.lineCarbonDataFun.hd`)
     }
     // {
     //   data: list.map((item) => [
@@ -1000,7 +1061,7 @@ export const lineCarbonOptionFun = {
   yAxis: [
     {
       type: 'value',
-      name: '单位(吨)',
+      name: t(`${configHead}.lineCarbonDataFun.unitTon`) || '单位(吨)',
       nameTextStyle: {
         color: '#fff'
       },
@@ -1565,6 +1626,7 @@ const Electric = [
   }
  
 ];
+
 export const lineElectricDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   let list = deepClone(Electric);
@@ -1582,35 +1644,40 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电'
+      name: '新能源充电',
+      displayName:  t(`${configHead}.lineElectricDataFun.xnycd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.energy.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '储能放电'
+      name: '储能放电',
+      displayName:  t(`${configHead}.lineElectricDataFun.cnfd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.light.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏发电'
+      name: '光伏发电',
+      displayName:  t(`${configHead}.lineElectricDataFun.gffd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.bike.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '自行车充换电'
+      name: '自行车充换电',
+      displayName:  t(`${configHead}.lineElectricDataFun.zxcchd`)
     },
     {
       data: list.map((item) => [dayjs(item.date).format('MM-DD').toString(), item.change.trim()]),
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '换电'
+      name: '换电',
+      displayName:  t(`${configHead}.lineElectricDataFun.hd`)
     }
   ];
 };
@@ -2092,6 +2159,7 @@ export const mapJdStationPoint = () => {
     }
   ];
 };
+
 export const changeElectricFun = (data = {}) => {
   return [
     {
@@ -2099,6 +2167,10 @@ export const changeElectricFun = (data = {}) => {
       num: 42,
       unit: '/个',
       name: '换电站总数',
+      i18nKey: 'hdzzs',
+      displayName:  t(`${configHead}.changeElectricFun.hdzzs`),
+      unitI18nKey: 'unitGe',
+      displayUnit:  t(`${configHead}.changeElectricFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
@@ -2106,6 +2178,10 @@ export const changeElectricFun = (data = {}) => {
       num: 13.16,
       unit: '/万次',
       name: '年充电数',
+      i18nKey: 'ncds',
+      displayName:  t(`${configHead}.changeElectricFun.ncds`),
+      unitI18nKey: 'unitWanCi',
+      displayUnit:  t(`${configHead}.changeElectricFun.unitWanCi`),
       classStyleType: 'leftRightStyleYellow5858'
     }
   ];
