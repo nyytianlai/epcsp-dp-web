@@ -2,15 +2,24 @@
   <panel type="right">
     <div class="right-box-wrap">
       <div class="box box1">
-        <title-column title="储能站整体信息" icon="energy-station" />
+        <title-column
+          :title="$t('power-exchange-station.panelTitle.cnzztxx')"
+          icon="energy-station"
+        />
         <pie-chart
           :data="powerExchangeStatusData"
-          totalName="储能站/个"
+          :totalName="`${$t('power-exchange-station.panelTitle.cnz')}/${$t(
+            'power-exchange-station.unit.unitGe'
+          )}`"
           :colors="powerExchangeChartColor"
         />
+        <!-- 储能站/个 -->
       </div>
       <div class="box power-msg-today">
-        <title-column title="今日换电次数信息" icon="chargings-replacement" />
+        <title-column
+          :title="$t('power-exchange-station.panelTitle.jrhdcsxx')"
+          icon="chargings-replacement"
+        />
         <div class="num-wrap">
           <template v-for="(item, index) in powerTodayCard" :key="index">
             <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -21,7 +30,10 @@
         </div>
       </div>
       <div class="box today-warning-message">
-        <title-column title="今日告警信息" icon="chargings-replacement" />
+        <title-column
+          :title="$t('power-exchange-station.panelTitle.jrgjxx')"
+          icon="chargings-replacement"
+        />
         <warning-list height="2.9rem" :data="warningListData" @handleClick="handleWarnClick" />
       </div>
     </div>

@@ -7,27 +7,34 @@ import LowerVoltageLimit from './images/lower-voltage-limit.png';
 import UpperVoltageLimit from './images/upper-voltage-limit.png';
 import RatedCurrent from './images/rated-current.png';
 import dayjs from 'dayjs';
+import i18n from '@/locales/i18n';
 import { powerTodayLineData } from './data';
 // 换电站整体信息
+
+const { t } = i18n.global;
+
 export const powerExchangeAllInfoFun = (data = {}) => {
   return [
     {
       img: gfzzl,
       num: 43,
       unit: '个',
-      name: '换电站总量'
+      // name: '换电站总量',
+      name: t('power-exchange-station.powerExchangeAllInfoFun.hdzzl')
     },
     {
       img: zjzrl,
       num: 503,
       unit: '个',
-      name: '充电仓数量'
+      // name: '充电仓数量'
+      name: t('power-exchange-station.powerExchangeAllInfoFun.cdcsl')
     },
     {
       img: jrqyzs,
       num: 1,
       unit: '个',
-      name: '接入企业总数'
+      // name: '接入企业总数'
+      name: t('power-exchange-station.powerExchangeAllInfoFun.jrqyzs')
     }
   ];
 };
@@ -35,7 +42,8 @@ export const powerExchangeAllInfoFun = (data = {}) => {
 export const deviceInfoTabs = [
   {
     code: 1,
-    label: '换电设备信息'
+    // label: '换电设备信息'
+    label: t('power-exchange-station.deviceInfoTabs.hdsbxx')
   }
 ];
 export const deviceInfoDataFun = (data = {}) => {
@@ -44,7 +52,8 @@ export const deviceInfoDataFun = (data = {}) => {
       img: UpperVoltageLimit,
       num: '500V',
       unit: '',
-      name: '额定电压上限',
+      // name: '额定电压上限',
+      name: t('power-exchange-station.deviceInfoDataFun.eddysx'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -55,7 +64,8 @@ export const deviceInfoDataFun = (data = {}) => {
       img: LowerVoltageLimit,
       num: '200V',
       unit: '',
-      name: '额定电压下限',
+      // name: '额定电压下限',
+      name: t('power-exchange-station.deviceInfoDataFun.eddyxx'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -66,7 +76,8 @@ export const deviceInfoDataFun = (data = {}) => {
       img: RatedCurrent,
       num: '144A',
       unit: '',
-      name: '额定电流',
+      // name: '额定电流',
+      name: t('power-exchange-station.deviceInfoDataFun.eddl'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -126,18 +137,24 @@ export const powerExchangeStatusDataFun = (data = {}) => {
   return [
     {
       value: 0,
-      name: '建设中',
-      unit: '个'
+      // name: '建设中',
+      name: t('power-exchange-station.powerExchangeStatusDataFun.jsz'),
+      // unit: '个'
+      unit: t('power-exchange-station.unit.unitGe')
     },
     {
       value: 2,
-      name: '维护中',
-      unit: '个'
+      // name: '维护中',
+      name: t('power-exchange-station.powerExchangeStatusDataFun.whz'),
+      // unit: '个'
+      unit: t('power-exchange-station.unit.unitGe')
     },
     {
       value: 43,
-      name: '运营中',
-      unit: '个'
+      // name: '运营中',
+      name: t('power-exchange-station.powerExchangeStatusDataFun.yyz'),
+      // unit: '个'
+      unit: t('power-exchange-station.unit.unitGe')
     }
   ];
 };
@@ -149,14 +166,16 @@ export const powerTodayCardFun = (data = {}) => {
       img: edzgl,
       num: 736,
       unit: '',
-      name: '昨日换电次数',
+      // name: '昨日换电次数',
+      name: t('power-exchange-station.powerTodayCardFun.zrhdcs'),
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: sszgl,
       num: 432,
       unit: '',
-      name: '今日换电次数',
+      // name: '今日换电次数',
+      name: t('power-exchange-station.powerTodayCardFun.jrhdcs'),
       classStyleType: 'leftRightStyleYellow'
     }
   ];
@@ -220,7 +239,10 @@ export const powerTodayCardOption = {
     }
   },
   legend: {
-    data: ['昨日换电站负荷曲线', '今日换电站负荷曲线'],
+    data: [
+      t('power-exchange-station.powerTodayCardOption.zrhdzfhqx'), // 昨日换电站负荷曲线
+      t('power-exchange-station.powerTodayCardOption.jrhdzfhqx') // 今日换电站负荷曲线
+    ],
     textStyle: {
       color: '#fff'
     },
@@ -251,7 +273,9 @@ export const powerTodayCardOption = {
     }
   },
   yAxis: {
-    name: '单位：次',
+    name: `${t('power-exchange-station.unit.unitName')}：${t(
+      'power-exchange-station.unit.unitCi'
+    )}`, // '单位：次'
     axisLine: {
       show: false
     },
@@ -259,7 +283,7 @@ export const powerTodayCardOption = {
       show: false
     },
     nameTextStyle: {
-      align:'right'
+      align: 'right'
     },
     axisLabel: {
       fontFamily: 'Helvetica',
@@ -283,7 +307,8 @@ export const powerTodayCardOption = {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '昨日换电站负荷曲线',
+      // name: '昨日换电站负荷曲线',
+      name: t('power-exchange-station.powerTodayCardOption.zrhdzfhqx'),
       areaStyle: {
         origin: 'start',
         color: {
@@ -314,7 +339,8 @@ export const powerTodayCardOption = {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '今日换电站负荷曲线',
+      // name: '今日换电站负荷曲线',
+      name: t('power-exchange-station.powerTodayCardOption.jrhdzfhqx'),
       areaStyle: {
         origin: 'start',
         color: {
