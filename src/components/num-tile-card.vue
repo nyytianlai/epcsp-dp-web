@@ -1,10 +1,10 @@
 <template>
   <div class="num-tile-card">
     <img :src="data.img" alt="" class="icon" />
-    <div class="name">{{ data.name }}</div>
+    <div class="name">{{ data.displayName || data.name }}</div>
     <div class="num-box">
       <span class="num" :style="numStlyle">{{ formatWithToLocalString(data.num) }}</span>
-      <span class="unit" :style="numStlyle">&nbsp;{{ data.unit }}</span>
+      <span class="unit" :style="numStlyle">&nbsp;{{ data.displayUnit || data.unit }}</span>
     </div>
   </div>
 </template>
@@ -16,6 +16,8 @@ interface Idata {
   name: string;
   num: string | number;
   unit?: string;
+  displayName?: string;
+  displayUnit?: string;
 }
 interface Props {
   data: Idata;

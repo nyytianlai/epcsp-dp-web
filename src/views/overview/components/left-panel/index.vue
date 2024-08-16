@@ -4,7 +4,8 @@
       <title-column title="站点类型统计" />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
-          <div class="box-title">新能源汽车充电站</div>
+          <!-- 新能源汽车充电站 -->
+          <div class="box-title">{{ t(`${tHead}.xnyqccdz`) }}</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.chargingStations" :key="index">
               <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -12,7 +13,8 @@
           </div>
         </div>
         <div class="left-title__panel line-box">
-          <div class="box-title">储能站</div>
+          <!-- 储能站 cnz: '储能站'-->
+          <div class="box-title">{{ t(`${tHead}.cnz`) }}</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.energyStations" :key="index">
               <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -20,7 +22,8 @@
           </div>
         </div>
         <div class="left-title__panel line-box">
-          <div class="box-title">光伏站</div>
+          <!-- 光伏站 gfz: '光伏站' -->
+          <div class="box-title">{{ t(`${tHead}.gfz`) }}</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.photovoltaicStations" :key="index">
               <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -28,7 +31,8 @@
           </div>
         </div>
         <div class="left-title__panel line-box">
-          <div class="box-title">电动自行车充换电柜</div>
+          <!-- 电动自行车充换电柜 ddzxcchdg: '电动自行车充换电柜'-->
+          <div class="box-title">{{ t(`${tHead}.ddzxcchdg`) }}</div>
           <div class="num-wrap">
             <template
               v-for="(item, index) in state.chargingsReplacementCabinetStations"
@@ -39,7 +43,8 @@
           </div>
         </div>
         <div class="left-title__panel line-box">
-          <div class="box-title">换电站</div>
+          <!-- 换电站 hdz: '换电站'-->
+          <div class="box-title">{{ t(`${tHead}.hdz`) }}</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.changeElectric" :key="index">
               <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -85,6 +90,10 @@ import { selectHrStationInfoForOverview, chargingStation, totalStatistics } from
 
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `overview.left-panel`;
+
 const state = reactive({
   activeBottomMenu: 'overview',
   pageNumData: [],
