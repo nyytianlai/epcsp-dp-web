@@ -9,7 +9,10 @@ export const LOCAL_I18N_KEY: InjectionKey<any> = Symbol('i18n');
 
 export const useLocale = () => {
   const i18n = inject(LOCAL_I18N_KEY);
+  console.log(i18n, 'i18n in share')
+  const { t, te, ...methods } = i18n;
+  console.log(t, 't1111')
   return {
-    ...i18n
+    ...i18n,
   };
 };

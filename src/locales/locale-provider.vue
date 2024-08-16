@@ -14,6 +14,8 @@ const i18n = useI18n({
   messages,
 })
 
+console.log(i18n, 'i18n');
+// i18n.locale = 'en-US';
 provide(LOCAL_I18N_KEY, i18n);
 
 </script>

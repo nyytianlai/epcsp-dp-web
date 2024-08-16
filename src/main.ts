@@ -25,8 +25,9 @@ import zhcn from 'dayjs/locale/zh-cn';
 
 import { setConfig } from '@sutpc/config';
 import { debounce } from 'lodash-es';
-import { createI18n } from 'vue-i18n';
-import messages from '@/locales/index';
+// import { createI18n } from 'vue-i18n';
+// import messages from '@/locales/index';
+import i18n from '@/locales/i18n';
 
 dayjs.locale(zhcn);
 elDayjs.locale(zhcn);
@@ -34,16 +35,19 @@ const pinia = createPinia();
 
 const urlToken = getUrlParam('token') || getHashParam('token');
 
-const i18n = createI18n({
-  legacy: false, // 设置为 false，启用 composition API 模式
-  messages,
-  locale: navigator.language, // zh-CN, en-US
-  availableLocales: ['zh-CN', 'en-US'],
-  sync: true,
-  silentTranslationWarn: true,
-  missingWarn: false,
-  silentFallbackWarn: true
-});
+// const curLang = localStorage.getItem('lang') || navigator.language;
+// const i18n = createI18n({
+//   legacy: false, // 设置为 false，启用 composition API 模式
+//   messages,
+//   locale: curLang || navigator.language, // zh-CN, en-US
+//   availableLocales: ['zh-CN', 'en-US'],
+//   sync: true,
+//   silentTranslationWarn: true,
+//   missingWarn: false,
+//   silentFallbackWarn: true
+// });
+
+console.log(navigator.language, 'navigator.language');
 
 /**
  * import { useI18n } from "vue-i18n";

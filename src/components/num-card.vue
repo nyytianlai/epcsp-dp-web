@@ -11,9 +11,9 @@
               : formatWithToLocalString(data.num)
           }}
         </span>
-        <span class="unit">&nbsp;{{ data.unit }}</span>
+        <span class="unit">&nbsp;{{ data.displayUnit || data.unit }}</span>
       </span>
-      <span class="name" :style="styleImgFont?.name">{{ data.name }}</span>
+      <span class="name" :style="styleImgFont?.name">{{ data.displayName || data.name }}</span>
     </div>
   </div>
 </template>
@@ -29,6 +29,8 @@ interface Idata {
   iconStyle?: object;
   numStyle?: object;
   nameStyle?: object;
+  displayName?: string;
+  displayUnit?: string;
 }
 type Itype = 'top-down' | 'left-right';
 
