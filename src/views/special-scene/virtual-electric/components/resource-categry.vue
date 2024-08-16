@@ -11,7 +11,12 @@
       </div>
       <div class="legend-wrapper" v-show="!isEmpty">
         <div class="legend-item" v-for="(item, index) in pieConfig" :key="item.name">
-          <div class="legend-name" :style="`--color: ${item.color}`">{{ item.name }}</div>
+          <div class="legend-name" :style="`--color: ${item.color}`">
+            <el-tooltip placement="top" :content="item.name" v-if="item.name.length > 5">
+              {{ item.name.slice(0, 5) }}...
+            </el-tooltip>
+            <span v-else>{{ item.name }}</span>
+          </div>
           <div class="legend-value fontSize16DIN">{{ item.percentVl ?? '--' }}%</div>
         </div>
       </div>
@@ -151,6 +156,7 @@ onMounted(() => {
       display: flex;
       flex-flow: column wrap;
       row-gap: 10px;
+      overflow-y: auto;
 
       .legend-item {
         display: flex;
