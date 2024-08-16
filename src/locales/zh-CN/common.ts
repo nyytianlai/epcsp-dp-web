@@ -51,5 +51,8 @@ export default {
   searchText: '搜索...',
   hide: '隐藏',
   show: '显示',
-  noDataSelected: '未选择任何数据'
+  noDataSelected: '未选择任何数据',
+  xq: '详情',
+  title: '我是标题',
+  check: '查看更多'
 };

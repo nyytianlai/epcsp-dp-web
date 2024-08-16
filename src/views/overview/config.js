@@ -334,7 +334,7 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
     },
     yAxis: {
       type: 'value',
-      name: `单位/${code === 1 ? t(`${configHead}.ecOptionFun.unitGe`)||'个' : t(`${configHead}.ecOptionFun.unitWKW`)||'万千瓦'}`,
+      name: `${t(`${configHead}.ecOptionFun.unit`) || '单位'}/${code === 1 ? t(`${configHead}.ecOptionFun.unitGe`)||'个' : t(`${configHead}.ecOptionFun.unitWKW`)||'万千瓦'}`,
       nameTextStyle: {
         color: '#B4C0CC',
         fontSize: scale(16)

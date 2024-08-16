@@ -5,6 +5,15 @@ export default {
     gfz: '光伏站',
     ddzxcchdg: '电动自行车充换电柜',
     hdz: '换电站',
+    zdlxtj: '站点类型统计',
+    sznszd: '数字孪生站点' 
+  },
+  'right-panel': {
+    ccsslngmtj: '充储设施历年规模统计',
+    fltjpl: '分类碳减排量',
+    ton: '吨',
+    ccfdsj: '充储放电数据',
+    wankwh: '万kwh'
   },
   config: {
     pageNumFun: {
@@ -43,10 +52,11 @@ export default {
       gfz: '光伏站',
     },
     ecOptionFun: {
-      unitGe:'个',
+      unitGe: '个',
       unitWKW: '万千瓦',
       number: '数量',
       scale: '规模',
+      unit: '单位'
     },
     lineCarbonDataFun: {
       xnycd: '新能源充电',

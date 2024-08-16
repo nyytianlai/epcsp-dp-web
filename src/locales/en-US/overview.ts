@@ -5,6 +5,15 @@ export default {
     gfz: 'Photovoltaic Station', // '光伏站',
     ddzxcchdg: 'Electric bicycle charging and swapping cabinet', // '电动自行车充换电柜',
     hdz: 'Swap station', // '换电站',
+    zdlxtj: 'Site type statistics', // '站点类型统计',
+    sznszd: 'Digital twin site', // '数字孪生站点' 
+  },
+  'right-panel': {
+    ccsslngmtj: 'Annual scale statistics of charging and storage facilities', //'充储设施历年规模统计',
+    fltjpl: 'Classification of carbon emission reductions', //'分类碳减排量',
+    ton: 'ton', //'吨',
+    ccfdsj: 'Charge storage discharge data', //'充储放电数据',
+    wankwh: '10K kWh', //'万kwh'
   },
   config: {
     pageNumFun: {
@@ -43,31 +52,32 @@ export default {
       gfz: 'Photovoltaic Station', // '光伏站',
     },
     ecOptionFun: {
-      unitGe: '/A', // '/个',
-      unitWKW: '万千瓦',
-      number: '数量',
-      scale: '规模',
+      unitGe: 'A', // '/个',
+      unitWKW: '10K KW', //'万千瓦',
+      number: 'quantity', //'数量',
+      scale: 'scale', //'规模',
+      unit: 'Unit', //'单位'
     },
     lineCarbonDataFun: {
-      xnycd: '新能源充电',
-      cn: '储能',
-      gf: '光伏',
-      zxcchd: '自行车充换电',
-      hd: '换电',
-      unitTon:'单位(吨)'
+      xnycd: 'New energy charging', // '新能源充电',
+      cn: 'Energy storage', // '储能',
+      gf: 'photovoltaic', // '光伏',
+      zxcchd: 'Bicycle charging and swapping', // '自行车充换电',
+      hd: 'Replace the battery', // '换电',
+      unitTon:'Unit (ton)', // '单位(吨)'
     },
     lineElectricDataFun: {
-      xnycd: '新能源充电',
-      cnfd: '储能放电',
-      gffd: '光伏发电',
-      zxcchd: '自行车充换电',
-      hd: '换电',
+      xnycd: 'New energy charging', // '新能源充电',
+      cnfd: 'Energy storage discharge', // '储能放电',
+      gffd: 'Photovoltaic power generation', // '光伏发电',
+      zxcchd: 'Bicycle charging and swapping', // '自行车充换电',
+      hd: 'Replace the battery', // '换电',
     },
     changeElectricFun: {
       unitGe: '/A', // '/个',
-      hdzzs: '换电站总数',
-      unitWanCi: '/万次',
-      ncds: '年充电数',
+      hdzzs: 'Total number of battery swapping stations', //'换电站总数',
+      unitWanCi: '/Ten thousand times', // '/万次',
+      ncds: 'Annual Charging Count', //'年充电数',
     }
   }
 };

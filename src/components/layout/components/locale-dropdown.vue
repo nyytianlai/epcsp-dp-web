@@ -15,6 +15,7 @@ const setLang = (lang) => {
   locale.value = lang;
   currentLang.value = langMap.find((item) => item.lang === lang);
   localStorage.setItem('lang', lang);
+  window.location.reload(true);
 }
 </script>
 

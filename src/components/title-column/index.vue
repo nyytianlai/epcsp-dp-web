@@ -13,7 +13,8 @@
     <div class="right-bgc">
       <div class="bevel-edge"></div>
       <div class="line"></div>
-      <span class="detail-btn" v-if="showBtn" @click="handleClick">详情</span>
+      <!-- 详情 xq: '详情' -->
+      <span class="detail-btn" v-if="showBtn" @click="handleClick">{{ t(`${tHead}.xq`)  }}</span>
     </div>
     <div class="right-tab-btn" v-if="showTabBtn">
       <div
@@ -22,7 +23,13 @@
         :class="{ active: curBtn === item.value }"
         @click="handleTabBtn(item)"
       >
-        {{ item.name }}
+        <tooltip-over
+          :is-inline="true"
+          class="tab-btn-title"
+          :content="item.displayName || item.name"
+          :ref-name="item.displayName || item.name"
+        />
+        <!-- {{ item.displayName || item.name }} -->
       </div>
     </div>
     <!-- <button-base v-if="showBtn" @handleClick="handleClick">{{btnText}}</button-base> -->
@@ -31,9 +38,14 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import TooltipOver from '@/components/tooltip-over.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `common`;
 interface TabList {
   value: string | number;
   name: string;
+  displayName?: string;
 }
 interface Props {
   title: string;
@@ -43,6 +55,8 @@ interface Props {
   tabList?: TabList[];
   icon?: string;
 }
+const titleText = t(`${tHead}.title`);
+const checkText = t(`${tHead}.check`);
 const props = withDefaults(defineProps<Props>(), {
   title: '我是标题',
   btnText: '查看更多',
