@@ -27,6 +27,7 @@ onBeforeUnmount(() => {
 </script>
 <style lang="less" scoped>
 .time-weather-wrap {
+  margin-right: 20px;
   .time {
     font-family: 'LCD';
     font-style: normal;

@@ -7,38 +7,48 @@
     </div>
     <div class="content">
       <div class="box">
-        充电站
+        <!-- 充电站 cdz: '充电站' -->
+        {{t(`${tHead}.cdz`)}}
         <div class="box-right">
           <span class="num num3" style="color: #00b3ff">{{ data.chargingStation }}</span>
-          个
+          <!-- 个 unitGe: '个' -->
+          {{t(`${tHead}.unitGe`)}}
         </div>
       </div>
       <div class="box">
-        储能站
+        <!-- 储能站 cnz: '储能站' -->
+        {{t(`${tHead}.cnz`)}}
         <div class="box-right">
           <span class="num num1" style="color: #f6fb2b">{{ data.energyStorageStation }}</span>
-          个
+          <!-- 个 unitGe: '个' -->
+          {{t(`${tHead}.unitGe`)}}
         </div>
       </div>
       <div class="box">
-        光伏站
+        <!-- 光伏站 gfz: '光伏站' -->
+        {{t(`${tHead}.gfz`)}}
         <div class="box-right">
           <span class="num num2" style="color: #99b1ff">{{ data.photovoltaic }}</span>
-          个
+          <!-- 个 unitGe: '个' -->
+          {{t(`${tHead}.unitGe`)}}
         </div>
       </div>
       <div class="box">
-        充换电柜
+        <!-- 充换电柜 chdg: '充换电柜' -->
+        {{t(`${tHead}.chdg`)}}
         <div class="box-right">
           <span class="num num4" style="color: #00f7ff">{{ data.cabinet }}</span>
-          个
+          <!-- 个 unitGe: '个' -->
+          {{t(`${tHead}.unitGe`)}}
         </div>
       </div>
       <div class="box">
-        换电站
+        <!-- 换电站 hdz: '换电站' -->
+        {{t(`${tHead}.hdz`)}}
         <div class="box-right">
           <span class="num num5" style="color: #ffa800">{{ data.powerStation }}</span>
-          个
+          <!-- 个 unitGe: '个' -->
+          {{t(`${tHead}.unitGe`)}}
         </div>
       </div>
     </div>
@@ -46,6 +56,9 @@
 </template>
 <script lang="ts" setup>
 import { toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `overview.popup`;
 const props = defineProps({
   data: {
     type: Object,

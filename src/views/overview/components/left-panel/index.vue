@@ -1,7 +1,8 @@
 <template>
   <panel>
     <div class="left-wrap">
-      <title-column title="站点类型统计" />
+      <!-- zdlxtj: '站点类型统计' -->
+      <title-column :title="t(`${tHead}.zdlxtj`)" />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <!-- 新能源汽车充电站 -->
@@ -54,7 +55,8 @@
       </div>
 
       <div class="box">
-        <title-column title="数字孪生站点" />
+        <!-- sznszd: '数字孪生站点' 数字孪生站点  -->
+        <title-column :title="t(`${tHead}.sznszd`)" />
         <div class="use-list-container">
           <div class="ue-list">
             <div

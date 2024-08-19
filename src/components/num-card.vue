@@ -5,21 +5,45 @@
       <span class="num">
         <span class="value" :style="styleImgFont?.num">
           <!-- {{ formatWithToLocalString(data.num) }} -->
-          {{
+          <!-- {{
             data.digits
               ? formatWithToLocalString(data.num, data.digits)
               : formatWithToLocalString(data.num)
-          }}
+          }} -->
+          <tooltip-over
+          :is-inline="true"
+          :className="['num-card-value-tooltip']"
+          :content="data.digits
+              ? formatWithToLocalString(data.num, data.digits)
+              : formatWithToLocalString(data.num)"
+          />
         </span>
-        <span class="unit">&nbsp;{{ data.displayUnit || data.unit }}</span>
+        <span class="unit">&nbsp;
+          <!-- {{ data.displayUnit || data.unit }} -->
+          <tooltip-over
+          :is-inline="true"
+          :className="['num-card-unit-tooltip']"
+          :content="data.displayUnit || data.unit"
+          :ref-name="data.displayUnit || data.unit"
+          />
+        </span>
       </span>
-      <span class="name" :style="styleImgFont?.name">{{ data.displayName || data.name }}</span>
+      <span class="name" :style="styleImgFont?.name">
+        <!-- {{ data.displayName || data.name }} -->
+        <tooltip-over
+          :is-inline="true"
+          :className="['num-card-name-tooltip']"
+          :content="data.displayName || data.name"
+          :ref-name="data.displayName || data.name"
+          />
+      </span>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   img: string;
   name: string;
