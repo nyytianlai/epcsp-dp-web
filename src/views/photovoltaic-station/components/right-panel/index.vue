@@ -1,7 +1,7 @@
 <template>
   <panel type="right">
     <div class="photovoltaic-station-overview-today">
-      <title-column title="今日光伏站数据信息" icon="photovoltaic" />
+      <title-column :title="$t('photovoltaic-station.panelTitle.jrgfzsjxx')" icon="photovoltaic" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardTodayData" :key="index">
           <num-card :data="item" />
@@ -15,10 +15,10 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="lineStateColor" unit="MW"/>
+      <line-time-chart :data="lineStateData" :colors="lineStateColor" unit="MW" />
     </div>
     <div class="social-benefit">
-      <title-column title="社会效益信息" icon="photovoltaic" />
+      <title-column :title="$t('photovoltaic-station.panelTitle.shxyxx')" icon="photovoltaic" />
       <div class="num-wrap">
         <template v-for="(item, index) in socialBenefit" :key="index">
           <num-tile-card :data="item" />
@@ -101,7 +101,7 @@ onMounted(() => {
     container-type: inline-size;
   }
 
-  @container numWrap (min-width: 500px){
+  @container numWrap (min-width: 500px) {
     .num-card.top-down {
       flex-direction: row;
     }

@@ -7,6 +7,82 @@ import sszgl from './images/sszgl.png';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils/index';
 
+import i18n from '@/locales/i18n';
+const { t } = i18n.global;
+// 排名
+export const facilitiesRankData = [
+  {
+    num: 145,
+    // unit: '个',
+    // name: '猛犸出行-三角楼3号',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    name: t('chargings-replacement-cabinet.facilitiesRankData.0')
+  },
+  {
+    num: 123,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-罗丰路五巷5号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.1')
+  },
+  {
+    num: 121,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-机电市场4'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.2')
+  },
+  {
+    num: 95,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-井水龙新一巷10号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.3')
+  },
+  {
+    num: 87,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-盘古石村1-4号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.4')
+  },
+  {
+    num: 63,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-松子坑路二巷17号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.5')
+  },
+  {
+    num: 55,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-东坑路7-1号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.6')
+  },
+  {
+    num: 51,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-深圳均衡精密五金制品有限公司'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.7')
+  },
+  {
+    num: 50,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-西坑村22号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.8')
+  },
+  {
+    num: 49,
+    // unit: '个',
+    unit: t('chargings-replacement-cabinet.unit.unitGe'),
+    // name: '猛犸出行-东坑路8号'
+    name: t('chargings-replacement-cabinet.facilitiesRankData.9')
+  }
+];
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -40,21 +116,26 @@ export const chdsszlFun = (data = {}) => {
     {
       img: chdzsszl,
       num: data?.total,
-      unit: '个',
-      name: '充换电柜总量'
+      // unit: '个',
+      // name: '充换电柜总量'
+      unit: t('chargings-replacement-cabinet.unit.unitGe'),
+      name: t('chargings-replacement-cabinet.chdsszlFun.chdgzl')
     },
     {
       img: jrqyzs,
       num: data?.operatorAmount,
-      unit: '个',
-      name: '接入企业总数'
+      // unit: '个',
+      // name: '接入企业总数'
+      unit: t('chargings-replacement-cabinet.unit.unitGe'),
+      name: t('chargings-replacement-cabinet.chdsszlFun.jrqyzs')
     }
   ];
 };
 export const chargingType = [
   {
     code: 1,
-    label: '充换电柜类型'
+    // label: '充换电柜类型'
+    label: t('chargings-replacement-cabinet.chargingType.hdglx')
   }
 ];
 export const chargingTypeDataFun = (data = []) => {
@@ -62,23 +143,27 @@ export const chargingTypeDataFun = (data = []) => {
     {
       value: data?.[0]?.intAmount,
       name: data?.[0]?.type,
-      unit: '个'
+      // unit: '个'
+      unit: t('chargings-replacement-cabinet.unit.unitGe')
     },
     {
       value: data?.[1]?.intAmount,
       name: data?.[1]?.type,
-      unit: '个'
+      // unit: '个'
+      unit: t('chargings-replacement-cabinet.unit.unitGe')
     }
   ];
 };
 export const todayFacilities = [
   {
     code: 1,
-    label: '充电桩'
+    // label: '充电桩'
+    label: t('chargings-replacement-cabinet.todayFacilities.cdz')
   },
   {
     code: 2,
-    label: '换电柜'
+    // label: '换电柜'
+    label: t('chargings-replacement-cabinet.todayFacilities.hdg')
   }
 ];
 export const todayFacilitiesCardFun = (data = {}, code = 1) => {
@@ -88,14 +173,16 @@ export const todayFacilitiesCardFun = (data = {}, code = 1) => {
         img: ztsyl,
         num: 62.66,
         unit: '%',
-        name: '整体使用率',
+        // name: '整体使用率',
+        name: t('chargings-replacement-cabinet.todayFacilitiesCardFun.ztsyl'),
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
         num: 1482,
         unit: '',
-        name: '在线总量',
+        // name: '在线总量',
+        name: t('chargings-replacement-cabinet.todayFacilitiesCardFun.zxzl'),
         classStyleType: 'leftRightStyleYellow'
       }
     ];
@@ -105,14 +192,16 @@ export const todayFacilitiesCardFun = (data = {}, code = 1) => {
         img: ztsyl,
         num: 52.32,
         unit: '%',
-        name: '整体使用率',
+        // name: '整体使用率',
+        name: t('chargings-replacement-cabinet.todayFacilitiesCardFun.ztsyl'),
         classStyleType: 'leftRightStyleGreen'
       },
       {
         img: zxzl,
         num: 1927,
         unit: '',
-        name: '在线总量',
+        // name: '在线总量',
+        name: t('chargings-replacement-cabinet.todayFacilitiesCardFun.zxzl'),
         classStyleType: 'leftRightStyleYellow'
       }
     ];
@@ -124,14 +213,16 @@ export const powerTodayCardFun = (data = {}) => {
       img: edzgl,
       num: 49509,
       unit: '',
-      name: '昨日换电次数',
+      // name: '昨日换电次数',
+      name: t('chargings-replacement-cabinet.powerTodayCardFun.zrhdcs'),
       classStyleType: 'leftRightStyleGreen'
     },
     {
       img: sszgl,
       num: 32431,
       unit: '',
-      name: '今日换电次数',
+      // name: '今日换电次数',
+      name: t('chargings-replacement-cabinet.powerTodayCardFun.jrhdcs'),
       classStyleType: 'leftRightStyleYellow'
     }
   ];
@@ -269,13 +360,15 @@ export const linePowerDataFun = (data = []) => {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
-      name: '昨日换电次数'
+      // name: '昨日换电次数'
+      name: t('chargings-replacement-cabinet.powerTodayCardFun.zrhdcs')
     },
     {
       data: dataC.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
-      name: '今日换电次数'
+      // name: '今日换电次数'
+      name: t('chargings-replacement-cabinet.powerTodayCardFun.jrhdcs')
     }
   ];
 };
@@ -286,10 +379,12 @@ export const warnData = [
     stationId: '356422',
     eid: '164837',
     operatorName: '深圳市深巴车电新能源有限公司',
-    stationName: '龙悦腾新能源有限公司太白路4128号充电站',
+    // stationName: '龙悦腾新能源有限公司太白路4128号充电站',
+    stationName: t('chargings-replacement-cabinet.warnData.0.stationName'),
     alarmLevel: '1',
     alarmLevelName: '一级 人身安全',
-    alarmDesc: '动力蓄电池绝缘状态',
+    // alarmDesc: '动力蓄电池绝缘状态',
+    alarmDesc: t('chargings-replacement-cabinet.warnData.0.alarmDesc'),
     alarmType: '2',
     alarmTypeName: '电池系统故障',
     alarmTime: '2023-06-08 13:45:33',
@@ -305,10 +400,12 @@ export const warnData = [
     stationId: '440203006',
     eid: '023810',
     operatorName: '深圳市鹏电跃能能源技术有限公司',
-    stationName: '深圳宝安区石岩客运站东广场充电站',
+    // stationName: '深圳宝安区石岩客运站东广场充电站',
+    stationName: t('chargings-replacement-cabinet.warnData.1.stationName'),
     alarmLevel: '1',
     alarmLevelName: '一级 人身安全',
-    alarmDesc: '动力蓄电池绝缘状态',
+    // alarmDesc: '动力蓄电池绝缘状态',
+    alarmDesc: t('chargings-replacement-cabinet.warnData.1.alarmDesc'),
     alarmType: '2',
     alarmTypeName: '电池系统故障',
     alarmTime: '2023-06-08 13:44:19',
@@ -324,10 +421,12 @@ export const warnData = [
     stationId: '440203006',
     eid: '023810',
     operatorName: '深圳市鹏电跃能能源技术有限公司',
-    stationName: '深圳宝安区石岩客运站东广场充电站',
+    // stationName: '深圳宝安区石岩客运站东广场充电站',
+    stationName: t('chargings-replacement-cabinet.warnData.2.stationName'),
     alarmLevel: '1',
     alarmLevelName: '一级 人身安全',
-    alarmDesc: '动力蓄电池绝缘状态',
+    // alarmDesc: '动力蓄电池绝缘状态',
+    alarmDesc: t('chargings-replacement-cabinet.warnData.2.alarmDesc'),
     alarmType: '2',
     alarmTypeName: '电池系统故障',
     alarmTime: '2023-06-08 13:43:16',
@@ -343,10 +442,12 @@ export const warnData = [
     stationId: '356422',
     eid: '164837',
     operatorName: '深圳市深巴车电新能源有限公司',
-    stationName: '龙悦腾新能源有限公司太白路4128号充电站',
+    // stationName: '龙悦腾新能源有限公司太白路4128号充电站',
+    stationName: t('chargings-replacement-cabinet.warnData.3.stationName'),
     alarmLevel: '1',
     alarmLevelName: '一级 人身安全',
-    alarmDesc: '动力蓄电池绝缘状态',
+    // alarmDesc: '动力蓄电池绝缘状态',
+    alarmDesc: t('chargings-replacement-cabinet.warnData.3.alarmDesc'),
     alarmType: '2',
     alarmTypeName: '电池系统故障',
     alarmTime: '2023-06-08 12:32:45',
@@ -362,10 +463,12 @@ export const warnData = [
     stationId: '48',
     eid: '137270',
     operatorName: '深圳市恒誉光明运输集团有限公司',
-    stationName: '流塘充电站',
+    // stationName: '流塘充电站',
+    stationName: t('chargings-replacement-cabinet.warnData.4.stationName'),
     alarmLevel: '1',
     alarmLevelName: '一级 人身安全',
-    alarmDesc: '维修门开停止充电',
+    // alarmDesc: '维修门开停止充电',
+    alarmDesc: t('chargings-replacement-cabinet.warnData.4.alarmDesc'),
     alarmType: '1',
     alarmTypeName: '充电系统故障',
     alarmTime: '2023-06-08 11:17:04',

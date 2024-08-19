@@ -18,6 +18,8 @@ import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/confi
 import { getStrLength } from '@/utils/index';
 
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 
@@ -29,11 +31,13 @@ __g.reset(4);
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
 const areaCode = ref();
-let legendNameData = ref('站点数量/个');
+// let legendNameData = ref('站点数量/个');
+let legendNameData = ref(t('photovoltaic-station.mapLegend.legendName'));
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
-    name: '光伏站',
+    // name: '光伏站',
+    name: t('photovoltaic-station.mapLegend.gfz'),
     type: false
   }
 ]);

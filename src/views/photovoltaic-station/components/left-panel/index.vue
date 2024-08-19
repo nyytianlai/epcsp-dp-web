@@ -1,7 +1,7 @@
 <template>
   <panel>
     <div class="photovoltaic-station-overview">
-      <title-column title="光伏站整体信息" icon="photovoltaic" />
+      <title-column :title="$t('photovoltaic-station.panelTitle.gfzztxx')" icon="photovoltaic" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
           <num-card :data="item" classStyleType="bottomDown" />
@@ -12,7 +12,7 @@
         <num-tile-card :data="unitTotal" />
       </div> -->
     <div class="company-rank">
-      <title-column title="光伏站排名" icon="photovoltaic" />
+      <title-column :title="$t('photovoltaic-station.panelTitle.gfzpm')" icon="photovoltaic" />
       <tabs :data="companyRank" @changeTab="handleCompany" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
       <rank-list :data="companyRankData" :totalNum="companyRankTotal" />

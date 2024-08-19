@@ -110,7 +110,7 @@ watch(
     .unit-info {
       width: 237px;
       height: 41px;
-      background: url(./images/power-bgc.png) no-repeat;
+      background: url(../images/power-bgc.png) no-repeat;
       background-size: 100% 100%;
       text-align: center;
       padding-top: 9px;
