@@ -1,7 +1,7 @@
 <template>
   <panel>
     <div class="box">
-      <title-column title="换电站整体信息" icon="battery" />
+      <title-column :title="$t('power-exchange-station.panelTitle.hdzztxx')" icon="battery" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
           <num-card :data="item" classStyleType="bottomDown" />
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="company-rank">
-      <title-column title="今日站点换电次数排名" icon="battery" />
+      <title-column :title="$t('power-exchange-station.panelTitle.jrhdccpm')" icon="battery" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" /> -->
       <rank-list :data="rankData" :totalNum="rankTotal" />
     </div>
