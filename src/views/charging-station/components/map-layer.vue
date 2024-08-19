@@ -6,6 +6,7 @@
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
+    :hotRange="[0, '10万']"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
@@ -76,7 +77,7 @@ const addHeatMap = async () => {
   let heightEnd = Math.max(...realTimePower);
   // let bbox = [474756.13,2477776.28, -20, 622300.98,2546813.48, 344.58];
   let bbox = [474756.13, 2477776.28, -200, 622300.98, 2546813.48, 344.58];
-  let range = [0, 6000];
+  let range = [0, 100000];
   let data = [];
   res.forEach((element) => {
     const coord84 = gcj02ToWgs84(Number(element.longitude), Number(element.latitude));

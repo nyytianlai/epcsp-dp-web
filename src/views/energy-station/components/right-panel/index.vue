@@ -1,7 +1,7 @@
 <template>
   <panel type="right">
     <div class="today-runing">
-      <title-column title="今日储能站运行信息" icon="energy-station" />
+      <title-column :title="$t('energy-station.panelTitle.jrcnzyxxx')" icon="energy-station" />
       <charging-realtime-power :data="chargingRealPower" />
       <div class="num-wrap">
         <template v-for="(item, index) in runingData" :key="index">
@@ -19,7 +19,7 @@
       />
     </div>
     <div class="social-benefit">
-      <title-column title="社会效益信息" icon="energy-station" />
+      <title-column :title="$t('energy-station.panelTitle.shxyxx')" icon="energy-station" />
       <div class="num-wrap">
         <template v-for="(item, index) in socialBenefit" :key="index">
           <num-card :data="item" />

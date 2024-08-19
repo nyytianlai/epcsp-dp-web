@@ -5,18 +5,26 @@ import type { NProgressOptions } from 'nprogress';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Layout from '@/components/layout/index.vue';
-
+import i18n from '@/locales/i18n';
+const { t } = i18n.global;
 export const routes = [
   {
     path: '/charging',
     name: 'Charging',
-    meta: { title: '充电站' },
+    meta: {
+      // title: '充电站'
+      title: t('sub-menu.routes.cdz')
+    },
     component: Layout,
     children: [
       {
         name: 'ChargingStation',
         path: '/charging/station',
-        meta: { title: '充电站', keepAlive: false },
+        meta: {
+          // title: '充电站',
+          title: t('sub-menu.routes.cdz'),
+          keepAlive: false
+        },
         component: () => import('@/views/charging-station/index.vue')
       }
     ]
@@ -24,13 +32,20 @@ export const routes = [
   {
     path: '/device',
     name: 'device',
-    meta: { title: '设备管理' },
+    meta: {
+      // title: '设备管理'
+      title: t('sub-menu.routes.sbgl')
+    },
     component: Layout,
     children: [
       {
         name: 'deviceManage',
         path: '/device/manage',
-        meta: { title: '设备管理', keepAlive: false },
+        meta: {
+          // title: '设备管理',
+          title: t('sub-menu.routes.sbgl'),
+          keepAlive: false
+        },
         component: () => import('@/views/device-manage/index.vue')
       }
     ]
@@ -38,13 +53,20 @@ export const routes = [
   {
     path: '/safety',
     name: 'safety',
-    meta: { title: '安全监管' },
+    meta: {
+      // title: '安全监管'
+      title: t('sub-menu.routes.aqjg')
+    },
     component: Layout,
     children: [
       {
         name: 'safetySupervision',
         path: '/safety/supervision',
-        meta: { title: '安全监管', keepAlive: false },
+        meta: {
+          // title: '安全监管',
+          title: t('sub-menu.routes.aqjg'),
+          keepAlive: false
+        },
         component: () => import('@/views/safety-supervision/index.vue')
       }
     ]
@@ -52,13 +74,20 @@ export const routes = [
   {
     path: '/public',
     name: 'public',
-    meta: { title: '公众服务' },
+    meta: {
+      // title: '公众服务'
+      title: t('sub-menu.routes.gzfw')
+    },
     component: Layout,
     children: [
       {
         name: 'publicService',
         path: '/public/service',
-        meta: { title: '公众服务', keepAlive: false },
+        meta: {
+          // title: '公众服务',
+          title: t('sub-menu.routes.gzfw'),
+          keepAlive: false
+        },
         component: () => import('@/views/public-service/index.vue')
       }
     ]
@@ -69,13 +98,20 @@ export const specialRoutes = [
   {
     path: '/super-charge',
     name: 'superCharge',
-    meta: { title: '超充之城' },
+    meta: {
+      // title: '超充之城'
+      title: t('sub-menu.specialRoutes.cczc')
+    },
     component: Layout,
     children: [
       {
         name: 'superChargingBuilding',
         path: '/super-charging/building',
-        meta: { title: '超充之城', keepAlive: false },
+        meta: {
+          // title: '超充之城',
+          title: t('sub-menu.specialRoutes.cczc'),
+          keepAlive: false
+        },
         component: () => import('@/views/special-scene/super-charging-building/index.vue')
       }
     ]
@@ -83,13 +119,20 @@ export const specialRoutes = [
   {
     path: '/virtual',
     name: 'virtual',
-    meta: { title: '虚拟电厂' },
+    meta: {
+      // title: '虚拟电厂'
+      title: t('sub-menu.specialRoutes.xndc')
+    },
     component: Layout,
     children: [
       {
         name: 'virtualElectric',
         path: '/virtual/electric',
-        meta: { title: '虚拟电厂', keepAlive: false },
+        meta: {
+          // title: '虚拟电厂',
+          title: t('sub-menu.specialRoutes.xndc'),
+          keepAlive: false
+        },
         component: () => import('@/views/special-scene/virtual-electric/index.vue')
       }
     ]
@@ -97,13 +140,20 @@ export const specialRoutes = [
   {
     path: '/power',
     name: 'power',
-    meta: { title: '交能融合' },
+    meta: {
+      // title: '交能融合'
+      title: t('sub-menu.specialRoutes.jnrh')
+    },
     component: Layout,
     children: [
       {
         name: 'powerCombine',
         path: '/power/combine',
-        meta: { title: '交能融合', keepAlive: false },
+        meta: {
+          // title: '交能融合',
+          title: t('sub-menu.specialRoutes.jnrh'),
+          keepAlive: false
+        },
         component: () => import('@/views/special-scene/power-combine/index.vue')
       }
     ]
@@ -111,13 +161,21 @@ export const specialRoutes = [
   {
     path: '/carnet',
     name: 'carnet',
-    meta: { title: '车网互动', disabled: true },
+    meta: {
+      // title: '车网互动',
+      title: t('sub-menu.specialRoutes.cwhd'),
+      disabled: true
+    },
     component: Layout,
     children: [
       {
         name: 'carnet-interaction',
         path: '/carnet/interaction',
-        meta: { title: '车网互动', keepAlive: false },
+        meta: {
+          // title: '车网互动',
+          title: t('sub-menu.specialRoutes.cwhd'),
+          keepAlive: false
+        },
         component: () => import('@/views/special-scene/carnet-interaction/index.vue')
       }
     ]

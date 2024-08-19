@@ -11,6 +11,8 @@ import ntgdl from './images/ntgdl.png';
 import nco2jpl from './images/nco2jpl.png';
 import dayjs from 'dayjs';
 import { deepClone } from '@/utils/index';
+import i18n from '@/locales/i18n';
+const { t } = i18n.global;
 
 export const pageNumFun = (data = {}) => {
   return [
@@ -39,21 +41,26 @@ export const cndzyxzlFun = (data = {}) => {
     {
       img: cnzzs,
       num: 15,
-      unit: '个',
-      name: '储能站总数',
+      // unit: '个',
+      // name: '储能站总数'
+      unit: t('energy-station.units.unitGe'),
+      name: t('energy-station.cndzyxzlFun.cnzzs')
     },
     {
       img: zjzrl,
       num: 1309.75,
       unit: 'MW',
-      name: '装机总容量',
+      // name: '装机总容量'
+      name: t('energy-station.cndzyxzlFun.zjzrl')
     },
     {
       img: jrqys,
       num: 10,
-      unit: '个',
-      name: '接入企业数',
-    },
+      // unit: '个',
+      // name: '接入企业数'
+      unit: t('energy-station.units.unitGe'),
+      name: t('energy-station.cndzyxzlFun.jrqys')
+    }
 
     // {
     //   img: xtyxxl,
@@ -67,39 +74,50 @@ export const cndzyxzlFun = (data = {}) => {
 export const tabType = [
   {
     code: 1,
-    label: '电网位置'
-  },
+    // label: '电网位置'
+    label: t('energy-station.tabType.dwwz')
+  }
 ];
 export const tabTypeDataFun = (data = {}, code = 1) => {
   if (code === 1) {
     return [
       {
         value: 9,
-        name: '用户侧',
-        unit: '个'
+        // name: '用户侧',
+        // unit: '个'
+        name: t('energy-station.tabTypeDataFun.yhc'),
+        unit: t('energy-station.units.unitGe')
       },
       {
         value: 4,
-        name: '电网侧',
-        unit: '个'
+        // name: '电网侧',
+        // unit: '个'
+        name: t('energy-station.tabTypeDataFun.dwc'),
+        unit: t('energy-station.units.unitGe')
       },
       {
         value: 2,
-        name: '电源侧',
-        unit: '个'
+        // name: '电源侧',
+        // unit: '个'
+        name: t('energy-station.tabTypeDataFun.dyc'),
+        unit: t('energy-station.units.unitGe')
       }
     ];
   } else {
     return [
       {
         value: 2035,
-        name: '电化学储能站',
-        unit: '个'
+        // name: '电化学储能站',
+        // unit: '个'
+        name: t('energy-station.tabTypeDataFun.dhxcnz'),
+        unit: t('energy-station.units.unitGe')
       },
       {
         value: 1,
-        name: '抽水储能站',
-        unit: '个'
+        // name: '抽水储能站',
+        // unit: '个'
+        name: t('energy-station.tabTypeDataFun.cscnz'),
+        unit: t('energy-station.units.unitGe')
       }
     ];
   }
@@ -107,8 +125,9 @@ export const tabTypeDataFun = (data = {}, code = 1) => {
 export const rankTabType = [
   {
     code: 1,
-    label: '站点装机容量'
-  },
+    // label: '站点装机容量'
+    label: t('energy-station.rankTabType.zdzjrl')
+  }
   // {
   //   code: 2,
   //   label: '系统运行效率'
@@ -120,37 +139,44 @@ export const runingFun = (data = {}) => {
       img: jrcdl,
       num: 3697,
       unit: 'MWh',
-      name: '今日充电量'
+      // name: '今日充电量'
+      name: t('energy-station.runingFun.jrcdl')
     },
     {
       img: jrfdl,
       num: 2814,
       unit: 'MWh',
-      name: '今日放电量'
+      // name: '今日放电量'
+      name: t('energy-station.runingFun.jrfdl')
     },
     {
       img: jrcdcs,
       num: 32,
-      unit: '次',
-      name: '今日充电次数'
+      // unit: '次',
+      // name: '今日充电次数'
+      unit: t('energy-station.units.unitCi'),
+      name: t('energy-station.runingFun.jrcdcs')
     },
     {
       img: jrfdcs,
       num: 28,
-      unit: '次',
-      name: '今日放电次数'
+      // unit: '次',
+      // name: '今日放电次数'
+      unit: t('energy-station.units.unitCi'),
+      name: t('energy-station.runingFun.jrfdcs')
     }
   ];
 };
 export const todayLine = [
   {
     code: 1,
-    label: '今日深圳市储放能功率及负荷曲线'
+    // label: '今日深圳市储放能功率及负荷曲线'
+    label: t('energy-station.todayLine.jrszscfngljfhqx')
   }
 ];
 export const linePowerDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
-  const nowTime = dayjs().format('HH:00')
+  const nowTime = dayjs().format('HH:00');
   data = [
     {
       timeDim: '00:00',
@@ -273,23 +299,25 @@ export const linePowerDataFun = (data = []) => {
       realTimePower: 0
     }
   ];
-  const index = data.findIndex(i=>i.timeDim === nowTime)
-  let dataC = deepClone(data)
-  dataC.splice(index+1)
+  const index = data.findIndex((i) => i.timeDim === nowTime);
+  let dataC = deepClone(data);
+  dataC.splice(index + 1);
 
   return [
     {
       data: dataC.map((item) => [yearMonthDay + item.timeDim, Number(item['ratedPower'])]),
       type: 'line',
       smooth: true,
-      name: '深圳市电网实时负荷'
+      // name: '深圳市电网实时负荷'
+      name: t('energy-station.linePowerDataFun.szsdwssfh')
     },
     {
       yAxisIndex: 1,
       data: dataC.map((item) => [yearMonthDay + item.timeDim, Number(item['realTimePower'])]),
       type: 'line',
       smooth: true,
-      name: '深圳市储能电站聚合实时功率'
+      // name: '深圳市储能电站聚合实时功率'
+      name: t('energy-station.linePowerDataFun.szscndzjhssgl')
     }
   ];
 };
@@ -298,8 +326,10 @@ export const socialBenefitFun = (data = {}) => {
     {
       img: nxfdl,
       num: 0.43,
-      unit: '亿KWh',
-      name: '年削峰电量',
+      // unit: '亿KWh',
+      // name: '年削峰电量',
+      unit: `${t('energy-station.units.unitYi')}KWh`,
+      name: t('energy-station.socialBenefitFun.nxfdl'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -309,8 +339,10 @@ export const socialBenefitFun = (data = {}) => {
     {
       img: ntgdl,
       num: 0.47,
-      unit: '亿KWh',
-      name: '年填谷电量',
+      // unit: '亿KWh',
+      // name: '年填谷电量',
+      unit: `${t('energy-station.units.unitYi')}KWh`,
+      name: t('energy-station.socialBenefitFun.ntgdl'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
@@ -320,8 +352,10 @@ export const socialBenefitFun = (data = {}) => {
     {
       img: nco2jpl,
       num: 2.18,
-      unit: '万吨',
-      name: '年CO2减排量',
+      // unit: '万吨',
+      // name: '年CO2减排量',
+      unit: `${t('energy-station.units.unitWD')}`,
+      name: t('energy-station.socialBenefitFun.nco2jpl'),
       numStyle: {
         background: 'linear-gradient(180deg, #00F7FF -71.43%, #D5FEFF 16%, #00F7FF 96.43%)',
         textFillColor: 'transparent',
