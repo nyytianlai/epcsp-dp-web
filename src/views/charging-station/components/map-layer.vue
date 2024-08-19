@@ -6,6 +6,7 @@
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
+    :hotRange="[0, '10万']"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
