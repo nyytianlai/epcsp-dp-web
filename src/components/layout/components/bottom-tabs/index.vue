@@ -19,52 +19,61 @@
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
 interface Tab {
   type: string;
   text?: string;
   path?: string;
 }
+const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const tabs = [
   {
-    text: '总览',
+    // text: '总览',
+    text: t('menu.overview'),
     name: 'Overview',
     type: 'overview-all',
     path: '/overview'
   },
   {
-    text: '充电站',
+    // text: '充电站',
+    text: t('menu.charging-station'),
     name: 'ChargingStation',
     type: 'charging-station',
     path: '/charging/station'
   },
   {
-    text: '储能站',
+    // text: '储能站',
+    text: t('menu.energy-station'),
     name: 'EnergyStation',
     type: 'energy-station-page',
     path: '/energy-station'
   },
   {
-    text: '光伏站',
+    // text: '光伏站',
+    text: t('menu.photovoltaic-station'),
     name: 'PhotovoltaicStation',
     type: 'photovoltaic-station',
     path: '/photovoltaic-station'
   },
   {
-    text: '充换电柜',
+    // text: '充换电柜',
+    text: t('menu.chargings-replacement-cabinet'),
     name: 'ChargingsReplacementCabinet',
     type: 'chargings-replacement-cabinet',
     path: '/chargings-replacement-cabinet'
   },
   {
-    text: '换电站',
+    // text: '换电站',
+    text: t('menu.power-exchange-station'),
     name: 'PowerExchangeStation',
     type: 'power-exchange-station',
     path: '/power-exchange-station'
   },
   {
-    text: '亮点场景',
+    // text: '亮点场景',
+    text: t('menu.special-scene'),
     name: '/super-charging/building',
     type: 'special-scene',
     path: '/super-charging/building'
