@@ -1,7 +1,10 @@
 <template>
   <panel type="right">
     <div class="today-facilities">
-      <title-column title="今日充换电柜数据信息" icon="chargings-replacement" />
+      <title-column
+        :title="$t('chargings-replacement-cabinet.panelTitle.jrchdgsjxx')"
+        icon="chargings-replacement"
+      />
       <tabs :data="todayFacilities" @changeTab="handleFacilities" />
       <div class="num-wrap">
         <template v-for="(item, index) in todayFacilitiesCard" :key="index">
@@ -10,20 +13,22 @@
       </div>
     </div>
     <div class="power-msg-today">
-      <title-column title="今日换电次数信息" icon="chargings-replacement" />
+      <title-column
+        :title="$t('chargings-replacement-cabinet.panelTitle.jrhdcsxx')"
+        icon="chargings-replacement"
+      />
       <div class="num-wrap">
         <template v-for="(item, index) in powerTodayCard" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart
-        :data="lineStateData"
-        :colors="stateColor"
-        unit="次"
-      />
+      <line-time-chart :data="lineStateData" :colors="stateColor" unit="次" />
     </div>
     <div class="today-warning-message">
-      <title-column title="今日告警信息" icon="chargings-replacement" />
+      <title-column
+        :title="$t('chargings-replacement-cabinet.panelTitle.jrgjxx')"
+        icon="chargings-replacement"
+      />
       <warning-list :data="warningListData" @handleClick="handleWarnClick" height="2.3rem" />
     </div>
   </panel>
@@ -174,6 +179,5 @@ onMounted(() => {
       margin-top: 10px;
     }
   }
-  
 }
 </style>

@@ -19,7 +19,8 @@ import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/confi
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
 import { getStrLength } from '@/utils/index';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 
@@ -58,11 +59,13 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
-let legendNameData = ref('站点数量/个');
+// let legendNameData = ref('站点数量/个');
+let legendNameData = ref(t('power-exchange-station.mapLegend.legendName'));
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.22deg, #FF9900 6.41%, #774700 94.78%)',
-    name: '换电站',
+    // name: '换电站',
+    name: t('power-exchange-station.mapLegend.hdz'),
     type: false
   }
 ]);

@@ -18,22 +18,25 @@ export const powerExchangeAllInfoFun = (data = {}) => {
     {
       img: gfzzl,
       num: 43,
-      unit: '个',
+      // unit: '个',
       // name: '换电站总量',
+      unit: t('power-exchange-station.unit.unitGe'),
       name: t('power-exchange-station.powerExchangeAllInfoFun.hdzzl')
     },
     {
       img: zjzrl,
       num: 503,
-      unit: '个',
+      // unit: '个',
       // name: '充电仓数量'
+      unit: t('power-exchange-station.unit.unitGe'),
       name: t('power-exchange-station.powerExchangeAllInfoFun.cdcsl')
     },
     {
       img: jrqyzs,
       num: 1,
-      unit: '个',
+      // unit: '个',
       // name: '接入企业总数'
+      unit: t('power-exchange-station.unit.unitGe'),
       name: t('power-exchange-station.powerExchangeAllInfoFun.jrqyzs')
     }
   ];
@@ -91,43 +94,59 @@ export const rankDataFun = () => {
   return [
     {
       num: 61,
-      unit: '次',
-      name: '深圳福田圣廷苑'
+      // unit: '次',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳福田圣廷苑'
+      name: t('power-exchange-station.rankDataFun.0')
     },
     {
       num: 59,
-      unit: '次',
-      name: '深圳坂田交付中心'
+      // unit: '次',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳坂田交付中心'
+      name: t('power-exchange-station.rankDataFun.1')
     },
     {
       num: 44,
-      unit: '次',
-      name: '深圳南山浩昇体育公园'
+      // unit: '次',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳南山浩昇体育公园'
+      name: t('power-exchange-station.rankDataFun.2')
     },
     {
       num: 43,
-      unit: '次',
-      name: '深圳龙华北站中心公园'
+      // unit: '次',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳龙华北站中心公园'
+      name: t('power-exchange-station.rankDataFun.3')
     },
     {
       num: 39,
-      unit: '次',
-      name: '深圳福田安培瓦特'
+      // unit: '次',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳福田安培瓦特'
+      name: t('power-exchange-station.rankDataFun.4')
     },
     {
       num: 32,
-      unit: '次 ',
-      name: '深圳西丽E动空间'
+      // unit: '次 ',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳西丽E动空间'
+      name: t('power-exchange-station.rankDataFun.5')
     },
     {
       num: 31,
-      unit: '次 ',
-      name: '深圳宝安高新技术工业园'
+      // unit: '次 ',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳宝安高新技术工业园'
+      name: t('power-exchange-station.rankDataFun.6')
     },
     {
       num: 28,
-      unit: '次 ',
-      name: '深圳中粮031创意园'
+      // unit: '次 ',
+      unit: t('power-exchange-station.unit.unitCi'),
+      // name: '深圳中粮031创意园'
+      name: t('power-exchange-station.rankDataFun.7')
     }
   ];
 };
@@ -373,50 +392,64 @@ export const warnData = [
   {
     id: 322830143,
     date: '2023-06-21 12:30:12',
-    message: '换电系统发生故障',
-    area: '深圳福田圣廷苑',
+    // message: '换电系统发生故障',
+    // area: '深圳福田圣廷苑',
+    message: t('power-exchange-station.warnData.0.message'),
+    area: t('power-exchange-station.warnData.0.area'),
     isClick: false
   },
   {
     id: 322830125,
     date: '2023-06-21 12:18:56',
-    message: '换电系统发生故障',
-    area: '深圳坂田交付中心',
+    // message: '换电系统发生故障',
+    // area: '深圳坂田交付中心',
+    message: t('power-exchange-station.warnData.1.message'),
+    area: t('power-exchange-station.warnData.1.area'),
     isClick: false
   },
   {
     id: 322830080,
     date: '2023-06-21 12:03:23',
-    message: '换电系统发生故障',
-    area: '深圳南山浩昇体育公园',
+    // message: '换电系统发生故障',
+    // area: '深圳南山浩昇体育公园',
+    message: t('power-exchange-station.warnData.2.message'),
+    area: t('power-exchange-station.warnData.2.area'),
     isClick: false
   },
   {
     id: 322827925,
     date: '2023-06-21 11:40:22',
-    message: '换电系统发生故障',
-    area: '深圳龙华北站中心公园',
+    // message: '换电系统发生故障',
+    // area: '深圳龙华北站中心公园',
+    message: t('power-exchange-station.warnData.3.message'),
+    area: t('power-exchange-station.warnData.3.area'),
     isClick: false
   },
   {
     id: 322826764,
     date: '2023-06-21 11:19:35',
-    message: '换电系统发生故障',
-    area: '深圳福田安培瓦特',
+    // message: '换电系统发生故障',
+    // area: '深圳福田安培瓦特',
+    message: t('power-exchange-station.warnData.4.message'),
+    area: t('power-exchange-station.warnData.4.area'),
     isClick: false
   },
   {
     id: 322826756,
     date: '2023-06-21 10:26:11',
-    message: '换电系统发生故障',
-    area: '深圳宝安高新技术工业园',
+    // message: '换电系统发生故障',
+    // area: '深圳宝安高新技术工业园',
+    message: t('power-exchange-station.warnData.5.message'),
+    area: t('power-exchange-station.warnData.5.area'),
     isClick: false
   },
   {
     id: 322830069,
     date: '2023-06-21 09:41:32',
-    message: '换电系统发生故障',
-    area: '深圳南山浩昇体育公园',
+    // message: '换电系统发生故障',
+    // area: '深圳南山浩昇体育公园',
+    message: t('power-exchange-station.warnData.6.message'),
+    area: t('power-exchange-station.warnData.6.area'),
     isClick: false
   }
 ];
