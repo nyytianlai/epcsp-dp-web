@@ -1,20 +1,24 @@
 <template>
   <panel>
     <div class="energy-station-overview">
-      <title-column title="储能站整体信息" icon="energy-station" />
+      <title-column :title="$t('energy-station.panelTitle.cnzztxx')" icon="energy-station" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
           <num-card :data="item" classStyleType="bottomDown" />
         </template>
       </div>
       <tabs :data="tabType" />
-      <pie-chart :data="tabTypeData" totalName="储能站/个" :colors="tabTypeColor" />
+      <pie-chart
+        :data="tabTypeData"
+        :totalName="$t('energy-station.panelTitle.totalName')"
+        :colors="tabTypeColor"
+      />
     </div>
     <div class="company-rank">
-      <title-column title="储能站排名" icon="energy-station" />
+      <title-column :title="$t('energy-station.panelTitle.cnzpm')" icon="energy-station" />
       <tabs :data="rankTabType" @changeTab="handleRank" />
       <!-- <area-rank-list :data="companyRankData" :totalNum="companyRankTotal" height="2.54rem" :showPer="false" /> -->
-      <rank-list :data="companyRankData" :totalNum="companyRankTotal"  />
+      <rank-list :data="companyRankData" :totalNum="companyRankTotal" />
     </div>
   </panel>
 </template>
