@@ -21,7 +21,7 @@ const setLang = (lang) => {
 
 <template>
   <el-dropdown trigger="click" @command="setLang">
-    <icon icon="svg-icon:switch-lang" class="ml-1" />
+    <icon icon="svg-icon:switch-language" class="ml-1" />
     <!-- <span class="ml-1">{{ currentLang.name }}</span> -->
     <template #dropdown>
       <el-dropdown-menu>
