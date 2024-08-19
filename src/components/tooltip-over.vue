@@ -208,96 +208,6 @@ span {
   max-width: 120px;
   margin-left: 0;
 }
-.left-info-name {
-  margin-left: 9px;
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 85px;
-}
-.tab-btn-title {
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 25px;
-  margin-left: 0;
-}
-
-.rank-info-name {
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 270px;
-  margin-left: 0;
-}
-.rank-info-num {
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 90px;
-  margin-left: 0;
-}
-.num-title-name {
-  font-size: 30px;
-  font-weight: bold;
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 210px;
-  margin-left: 0;
-  background-image: linear-gradient(180deg, #00f7ff -71.43%, #d5feff 16%, #00f7ff 96.43%);
-  text-fill-color: transparent;
-  -webkit-background-clip: text;
-}
-.num-title-unit {
-  font-size: 14px;
-  font-weight: bold;
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 80px;
-  margin-left: 0;
-  background-image: linear-gradient(180deg, #00f7ff -71.43%, #d5feff 16%, #00f7ff 96.43%);
-  text-fill-color: transparent;
-  -webkit-background-clip: text;
-  text-align: left;
-}
-
-.num-tile-name {
-  font-weight: bold;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 130px;
-  margin-left: 0;
-  flex: 3;
-}
-
-.warning-list-message {
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 220px;
-  margin-left: 0;
-}
-.warning-list-area {
-  white-space: nowrap; /* 禁止文字换行 */
-  overflow: hidden; /* 超出容器宽度时隐藏内容 */
-  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  display: inline-block;
-  max-width: 150px;
-  margin-left: 0;
-}
 
 .tab-btn-title {
   font-size: 14px;
@@ -312,5 +222,43 @@ span {
   display: inline-block;
   max-width: 150px;
   margin-left: 0;
+}
+
+.tab-left-title {
+  font-size: 20px;
+  line-height: 28px;
+  margin-left: 8px;
+  position: relative;
+  z-index: 10;
+  white-space: nowrap; /* 禁止文字换行 */
+  overflow: hidden; /* 超出容器宽度时隐藏内容 */
+  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
+  display: inline-block;
+  max-width: 250px;
+  margin-left: 8px;
+}
+.num-card-value-tooltip{
+  white-space: nowrap; /* 禁止文字换行 */
+  overflow: hidden; /* 超出容器宽度时隐藏内容 */
+  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
+  display: inline-block;
+  max-width: 60px;
+  margin-left: 0px;
+}
+.num-card-unit-tooltip{
+  white-space: nowrap; /* 禁止文字换行 */
+  overflow: hidden; /* 超出容器宽度时隐藏内容 */
+  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
+  display: inline-block;
+  max-width: 36px;
+  margin-left: 0px;
+}
+.num-card-name-tooltip{
+  white-space: nowrap; /* 禁止文字换行 */
+  overflow: hidden; /* 超出容器宽度时隐藏内容 */
+  text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
+  display: inline-block;
+  max-width: 90px;
+  margin-left: 0px;
 }
 </style>

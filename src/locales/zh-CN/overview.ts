@@ -79,5 +79,23 @@ export default {
       unitWanCi: '/万次',
       ncds: '年充电数',
     }
+  },
+  'map-layer':{
+    legendName: '站点数/个',
+    legendListData: {
+      cdz: '充电站',
+      cnz: '储能站',
+      gfz: '光伏站',
+      chdg: '充换电柜',
+      hdz: '换电站',
+    }
+  },
+  popup: {
+    unitGe: '个',
+    cdz: '充电站',
+    cnz: '储能站',
+    gfz: '光伏站',
+    chdg: '充换电柜',
+    hdz: '换电站',
   }
 };

@@ -2,11 +2,13 @@
   <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" :class="{ isSuper }" />
   <panel v-if="isShowBoth">
     <div class="station-info">
-      <title-column title="充电站点信息" />
+      <!-- cdzdxx: '充电站点信息',  -->
+      <title-column :title="t(`${tHead}.cdzdxx`)" />
       <station-info :data="stationInfoData" />
     </div>
     <div class="device-info">
-      <title-column title="设备设施信息" />
+      <!-- sbssxx: '设备设施信息' -->
+      <title-column :title="t(`${tHead}.sbssxx`)" />
       <div class="pile-charger-header">
         <tabs
           :data="curBtn === 'cdzlx' ? chargingStationTabs : chargingStationGunTabs"
@@ -24,15 +26,17 @@
           </div>
         </div>
       </div>
+      <!-- cdzzs: '充电桩总数',  cdqzs: '充电枪总数' -->
       <pie-chart
         class="device-total-pie"
         :data="chargingStationPieData"
-        :totalName="curBtn === 'cdzlx' ? '充电桩总数' : '充电枪总数'"
+        :totalName="curBtn === 'cdzlx' ? t(`${tHead}.cdzzs`) || '充电桩总数' : t(`${tHead}.cdqzs`) ||'充电枪总数'"
         :colors="chargingColors"
       />
     </div>
     <div class="warning-message">
-      <title-column title="告警信息" :showBtn="isShowList" @handleClick="handleShowWarning" />
+      <!-- gjxx: '告警信息' -->
+      <title-column :title="t(`${tHead}.gjxx`)" :showBtn="isShowList" @handleClick="handleShowWarning" />
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
@@ -57,11 +61,13 @@
   </panel>
   <panel type="right" v-if="isShowBoth">
     <div class="charging-bar-state">
-      <title-column title="站点充电桩状态" />
+      <!-- zdcdzzt: '站点充电桩状态' -->
+      <title-column :title="t(`${tHead}.zdcdzzt`)" />
       <charging-state :data="chargingStateData" @handleClickState="focusToPile" />
     </div>
     <div class="device-use-info">
-      <title-column title="充电设施日使用信息" />
+      <!-- cdssrsyxx: '充电设施日使用信息', 充电设施日使用信息 -->
+      <title-column :title="t(`${tHead}.cdssrsyxx`)" />
       <tabs
         :data="chargingTypesTabs"
         @changeTab="(data) => handleChangeTab(data, 'device-use-info')"
@@ -73,7 +79,8 @@
       </div>
     </div>
     <div class="station-power">
-      <title-column title="站点实时功率" />
+      <!-- zdssgl: '站点实时功率' -->
+      <title-column :title="t(`${tHead}.zdssgl`)" />
       <line-time-chart
         unit="kW"
         :data="linePowerData"
@@ -114,8 +121,8 @@
     @click-detail="handleDetail"
   />
   <map-layer v-if="aircityObj" />
-
-  <custom-dialog v-model:visible="dialogTableVisible" title="告警列表">
+  <!-- gjlb: '告警列表', 告警列表 -->
+  <custom-dialog v-model:visible="dialogTableVisible" :title="t(`${tHead}.gjlb`)">
     <el-table
       :data="alarmTableData"
       height="6.19rem"
@@ -163,6 +170,9 @@ import MapLayer from './components/map-layer.vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
 import Goback from '@/components/goback/index.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail`;
 
 // import WarnList from './components/warn-list.vue';
 import {

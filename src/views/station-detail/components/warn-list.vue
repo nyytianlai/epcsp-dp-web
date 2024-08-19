@@ -12,12 +12,12 @@
           {{ item.date ? dayjs(item.date).format('YYYY-MM-DD HH:mm:ss') : '--' }}
         </span>
         <span class="message text-ellipsis-1">
-          <el-tooltip :content="item.message || ''" placement="top">
+          <el-tooltip :content="item.displayMessage || item.message || ''" placement="top">
             {{ item.message || '' }}
           </el-tooltip>
         </span>
         <span class="area text-ellipsis-1">
-          <el-tooltip :content="item.area || ''" placement="top">
+          <el-tooltip :content="item.displayArea || item.area || ''" placement="top">
             {{ item.area || '' }}
           </el-tooltip>
         </span>
@@ -35,6 +35,8 @@ interface Idata {
   message: string;
   area: string;
   isClick?: boolean;
+  displayMessage?: string;
+  displayArea?: string;
 }
 interface Props {
   data: Idata[];

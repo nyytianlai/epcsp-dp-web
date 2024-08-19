@@ -26,7 +26,8 @@ export const pageNumFun = (data = {}) => {
       displayName: t(`${configHead}.pageNumFun.nljscld`),
       // num: data?.cumulativeCharge,
       num: 2.13,
-      unit: data?.cumulativeChargeUnit || '亿kWh',
+      // '亿kWh'
+      unit: data?.cumulativeChargeUnit || t(`${configHead}.pageNumFun.bilKWh`),
       unitI18nKey: 'bilKWh',
       displayUnit: data?.cumulativeChargeUnit || t(`${configHead}.pageNumFun.bilKWh`),
     },
@@ -36,7 +37,8 @@ export const pageNumFun = (data = {}) => {
       i18nKey: 'nljco2jpl',
       displayName: t(`${configHead}.pageNumFun.nljco2jpl`),
       num: 195.42,
-      unit: data?.cumChargeCountUnit || '万吨',
+      // '万吨'
+      unit: data?.cumChargeCountUnit || t(`${configHead}.pageNumFun.wanT`),
       unitI18nKey: 'wanT',
       displayUnit: data?.cumChargeCountUnit || t(`${configHead}.pageNumFun.wanT`),
     },
@@ -46,7 +48,8 @@ export const pageNumFun = (data = {}) => {
       i18nKey: 'bnljxfdl',
       displayName: t(`${configHead}.pageNumFun.bnljxfdl`),
       num: 4.58,
-      unit: data?.cumChargeTimeUnit || '亿kWh',
+      // '亿kWh'
+      unit: data?.cumChargeTimeUnit || t(`${configHead}.pageNumFun.bilKWh`),
       unitI18nKey: 'bilKWh',
       displayUnit: data?.cumChargeTimeUnit || t(`${configHead}.pageNumFun.bilKWh`),
     }
@@ -967,7 +970,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电',
+      name: t(`${configHead}.lineCarbonDataFun.xnycd`) || '新能源充电',
       displayName:  t(`${configHead}.lineCarbonDataFun.xnycd`)
     },
     {
@@ -975,7 +978,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '储能',
+      name: t(`${configHead}.lineCarbonDataFun.cn`) || '储能',
       displayName:  t(`${configHead}.lineCarbonDataFun.cn`)
     },
     {
@@ -983,7 +986,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏',
+      name: t(`${configHead}.lineCarbonDataFun.gf`) || '光伏',
       displayName:  t(`${configHead}.lineCarbonDataFun.gf`)
     },
     {
@@ -991,7 +994,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '自行车充换电',
+      name: t(`${configHead}.lineCarbonDataFun.zxcchd`) || '自行车充换电',
       displayName:  t(`${configHead}.lineCarbonDataFun.zxcchd`)
     },
     {
@@ -999,7 +1002,7 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '换电',
+      name: t(`${configHead}.lineCarbonDataFun.hd`) ||'换电',
       displayName:  t(`${configHead}.lineCarbonDataFun.hd`)
     }
     // {
@@ -1644,7 +1647,7 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '新能源充电',
+      name: t(`${configHead}.lineElectricDataFun.xnycd`) || '新能源充电',
       displayName:  t(`${configHead}.lineElectricDataFun.xnycd`)
     },
     {
@@ -1652,7 +1655,7 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '储能放电',
+      name: t(`${configHead}.lineElectricDataFun.cnfd`) || '储能放电',
       displayName:  t(`${configHead}.lineElectricDataFun.cnfd`)
     },
     {
@@ -1660,7 +1663,7 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '光伏发电',
+      name: t(`${configHead}.lineElectricDataFun.gffd`) || '光伏发电',
       displayName:  t(`${configHead}.lineElectricDataFun.gffd`)
     },
     {
@@ -1668,7 +1671,7 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '自行车充换电',
+      name: t(`${configHead}.lineElectricDataFun.zxcchd`) || '自行车充换电',
       displayName:  t(`${configHead}.lineElectricDataFun.zxcchd`)
     },
     {
@@ -1676,7 +1679,7 @@ export const lineElectricDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       showSymbol: false,
-      name: '换电',
+      name: t(`${configHead}.lineElectricDataFun.hd`) || '换电',
       displayName:  t(`${configHead}.lineElectricDataFun.hd`)
     }
   ];

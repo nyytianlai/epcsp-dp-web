@@ -11,7 +11,7 @@
         :key="index"
       >
         <span class="icon" :style="{ background: item.color }"></span>
-        <span class="name" :class="{ isGray: item?.type }">{{ item?.name }}</span>
+        <span class="name" :class="{ isGray: item?.type }">{{ item?.displayName || item?.name }}</span>
       </li>
       <div class="hot-bar" v-else>
         <span class="min-num">{{ hotRange[0] }}</span>
@@ -29,6 +29,7 @@ interface ILegendList {
   color: string;
   name: string;
   type?: boolean;
+  displayName?: string;
 }
 type ILegendType = 'normal' | 'hot';
 interface Props {

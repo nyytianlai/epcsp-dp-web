@@ -79,5 +79,23 @@ export default {
       unitWanCi: '/Ten thousand times', // '/万次',
       ncds: 'Annual Charging Count', //'年充电数',
     }
+  },
+  'map-layer':{
+    legendName: 'Number of stations/piece', // '站点数/个',
+    legendListData: {
+      cdz: 'Charging station', // '充电站',
+      cnz: 'Energy storage station', // '储能站',
+      gfz: 'Photovoltaic Station', // '光伏站',
+      chdg: 'Charging and swapping cabinet', // '充换电柜',
+      hdz: 'Swap station', // '换电站',
+    }
+  },
+  popup: {
+    unitGe: 'A', // '个',
+    cdz: 'Charging station', // '充电站',
+    cnz: 'Energy storage station', // '储能站',
+    gfz: 'Photovoltaic Station', // '光伏站',
+    chdg: 'Charging and swapping cabinet', // '充换电柜',
+    hdz: 'Swap station', // '换电站',
   }
 };

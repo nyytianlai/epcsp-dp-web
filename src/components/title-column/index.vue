@@ -7,7 +7,15 @@
     <div class="left-bgc">
       <div class="bgc"></div>
       <icon icon="svg-icon:arrow" class="arrow" />
-      <span class="title">{{ title }}</span>
+      <!-- <span class="title"> -->
+        <!-- {{ title }} -->
+        <tooltip-over
+          :is-inline="true"
+          :className="['tab-left-title']"
+          :content="title"
+          :ref-name="title"
+        />
+      <!-- </span> -->
       <icon :icon="`svg-icon:${icon}`" class="car" />
     </div>
     <div class="right-bgc">
@@ -25,7 +33,7 @@
       >
         <tooltip-over
           :is-inline="true"
-          class="tab-btn-title"
+          :className="['tab-btn-title']"
           :content="item.displayName || item.name"
           :ref-name="item.displayName || item.name"
         />
