@@ -1,11 +1,3 @@
-/*
- * @Author: niyayong@sutpc.com
- * @Date: 2024-08-19 11:57:05
- * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-19 11:57:14
- * @Description:
- * @FilePath: /epcsp-dp-web/src/locales/en-US/chargings-replacement-cabinet.ts
- */
 // 冲换电柜中文配置
 export default {
   panelTitle: {
