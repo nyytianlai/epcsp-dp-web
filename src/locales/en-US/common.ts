@@ -50,5 +50,8 @@ export default {
   searchText: 'Please search',
   hide: 'hide',
   show: 'show',
-  noDataSelected: 'haven\'t select any data'
+  noDataSelected: 'haven\'t select any data',
+  xq: 'details', // '详情'
+  title: 'this is title', // '我是标题',
+  check: 'more', //'查看更多'
 };

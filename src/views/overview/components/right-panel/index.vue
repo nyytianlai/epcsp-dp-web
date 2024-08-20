@@ -2,19 +2,22 @@
   <panel type="right">
     <div class="right-panel-wrap">
       <div class="box station">
-      <title-column title="充储设施历年规模统计" />
+        <!-- 充储设施历年规模统计 ccsslngmtj: '充储设施历年规模统计' -->
+      <title-column :title="t(`${tHead}.ccsslngmtj`)" />
       <tabs :data="stationTabType" @changeTab="handleStation" />
       <div class="ec-box">
         <ec-resize :option="ecOption" />
       </div>
     </div>
     <div class="box carbon-sort">
-      <title-column title="分类碳减排量" />
+      <!-- 分类碳减排量 fltjpl: '分类碳减排量' -->
+      <title-column :title="t(`${tHead}.fltjpl`)" />
       <!-- <ec-resize :option="lineCarbonOption" /> -->
+       <!-- 吨 ton: '吨' -->
       <line-time-chart
         :data="lineCarbonData"
         :colors="co2Color"
-        yaxisName="吨"
+        :yaxisName="t(`${tHead}.ton`)"
         mode="onlyLine"
         unit="" :chartStyle="{
           width: '100%',
@@ -24,11 +27,13 @@
       />
     </div>
     <div class="box ele">
-      <title-column title="充储放电数据" />
+      <!-- 充储放电数据 ccfdsj: '充储放电数据' -->
+      <title-column :title="t(`${tHead}.ccfdsj`)" />
+      <!-- 万kwh wankwh: '万kwh' -->
       <line-time-chart
         :data="lineElectricData"
         :colors="ElectricColor"
-        yaxisName="万kwh"
+        :yaxisName="t(`${tHead}.wankwh`)"
         mode="onlyLine"
         unit="" :chartStyle="{
           width: '100%',
@@ -53,6 +58,9 @@ import {
 import { yearChargingStation } from '../../api.js';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `overview.right-panel`;
 
 const co2Color = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
 const ElectricColor = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];

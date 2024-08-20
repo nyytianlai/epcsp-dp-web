@@ -20,6 +20,9 @@ import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `overview.map-layer`;
 
 const store = useMapStore();
 const storeVisible = useVisibleComponentStore();
@@ -80,32 +83,37 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 let quRef = ref(null);
 let rectBar4Ref = ref(null);
-let legendNameData = ref('站点数/个');
+let legendNameData = ref(t(`${tHead}.legendName`) || '站点数/个');
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
     name: '充电站',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.cdz`)
   },
   {
     color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
     name: '储能站',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.cnz`)
   },
   {
     color: 'linear-gradient(178.21deg, #6182FF 6.05%, #063273 94.76%)',
     name: '光伏站',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.gfz`)
   },
   {
     color: 'linear-gradient(178.17deg, #2EFFFF 4.74%, #0F6765 95.4%)',
     name: '充换电柜',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.chdg`)
   },
   {
     color: 'linear-gradient(178.22deg, #FF9900 6.41%, #774700 94.78%)',
     name: '换电站',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.hdz`)
   }
 ]);
 

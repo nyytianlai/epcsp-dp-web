@@ -8,7 +8,7 @@
         <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
       </div>
       <time-weather v-if="showHeader" />
-      <!-- <locale-dropdown class="locale-dropdown-wrap"></locale-dropdown> -->
+      <locale-dropdown class="locale-dropdown-wrap"></locale-dropdown>
       <div class="subject-container">
         <div class="main-content">
           <div class="base-ac-wrap">
@@ -327,10 +327,11 @@ onMounted(async () => {
 .locale-dropdown-wrap {
   position: absolute;
   top: 38px;
-  right: 290px;
+  // right: 290px;
+  right: 10px;
   width: 20px;
   height: 20px;
-  background: #089be4;
+  // background: #089be4;
   text-align: center;
   z-index: 100;
   border-radius: 2px;

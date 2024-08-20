@@ -8,7 +8,7 @@
       @click="handleSelect(item)"
     >
       <span class="label">
-        {{ item.label }}
+        {{ item.displayLabel || item.label }}
       </span>
     </div>
     <slot />
@@ -19,6 +19,7 @@ import { toRefs, ref, watch } from 'vue';
 interface Idata {
   code: string | number;
   label: string;
+  displayLabel?: string;
 }
 interface Props {
   data: Idata[];
