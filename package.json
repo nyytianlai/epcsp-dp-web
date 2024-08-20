@@ -15,7 +15,6 @@
     "@iconify/iconify": "^2.2.1",
     "@sutpc/axios": "^1.0.7",
     "@sutpc/config": "^1.0.16",
-    "@sutpc/portal": "^1.2.24",
     "@sutpc/theme-lib": "^1.0.0",
     "@sutpc/vue3-aircity": "^1.0.0",
     "@sutpc/vue3-ec-resize": "^1.0.17",
