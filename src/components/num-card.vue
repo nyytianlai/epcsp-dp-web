@@ -241,6 +241,8 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       object-fit: cover;
     }
     .info {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column-reverse;
       .name {
