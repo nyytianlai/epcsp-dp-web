@@ -1,33 +1,38 @@
 <template>
   <panel>
     <div class="station-info">
-      <title-column title="站点基本信息" icon="car" />
+      <!-- zdjbxx: '站点基本信息' -->
+      <title-column :title="t(`${tHead}.zdjbxx`)" icon="car" />
       <div class="info">
         <div class="name-wrap">
           <div class="icon"></div>
           <div class="name">
-            <span class="station-name">红荔西5G示范站</span>
-            <span class="company-name">中国铁塔股份有限公司深圳市分公司</span>
+            <!-- stationName: '红荔西5G示范站' -->
+            <span class="station-name">{{t(`${tHead}.stationName`)}}</span>
+            <!-- companyName: '中国铁塔股份有限公司深圳市分公司' -->
+            <span class="company-name">{{t(`${tHead}.companyName`)}}</span>
           </div>
         </div>
         <ul class="info-list">
           <li v-for="(item, index) in msgPopList" :key="index">
-            <label for="">{{ item.label }}</label>
+            <label for="">{{ item.displayLabel || item.label }}</label>
             <span class="value text-ellipsis-1" v-if="item.label !== '具体地址：'">
-              {{ item.value }}
+              {{ item.displayValue ||item.value }}
             </span>
             <span class="value text-ellipsis-1" v-else>
-              <el-tooltip :content="item.value || ''" placement="top">
-                {{ item.value }}
+              <el-tooltip :content="item.dispalyValue || item.value || ''" placement="top">
+                {{ item.displayValue || item.value }}
               </el-tooltip>
             </span>
           </li>
         </ul>
-        <div class="status blue">正常</div>
+        <!-- 正常 zc: '正常' -->
+        <div class="status blue">{{t(`${tHead}.zc`)}}</div>
       </div>
     </div>
     <div class="battery-msg">
-      <title-column title="储能电池信息" icon="car" />
+      <!-- 储能电池信息 cndcxx: '储能电池信息' -->
+      <title-column :title="t(`${tHead}.cndcxx`)" icon="car" />
       <div class="num-wrap">
         <template v-for="(item, index) in batteryMsg" :key="index">
           <num-card :data="item" />
@@ -35,7 +40,8 @@
       </div>
     </div>
     <div class="realtime">
-      <title-column title="实时充放情况" icon="car" />
+      <!-- 实时充放情况 sscfqk: '实时充放情况' -->
+      <title-column :title="t(`${tHead}.sscfqk`)" icon="car" />
       <EcResize :option="popRealtimeOption()" class="chart" :style="{ height: '2.3rem' }" />
     </div>
   </panel>
@@ -44,6 +50,10 @@
 import { ref, inject } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { msgPopList, batteryMsgFun, popRealtimeOption } from '../config.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.honglixi`;
+
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;
 // 储能电池信息

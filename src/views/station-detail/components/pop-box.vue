@@ -3,35 +3,39 @@
     <header>
       <div class="header-left">
         <icon icon="svg-icon:5g" class="pop-icon" />
-        <div class="left-name">红荔西5G示范站</div>
+        <!-- hlx5gsfz: '红荔西5G示范站', -->
+        <div class="left-name">{{t(`${tHead}.hlx5gsfz`)}}</div>
       </div>
       <div class="header-right" @click="handleClose">x</div>
     </header>
     <div class="msg">
       <div class="msg-list" v-for="(item, index) in msgPopList" :key="index">
-        <span class="label">{{ item.label }}：</span>
-        <span class="value">{{ item.value }}</span>
+        <span class="label">{{ item.displayLabel || item.label }}：</span>
+        <span class="value">{{ item.displayValue || item.value }}</span>
       </div>
     </div>
     <div class="battery-msg">
-      <div class="title">储能电池信息</div>
+      <!-- cndcxx: '储能电池信息', -->
+      <div class="title">{{t(`${tHead}.cndcxx`)}}</div>
       <div class="warn-top">
         <icon icon="svg-icon:pop-warn" class="pop-icon" />
-        <span class="text">站点最大放电量</span>
+        <!-- zdzdfdl: '站点最大放电量', -->
+        <span class="text">{{t(`${tHead}.zdzdfdl`)}}</span>
         <span class="num">9.6 <span class="unit">kWh</span></span>
       </div>
       <div class="warn-bottom">
         <div class="warn-item" v-for="(item, index) in warnBottomList" :key="index">
           <icon icon="svg-icon:pop-warn" class="pop-icon" />
           <div class="right">
-            <div class="text">{{ item.name }}</div>
+            <div class="text">{{ item.displayName || item.name }}</div>
             <div class="num">{{ item.num }} <span class="unit">{{ item.unit }}</span></div>
           </div>
         </div>
       </div>
     </div>
     <div class="realtime">
-      <div class="title">站点实时充放情况</div>
+      <!-- zdsscfqk: '站点实时充放情况', -->
+      <div class="title">{{t(`${tHead}.zdsscfqk`)}}</div>
       <EcResize :option="popRealtimeOption" class="chart" :style="{ height: '1.7rem' }" />
     </div>
   </div>
@@ -42,17 +46,23 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import Icon from '@sutpc/vue3-svg-icon'
 import { msgPopList, popRealtimeOption } from '../config'
 import { ref } from 'vue';
-const emit = defineEmits(['close'])
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pop-box`;
+
+const emit = defineEmits(['close']);
 const warnBottomList = ref([
   {
     name: '放电电压',
     num: '48/57',
-    unit: 'v'
+    unit: 'v',
+    displayName: t(`${tHead}.warnBottomList.fddy`)
   },
   {
     name: '充电电压',
     num: '56.4',
-    unit: 'v'
+    unit: 'v',
+    displayName: t(`${tHead}.warnBottomList.cddy`)
   }
 ])
 const handleClose = ()=>{

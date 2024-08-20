@@ -33,7 +33,8 @@
         </div>
       </div>
       <div class="warn-btn" v-if="!isAlarm" @click="handleWarn(pileData, pileParams)">
-        查看告警详情
+        <!-- ckgjxq: '查看告警详情' -->
+        {{ t(`${tHead}.ckgjxq`) }}
       </div>
     </template>
     <normal-pile v-if="headerData?.type === 'normal-pile'" />
@@ -48,6 +49,9 @@ import WarningPile from './warning-pile.vue';
 import VideoPlayer from './video-palyer.vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { selectEquipmentInfoByEquipmentId } from './api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.pile-dialog`;
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -76,18 +80,22 @@ const close = () => {
 const handleWarn = (data, pileParams) => {
   emit('click-warn', data, pileParams);
 };
+
 const videoStatus = {
   0: {
     statusName: '离线',
-    class: 'offline'
+    class: 'offline',
+    displayName: t(`${tHead}.state.offline`)
   },
   1: {
     statusName: '在线',
-    class: 'online'
+    class: 'online',
+    displayName: t(`${tHead}.state.online`)
   },
   255: {
     statusName: '故障',
-    class: 'warning'
+    class: 'warning',
+    displayName: t(`${tHead}.state.warning`)
   }
 };
 const stateFormate = (state) => {
@@ -95,37 +103,44 @@ const stateFormate = (state) => {
     0: {
       code: 'offline',
       name: '离线',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     2: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     3: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     4: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     5: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     255: {
       code: 'warning',
       name: '故障',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.warning`)
     }
   }[state];
 };
@@ -135,7 +150,7 @@ const getEquipmentInfoByEquipmentIdData = async () => {
   if (res?.data) {
     headerData.value = {
       name: res?.data?.equipmentName,
-      status: stateFormate([res?.data?.equipmentStatus])?.name,
+      status: stateFormate([res?.data?.equipmentStatus])?.displayName || stateFormate([res?.data?.equipmentStatus])?.name,
       code: res?.data?.equipmentId,
       class: stateFormate([res?.data?.equipmentStatus])?.code,
       power: res?.data?.equipmentPower,
@@ -162,7 +177,7 @@ watch(
         isShow.value = true;
         headerData.value = {
           name: pileVideoData.value?.location,
-          status: videoStatus[pileVideoData.value?.status]?.statusName,
+          status: videoStatus[pileVideoData.value?.status]?.displayName || videoStatus[pileVideoData.value?.status]?.statusName,
           code: pileVideoData.value?.ip,
           class: videoStatus[pileVideoData.value?.status]?.class,
           power: ''

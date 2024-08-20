@@ -11,7 +11,8 @@
         {{ state.currentPower.value }}
         <span class="unit">/kW</span>
       </div>
-      <div class="label">实时功率</div>
+      <!-- ssgl: '实时功率' -->
+      <div class="label">{{t(`${tHead}.ssgl`)}}</div>
     </div>
   </div>
 </template>
@@ -20,6 +21,10 @@ import { ref, onMounted, onBeforeUnmount, inject, reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import dayjs from 'dayjs';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.honglixi-popup`;
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value?.acApi;

@@ -4,7 +4,7 @@
       <li class="info-item" v-for="(item, index) in infoList" :key="index">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
-          <span class="name">{{ item.name }}</span>
+          <span class="name">{{ item.displayName || item.name }}</span>
           <span class="num">
             <span class="value" v-if="item.name === '簇总电压'">{{ state.voltage }}</span>
             <span class="value" v-else>{{ item.value }}</span>
@@ -26,10 +26,14 @@ import { ref, onMounted, reactive, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { baoqingDevice } from './baoqing-device.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.temperature-msg`;
 // import EcResize from '@sutpc/vue3-ec-resize';
 // import { batteryTempOption } from '../config';
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
+
 const infoListFun = (data = {}) => {
   return [
     {
@@ -37,27 +41,31 @@ const infoListFun = (data = {}) => {
       name: '簇总电压',
       value: 0,
       // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
-      unit: 'V'
+      unit: 'V',
+      displayName: t(`${tHead}.infoListFun.totalVoltage`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇预充电压',
       value: 220,
       // value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
-      unit: 'V'
+      unit: 'V',
+      displayName: t(`${tHead}.infoListFun.prechargeVoltage`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇平均电压',
       value: 110,
       // value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
-      unit: 'V'
+      unit: 'V',
+      displayName: t(`${tHead}.infoListFun.avgVoltage`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇平均温度',
       value: 36,
-      unit: '℃'
+      unit: '℃',
+      displayName: t(`${tHead}.infoListFun.avgTemperature`)
     }
     // {
     //   icon: 'batteryCluster2',

@@ -13,7 +13,7 @@
         :key="index"
         :prop="item.prop"
         align="left"
-        :label="item.label"
+        :label="item.displayLabel || item.label"
         :min-width="item.width"
         :type="item.type"
       ></el-table-column>
@@ -32,13 +32,18 @@
 import { ref, reactive, inject, onMounted, watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 import { selectEquipmentAlarmByPage } from './api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.warning-message`;
+
 const pileData = inject('pileData');
+
 const messageColumnKeyListFun = () => {
   return [
-    { prop: 'index', label: '序号', width: 30, type: 'index' },
-    { prop: 'alarmTime', label: '告警时间', width: 150 },
-    { prop: 'alarmType', label: '告警类型', width: 120 },
-    { prop: 'alarmDesc', label: '告警描述', width: 150 }
+    { prop: 'index', label: '序号', width: 30, type: 'index', displayLabel: t(`${tHead}.messageColumnKeyListFun.index`) },
+    { prop: 'alarmTime', label: '告警时间', width: 150, displayLabel: t(`${tHead}.messageColumnKeyListFun.alarmTime`) },
+    { prop: 'alarmType', label: '告警类型', width: 120, displayLabel: t(`${tHead}.messageColumnKeyListFun.alarmType`) },
+    { prop: 'alarmDesc', label: '告警描述', width: 150, displayLabel: t(`${tHead}.messageColumnKeyListFun.alarmDesc`) }
   ];
 };
 const pageObj = reactive({

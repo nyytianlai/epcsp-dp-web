@@ -11,7 +11,8 @@
         {{ state.currentPower.value }}
         <span class="unit">/W</span>
       </div>
-      <div class="label">实时发电功率</div>
+      <!-- ssfdgl: '实时发电功率' -->
+      <div class="label">{{t(`${tHead}.ssfdgl`)}}</div>
     </div>
   </div>
 </template>
@@ -23,6 +24,9 @@ import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import { lianhuajingguiData } from '../config.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.lianhua-popup`;
 
 const screenPosition = ref(['20%', '50%']);
 const store = useVisibleComponentStore();

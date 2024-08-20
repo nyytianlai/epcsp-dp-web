@@ -11,7 +11,7 @@
           <span class="custom-tabs-label">
             <span class="label">{{ item.name }}</span>
             <span v-if="item.status" class="status" :class="item?.status?.code">
-              {{ item?.status?.name }}
+              {{ item?.status?.displayName || item?.status?.name }}
             </span>
           </span>
         </template>
@@ -21,11 +21,11 @@
       <li class="info-item" v-for="(item, index) in infoList" :key="index">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
-          <span class="name">{{ item.name }}</span>
+          <span class="name">{{ item.displayName || item.name }}</span>
           <span class="num">
             <span class="value">{{ item.value }}</span>
             &nbsp;
-            <span class="unit">{{ item.unit }}</span>
+            <span class="unit">{{ item.displayUnit || item.unit }}</span>
           </span>
         </div>
       </li>
@@ -48,6 +48,9 @@ import { ref, inject, onMounted, watch, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.active-message`;
 const pileData = inject('pileData');
 const customOption = {
   grid: {
@@ -56,6 +59,7 @@ const customOption = {
   }
 };
 const selectTabData = ref();
+
 const infoListFun = (data = {}) => {
   return [
     {
@@ -64,7 +68,8 @@ const infoListFun = (data = {}) => {
       value:
         data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
       dynamicType: 1,
-      unit: 'kWh'
+      unit: 'kWh',
+      displayName: t(`${tHead}.infoListFun.ljcdl`)
     },
     {
       icon: 'fdl',
@@ -74,49 +79,57 @@ const infoListFun = (data = {}) => {
           ? data.disChargeElectricity
           : data.disChargeElectricity || '--',
       dynamicType: 2,
-      unit: 'kWh'
+      unit: 'kWh',
+      displayName: t(`${tHead}.infoListFun.ljfdl`)
     },
     {
       icon: 'cdsc',
       name: '累计充电时长',
       value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
       dynamicType: 3,
-      unit: 'h'
+      unit: 'h',
+      displayName: t(`${tHead}.infoListFun.ljcdsc`)
     },
     {
       icon: 'cdsc',
       name: '累计充电次数',
       value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
       dynamicType: 4,
-      unit: '次'
+      unit: '次',
+      displayName: t(`${tHead}.infoListFun.ljcdcs`),
+      displayUnit: t(`${tHead}.infoListFun.unitCi`)
     },
     {
       icon: 'ssgl',
       name: '实时功率',
       value: data?.power === 0 ? data.power : data.power || '--',
       dynamicType: 5,
-      unit: 'kW'
+      unit: 'kW',
+      displayName: t(`${tHead}.infoListFun.ssgl`),
     },
     {
       icon: 'gzl',
       name: '故障率',
       value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
       dynamicType: 6,
-      unit: '%'
+      unit: '%',
+      displayName: t(`${tHead}.infoListFun.gzl`),
     },
     {
       icon: 'lyl',
       name: '利用率',
       value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       dynamicType: 7,
-      unit: '%'
+      unit: '%',
+      displayName: t(`${tHead}.infoListFun.lyl`),
     },
     {
       icon: 'nbwd',
       name: '内部温度',
       value: data?.equipmentTemp === 0 ? data.equipmentTemp : data.equipmentTemp || '--',
       dynamicType: 8,
-      unit: 'C⁰'
+      unit: 'C⁰',
+      displayName: t(`${tHead}.infoListFun.nbwd`),
     }
   ];
 };
@@ -127,31 +140,38 @@ const stateFormate = (state) => {
   return {
     0: {
       code: 'offline',
-      name: '离线'
+      name: '离线',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'normal',
-      name: '正常'
+      name: '正常',
+      displayName: t(`${tHead}.state.normal`)
     },
     2: {
       code: 'normal',
-      name: '正常'
+      name: '正常',
+      displayName: t(`${tHead}.state.normal`)
     },
     3: {
       code: 'normal',
-      name: '正常'
+      name: '正常',
+      displayName: t(`${tHead}.state.normal`)
     },
     4: {
       code: 'normal',
-      name: '正常'
+      name: '正常',
+      displayName: t(`${tHead}.state.normal`)
     },
     5: {
       code: 'normal',
-      name: '正常'
+      name: '正常',
+      displayName: t(`${tHead}.state.normal`)
     },
     255: {
       code: 'warning',
-      name: '故障'
+      name: '故障',
+      displayName: t(`${tHead}.state.warning`)
     }
   }[state];
 };

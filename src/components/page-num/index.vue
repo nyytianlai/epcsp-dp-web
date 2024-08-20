@@ -4,10 +4,10 @@
       <div class="num-wrap" v-for="(item, index) in data" :key="index">
         <span class="name" :style="{ color: item.nameColor }">
           <template v-if="item.children?.length" v-for="(el, i) in item.children" :key="el.name">
-            <span>{{ el.name }}</span>
+            <span>{{ el.displayName ||el.name }}</span>
             <p class="seprate" v-if="i < item.children.length - 1">/</p>
           </template>
-          <span>{{ item.name }}</span>
+          <span>{{ item.displayName || item.name }}</span>
         </span>
         <span class="num-unit">
           <span class="num">
@@ -29,7 +29,7 @@
               }}
             </template>
           </span>
-          <span class="unit">{{ item.unit }}</span>
+          <span class="unit">{{ item.displayUnit || item.unit }}</span>
         </span>
       </div>
     </div>
@@ -48,6 +48,8 @@ interface Idata {
   nameColor?: string;
   digits?: string | number;
   children?: Idata[];
+  displayName?: string;
+  displayUnit?: string;
 }
 interface Props {
   data: Idata[];

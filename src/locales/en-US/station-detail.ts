@@ -267,5 +267,340 @@ export default {
       zdgzcs: 'Number of site failures', // '站点故障次数',
       unitCi: 'second', // '次',
     },
+  },
+  components: {
+    baiqing:{
+      floors: {
+        all: 'All', // '全部',
+        F1: 'F1',
+        F2: 'F2',
+        F3: 'F3',
+      },
+      floorMenu: {
+        'space-distribution': 'space distribution ', // '空间分布',
+        'device-functions': 'Equipment functions', // '设备功能'
+      },
+      tabName: {
+        zdzl: 'Site Overview', // '站点总览'
+      },
+      bottomTabs: {
+        zdzl: 'Site Overview', // '站点总览',
+        sjmy: 'Perspective Roaming', // '视角漫游',
+        znss: 'On site facilities', // '站内设施'
+      },
+      floor3Marker: {
+        gfdcb:'Photovoltaic panels', //  '光伏电池板'
+      }
+    },
+    'baoqing-child': {
+      bqcnz: 'Baoqing Energy Storage Station', // '宝清储能站',
+      cnfxt1: '#1 Energy storage subsystem', // ' #1储能分系统',
+      fxtjcxx: 'Basic information of subsystems', // '分系统基础信息',
+      pcsgjxx: 'PCS alarm information', // 'PCS告警信息',
+      btnList: {
+        cdys: 'Charging demonstration', // '充电演示',
+        fdys: 'Discharge demonstration', // '放电演示',
+      }
+    },
+    'baoqing-system-status': {
+      state: {
+        offline: 'offline', // '离线',
+        online: 'online', // '在线',
+      }
+    },
+    baoqingchuneng: {
+      zdjbxx: 'Basic information of the site', // '站点基本信息',
+      stationName: 'Southern Power Grid Shenzhen Baoqing Energy Storage Power Station', // '南方电网深圳宝清储能电站',
+      companyName: 'ID:1928479400029287', // 'ID:1928479400029287',
+      normal: 'normal', // '正常',
+      zdsjxx: 'Site data information', // '站点数据信息',
+      gjxx: 'Alarm information', // '告警信息',
+      cnfxtzt: 'Energy storage subsystem status', // '储能分系统状态',
+      sscfqk: 'Real time charging and discharging status', // '实时充放情况',
+      infoListData: {
+        zdsjrl: 'Site design capacity:', // '站点设计容量：',
+        zdzdmj: 'Site area:', // '站点占地面积：',
+        zdzdmjValue: '12000 square meters', // '12000平方米',
+        jtdz: 'Specific address:', // '具体地址：',
+        jtdzValue: 'No. 27 Qingfeng Avenue, Longgang District, Shenzhen', // '深圳市龙岗区清风大道27号',
+        yys: 'Operator:', // '运营商：',
+        yysValue: 'Shenzhen Southern Power Grid Co., Ltd', // '深圳市南方电网有限公司',
+        fzr: 'person in charge:', // '负责人：',
+        fzrValue: 'Zhang Xiaohui', // '张小辉',
+        lxfs: 'contact information:', // '联系方式：',
+        lxfsValue: '010-2891029839',
+      }
+    },
+    'battery-msg': {
+      infoListFun:{
+        csoh: 'Cluster SOH', // '簇SOH',
+        csoc: 'Cluster SOC', // '簇SOC',
+        'jydz+': 'Insulation resistance+', // '绝缘电阻+',
+        'jydz-': 'Insulation resistance-', // '绝缘电阻-',
+        cssgl: 'Cluster real-time power', // '簇实时功率',
+        cdl: 'Cluster current', // '簇电流',
+        cljcdl: 'Accumulated charging capacity of clusters', // '簇累计充电量',
+        cljfdl: 'Accumulated discharge capacity of clusters', // '簇累计放电量',
+      }
+    },
+    'charging-state': {
+      state: {
+        offline: 'offline', // '离线',
+        nowork: 'free', // '空闲',
+        charging: 'Charging in progress', // '充电中',
+        errorwork: 'fault', // '故障',
+      },
+      warnState: {
+        chargingWarning: 'give an alarm', // '告警'
+      },
+      typeFormate: {
+        kc: 'Fast charging', // '快充',
+        mc: 'Slow charging', // '慢充',
+        cc: 'Supercharging', // '超充',
+      }
+    },
+    'dialog-battery': {
+      cxx: 'Cluster information', // '簇信息',
+      cdywd: 'Cluster voltage/temperature', // '簇电压/温度'
+    },
+    'dialog-msg': {
+      leftList: {
+        pcsabmxdy: 'PCS AB bus voltage', // 'PCS AB母线电压',
+        pcsbcmxdy: 'PCS BC bus voltage', // 'PCS BC母线电压',
+        pcscamxdy: 'PCS CA bus voltage', // 'PCS CA母线电压',
+        pcsaxdl: 'PCS A-phase current', // 'PCS A相电流',
+        pcsbxdl: 'PCS B-phase current', // 'PCS B相电流',
+        pcscxdl: 'PCS C-phase current', // 'PCS C相电流',
+        pcspl: 'PCS frequency', // 'PCS 频率',
+      },
+      rightList: {
+        pcstxzt: 'PCS communication status', // 'PCS 通讯状态',
+        zc: 'normal', // '正常',
+        pcsyfkz: 'PCS remote control', // 'PCS 远方控制',
+        pcsyxzt: 'PCS operating status', // 'PCS 运行状态',
+        pcsgzzt: 'PCS fault status', // 'PCS 故障状态',
+        pcsgjzt: 'PCS alarm status', // 'PCS 告警状态',
+      }
+    },
+    'honglixi-popup': {
+      ssgl: 'Real time power', // '实时功率'
+    },
+    honglixi:{
+      zdjbxx: 'Basic information of the site', // '站点基本信息',
+      stationName: 'Hongli West 5G Demonstration Station', // '红荔西5G示范站',
+      companyName: 'China Tower Corporation Shenzhen Branch', // '中国铁塔股份有限公司深圳市分公司',
+      zc: 'normal', // '正常',
+      cndcxx: 'Energy storage battery information', // '储能电池信息',
+      sscfqk: 'Real time charging and discharging status', // '实时充放情况',
+    },
+    'lianhua-popup': {
+      ssfdgl: 'Real time power generation', // '实时发电功率',
+    },
+    lianhuajinggui: {
+      state: {
+        offline: 'off-line', // '离线',
+        online: 'on-line', // '在线',
+      }
+    },
+    lianhuaxi: {
+      zdjbxx: 'Basic information of the site', // '站点基本信息',
+      stationName: 'Lianhua Village Subway Station Distributed Photovoltaic Station', // '莲花村地铁站分布式光伏站',
+      companyName: 'Shenzhen Shenran New Energy Technology Co., Ltd', // '深圳市深燃新能源科技有限公司',
+      normal: 'normal', // '正常',
+      sssbxx: 'Facility and equipment information', // '设施设备信息',
+      zdgjxx: 'Station alarm information', // '站点告警信息',
+      djgzjzt: 'Status of monocrystalline silicon components', // '单晶硅组件状态',
+      jrdlxx: "Today's electricity consumption information", // '今日电量信息',
+      zdssgl: 'Real time power of the site', // '站点实时功率',
+      infoListFun: {
+        yzdw: 'Owner Unit:', // '业主单位：',
+        yzdwValue: 'Shenzhen Metro Group Co., Ltd', // '深圳市地铁集团有限公司',
+        jtdz: 'Specific address:', // '具体地址：',
+        jtdzValue: 'Metro Line 10 Project in Futian District, Shenzhen, Guangdong Province - Main', // '广东省深圳市福田区轨道交通10号线工程-主…',
+        zdqy: 'Site area:', // '站点区域：',
+        zdqyValue: 'Futian District', // '福田区',
+        bwqk: 'Grid connection status:', // '并网情况：',
+        bwqkValue: 'Connected to the grid', // '已并网',
+        lxfs: 'contact information:', // '联系方式：',
+        lxfsValue: '13682341234',
+      }
+    },
+    'pop-box': {
+      hlx5gsfz: 'Hongli West 5G Demonstration Station', // '红荔西5G示范站',
+      cndcxx: 'Energy storage battery information', // '储能电池信息',
+      zdzdfdl: 'Maximum discharge capacity of the station', // '站点最大放电量',
+      zdsscfqk: 'Real time charging and discharging status of the site', // '站点实时充放情况',
+      warnBottomList:{
+        fddy: 'discharge voltage ', // '放电电压',
+        cddy: 'Charging voltage', // '充电电压',
+      }
+    },
+    'station-info': {
+      stationProperty: {
+        gy: 'public', // '公用',
+        zy: 'special-purpose', // '专用',
+      },
+      stationStatus: {
+        wz: 'unknown', // '未知',
+        jsz: 'Under construction', // '建设中',
+        gbxx: 'Close Offline', // '关闭下线',
+        whz: 'Under maintenance', // '维护中',
+        zcsy: 'Normal use', // '正常使用',
+      },
+      stationType: {
+        gg: 'public', // '公共',
+        gr: 'personal', // '个人',
+        gjzy: 'Public transportation (dedicated)', // '公交（专用）',
+        hwzy: 'Environmental Sanitation (Special)', // '环卫（专用）',
+        wlzy: 'Logistics (Dedicated)', // '物流（专用）',
+        czczy: 'Taxi (Dedicated)', // '出租车（专用）',
+        qt: 'other', // '其他',
+      },
+      infoListFun:{
+        zdqy: 'Site area:', // '站点区域：',
+        jtdz: 'Specific address:', // '具体地址：',
+        zdxz: 'Site nature:', // '站点性质：',
+        zdlx: 'Site type:', // '站点类型：',
+        fzr: 'person in charge:', // '负责人：',
+        lxfs: 'contact information:', // '联系方式：',
+      }
+    },
+    'temperature-msg': {
+      infoListFun: {
+        totalVoltage: 'Cluster total voltage', // '簇总电压',
+        prechargeVoltage: 'Cluster pre charging voltage', // '簇预充电压',
+        avgVoltage: 'Cluster average voltage', // '簇平均电压',
+        avgTemperature: 'Cluster average temperature', // '簇平均温度',
+      }
+    },
+    'pile-dialog': {
+      'active-message': {
+        infoListFun: {
+          ljcdl: 'Accumulated charging capacity', // '累计充电量',
+          ljfdl: 'Accumulated discharge capacity', // '累计放电量',
+          ljcdsc: 'Accumulated charging time', // '累计充电时长',
+          ljcdcs: 'Accumulated charging times', // '累计充电次数',
+          unitCi: 'second', // '次',
+          ssgl: 'Real time power', // '实时功率',
+          gzl: 'failure rate', // '故障率',
+          lyl: 'Utilization rate', // '利用率',
+          nbwd: 'Internal temperature', // '内部温度',
+        },
+        state: {
+          offline: 'off-line', // '离线',
+          normal: 'normal', // '正常',
+          warning: 'fault', // '故障',
+        }
+      },
+      'base-info': {
+        cdz: 'Charging station', // '充电桩',
+        cdq: 'Charging gun', // '充电枪',
+        state: {
+          offline: 'off-line', // '离线',
+          online: 'normal', // '正常',
+          warning: 'fault', // '故障',
+        },
+        equipmentTypeFun: {
+          zlsb: 'DC equipment', // '直流设备',
+          jlsb: 'Communication equipment', // '交流设备',
+          jzlytsb: 'AC/DC integrated equipment', // '交直流一体设备',
+          wxsb: 'Wireless charging', // '无线充电',
+          cfdsb: 'Charging and discharging equipment', // '充放电设备',
+          qt: 'other', // '其他',
+        },
+        listDataFun: {
+          equipmentName: 'Equipment Name:', // '设备名称：',
+          equipmentType: 'Equipment type:', // '设备类型：',
+          equipmentId: 'Equipment Number:', // '设备编号：',
+          equipmentStatus: 'Equipment status:', // '设备状态：',
+          equipmentModel: 'Equipment model:', // '设备型号：',
+          equipmentPower: 'Total power of equipment:', // '设备总功率：',
+          gunSum: 'Total number of guns:', // '总枪数：',
+          ratedPower: 'Rated power:', // '额定功率：',
+        },
+        messageColumnKeyListFun: {
+          index: 'Serial number', // '序号',
+          connectorName: 'Equipment interface name', // '设备接口名称',
+          connectorId: 'Equipment interface coding', // '设备接口编码',
+        }
+      },
+      'normal-pile': {
+        jbxx: 'essential information', // '基本信息',
+        dtxx: 'dynamic information ', // '动态信息',
+        gjxx: 'Alarm information', // '告警信息',
+      },
+      'pile-dialog': {
+        ckgjxq: 'View alarm details', // '查看告警详情',
+        state: {
+          offline: 'off-line', // '离线',
+          online: 'normal', // '在线',
+          warning: 'fault', // '故障',
+        }
+      },
+      'warning-box': {
+        ckjbxx: 'View basic information', // '查看基本信息',
+        state: {
+          offline: 'off-line', // '离线',
+          online: 'normal', // '在线',
+          warning: 'fault', // '故障',
+        }
+      },
+      'warning-message': {
+        messageColumnKeyListFun: {
+          index: 'Serial number', // '序号',
+          alarmTime: 'Alarm time', // '告警时间',
+          alarmType: 'Alarm Type ', // '告警类型',
+          alarmDesc: 'Alarm description', // '告警描述',
+        }
+      },
+      'warning-pile': {
+        yjdd: 'One click power-off', // '一键断电',
+        yjhj: 'One click call', // '一键呼叫',
+        qrxf: 'Confirm repair', // '确认修复',
+        'name-pile': 'Li Qiang - BYD Minle Charging Station - Safety Manager', // '李强-比亚迪民乐充电站-安全负责人',
+        userName: 'Li Qiang', // '李强',
+        alarmLevelData: {
+          yjrsaq: 'First level personal safety', // '一级人身安全',
+          ejsbaq: 'Secondary equipment safety', // '二级设备安全',
+          sjgjts: 'Level 3 alarm prompt', // '三级告警提示',
+        },
+        equipmentTypes: {
+          zlsb: 'DC equipment', // '直流设备',
+          jlsb: 'Communication equipment', // '交流设备',
+          jzlytsb: 'AC/DC integrated equipment', // '交直流一体设备',
+          wxcd: 'Wireless charging', // '无线充电',
+          cfdsb: 'Charging and discharging equipment', // '充放电设备',
+          qt: 'other', // '其他',
+        },
+        alarmTypes: {
+          cdxtgz: 'Charging system malfunction', // '充电系统故障',
+          dcxtgz: 'Battery system malfunction', // '电池系统故障',
+          pdxtgz: 'Power distribution system malfunction', // '配电系统故障',
+        },
+        affirms: {
+          unaffirms: 'Not confirmed', // '未确认',
+          affirms: 'Confirmed', // '已确认',
+        },
+        listDataLeftFun: {
+          equipmentName: 'Equipment Name:', // '设备名称：',
+          equipmentId: 'Equipment Number:', // '设备编号：',
+          alarmType: 'Alarm type:', // '告警类型：',
+          alarmTime: 'Alarm time:', // '告警时间：',
+          affirm: 'Confirmation result:', // '确认结果：',
+        },
+        listDataRightFun: {
+          equipmentType: 'Equipment type:', // '设备类型：',
+          connectorId: 'Equipment interface code:', // '设备接口编码：',
+          alarmDesc: 'Alarm description:', // '告警描述：',
+          reportingTime: 'Report time:', // '上报时间：',
+          contactTel: 'Phone number of the person in charge:', // '负责人电话：',
+        },
+        btnList: {
+          video: 'video', // '视频',
+          voice: 'Microphone', // '麦克风',
+          hangup: 'Hang up', // '挂断',
+        }
+      }
+    }
   }
 }

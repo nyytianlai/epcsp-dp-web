@@ -18,7 +18,7 @@
     </div>
     <ul class="info-list">
       <li v-for="(item, index) in infoListData" :key="index">
-        <label for="">{{ item.label }}</label>
+        <label for="">{{ item.displayLabel || item.label }}</label>
         <span class="value text-ellipsis-1" v-if="item.label !== '具体地址：'">
           {{ item.value }}
         </span>
@@ -36,6 +36,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.station-info`;
 interface Data {
   stationName: string;
   operatorName: string;
@@ -57,15 +60,16 @@ const props = defineProps({
 });
 
 const stationProperty = {
-  1: '公用',
-  2: '专用'
+  1: t(`${tHead}.stationProperty.gy`) || '公用',
+  2: t(`${tHead}.stationProperty.zy`) || '专用'
 };
+
 const stationStatus = {
-  0: '未知',
-  1: '建设中',
-  5: '关闭下线',
-  6: '维护中',
-  50: '正常使用'
+  0: t(`${tHead}.stationStatus.wz`) || '未知',
+  1: t(`${tHead}.stationStatus.jsz`) || '建设中',
+  5: t(`${tHead}.stationStatus.gbxx`) || '关闭下线',
+  6: t(`${tHead}.stationStatus.whz`) || '维护中',
+  50: t(`${tHead}.stationStatus.zcsy`) || '正常使用'
 };
 const stationStatusClass = {
   0: 'gray',
@@ -74,41 +78,49 @@ const stationStatusClass = {
   6: 'yellow',
   50: 'blue'
 };
+
 const stationType = {
-  1: '公共',
-  50: '个人',
-  100: '公交（专用）',
-  101: '环卫（专用）',
-  102: '物流（专用）',
-  103: '出租车（专用）',
-  255: '其他'
+  1: t(`${tHead}.stationType.gg`) || '公共',
+  50: t(`${tHead}.stationType.gr`) || '个人',
+  100: t(`${tHead}.stationType.gjzy`) || '公交（专用）',
+  101: t(`${tHead}.stationType.hwzy`) || '环卫（专用）',
+  102: t(`${tHead}.stationType.wlzy`) || '物流（专用）',
+  103: t(`${tHead}.stationType.czczy`) || '出租车（专用）',
+  255: t(`${tHead}.stationType.qt`) || '其他'
 };
+
 const { data } = toRefs(props);
 const infoListFun = (data: Data) => {
   return [
     {
       label: '站点区域：',
-      value: data?.areaName || '--'
+      value: data?.areaName || '--',
+      displayLabel: t(`${tHead}.infoListFun.zdqy`),
     },
     {
       label: '具体地址：',
-      value: data?.address || '--'
+      value: data?.address || '--',
+      displayLabel: t(`${tHead}.infoListFun.jtdz`),
     },
     {
       label: '站点性质：',
-      value: stationProperty[data?.stationProperty] || '--'
+      value: stationProperty[data?.stationProperty] || '--',
+      displayLabel: t(`${tHead}.infoListFun.zdxz`),
     },
     {
       label: '站点类型：',
-      value: stationType[data?.stationType] || '--'
+      value: stationType[data?.stationType] || '--',
+      displayLabel: t(`${tHead}.infoListFun.zdlx`),
     },
     {
       label: '负责人：',
-      value: data?.stationPrincipal || '--'
+      value: data?.stationPrincipal || '--',
+      displayLabel: t(`${tHead}.infoListFun.fzr`),
     },
     {
       label: '联系方式：',
-      value: data?.telephone || '--'
+      value: data?.telephone || '--',
+      displayLabel: t(`${tHead}.infoListFun.lxfs`),
     }
   ];
 };

@@ -7,13 +7,13 @@
     <div class="device-info">
       <ul class="device-left">
         <li class="list-item" v-for="(item, index) in listDataLeft" :key="index">
-          <label for="">{{ item.label }}</label>
+          <label for="">{{ item.displayLabel ||item.label }}</label>
           <span class="value">{{ item.value }}</span>
         </li>
       </ul>
       <ul class="device-right">
         <li class="list-item" v-for="(item, index) in listDataRight" :key="index">
-          <label for="">{{ item.label }}</label>
+          <label for="">{{ item.displayLabel || item.label }}</label>
           <span class="value">{{ item.value }}</span>
         </li>
       </ul>
@@ -21,13 +21,16 @@
 
     <div class="btns-wrap">
       <div class="border-bg red" @click="emit('close')">
-        <div class="content">一键断电</div>
+        <!-- yjdd: '一键断电' -->
+        <div class="content">{{t(`${tHead}.yjdd`)}}</div>
       </div>
       <div class="border-bg blue" @click="innerVisible = true">
-        <div class="content">一键呼叫</div>
+        <!-- yjhj: '一键呼叫' -->
+        <div class="content">{{t(`${tHead}.yjhj`)}}</div>
       </div>
       <div class="border-bg blue" @click="emit('close')">
-        <div class="content">确认修复</div>
+        <!-- qrxf: '确认修复' -->
+        <div class="content">{{t(`${tHead}.qrxf`)}}</div>
       </div>
     </div>
     <el-dialog
@@ -43,7 +46,8 @@
           <icon icon="svg-icon:people" />
           <div class="info">
             <span class="top">
-              <span class="name-pile">李强-比亚迪民乐充电站-安全负责人</span>
+              <!-- name-pile: '李强-比亚迪民乐充电站-安全负责人' -->
+              <span class="name-pile">{{t(`${tHead}.name-pile`)}}</span>
             </span>
             <span class="pile-code">18283993910</span>
           </div>
@@ -51,7 +55,8 @@
       </template>
       <div class="user-info">
         <icon icon="svg-icon:people-big" :style="{ fontSize: '2.94rem' }" />
-        <span class="user-name">李强</span>
+        <!-- userName: '李强' -->
+        <span class="user-name">{{ t(`${tHead}.userName`) }}</span>
         <span class="time">00:00:00</span>
         <div class="btn-wrap">
           <span
@@ -61,7 +66,7 @@
             :key="item.icon"
           >
             <icon :icon="`svg-icon:${item.icon}`" :style="{ fontSize: '0.6rem' }" />
-            <span class="text">{{ item.text }}</span>
+            <span class="text">{{ item.displayLabel || item.text }}</span>
           </span>
         </div>
       </div>
@@ -71,83 +76,102 @@
 <script setup>
 import { ref, inject, watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.warning-pile`;
 const emit = defineEmits(['close']);
 const pileData = inject('pileData');
+
 const alarmLevelData = {
-  1: '一级人身安全',
-  2: '二级设备安全',
-  3: '三级告警提示'
+  1: t(`${tHead}.alarmLevelData.yjrsaq`) || '一级人身安全',
+  2: t(`${tHead}.alarmLevelData.ejsbaq`) || '二级设备安全',
+  3: t(`${tHead}.alarmLevelData.sjgjts`) || '三级告警提示'
 };
+
 const equipmentTypes = {
-  1: '直流设备',
-  2: '交流设备',
-  3: '交直流一体设备',
-  4: '无线充电',
-  5: '充放电设备',
-  255: '其他'
+  1: t(`${tHead}.equipmentTypes.zlsb`) || '直流设备',
+  2: t(`${tHead}.equipmentTypes.jlsb`) || '交流设备',
+  3: t(`${tHead}.equipmentTypes.jzlytsb`) || '交直流一体设备',
+  4: t(`${tHead}.equipmentTypes.wxcd`) || '无线充电',
+  5: t(`${tHead}.equipmentTypes.cfdsb`) || '充放电设备',
+  255: t(`${tHead}.equipmentTypes.qt`) || '其他'
 };
+
 const alarmTypes = {
-  1: '充电系统故障',
-  2: '电池系统故障',
-  3: '配电系统故障'
+  1: t(`${tHead}.alarmTypes.cdxtgz`) || '充电系统故障',
+  2: t(`${tHead}.alarmTypes.dcxtgz`) || '电池系统故障',
+  3: t(`${tHead}.alarmTypes.pdxtgz`) || '配电系统故障'
 };
+
 const affirms = {
-  1: '未确认',
-  2: '已确认'
+  1: t(`${tHead}.affirms.unaffirms`) || '未确认',
+  2: t(`${tHead}.affirms.affirms`) || '已确认'
 };
+
 const listDataLeftFun = (data = {}) => {
   return [
     {
       label: '设备名称：',
-      value: data?.equipmentName || '--'
+      value: data?.equipmentName || '--',
+      displayLabel: t(`${tHead}.listDataLeftFun.equipmentName`)
     },
 
     {
       label: '设备编号：',
-      value: data?.equipmentId || '--'
+      value: data?.equipmentId || '--',
+      displayLabel: t(`${tHead}.listDataLeftFun.equipmentId`)
     },
 
     {
       label: '告警类型：',
-      value: alarmTypes[data?.alarmType] || '--'
+      value: alarmTypes[data?.alarmType] || '--',
+      displayLabel: t(`${tHead}.listDataLeftFun.alarmType`)
     },
 
     {
       label: '告警时间：',
-      value: data?.alarmTime || '--'
+      value: data?.alarmTime || '--',
+      displayLabel: t(`${tHead}.listDataLeftFun.alarmTime`)
     },
 
     {
       label: '确认结果：',
-      value: affirms[data?.affirm] || '--'
+      value: affirms[data?.affirm] || '--',
+      displayLabel: t(`${tHead}.listDataLeftFun.affirm`)
     }
   ];
 };
+
 const listDataRightFun = (data = {}) => {
   return [
     {
       label: '设备类型：',
-      value: equipmentTypes[data?.equipmentType] || '--'
+      value: equipmentTypes[data?.equipmentType] || '--',
+      displayLabel: t(`${tHead}.listDataRightFun.equipmentType`)
     },
 
     {
       label: '设备接口编码：',
-      value: data?.connectorId || '--'
+      value: data?.connectorId || '--',
+      displayLabel: t(`${tHead}.listDataRightFun.connectorId`)
     },
 
     {
       label: '告警描述：',
-      value: data?.alarmDesc || '--'
+      value: data?.alarmDesc || '--',
+      displayLabel: t(`${tHead}.listDataRightFun.alarmDesc`)
     },
 
     {
       label: '上报时间：',
-      value: data?.reportingTime || '--'
+      value: data?.reportingTime || '--',
+      displayLabel: t(`${tHead}.listDataRightFun.reportingTime`)
     },
 
     {
       label: '负责人电话：',
-      value: data?.contactTel || '--'
+      value: data?.contactTel || '--',
+      displayLabel: t(`${tHead}.listDataRightFun.contactTel`)
     }
   ];
 };
@@ -155,18 +179,22 @@ const listDataRightFun = (data = {}) => {
 const listDataLeft = ref(listDataLeftFun(pileData.value));
 const listDataRight = ref(listDataRightFun(pileData.value));
 const innerVisible = ref(false);
+
 const btnList = ref([
   {
     icon: 'video',
-    text: '视频'
+    text: '视频',
+    displayLabel: t(`${tHead}.btnList.video`)
   },
   {
     icon: 'voice',
-    text: '麦克风'
+    text: '麦克风',
+    displayLabel: t(`${tHead}.btnList.voice`)
   },
   {
     icon: 'hangup',
-    text: '挂断'
+    text: '挂断',
+    displayLabel: t(`${tHead}.btnList.hangup`)
   }
 ]);
 

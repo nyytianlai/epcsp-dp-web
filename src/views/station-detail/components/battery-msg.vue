@@ -4,7 +4,7 @@
       <li class="info-item" v-for="(item, index) in infoList" :key="index">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
-          <span class="name">{{ item.name }}</span>
+          <span class="name">{{ item.displayName || item.name }}</span>
           <span class="num">
             <span class="value" v-if="item.name === '簇实时功率'">
               {{ (state.currentData.voltage * state.currentData.current).toFixed(2) }}
@@ -25,6 +25,9 @@ import { ref, onMounted, reactive, onUnmounted } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { baoqingDevice } from './baoqing-device.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.battery-msg`;
 // const pileData = inject('pileData');
 // console.log('pileData',pileData.value)
 const state = reactive({
@@ -33,6 +36,7 @@ const state = reactive({
     current: 0
   }
 });
+
 const infoListFun = (data = {}) => {
   return [
     {
@@ -40,56 +44,64 @@ const infoListFun = (data = {}) => {
       name: '簇SOH',
       value: 99,
       // value: data?.power === 0 ? data.power : data.power || '--',
-      unit: '%'
+      unit: '%',
+      displayName: t(`${tHead}.infoListFun.csoh`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇SOC',
       value: 55,
       // value: data?.chargeCount === 0 ? data.chargeCount : data.chargeCount || '--',
-      unit: '%'
+      unit: '%',
+      displayName: t(`${tHead}.infoListFun.csoc`)
     },
     {
       icon: 'batteryCluster2',
       name: '绝缘电阻+',
       value: 65535,
       // value: data?.disChargeElectricity === 0 ? data.disChargeElectricity : data.disChargeElectricity || '--',
-      unit: 'kW/h'
+      unit: 'kW/h',
+      displayName: t(`${tHead}.infoListFun.jydz+`)
     },
     {
       icon: 'batteryCluster2',
       name: '绝缘电阻-',
       value: 65535,
       // value: data?.chargeLastTime === 0 ? data.chargeLastTime : data.chargeLastTime || '--',
-      unit: 'kW/h'
+      unit: 'kW/h',
+      displayName: t(`${tHead}.infoListFun.jydz-`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇实时功率',
       value: 0,
       // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
-      unit: 'kW'
+      unit: 'kW',
+      displayName: t(`${tHead}.infoListFun.cssgl`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇电流',
       value: 0,
       // value: data?.chargeElectricity === 0 ? data.chargeElectricity : data?.chargeElectricity || '--',
-      unit: 'A'
+      unit: 'A',
+      displayName: t(`${tHead}.infoListFun.cdl`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇累计充电量',
       value: 20184,
       // value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
-      unit: 'MWh'
+      unit: 'MWh',
+      displayName: t(`${tHead}.infoListFun.cljcdl`)
     },
     {
       icon: 'batteryCluster2',
       name: '簇累计放电量',
       value: 18826,
       // value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
-      unit: 'MWh'
+      unit: 'MWh',
+      displayName: t(`${tHead}.infoListFun.cljfdl`)
     }
   ];
 };

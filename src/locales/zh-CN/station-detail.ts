@@ -267,5 +267,340 @@ export default{
       zdgzcs: '站点故障次数',
       unitCi: '次',
     },
+  },
+  components: {
+    baiqing:{
+      floors: {
+        all: '全部',
+        F1: 'F1',
+        F2: 'F2',
+        F3: 'F3',
+      },
+      floorMenu: {
+        'space-distribution': '空间分布',
+        'device-functions': '设备功能'
+      },
+      tabName: {
+        zdzl: '站点总览'
+      },
+      bottomTabs: {
+        zdzl: '站点总览',
+        sjmy: '视角漫游',
+        znss: '站内设施'
+      },
+      floor3Marker: {
+        gfdcb: '光伏电池板'
+      }
+    },
+    'baoqing-child': {
+      bqcnz: '宝清储能站',
+      cnfxt1: ' #1储能分系统',
+      fxtjcxx: '分系统基础信息',
+      pcsgjxx: 'PCS告警信息',
+      btnList: {
+        cdys: '充电演示',
+        fdys: '放电演示',
+      }
+    },
+    'baoqing-system-status': {
+      state: {
+        offline: '离线',
+        online: '在线',
+      }
+    },
+    baoqingchuneng: {
+      zdjbxx: '站点基本信息',
+      stationName: '南方电网深圳宝清储能电站',
+      companyName: 'ID:1928479400029287',
+      normal: '正常',
+      zdsjxx: '站点数据信息',
+      gjxx: '告警信息',
+      cnfxtzt: '储能分系统状态',
+      sscfqk: '实时充放情况',
+      infoListData: {
+        zdsjrl: '站点设计容量：',
+        zdzdmj: '站点占地面积：',
+        zdzdmjValue: '12000平方米',
+        jtdz: '具体地址：',
+        jtdzValue: '深圳市龙岗区清风大道27号',
+        yys: '运营商：',
+        yysValue: '深圳市南方电网有限公司',
+        fzr: '负责人：',
+        fzrValue: '张小辉',
+        lxfs: '联系方式：',
+        lxfsValue: '010-2891029839',
+      }
+    },
+    'battery-msg': {
+      infoListFun:{
+        csoh: '簇SOH',
+        csoc: '簇SOC',
+        'jydz+': '绝缘电阻+',
+        'jydz-': '绝缘电阻-',
+        cssgl: '簇实时功率',
+        cdl: '簇电流',
+        cljcdl: '簇累计充电量',
+        cljfdl: '簇累计放电量',
+      }
+    },
+    'charging-state': {
+      state: {
+        offline: '离线',
+        nowork: '空闲',
+        charging: '充电中',
+        errorwork: '故障',
+      },
+      warnState: {
+        chargingWarning: '告警'
+      },
+      typeFormate: {
+        kc: '快充',
+        mc: '慢充',
+        cc: '超充',
+      }
+    },
+    'dialog-battery': {
+      cxx: '簇信息',
+      cdywd: '簇电压/温度'
+    },
+    'dialog-msg': {
+      leftList: {
+        pcsabmxdy: 'PCS AB母线电压',
+        pcsbcmxdy: 'PCS BC母线电压',
+        pcscamxdy: 'PCS CA母线电压',
+        pcsaxdl: 'PCS A相电流',
+        pcsbxdl: 'PCS B相电流',
+        pcscxdl: 'PCS C相电流',
+        pcspl: 'PCS 频率',
+      },
+      rightList: {
+        pcstxzt: 'PCS 通讯状态',
+        zc: '正常',
+        pcsyfkz: 'PCS 远方控制',
+        pcsyxzt: 'PCS 运行状态',
+        pcsgzzt: 'PCS 故障状态',
+        pcsgjzt: 'PCS 告警状态',
+      }
+    },
+    'honglixi-popup': {
+      ssgl: '实时功率'
+    },
+    honglixi:{
+      zdjbxx: '站点基本信息',
+      stationName: '红荔西5G示范站',
+      companyName: '中国铁塔股份有限公司深圳市分公司',
+      zc: '正常',
+      cndcxx: '储能电池信息',
+      sscfqk: '实时充放情况',
+    },
+    'lianhua-popup': {
+      ssfdgl: '实时发电功率',
+    },
+    lianhuajinggui: {
+      state: {
+        offline: '离线',
+        online: '在线',
+      }
+    },
+    lianhuaxi: {
+      zdjbxx: '站点基本信息',
+      stationName: '莲花村地铁站分布式光伏站',
+      companyName: '深圳市深燃新能源科技有限公司',
+      normal: '正常',
+      sssbxx: '设施设备信息',
+      zdgjxx: '站点告警信息',
+      djgzjzt: '单晶硅组件状态',
+      jrdlxx: '今日电量信息',
+      zdssgl: '站点实时功率',
+      infoListFun: {
+        yzdw: '业主单位：',
+        yzdwValue: '深圳市地铁集团有限公司',
+        jtdz: '具体地址：',
+        jtdzValue: '广东省深圳市福田区轨道交通10号线工程-主…',
+        zdqy: '站点区域：',
+        zdqyValue: '福田区',
+        bwqk: '并网情况：',
+        bwqkValue: '已并网',
+        lxfs: '联系方式：',
+        lxfsValue: '13682341234',
+      }
+    },
+    'pop-box': {
+      hlx5gsfz: '红荔西5G示范站',
+      cndcxx: '储能电池信息',
+      zdzdfdl: '站点最大放电量',
+      zdsscfqk: '站点实时充放情况',
+      warnBottomList:{
+        fddy: '放电电压',
+        cddy: '充电电压',
+      }
+    },
+    'station-info': {
+      stationProperty: {
+        gy: '公用',
+        zy: '专用',
+      },
+      stationStatus: {
+        wz: '未知',
+        jsz: '建设中',
+        gbxx: '关闭下线',
+        whz: '维护中',
+        zcsy: '正常使用',
+      },
+      stationType: {
+        gg: '公共',
+        gr: '个人',
+        gjzy: '公交（专用）',
+        hwzy: '环卫（专用）',
+        wlzy: '物流（专用）',
+        czczy: '出租车（专用）',
+        qt: '其他',
+      },
+      infoListFun:{
+        zdqy: '站点区域：',
+        jtdz: '具体地址：',
+        zdxz: '站点性质：',
+        zdlx: '站点类型：',
+        fzr: '负责人：',
+        lxfs: '联系方式：',
+      }
+    },
+    'temperature-msg': {
+      infoListFun: {
+        totalVoltage: '簇总电压',
+        prechargeVoltage: '簇预充电压',
+        avgVoltage: '簇平均电压',
+        avgTemperature: '簇平均温度',
+      }
+    },
+    'pile-dialog': {
+      'active-message': {
+        infoListFun: {
+          ljcdl: '累计充电量',
+          ljfdl: '累计放电量',
+          ljcdsc: '累计充电时长',
+          ljcdcs: '累计充电次数',
+          unitCi: '次',
+          ssgl: '实时功率',
+          gzl: '故障率',
+          lyl: '利用率',
+          nbwd: '内部温度',
+        },
+        state: {
+          offline: '离线',
+          normal: '正常',
+          warning: '故障',
+        }
+      },
+      'base-info': {
+        cdz: '充电桩',
+        cdq: '充电枪',
+        state: {
+          offline: '离线',
+          online: '正常',
+          warning: '故障',
+        },
+        equipmentTypeFun: {
+          zlsb: '直流设备',
+          jlsb: '交流设备',
+          jzlytsb: '交直流一体设备',
+          wxsb: '无线充电',
+          cfdsb: '充放电设备',
+          qt: '其他',
+        },
+        listDataFun: {
+          equipmentName: '设备名称：',
+          equipmentType: '设备类型：',
+          equipmentId: '设备编号：',
+          equipmentStatus: '设备状态：',
+          equipmentModel: '设备型号：',
+          equipmentPower: '设备总功率：',
+          gunSum: '总枪数：',
+          ratedPower: '额定功率：',
+        },
+        messageColumnKeyListFun: {
+          index: '序号',
+          connectorName: '设备接口名称',
+          connectorId: '设备接口编码',
+        }
+      },
+      'normal-pile': {
+        jbxx: '基本信息',
+        dtxx: '动态信息',
+        gjxx: '告警信息',
+      },
+      'pile-dialog': {
+        ckgjxq: '查看告警详情',
+        state: {
+          offline: '离线',
+          online: '在线',
+          warning: '故障',
+        }
+      },
+      'warning-box': {
+        ckjbxx: '查看基本信息',
+        state: {
+          offline: '离线',
+          online: '在线',
+          warning: '故障',
+        }
+      },
+      'warning-message': {
+        messageColumnKeyListFun: {
+          index: '序号',
+          alarmTime: '告警时间',
+          alarmType: '告警类型',
+          alarmDesc: '告警描述',
+        }
+      },
+      'warning-pile': {
+        yjdd: '一键断电',
+        yjhj: '一键呼叫',
+        qrxf: '确认修复',
+        'name-pile': '李强-比亚迪民乐充电站-安全负责人',
+        userName: '李强',
+        alarmLevelData: {
+          yjrsaq: '一级人身安全',
+          ejsbaq: '二级设备安全',
+          sjgjts: '三级告警提示',
+        },
+        equipmentTypes: {
+          zlsb: '直流设备',
+          jlsb: '交流设备',
+          jzlytsb: '交直流一体设备',
+          wxcd: '无线充电',
+          cfdsb: '充放电设备',
+          qt: '其他',
+        },
+        alarmTypes: {
+          cdxtgz: '充电系统故障',
+          dcxtgz: '电池系统故障',
+          pdxtgz: '配电系统故障',
+        },
+        affirms: {
+          unaffirms: '未确认',
+          affirms: '已确认',
+        },
+        listDataLeftFun: {
+          equipmentName: '设备名称：',
+          equipmentId: '设备编号：',
+          alarmType: '告警类型：',
+          alarmTime: '告警时间：',
+          affirm: '确认结果：',
+        },
+        listDataRightFun: {
+          equipmentType: '设备类型：',
+          connectorId: '设备接口编码：',
+          alarmDesc: '告警描述：',
+          reportingTime: '上报时间：',
+          contactTel: '负责人电话：',
+        },
+        btnList: {
+          video: '视频',
+          voice: '麦克风',
+          hangup: '挂断',
+        }
+      }
+    }
   }
 }
