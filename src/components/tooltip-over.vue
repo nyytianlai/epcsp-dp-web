@@ -242,7 +242,8 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 60px;
+  // max-width: 60px;
+  width: 100%;
   margin-left: 0px;
 }
 .num-card-unit-tooltip {
@@ -251,6 +252,7 @@ span {
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
   // max-width: 36px;
+  width: 100%;
   margin-left: 0px;
 }
 .num-card-name-tooltip {
@@ -258,7 +260,8 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 90px;
+  // max-width: 90px;
+  width: 100%;
   margin-left: 0px;
 }
 </style>
