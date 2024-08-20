@@ -237,7 +237,7 @@ span {
   max-width: 250px;
   margin-left: 8px;
 }
-.num-card-value-tooltip{
+.num-card-value-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
@@ -245,15 +245,15 @@ span {
   max-width: 60px;
   margin-left: 0px;
 }
-.num-card-unit-tooltip{
+.num-card-unit-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 36px;
+  // max-width: 36px;
   margin-left: 0px;
 }
-.num-card-name-tooltip{
+.num-card-name-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
