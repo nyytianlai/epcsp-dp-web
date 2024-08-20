@@ -117,6 +117,10 @@ const socialBenefit = ref(socialBenefitFun());
       font-size: 12px;
       display: block;
     }
+    > div {
+      flex: 1;
+      min-width: 0;
+    }
   }
 }
 @container benefit (min-width: 600px) {

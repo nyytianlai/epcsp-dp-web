@@ -113,7 +113,7 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     height: 160px;
-    padding: 0 22px;
+    padding: 0;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -123,6 +123,11 @@ onMounted(() => {
     mix-blend-mode: normal;
     box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
     border-radius: 4px;
+
+    > div {
+      flex: 1;
+      min-width: 0;
+    }
   }
 
   :deep(.pie-wrap) {

@@ -80,7 +80,7 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-around;
-    padding: 20px 22px;
+    padding: 20px 0;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,
@@ -93,6 +93,10 @@ onMounted(() => {
     resize: horizontal;
     container-type: inline-size;
     container-name: numWrap;
+    > div {
+      flex: 1;
+      min-width: 0;
+    }
   }
 }
 
