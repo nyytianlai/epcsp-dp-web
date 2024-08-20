@@ -6,7 +6,7 @@
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">
+            <span class="value fontSize30DIN">
               {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
             </span>
             <span class="unit">{{ item.unit || '' }}</span>
@@ -141,6 +141,7 @@ getData();
       .unit {
         font-size: 14px;
         color: rgb(0, 247, 255);
+        white-space: nowrap;
       }
     }
   }

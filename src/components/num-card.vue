@@ -5,26 +5,28 @@
       <span class="num">
         <span class="value" :style="styleImgFont?.num">
           <!-- {{ formatWithToLocalString(data.num) }} -->
-          <!-- {{
+          {{
             data.digits
               ? formatWithToLocalString(data.num, data.digits)
               : formatWithToLocalString(data.num)
-          }} -->
-          <tooltip-over
-          :is-inline="true"
-          :className="['num-card-value-tooltip']"
-          :content="data.digits
-              ? formatWithToLocalString(data.num, data.digits)
-              : formatWithToLocalString(data.num)"
-          />
+          }}
+          <!-- <tooltip-over
+            :is-inline="true"
+            :className="['num-card-value-tooltip']"
+            :content="
+              data.digits
+                ? formatWithToLocalString(data.num, data.digits)
+                : formatWithToLocalString(data.num)
+            "
+          /> -->
         </span>
-        <span class="unit">&nbsp;
+        <span class="unit" v-if="data.displayUnit || data.unit">
           <!-- {{ data.displayUnit || data.unit }} -->
           <tooltip-over
-          :is-inline="true"
-          :className="['num-card-unit-tooltip']"
-          :content="data.displayUnit || data.unit"
-          :ref-name="data.displayUnit || data.unit"
+            :is-inline="true"
+            :className="['num-card-unit-tooltip']"
+            :content="data.displayUnit || data.unit"
+            :ref-name="data.displayUnit || data.unit"
           />
         </span>
       </span>
@@ -35,7 +37,7 @@
           :className="['num-card-name-tooltip']"
           :content="data.displayName || data.name"
           :ref-name="data.displayName || data.name"
-          />
+        />
       </span>
     </div>
   </div>
@@ -209,7 +211,10 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      width: 100%;
       .num {
+        width: 100%;
+        text-align: center;
         .value {
           font-family: 'DIN Alternate';
           font-size: 30px;
@@ -236,6 +241,8 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       object-fit: cover;
     }
     .info {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column-reverse;
       .name {
@@ -264,7 +271,5 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       }
     }
   }
-  
 }
-
 </style>

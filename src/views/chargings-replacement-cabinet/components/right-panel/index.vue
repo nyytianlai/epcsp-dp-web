@@ -96,13 +96,9 @@ onMounted(() => {
     @{deep} {
       .num-card {
         flex: 1;
-        width: 0;
+        min-width: 0;
         padding: 15px 0 18px;
-        background: linear-gradient(
-          258.38deg,
-          rgba(37, 177, 255, 0.1) 2.46%,
-          rgba(37, 177, 255, 0) 100%
-        );
+        background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, #25b1ff00 100%);
         mix-blend-mode: normal;
         box-shadow: inset 0px 0px 35px rgba(41, 76, 179, 0.2);
         filter: drop-shadow(0px 1px 14px rgba(0, 0, 0, 0.04));
@@ -129,11 +125,12 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    column-gap: 20px;
     @{deep} {
       .num-card {
         flex: 1;
         width: 0;
-        padding: 15px 0;
+        padding: 15px 22px;
         background: linear-gradient(
           258.38deg,
           rgba(37, 177, 255, 0.1) 2.46%,
