@@ -15,7 +15,7 @@
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" v-else />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
         <span class="state">
-          <span class="text">{{ stateFormate(item.status).name }}</span>
+          <span class="text">{{ stateFormate(item.status).displayName || stateFormate(item.status).name }}</span>
         </span>
       </li>
     </ul>
@@ -27,6 +27,10 @@ import { ref, toRefs, inject, watch, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.charging-state`;
+
 interface Data {
   eid?: string;
   isAlarm?: number | string;
@@ -46,56 +50,67 @@ const props = defineProps({
 const emit = defineEmits(['handleClickState']);
 const { data } = toRefs(props);
 const warningDataId = ref([]);
+
 const stateFormate = (state) => {
   return {
     0: {
       code: 'offline-work',
-      name: '离线'
+      name: '离线',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'no-work',
-      name: '空闲'
+      name: '空闲',
+      displayName: t(`${tHead}.state.nowork`)
     },
     2: {
       code: 'no-work',
-      name: '空闲'
+      name: '空闲',
+      displayName: t(`${tHead}.state.nowork`)
     },
     3: {
       code: 'charging-work',
-      name: '充电中'
+      name: '充电中',
+      displayName: t(`${tHead}.state.charging`)
     },
     4: {
       code: 'no-work',
-      name: '空闲'
+      name: '空闲',
+      displayName: t(`${tHead}.state.nowork`)
     },
     5: {
       code: 'no-work',
-      name: '空闲'
+      name: '空闲',
+      displayName: t(`${tHead}.state.nowork`)
     },
     255: {
       code: 'error-work',
-      name: '故障'
+      name: '故障',
+      displayName: t(`${tHead}.state.errorwork`)
     }
   }[state];
 };
+
 const warnStateFormate = (state) => {
   return {
     0: {
       code: 'charging-warning',
-      name: '告警'
+      name: '告警',
+      displayName: t(`${tHead}.warnState.chargingWarning`)
     }
   }[state];
 };
+
 const typeFormate = (type) => {
   return {
     1: {
-      code: '快充'
+      code: t(`${tHead}.typeFormate.kc`) || '快充'
     },
     2: {
-      code: '慢充'
+      code: t(`${tHead}.typeFormate.mc`) ||'慢充'
     },
     3: {
-      code: '超充'
+      code: t(`${tHead}.typeFormate.cc`) || '超充'
     },
     4: {
       code: 'V2G'

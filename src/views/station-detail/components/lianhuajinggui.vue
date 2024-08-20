@@ -6,7 +6,7 @@
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" />
         <span class="power text-ellipsis-1">{{ item.calcVal || item.value }}W</span>
         <span class="state">
-          <span class="text">{{ stateFormate(item.status).name }}</span>
+          <span class="text">{{ stateFormate(item.status).displayName ||stateFormate(item.status).name }}</span>
         </span>
       </li>
     </ul>
@@ -18,7 +18,10 @@ import { onMounted, reactive } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import dayjs from 'dayjs'
-import { timeRandom } from '../config.js'
+import { timeRandom } from '../config.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.lianhuajinggui`;
 interface Data {
   id: string,
   status: number | string,
@@ -36,16 +39,19 @@ const state = reactive({
   list: [],
   selectedCurID: 'singleCrystalSilicon17'
 })
-let timer = null
+let timer = null;
+
 const stateFormate = (status) => {
   return {
     0: {
       code: 'crystalline-silicon-offline',
-      name: '离线'
+      name: '离线',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'crystalline-silicon-online',
-      name: '在线'
+      name: '在线',
+      displayName: t(`${tHead}.state.online`)
     }
   }[status];
 };

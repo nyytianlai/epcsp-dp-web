@@ -1,10 +1,11 @@
 <template>
   <div class="custom-collapse">
     <el-collapse border="0" v-model="activeNames" @change="handleChange">
-      <el-collapse-item title="充电桩" name="1">
+      <!-- cdz: '充电桩' -->
+      <el-collapse-item :title="t(`${tHead}.cdz`)" name="1">
         <ul class="device-info">
           <li class="list-item" v-for="(item, index) in listData" :key="index">
-            <label for="">{{ item.label }}</label>
+          <label for="">{{ item.displayLabel || item.label }}</label>
             <span class="value">
               {{ item.value }}
               <span v-if="item.unit">{{ item.unit }}</span>
@@ -12,7 +13,8 @@
           </li>
         </ul>
       </el-collapse-item>
-      <el-collapse-item title="充电枪" name="2">
+      <!-- cdq: '充电枪' -->
+      <el-collapse-item :title="t(`${tHead}.cdq`)" name="2">
         <ScrollTable
           style="width: 100%; height: 1.3rem"
           :autoScroll="false"
@@ -26,7 +28,7 @@
             :key="index"
             :prop="item.prop"
             align="left"
-            :label="item.label"
+            :label="item.displayLabel || item.label"
             :min-width="item.width"
             :type="item.type"
           ></el-table-column>
@@ -39,55 +41,68 @@
 <script setup>
 import { ref, inject, watch } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.base-info`;
+
 const activeNames = ref(['1', '2']);
 const pileData = inject('pileData');
+
 const stateFormate = (state) => {
   return {
     0: {
       code: 'offline',
-      name: '故障',
-      type: 'warning-pile'
+      name: '离线',
+      type: 'warning-pile',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     2: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     3: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     4: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     5: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     255: {
       code: 'warning',
       name: '故障',
-      type: 'warning-pile'
+      type: 'warning-pile',
+      displayName: t(`${tHead}.state.warning`)
     }
   }[state];
 };
+
 const equipmentTypeFun = (type) => {
   return {
-    1: '直流设备',
-    2: '交流设备',
-    3: '交直流一体设备',
-    4: '无线充电',
-    5: '充放电设备',
-    255: '其他'
+    1: t(`${tHead}.equipmentTypeFun.zlsb`) || '直流设备',
+    2: t(`${tHead}.equipmentTypeFun.jlsb`) || '交流设备',
+    3: t(`${tHead}.equipmentTypeFun.jzlytsb`) || '交直流一体设备',
+    4: t(`${tHead}.equipmentTypeFun.wxsb`) || '无线充电',
+    5: t(`${tHead}.equipmentTypeFun.cfdsb`) || '充放电设备',
+    255: t(`${tHead}.equipmentTypeFun.qt`) || '其他'
   }[type];
 };
 
@@ -95,45 +110,54 @@ const listDataFun = (data) => {
   return [
     {
       label: '设备名称：',
-      value: data?.equipmentName || '--'
+      value: data?.equipmentName || '--',
+      displayLabel: t(`${tHead}.listDataFun.equipmentName`)
     },
     {
       label: '设备类型：',
-      value: equipmentTypeFun(data?.equipmentType) || '--'
+      value: equipmentTypeFun(data?.equipmentType) || '--',
+      displayLabel: t(`${tHead}.listDataFun.equipmentType`)
     },
     {
       label: '设备编号：',
-      value: data?.equipmentId || '--'
+      value: data?.equipmentId || '--',
+      displayLabel: t(`${tHead}.listDataFun.equipmentId`)
     },
     {
       label: '设备状态：',
-      value: stateFormate(data?.equipmentStatus)?.name || '--'
+      value: stateFormate(data?.equipmentStatus)?.displayName || stateFormate(data?.equipmentStatus)?.name || '--',
+      displayLabel: t(`${tHead}.listDataFun.equipmentStatus`)
     },
     {
       label: '设备型号：',
-      value: data?.equipmentModel || '--'
+      value: data?.equipmentModel || '--',
+      displayLabel: t(`${tHead}.listDataFun.equipmentModel`)
     },
     {
       label: '设备总功率：',
       value: data?.power || '--',
-      unit: 'kW'
+      unit: 'kW',
+      displayLabel: t(`${tHead}.listDataFun.equipmentPower`)
     },
     {
       label: '总枪数：',
-      value: data?.gunSum || '--'
+      value: data?.gunSum || '--',
+      displayLabel: t(`${tHead}.listDataFun.gunSum`)
     },
     {
       label: '额定功率：',
       value: data?.equipmentPower || '--',
-      unit: 'kW'
+      unit: 'kW',
+      displayLabel: t(`${tHead}.listDataFun.ratedPower`)
     }
   ];
 };
+
 const messageColumnKeyListFun = () => {
   return [
-    { prop: 'index', label: '序号', width: 30, type: 'index' },
-    { prop: 'connectorName', label: '设备接口名称', width: 150 },
-    { prop: 'connectorId', label: '设备接口编码', width: 150 }
+    { prop: 'index', label: '序号', width: 30, type: 'index', displayLabel: t(`${tHead}.messageColumnKeyListFun.index`) },
+    { prop: 'connectorName', label: '设备接口名称', width: 150, displayLabel: t(`${tHead}.messageColumnKeyListFun.connectorName`) },
+    { prop: 'connectorId', label: '设备接口编码', width: 150, displayLabel: t(`${tHead}.messageColumnKeyListFun.connectorId`) }
   ];
 };
 const columnKeyList = ref(messageColumnKeyListFun());

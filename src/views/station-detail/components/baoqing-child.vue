@@ -8,7 +8,8 @@
         :value="item.value"
       />
     </el-select> -->
-    <Back name="宝清储能站" class="back-btn" @click="handleBack" />
+    <!-- bqcnz: '宝清储能站'  -->
+    <Back :name="t(`${tHead}.bqcnz`)" class="back-btn" @click="handleBack" />
     <div class="video-box">
       <video
         :src="curBtn === 0 ? get : put"
@@ -24,22 +25,25 @@
     <div class="btn-box">
       <div class="btn-item" v-for="(item, index) in btnList" @click="hanldeTab(item)">
         <img :src="index === curBtn ? item.imgH : item.img" alt="" />
-        <div class="text" :class="{ active: index === curBtn }">{{ item.name }}</div>
+        <div class="text" :class="{ active: index === curBtn }">{{ item.displayName || item.name }}</div>
       </div>
     </div>
     <rightSlide>
-      <title-column title=" #1储能分系统" icon="" />
+      <!--  cnfxt1: ' #1储能分系统' -->
+      <title-column :title="t(`${tHead}.cnfxt1`)" icon="" />
       <div class="basic-msg">
-        <div class="title">分系统基础信息</div>
+        <!-- fxtjcxx: '分系统基础信息' -->
+        <div class="title">{{ t(`${tHead}.fxtjcxx}`) }}</div>
         <div class="msg-box">
           <div class="msg" v-for="(item, index) in msgList" :key="index">
-            <span class="label">{{ item.label }}：</span>
-            <span class="value">{{ item.value }}</span>
+            <span class="label">{{ item.displayLabel || item.label }}：</span>
+            <span class="value">{{ item.displayValue || item.value }}</span>
           </div>
         </div>
       </div>
       <div class="warn-msg">
-        <div class="title">PCS告警信息</div>
+        <!-- pcsgjxx: 'PCS告警信息' -->
+        <div class="title">{{t(`${tHead}.pcsgjxx}`)}}</div>
         <EcResize :option="baoqingWarnOption" :style="{ height: '2.3rem' }" />
       </div>
     </rightSlide>
@@ -57,6 +61,10 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import get from './video/get.mp4';
 import put from './video/put.mp4';
 import { baoqingWarnOption, msgList } from '../config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.baoqing-child`;
+
 const emits = defineEmits(['back']);
 //选择器
 const systemValue = ref('#1储能分系统');
@@ -64,18 +72,21 @@ const systemValue = ref('#1储能分系统');
 const video = ref();
 // 按钮
 const curBtn = ref(0);
+
 const btnList = ref([
   {
     name: '充电演示',
     value: 0,
     img: baoqingChild1l,
-    imgH: baoqingChild1h
+    imgH: baoqingChild1h,
+    displayName: t(`${tHead}.btnList.cdys`)
   },
   {
     name: '放电演示',
     value: 1,
     img: baoqingChild2l,
-    imgH: baoqingChild2h
+    imgH: baoqingChild2h,
+    displayName: t(`${tHead}.btnList.fdys`)
   }
 ]);
 const tab1 = ref(0);

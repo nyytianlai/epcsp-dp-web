@@ -15,6 +15,9 @@
 <script lang="ts" setup>
 import { toRefs, onBeforeUnmount } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.baoqing-system-status`;
 const props = defineProps({
   data: {
     type: Object,
@@ -23,15 +26,16 @@ const props = defineProps({
 });
 const emits = defineEmits(['card-click'])
 const { data } = toRefs(props);
+
 const stateFormate = (state) => {
   return {
     0: {
       code: '',
-      name: '离线'
+      name: t(`${tHead}.state.offline`) || '离线'
     },
     1: {
       code: 'baoqing-online',
-      name: '在线'
+      name: t(`${tHead}.state.online`) || '在线'
     }
   }[state];
 };

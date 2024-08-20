@@ -2,33 +2,38 @@
   <page-num :data="pageNumData" class="page" />
   <panel>
     <div class="station-info">
-      <title-column title="站点基本信息" icon="car" />
+      <!-- 站点基本信息 zdjbxx: '站点基本信息' -->
+      <title-column :title="t(`${tHead}.zdjbxx`)" icon="car" />
       <div class="info">
         <div class="name-wrap">
           <div class="icon"></div>
           <div class="name">
-            <span class="station-name">南方电网深圳宝清储能电站</span>
-            <span class="company-name">ID:1928479400029287</span>
+            <!-- stationName: '南方电网深圳宝清储能电站' -->
+            <span class="station-name">{{t(`${tHead}.stationName`)}}</span>
+            <!-- companyName: 'ID:1928479400029287' -->
+            <span class="company-name">{{t(`${tHead}.companyName`)}}</span>
           </div>
         </div>
         <ul class="info-list">
           <li v-for="(item, index) in infoListData()" :key="index">
-            <label for="">{{ item.label }}</label>
+            <label for="">{{ item.displayLabel || item.label }}</label>
             <span class="value text-ellipsis-1" v-if="item.label !== '具体地址：'">
-              {{ item.value }}
+              {{ item.displayValue || item.value }}
             </span>
             <span class="value text-ellipsis-1" v-else>
-              <el-tooltip :content="item.value || ''" placement="top">
-                {{ item.value }}
+              <el-tooltip :content="item.displayValue ||item.value || ''" placement="top">
+                {{ item.displayValue || item.value }}
               </el-tooltip>
             </span>
           </li>
         </ul>
-        <div class="status blue">正常</div>
+        <!-- normal: '正常' -->
+        <div class="status blue">{{t(`${tHead}.normal`)}}</div>
       </div>
     </div>
     <div class="station-data">
-      <title-column title="站点数据信息" icon="car" />
+      <!-- zdsjxx: '站点数据信息' -->
+      <title-column :title="t(`${tHead}.zdsjxx`)" icon="car" />
       <div class="num-wrap">
         <template v-for="(item, index) in runingData" :key="index">
           <num-card :data="item" type="left-right" classStyleType="leftRightStyle1" />
@@ -36,7 +41,8 @@
       </div>
     </div>
     <div class="warn-data">
-      <title-column title="告警信息" icon="car" />
+      <!-- gjxx: '告警信息' -->
+      <title-column :title="t(`${tHead}.gjxx`)" icon="car" />
       <div class="warn-list-box" v-for="(item, index) in warnList" :key="index">
         <div class="warn-date">{{ dayjs(item.date).format('MM/DD/YYYY') }}</div>
         <warning-list :data="item.data" class="warn-child-list" />
@@ -45,7 +51,8 @@
   </panel>
   <panel type="right">
     <div class="system-status-box">
-      <title-column title="储能分系统状态" icon="car" />
+      <!-- cnfxtzt: '储能分系统状态' -->
+      <title-column :title="t(`${tHead}.cnfxtzt`)" icon="car" />
       <BaoqingSystemStatus
         :data="baoqingSytemStatusData"
         class="system-status"
@@ -53,7 +60,8 @@
       />
     </div>
     <div class="realTime">
-      <title-column title="实时充放情况" icon="car" />
+      <!-- sscfqk: '实时充放情况' -->
+      <title-column :title="t(`${tHead}.sscfqk`)" icon="car" />
       <EcResize :option="baoqingRealtimeOption()" class="chart" />
     </div>
   </panel>
@@ -79,34 +87,49 @@ import {
 } from '../config';
 import dayjs from 'dayjs';
 import BaoqingChild from './baoqing-child.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.baoqingchuneng`;
 const pageNumData = ref(pageNumBaoqingFun());
 const showChild = ref(false);
 // 站点基本信息
+
 const infoListData = (data = {}) => {
   return [
     {
       label: '站点设计容量：',
-      value: '10MW/22MWh' || '--'
+      value: '10MW/22MWh' || '--',
+      displayLabel: t(`${tHead}.infoListData.zdsjrl`),
     },
     {
       label: '站点占地面积：',
-      value: '12000平方米' || '--'
+      value: '12000平方米' || '--',
+      displayLabel: t(`${tHead}.infoListData.zdzdmj`),
+      displayValue: t(`${tHead}.infoListData.zdzdmjValue`),
     },
     {
       label: '具体地址：',
-      value: '深圳市龙岗区清风大道27号' || '--'
+      value: '深圳市龙岗区清风大道27号' || '--',
+      displayLabel: t(`${tHead}.infoListData.jtdz`),
+      displayValue: t(`${tHead}.infoListData.jtdzValue`),
     },
     {
       label: '运营商：',
-      value: '深圳市南方电网有限公司' || '--'
+      value: '深圳市南方电网有限公司' || '--',
+      displayLabel: t(`${tHead}.infoListData.yys`),
+      displayValue: t(`${tHead}.infoListData.yysValue`),
     },
     {
       label: '负责人：',
-      value: '张小辉' || '--'
+      value: '张小辉' || '--',
+      displayLabel: t(`${tHead}.infoListData.fzr`),
+      displayValue: t(`${tHead}.infoListData.fzrValue`),
     },
     {
       label: '联系方式：',
-      value: '010-2891029839' || '--'
+      value: '010-2891029839' || '--',
+      displayLabel: t(`${tHead}.infoListData.lxfs`),
+      displayValue: t(`${tHead}.infoListData.lxfsValue`),
     }
   ];
 };

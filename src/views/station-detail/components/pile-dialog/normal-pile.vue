@@ -1,13 +1,16 @@
 <template>
     <div class="normal-pile">
         <el-tabs v-model="activeName" class="pile-tabs">
-            <el-tab-pane label="基本信息" name="first">
+            <!-- jbxx: '基本信息' -->
+            <el-tab-pane :label="t(`${tHead}.jbxx`)" name="first">
               <BaseInfo/>
             </el-tab-pane>
-            <el-tab-pane label="动态信息" name="second">
+            <!-- dtxx: '动态信息', 动态信息 -->
+            <el-tab-pane :label="t(`${tHead}.dtxx`)" name="second">
               <active-message/>
             </el-tab-pane>
-            <el-tab-pane label="告警信息" name="third">
+            <!-- gjxx: '告警信息', 告警信息 -->
+            <el-tab-pane :label="t(`${tHead}.gjxx`)" name="third">
               <warning-message/>
             </el-tab-pane>
             <!-- <el-tab-pane label="充电记录" name="fourth">充电记录</el-tab-pane> -->
@@ -18,7 +21,10 @@
 import { ref } from 'vue'
 import BaseInfo from './base-info.vue'
 import WarningMessage from './warning-message.vue'
-import ActiveMessage from './active-message.vue'
+import ActiveMessage from './active-message.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.normal-pile`;
 const activeName = ref('first')
 </script>
 <style lang="less" scoped>

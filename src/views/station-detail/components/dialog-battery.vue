@@ -1,10 +1,12 @@
 <template>
   <div class="dialog-battery">
     <el-tabs v-model="activeName" class="pile-tabs">
-      <el-tab-pane label="簇信息" name="first">
+      <!-- cxx: '簇信息' -->
+      <el-tab-pane :label="t(`${tHead}.cxx`)" name="first">
         <BatteryMsg />
       </el-tab-pane>
-      <el-tab-pane label="簇电压/温度" name="second">
+      <!-- cdywd: '簇电压/温度' -->
+      <el-tab-pane :label="t(`${tHead}.cdywd`)" name="second">
         <TemperatureMsg />
       </el-tab-pane>
     </el-tabs>
@@ -20,6 +22,9 @@ import { batterySOHOption } from '../config';
 import EcResize from '@sutpc/vue3-ec-resize';
 import BatteryMsg from './battery-msg.vue';
 import TemperatureMsg from './temperature-msg.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.dialog-battery`;
 const activeName = ref('first');
 const option = ref(batterySOHOption());
 </script>

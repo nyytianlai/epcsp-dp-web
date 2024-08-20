@@ -8,7 +8,7 @@
       :key="f.value"
       @click="handleClickFloor(f)"
     >
-      <span class="text">{{ f.text }}</span>
+      <span class="text">{{ f.displayText ||  f.text }}</span>
     </div>
   </div>
   <div class="menu" v-if="isShowMenu">
@@ -20,7 +20,7 @@
       @click="handleClickMenu(m)"
     >
       <icon :icon="`svg-icon:${m.icon}`" />
-      <span class="text">{{ m.name }}</span>
+      <span class="text">{{ m.displayName || m.name }}</span>
     </div>
   </div>
   <div class="plan" v-if="tabName === '站点规划'">
@@ -42,6 +42,9 @@ import {
 import bus from '@/utils/bus';
 import Icon from '@sutpc/vue3-svg-icon';
 import Baoqingchuneng from './baoqingchuneng.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.baiqing`;
 interface Tab {
   viewCode: string;
   viewName: string;
@@ -49,39 +52,49 @@ interface Tab {
 }
 const selectFloor = ref(0);
 const selectMenu = ref();
+
 const floors = [
   {
     value: 0,
-    text: '全部'
+    text: '全部',
+    displayText: t(`${tHead}.floors.all`)
   },
   {
     value: 1,
-    text: 'F1'
+    text: 'F1',
+    displayText: t(`${tHead}.floors.F1`)
   },
   {
     value: 2,
-    text: 'F2'
+    text: 'F2',
+    displayText: t(`${tHead}.floors.F2`)
   },
   {
     value: 3,
-    text: 'F3'
+    text: 'F3',
+    displayText: t(`${tHead}.floors.F3`)
   }
 ];
 
 let preViewCode = '';
+
 const floorMenu = [
   {
     id: 1,
     icon: 'space-distribution',
-    name: '空间分布'
+    name: '空间分布',
+    displayName: t(`${tHead}.floorMenu.space-distribution`)
   },
   {
     id: 2,
     icon: 'device-functions',
-    name: '设备功能'
+    name: '设备功能',
+    displayName: t(`${tHead}.floorMenu.device-functions`)
   }
 ];
 const mapStore = useMapStore();
+let zdzl = t(`${tHead}.tabName.zdzl`);
+
 const tabName = ref('站点总览');
 const currentHrStationID = computed(() => mapStore.currentHrStationID.split('station-')[1]);
 const aircityObj = inject('aircityObj');
@@ -89,6 +102,7 @@ const __g = aircityObj.value?.acApi;
 const isShowMenu = computed(
   () => tabName.value === '站点监测' && (selectFloor.value === 1 || selectFloor.value === 2)
 );
+
 const bottomTabs = ['站点总览', '视角漫游', '站内设施'];
 const isShowPanel = computed(() => bottomTabs.includes(tabName.value));
 const floor3Marker = [
@@ -97,7 +111,8 @@ const floor3Marker = [
     id: 'photovoltaic',
     groupId: 'stationFacilitiesLabel',
     position: [529775.6925, 2510002.88, 101.244228515625],
-    img: 'photovoltaic'
+    img: 'photovoltaic',
+    displayValue: t(`${tHead}.floor3Marker.gfdcb`)
   }
 ];
 // 拆封楼栋

@@ -26,7 +26,8 @@
           </span>
         </div>
       </div>
-      <div class="warn-btn" @click="handleBasic(pileParams)">查看基本信息</div>
+      <!-- ckjbxx: '查看基本信息' -->
+      <div class="warn-btn" @click="handleBasic(pileParams)">{{ t(`${tHead}.ckjbxx`) }}</div>
     </template>
     <warning-pile />
   </el-dialog>
@@ -37,6 +38,10 @@ import Icon from '@sutpc/vue3-svg-icon';
 import WarningPile from './warning-pile.vue';
 import { reactive, ref, toRefs, watch, provide } from 'vue';
 import { selectEquipmentWarningInfoByEquipmentId } from './api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.pile-dialog.warning-box`;
+
 const emit = defineEmits(['update:visible', 'closed', 'click-detail']);
 const headerData = ref({});
 const pileData = ref({});
@@ -59,37 +64,44 @@ const stateFormate = (state) => {
     0: {
       code: 'offline',
       name: '离线',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.offline`)
     },
     1: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     2: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     3: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     4: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     5: {
       code: 'online',
       name: '正常',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.online`)
     },
     255: {
       code: 'warning',
       name: '故障',
-      type: 'normal-pile'
+      type: 'normal-pile',
+      displayName: t(`${tHead}.state.warning`)
     }
   }[state];
 };
@@ -103,7 +115,7 @@ const getEquipmentInfoByEquipmentIdData = async () => {
   if (res?.data) {
     headerData.value = {
       name: res?.data?.equipmentName,
-      status: stateFormate([res?.data?.equipmentStatus])?.name,
+      status: stateFormate([res?.data?.equipmentStatus])?.displayName || stateFormate([res?.data?.equipmentStatus])?.name,
       code: res?.data?.equipmentId,
       class: stateFormate([res?.data?.equipmentStatus])?.code,
       power: res?.data?.power,

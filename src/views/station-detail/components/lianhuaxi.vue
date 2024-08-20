@@ -2,33 +2,38 @@
   <page-num :data="pageNumData" class="page" />
   <panel>
     <div class="station-info">
-      <title-column title="站点基本信息" />
+      <!-- zdjbxx: '站点基本信息',  -->
+      <title-column :title="t(`${tHead}.zdjbxx`)" />
       <div class="info">
         <div class="name-wrap">
           <div class="icon"></div>
           <div class="name">
-            <span class="station-name">莲花村地铁站分布式光伏站</span>
-            <span class="company-name">深圳市深燃新能源科技有限公司</span>
+            <!-- stationName: '莲花村地铁站分布式光伏站', -->
+            <span class="station-name">{{ t(`${tHead}.stationName`) }}</span>
+            <!-- companyName: '深圳市深燃新能源科技有限公司', -->
+            <span class="company-name">{{t(`${tHead}.companyName`)}}</span>
           </div>
         </div>
         <ul class="info-list">
           <li v-for="(item, index) in state.infoListData" :key="index">
-            <label for="">{{ item.label }}</label>
+            <label for="">{{ item.displayLabel || item.label }}</label>
             <span class="value text-ellipsis-1" v-if="item.label !== '具体地址：'">
-              {{ item.value }}
+              {{ item.displayValue || item.value }}
             </span>
             <span class="value text-ellipsis-1" v-else>
-              <el-tooltip :content="item.value || ''" placement="top">
-                {{ item.value }}
+              <el-tooltip :content="item.displayValue || item.value || ''" placement="top">
+                {{ item.displayValue || item.value }}
               </el-tooltip>
             </span>
           </li>
         </ul>
-        <div class="status blue">正常</div>
+        <!-- normal: '正常', 正常 -->
+        <div class="status blue">{{t(`${tHead}.normal`)}}</div>
       </div>
     </div>
     <div class="device-info">
-      <title-column title="设施设备信息" />
+      <!-- sssbxx: '设施设备信息', -->
+      <title-column :title="t(`${tHead}.sssbxx`)" />
       <div class="num-wrap">
         <template v-for="(item, index) in state.deviceInfoData" :key="index">
           <num-tile-card :data="item" />
@@ -36,17 +41,20 @@
       </div>
     </div>
     <div class="station-warning-message">
-      <title-column title="站点告警信息" />
+      <!-- zdgjxx: '站点告警信息', 站点告警信息 -->
+      <title-column :title="t(`${tHead}.zdgjxx`)" />
       <EcResize class="warning-message-ec" :option="state.lianhuaWarnOptions" />
     </div>
   </panel>
   <panel type="right">
     <div class="guijing-com-status">
-      <title-column title="单晶硅组件状态" />
+      <!-- djgzjzt: '单晶硅组件状态', 单晶硅组件状态 -->
+      <title-column :title="t(`${tHead}.djgzjzt`)" />
       <lianhuajinggui :data="lianhuajingguiData" />
     </div>
     <div class="today-power-info">
-      <title-column title="今日电量信息" />
+      <!-- jrdlxx: '今日电量信息', -->
+      <title-column :title="t(`${tHead}.jrdlxx`)" />
       <div class="num-wrap">
         <template v-for="(item, index) in state.lianhuaPower" :key="index">
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
@@ -54,7 +62,8 @@
       </div>
     </div>
     <div class="station-realtime-power">
-      <title-column title="站点实时功率" />
+      <!-- zdssgl: '站点实时功率', -->
+      <title-column :title="t(`${tHead}.zdssgl`)" />
       <EcResize class="realtime-ec" :option="state.lianhuaRealtimeOptions" />
       <!-- <EcResize :option="state.lianhuaRealtimeOptions" :style="{ height: '2.3rem' }" /> -->
     </div>
@@ -74,6 +83,9 @@ import {
 } from '../config.js';
 import EcResize from '@sutpc/vue3-ec-resize';
 import Lianhuajinggui from './lianhuajinggui.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `station-detail.components.lianhuaxi`;
 interface Data {
   stationName: string;
   operatorName: string;
@@ -88,27 +100,38 @@ interface Data {
 const pageNumData = ref(pageNumLianhuaxiFun());
 
 const lianhuaWarnColor = ['#FF6B4B'];
+
 const infoListFun = (data?: Data) => {
   return [
     {
       label: '业主单位：',
-      value: '深圳市地铁集团有限公司' || '--'
+      value: '深圳市地铁集团有限公司' || '--',
+      displayLabel: t(`${tHead}.infoListFun.yzdw`),
+      displayValue: t(`${tHead}.infoListFun.yzdwValue`)
     },
     {
       label: '具体地址：',
-      value: '广东省深圳市福田区轨道交通10号线工程-主…' || '--'
+      value: '广东省深圳市福田区轨道交通10号线工程-主…' || '--',
+      displayLabel: t(`${tHead}.infoListFun.jtdz`),
+      displayValue: t(`${tHead}.infoListFun.jtdzValue`)
     },
     {
       label: '站点区域：',
-      value: '福田区' || '--'
+      value: '福田区' || '--',
+      displayLabel: t(`${tHead}.infoListFun.zdqy`),
+      displayValue: t(`${tHead}.infoListFun.zdqyValue`)
     },
     {
       label: '并网情况：',
-      value: '已并网' || '--'
+      value: '已并网' || '--',
+      displayLabel: t(`${tHead}.infoListFun.bwqk`),
+      displayValue: t(`${tHead}.infoListFun.bwqkValue`)
     },
     {
       label: '联系方式：',
-      value: '13682341234' || '--'
+      value: '13682341234' || '--',
+      displayLabel: t(`${tHead}.infoListFun.lxfs`),
+      displayValue: t(`${tHead}.infoListFun.lxfsValue`)
     }
   ];
 };
