@@ -2,7 +2,12 @@
   <div class="operation-bus-overview">
     <title-column title="营运巴士运行总览" />
     <div class="distributed-content">
-      <div class="top-card-item" v-for="item in bottomCardConfig" :key="item.name">
+      <div
+        class="top-card-item"
+        v-for="(item, index) in bottomCardConfig"
+        :key="item.name"
+        :class="[{ 'one-row': index === 0 }]"
+      >
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
@@ -21,41 +26,51 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
 
 const loading = ref(true);
-const bottomCardConfig = [
+const bottomCardConfig = ref([
   {
-    name: '今日总耗能',
+    name: '巴士剩余电量',
     code: '',
     value: '56.3',
     unit: 'kWh',
-    icon: new URL('../images/total-power.png', import.meta.url).href
+    icon: new URL('../images/surplus-power.png', import.meta.url).href
   },
   {
-    name: '今日行驶里程',
+    name: '巴士数量',
     code: '',
     value: '56.3',
-    unit: 'km',
-    icon: new URL('../images/total-mileage.png', import.meta.url).href
+    unit: '辆',
+    icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
-    name: '日均能耗',
+    name: 'V2G桩数',
     code: '',
     value: '2203',
-    unit: 'kWh',
-    icon: new URL('../images/avarage-power.png', import.meta.url).href
-  },
-  {
-    name: '日均里程',
-    code: '',
-    value: '126',
-    unit: 'km',
-    icon: new URL('../images/avarage-mileage.png', import.meta.url).href
+    unit: '个',
+    icon: new URL('../images/v2g.png', import.meta.url).href
   }
-];
+  // {
+  //   name: 'v2g站点数',
+  //   code: '',
+  //   value: '126',
+  //   unit: '个',
+  //   icon: new URL('../images/avarage-mileage.png', import.meta.url).href
+  // }
+]);
 const getData = async () => {
   loading.value = true;
   try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanRunOverview(params);
+    bottomCardConfig.value[0].value = data.busNum;
+    bottomCardConfig.value[1].value = data.busRemainPower;
+    bottomCardConfig.value[2].value = data.v2gNum;
+    bottomCardConfig.value[3].value = data.v2gStationNum;
   } catch (error) {}
   loading.value = false;
 };
@@ -83,6 +98,16 @@ getData();
     display: flex;
     flex-flow: row wrap;
     gap: 6px;
+  }
+  .one-row {
+    flex-basis: 100% !important;
+    justify-content: space-between;
+    .card-data {
+      flex-flow: row-reverse !important;
+      align-items: center;
+      justify-content: space-evenly;
+      flex: calc(80% - 10px);
+    }
   }
 
   .top-card-item {

@@ -21,9 +21,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import Api from '../api';
 
 const loading = ref(true);
-const bottomCardConfig = [
+const bottomCardConfig = ref([
   {
     name: '今日调节总需求',
     code: '',
@@ -52,10 +53,20 @@ const bottomCardConfig = [
     unit: '次',
     icon: new URL('../images/avarage-count.png', import.meta.url).href
   }
-];
+]);
 const getData = async () => {
   loading.value = true;
   try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanAdjustmentOverview(params);
+    console.log('busCanAdjustmentOverview data :>> ', data);
+    bottomCardConfig.value[0].value = data.todayAdjustmentDemand;
+    bottomCardConfig.value[1].value = data.todayAdjustmentTimes;
+    bottomCardConfig.value[2].value = data.averageAdjustmentDemand;
+    bottomCardConfig.value[3].value = data.averageAdjustmentTimes;
   } catch (error) {}
   loading.value = false;
 };

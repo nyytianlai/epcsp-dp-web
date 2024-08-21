@@ -164,7 +164,7 @@ export const specialRoutes = [
     meta: {
       // title: '车网互动',
       title: t('sub-menu.specialRoutes.cwhd'),
-      disabled: true
+      // disabled: true
     },
     component: Layout,
     children: [

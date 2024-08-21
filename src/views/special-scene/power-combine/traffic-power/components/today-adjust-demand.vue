@@ -17,6 +17,7 @@ import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
 import dayjs from 'dayjs';
+import Api from '../api';
 
 const isEmpty = ref(false);
 const loading = ref(false);
@@ -24,20 +25,34 @@ const loading = ref(false);
 const chartConfig = [
   {
     name: '调节需求',
-    code: 'cdqlyl',
+    code: 'adjustmentTimes',
     color: '0, 83, 255',
     unit: 'MW'
   }
 ];
-const data = Array.from({ length: 7 }, (_, i) => ({
-  time: dayjs()
-    .subtract(7 - i, 'days')
-    .format('MM-DD'),
-  cdqlyl: (Math.random() * 100).toFixed(1),
-  cwlyl: (Math.random() * 100).toFixed(1)
-}));
-
+// const data = Array.from({ length: 7 }, (_, i) => ({
+//   time: dayjs()
+//     .subtract(7 - i, 'days')
+//     .format('MM-DD'),
+//   cdqlyl: (Math.random() * 100).toFixed(1),
+//   cwlyl: (Math.random() * 100).toFixed(1)
+// }));
+const chartData = ref([]);
 const ecOption = ref(getBaseChartOption());
+
+const getData = async () => {
+  loading.value = true;
+  try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanAdjustmentDemand(params);
+    // console.log('busCanAdjustmentDemand data :>> ', data);
+    chartData.value = data;
+  } catch (error) {}
+  loading.value = false;
+};
 
 const drawChart = async (data = []) => {
   await getEcharts();
@@ -83,14 +98,10 @@ const drawChart = async (data = []) => {
     series
   };
 };
-onMounted(() => drawChart(data));
-const getData = async () => {
-  loading.value = true;
-  try {
-  } catch (error) {}
-  loading.value = false;
-};
-getData();
+onMounted(async () => {
+  await getData();
+  drawChart(chartData.value);
+});
 </script>
 
 <style scoped lang="less">

@@ -15,12 +15,20 @@
 import { ref, computed } from 'vue';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import { powerDistributedColumn } from '../config';
+import Api from '../api';
+
 const scrollTableData = ref([]);
 const loading = ref(true);
 
 const getData = async () => {
   loading.value = true;
   try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanDistribution(params);
+    scrollTableData.value = data;
   } catch (error) {}
   loading.value = false;
 };

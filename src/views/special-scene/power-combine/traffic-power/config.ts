@@ -6,12 +6,12 @@ export const powerDistributedColumn = [
     width: 3
   },
   {
-    prop: 'soltNum',
+    prop: 'surplusPower',
     label: '巴士剩余电量(kWh)',
     width: 4
   },
   {
-    prop: 'connectorNum',
+    prop: 'busNum',
     label: '巴士数量(辆)',
     width: 3
   }
@@ -53,7 +53,7 @@ export const operationTrendConfig = () => [
   },
   {
     name: '巴士剩余电量',
-    code: 'busCapacity',
+    code: 'busRemainEnergy',
     type: 'line',
     data: [],
     color: 'rgb(255, 207, 95)',
@@ -63,7 +63,7 @@ export const operationTrendConfig = () => [
 export const adjustTrendConfig = () => [
   {
     name: '调节次数',
-    code: 'busNum',
+    code: 'adjustmentTimes',
     type: 'bar',
     data: [],
     color: 'rgb(34, 118, 252)',
@@ -71,7 +71,7 @@ export const adjustTrendConfig = () => [
   },
   {
     name: '调节功率',
-    code: 'busCapacity',
+    code: 'adjustmentPower',
     type: 'line',
     data: [],
     color: 'rgb(255, 207, 95)',

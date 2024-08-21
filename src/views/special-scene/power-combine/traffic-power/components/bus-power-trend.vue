@@ -18,22 +18,31 @@ import { scale } from '@sutpc/config';
 import { getBaseChartOption, operationTrendConfig } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
+import Api from '../api';
 
 const loading = ref(true);
 const isEmpty = ref(false);
 const ecOption = ref();
+const chartData = ref([]);
+// const data = Array.from({ length: 24 }).map((_, i) => ({
+//   time: dayjs().startOf('day').add(i, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+//   busNum: (Math.random() * 100).toFixed(0),
+//   busCapacity: (Math.random() * 300).toFixed(0)
+// }));
 
 const getData = async () => {
   loading.value = true;
   try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanEnergy(params);
+    // console.log('busCanEnergy data :>> ', data);
+    chartData.value = data;
   } catch (error) {}
   loading.value = false;
 };
-const data = Array.from({ length: 24 }).map((_, i) => ({
-  time: dayjs().startOf('day').add(i, 'hour').format('YYYY-MM-DD HH:mm:ss'),
-  busNum: (Math.random() * 100).toFixed(0),
-  busCapacity: (Math.random() * 300).toFixed(0)
-}));
 const drawChart = async (data = []) => {
   await getEcharts();
   const option: any = getBaseChartOption();
@@ -75,10 +84,9 @@ const drawChart = async (data = []) => {
   };
 };
 
-getData();
-
-onMounted(() => {
-  drawChart(data);
+onMounted(async () => {
+  await getData();
+  drawChart(chartData.value);
 });
 </script>
 

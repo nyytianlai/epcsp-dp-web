@@ -1,6 +1,6 @@
 <template>
   <div class="adjust-trend-analysis">
-    <title-column title="调节趋势分析" />
+    <title-column title="巴士可用能量态势" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
@@ -18,22 +18,31 @@ import { scale } from '@sutpc/config';
 import { getBaseChartOption, adjustTrendConfig } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
+import Api from '../api';
 
 const loading = ref(true);
 const isEmpty = ref(false);
 const ecOption = ref();
+// const data = Array.from({ length: 24 }).map((_, i) => ({
+//   time: dayjs().startOf('day').add(i, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+//   busNum: (Math.random() * 100).toFixed(0),
+//   busCapacity: (Math.random() * 300).toFixed(0)
+// }));
+const chartData = ref([]);
 
 const getData = async () => {
   loading.value = true;
   try {
+    const params = {
+      areaCode: '',
+      streetCode: ''
+    };
+    const { data } = await Api.busCanAdjustmentTrend(params);
+    console.log('busCanAdjustmentTrend data :>> ', data);
+    chartData.value = data;
   } catch (error) {}
   loading.value = false;
 };
-const data = Array.from({ length: 24 }).map((_, i) => ({
-  time: dayjs().startOf('day').add(i, 'hour').format('YYYY-MM-DD HH:mm:ss'),
-  busNum: (Math.random() * 100).toFixed(0),
-  busCapacity: (Math.random() * 300).toFixed(0)
-}));
 const drawChart = async (data = []) => {
   await getEcharts();
   const option: any = getBaseChartOption();
@@ -61,7 +70,9 @@ const drawChart = async (data = []) => {
     });
   });
   option.xAxis.axisLabel.formatter = (params) => {
-    return dayjs(params).format('HH:mm');
+    // console.log('params :>> ', params);
+    return params;
+    // return dayjs(params).format('HH:mm');
   };
   ecOption.value = {
     ...option,
@@ -75,10 +86,9 @@ const drawChart = async (data = []) => {
   };
 };
 
-getData();
-
-onMounted(() => {
-  drawChart(data);
+onMounted(async () => {
+  await getData();
+  drawChart(chartData.value);
 });
 </script>
 
