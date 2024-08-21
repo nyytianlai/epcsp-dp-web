@@ -1,9 +1,11 @@
 <template>
-  <custom-dialog v-model:visible="props.visible" title="告警信息列表" @closed="handleClosed">
+  <!-- gjxxlb: '告警信息列表' -->
+  <custom-dialog v-model:visible="props.visible" :title="t(`${tHead}.gjxxlb`)" @closed="handleClosed">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputWarn"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearchWarn"
       >
@@ -27,7 +29,7 @@
       >
         <template #header v-if="item.prop === 'alarmLevelName'">
           <div class="alarmLevelName">
-            {{ item.label }}
+            {{ item.displayLabel || item.label }}
             <el-popover placement="bottom" trigger="click">
               <template #reference>
                 <icon :size="12" icon="svg-icon:filter" class="filter" />
@@ -72,9 +74,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="1">
+      <!-- cz: '操作' xq: '详情'  操作 -->
+      <el-table-column :label="t(`${tHead}.cz`)" key="operation" minWidth="1">
         <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">详情</a>
+          <a href="javascript:;" class="detail" @click="handleDetailWarn(scope)">{{ t(`${tHead}.xq`) }}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -97,7 +100,9 @@ import { tableColumnFun } from '@/global/commonFun.js';
 import { toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `safety-supervision.warn-info-list-dialog`;
 interface Props {
   visible: boolean;
 }

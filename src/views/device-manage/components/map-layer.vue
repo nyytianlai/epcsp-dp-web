@@ -14,6 +14,9 @@ import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue
 import { useMapStore } from '@/stores/map';
 import { layerNameQuNameArr, quNameCodeInterTrans } from '@/global/config/map';
 import bus from '@/utils/bus';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `device-manage.map-layer`;
 
 const aircityObj = inject('aircityObj');
 const __g = aircityObj.value.acApi;
@@ -30,23 +33,29 @@ store.changeStationType([1, 2, 3]);
 
 let quRef = ref(null);
 let cirBar4Ref = ref(null);
+let cdzsg = t(`${tHead}.cdzsg`);
+let cdqsg = t(`${tHead}.cdqsg`);
+//cdzsg: '充电桩数/个'; cdqsg: '充电枪数/个'
+let legendNameData = ref(cdzsg || '充电桩数/个');
 
-let legendNameData = ref('充电桩数/个');
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
     name: '快充桩',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.kcz`),
   },
   {
     color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
     name: '慢充桩',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.mcz`),
   },
   {
     color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
     name: '超充桩',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.ccz`),
   }
   // {
   //   color: 'linear-gradient(178.17deg, #B9FFFF 4.74%, #214D4B 95.4%)',
@@ -57,7 +66,8 @@ let legendListData = reactive([
 
 const setLegendData = (code: 1 | 2) => {
   let type = code == 1 ? '桩' : '枪';
-  (legendNameData.value = `充电${type}数/个`),
+  legendNameData.value = code == 1 ? cdzsg : cdqsg;
+  // (legendNameData.value = `充电${type}数/个`),
     legendListData.forEach((item) => {
       item.name = item.name.slice(0, -1) + type;
       item.type = false;

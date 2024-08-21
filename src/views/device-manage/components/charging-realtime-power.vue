@@ -5,7 +5,8 @@
       <span class="num">
         {{ formatWithToLocalString(data) }}
       </span>
-      <span class="unit-info">充电实时功率/kW</span>
+      <!-- sscdgl: '充电实时功率' -->
+      <span class="unit-info">{{t(`${tHead}.sscdgl`)}}/kW</span>
     </div>
   </div>
 </template>
@@ -13,6 +14,9 @@
 import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `device-manage.charging-realtime-power`;
 const props = defineProps({
   data: {
     type: Number || String,

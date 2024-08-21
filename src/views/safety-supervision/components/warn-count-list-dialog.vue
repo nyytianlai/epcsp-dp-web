@@ -1,9 +1,10 @@
 <template>
   <custom-dialog v-model:visible="visible" :title="messageDialogTitle" @closed="$emit('close')">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputWarnLeft"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearchWarnLeft"
       >
@@ -48,6 +49,9 @@ import { messageColumnKeyListFun } from '../config.js';
 import { safetySupervisionAccumulated } from '../api.js';
 import Icon from '@sutpc/vue3-svg-icon';
 import config from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `safety-supervision.warn-count-list-dialog`;
 
 const props = defineProps({
   visible: {
@@ -60,7 +64,7 @@ const props = defineProps({
   }
 });
 const { visible, messageWarningType } = toRefs(props);
-const messageDialogTitle = ref('运营商告警列表');
+const messageDialogTitle = ref(t(`${tHead}.yysgjlb`) || '运营商告警列表');
 const inputWarnLeft = ref();
 const messageTableData = ref([]);
 const messageColumnData = ref(messageColumnKeyListFun());
@@ -122,7 +126,7 @@ const getSafetySupervisionAccumulated = async (
 };
 const init = () => {
   pageObj.currentPage = 1;
-  messageDialogTitle.value = messageWarningType.value === 1 ? '运营商告警列表' : '充电站告警列表';
+  messageDialogTitle.value = messageWarningType.value === 1 ? t(`${tHead}.yysgjlb`) || '运营商告警列表' : t(`${tHead}.cdzgjlb`) || '充电站告警列表';
   messageColumnData.value = messageColumnKeyListFun(messageWarningType.value);
   loadGetSafetySupervisionAccumulated();
 };

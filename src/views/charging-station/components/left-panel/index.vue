@@ -1,7 +1,8 @@
 <template>
   <panel>
     <div class="total-charging-facilities">
-      <title-column title="整体接入信息" />
+      <!-- 整体接入信息 ztjrxx: '整体接入信息' -->
+      <title-column :title="t(`${tHead}.ztjrxx`)" />
       <div class="num-wrap">
         <template v-for="(item, index) in cardData" :key="index">
           <num-card :data="item" classStyleType="bottomDown" />
@@ -22,7 +23,7 @@
             :class="{ active: curBtn === item.value }"
             @click="handleTabBtn(item)"
           >
-            {{ item.name }}
+            {{ item.displayName || item.name }}
           </div>
         </div>
       </div>
@@ -33,7 +34,8 @@
       </div>
     </div>
     <div class="operating-company">
-      <title-column title="运营企业排名" :showBtn="true" @handleClick="handleDetailClick" />
+      <!-- yyqypm: '运营企业排名', -->
+      <title-column :title="t(`${tHead}.yyqypm`)"  :showBtn="true" @handleClick="handleDetailClick" />
       <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
       <rank-list class="operating-company__list"
         :data="projectList"
@@ -55,13 +57,18 @@ import {
 } from '../../config.js';
 import { totalFacilities, totalEquipment, stationOpeTop10 } from '../../api.js';
 import EnterpriseRankListDialog from '../enterprise-rank-list-dialog.vue';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.left-panel`;
 // 运营企业排名弹窗显示标识
 const dialogRankVisible = ref(false);
 // 左二图的tab
 const curBtn = ref(1);
+
 const tabList = ref([
-  { value: 1, name: '桩', index: 'pile' },
-  { value: 2, name: '枪', index: 'gun' }
+  { value: 1, name: '桩', index: 'pile', displayName: t(`${tHead}.tabList.pile`) },
+  { value: 2, name: '枪', index: 'gun', displayName: t(`${tHead}.tabList.gun`) }
 ]);
 //充电设施总量数据
 const cardData = ref(cdsszlFun());
@@ -125,7 +132,7 @@ const getStationOpeTop10 = async (type) => {
     const data = res.data.map((item) => {
       return {
         num: item.amount,
-        unit: '个',
+        unit: t(`${tHead}.unitGe`) || '个',
         name: item.operatorName
       };
     });

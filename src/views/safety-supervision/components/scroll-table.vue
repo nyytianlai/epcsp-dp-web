@@ -14,7 +14,7 @@
       v-slot="scope"
       :key="index"
       :prop="item.prop"
-      :label="item.label"
+      :label="item.displayLabel || item.label"
       :min-width="item.width"
       :align="item.align"
       :show-overflow-tooltip="true"

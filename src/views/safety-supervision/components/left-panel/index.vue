@@ -2,24 +2,27 @@
   <panel>
     <div class="left-panel-wrap flex-v">
       <div class="total-warning-num flex-v-1 flex-v">
-        <title-column title="累计告警数据信息" />
+        <!-- ljgjsjxx: '累计告警数据信息' -->
+        <title-column :title="t(`${tHead}.ljgjsjxx`)" />
         <tabs
           :data="totalWarningTabs"
           @changeTab="(data) => handleChangeTab(data, 'total-warning')"
           v-model="messageWarningType"
         >
-          <button-base @handleClick="handleClickMessageBtn">查看更多</button-base>
+        <!-- ckgd: '查看更多' -->
+          <button-base @handleClick="handleClickMessageBtn">{{t(`${tHead}.ckgd`)}}</button-base>
         </tabs>
         <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
       </div>
       <div class="area-warning-num flex-v-1 flex-v">
+        <!-- xzqgjsjqk: "行政区告警数据情况' -->
         <title-column
-          title="行政区告警数据情况"
+          :title="t(`${tHead}.xzqgjsjqk`)"
           :showTabBtn="true"
           :tabList="[
-            { value: 1, name: '日' },
-            { value: 2, name: '月' },
-            { value: 3, name: '年' }
+            { value: 1, name: '日', displayName: t(`${tHead}.tabList.day`) },
+            { value: 2, name: '月', displayName: t(`${tHead}.tabList.month`) },
+            { value: 3, name: '年', displayName: t(`${tHead}.tabList.year`) }
           ]"
           @handleTabBtn="handleWarmYearBtn"
         />
@@ -41,6 +44,9 @@ import { totalWarningTabsFun, columnKeyListFun } from '../../config.js';
 import { safetySupervisionAccumulated, districtAlarmStatics } from '../../api.js';
 import ScrollTable from '../scroll-table.vue';
 import WarnCountListDialog from '../warn-count-list-dialog.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `safety-supervision.left-panel`;
 const props = defineProps({
   bottomCode: {
     type: Number,
@@ -83,7 +89,7 @@ const getDistrictAlarmStatics = async () => {
   let newData = data?.map((item) => {
     return {
       ...item,
-      unit: '次',
+      unit: t(`${tHead}.unitCi`) || '次',
       num: item.cnt,
       name: item.areaName
     };

@@ -13,7 +13,8 @@
           @resize="hanldeResize"
         ></numberFlipping>
       </div>
-      <span class="unit-info">实时功率/kW</span>
+      <!-- ssgl: '实时功率' -->
+      <span class="unit-info">{{t(`${tHead}.ssgl`)}}/kW</span>
     </div>
   </div>
 </template>
@@ -22,6 +23,9 @@ import { toRefs, onMounted, reactive, watch, ref, nextTick } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import gsap from 'gsap';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.charging-realtime-power`;
 
 const props = defineProps({
   data: {
