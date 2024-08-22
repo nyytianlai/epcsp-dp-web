@@ -2,12 +2,16 @@
   <div class="no-data-wrap">
     <div class="content">
       <icon icon="svg-icon:no-data" />
-      <span class="desc">暂无数据</span>
+      <!-- noData: '暂无数据' -->
+      <span class="desc">{{t(`${tHead}.noData`)}}</span>
     </div>
   </div>
 </template>
 <script setup>
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `components`;
 </script>
 <style lang="less">
 .no-data-wrap {

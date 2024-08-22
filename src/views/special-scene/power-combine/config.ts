@@ -6,15 +6,21 @@
  * @Description:
  * @FilePath: /epcsp-dp-web/src/views/special-scene/power-combine/config.ts
  */
+import i18n from '@/locales/i18n'; 
+const { t } = i18n.global;
+const configHead  = `special-scene.power-combine.config`;
+
 export const bottomTabDataFun = () => {
   return [
     {
       code: 1,
-      label: '交能协同'
+      label: '交能协同',
+      displayLabel: t(`${configHead}.bottomTabDataFun.jnxt`)
     },
     {
       code: 2,
-      label: '停充一体'
+      label: '停充一体',
+      displayLabel: t(`${configHead}.bottomTabDataFun.tcyt`)
     }
   ];
 };

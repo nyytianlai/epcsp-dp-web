@@ -1,6 +1,6 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
-    <div class="unit" v-if="unit">单位: {{ unit }}</div>
+    <div class="unit" v-if="unit">{{t(`${tHead}.unit`)}}: {{ unit }}</div>
     <ec-resize :option="ecOption" />
   </div>
 </template>
@@ -13,6 +13,9 @@ import { merge } from 'lodash-es';
 import { deepClone } from '@/utils';
 // import { getRemValue } from '@/utils/index';
 import config, { scale } from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `components`;
 
 interface Idata {
   x: number;
@@ -525,7 +528,7 @@ const ecOptionFunOnlyLine = () => {
       }
     },
     yAxis: {
-      name: `单位：${props.yaxisName}`,
+      name: `${t(`${tHead}.unit`)}：${props.yaxisName}`,
       nameTextStyle: {
         color: '#B4C0CC'
       },

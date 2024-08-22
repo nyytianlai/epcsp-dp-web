@@ -1,6 +1,7 @@
 <template>
   <div class="operation-bus-overview">
-    <title-column title="营运巴士运行总览" />
+    <!-- yybsyxzl: '营运巴士运行总览' -->
+    <title-column :title="t(`${tHead}.yybsyxzl`)" />
     <div class="distributed-content">
       <div
         class="top-card-item"
@@ -16,7 +17,7 @@
             </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.name }}</div>
+          <div class="card-name">{{ item.displayName || item.name }}</div>
         </div>
       </div>
     </div>
@@ -28,29 +29,45 @@ import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.operation-bus-overview`;
+
 const loading = ref(true);
+
 const bottomCardConfig = ref([
   {
     name: '巴士剩余电量',
     code: '',
     value: '56.3',
     unit: 'kWh',
-    icon: new URL('../images/surplus-power.png', import.meta.url).href
+    icon: new URL('../images/surplus-power.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.jzznh`)
   },
   {
     name: '巴士数量',
     code: '',
     value: '56.3',
     unit: '辆',
-    icon: new URL('../images/bus-nums.png', import.meta.url).href
+    icon: new URL('../images/bus-nums.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjxslc`)
   },
   {
     name: 'V2G桩数',
     code: '',
     value: '2203',
     unit: '个',
-    icon: new URL('../images/v2g.png', import.meta.url).href
+    icon: new URL('../images/v2g.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjnh`)
   }
+  // {
+  //   name: '日均里程',
+  //   code: '',
+  //   value: '126',
+  //   unit: 'km',
+  //   icon: new URL('../images/avarage-mileage.png', import.meta.url).href,
+  //   displayName: t(`${tHead}.bottomCardConfig.rjlc`)
+  // }
   // {
   //   name: 'v2g站点数',
   //   code: '',

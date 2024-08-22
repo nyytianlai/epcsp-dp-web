@@ -1,6 +1,7 @@
 <template>
   <div class="parking-charge-rank">
-    <title-column title="停充一体化停车场排名" />
+    <!-- tcythtccpm: '停充一体化停车场排名' -->
+    <title-column :title="t(`${tHead}.tcythtccpm`)" />
     <div class="legend">
       <div
         class="legend-item"
@@ -8,7 +9,7 @@
         :key="item.name"
         :style="`--color:${item.color}`"
       >
-        {{ item.name }}
+        {{ item.displayName || item.name }}
       </div>
     </div>
     <div class="distributed-content" v-loading="loading">
@@ -50,15 +51,18 @@
       popper-class="rank-popover"
     >
       <div class="data-tip">
-        停车位数
+        <!-- tcws: '停车位数' -->
+        {{t(`${tHead}.tcws`)}}
         <span :style="{ color: legend[0].color }">{{ popoverData[legend[0].code] }}</span>
       </div>
       <div class="data-tip">
-        充电枪数
+        <!-- cdqs: '充电枪数' -->
+        {{t(`${tHead}.cdqs`)}}
         <span :style="{ color: legend[1].color }">{{ popoverData[legend[1].code] }}</span>
       </div>
       <div class="data-tip">
-        停充配比
+        <!-- tcpb: '停充配比' -->
+        {{t(`${tHead}.tcpb`)}}
         <span>{{ popoverData.stopChargeRatio ?? '--' }}</span>
       </div>
     </el-popover>
@@ -68,22 +72,28 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.parking-charge-rank`;
 
 const loading = ref(true);
 const triggerRef = ref();
 const popoverData = ref<any>({});
 const refList = ref([]);
 const rankData = ref<any>([]);
+
 const legend = [
   {
     name: '车位',
     code: 'totalParkingSpace',
-    color: 'rgb(34, 118, 252)'
+    color: 'rgb(34, 118, 252)',
+    displayName: t(`${tHead}.legend.totalParkingSpace`)
   },
   {
     name: '充电枪',
     code: 'totalGun',
-    color: 'rgb(0, 212, 212)'
+    color: 'rgb(0, 212, 212)',
+    displayName: t(`${tHead}.legend.totalGun`)
   }
 ];
 

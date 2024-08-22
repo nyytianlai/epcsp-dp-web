@@ -1,9 +1,11 @@
 <template>
-  <custom-dialog title="市民反馈情况列表" v-model:visible="props.visible" @closed="handleClosed">
+  <!-- smfkqklb: '市民反馈情况列表' -->
+  <custom-dialog :title="t(`${tHead}.smfkqklb`)" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputDetail"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearchDetail"
       >
@@ -27,7 +29,7 @@
       >
         <template #header v-if="item.prop === 'problemType'">
           <div class="problemType">
-            {{ item.label }}
+            {{ item.displayLabel || item.label }}
             <el-popover placement="bottom" trigger="click">
               <template #reference>
                 <icon :size="12" icon="svg-icon:filter" class="filter" />
@@ -68,6 +70,9 @@ import { feedbackDetail } from '../api.js';
 import { tableColumnFun } from '@/global/commonFun.js';
 import Icon from '@sutpc/vue3-svg-icon';
 import config from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.citizens-feedback-dialog`;
 
 interface Props {
   visible: boolean;
@@ -100,7 +105,7 @@ const loadFeedbackDetail = async () => {
   if (columnDataDetail.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
       type: 'index',
-      label: '序号',
+      label: t(`${tHead}.xh`) || '序号',
       index: (index) => (pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
       minWidth: 1
     };

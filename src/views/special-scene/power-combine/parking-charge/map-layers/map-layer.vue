@@ -10,7 +10,7 @@
   <qu ref="quRef" :module="200" @addQuBar="addQuBar"></qu>
   <legend-list
     :legendList="legendListData"
-    :legendName="'数量'"
+    :legendName="legendName || '数量'"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>
@@ -23,6 +23,10 @@ import Qu from '@/components/map-layer/qu.vue';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.map-layer`;
+
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -34,16 +38,20 @@ let barPositionBak;
 let barData;
 let timer;
 const quRef = ref();
+let legendName = t(`${tHead}.sl`);
+// sl: '数量'
 const legendListData = reactive([
   {
     color: 'rgb(5, 160, 255)',
     name: '停车位',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.tcw`)
   },
   {
     color: 'rgb(46, 255, 255)',
     name: '充电枪',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.cdq`)
   }
 ]);
 

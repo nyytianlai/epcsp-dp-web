@@ -1,6 +1,7 @@
 <template>
   <div class="bus-power-distributed">
-    <title-column title="巴士剩余电量分布" />
+    <!-- bssydlfb: '巴士剩余电量分布' -->
+    <title-column :title="t(`${tHead}.bssydlfb`)" />
     <div class="distributed-content" v-loading="loading">
       <scroll-table
         :scrollTableData="scrollTableData"
@@ -16,6 +17,9 @@ import { ref, computed } from 'vue';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import { powerDistributedColumn } from '../config';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.bus-power-distributed`;
 
 const scrollTableData = ref([]);
 const loading = ref(true);

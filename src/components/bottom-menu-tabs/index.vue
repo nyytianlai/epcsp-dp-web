@@ -8,7 +8,7 @@
       :key="index"
     >
       <span class="label">
-        {{ item.label }}
+        {{ item.displayLabel || item.label }}
       </span>
     </div>
   </div>
@@ -18,6 +18,7 @@ import { toRefs, ref } from 'vue';
 interface Idata {
   code: string | number;
   label: string;
+  displayLabel?: string;
 }
 interface Props {
   data: Idata[];

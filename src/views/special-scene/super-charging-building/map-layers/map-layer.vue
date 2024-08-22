@@ -21,6 +21,10 @@ import bus from '@/utils/bus';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.map-layers`;
+const commonHead = `special-scene.super-charging-building.config.common`;
 
 const props = defineProps({
   selectBtmTab: {
@@ -45,22 +49,26 @@ let isInit;
 
 const quRef = ref(null);
 // const rectBar4Ref = ref(null);
-const legendNameData = computed(() => `${props.selectBtmTab.label}点数`);
+let ds = t(`${tHead}.ds`); // ds: '点数',
+const legendNameData = computed(() => `${props.selectBtmTab.label}${ds || '点数'}`);
 const legendListData = reactive([
   {
     color: 'rgb(5, 160, 255)',
     name: '规划',
-    type: false
+    type: false,
+    displayName: t(`${commonHead}.guihua`)
   },
   {
     color: 'rgb(97, 130, 255)',
     name: '建设',
-    type: false
+    type: false,
+    displayName: t(`${commonHead}.jianshe`)
   },
   {
     color: 'rgb(46, 255, 255)',
     name: '营运',
-    type: false
+    type: false,
+    displayName: t(`${commonHead}.yingyun`)
   }
 ]);
 

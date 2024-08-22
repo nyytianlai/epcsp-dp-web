@@ -5,17 +5,20 @@
         <icon icon="svg-icon:house" class="house" />
         <div class="detail-info">
           <div class="info-name">{{ baseMsg?.operatorName }}</div>
-          <div class="inifo-code">统一社会信用码：{{ baseMsg?.operatorId }}</div>
+          <!-- tyshxym: '统一社会信用码：' -->
+          <div class="inifo-code">{{ t(`${tHead}.tyshxym`) }}{{ baseMsg?.operatorId }}</div>
         </div>
       </div>
     </template>
     <div class="detail-maintain">
       <div class="maintain-tab">
         <div class="tab" :class="{ active: current === 'msg' }" @click="handleTab('msg')">
-          基本信息
+          <!-- jbxx: '基本信息' -->
+          {{ t(`${tHead}.jbxx`) }}
         </div>
         <div class="tab" :class="{ active: current === 'charge' }" @click="handleTab('charge')">
-          充电设施
+          <!-- cdss: '充电设施' -->
+          {{ t(`${tHead}.cdss`) }}
         </div>
       </div>
       <div class="msg-container" v-if="current === 'msg'">
@@ -36,10 +39,10 @@
           <div class="charge-top" v-for="(item, index) in CHARGE_SETTING" :key="index">
             <icon class="charge-icon" :icon="`svg-icon:${item.icon}`" />
             <div class="charge-detail">
-              <div class="charge-detail-name">{{ item.name }}</div>
+              <div class="charge-detail-name">{{ item.displayName || item.name }}</div>
               <div class="charge-detail-num">
                 {{ charge[item.index] }}
-                <span class="unit">{{ item.unit }}</span>
+                <span class="unit">{{ item.displayUnit || item.unit }}</span>
               </div>
             </div>
           </div>
@@ -59,9 +62,11 @@
           >
             <template #default="scope"></template>
           </el-table-column>
-          <el-table-column label="操作" key="operation" minWidth="1.5">
+          <!-- cz: '操作' -->
+          <el-table-column :label="t(`${tHead}.cz`)" key="operation" minWidth="1.5">
             <template #default="scope">
-              <a href="javascript:;" class="detail" @click="handleDetail(scope.row)">详情</a>
+              <!-- xq: '详情' -->
+              <a href="javascript:;" class="detail" @click="handleDetail(scope.row)">{{ t(`${tHead}.xq`) }}</a>
             </template>
           </el-table-column>
         </el-table>
@@ -84,6 +89,9 @@ import { ref, inject, reactive } from 'vue';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { columnDataChargeFun } from '../config';
 import { operatorBasicInfo, equInfo, stationInfoList } from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.rank-detail`;
 const emit = defineEmits(['goDetail']);
 // 当前tab
 const current = ref('msg');
@@ -103,47 +111,57 @@ const pageObj = reactive({
 const tableData = ref([]);
 const columnData = ref(columnDataChargeFun());
 // 基本信息配置表
+
 const BASE_MSG_SEETING = {
-  areaName: '企业注册行政区',
-  chargeSafePersonTel: '安全负责电话',
-  companySize: '企业规模',
-  companyType: '企业类型',
-  contactEmail: '联系人邮箱',
-  contactPerson: '安全负责人',
-  contactTel: '联系人电话',
-  foundDate: '成立日期',
-  operatorId: '社会信用码',
-  operatorName: '运营商名称',
-  operatorRegAddress: '注册地',
-  regCapital: '注册资本(万元)',
-  serviceTel: '客服电话',
-  streetName: '企业注册街道'
+  areaName: t(`${tHead}.BASE_MSG_SEETING.areaName`) || '企业注册行政区',
+  chargeSafePersonTel:  t(`${tHead}.BASE_MSG_SEETING.chargeSafePersonTel`) || '安全负责电话',
+  companySize:  t(`${tHead}.BASE_MSG_SEETING.companySize`) || '企业规模',
+  companyType:  t(`${tHead}.BASE_MSG_SEETING.companyType`) || '企业类型',
+  contactEmail:  t(`${tHead}.BASE_MSG_SEETING.contactEmail`) || '联系人邮箱',
+  contactPerson:  t(`${tHead}.BASE_MSG_SEETING.contactPerson`) || '安全负责人',
+  contactTel:  t(`${tHead}.BASE_MSG_SEETING.contactTel`) || '联系人电话',
+  foundDate:  t(`${tHead}.BASE_MSG_SEETING.foundDate`) || '成立日期',
+  operatorId:  t(`${tHead}.BASE_MSG_SEETING.operatorId`) || '社会信用码',
+  operatorName:  t(`${tHead}.BASE_MSG_SEETING.operatorName`) || '运营商名称',
+  operatorRegAddress:  t(`${tHead}.BASE_MSG_SEETING.operatorRegAddress`) || '注册地',
+  regCapital:  t(`${tHead}.BASE_MSG_SEETING.regCapital`) || '注册资本(万元)',
+  serviceTel:  t(`${tHead}.BASE_MSG_SEETING.serviceTel`) || '客服电话',
+  streetName:  t(`${tHead}.BASE_MSG_SEETING.streetName`) || '企业注册街道'
 };
 // 充电设施配置表
+
 const CHARGE_SETTING = [
   {
     name: '充电站总量',
     index: 'stationCount',
     icon: 'stationCount',
-    unit: '座'
+    unit: '座',
+    displayName: t(`${tHead}.CHARGE_SETTING.cdzhanzl`),
+    displayUnit: t(`${tHead}.CHARGE_SETTING.unitZ`)
   },
   {
     name: '充电桩总量',
     index: 'equipmentCount',
     icon: 'equipmentCount',
-    unit: '个'
+    unit: '个',
+    displayName: t(`${tHead}.CHARGE_SETTING.cdzhuangzl`),
+    displayUnit: t(`${tHead}.CHARGE_SETTING.unitGe`)
   },
   {
     name: '充电枪总量',
     index: 'gunCount',
     icon: 'gunCount',
-    unit: '个'
+    unit: '个',
+    displayName: t(`${tHead}.CHARGE_SETTING.cdqzl`),
+    displayUnit: t(`${tHead}.CHARGE_SETTING.unitGe`)
   },
   {
     name: '今日告警总量',
     index: 'alarmCount',
     icon: 'alarmCount',
-    unit: '次'
+    unit: '次',
+    displayName: t(`${tHead}.CHARGE_SETTING.jrgjzl`),
+    displayUnit: t(`${tHead}.CHARGE_SETTING.unitCi`)
   }
 ];
 // 获取基本信息
@@ -164,7 +182,7 @@ const loadStationInfoList = async () => {
   if (columnData.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
       type: 'index',
-      label: '序号',
+      label: t(`${tHead}.xh`) || '序号',
       index: (index) => (pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
       minWidth: 1
     };

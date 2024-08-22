@@ -1,7 +1,8 @@
 <template>
   <panel>
     <div class="citizens-feedback">
-      <title-column title="市民反馈情况" :showBtn="true" @handleClick="handleOpenCityzensDialog" />
+      <!-- smfkqk: '市民反馈情况'  -->
+      <title-column :title="t(`${tHead}.smfkqk`)" :showBtn="true" @handleClick="handleOpenCityzensDialog" />
       <div class="ec-box">
         <ec-resize :option="ecOption" />
       </div>
@@ -9,15 +10,16 @@
       <!-- <scroll-table :styleWrap="{ height: '3.88rem' }" :data="feedBackData" /> -->
     </div>
     <div class="hot-charging">
+      <!-- rmcdzpm: '热门充电站排名' -->
       <title-column
-        title="热门充电站排名"
+        :title="t(`${tHead}.rmcdzpm`)"
         :showBtn="true"
         @handleClick="handleDetailClick"
         :showTabBtn="true"
         :tabList="[
-          { value: 'day', name: '日' },
-          { value: 'month', name: '月' },
-          { value: 'year', name: '年' }
+          { value: 'day', name: '日', displayName: t(`${tHead}.tabList.day`) },
+          { value: 'month', name: '月', displayName: t(`${tHead}.tabList.month`) },
+          { value: 'year', name: '年', displayName: t(`${tHead}.tabList.year`) }
         ]"
         @handleTabBtn="handleYearBtn"
       />
@@ -50,6 +52,9 @@ import { hotCharging, personFeedback } from '../../api.js';
 import EcResize from '@sutpc/vue3-ec-resize';
 import HotStationRankDialog from '../hot-station-rank-dialog.vue';
 import CitizensFeedbackDialog from '../citizens-feedback-dialog.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.left-panel`;
 // 市民弹窗
 const dialogVisibleCitizens = ref(false);
 // 热门弹窗
@@ -90,7 +95,7 @@ const getHotCharging = async () => {
     chargeTimes.value = res?.data.map((item) => {
       return {
         num: item.amount,
-        unit: '次',
+        unit: t(`${tHead}.unitCi`) || '次',
         name: item.name
       };
     });

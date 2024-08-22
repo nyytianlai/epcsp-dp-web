@@ -1,9 +1,11 @@
 <template>
-  <custom-dialog v-model:visible="visible" title="充电站设施列表" @close="handleClose">
+  <!-- cdzsslb: '充电站设施列表' -->
+  <custom-dialog v-model:visible="visible" :title="t(`${tHead}.cdzsslb`)" @close="handleClose">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputTotal"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearch"
       >
@@ -31,7 +33,7 @@
       >
         <template #header v-if="item.prop === 'areaName'">
           <div class="areaName">
-            {{ item.label }}
+            {{ item.displayLabel || item.label }}
             <el-popover placement="bottom" trigger="click">
               <template #reference>
                 <icon :size="12" icon="svg-icon:filter" class="filter" />
@@ -54,9 +56,11 @@
         </template>
         <template #default="scope"></template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <!-- cz: '操作' -->
+      <el-table-column :label="t(`${tHead}.cz`)" key="operation" minWidth="2">
         <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
+          <!-- xq: '详情' -->
+          <a href="javascript:;" class="detail" @click="handleDetail(scope)">{{t(`${tHead}.xq`)}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -80,6 +84,9 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import config from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `device-manage.charging-station-list-dialog`;
 
 const emit = defineEmits(['close']);
 const props = defineProps({
@@ -124,7 +131,7 @@ const getSelectStationInfoByPage = async () => {
   if (columnData.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
       type: 'index',
-      label: '序号',
+      label: t(`${tHead}.xh`) || '序号',
       index: (index) => (pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
       minWidth: 1
     };

@@ -1,6 +1,7 @@
 <template>
   <div class="area-distributed">
-    <title-column title="今日运行排名" />
+    <!-- jryxpm: '今日运行排名' -->
+    <title-column :title="t(`${tHead}.jryxpm`)" />
     <tabs v-model="selectType" :data="operationRankTabType" />
     <div class="distributed-content" v-loading="isLoading">
       <rank-list
@@ -18,6 +19,10 @@ import { ref, watch } from 'vue';
 import { operationRankTabType } from '../config.js';
 import Api from '../api.js';
 import dayjs from 'dayjs';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.components`;
+
 const isLoading = ref(false);
 const projectTotalNum = ref(0);
 const selectType = ref(operationRankTabType[0].code);

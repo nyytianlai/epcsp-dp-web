@@ -1,6 +1,7 @@
 <template>
   <div class="adjust-overview">
-    <title-column title="虚拟电厂调节总览" />
+    <!-- xndctjzl: '虚拟电厂调节总览' -->
+    <title-column :title="t(`${tHead}.xndctjzl`)" />
     <div class="distributed-content">
       <div class="top-card-item" v-for="item in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
@@ -9,9 +10,9 @@
             <span class="value fontSize32DIN">
               {{ formatWithToLocalString(item.value) ?? '--' }}
             </span>
-            <span class="unit">{{ item.unit || '' }}</span>
+            <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.name }}</div>
+          <div class="card-name">{{ item.displayName || item.name }}</div>
         </div>
       </div>
     </div>
@@ -24,34 +25,46 @@ import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 
 const loading = ref(true);
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.adjust-overview`;
+
 const bottomCardConfig = ref([
   {
     name: '今日调节总需求',
     code: '',
     value: '2203',
     unit: 'MW',
-    icon: new URL('../images/total-demand.png', import.meta.url).href
+    icon: new URL('../images/total-demand.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.jrtjzxq`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitMW`)
   },
   {
     name: '今日调节次数',
     code: '',
     value: '126',
     unit: '次',
-    icon: new URL('../images/today-count.png', import.meta.url).href
+    icon: new URL('../images/today-count.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.jrtjcs`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitCi`)
   },
   {
     name: '日均调节需求',
     code: '',
     value: '2203',
     unit: 'MW',
-    icon: new URL('../images/avarage-demand.png', import.meta.url).href
+    icon: new URL('../images/avarage-demand.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjtjxq`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitMW`)
   },
   {
     name: '日均调节次数',
     code: '',
     value: '126',
     unit: '次',
-    icon: new URL('../images/avarage-count.png', import.meta.url).href
+    icon: new URL('../images/avarage-count.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjtjcs`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitCi`)
   }
 ]);
 const getData = async () => {

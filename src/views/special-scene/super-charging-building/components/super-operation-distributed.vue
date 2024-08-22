@@ -1,6 +1,7 @@
 <template>
   <div class="super-operation-distributed">
-    <title-column title="超充营运分布情况" />
+    <!-- ccyyfbqk: '超充营运分布情况' -->
+    <title-column :title="t(`${tHead}.ccyyfbqk`)" />
     <tabs v-model="selectType" :data="superOperationTabType" />
     <div
       class="super-operation-distributed-content"
@@ -36,6 +37,10 @@ import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import pieCenter from '../images/pie-chart-center-icon.png';
 import Api from '../api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.components`;
+
 const ecOption = ref();
 const selectType = ref(superOperationTabType[0].code);
 const chartWrapper = ref();

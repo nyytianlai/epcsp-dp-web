@@ -1,49 +1,62 @@
 import { scale } from '@sutpc/config';
+import i18n from '@/locales/i18n'; 
+const { t } = i18n.global;
+const configHead  = `special-scene.power-combine.config`;
+
 export const parkingChargeAreaColumn = [
   {
     prop: 'areaName',
     label: '行政区',
-    width: 3
+    width: 3,
+    displayLabel: t(`${configHead}.parkingChargeAreaColumn.areaName`)
   },
   {
     prop: 'totalParkingSpace',
     label: '车位数(个)',
-    width: 3.5
+    width: 3.5,
+    displayLabel: t(`${configHead}.parkingChargeAreaColumn.totalParkingSpace`)
   },
   {
     prop: 'totalGun',
     label: '充电枪数(个)',
-    width: 4
+    width: 4,
+    displayLabel: t(`${configHead}.parkingChargeAreaColumn.totalGun`)
   },
   {
     prop: 'stopChargeRatio',
     label: '车充配比',
-    width: 3
+    width: 3,
+    displayLabel: t(`${configHead}.parkingChargeAreaColumn.stopChargeRatio`)
   }
 ];
+
 export const parkingChargeOperationColumn = [
   {
     prop: 'areaName',
     label: '行政区',
-    width: 2
+    width: 2,
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn.areaName`)
   },
   {
     prop: 'dailyParkingVolume',
     label: '停车量(辆)',
     width: 2,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn.dailyParkingVolume`)
   },
   {
     prop: 'dailyChargingVolume',
     label: '充电量(kWh)',
     width: 2,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn.dailyChargingVolume`)
   },
   {
     prop: 'rate',
     label: '车位/充电枪利用率(%)',
     width: 4,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn.rate`)
   }
 ];
 

@@ -1,12 +1,15 @@
 <template>
   <div class="adjust-trend-analysis">
-    <title-column title="巴士可用能量态势" />
+    <!-- tjqsfx: '调节趋势分析'  -->
+    <title-column :title="t(`${tHead}.tjqsfx`)" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:次</div>
-        <div>单位:MW</div>
+        <!-- unitCi: '单位:次' 单位:次 -->
+        <!-- unitMw: '单位:MW' -->
+        <div>{{ t(`${tHead}.unitCi`) }}</div>
+        <div>{{ t(`${tHead}.unitMw`) }}</div>
       </div>
     </div>
   </div>
@@ -19,6 +22,9 @@ import { getBaseChartOption, adjustTrendConfig } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.adjust-trend-analysis`;
 
 const loading = ref(true);
 const isEmpty = ref(false);
@@ -51,7 +57,7 @@ const drawChart = async (data = []) => {
 
   adjustTrendConfig().forEach((item, i) => {
     series.push({
-      name: item.name,
+      name: item.displayName || item.name,
       color: item.color,
       type: item.type,
       symbol: 'none',
@@ -61,7 +67,7 @@ const drawChart = async (data = []) => {
     });
 
     legendData.push({
-      name: item.name,
+      name: item.displayName || item.name,
       icon: 'circle',
       color: item.color,
       itemStyle: {

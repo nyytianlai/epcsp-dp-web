@@ -3,7 +3,8 @@
     <div class="down-wrap"></div>
     <div class="up-wrap"></div>
     <icon :icon="`svg-icon:${isCollapsed ? 'expand' : 'collapse'}`" />
-    <span class="text">{{ isCollapsed ? '一键展开' : '一键收起' }}</span>
+    <!-- yjzk: '一键展开' yjsq: '一键收起' -->
+    <span class="text">{{ isCollapsed ? t(`${tHead}.yjzk`) || '一键展开' : t(`${tHead}.yjsq`) || '一键收起' }}</span>
   </div>
   <div class="expand-btn-search expand-btn-right" @mouseenter="handleOver" @mouseleave="handleOut">
     <div class="down-wrap"></div>
@@ -35,6 +36,9 @@ import Icon from '@sutpc/vue3-svg-icon';
 import { infoObj, toSingleStation, showStationDetailPanel } from '@/global/config/map';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { stationSearch } from './api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `components`;
 
 let timer;
 const store = useVisibleComponentStore();
@@ -64,13 +68,14 @@ const querySearchAsync = async (queryString, cb) => {
       item.value = `${item.stationName}-${item.operatorName}`;
     });
   } else {
-    rep = [{ value: '无匹配结果' }];
+    // wppjg: '无匹配结果'
+    rep = [{ value: t(`${tHead}.yjzk`) || '无匹配结果' }];
   }
   cb(rep);
 };
 
 const handleSearch = async (value) => {
-  if (value === '无匹配结果') {
+  if (value === t(`${tHead}.wppjg`) || value ==='无匹配结果') {
     return;
   }
   console.log('搜索框选择数据', value);

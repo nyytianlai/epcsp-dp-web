@@ -1,6 +1,7 @@
 <template>
   <div class="dispatcher-operation">
-    <title-column title="调度运行情况" />
+    <!-- ddyxqk: '调度运行情况' -->
+    <title-column :title="t(`${tHead}.ddyxqk`)" />
     <div class="card-row" v-for="(o, i) in type" :key="o.code">
       <div class="static-type">{{ o.name }}</div>
       <div class="top-card-item" v-for="item in cardConfig" :key="item.name">
@@ -10,9 +11,9 @@
             <span class="value fontSize32DIN">
               {{ formatWithToLocalString(totalData[item.code[o.code]]) ?? '--' }}
             </span>
-            <span class="unit">{{ item.unit || '' }}</span>
+            <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.name }}</div>
+          <div class="card-name">{{ item.displayName || item.name }}</div>
         </div>
       </div>
     </div>
@@ -23,26 +24,32 @@
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.virtual-electric.components`;
 
 const loading = ref(true);
 const totalData = ref({});
 
 const type = [
-  { name: '今日', code: 0 },
-  { name: '累计', code: 1 }
+  { name: '今日', code: 0, displayName: t(`${tHead}.today`) },
+  { name: '累计', code: 1, displayName: t(`${tHead}.lj`) }
 ];
 const cardConfig = [
   {
     name: '削峰调节次数',
     code: ['dispatchNumToday', 'dispatchNumAcc'],
     unit: '次',
-    icon: new URL('../images/xftjcs.png', import.meta.url).href
+    icon: new URL('../images/xftjcs.png', import.meta.url).href,
+    displayName: t(`${tHead}.xftjcs`),
+    displayUnit: t(`${tHead}.unitCi`)
   },
   {
     name: '削峰调节量',
     code: ['dispatchAmountToday', 'dispatchAmountAcc'],
     unit: 'MW',
-    icon: new URL('../images/xftjl.png', import.meta.url).href
+    icon: new URL('../images/xftjl.png', import.meta.url).href,
+    displayName: t(`${tHead}.xftjl`),
   }
 ];
 

@@ -1,6 +1,7 @@
 <template>
   <div class="resource-categry">
-    <title-column title="资源分布占比" />
+    <!-- zyfbzb: '资源分布占比' -->
+    <title-column :title="t(`${tHead}.zyfbzb`)" />
     <div class="distributed-content" v-loading="loading">
       <div class="chart-wrapper" v-show="!isEmpty">
         <ec-resize :option="ecOption" />
@@ -32,6 +33,9 @@ import { pieColorList } from '../config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.virtual-electric.components`;
 const loading = ref(true);
 const ecOption = ref();
 const pieConfig = ref([]);

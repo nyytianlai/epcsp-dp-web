@@ -1,19 +1,27 @@
 import clientUsage from './images/client-usage.png';
 import { deepClone } from '@/utils/index';
+import i18n from '@/locales/i18n'; 
+const { t } = i18n.global;
+const configHead = `public-service.config`;
 
 import dayjs from 'dayjs';
+
 export const clientInfo = [
   {
     code: 1,
-    label: '客户端实时信息'
+    label: '客户端实时信息',
+    displayLabel: t(`${configHead}.clientInfo.clientRealtimeInfo`),
   }
 ];
+
 export const clientRealtimeTrend = [
   {
     code: 1,
-    label: '客户端实时趋势情况'
+    label: '客户端实时趋势情况',
+    displayLabel: t(`${configHead}.clientRealtimeTrend.clientRealtimeTrendInfo`),
   }
 ];
+
 export const lineStateDataFun = (data = []) => {
   const yearMonthDay = dayjs().format('YYYY-MM-DD ');
   const nowTime = dayjs().format('HH');
@@ -110,60 +118,76 @@ export const lineStateDataFun = (data = []) => {
       data: data2.map((item) => [yearMonthDay + item.time, item.onlineCount]),
       type: 'line',
       smooth: true,
-      name: '访问量'
+      name: t(`${configHead}.lineStateDataFun.fwl`) || '访问量',
+      displayName: t(`${configHead}.lineStateDataFun.fwl`)
     }
   ];
 };
+
 export const pageNumFun = (data = {}) => {
   return [
     {
       name: '累计充电量',
       num: data?.cumulativeCharge,
-      unit: data?.cumulativeChargeUnit || '亿度'
+      unit: data?.cumulativeChargeUnit || '亿度',
+      displayName: t(`${configHead}.pageNumFun.ljcdl`),
+      displayUnit: t(`${configHead}.pageNumFun.unitYidu`)
     },
     {
       name: '累计充电次数',
       num: data?.cumChargeCount,
-      unit: data?.cumChargeCountUnit || '万次'
+      unit: data?.cumChargeCountUnit || '万次',
+      displayName: t(`${configHead}.pageNumFun.ljccs`),
+      displayUnit: t(`${configHead}.pageNumFun.unitWanci`)
     },
     {
       name: '累计充电时长',
       num: data?.cumChargeTime,
-      unit: data?.cumChargeTimeUnit || '万小时'
+      unit: data?.cumChargeTimeUnit || '万小时',
+      displayName: t(`${configHead}.pageNumFun.ljcdsc`),
+      displayUnit: t(`${configHead}.pageNumFun.unitWanxs`)
     },
     {
       name: '本年充电总量',
       num: data?.yearTotalCharge,
-      unit: data?.yearTotalChargeUnit || '亿度'
+      unit: data?.yearTotalChargeUnit || '亿度',
+      displayName: t(`${configHead}.pageNumFun.bncdzl`),
+      displayUnit: t(`${configHead}.pageNumFun.unitYidu`)
     }
   ];
 };
+
 export const hotChargingDataFun = () => {
   return [
     {
       num: 6399,
       unit: 'kW',
-      name: '充电站总量'
+      name: '充电站总量',
+      displayName: t(`${configHead}.hotChargingDataFun.cdlzl`)
     },
     {
       num: 201,
       unit: 'kW',
-      name: '已接入运营企业总量'
+      name: '已接入运营企业总量',
+      displayName: t(`${configHead}.hotChargingDataFun.yjryyqyzl`)
     },
     {
       num: 48,
       unit: 'kW',
-      name: '新能源汽车总量'
+      name: '新能源汽车总量',
+      displayName: t(`${configHead}.hotChargingDataFun.xnyqczl`)
     },
     {
       num: 201,
       unit: 'kW',
-      name: '已接入运营企业总量'
+      name: '已接入运营企业总量',
+      displayName: t(`${configHead}.hotChargingDataFun.yjryyqyzl`)
     },
     {
       num: 48,
       unit: 'kW',
-      name: '新能源汽车总量'
+      name: '新能源汽车总量',
+      displayName: t(`${configHead}.hotChargingDataFun.xnyqczl`)
     }
   ];
 };
@@ -189,7 +213,8 @@ export const deviceDataFun = (data = {}) => {
       nameStyle: {
         fontSize: '0.14rem',
         lineHeight: '0.22rem'
-      }
+      },
+      displayName: t(`${configHead}.deviceDataFun.zrfwlci`)
     },
     {
       img: clientUsage,
@@ -210,7 +235,8 @@ export const deviceDataFun = (data = {}) => {
       nameStyle: {
         fontSize: '0.14rem',
         lineHeight: '0.22rem'
-      }
+      },
+      displayName: t(`${configHead}.deviceDataFun.jrfwlci`)
     }
   ];
 };
@@ -219,11 +245,13 @@ export const chargingTypesTabsFun = () => {
   return [
     {
       code: 'pile',
-      label: '充电桩'
+      label: '充电桩',
+      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdz`),
     },
     {
       code: 'gun',
-      label: '充电枪'
+      label: '充电枪',
+      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdq`),
     }
   ];
 };
@@ -231,17 +259,73 @@ export const chargingTypesTabsFun = () => {
 export const chargingTypePieDataFun = (code = 'pile', data = {}) => {
   if (code === 'pile') {
     return [
-      { value: data?.offLine, name: '离线', extraName: '离线充电桩', unit: '个' },
-      { value: data?.occupy, name: '占用', extraName: '占用充电桩', unit: '个' },
-      { value: data?.malfunction, name: '故障', extraName: '故障充电桩', unit: '个' },
-      { value: data?.free, name: '闲置', extraName: '闲置充电桩', unit: '个' }
+      {
+        value: data?.offLine,
+        name: '离线',
+        extraName: '离线充电桩',
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.lx`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.lxcdz`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.occupy, 
+        name: '占用', 
+        extraName: '占用充电桩', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.zy`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.zycdz`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.malfunction, 
+        name: '故障', 
+        extraName: '故障充电桩', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.gz`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.gzcdz`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.free, 
+        name: '闲置', 
+        extraName: '闲置充电桩', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.xz`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.xzcdz`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`), }
     ];
   } else {
     return [
-      { value: data?.offLine, name: '离线', extraName: '离线充电枪', unit: '个' },
-      { value: data?.occupy, name: '占用', extraName: '占用充电枪', unit: '个' },
-      { value: data?.malfunction, name: '故障', extraName: '故障充电枪', unit: '个' },
-      { value: data?.free, name: '闲置', extraName: '闲置充电枪', unit: '个' }
+      { value: data?.offLine, 
+        name: '离线', 
+        extraName: '离线充电枪', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.lx`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.lxcdq`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.occupy, 
+        name: '占用', 
+        extraName: '占用充电枪', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.zy`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.zycdq`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.malfunction, 
+        name: '故障', 
+        extraName: '故障充电枪', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.gz`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.gzcdq`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      },
+      { value: data?.free, 
+        name: '闲置', 
+        extraName: '闲置充电枪', 
+        unit: '个',
+        displayName: t(`${configHead}.chargingTypePieDataFun.xz`),
+        displayExtraName: t(`${configHead}.chargingTypePieDataFun.xzcdq`),
+        displayUnit: t(`${configHead}.chargingTypePieDataFun.unitGe`),
+      }
     ];
   }
 };
@@ -251,64 +335,87 @@ export const monthRateDataFun = () => {
     {
       num: 6399,
       unit: '个',
-      name: '南山区'
+      name: '南山区',
+      displayName: t(`${configHead}.monthRateDataFun.nsq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 201,
       unit: '个',
-      name: '宝安区'
+      name: '宝安区',
+      displayName: t(`${configHead}.monthRateDataFun.baq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 48,
       unit: '个',
-      name: '罗湖区'
+      name: '罗湖区',
+      displayName: t(`${configHead}.monthRateDataFun.lhq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 201,
       unit: '个',
-      name: '龙华区'
+      name: '龙华区',
+      displayName: t(`${configHead}.monthRateDataFun.longhq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 48,
       unit: '个',
-      name: '龙岗区'
+      name: '龙岗区',
+      displayName: t(`${configHead}.monthRateDataFun.longgq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 6399,
       unit: '个',
-      name: '南山区'
+      name: '南山区',
+      displayName: t(`${configHead}.monthRateDataFun.nsq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 201,
       unit: '个',
-      name: '宝安区'
+      name: '宝安区',
+      displayName: t(`${configHead}.monthRateDataFun.baq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 48,
       unit: '个',
-      name: '罗湖区'
+      name: '罗湖区',
+      displayName: t(`${configHead}.monthRateDataFun.lhq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 201,
       unit: '个',
-      name: '龙华区'
+      name: '龙华区',
+      displayName: t(`${configHead}.monthRateDataFun.longhq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     },
     {
       num: 48,
       unit: '个',
-      name: '大鹏新区'
+      name: '大鹏新区',
+      displayName: t(`${configHead}.monthRateDataFun.dpxq`),
+      displayUnit: t(`${configHead}.monthRateDataFun.unitGe`),
     }
   ];
 };
+
 export const chargingStationTabsFun = () => {
   return [
     {
       code: 1,
-      label: '充电功率'
+      label: '充电功率',
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdgl`),
     },
     {
       code: 2,
-      label: '充电次数'
+      label: '充电次数',
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdcs`),
     }
   ];
 };
@@ -317,89 +424,108 @@ export const columnDataHotFun = () => {
   return [
     {
       prop: 'stationName',
-      label: '充电站名称',
-      minWidth: 2.8
+      label: t(`${configHead}.columnDataHotFun.cdzmc`) || '充电站名称',
+      minWidth: 2.8,
+      displayLabel: t(`${configHead}.columnDataHotFun.cdzmc`),
     },
     {
       prop: 'operatorName',
-      label: '运营企业名称',
-      minWidth: 2
+      label: t(`${configHead}.columnDataHotFun.yyqymc`) || '运营企业名称',
+      minWidth: 2,
+      displayLabel: t(`${configHead}.columnDataHotFun.yyqymc`),
     },
     {
       prop: 'areaName',
-      label: '所属区域',
+      label: t(`${configHead}.columnDataHotFun.ssqy`) || '所属区域',
       minWidth: 1,
-      filterMultiple: true
+      filterMultiple: true,
+      displayLabel: t(`${configHead}.columnDataHotFun.ssqy`),
     },
     {
       prop: 'power',
-      label: '充电功率',
+      label:  t(`${configHead}.columnDataHotFun.cdgl`) || '充电功率',
       minWidth: '2',
       sortable: 'custom',
-      sortOrders: ['ascending', 'descending']
+      sortOrders: ['ascending', 'descending'],
+      displayLabel: t(`${configHead}.columnDataHotFun.cdgl`),
     },
     {
       prop: 'amount',
-      label: '充电次数',
+      label: t(`${configHead}.columnDataHotFun.cdcs`) || '充电次数',
       minWidth: 2,
       sortable: 'custom',
-      sortOrders: ['ascending', 'descending']
+      sortOrders: ['ascending', 'descending'],
+      displayLabel: t(`${configHead}.columnDataHotFun.cdcs`),
     }
   ];
 };
+
 // 数据过滤的选项
 export const filters = [
   {
     id: 1,
     label: '全部',
+    displayLabel: t(`${configHead}.filters.all`),
     children: [
       {
         id: 440303,
-        label: '罗湖区'
+        label: '罗湖区',
+        displayLabel: t(`${configHead}.filters.lhq`),
       },
       {
         id: 440304,
-        label: '福田区'
+        label: '福田区',
+        displayLabel: t(`${configHead}.filters.ftq`),
       },
       {
         id: 440305,
-        label: '南山区'
+        label: '南山区',
+        displayLabel: t(`${configHead}.filters.nsq`),
       },
       {
         id: 440306,
-        label: '宝安区'
+        label: '宝安区',
+        displayLabel: t(`${configHead}.filters.baq`),
       },
       {
         id: 440307,
-        label: '龙岗区'
+        label: '龙岗区',
+        displayLabel: t(`${configHead}.filters.longgq`),
       },
       {
         id: 440308,
-        label: '盐田区'
+        label: '盐田区',
+        displayLabel: t(`${configHead}.filters.ytq`),
       },
       {
         id: 440309,
-        label: '龙华区'
+        label: '龙华区',
+        displayLabel: t(`${configHead}.filters.longhq`),
       },
       {
         id: 440310,
-        label: '坪山区'
+        label: '坪山区',
+        displayLabel: t(`${configHead}.filters.psq`),
       },
       {
         id: 440311,
-        label: '光明区'
+        label: '光明区',
+        displayLabel: t(`${configHead}.filters.gmq`),
       },
       {
         id: 440343,
-        label: '大鹏新区'
+        label: '大鹏新区',
+        displayLabel: t(`${configHead}.filters.dpxq`),
       },
       {
         id: 441521,
-        label: '深汕特别合作区'
+        label: '深汕特别合作区',
+        displayLabel: t(`${configHead}.filters.sstbhzq`),
       }
     ]
   }
 ];
+
 export const ecOptionFun = (data = [], xaxis = []) => {
   xaxis = xaxis.map((i) => {
     return { value: i, textStyle: { overflow: 'break', width: 100 } };
@@ -435,7 +561,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: '{b}: {c}个'
+      formatter: `{b}: {c}${t(`${configHead}.ecOptionFun.unitGe`) || '个'}`
     },
     xAxis: {
       type: 'category',
@@ -463,7 +589,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
     },
     yAxis: {
       type: 'value',
-      name: '单位/个',
+      name: t(`${configHead}.ecOptionFun.yAxisName`) || '单位/个',
       nameTextStyle: {
         color: '#B4C0CC'
       },
@@ -491,7 +617,7 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       {
         data: data,
         type: 'bar',
-        name: '问题数量',
+        name: t(`${configHead}.ecOptionFun.wtsl`) || '问题数量',
         barWidth: 16,
         label: {
           show: true,
@@ -534,71 +660,86 @@ export const ecOptionFun = (data = [], xaxis = []) => {
     ]
   };
 };
+
 export const columnDataDetailFun = () => {
   return [
     {
       prop: 'stationName',
-      label: '充电站名称',
-      minWidth: 2
+      label: t(`${configHead}.columnDataDetailFun.stationName`) || '充电站名称',
+      minWidth: 2,
+      displayLabel: t(`${configHead}.columnDataDetailFun.stationName`)
     },
     {
       prop: 'operatorName',
-      label: '运营企业名称',
-      minWidth: 2
+      label: t(`${configHead}.columnDataDetailFun.operatorName`) || '运营企业名称',
+      minWidth: 2,
+      displayLabel: t(`${configHead}.columnDataDetailFun.operatorName`)
     },
     {
       prop: 'problemType',
-      label: '问题类型',
+      label: t(`${configHead}.columnDataDetailFun.problemType`) || '问题类型',
       minWidth: 1,
-      filterMultiple: true
+      filterMultiple: true,
+      displayLabel: t(`${configHead}.columnDataDetailFun.problemType`)
     },
     {
       prop: 'problemDescribe',
-      label: '问题描述',
-      minWidth: '1.5'
+      label: t(`${configHead}.columnDataDetailFun.problemDescribe`) || '问题描述',
+      minWidth: '1.5',
+      displayLabel: t(`${configHead}.columnDataDetailFun.problemDescribe`)
     },
     {
       prop: 'principal',
-      label: '负责人',
-      minWidth: 1
+      label: t(`${configHead}.columnDataDetailFun.principal`) || '负责人',
+      minWidth: 1,
+      displayLabel: t(`${configHead}.columnDataDetailFun.principal`)
     },
     {
       prop: 'phone',
-      label: '联系电话',
-      minWidth: 1.5
+      label: t(`${configHead}.columnDataDetailFun.phone`) || '联系电话',
+      minWidth: 1.5,
+      displayLabel: t(`${configHead}.columnDataDetailFun.phone`)
     },
     {
       prop: 'timeDim',
-      label: '时间',
-      minWidth: 2
+      label: t(`${configHead}.columnDataDetailFun.timeDim`) || '时间',
+      minWidth: 2,
+      displayLabel: t(`${configHead}.columnDataDetailFun.timeDim`)
     }
   ];
 };
+
 // 市民问题类型
 export const filtersDetail = [
   {
     id: 'all',
     label: '全部',
+    displayLabel: t(`${configHead}.filtersDetail.all`),
     children: [
       {
         id: '有车站位',
-        label: '有车站位'
+        label: '有车站位',
+        displayLabel: t(`${configHead}.filtersDetail.yczw`),
       },
       {
         id: '桩位不放开',
-        label: '桩位不放开'
+        label: '桩位不放开',
+        displayLabel: t(`${configHead}.filtersDetail.zwvfk`),
       },
       {
         id: '无法充电',
-        label: '无法充电'
+        label: '无法充电',
+        displayLabel: t(`${configHead}.filtersDetail.wfcd`),
       },
       {
         id: '找不到电桩',
-        label: '找不到电桩'
+        label: '找不到电桩',
+        displayLabel: t(`${configHead}.filtersDetail.zbddz`),
       },
       {
         id: '其他',
-        label: '其他'
+        label: '其他',
+        displayLabel: t(`${configHead}.filtersDetail.qt`),
       }
     ]
   }

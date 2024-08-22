@@ -1,11 +1,13 @@
 <template>
   <div class="acture-cluster-operation">
-    <title-column title="实时聚合运行情况" />
+    <!-- ssjhyxqk: "实时聚合运行情况" -->
+    <title-column :title="t(`${tHead}.ssjhyxqk`)" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:MW</div>
+        <!-- unitMW: '单位:MW' -->
+        <div>{{t(`${tHead}.unitMW`)}}</div>
       </div>
     </div>
   </div>
@@ -18,6 +20,9 @@ import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
 import Api from '../api';
 import dayjs from 'dayjs';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.virtual-electric.components`;
 
 const isEmpty = ref(false);
 const loading = ref(false);
@@ -27,19 +32,22 @@ const chartConfig = [
     name: '基线',
     code: 'baseline',
     color: '255, 119, 35',
-    unit: 'MW'
+    unit: 'MW',
+    displayName: t(`${tHead}.baseline`)
   },
   {
     name: '计划',
     code: 'planNum',
     color: '0, 255, 249',
-    unit: 'MW'
+    unit: 'MW',
+    displayName: t(`${tHead}.planNum`)
   },
   {
     name: '实际',
     code: 'actualNum',
     color: '0, 83, 255',
-    unit: 'MW'
+    unit: 'MW',
+    displayName: t(`${tHead}.actualNum`)
   }
 ];
 
@@ -52,7 +60,7 @@ const drawChart = async (data = []) => {
 
   chartConfig.forEach((item, i) => {
     series.push({
-      name: item.name,
+      name: item.displayName || item.name,
       color: `rgb(${item.color})`,
       type: 'line',
       yAxisIndex: 0,

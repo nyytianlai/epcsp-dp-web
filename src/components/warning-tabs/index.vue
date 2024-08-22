@@ -9,7 +9,7 @@
       :style="{ borderBottomColor: item.code === activeTab ? item.color : 'transparent' }"
     >
       <span class="label">
-        {{ item.label }}
+        {{ item.displayLabel || item.label }}
       </span>
       <span class="bottom-info">
         <icon :icon="`svg-icon:${item.icon}`" />
@@ -35,6 +35,7 @@ interface Idata {
   icon: string;
   num: string | number;
   color: string;
+  displayLabel?: string;
 }
 interface Props {
   data: Idata[];

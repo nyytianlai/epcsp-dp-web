@@ -18,6 +18,11 @@ import { projectCGCS2000_2_GK114 } from '@/utils/index';
 import { getHeatMap } from '../api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.map-layer`;
+
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3]);
@@ -29,14 +34,16 @@ aircityObj.value?.acApi.reset(4);
 let quRef = ref(null);
 let rectBarRef = ref(null);
 const legendType = ref('normal');
-const legendName = ref('充电数量(个)');
+let name = t(`${tHead}.cdslg`);
+const legendName = ref(name || '充电数量(个)');
 const isHeatMap = ref(false);
 
+let cdglkw = t(`${tHead}.cdglkw`); 
 const setRectBarVisibility = (value: boolean) => {
   value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
-  legendName.value = value ? '充电数量(个)' : '充电功率(kW)';
+  legendName.value = value ? name || '充电数量(个)' :  cdglkw || '充电功率(kW)';
   value ? addQuBar() : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
 };
 const setHeatMapVisibility = async (value: boolean) => {

@@ -1,10 +1,12 @@
 <template>
   <panel type="right">
     <div class="warning-monitor">
+      <!-- gjlb: '告警列表' -->
+      <!-- jrsbgjjk: '今日设备告警监控' -->
       <title-column
-        title="今日设备告警监控"
+        :title="t(`${tHead}.jrsbgjjk`)"
         :showBtn="true"
-        btnText="告警列表"
+        :btnText="t(`${tHead}.gjlb`)"
         @handleClick="handleClick"
       />
       <tabs
@@ -19,7 +21,8 @@
       />
     </div>
     <div class="realtime-state">
-      <title-column title="实时状态情况" />
+      <!-- ssztqk: '实时状态情况' -->
+      <title-column :title="t(`${tHead}.ssztqk`)" />
       <tabs
         :data="realtimeStateTabs"
         @changeTab="(data) => handleChangeTab(data, 'realtime-state')"
@@ -35,13 +38,15 @@
       </div>
     </div>
     <div class="realtime-trend">
+      <!-- ssgjqsqk: '实时告警趋势情况' -->
+       <!-- tabList: {day: '日', month: '月', year: '年'}  -->
       <title-column
-        title="实时告警趋势情况"
+        :title="t(`${tHead}.ssgjqsqk`)"
         :showTabBtn="true"
         :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '周' },
-          { value: 3, name: '月' }
+          { value: 1, name: '日', displayName: t(`${tHead}.tabList.day`) },
+          { value: 2, name: '周', displayName: t(`${tHead}.tabList.month`) },
+          { value: 3, name: '月', displayName: t(`${tHead}.tabList.year`) }
         ]"
         @handleTabBtn="handleYearBtn"
       />
@@ -74,6 +79,10 @@ import {
 import { alarmLevelAndTypeByTime, periodAlarmStaticsByTime, getOnlineStatus } from '../../api.js';
 import dayjs from 'dayjs';
 import WarnInfoListDialog from '../warn-info-list-dialog.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `safety-supervision.right-panel`;
+
 const props = defineProps({
   bottomCode: {
     type: Number,
