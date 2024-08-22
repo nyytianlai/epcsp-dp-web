@@ -2,7 +2,8 @@
   <panel type="right">
     <div class="right-panel-wrap">
       <div class="today-power-info">
-        <title-column title="今日充电实时功率信息" />
+        <!-- jrcdssglxx: '今日充电实时功率信息'  -->
+        <title-column :title="t(`${tHead}.jrcdssglxx`)" />
         <charging-realtime-power :data="powerInfoNumData" />
         <line-time-chart
           :data="lineTimeData"
@@ -16,7 +17,8 @@
         />
       </div>
       <div class="today-num-info">
-        <title-column title="今日充电设施数据信息" />
+        <!-- jrcdsssjxx: '今日充电设施数据信息' -->
+        <title-column :title="t(`${tHead}.jrcdsssjxx`)" />
         <tabs :data="todayTabs" @changeTab="(data) => handleChangeTab(data, 'today')" />
         <div class="num-wrap">
           <template v-for="(item, index) in todayInfoNumData" :key="index">
@@ -25,7 +27,8 @@
         </div>
       </div>
       <div class="today-warning-message">
-        <title-column title="今日告警信息" :showBtn="true" @handleClick="handleClick" />
+        <!-- jrgjxx: '今日告警信息'  -->
+        <title-column :title="t(`${tHead}.jrgjxx`)" :showBtn="true" @handleClick="handleClick" />
         <div ref="warningDom" class="flex-v-1 flex-v warnin-container-box">
           <warning-tabs
             :data="warningTabsData"
@@ -57,6 +60,11 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Loading from '@sutpc/vue3-loading';
 import TodayWarnDialog from '../today-warn-dialog.vue';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.right-panel`;
+
 interface Aircity {
   value: object;
 }

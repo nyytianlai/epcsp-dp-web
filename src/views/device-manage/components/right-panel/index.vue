@@ -1,6 +1,7 @@
 <template>
   <panel type="right">
-    <title-column title="在线运行状态情况" />
+    <!-- zxyxztqk: '在线运行状态情况' -->
+    <title-column :title="t(`${tHead}.zxyxztqk`)" />
     <charging-realtime-power :data="chargingRealPower" />
     <div class="charging-types">
       <tabs
@@ -12,10 +13,11 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
+      <!-- unitGe: '个' -->
       <line-time-chart-both
         :data="lineStateData"
         :colors="lineStateColor"
-        unit="个"
+        :unit="t(`${tHead}.unitGe`)"
         yAxisMode1="auto"
         :yAxisMode2="40000"
         :customOption="{ yAxis: [{ min: 40000 }] }"
@@ -61,6 +63,10 @@ import {
 } from '../../config.js';
 import ChargingRealtimePower from '../charging-realtime-power.vue';
 import config from '@sutpc/config';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `device-manage.right-panel`;
 
 const lineStateColor = ['green', 'blue'];
 const lineRunColor = ['green', '#FF7723'];

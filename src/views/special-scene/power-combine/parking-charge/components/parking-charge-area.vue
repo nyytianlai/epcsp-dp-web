@@ -1,6 +1,7 @@
 <template>
   <div class="parking-charge-area">
-    <title-column title="区域停充运行情况" />
+    <!-- qytcyxqk: '区域停充运行情况' -->
+    <title-column :title="t(`${tHead}.qytcyxqk`)" />
     <div class="distributed-content" v-loading="loading">
       <scroll-table
         :scrollTableData="scrollTableData"
@@ -22,6 +23,10 @@ import { ref, computed } from 'vue';
 import { parkingChargeOperationColumn } from '../config';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.parking-charge-area`;
+
 const scrollTableData = ref([]);
 const loading = ref(true);
 

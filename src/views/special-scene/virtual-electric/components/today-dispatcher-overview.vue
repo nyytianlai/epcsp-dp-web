@@ -1,6 +1,7 @@
 <template>
   <div class="today-dispatcher">
-    <title-column title="今日调度总览" />
+    <!-- jrddzl: '今日调度总览' -->
+    <title-column :title="t(`${tHead}.jrddzl`)" />
     <div class="distributed-content">
       <div class="left-data">
         <div class="left-card-item" v-for="item in leftConfig" :key="item.name">
@@ -15,7 +16,8 @@
         </div>
       </div>
       <div class="right-guage">
-        <GaugeChart :speed="allData.finishRate" :coord="'完成率(%)'" v-show="!isEmpty" />
+        <!-- wcl: '完成率(%)' -->
+        <GaugeChart :speed="allData.finishRate" :coord="t(`${tHead}.wcl`)" v-show="!isEmpty" />
       </div>
     </div>
   </div>
@@ -27,6 +29,9 @@ import { scale } from '@sutpc/config';
 import GaugeChart from '@/components/gauge-chart/index.vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.virtual-electric.components`;
 
 const loading = ref(true);
 const isEmpty = ref(false);
@@ -37,19 +42,22 @@ const leftConfig = [
     name: '计划总量',
     code: 'plan',
     unit: 'MW',
-    icon: new URL('../images/jhzl.png', import.meta.url).href
+    icon: new URL('../images/jhzl.png', import.meta.url).href,
+    displayName: t(`${tHead}.jhzl`)
   },
   {
     name: '执行总量',
     code: 'actual',
     unit: 'MW',
-    icon: new URL('../images/zxzl.png', import.meta.url).href
+    icon: new URL('../images/zxzl.png', import.meta.url).href,
+    displayName: t(`${tHead}.zxzl`)
   },
   {
     name: '偏差总量',
     code: 'deviation',
     unit: 'MW',
-    icon: new URL('../images/pczl.png', import.meta.url).href
+    icon: new URL('../images/pczl.png', import.meta.url).href,
+    displayName: t(`${tHead}.pczl`)
   }
 ];
 

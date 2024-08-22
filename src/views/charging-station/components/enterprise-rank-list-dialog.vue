@@ -1,9 +1,11 @@
 <template>
-  <custom-dialog title="运营企业排名列表" v-model:visible="props.visible" @closed="handleClosed">
+  <!-- yyqypmlb: '运营企业排名列表'  -->
+  <custom-dialog :title="t(`${tHead}.yyqypmlb`)" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputRank"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearch"
       >
@@ -29,9 +31,11 @@
         :sortable="item.sortable"
         :sort-orders="item.sortOrders"
       ></el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="1">
+      <!-- cz: '操作' -->
+      <el-table-column :label="t(`${tHead}.cz`)" key="operation" minWidth="1">
         <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetail(scope)">详情</a>
+          <!-- xq: '详情' -->
+          <a href="javascript:;" class="detail" @click="handleDetail(scope)">{{t(`${tHead}.xq`)}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -57,6 +61,9 @@ import Icon from '@sutpc/vue3-svg-icon';
 import RankDetail from './rank-detail.vue';
 import { toSingleStation } from '@/global/config/map';
 import config from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `charging-station.enterprise-rank-list-dialog`;
 
 interface Props {
   visible: boolean;
@@ -102,7 +109,7 @@ const loadOperatorInfoList = async () => {
   if (columnDataRank.value.findIndex((i) => i.type === 'index') === -1) {
     const temp = {
       type: 'index',
-      label: '序号',
+      label: t(`${tHead}.xh`) || '序号',
       index: (index) => (pageObj.currentPage - 1) * pageObj.pageSize + index + 1,
       minWidth: 1
     };

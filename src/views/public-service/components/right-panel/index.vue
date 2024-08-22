@@ -2,7 +2,8 @@
   <panel type="right">
     <div class="public-service-wrap">
       <div class="today-runing">
-        <title-column title="客户端使用情况" icon="energy-station" />
+        <!-- kmdsyqk: '客户端使用情况' -->
+        <title-column :title="t(`${tHead}.kmdsyqk`)" icon="energy-station" />
         <client-usage :data="clientUsageCount" />
       </div>
       <div class="realtime-info">
@@ -29,7 +30,8 @@
       <pie-chart :data="chargingTypePieData" /> -->
       </div>
       <div class="month-rate">
-        <title-column title="行政区设备利用率情况" />
+        <!-- xzqsblylqk: '行政区设备利用率情况' -->
+        <title-column :title="t(`${tHead}.xzqsblylqk`)" />
         <area-rank-list :data="monthRateData" :totalNum="totalMonthRateNum" />
       </div>
     </div>
@@ -47,6 +49,9 @@ import {
 } from '../../config.js';
 import { monthRate, selectChargeEquipmentStatistics, getChargeStatus } from '../../api.js';
 import ClientUsage from '../client-usage.vue';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.right-panel`;
 //客户端使用情况
 const clientUsageCount = ref(318878);
 const lineStateColor = ['#F9E900'];

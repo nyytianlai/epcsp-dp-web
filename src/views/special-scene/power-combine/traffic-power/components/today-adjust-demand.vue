@@ -1,11 +1,13 @@
 <template>
   <div class="today-adjust-demand">
-    <title-column title="今日调节需求" />
+    <!-- jrtjxq: '今日调节需求' -->
+    <title-column :title="t(`${tHead}.jrtjxq`)" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:MW</div>
+        <!-- unitMW: '单位:MW' -->
+        <div>{{t(`${tHead}.unitMW`)}}</div>
       </div>
     </div>
   </div>
@@ -17,13 +19,16 @@ import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
 import dayjs from 'dayjs';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.today-adjust-demand`;
 
 const isEmpty = ref(false);
 const loading = ref(false);
-
+// tjxq: '调节需求',
 const chartConfig = [
   {
-    name: '调节需求',
+    name: t(`${tHead}.${'tjxq'}`) || '调节需求',
     code: 'cdqlyl',
     color: '0, 83, 255',
     unit: 'MW'
@@ -46,7 +51,7 @@ const drawChart = async (data = []) => {
 
   chartConfig.forEach((item, i) => {
     series.push({
-      name: item.name,
+      name: item.displayName || item.name,
       color: `rgb(${item.color})`,
       type: 'line',
       yAxisIndex: 0,

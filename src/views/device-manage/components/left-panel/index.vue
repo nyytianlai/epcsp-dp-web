@@ -1,35 +1,39 @@
 <template>
   <panel>
     <div class="charging-station-num">
-      <title-column title="充电设施总量" :showBtn="true" @handleClick="handleDetailClick" />
+      <!-- cdsszl: '充电设施总量'  -->
+      <title-column :title="t(`${tHead}.cdsszl`)" :showBtn="true" @handleClick="handleDetailClick" />
       <tabs
         :data="bottomBtnCur === 1 ? chargingStationTabs : chargingStationGunTabs"
         @changeTab="(data) => handleChangeTab(data, 'charging-station')"
       />
+      <!-- cdzzs: '充电桩总数',  cdqzs: '充电枪总数' -->
       <pie-chart
         class="device-total-pie"
         :data="chargingStationPieData"
-        :totalName="bottomBtnCur === 1 ? '充电桩总数' : '充电枪总数'"
+        :totalName="bottomBtnCur === 1 ? t(`${tHead}.cdzzs`) || '充电桩总数' : t(`${tHead}.cdqzs`) || '充电枪总数'"
         :mode="isCanChoose ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
       />
     </div>
     <div class="charging-peak-area">
+      <!-- xzqcdcsqk: '行政区充电次数情况' -->
       <title-column
-        title="行政区充电次数情况"
+        :title="t(`${tHead}.xzqcdcsqk`)"
         :showTabBtn="true"
         :tabList="[
-          { value: 1, name: '日' },
-          { value: 2, name: '月' },
-          { value: 3, name: '年' }
+          { value: 1, name: '日', displayName: t(`${tHead}.tabList.day`) },
+          { value: 2, name: '月', displayName: t(`${tHead}.tabList.month`) },
+          { value: 3, name: '年', displayName: t(`${tHead}.tabList.year`) }
         ]"
         @handleTabBtn="handleYearBtn"
       />
       <area-rank-list :data="areaRankData" :totalNum="areaTotalNum" height="2.2rem" />
     </div>
     <div class="charging-num-images">
-      <title-column title="充电站数字孪生" />
+      <!-- cdzszls: '充电站数字孪生'  -->
+      <title-column :title="t(`${tHead}.cdzszls`)" />
       <charging-num-images :data="chargingNum" />
     </div>
   </panel>
@@ -50,6 +54,11 @@ import {
 } from '../../config.js';
 import ChargingNumImages from '../charging-num-images.vue';
 import ChargingStationListDialog from '../charging-station-list-dialog.vue';
+
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `device-manage.left-panel`;
+
 const props = defineProps({
   bottomBtnCur: {
     type: Number,
@@ -121,7 +130,7 @@ const getSelectChargeCountByArea = async () => {
     areaRankData.value = res.data.map((item) => {
       return {
         num: item.chargeCount,
-        unit: '次',
+        unit: t(`${tHead}.unitCi`) || '次',
         name: item.areaName
       };
     });

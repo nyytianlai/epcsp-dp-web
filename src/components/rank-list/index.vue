@@ -5,11 +5,11 @@
         <div class="top-info">
           <span class="rank-name">
             <span class="rank-num">{{ index + 1 }}</span>
-            <span class="name">{{ item.name }}</span>
+            <span class="name">{{ item.displayName || item.name }}</span>
           </span>
           <span class="num">
             <span>{{ formatWithToLocalString(item.num) }}</span>
-            <span class="unit">{{ item.unit || '' }}</span>
+            <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
           </span>
         </div>
         <div class="bottom-bar">
@@ -30,6 +30,8 @@ interface Idata {
   name: string;
   num: number;
   unit: string;
+  displayName?: string;
+  displayUnit?: string;
 }
 type Itype = 'top-down' | 'left-right';
 interface Props {

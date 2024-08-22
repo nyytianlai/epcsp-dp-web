@@ -1,6 +1,7 @@
 <template>
   <div class="operation-bus-overview">
-    <title-column title="营运巴士运行总览" />
+    <!-- yybsyxzl: '营运巴士运行总览' -->
+    <title-column :title="t(`${tHead}.yybsyxzl`)" />
     <div class="distributed-content">
       <div class="top-card-item" v-for="item in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
@@ -11,7 +12,7 @@
             </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.name }}</div>
+          <div class="card-name">{{ item.displayName || item.name }}</div>
         </div>
       </div>
     </div>
@@ -21,36 +22,44 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.operation-bus-overview`;
 
 const loading = ref(true);
+
 const bottomCardConfig = [
   {
     name: '今日总耗能',
     code: '',
     value: '56.3',
     unit: 'kWh',
-    icon: new URL('../images/total-power.png', import.meta.url).href
+    icon: new URL('../images/total-power.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.jzznh`)
   },
   {
     name: '今日行驶里程',
     code: '',
     value: '56.3',
     unit: 'km',
-    icon: new URL('../images/total-mileage.png', import.meta.url).href
+    icon: new URL('../images/total-mileage.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjxslc`)
   },
   {
     name: '日均能耗',
     code: '',
     value: '2203',
     unit: 'kWh',
-    icon: new URL('../images/avarage-power.png', import.meta.url).href
+    icon: new URL('../images/avarage-power.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjnh`)
   },
   {
     name: '日均里程',
     code: '',
     value: '126',
     unit: 'km',
-    icon: new URL('../images/avarage-mileage.png', import.meta.url).href
+    icon: new URL('../images/avarage-mileage.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.rjlc`)
   }
 ];
 const getData = async () => {

@@ -3,11 +3,11 @@
     <div class="unit-box">
       <div class="unit" v-if="unit">
         <icon :icon="`svg-icon:${colors[0]}`" class="filter" />
-        单位: {{ unit }}
+        {{t(`${tHead}.unit`)}}: {{ unit }}
       </div>
       <div class="unit-right" v-if="unit">
         <icon :icon="`svg-icon:${colors[1]}`" class="filter" />
-        单位: {{ unit }}
+        {{t(`${tHead}.unit`)}}: {{ unit }}
       </div>
     </div>
 
@@ -23,6 +23,9 @@ import dayjs from 'dayjs';
 import { merge } from 'lodash-es';
 import { deepClone } from '@/utils';
 import { scale } from '@sutpc/config';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `components`;
 
 interface Idata {
   x: number;
@@ -434,7 +437,7 @@ const ecOptionBothSideYaxisFun= () => {
     },
     yAxis: [
       {
-        name: `单位：${props.yaxisName}`,
+        name: `${t(`${tHead}.unit`)}：${props.yaxisName}`,
         axisLine: {
           show: false
         },
@@ -458,7 +461,7 @@ const ecOptionBothSideYaxisFun= () => {
         }
       },
       {
-        name: `单位：${props.yaxisName}`,
+        name: `${t(`${tHead}.unit`)}：${props.yaxisName}`,
         axisLine: {
           show: false
         },

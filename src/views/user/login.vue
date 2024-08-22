@@ -1,17 +1,20 @@
-<template>
+<template> 
   <div class="login-container">
     <div class="login-form-box">
       <div class="title-container">
-        <h3 class="title">深圳市电力充储放一张网平台</h3>
+        <!-- title: '深圳市电力充储放一张网平台' -->
+        <h3 class="title">{{t(`${tHead}.title`)}}</h3>
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
-        <div class="login-title">用户登录</div>
+        <!-- yhdl: '用户登录' -->
+        <div class="login-title">{{t(`${tHead}.yhdl`)}}</div>
         <div class="arrow left-top"></div>
         <div class="arrow right-top"></div>
         <div class="arrow left-bottom"></div>
         <div class="arrow right-bottom"></div>
         <el-form-item prop="accountName">
-          <el-input v-model="loginForm.accountName" placeholder="请输入用户名" type="text">
+          <!-- qsryhm: '请输入用户名'  -->
+          <el-input v-model="loginForm.accountName" :placeholder="t(`${tHead}.qsryhm`)" type="text">
             <template #prefix>
               <icon icon="svg-icon:login-user" />
             </template>
@@ -19,12 +22,13 @@
         </el-form-item>
 
         <el-form-item prop="password">
+          <!-- qsrmm: '请输入密码' -->
           <el-input
             v-model="loginForm.password"
             ref="passwordRef"
             :key="state.passwordType"
             :type="state.passwordType"
-            placeholder="请输入密码"
+            :placeholder="t(`${tHead}.qsrmm`)"
             @keyup.enter="handleLogin(loginFormRef)"
           >
             <template #prefix>
@@ -41,7 +45,8 @@
           shape="round"
           @click="handleLogin(loginFormRef)"
         >
-          登录
+        <!-- login: '登录' -->
+          {{t(`${tHead}.login`)}}
         </el-button>
       </el-form>
     </div>
@@ -56,6 +61,9 @@ import { login, getProfile } from './api';
 import { useUserStore } from '@/stores/user';
 import md5 from 'md5';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `login`;
 
 const route = useRoute();
 const store = useUserStore();
@@ -72,11 +80,12 @@ const state = reactive({
   redirect: undefined,
   otherQuery: {}
 });
+
 const loginRules = {
-  accountName: [{ required: true, trigger: 'blur', message: '请输入用户名' }],
+  accountName: [{ required: true, trigger: 'blur', message: t(`${tHead}.loginRules.qsryhm`) || '请输入用户名' }],
   password: [
-    { required: true, trigger: 'blur', message: '请输入密码' },
-    { min: 6, max: 15, message: '密码长度在6-15位之间', trigger: 'blur' }
+    { required: true, trigger: 'blur', message: t(`${tHead}.loginRules.qsrmm`) ||  '请输入密码' },
+    { min: 6, max: 15, message: t(`${tHead}.loginRules.mmMessage`) || '密码长度在6-15位之间', trigger: 'blur' }
   ]
 };
 const handleLogin = async (formEl) => {

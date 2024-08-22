@@ -5,7 +5,8 @@
       <span class="num">
         {{ formatWithToLocalString(data) }}
       </span>
-      <span class="unit-info">客户端注册用户/人</span>
+      <!-- khdzcyhr: '客户端注册用户/人' -->
+      <span class="unit-info">{{t(`${tHead}.khdzcyhr`)}}</span>
     </div>
   </div>
 </template>
@@ -13,6 +14,9 @@
 import { toRefs } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.client-usage`;
 
 const props = defineProps({
   data: {

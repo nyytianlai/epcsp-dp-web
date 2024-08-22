@@ -28,6 +28,10 @@ import {
 import bus from '@/utils/bus';
 
 import { useMapStore } from '@/stores/map';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `safety-supervision.map-layer`;
+
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 const currentJdCode = computed(() => store.currentJdCode);
@@ -35,41 +39,48 @@ const stationType = computed(() => new Set(store.stationType));
 store.changeStationType([1, 2, 3]);
 const buttomTabCode = computed(() => store.buttomTabCode);
 const requestTimer = computed(() => store.requestTimer);
-const legendNameData1 = '告警级别（个）';
+const legendNameData1 = t(`${tHead}.gjjbg`) || '告警级别（个）';
+
 const legendListData1 = reactive([
   {
     color: 'linear-gradient(178.17deg, #FF0005 4.74%, #590303 95.4%)',
     name: '一级 人身安全',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData1.yjrsaq`)
   },
   {
     color: 'linear-gradient(178.1deg, #FF7A00 3.02%, #772B00 97.03%)',
     name: '二级 设备安全',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData1.ejsbaq`)
   },
   {
     color: 'linear-gradient(178.21deg, #FFF501 6.05%, #7E8E19 94.76%)',
     name: '三级 告警提示',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData1.sjgjts`)
   }
 ]);
 
-const legendNameData2 = '充电站状态';
+const legendNameData2 = t(`${tHead}.cdzzt`) || '充电站状态';
 const legendListData2 = reactive([
   {
     color: ' #2AD7FD',
     name: '正常',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData2.zc`)
   },
   {
     color: '#FFB800',
     name: '预警',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData2.yj`)
   },
   {
     color: '#A3A3A3',
     name: '未上线',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData2.wsx`)
   }
 ]);
 let cirBar3Ref = ref(null);

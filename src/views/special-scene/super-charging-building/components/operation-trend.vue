@@ -1,13 +1,15 @@
 <template>
   <div class="area-distributed">
-    <title-column title="运行趋势" />
+    <!-- yxqs: '运行趋势' -->
+    <title-column :title="t(`${tHead}.yxqs`)" />
     <tabs v-model="selectType" :data="operationTabType" />
     <div class="distributed-content" v-loading="isLoading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位：次</div>
-        <div>单位：度</div>
+        <!-- unitCi: '单位：次',  unitDu: '单位：度' 单位：度 -->
+        <div>{{ t(`${tHead}.unitCi`) }}</div>
+        <div>{{ t(`${tHead}.unitDu`) }}</div>
       </div>
     </div>
   </div>
@@ -25,6 +27,9 @@ import { scale } from '@sutpc/config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import dayjs from 'dayjs';
 import Api from '../api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.components`;
 
 const selectType = ref(operationTabType[0].code);
 const isEmpty = ref(false);
@@ -79,8 +84,8 @@ const drawChart = async (data = []) => {
   });
   option.xAxis.axisLabel.formatter = (params) => {
     return selectType.value === operationTabType[0].code
-      ? params + '时'
-      : dayjs(params).format('DD日');
+      ? params + t(`${tHead}.hour`) || '时'
+      : dayjs(params).format(`DD${t(`${tHead}.unitDay`) || '日'}`);
   };
   ecOption.value = {
     ...option,

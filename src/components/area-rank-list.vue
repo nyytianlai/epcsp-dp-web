@@ -5,8 +5,8 @@
         <span class="rank-name">
           <span class="rank-num">{{ index + 1 }}</span>
           <span class="name text-ellipsis-1">
-            <el-tooltip :content="item.name || ''" placement="top">
-              {{ item.name }}
+            <el-tooltip :content="item.displayName || item.name || ''" placement="top">
+              {{ item.displayName || item.name }}
             </el-tooltip>
           </span>
         </span>
@@ -18,7 +18,7 @@
           <span>{{ formatWithToLocalString(item.num) }}</span>
           <span class="unit">
             <span v-if="showPer">/</span>
-            {{ item.unit }}
+            {{ item.displayUnit || item.unit }}
           </span>
         </span>
       </li>
@@ -33,6 +33,8 @@ interface Idata {
   name: string;
   num: number;
   unit: string;
+  displayName?: string;
+  displayUnit?: string;
 }
 type Itype = 'top-down' | 'left-right';
 interface Props {

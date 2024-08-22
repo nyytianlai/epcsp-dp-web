@@ -1,6 +1,7 @@
 <template>
   <div class="parking-charge-distributed">
-    <title-column title="停充区域分布" />
+    <!-- tcqyfb: '停充区域分布' -->
+    <title-column :title="t(`${tHead}.tcqyfb`)" />
     <div class="distributed-content" v-loading="loading">
       <scroll-table
         :scrollTableData="scrollTableData"
@@ -15,7 +16,11 @@
 import { ref, computed } from 'vue';
 import { parkingChargeAreaColumn } from '../config';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
-import Api from '../api'
+import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.parking-charge-distributed`;
+
 const loading = ref(true);
 const scrollTableData = ref([]);
 const getData = async () => {
