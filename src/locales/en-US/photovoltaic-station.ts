@@ -1,45 +1,45 @@
 // 光伏站中文配置
 export default {
   panelTitle: {
-    gfzztxx: '光伏站整体信息',
-    gfzpm: '光伏站排名',
-    jrgfzsjxx: '今日光伏站数据信息',
-    shxyxx: '社会效益信息'
+    gfzztxx: 'Overall information of photovoltaic site',
+    gfzpm: 'Ranking of photovoltaic sitea',
+    jrgfzsjxx: "Today's photovoltaic station data information",
+    shxyxx: 'Social benefit information'
   },
   units: {
-    yd: '亿度',
-    wd: '万吨'
+     yd: 'Billion kwh',
+    wd: 'Ten thousand tons'
   },
   cdzzlFun: {
-    gfzzl: '光伏站总量',
-    bwzrl: '并网总容量',
-    jrqyzs: '接入企业总数'
+    gfzzl: 'Total number of photovoltaic sites',
+    bwzrl: 'Total connected grid capacity',
+    jrqyzs: 'Total number of connected enterprises'
   },
   companyRank: {
-    zdbwrl: '站点并网容量',
-    gfzsl: '光伏站数量'
+    zdbwrl: 'Connected grid capacity',
+    gfzsl: 'Number of photovoltaic sites'
   },
   jrgfdzFun: {
-    tyfsqd: '太阳辐射强度',
-    jrswdl: '今日上网电量',
-    jrfdzl: '今日发电总量'
+    tyfsqd: 'Solar radiation intensity',
+    jrswdl: "Today's power consumption from grid",
+    jrfdzl: "Today's total power generation"
   },
   powerTodayTitle: {
-    jrgfzglxx: '今日光伏站功率信息'
+    jrgfzglxx: "Today's photovoltaic sites power information"
   },
   powerTodayCardFun: {
-    jrzdgl: '今日最大功率',
-    jrssgl: '今日实时功率'
+    jrzdgl: "Today's maximum power",
+    jrssgl: "Today's real-time power"
   },
   linePowerDataFun: {
-    ssgl: '实时功率'
+     ssgl: 'Real-time power'
   },
   socialBenefitFun: {
-    nscgfld: '年生产光伏绿电',
-    nco2jpl: '年CO2减排量'
+    nscgfld: 'Annual production of photovoltaic green electricity',
+    nco2jpl: 'Annual carbon dioxide emission reduction'
   },
   mapLegend: {
-    legendName: '站点数量/个',
-    gfz: '光伏站'
+     legendName: 'Number of sites',
+    gfz: 'Photovoltaic site'
   }
 };

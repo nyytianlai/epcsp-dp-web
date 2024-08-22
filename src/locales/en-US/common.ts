@@ -1,5 +1,5 @@
 export default {
-  inputText: 'Please input',
+  inputText: 'Please input site name',
   selectText: 'Please select',
   startTimeText: 'Start time',
   endTimeText: 'End time',
@@ -11,6 +11,7 @@ export default {
   ok: 'OK',
   cancel: 'Cancel',
   reload: 'Reload Page',
+  click: 'click',
   prevLabel: 'Prev',
   nextLabel: 'Next',
   skipLabel: 'Jump',
@@ -50,8 +51,8 @@ export default {
   searchText: 'Please search',
   hide: 'hide',
   show: 'show',
-  noDataSelected: 'haven\'t select any data',
-  xq: 'details', // '详情'
-  title: 'this is title', // '我是标题',
-  check: 'more', //'查看更多'
+  noDataSelected: "haven't select any data",
+  xq: 'details', // 'details'
+  title: 'this is title', // 'this is title',
+  check: 'more', //'more'
 };
