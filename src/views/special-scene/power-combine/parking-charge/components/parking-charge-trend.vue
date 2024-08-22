@@ -1,11 +1,13 @@
 <template>
   <div class="parking-charge-trend">
-    <title-column title="停充运行趋势分析" />
+    <!-- tcyxqsfx: '停充运行趋势分析' -->
+    <title-column :title="t(`${tHead}.tcyxqsfx`)" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:%</div>
+        <!-- dw: '单位' -->
+        <div>{{t(`${tHead.dw}`)}}:%</div>
       </div>
     </div>
   </div>
@@ -18,22 +20,26 @@ import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
 import dayjs from 'dayjs';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.parking-charge-trend`;
 
 const isEmpty = ref(false);
 const loading = ref(false);
-
 const chartConfig = [
   {
     name: '充电枪利用率',
     code: 'dailyGunUtilizationRate',
     color: '0, 255, 249',
-    unit: '%'
+    unit: '%',
+    displayName: t(`${tHead}.chartConfig.dailyGunUtilizationRate`)
   },
   {
     name: '车位利用率',
     code: 'dailyParkingSpaceUtilizationRate',
     color: '0, 83, 255',
-    unit: '%'
+    unit: '%',
+    displayName: t(`${tHead}.chartConfig.dailyParkingSpaceUtilizationRate`)
   }
 ];
 const ecOption = ref(getBaseChartOption());
@@ -45,7 +51,7 @@ const drawChart = async (data = []) => {
 
   chartConfig.forEach((item, i) => {
     series.push({
-      name: item.name,
+      name: item.displayName || item.name,
       color: `rgb(${item.color})`,
       type: 'line',
       yAxisIndex: 0,

@@ -13,7 +13,7 @@
       :key="index"
       :prop="item.prop"
       align="left"
-      :label="item.label"
+      :label="item.displayLabel || item.label"
       :min-width="item.width"
       :type="item.type"
       :show-overflow-tooltip="true"
@@ -27,6 +27,9 @@ import { ref, toRefs, reactive } from 'vue';
 import type { CSSProperties } from 'vue';
 import ScrollTable from '@sutpc/vue3-scroll-table';
 import { tableColumnFun } from '@/global/commonFun.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.scroll-table`;
 interface Props {
   styleWrap: CSSProperties;
   columnKeyList: any[];
@@ -38,10 +41,10 @@ const props = withDefaults(defineProps<Props>(), {
     height: '3.44rem'
   }),
   columnKeyList: () => [
-    { prop: 'index', label: '序号', width: 2, type: 'index' },
-    { prop: 'typeName', label: '问题类型', width: 3 },
-    { prop: 'desc', label: '相关描述', width: 5 },
-    { prop: 'cnt', label: '数量（个）', width: 3 }
+    { prop: 'index', label: '序号', width: 2, type: 'index', displayLabel: t(`${tHead}.columnKeyList.index`) },
+    { prop: 'typeName', label: '问题类型', width: 3, displayLabel: t(`${tHead}.columnKeyList.typeName`) },
+    { prop: 'desc', label: '相关描述', width: 5, displayLabel: t(`${tHead}.columnKeyList.desc`) },
+    { prop: 'cnt', label: '数量（个）', width: 3, displayLabel: t(`${tHead}.columnKeyList.cnt`) }
   ],
   data: () => []
 });

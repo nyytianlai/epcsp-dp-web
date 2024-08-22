@@ -23,20 +23,28 @@ import bus from '@/utils/bus';
 // import { getQuPoint } from '../api.js';
 import { mapQuBar } from '../config.js';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.map-layer`;
+
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3]);
-let legendNameData = ref('人数/人');
+let rsr = t(`${tHead}.rsr`);  
+let legendNameData = ref(rsr || '人数/人');
+
 let legendListData = reactive([
   {
     color: 'linear-gradient(178.17deg, #FFEE59 4.74%, #746F06 95.4%)',
     name: '注册人数',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.zcrs`)
   },
   {
     color: 'linear-gradient(178.17deg, #59FFFF 4.74%, #067471 95.4%)',
     name: '今日访问量',
-    type: false
+    type: false,
+    displayName: t(`${tHead}.legendListData.jrfwl`)
   }
 ]);
 let rectBar2Ref = ref(null);

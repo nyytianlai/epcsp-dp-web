@@ -1,6 +1,7 @@
 <template>
   <div class="area-distributed">
-    <title-column title="行政区分布情况" />
+    <!-- xzqfbqk: '行政区分布情况' -->
+    <title-column :title="t(`${tHead}.xzqfbqk`)" />
     <tabs v-model="selectType" :data="areaDistributedTabType" />
     <div class="distributed-content" v-loading="loading">
       <scroll-table
@@ -17,6 +18,9 @@ import { ref, computed } from 'vue';
 import { areaDistributedTabType, columnKeyListFun } from '../config.js';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import Api from '../api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.components`;
 
 const selectType = ref(areaDistributedTabType[0].code);
 const loading = ref(true);

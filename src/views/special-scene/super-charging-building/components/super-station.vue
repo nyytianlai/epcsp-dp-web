@@ -1,17 +1,18 @@
 <template>
   <div class="super-station-overview">
-    <title-column title="超充总览" />
+    <!-- cczl: '超充总览' -->
+    <title-column :title="t(`${tHead}.cczl`)" />
     <div class="overview-content" v-loading="loading">
       <div class="top-card-item" v-for="item in cardConfig1" :key="`${item.name}`">
-        <div class="card-type-name" :style="{ backgroundColor: item.color }">{{ item.name }}</div>
+        <div class="card-type-name" :style="{ backgroundColor: item.color }">{{ item.displayName || item.name }}</div>
         <div class="card-item-content" v-for="card in item.children" :key="card.name">
           <img draggable="false" :src="card.icon" class="icon" />
           <div class="card-data">
             <div class="card-value">
               <span class="value fontSize32DIN">{{ formatWithToLocalString(card.value) }}</span>
-              <span class="unit">{{ card.unit || '' }}</span>
+              <span class="unit">{{ card.displayUnit || card.unit || '' }}</span>
             </div>
-            <div class="card-name">{{ card.name }}</div>
+            <div class="card-name">{{ card.displayName || card.name }}</div>
           </div>
         </div>
       </div>
@@ -30,13 +31,13 @@
                 </span>
                 <p>{{ child.seprate || '' }}</p>
               </template>
-              {{ item.unit || '' }}
+              {{ item.displayUnit || item.unit || '' }}
             </div>
             <div class="card-name">
-              {{ item.name }}
-              <span>{{ item.typeName }}</span>
+              {{ item.displayName || item.name }}
+              <span>{{ item.displayTypeName || item.typeName }}</span>
               <template v-for="(child, i) in item.children" :key="child.name">
-                {{ child.name }}
+                {{ child.displayName || child.name }}
                 <p>{{ child.seprate || '' }}</p>
               </template>
               {{ item.type }}
@@ -53,6 +54,10 @@ import { ref } from 'vue';
 import { getCardConfig2, getOperatCardConfig } from '../config.js';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.super-charging-building.components`;
+
 const cardConfig1 = ref(getOperatCardConfig());
 const cardConfig2 = ref(getCardConfig2());
 const loading = ref(true);

@@ -1,6 +1,7 @@
 <template>
   <div class="parking-charge-overview" v-loading="loading">
-    <title-column title="停充接入总览" />
+    <!-- 停充接入总览 tcjrzl: '停充接入总览' -->
+    <title-column :title="t(`${tHead}.tcjrzl`)" />
     <div class="parking-charge-rate">
       <div class="top-card-list">
         <div class="top-card-item" v-for="item in topCardConfig" :key="item.name">
@@ -10,16 +11,16 @@
               <span class="value fontSize32DIN">
                 {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
               </span>
-              <span class="unit">{{ item.unit || '' }}</span>
+              <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
             </div>
-            <div class="card-name">{{ item.name }}</div>
+            <div class="card-name">{{ item.displayName || item.name }}</div>
           </div>
         </div>
       </div>
       <div class="rate-wrapper">
         <div class="left-line"></div>
         <div class="rate-data">
-          {{ rate.name }}
+          {{ rate.displayName || rate.name }}
           <span class="fontSize28DIN">
             {{ formatWithToLocalString(totalData[rate.code]) ?? '--' }}
           </span>
@@ -35,9 +36,9 @@
             <span class="value fontSize32DIN">
               {{ formatWithToLocalString(totalData[item.code]) ?? '--' }}
             </span>
-            <span class="unit">{{ item.unit || '' }}</span>
+            <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.name }}</div>
+          <div class="card-name">{{ item.displayName || item.name }}</div>
         </div>
       </div>
     </div>
@@ -50,6 +51,9 @@ import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 const loading = ref(true);
 const totalData = ref({});
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.power-combine.components.parking-charge-overview`;
 
 const topCardConfig = [
   {
@@ -57,21 +61,26 @@ const topCardConfig = [
     code: 'totalParkingSpace',
     value: '',
     unit: '个',
-    icon: new URL('../images/parking.png', import.meta.url).href
+    icon: new URL('../images/parking.png', import.meta.url).href,
+    displayName: t(`${tHead}.topCardConfig.zcws`),
+    displayUnit: t(`${tHead}.topCardConfig.unitGe`)
   },
   {
     name: '充电枪数',
     code: 'totalGun',
     value: '',
     unit: '个',
-    icon: new URL('../images/charge.png', import.meta.url).href
+    icon: new URL('../images/charge.png', import.meta.url).href,
+    displayName: t(`${tHead}.topCardConfig.cdqs`),
+    displayUnit: t(`${tHead}.topCardConfig.unitGe`)
   }
 ];
 
 const rate = {
   name: '停充配比',
   code: 'stopChargeRatio',
-  value: ''
+  value: '',
+  displayName: t(`${tHead}.rate.stopChargeRatio`)
 };
 
 const bottomCardConfig = [
@@ -80,14 +89,18 @@ const bottomCardConfig = [
     code: 'totalParkingLot',
     value: '',
     unit: '个',
-    icon: new URL('../images/parking-num.png', import.meta.url).href
+    icon: new URL('../images/parking-num.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.tclsl`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitGe`)
   },
   {
     name: '充电站数量',
     code: 'totalChargingStation',
     value: '',
     unit: '个',
-    icon: new URL('../images/station-num.png', import.meta.url).href
+    icon: new URL('../images/station-num.png', import.meta.url).href,
+    displayName: t(`${tHead}.bottomCardConfig.cdzsl`),
+    displayUnit: t(`${tHead}.bottomCardConfig.unitGe`)
   }
 ];
 

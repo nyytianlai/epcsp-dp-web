@@ -1,44 +1,56 @@
 import { scale } from '@sutpc/config';
+import i18n from '@/locales/i18n'; 
+const { t } = i18n.global;
+const configHead  = `special-scene.power-combine.config`;
+
 export const powerDistributedColumn = [
   {
     prop: 'areaName',
     label: '行政区',
-    width: 3
+    width: 3,
+    displayLabel: t(`${configHead}.powerDistributedColumn.areaName`)
   },
   {
     prop: 'soltNum',
     label: '巴士剩余电量(kWh)',
-    width: 4
+    width: 4,
+    displayLabel: t(`${configHead}.powerDistributedColumn.soltNum`)
   },
   {
     prop: 'connectorNum',
     label: '巴士数量(辆)',
-    width: 3
+    width: 3,
+    displayLabel: t(`${configHead}.powerDistributedColumn.connectorNum`)
   }
 ];
+
 export const parkingChargeOperationColumn = [
   {
     prop: 'areaName',
     label: '行政区',
-    width: 2
+    width: 2,
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn1.areaName`)
   },
   {
     prop: 'parkingNum',
     label: '停车量(辆)',
     width: 2,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn1.parkingNum`)
   },
   {
     prop: 'power',
     label: '充电量(kWh)',
     width: 2,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn1.power`)
   },
   {
     prop: 'rate',
     label: '车位/充电枪利用率(%)',
     width: 4,
-    align: 'center'
+    align: 'center',
+    displayLabel: t(`${configHead}.parkingChargeOperationColumn1.rate`)
   }
 ];
 
@@ -49,7 +61,9 @@ export const operationTrendConfig = () => [
     type: 'bar',
     data: [],
     color: 'rgb(34, 118, 252)',
-    unit: '辆'
+    unit: '辆',
+    displayName: t(`${configHead}.operationTrendConfig.busNum`),
+    displayUnit: t(`${configHead}.operationTrendConfig.unitCar`)
   },
   {
     name: '巴士剩余电量',
@@ -57,9 +71,12 @@ export const operationTrendConfig = () => [
     type: 'line',
     data: [],
     color: 'rgb(255, 207, 95)',
-    unit: 'kwh'
+    unit: 'kwh',
+    displayName: t(`${configHead}.operationTrendConfig.busCapacity`),
+    displayUnit: t(`${configHead}.operationTrendConfig.unitKwh`)
   }
 ];
+
 export const adjustTrendConfig = () => [
   {
     name: '调节次数',
@@ -67,7 +84,9 @@ export const adjustTrendConfig = () => [
     type: 'bar',
     data: [],
     color: 'rgb(34, 118, 252)',
-    unit: '次'
+    unit: '次',
+    displayName: t(`${configHead}.adjustTrendConfig.busNum`),
+    displayUnit: t(`${configHead}.adjustTrendConfig.unitCi`)
   },
   {
     name: '调节功率',
@@ -75,7 +94,9 @@ export const adjustTrendConfig = () => [
     type: 'line',
     data: [],
     color: 'rgb(255, 207, 95)',
-    unit: 'MW'
+    unit: 'MW',
+    displayName: t(`${configHead}.adjustTrendConfig.busCapacity`),
+    displayUnit: t(`${configHead}.adjustTrendConfig.unitMw`)
   }
 ];
 export const getBaseChartOption = () => {

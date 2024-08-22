@@ -1,9 +1,11 @@
 <template>
-  <custom-dialog title="热门充电站排名" v-model:visible="props.visible" @closed="handleClosed">
+  <!-- rmcdzpm: '热门充电站排名' -->
+  <custom-dialog :title="t(`${tHead}.rmcdzpm`)" v-model:visible="props.visible" @closed="handleClosed">
     <template #titleSearch>
+      <!-- qsr: '请输入' -->
       <el-input
         v-model.trim="inputHot"
-        placeholder="请输入"
+        :placeholder="t(`${tHead}.qsr`)"
         class="search-input"
         @change="handleSearchHot"
       >
@@ -31,7 +33,7 @@
       >
         <template #header v-if="item.prop === 'areaName'">
           <div class="areaName">
-            {{ item.label }}
+            {{ item.displayLabel || item.label }}
             <el-popover placement="bottom" trigger="click">
               <template #reference>
                 <icon :size="12" icon="svg-icon:filter" class="filter" />
@@ -53,9 +55,11 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" key="operation" minWidth="2">
+      <!-- cz: '操作'  -->
+      <el-table-column :label="t(`${tHead}.cz`)" key="operation" minWidth="2">
         <template #default="scope">
-          <a href="javascript:;" class="detail" @click="handleDetailHot(scope)">详情</a>
+          <!-- xq: '详情' -->
+          <a href="javascript:;" class="detail" @click="handleDetailHot(scope)">{{t(`${tHead}.xq`)}}</a>
         </template>
       </el-table-column>
     </el-table>
@@ -79,6 +83,9 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { toSingleStation } from '@/global/config/map';
 import config from '@sutpc/config';
 import Icon from '@sutpc/vue3-svg-icon';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `public-service.hot-station-rank-dialog`;
 interface Props {
   visible: boolean;
   timeType: string;

@@ -1,6 +1,7 @@
 <template>
   <div class="area-distributed">
-    <title-column title="可调容量区域分布" />
+    <!-- ktrlqyfb: '可调容量区域分布' -->
+    <title-column :title="t(`${tHead}.ktrlqyfb`)" />
     <div class="distributed-content" v-loading="loading">
       <area-rank-list
         :data="areaRankData"
@@ -16,6 +17,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Api from '../api';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+const tHead = `special-scene.virtual-electric.components`;
 
 const loading = ref(true);
 
