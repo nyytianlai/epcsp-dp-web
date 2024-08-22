@@ -1,52 +1,52 @@
 export default {
-  cdzdxx: 'Charging station information', //'充电站点信息',
+  cdzdxx: 'Charging site information', //'充电站点信息',
   sbssxx: 'Equipment and facility information', //'设备设施信息',
   cdzzs: 'Total number of charging stations', //'充电桩总数',
   cdqzs: 'Total number of charging guns', //'充电枪总数',
   gjxx: 'Alarm information', //'告警信息',
-  zdcdzzt: 'Station charging station status', //'站点充电桩状态',
+  zdcdzzt: 'Charging station status of the site', //'站点充电桩状态',
   cdssrsyxx: 'Daily usage information of charging facilities', //'充电设施日使用信息',
-  zdssgl: 'Real time power of the site', //'站点实时功率'
+  zdssgl: 'Real-time power of the site', //'站点实时功率'
   config: {
     lianhuaPowerFun: {
-      swdl: 'on-grid energy ', // '上网电量',
+      swdl: 'On-grid energy ', // '上网电量',
       fddl: 'Power generation capacity', // '发电电量',
     },
     lianhuaWarnFun: {
-      today: 'today', // '今日',
+      today: 'Today', // '今日',
       gjs: 'Number of alarms', // '告警数',
     },
     lianhuaWarnOption: {
-      unitGe: 'individual', // '个',
+      unitGe: '', // '个',
       gjs: 'Number of alarms', // '告警数',
       yAxisName: 'Unit:', // '单位:个',
       day: 'day', // '日'
     },
     lianhuaRealtimeOption: {
-      ssgl: 'Real time power', // '实时功率',
+      ssgl: 'Real-time power', // '实时功率',
       yAxisName: 'Unit: kW', // '单位:kW ',
-      seriesName: 'Real time power', // '实时功率',
+      seriesName: 'Real-time power', // '实时功率',
     },
     deviceInfoFun: {
-      zdzjrl: 'Station installed capacity', // '站点装机容量',
+      zdzjrl: 'Site installed capacity', // '站点装机容量',
       zdgfbmj: 'Site photovoltaic panel area', // '站点光伏板面积',
     },
     facilitiesLabel: {
-      electricalRoom: 'Distribution room', // "配电房",
-      toilet: 'TOILET', // "卫生间",
+      electricalRoom: 'Power distribution room', // "配电房",
+      toilet: 'Toilet', // "卫生间",
       store: 'Convenience Store', // '便利店',
-      rest: 'Rest area', // '休息区',
+      rest: 'lounge', // '休息区',
       maintenance: 'Maintenance area', // '维修区',
       bigHouse: 'Exhibition Hall', // '展示馆',
       bigHouse1: 'Conference Hall', // '会议馆',
       bigHouse2: 'Trading Hall', // '交易馆',
-      monitorCenter: 'Real time monitoring center', // '实时监测中心',
+      monitorCenter: 'Real-time monitoring center', // '实时监测中心',
       microgridBox: 'Micro net cage transformation', // '微网箱变',
       energyStorageBox: 'Energy storage box', // '储能箱',
       chargingTerminal: 'Charging terminal', // '充电终端',
       PVPanel: 'Photovoltaic panels', // '光伏电池板',
       chargingStation: 'Charging station', // '充电站',
-      chargingTerminal1: 'Charging centralized control terminal', // '充电集控终端',
+      chargingTerminal1: 'Centralized controlled charging terminal', // '充电集控终端',
       V2G: 'V2G pile', // 'V2G桩',
       chargingTerminal2: 'Liquid cooled high-power charging terminal', // '液冷大功率充电终端',
       chargingStack: 'Charging pile', // '充电堆',
@@ -58,9 +58,9 @@ export default {
       microgridBox3: '3 # Box Transformer', // '3#箱变',
       microgridBox4: '4 # Box Transformer', // '4#箱变',
       microgridBox5: '5 # Box Transformer', // '5#箱变',
-      building: 'Indoor power distribution equipment building', // '户内配电装置楼',
+      building: 'Building for Indoor power distribution equipment', // '户内配电装置楼',
       photovoltaic: 'Photovoltaic panels', // '光伏电池板',
-      building1: 'Main control communication building', // '主控通信楼',
+      building1: 'Building for main control communication', // '主控通信楼',
       fan: 'Fan', // '风机',
       machineRoom: 'computer room', // '机房',
       microwave: 'microwave', // '微波',
@@ -76,8 +76,8 @@ export default {
     },
     floor2SpaceMarker: {
       dzk: 'Lifting hole', // '吊装孔',
-      cndcds5: 'Energy storage battery stack room # 5', // '储能电池堆室#5',
-      ktjf: 'Air-conditioner Engine Room', // '空调机房',
+      cndcds5: '#5 Battery stack room', // '储能电池堆室#5',
+      ktjf: 'AC Room', // '空调机房',
       dcds2: '#2 Battery Stack Room', // '#2电池堆室',
       dcds4: '#4 Battery Stack Room', // '#4电池堆室',
     },
@@ -89,22 +89,22 @@ export default {
       dcc: 'Battery cluster', // '电池簇',
     },
     pageNumFun: {
-      zdcdl: 'Station charging capacity', // '站点充电量',
+      zdcdl: 'Site charging capacity', // '站点充电量',
       KWH: 'kWh', // 'kWh',
-      zdcdcs: 'Station charging frequency', // '站点充电次数',
-      unitCi: 'second', // '次',
-      zdcdsc: 'Station charging duration', // '站点充电时长',
-      unitHour: 'hour', // '小时',
-      zdgzcs: 'Number of site failures', // '站点故障次数',
+      zdcdcs: 'Site charging frequency', // '站点充电次数',
+      unitCi: '', // '次',
+      zdcdsc: 'Site charging duration', // '站点充电时长',
+      unitHour: 'hr', // '小时',
+      zdgzcs: 'Number of Site malfuction', // '站点故障次数',
     },
     deviceInfoDataFun: {
       cdzg: 'Charging station/piece', // '充电桩/个',
       cdqg: 'Charging gun/piece', // '充电枪/个',
     },
     warningTabsDataFun: {
-      yjrsaq: 'First level personal safety', // '一级人身安全',
-      ejsbaq: 'Secondary equipment safety', // '二级设备安全',
-      sjgjts: 'Level 3 alarm prompt', // '三级告警提示',
+      yjrsaq: 'First-level personal safety alarm', // '一级人身安全',
+      ejsbaq: 'Second-level equipment safety alarm', // '二级设备安全',
+      sjgjts: 'Third-level alarm', // '三级告警提示',
     },
     chargingTypesTabsFun: {
       cdzsyqk: 'Usage of charging stations', // '充电桩使用情况',
@@ -112,15 +112,15 @@ export default {
     },
     chargingTypesFun: {
       dqsyl: 'Current usage rate', // '当前使用率',
-      unitCi: 'second', // '次',
+      unitCi: 'time/s', // '次',
       sycs: 'Usage frequency', // '使用次数',
     },
     linePowerDataFun: {
-      ssgl: 'Real time power', // '实时功率',
+      ssgl: 'Real-time power', // '实时功率',
     },
     columnDataFun: {
       yysmc: 'Operator name', // '运营商名称',
-      cdzmc: 'Name of charging station', // '充电站名称',
+      cdzmc: 'Charging station name', // '充电站名称',
       gjjb: 'Alarm level', // '告警级别',
       gjms: 'Alarm description', // '告警描述',
       gjlx: 'Alarm Type ', // '告警类型',
@@ -135,7 +135,7 @@ export default {
       gjs: 'Number of alarms', // '告警数'
     },
     stationWarnOption: {
-      unitGe: 'individual', // '个',
+      unitGe: '', // '个',
       gjs: 'Number of alarms', // '告警数',
       yAxisName: 'Unit:', // '单位:个'
     },
@@ -145,51 +145,51 @@ export default {
       seriesName: 'Battery cluster power', // '电池簇功率'
     },
     batteryTempOption: {
-      czdwd: 'Cluster minimum temperature', // '簇最低温度',
+      czdwd: 'Cluster lowest temperature', // '簇最低温度',
       yAxisName: 'Unit: ℃', // '单位:℃',
-      seriesName: 'Cluster minimum temperature', // '簇最低温度'
+      seriesName: 'Cluster lowest temperature', // '簇最低温度'
     },
     pageNumBaoqingFun: {
       rcdl: 'Daily charging capacity', // '日充电量',
       unitMWh: 'MWh', // 'MWh',
-      rfdl: 'Daily discharge capacity', // '日放电量',
+      rfdl: 'Daily discharging capacity', // '日放电量',
       soc: 'SOC', // 'SOC',
       unitPer: '%', // '%',
       soh: 'SOH', // 'SOH',
       rgzcs: 'Daily number of malfunctions', // '日故障次数',
-      unitCi: 'second', // '次',
+      unitCi: 'time/s', // '次',
     },
     runingFun: {
-      zdkcglmv: 'Maximum rechargeable power/MW', // '最大可充功率/MW',
-      zdkfglmv: 'Maximum discharge power/MW', // '最大可放功率/MW',
-      zdkcsjmin: 'Maximum rechargeable time/min', // '最大可充时间/min',
-      zdkfsjmin: 'Maximum playable time/min', // '最大可放时间/min',
+      zdkcglmv: 'Maximum chargeable power/MW', // '最大可充功率/MW',
+      zdkfglmv: 'Maximum dischargeable power/MW', // '最大可放功率/MW',
+      zdkcsjmin: 'Maximum chargeable time/min', // '最大可充时间/min',
+      zdkfsjmin: 'Maximum dischargeable time/min', // '最大可放时间/min',
     },
     warnList: {
-      message1: 'Protection against [BCMS internal communication failure] failure', // '保护[BCMS内部通讯故障]发生故…',
+      message1: 'Protection against BCMS internal communication failure', // '保护[BCMS内部通讯故障]发生故…',
       area1: '#1 battery cluster', // '#1电池簇',
       message2: 'Protection against BCMS internal communication failure', // '保护[BCMS内部通讯故障]发生',
       area2: '#2 battery clusters', // '#2电池簇',
-      message3: 'Alarm [large individual pressure difference] generated', // '告警[单体压差大]产生',
+      message3: 'Alarm: large individual voltage difference', // '告警[单体压差大]产生',
       area3: '#3 battery clusters', // '#3电池簇',
-      message4: 'Alarm [large individual pressure difference] generated', // '告警[单体压差大]产生',
+      message4: 'Alarm: large individual voltage difference', // '告警[单体压差大]产生',
       area4: '#8 battery clusters', // '#8电池簇',
-      message5: 'Alarm [large individual pressure difference] generated', // '告警[单体压差大]产生',
+      message5: 'Alarm: large individual voltage difference', // '告警[单体压差大]产生',
       area5: '#9 battery clusters', // '#9电池簇',
-      message6: 'Alarm [large individual pressure difference] generated', // '告警[单体压差大]产生',
+      message6: 'Alarm: large individual voltage difference', // '告警[单体压差大]产生',
       area6: '#9 battery clusters', // '#9电池簇',
-      message7: 'Alarm [large individual pressure difference] generated', // '告警[单体压差大]产生',
+      message7: 'Alarm: large individual voltage difference', // '告警[单体压差大]产生',
       area7: '#9 battery clusters', // '#9电池簇',
     },
     baoqingSytemStatusFun: {
       fxt: 'subsystem', // '分系统',
     },
     baoqingRealtimeOption: {
-      yAxisName: 'Unit: GWH', // '单位:GWH',
-      seriesName: 'Real time charging and discharging', // '实时充放',
+      yAxisName: 'Unit:GWH', // '单位:GWH',
+      seriesName: 'Real-time charging and discharging', // '实时充放',
     },
     baoqingWarnOption: {
-      unitGe: 'individual', // '个',
+      unitGe: '', // '个',
       yAxisName: 'Unit:', // '单位:个',
       seriesName: 'Number of alarms', // '告警数'
     },
@@ -197,37 +197,38 @@ export default {
       fxtsbms: 'Subsystem equipment mode', // '分系统设备模式',
       kx: 'Empty Line', // '空线',
       fxtgzzt: 'Working status of subsystems', // '分系统工作状态',
-      yx: 'function', // '运行',
-      fxtzdkcgl: 'Maximum rechargeable power of the subsystem', // '分系统最大可充功率',
-      fxtzdkfgl: 'Maximum allowable power of the subsystem', // '分系统最大可放功率',
-      fxtkfdl: 'Discharge capacity of subsystems', // '分系统可放电量',
+      yx: 'functioning', // '运行',
+      fxtzdkcgl: 'Maximum charging power of the subsystem', // '分系统最大可充功率',
+      fxtzdkfgl: 'Maximum discharging power of the subsystem', // '分系统最大可放功率',
+      fxtkfdl: 'Discharging capacity of subsystems', // '分系统可放电量',
       fxtkcdl: 'Rechargeable capacity of subsystems', // '分系统可充电量',
       fxtzcdl: 'Total charging capacity of subsystems', // '分系统总充电量',
       fxtzfdl: 'Total discharge capacity of subsystems', // '分系统总放电量',
     },
     msgPopList: {
-      zdqy: 'Site area', // '站点区域',
+      zdqy: 'Station area', // '站点区域',
       ftq: 'Futian District', // '福田区',
       jtdz: 'Specific address', // '具体地址',
-      address: 'Northeast Intersection of Hongli West Road and Xiangmihu Road, Futian District, Shenzhen', // '深圳市福田区红荔西路与香蜜湖路东北交叉口',
-      zdxz: 'Site nature', // '站点性质',
+      address: '深圳市福田区红荔西路与香蜜湖路东北交叉口',
+      //'Northeast Intersection of Hongli West Road and Xiangmihu Road, Futian District, Shenzhen', // '深圳市福田区红荔西路与香蜜湖路东北交叉口',
+      zdxz: 'Site feature', // '站点性质',
       '5gjz': '5G base station', // '5G基站',
     },
     popRealtimeOption: {
       yAxisName:'Unit: kw', // '单位:kw',
-      seriesName:'Real time charging and discharging', // '实时充放'
+      seriesName:'Real-time charging and discharging', // '实时充放'
     },
     pageNumLianhuaxiFun: {
       nljfdl: 'Annual cumulative power generation', // '年累计发电量',
       wanKwh: '10000 kWh', // '万kWh',
       nyxlyxss: 'Annual effective utilization hours', // '年有效利用小时数',
       unitHour: 'hour', // '小时',
-      nljco2jpl: 'Annual cumulative CO ² emission reduction', // '年累计CO²减排量',
+      nljco2jpl: 'Annual cumulative carbon dioxide emission reduction', // '年累计CO²减排量',
       unitTon: 'ton', // '吨',
     },
     chargingStationTabsFun: {
       cdzlx: 'Type of charging station', // '充电桩类型',
-      cdzdllx: 'Charging pile current type', // '充电桩电流类型',
+      cdzdllx: 'charging station current type', // '充电桩电流类型',
     },
     chargingStationGunTabsFun: {
       cdqlx: 'Charging gun type', // '充电枪类型',
@@ -237,35 +238,35 @@ export default {
       kcz: 'Fast charging pile', // '快充桩',
       mcz: 'Slow charging pile', // '慢充桩',
       ccz: 'Supercharging pile', // '超充桩',
-      v2gz: 'V2G pile', // 'V2G桩',
-      zlz: 'DC pile', // '直流桩',
-      jlz: 'Communication pile', // '交流桩',
+      v2gz: 'V2G charging pile', // 'V2G桩',
+      zlz: 'DC charging pile', // '直流桩',
+      jlz: 'AC pile', // '交流桩',
       jzlz: 'AC/DC pile', // '交直流桩',
       qtz: 'Other piles', // '其他桩',
       kcq: 'Quick charging gun', // '快充枪',
       mcq: 'Slow charging gun', // '慢充枪',
       ccq: 'Supercharging gun', // '超充枪',
-      v2gq: 'V2G gun', // 'V2G枪',
-      zlq: 'DC gun', // '直流枪',
-      jlq: 'Communication gun', // '交流枪',
-      jzlq: 'AC/DC gun', // '交直流枪',
-      qtq: 'Other guns', // '其他枪',
-      unitGe: 'individual', // '个',
+      v2gq: 'V2G charging gun', // 'V2G枪',
+      zlq: 'DC charging gun', // '直流枪',
+      jlq: 'AC charging gun', // '交流枪',
+      jzlq: 'AC/DC charging gun', // '交直流枪',
+      qtq: 'Other charging guns', // '其他枪',
+      unitGe: '', // '个',
     },
     batteryMsgFun: {
-      zdfdl: 'Maximum discharge capacity', // '最大放电量',
-      fddy: 'discharge voltage ', // '放电电压',
+      zdfdl: 'Maximum discharging capacity', // '最大放电量',
+      fddy: 'discharging voltage ', // '放电电压',
       cddy: 'Charging voltage', // '充电电压'
     },
     getSuperHeaderData: {
       zd: 'site', // '站点',
       cc: 'Supercharging', // '超充',
       cdl: 'Charging capacity', // '充电量',
-      cdcs: 'Charging times', // '充电次数',
+      cdcs: 'Number of charging times', // '充电次数',
       zdfdl: 'Charging duration', // '充电时长',
       unitHour: 'hour', // '小时',
-      zdgzcs: 'Number of site failures', // '站点故障次数',
-      unitCi: 'second', // '次',
+      zdgzcs: 'Number of site malfunctions', // '站点故障次数',
+      unitCi: '', // '次',
     },
   },
   components: {
@@ -286,14 +287,14 @@ export default {
       bottomTabs: {
         zdzl: 'Site Overview', // '站点总览',
         sjmy: 'Perspective Roaming', // '视角漫游',
-        znss: 'On site facilities', // '站内设施'
+        znss: 'On-site facilities', // '站内设施'
       },
       floor3Marker: {
         gfdcb:'Photovoltaic panels', //  '光伏电池板'
       }
     },
     'baoqing-child': {
-      bqcnz: 'Baoqing Energy Storage Station', // '宝清储能站',
+      bqcnz: 'Baoqing Energy Storage Site', // '宝清储能站',
       cnfxt1: '#1 Energy storage subsystem', // ' #1储能分系统',
       fxtjcxx: 'Basic information of subsystems', // '分系统基础信息',
       pcsgjxx: 'PCS alarm information', // 'PCS告警信息',
@@ -310,13 +311,13 @@ export default {
     },
     baoqingchuneng: {
       zdjbxx: 'Basic information of the site', // '站点基本信息',
-      stationName: 'Southern Power Grid Shenzhen Baoqing Energy Storage Power Station', // '南方电网深圳宝清储能电站',
+      stationName: 'Southern Power Grid Shenzhen Baoqing Energy Storage Power Site', // '南方电网深圳宝清储能电站',
       companyName: 'ID:1928479400029287', // 'ID:1928479400029287',
       normal: 'normal', // '正常',
       zdsjxx: 'Site data information', // '站点数据信息',
       gjxx: 'Alarm information', // '告警信息',
       cnfxtzt: 'Energy storage subsystem status', // '储能分系统状态',
-      sscfqk: 'Real time charging and discharging status', // '实时充放情况',
+      sscfqk: 'Real-time charging and discharging status', // '实时充放情况',
       infoListData: {
         zdsjrl: 'Site design capacity:', // '站点设计容量：',
         zdzdmj: 'Site area:', // '站点占地面积：',
@@ -325,7 +326,7 @@ export default {
         jtdzValue: 'No. 27 Qingfeng Avenue, Longgang District, Shenzhen', // '深圳市龙岗区清风大道27号',
         yys: 'Operator:', // '运营商：',
         yysValue: 'Shenzhen Southern Power Grid Co., Ltd', // '深圳市南方电网有限公司',
-        fzr: 'person in charge:', // '负责人：',
+        fzr: 'Superintendent：', // '负责人：',
         fzrValue: 'Zhang Xiaohui', // '张小辉',
         lxfs: 'contact information:', // '联系方式：',
         lxfsValue: '010-2891029839',
@@ -340,18 +341,18 @@ export default {
         cssgl: 'Cluster real-time power', // '簇实时功率',
         cdl: 'Cluster current', // '簇电流',
         cljcdl: 'Accumulated charging capacity of clusters', // '簇累计充电量',
-        cljfdl: 'Accumulated discharge capacity of clusters', // '簇累计放电量',
+        cljfdl: 'Accumulated discharging capacity of clusters', // '簇累计放电量',
       }
     },
     'charging-state': {
       state: {
         offline: 'offline', // '离线',
-        nowork: 'free', // '空闲',
-        charging: 'Charging in progress', // '充电中',
-        errorwork: 'fault', // '故障',
+        nowork: 'unoccupied', // '空闲',
+        charging: 'Charging', // '充电中',
+        errorwork: 'malfunction', // '故障',
       },
       warnState: {
-        chargingWarning: 'give an alarm', // '告警'
+        chargingWarning: 'alarm', // '告警'
       },
       typeFormate: {
         kc: 'Fast charging', // '快充',
@@ -374,16 +375,16 @@ export default {
         pcspl: 'PCS frequency', // 'PCS 频率',
       },
       rightList: {
-        pcstxzt: 'PCS communication status', // 'PCS 通讯状态',
+        pcstxzt: 'PCS telecom status', // 'PCS 通讯状态',
         zc: 'normal', // '正常',
         pcsyfkz: 'PCS remote control', // 'PCS 远方控制',
-        pcsyxzt: 'PCS operating status', // 'PCS 运行状态',
-        pcsgzzt: 'PCS fault status', // 'PCS 故障状态',
+        pcsyxzt: 'PCS running status', // 'PCS 运行状态',
+        pcsgzzt: 'PCS malfunction status', // 'PCS 故障状态',
         pcsgjzt: 'PCS alarm status', // 'PCS 告警状态',
       }
     },
     'honglixi-popup': {
-      ssgl: 'Real time power', // '实时功率'
+      ssgl: 'Real-time power', // '实时功率'
     },
     honglixi:{
       zdjbxx: 'Basic information of the site', // '站点基本信息',
@@ -391,10 +392,10 @@ export default {
       companyName: 'China Tower Corporation Shenzhen Branch', // '中国铁塔股份有限公司深圳市分公司',
       zc: 'normal', // '正常',
       cndcxx: 'Energy storage battery information', // '储能电池信息',
-      sscfqk: 'Real time charging and discharging status', // '实时充放情况',
+      sscfqk: 'Real-time charging and discharging status', // '实时充放情况',
     },
     'lianhua-popup': {
-      ssfdgl: 'Real time power generation', // '实时发电功率',
+      ssfdgl: 'Real-time power generation efficiency', // '实时发电功率',
     },
     lianhuajinggui: {
       state: {
@@ -410,13 +411,13 @@ export default {
       sssbxx: 'Facility and equipment information', // '设施设备信息',
       zdgjxx: 'Station alarm information', // '站点告警信息',
       djgzjzt: 'Status of monocrystalline silicon components', // '单晶硅组件状态',
-      jrdlxx: "Today's electricity consumption information", // '今日电量信息',
-      zdssgl: 'Real time power of the site', // '站点实时功率',
+      jrdlxx: "Today's power storage information", // '今日电量信息',
+      zdssgl: 'Real-time power of the site', // '站点实时功率',
       infoListFun: {
-        yzdw: 'Owner Unit:', // '业主单位：',
+        yzdw: 'Owner:', // '业主单位：',
         yzdwValue: 'Shenzhen Metro Group Co., Ltd', // '深圳市地铁集团有限公司',
         jtdz: 'Specific address:', // '具体地址：',
-        jtdzValue: 'Metro Line 10 Project in Futian District, Shenzhen, Guangdong Province - Main', // '广东省深圳市福田区轨道交通10号线工程-主…',
+        jtdzValue: 'Metro Line 10 Project in Futian District, Shenzhen, Guangdong Province', // '广东省深圳市福田区轨道交通10号线工程-主…',
         zdqy: 'Site area:', // '站点区域：',
         zdqyValue: 'Futian District', // '福田区',
         bwqk: 'Grid connection status:', // '并网情况：',
@@ -427,49 +428,49 @@ export default {
     },
     'pop-box': {
       hlx5gsfz: 'Hongli West 5G Demonstration Station', // '红荔西5G示范站',
-      cndcxx: 'Energy storage battery information', // '储能电池信息',
-      zdzdfdl: 'Maximum discharge capacity of the station', // '站点最大放电量',
-      zdsscfqk: 'Real time charging and discharging status of the site', // '站点实时充放情况',
+      cndcxx: 'Battery information', // '储能电池信息',
+      zdzdfdl: 'Maximum discharging capacity of the station', // '站点最大放电量',
+      zdsscfqk: 'Real-time charging and discharging status of the site', // '站点实时充放情况',
       warnBottomList:{
-        fddy: 'discharge voltage ', // '放电电压',
+        fddy: 'discharging voltage ', // '放电电压',
         cddy: 'Charging voltage', // '充电电压',
       }
     },
     'station-info': {
       stationProperty: {
-        gy: 'public', // '公用',
-        zy: 'special-purpose', // '专用',
+        gy: 'open to public', // '公用',
+        zy: 'dedicated', // '专用',
       },
       stationStatus: {
         wz: 'unknown', // '未知',
         jsz: 'Under construction', // '建设中',
-        gbxx: 'Close Offline', // '关闭下线',
+        gbxx: 'closed', // '关闭下线',
         whz: 'Under maintenance', // '维护中',
-        zcsy: 'Normal use', // '正常使用',
+        zcsy: 'open to use', // '正常使用',
       },
       stationType: {
         gg: 'public', // '公共',
-        gr: 'personal', // '个人',
-        gjzy: 'Public transportation (dedicated)', // '公交（专用）',
-        hwzy: 'Environmental Sanitation (Special)', // '环卫（专用）',
-        wlzy: 'Logistics (Dedicated)', // '物流（专用）',
-        czczy: 'Taxi (Dedicated)', // '出租车（专用）',
+        gr: 'private', // '个人',
+        gjzy: 'for bus only', // '公交（专用）',
+        hwzy: 'for public sanitation truck only', // '环卫（专用）',
+        wlzy: 'for logistics vehicle only', // '物流（专用）',
+        czczy: 'for taxi only', // '出租车（专用）',
         qt: 'other', // '其他',
       },
       infoListFun:{
         zdqy: 'Site area:', // '站点区域：',
         jtdz: 'Specific address:', // '具体地址：',
-        zdxz: 'Site nature:', // '站点性质：',
+        zdxz: 'Site feature：:', // '站点性质：',
         zdlx: 'Site type:', // '站点类型：',
-        fzr: 'person in charge:', // '负责人：',
+        fzr: 'superintendent:', // '负责人：',
         lxfs: 'contact information:', // '联系方式：',
       }
     },
     'temperature-msg': {
       infoListFun: {
-        totalVoltage: 'Cluster total voltage', // '簇总电压',
-        prechargeVoltage: 'Cluster pre charging voltage', // '簇预充电压',
-        avgVoltage: 'Cluster average voltage', // '簇平均电压',
+        totalVoltage: 'Total voltage of the cluster', // '簇总电压',
+        prechargeVoltage: 'Pre-charging voltage of the cluster', // '簇预充电压',
+        avgVoltage: 'Aerage voltage of the cluster', // '簇平均电压',
         avgTemperature: 'Cluster average temperature', // '簇平均温度',
       }
     },
@@ -477,19 +478,19 @@ export default {
       'active-message': {
         infoListFun: {
           ljcdl: 'Accumulated charging capacity', // '累计充电量',
-          ljfdl: 'Accumulated discharge capacity', // '累计放电量',
+          ljfdl: 'Accumulated discharging capacity', // '累计放电量',
           ljcdsc: 'Accumulated charging time', // '累计充电时长',
           ljcdcs: 'Accumulated charging times', // '累计充电次数',
-          unitCi: 'second', // '次',
-          ssgl: 'Real time power', // '实时功率',
-          gzl: 'failure rate', // '故障率',
-          lyl: 'Utilization rate', // '利用率',
-          nbwd: 'Internal temperature', // '内部温度',
+          unitCi: 'time/s', // '次',
+          ssgl: 'Real-time power', // '实时功率',
+          gzl: 'malfunction rate', // '故障率',
+          lyl: 'usage rate', // '利用率',
+          nbwd: 'inner temperature', // '内部温度',
         },
         state: {
           offline: 'off-line', // '离线',
           normal: 'normal', // '正常',
-          warning: 'fault', // '故障',
+          warning: 'malfunction', // '故障',
         }
       },
       'base-info': {
@@ -498,7 +499,7 @@ export default {
         state: {
           offline: 'off-line', // '离线',
           online: 'normal', // '正常',
-          warning: 'fault', // '故障',
+          warning: 'malfunction', // '故障',
         },
         equipmentTypeFun: {
           zlsb: 'DC equipment', // '直流设备',
@@ -521,20 +522,20 @@ export default {
         messageColumnKeyListFun: {
           index: 'Serial number', // '序号',
           connectorName: 'Equipment interface name', // '设备接口名称',
-          connectorId: 'Equipment interface coding', // '设备接口编码',
+          connectorId: 'Equipment interface code', // '设备接口编码',
         }
       },
       'normal-pile': {
         jbxx: 'essential information', // '基本信息',
         dtxx: 'dynamic information ', // '动态信息',
-        gjxx: 'Alarm information', // '告警信息',
+        gjxx: 'alarm', // '告警信息',
       },
       'pile-dialog': {
         ckgjxq: 'View alarm details', // '查看告警详情',
         state: {
           offline: 'off-line', // '离线',
           online: 'normal', // '在线',
-          warning: 'fault', // '故障',
+          warning: 'malfunction', // '故障',
         }
       },
       'warning-box': {
@@ -542,7 +543,7 @@ export default {
         state: {
           offline: 'off-line', // '离线',
           online: 'normal', // '在线',
-          warning: 'fault', // '故障',
+          warning: 'malfunction', // '故障',
         }
       },
       'warning-message': {
@@ -557,12 +558,12 @@ export default {
         yjdd: 'One click power-off', // '一键断电',
         yjhj: 'One click call', // '一键呼叫',
         qrxf: 'Confirm repair', // '确认修复',
-        'name-pile': 'Li Qiang - BYD Minle Charging Station - Safety Manager', // '李强-比亚迪民乐充电站-安全负责人',
+        'name-pile': 'Li Qiang - BYD Minle Charging Site - Safety Manager', // '李强-比亚迪民乐充电站-安全负责人',
         userName: 'Li Qiang', // '李强',
         alarmLevelData: {
-          yjrsaq: 'First level personal safety', // '一级人身安全',
-          ejsbaq: 'Secondary equipment safety', // '二级设备安全',
-          sjgjts: 'Level 3 alarm prompt', // '三级告警提示',
+          yjrsaq: 'First-level personal safety alarm', // '一级人身安全',
+          ejsbaq: 'Second-level equipment safety alarm', // '二级设备安全',
+          sjgjts: 'Third-level alarm', // '三级告警提示',
         },
         equipmentTypes: {
           zlsb: 'DC equipment', // '直流设备',
@@ -593,12 +594,12 @@ export default {
           connectorId: 'Equipment interface code:', // '设备接口编码：',
           alarmDesc: 'Alarm description:', // '告警描述：',
           reportingTime: 'Report time:', // '上报时间：',
-          contactTel: 'Phone number of the person in charge:', // '负责人电话：',
+          contactTel: 'Superintendent contact number:', // '负责人电话：',
         },
         btnList: {
           video: 'video', // '视频',
           voice: 'Microphone', // '麦克风',
-          hangup: 'Hang up', // '挂断',
+          hangup: 'ring up', // '挂断',
         }
       }
     }

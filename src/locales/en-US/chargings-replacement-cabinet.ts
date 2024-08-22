@@ -2,76 +2,76 @@
 export default {
   panelTitle: {
     chdgztxx: 'Overall information of the charging and swapping cabinet',
-    jrzdhcdcspm: 'Ranking of the number of power changes at the site today',
-    jrchdgsjxx: 'Data information of charging and replacing cabinet today',
-    jrhdcsxx: 'Information of power change times today',
-    jrgjxx: 'Today’s alarm information',
-    totalName: 'Type total'
+    jrzdhcdcspm: "Today's ranking of site battery replacement frequency",
+    jrchdgsjxx: "Today's charging and swapping cabinet data information",
+    jrhdcsxx: "Today's battery replacement frequency information",
+    jrgjxx: "Today's alarm information",
+    totalName: 'Total quantity of this type'
   },
   unit: {
-    unitName: 'unit',
-    unitGe: 'individual',
-    unitCi: 'order'
+    unitName: 'Unit',
+    unitGe: '',
+    unitCi: ''
   },
   chdsszlFun: {
-    chdgzl: 'Total quantity of charging and replacing cabinets',
-    jrqyzs: 'Total access Enterprises'
+    chdgzl: 'Total quantity of charging and swapping cabinets',
+    jrqyzs: 'Total number of connected enterprises'
   },
   chargingType: {
-    hdglx: 'Type of charging and changing cabinet'
+     hdglx: 'Type of charging and swapping cabinet'
   },
   facilitiesRankData: {
-    0: 'Mammoth travel-No. 3, Triangle Building',
-    1: 'Mammoth travel-No. 5, Lane 5, Luofeng Road',
-    2: 'Mammoth travel-Electromechanical market 4',
-    3: 'Mammoth travel-No. 10, Xinyi lane, jingshuilong',
-    4: 'Mammoth travel-No. 1-4, pangushi Village',
-    5: 'Mammoth travel-No. 17, Lane 2, songzikeng Road',
-    6: 'Mammoth travel-7-1 Dongkeng Road',
-    7: 'Mammoth travel-Shenzhen balanced precision hardware products Co., Ltd',
-    8: 'Mammoth travel-22 Xikeng Village',
-    9: 'Mammoth travel-8 Dongkeng Road'
+    0: 'Mamobility-Sanjiaolou No.3',
+    1: 'Mamobility-No. 5, Lane 5, Luofeng Road',
+    2: 'Mamobility-Mechanical and Electrical Market 4',
+    3: 'Mamobility-No. 10, Xinyi Lane, Jingshuilong',
+    4: 'Mamobility-1-4 Pangushi Village',
+    5: 'Mamobility-No. 17, Lane 2, Songzikeng Road',
+    6: 'Mamobility-No. 7-1 Dongkeng Road',
+    7: 'Mamobility-Shenzhen Junheng Precision Hardware Products Co., Ltd',
+    8: 'Mamobility-No. 22, Xikeng Village',
+    9: 'Mamobility-No. 8 Dongkeng Road'
   },
   todayFacilities: {
-    cdz: 'Charging point',
-    hdg: 'Power exchange cabinet'
+     cdz: 'Charging station',
+    hdg: 'Battery exchange cabinet'
   },
   todayFacilitiesCardFun: {
-    ztsyl: 'Overall utilization',
+    ztsyl: 'Overall usage rate',
     zxzl: 'Online total'
   },
   powerTodayCardFun: {
-    zrhdcs: 'Number of power changes yesterday',
-    jrhdcs: 'Number of power changes today'
+    zrhdcs: "Yesterday's battery replacement frequency",
+    jrhdcs: "Today's battery replacement frequency"
   },
   powerTodayCardOption: {
-    zrhdzfhqx: '昨日换电站负荷曲线',
-    jrhdzfhqx: '今日换电站负荷曲线'
+    zrhdzfhqx: "Yesterday's load curve of the battery swapping site",
+    jrhdzfhqx: "Today's load curve of the battery swapping site"
   },
   warnData: {
     0: {
-      alarmDesc: '动力蓄电池绝缘状态',
-      stationName: '龙悦腾新能源有限公司太白路4128号充电站'
+      alarmDesc: 'Insulation status of power battery',
+      stationName: 'Longyueteng New Energy Co., Ltd. Charging Station at 4128 Taibai Road'
     },
     1: {
-      stationName: '深圳宝安区石岩客运站东广场充电站',
-      alarmDesc: '动力蓄电池绝缘状态'
+      stationName: "Shenzhen Bao'an District Shiyan Bus Station East Square Charging Station",
+      alarmDesc: 'Insulation status of power battery态'
     },
     2: {
-      stationName: '深圳宝安区石岩客运站东广场充电站',
-      alarmDesc: '动力蓄电池绝缘状态'
+      stationName: "Shenzhen Bao'an District Shiyan Bus Station East Square Charging Station",
+      alarmDesc: 'Insulation status of power battery'
     },
     3: {
-      stationName: '龙悦腾新能源有限公司太白路4128号充电站',
-      alarmDesc: '动力蓄电池绝缘状态'
+      stationName: 'Charging Station at 4128 Taibai Road, Limited Company',
+      alarmDesc: 'Insulation status of power battery'
     },
     4: {
-      stationName: '流塘充电站',
-      alarmDesc: '维修门开停止充电'
+      stationName: 'Liutang Charging Station',
+      alarmDesc: 'Door open, charging stopped'
     }
   },
   mapLegend: {
-    legendName: '站点数量/个',
-    chdg: '充换电柜'
+    legendName: 'Number of site',
+    chdg: 'Charging and swapping cabinet'
   }
 };

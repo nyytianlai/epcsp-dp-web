@@ -1,86 +1,86 @@
 // 换电站中文配置
 export default {
   panelTitle: {
-    hdzztxx: '换电站整体信息',
-    jrhdccpm: '今日站点换电次数排名',
-    cnzztxx: '储能站整体信息',
-    jrhdcsxx: '今日换电次数信息',
-    jrgjxx: '今日告警信息',
-    cnz: '储能站'
+    hdzztxx: 'Overall information of the battery swapping sites',
+    jrhdccpm: "Today's frequency ranking of battery replacement sites",
+    cnzztxx: 'Overall information of energy storage site',
+    jrhdcsxx: "Today's battery replacement frequency information",
+    jrgjxx: "Today's alarm information",
+    cnz: 'Energy storage site'
   },
   unit: {
-    unitName: '单位',
-    unitGe: '个',
-    unitCi: '次'
+    unitName: 'Unit',
+    unitGe: '',
+    unitCi: ''
   },
   powerExchangeAllInfoFun: {
-    hdzzl: '换电站总量',
-    cdcsl: '充电仓数量',
-    jrqyzs: '接入企业总数'
+    hdzzl: 'Total number of battery swapping sites',
+    cdcsl: 'Number of charging compartments',
+    jrqyzs: 'Total number of connected enterprises'
   },
   deviceInfoTabs: {
-    hdsbxx: '换电设备信息'
+     hdsbxx: 'battery swapping device info.'
   },
   deviceInfoDataFun: {
-    eddysx: '额定电压上限',
-    eddyxx: '额定电压下限',
-    eddl: '额定电流'
+    eddysx: '',
+    eddyxx: 'Maximum rated voltage',
+    eddl: 'Rated current'
   },
   rankDataFun: {
-    0: '深圳福田圣廷苑',
-    1: '深圳坂田交付中心',
-    2: '深圳南山浩昇体育公园',
-    3: '深圳龙华北站中心公园',
-    4: '深圳福田安培瓦特',
-    5: '深圳西丽E动空间',
-    6: '深圳宝安高新技术工业园',
-    7: '深圳中粮031创意园'
+    0: 'Shenzhen Futian Shengting Garden',
+    1: 'Shenzhen Bantian Delivery Center',
+    2: 'Shenzhen Nanshan Haosheng Sports Park',
+    3: 'Shenzhen Longhua North Station Central Park',
+    4: 'Shenzhen Futian Amperex Watt',
+    5: 'Shenzhen Xili E Dynamic Space',
+    6: "Shenzhen Bao'an High tech Industrial Park",
+    7: 'Shenzhen COFCO 031 Creative Park'
   },
   powerExchangeStatusDataFun: {
-    jsz: '建设中',
-    whz: '维护中',
-    yyz: '运营中'
+    jsz: 'Under construction',
+    whz: 'Under Maintenance',
+    yyz: 'In operation'
   },
   powerTodayCardFun: {
-    zrhdcs: '昨日换电次数',
-    jrhdcs: '今日换电次数'
+    zrhdcs: "Yesterday's battery replacement frequency",
+    jrhdcs: "Today's battery replacement frequency"
   },
   powerTodayCardOption: {
-    zrhdzfhqx: '昨日换电站负荷曲线',
-    jrhdzfhqx: '今日换电站负荷曲线'
+    zrhdzfhqx: "Yesterday's load curve of battery swapping sites",
+    jrhdzfhqx: "Today's load curve of battery swapping sites"
   },
   warnData: {
     0: {
-      message: '换电系统发生故障',
-      area: '深圳福田圣廷苑'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Futian Shengting Garden'
     },
     1: {
-      message: '换电系统发生故障',
-      area: '深圳坂田交付中心'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Bantian Delivery Center'
     },
     2: {
-      message: '换电系统发生故障',
-      area: '深圳南山浩昇体育公园'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Nanshan Haosheng Sports Park'
     },
     3: {
-      message: '换电系统发生故障',
-      area: '深圳龙华北站中心公园'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Longhua North Station Central Park'
     },
     4: {
-      message: '换电系统发生故障',
-      area: '深圳福田安培瓦特'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Futian Amperex Watt'
     },
     5: {
-      message: '换电系统发生故障',
-      area: '深圳宝安高新技术工业园'
+      message: 'The battery swapping system has malfunctioned',
+      area: "Shenzhen Bao'an High tech Industrial Park"
     },
     6: {
-      message: '换电系统发生故障',
-      area: '深圳南山浩昇体育公园'
+      message: 'The battery swapping system has malfunctioned',
+      area: 'Shenzhen Nanshan Haosheng Sports Park'
     }
   },
   mapLegend: {
-    legendName: '站点数量/个',
-    hdz: '换电站'
+    legendName: 'Number of sites',
+    hdz: 'Battery swapping sites'
   }
 };
