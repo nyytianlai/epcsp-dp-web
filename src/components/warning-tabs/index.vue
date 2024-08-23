@@ -8,9 +8,15 @@
       @click="handleSelect(item)"
       :style="{ borderBottomColor: item.code === activeTab ? item.color : 'transparent' }"
     >
-      <span class="label">
+      <!-- <span class="label">
         {{ item.displayLabel || item.label }}
-      </span>
+      </span> -->
+      <tooltip-over
+        class="label"
+        :className="['warning-tab-label-tooltip', item.code === activeTab ? 'warning-tab-label-active' : '']"
+        :content="item.displayLabel || item.label"
+        :ref-name="item.displayLabel || item.displayLabel"
+      />
       <span class="bottom-info">
         <icon :icon="`svg-icon:${item.icon}`" />
         <span class="num" :style="{ color: item.color }">
@@ -29,6 +35,7 @@
 import { toRefs, ref, watch } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   code: string | number;
   label: string;

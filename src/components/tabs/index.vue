@@ -7,15 +7,23 @@
       :class="[{ active: item.code === activeTab }]"
       @click="handleSelect(item)"
     >
-      <span class="label">
+      <!-- <span class="label">
         {{ item.displayLabel || item.label }}
-      </span>
+      </span> -->
+      <!-- :is-inline="true" -->
+      <tooltip-over
+        class="label"
+        :className="['tab-label-tooltip', item.code === activeTab ? 'tab-label-active' : '']"
+        :content="item.displayLabel || item.label"
+        :ref-name="item.displayLabel || item.displayLabel"
+      />
     </div>
     <slot />
   </div>
 </template>
 <script setup lang="ts">
 import { toRefs, ref, watch } from 'vue';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   code: string | number;
   label: string;
@@ -62,10 +70,19 @@ const handleSelect = (item) => {
     }
     &.active {
       position: relative;
+      // .tab-label-tooltip {
+      //   span{
+      //     font-size: 18px;
+      //     line-height: 25px;
+      //     color: #ffffff !important;
+      //   }
+      // }
       .label {
         font-size: 18px;
         line-height: 25px;
         color: #ffffff;
+        text-align: center;
+      
       }
       &::after {
         content: '';

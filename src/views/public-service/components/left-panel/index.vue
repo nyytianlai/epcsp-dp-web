@@ -95,7 +95,7 @@ const getHotCharging = async () => {
     chargeTimes.value = res?.data.map((item) => {
       return {
         num: item.amount,
-        unit: t(`${tHead}.unitCi`) || '次',
+        unit: t(`${tHead}.unitCi`), // || '次'
         name: item.name
       };
     });

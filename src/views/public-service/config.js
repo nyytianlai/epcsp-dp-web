@@ -561,7 +561,8 @@ export const ecOptionFun = (data = [], xaxis = []) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: `{b}: {c}${t(`${configHead}.ecOptionFun.unitGe`) || '个'}`
+      formatter: `{b}: {c}${t(`${configHead}.ecOptionFun.unitGe`)}`
+      //  || '个'
     },
     xAxis: {
       type: 'category',

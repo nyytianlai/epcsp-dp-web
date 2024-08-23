@@ -4,7 +4,7 @@
       <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
       <div class="total-content" v-if="!selectIndex && selectIndex !== 0">
         <span class="value" style="fontsize: 40px; lineheight: 32px">{{ totalNum }}</span>
-        <span class="name" style="fontsize: 14px; lineheight: 20px">{{ totalName }}</span>
+        <span class="name" style="fontsize: 14px; lineheight: 20px; text-align: center;">{{ totalName }}</span>
       </div>
     </div>
     <div class="legend-wrap" v-if="mode === 'default'">
@@ -19,11 +19,17 @@
               borderColor: index === selectIndex ? colors[index] : 'transparent'
             }"
           ></span>
-          <span class="name">{{ item.name }}</span>
+          <!-- <span class="name">{{ item.displayName || item.name }}</span> -->
+          <tooltip-over
+            class="name"
+            :className="['left-info-label-tooltip']"
+            :content="item.displayName || item.name"
+            :ref-name="item.displayName || item.name"
+          />
         </span>
         <span class="right-info">
           <span class="value">{{ formatWithToLocalString(item.value) }}</span>
-          <span class="unit">{{ item.unit }}</span>
+          <span class="unit">{{ item.displayUnit || item.unit }}</span>
         </span>
       </div>
     </div>
@@ -54,11 +60,17 @@
               borderColor: index === selectIndex ? colors[index] : 'transparent'
             }"
           ></span>
-          <span class="name">{{ item.name }}</span>
+          <!-- <span class="name">{{ item.displayName || item.name }}</span> -->
+          <tooltip-over
+            class="name"
+            :className="['left-info-label-tooltip']"
+            :content="item.displayName || item.name"
+            :ref-name="item.displayName || item.name"
+          />
         </span>
         <span class="right-info">
           <span class="value">{{ formatWithToLocalString(item.value) }}</span>
-          <span class="unit">{{ item.unit }}</span>
+          <span class="unit">{{ item.displayUnit || item.unit }}</span>
         </span>
       </div>
     </div>
@@ -69,12 +81,16 @@
 import { computed, ref, toRefs, watch } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import EcResize from '@sutpc/vue3-ec-resize';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   name: string;
   value: number;
   extraName?: string;
   unit: string;
   isChoose?: boolean;
+  displayName?: string;
+  displayExtraName?: string;
+  displayUnit?: string;
 }
 interface Props {
   data: Idata[];

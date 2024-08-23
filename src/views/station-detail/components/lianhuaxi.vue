@@ -9,7 +9,13 @@
           <div class="icon"></div>
           <div class="name">
             <!-- stationName: '莲花村地铁站分布式光伏站', -->
-            <span class="station-name">{{ t(`${tHead}.stationName`) }}</span>
+            <!-- <span class="station-name">{{ t(`${tHead}.stationName`) }}</span> -->
+            <tooltip-over
+              :is-inline="true"
+              :className="['station-name-tooltip']"
+              :content="t(`${tHead}.stationName`)"
+              :ref-name="t(`${tHead}.stationName`)"
+            />
             <!-- companyName: '深圳市深燃新能源科技有限公司', -->
             <span class="company-name">{{t(`${tHead}.companyName`)}}</span>
           </div>
@@ -84,6 +90,7 @@ import {
 import EcResize from '@sutpc/vue3-ec-resize';
 import Lianhuajinggui from './lianhuajinggui.vue';
 import { useI18n } from 'vue-i18n';
+import TooltipOver from '@/components/tooltip-over.vue';
 const { t } = useI18n();
 const tHead = `station-detail.components.lianhuaxi`;
 interface Data {
@@ -220,6 +227,10 @@ onMounted(() => {
     label {
       color: rgba(238, 253, 255, 0.6);
       min-width: 70px;
+      white-space: nowrap; /* 禁止文字换行 */
+      overflow: hidden; /* 超出容器宽度时隐藏内容 */
+      text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
+      display: inline-block;
     }
   }
 }

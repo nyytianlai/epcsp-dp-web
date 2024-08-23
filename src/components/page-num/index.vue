@@ -7,7 +7,13 @@
             <span>{{ el.displayName ||el.name }}</span>
             <p class="seprate" v-if="i < item.children.length - 1">/</p>
           </template>
-          <span>{{ item.displayName || item.name }}</span>
+          <!-- <span>{{ item.displayName || item.name }}</span> -->
+          <tooltip-over
+            :is-inline="true"
+            :className="['page-num-name-tooltip']"
+            :content="item.displayName || item.name"
+            :ref-name="item.displayName || item.name"
+          />
         </span>
         <span class="num-unit">
           <span class="num">
@@ -39,7 +45,7 @@
 import { computed, toRefs } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
-
+import TooltipOver from '@/components/tooltip-over.vue';
 const store = useVisibleComponentStore();
 interface Idata {
   num: string | number;

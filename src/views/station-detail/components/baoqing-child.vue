@@ -33,17 +33,22 @@
       <title-column :title="t(`${tHead}.cnfxt1`)" icon="" />
       <div class="basic-msg">
         <!-- fxtjcxx: '分系统基础信息' -->
-        <div class="title">{{ t(`${tHead}.fxtjcxx}`) }}</div>
+        <div class="title">{{ t(`${tHead}.fxtjcxx`) }}</div>
         <div class="msg-box">
           <div class="msg" v-for="(item, index) in msgList" :key="index">
-            <span class="label">{{ item.displayLabel || item.label }}：</span>
+            <!-- <span class="label">{{ item.displayLabel || item.label }}：</span> -->
+            <tooltip-over
+              :className="['baoqing-child-label-tooltip']"
+              :content="(item.displayLabel || item.label)+ ':'"
+              :ref-name="item.displayLabel || item.label"
+            />
             <span class="value">{{ item.displayValue || item.value }}</span>
           </div>
         </div>
       </div>
       <div class="warn-msg">
         <!-- pcsgjxx: 'PCS告警信息' -->
-        <div class="title">{{t(`${tHead}.pcsgjxx}`)}}</div>
+        <div class="title">{{t(`${tHead}.pcsgjxx`)}}</div>
         <EcResize :option="baoqingWarnOption" :style="{ height: '2.3rem' }" />
       </div>
     </rightSlide>
@@ -61,6 +66,8 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import get from './video/get.mp4';
 import put from './video/put.mp4';
 import { baoqingWarnOption, msgList } from '../config';
+import TooltipOver from '@/components/tooltip-over.vue';
+
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `station-detail.components.baoqing-child`;

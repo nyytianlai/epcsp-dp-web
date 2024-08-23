@@ -22,7 +22,7 @@
             :class="{ active: curBtn === item.value }"
             @click="handleTabBtn(item)"
           >
-            {{ item.name }}
+            {{ item.displayName || item.name }}
           </div>
         </div>
       </div>
@@ -251,9 +251,10 @@ const chargingStationPieData = ref([]);
 // 充电类型
 const chargingStationTabs = ref(chargingStationTabsFun());
 const chargingStationGunTabs = ref(chargingStationGunTabsFun());
+
 const tabList = ref([
-  { value: 'cdzlx', name: '桩', index: 1 },
-  { value: 'cdqlx', name: '枪', index: 2 }
+  { value: 'cdzlx', name: '桩', index: 1, displayName: t(`${tHead}.tabList.pile`) },
+  { value: 'cdqlx', name: '枪', index: 2, displayName: t(`${tHead}.tabList.gun`)  }
 ]);
 const chargeData = ref();
 // 设备类型

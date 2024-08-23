@@ -22,7 +22,7 @@
           <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
         </template>
       </div>
-      <line-time-chart :data="lineStateData" :colors="stateColor" unit="次" />
+      <line-time-chart :data="lineStateData" :colors="stateColor" :unit="$t(`chargings-replacement-cabinet.unit.unitCi`)" />
     </div>
     <div class="today-warning-message">
       <title-column

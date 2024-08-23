@@ -17,7 +17,7 @@ export const pageNumFun = (data) => {
     {
       name: '累计告警总数',
       num: data?.sumCount,
-      unit: '个',
+      unit: t(`${configHead}.pageNumFun.unitGe`), // '个',
       nameColor: '#FF6B4B',
       displayName: t(`${configHead}.pageNumFun.ljgjzs`),
       displayUnit: t(`${configHead}.pageNumFun.unitGe`)
@@ -37,7 +37,7 @@ export const pageNumFun = (data) => {
     {
       name: '已发生',
       num: data?.occurCount,
-      unit: '个',
+      unit: t(`${configHead}.pageNumFun.unitGe`), // '个',
       nameColor: '#FF6B4B',
       displayName: t(`${configHead}.pageNumFun.yfs`),
       displayUnit: t(`${configHead}.pageNumFun.unitGe`)
@@ -45,7 +45,7 @@ export const pageNumFun = (data) => {
     {
       name: '已恢复',
       num: data?.recCount,
-      unit: '个',
+      unit: t(`${configHead}.pageNumFun.unitGe`), //'个',
       nameColor: '#FF6B4B',
       displayName: t(`${configHead}.pageNumFun.yhf`),
       displayUnit: t(`${configHead}.pageNumFun.unitGe`)
@@ -72,70 +72,70 @@ export const areaRankDataFun = () => {
   return [
     {
       num: 6399,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '南山区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.nsq`),
     },
     {
       num: 201,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '宝安区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.baq`),
     },
     {
       num: 48,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '罗湖区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.lhq`),
     },
     {
       num: 201,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '龙华区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.longhq`),
     },
     {
       num: 48,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '龙岗区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.longgq`),
     },
     {
       num: 6399,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '南山区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.nsq`),
     },
     {
       num: 201,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '宝安区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.baq`),
     },
     {
       num: 48,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '罗湖区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.lhq`),
     },
     {
       num: 201,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '龙华区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.longhq`),
     },
     {
       num: 48,
-      unit: '次',
+      unit: t(`${configHead}.areaRankDataFun.unitCi`), // '次',
       name: '大鹏新区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
       displayName: t(`${configHead}.areaRankDataFun.dpxq`),
@@ -165,7 +165,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         value: data['1'],
         name: t(`${configHead}.warningMonitorPieDataFun.ysrsaq`) || '一级人身安全',
         extraName: t(`${configHead}.warningMonitorPieDataFun.rsaq`) || '人身安全',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) || '个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // || '个',
         isChoose: true,
         typeCode: 1,
         positionCode: 1,
@@ -177,7 +177,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         value: data['2'],
         name: t(`${configHead}.warningMonitorPieDataFun.ejsbaq`) || '二级设备安全',
         extraName: t(`${configHead}.warningMonitorPieDataFun.sbaq`) || '设备安全',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) || '个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // || '个',
         isChoose: true,
         typeCode: 2,
         positionCode: 1,
@@ -189,7 +189,7 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
         value: data['3'],
         name: t(`${configHead}.warningMonitorPieDataFun.sjgjts`) ||'三级告警提示',
         extraName: t(`${configHead}.warningMonitorPieDataFun.gjts`) ||'告警提示',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) ||'个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // ||'个',
         isChoose: true,
         typeCode: 3,
         positionCode: 1,
@@ -203,20 +203,20 @@ export const warningMonitorPieDataFun = (code = 1, data = {}) => {
       {
         value: data['1'],
         name: t(`${configHead}.warningMonitorPieDataFun.cdxt`) || '充电系统',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) || '个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // || '个',
         displayName: t(`${configHead}.warningMonitorPieDataFun.cdxt`),
         displayUnit: t(`${configHead}.warningMonitorPieDataFun.unitGe`),
       },
       {
         value: data['2'],
         name: t(`${configHead}.warningMonitorPieDataFun.dcxt`) || '电池系统',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) || '个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // || '个',
         displayName: t(`${configHead}.warningMonitorPieDataFun.dcxt`),
         displayUnit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), },
       {
         value: data['3'],
         name: t(`${configHead}.warningMonitorPieDataFun.pdxt`) || '配电系统',
-        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`) || '个',
+        unit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), // || '个',
         displayName: t(`${configHead}.warningMonitorPieDataFun.pdxt`),
         displayUnit: t(`${configHead}.warningMonitorPieDataFun.unitGe`), }
     ];
@@ -585,9 +585,24 @@ export const columnKeyListFun = (type = 1) => {
       width: 4,
       displayLabel: type === 1 ? t(`${configHead}.columnKeyListFun.yysmc`) : t(`${configHead}.columnKeyListFun.cdzmc`)
     },
-    { prop: 'cnt', label: t(`${configHead}.columnKeyListFun.gjs`) || '告警数', width: 2, displayLabel: t(`${configHead}.columnKeyListFun.gjs`) },
-    { prop: 'occurCount', label: t(`${configHead}.columnKeyListFun.yfs`) || '已发生', width: 2, displayLabel: t(`${configHead}.columnKeyListFun.yfs`) },
-    { prop: 'affirmCnt', label: t(`${configHead}.columnKeyListFun.yhf`) || '已恢复', width: 2, displayLabel: t(`${configHead}.columnKeyListFun.yhf`) }
+    {
+      prop: 'cnt',
+      label: t(`${configHead}.columnKeyListFun.gjs`) || '告警数',
+      width: 2,
+      displayLabel: t(`${configHead}.columnKeyListFun.gjs`)
+    },
+    {
+      prop: 'occurCount',
+      label: t(`${configHead}.columnKeyListFun.yfs`) || '已发生',
+      width: 2,
+      displayLabel: t(`${configHead}.columnKeyListFun.yfs`)
+    },
+    {
+      prop: 'affirmCnt',
+      label: t(`${configHead}.columnKeyListFun.yhf`) || '已恢复',
+      width: 2,
+      displayLabel: t(`${configHead}.columnKeyListFun.yhf`)
+    }
   ];
 };
 

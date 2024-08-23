@@ -132,7 +132,7 @@ const getStationOpeTop10 = async (type) => {
     const data = res.data.map((item) => {
       return {
         num: item.amount,
-        unit: t(`${tHead}.unitGe`) || '个',
+        unit: t(`${tHead}.unitGe`), //'个',
         name: item.operatorName
       };
     });

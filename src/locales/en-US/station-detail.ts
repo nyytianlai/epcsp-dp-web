@@ -7,6 +7,10 @@ export default {
   zdcdzzt: 'Charging station status of the site', //'站点充电桩状态',
   cdssrsyxx: 'Daily usage information of charging facilities', //'充电设施日使用信息',
   zdssgl: 'Real-time power of the site', //'站点实时功率'
+  tabList: {
+    pile: 'pile', // '桩',
+    gun: 'gun' //'枪',
+  },
   config: {
     lianhuaPowerFun: {
       swdl: 'On-grid energy ', // '上网电量',
@@ -137,7 +141,8 @@ export default {
     stationWarnOption: {
       unitGe: '', // '个',
       gjs: 'Number of alarms', // '告警数',
-      yAxisName: 'Unit:', // '单位:个'
+      yAxisName: 'Unit:', // '单位:个',
+      day: 'Day', // '日',
     },
     batterySOHOption: {
       dccgl: 'Battery cluster power', // '电池簇功率',
@@ -460,7 +465,7 @@ export default {
       infoListFun:{
         zdqy: 'Site area:', // '站点区域：',
         jtdz: 'Specific address:', // '具体地址：',
-        zdxz: 'Site feature：:', // '站点性质：',
+        zdxz: 'Site feature:', // '站点性质：',
         zdlx: 'Site type:', // '站点类型：',
         fzr: 'superintendent:', // '负责人：',
         lxfs: 'contact information:', // '联系方式：',
@@ -520,7 +525,7 @@ export default {
           ratedPower: 'Rated power:', // '额定功率：',
         },
         messageColumnKeyListFun: {
-          index: 'Serial number', // '序号',
+          index: 'No.', // '序号',
           connectorName: 'Equipment interface name', // '设备接口名称',
           connectorId: 'Equipment interface code', // '设备接口编码',
         }
@@ -548,7 +553,7 @@ export default {
       },
       'warning-message': {
         messageColumnKeyListFun: {
-          index: 'Serial number', // '序号',
+          index: 'No.', // '序号',
           alarmTime: 'Alarm time', // '告警时间',
           alarmType: 'Alarm Type ', // '告警类型',
           alarmDesc: 'Alarm description', // '告警描述',
