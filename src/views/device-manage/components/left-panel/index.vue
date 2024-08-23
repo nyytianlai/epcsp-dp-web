@@ -130,7 +130,7 @@ const getSelectChargeCountByArea = async () => {
     areaRankData.value = res.data.map((item) => {
       return {
         num: item.chargeCount,
-        unit: t(`${tHead}.unitCi`) || '次',
+        unit: t(`${tHead}.unitCi`), // || '次',
         name: item.areaName
       };
     });

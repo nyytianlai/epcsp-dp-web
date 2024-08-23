@@ -7,14 +7,21 @@
       @click="handleSelect(item)"
       :key="index"
     >
-      <span class="label">
+      <!-- <span class="label">
         {{ item.displayLabel || item.label }}
-      </span>
+      </span> -->
+      <tooltip-over
+        class="label"
+        :className="['bottom-menu-label-tooltip', item.code === activeTab ? 'bottom-menu-label-active' : '']"
+        :content="item.displayLabel || item.label"
+        :ref-name="item.displayLabel || item.displayLabel"
+      />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { toRefs, ref } from 'vue';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   code: string | number;
   label: string;

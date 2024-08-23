@@ -14,17 +14,35 @@
       <div class="maintain-tab">
         <div class="tab" :class="{ active: current === 'msg' }" @click="handleTab('msg')">
           <!-- jbxx: '基本信息' -->
-          {{ t(`${tHead}.jbxx`) }}
+          <!-- {{ t(`${tHead}.jbxx`) }} -->
+          <tooltip-over
+            :is-inline="true"
+            :className="['maintain-tab-name-tooltip', current === 'msg'? 'maintain-tab-name-active' : '']"
+            :content="t(`${tHead}.jbxx`)"
+            :ref-name="t(`${tHead}.jbxx`)"
+          />
         </div>
         <div class="tab" :class="{ active: current === 'charge' }" @click="handleTab('charge')">
           <!-- cdss: '充电设施' -->
-          {{ t(`${tHead}.cdss`) }}
+          <!-- {{ t(`${tHead}.cdss`) }} -->
+          <tooltip-over
+            :is-inline="true"
+            :className="['maintain-tab-name-tooltip', current === 'charge'? 'maintain-tab-name-active' : '']"
+            :content="t(`${tHead}.cdss`)"
+            :ref-name="t(`${tHead}.cdss`)"
+          />
         </div>
       </div>
       <div class="msg-container" v-if="current === 'msg'">
         <div class="base-msg" v-for="(item, index) in baseMsg" :key="index">
           <div class="msg-box">
-            <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span>
+            <!-- <span class="msg-name">{{ BASE_MSG_SEETING[index] }} ：</span> -->
+            <tooltip-over
+              :is-inline="true"
+              :className="['msg-name-tooltip']"
+              :content="BASE_MSG_SEETING[index]+':' "
+              :ref-name="BASE_MSG_SEETING[index]+ ':' "
+            />
             <el-popover placement="top" trigger="hover" :content="item" v-if="item.length > 14">
               <template #reference>
                 <div class="msg">{{ item }}</div>
@@ -39,7 +57,13 @@
           <div class="charge-top" v-for="(item, index) in CHARGE_SETTING" :key="index">
             <icon class="charge-icon" :icon="`svg-icon:${item.icon}`" />
             <div class="charge-detail">
-              <div class="charge-detail-name">{{ item.displayName || item.name }}</div>
+              <tooltip-over
+                :is-inline="true"
+                :className="['charge-detail-name-tooltip']"
+                :content="item.displayName || item.name "
+                :ref-name="item.displayName || item.name "
+              />
+              <!-- <div class="charge-detail-name">{{ item.displayName || item.name }}</div> -->
               <div class="charge-detail-num">
                 {{ charge[item.index] }}
                 <span class="unit">{{ item.displayUnit || item.unit }}</span>
@@ -89,6 +113,7 @@ import { ref, inject, reactive } from 'vue';
 import { tableColumnFun } from '@/global/commonFun.js';
 import { columnDataChargeFun } from '../config';
 import { operatorBasicInfo, equInfo, stationInfoList } from '../api';
+import TooltipOver from '@/components/tooltip-over.vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `charging-station.rank-detail`;

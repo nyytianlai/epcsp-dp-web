@@ -89,7 +89,7 @@ const getDistrictAlarmStatics = async () => {
   let newData = data?.map((item) => {
     return {
       ...item,
-      unit: t(`${tHead}.unitCi`) || '次',
+      unit: t(`${tHead}.unitCi`), // || '次'
       num: item.cnt,
       name: item.areaName
     };

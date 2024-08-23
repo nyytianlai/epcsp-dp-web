@@ -249,7 +249,7 @@ export const powerTodayCardOption = {
           </span>
           <span class="right-data">
             <span class="value">${item.value}</span>
-            <span class="unit">次</span>
+            <span class="unit">${t(`power-exchange-station.unit.unitCi`)}</span>
           </span>
         </div>`;
       });

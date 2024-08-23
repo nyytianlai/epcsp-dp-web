@@ -1,16 +1,30 @@
 <template>
   <div class="num-tile-card">
     <img :src="data.img" alt="" class="icon" />
-    <div class="name">{{ data.displayName || data.name }}</div>
+    <!-- <div class="name">{{ data.displayName || data.name }}</div> -->
+    <tooltip-over
+      :is-inline="true"
+      :className="['num-title-card-name-tooltip']"
+      :content="data.displayName || data.name"
+      :ref-name="data.displayName || data.name"
+    />
     <div class="num-box">
       <span class="num" :style="numStlyle">{{ formatWithToLocalString(data.num) }}</span>
       <span class="unit" :style="numStlyle">&nbsp;{{ data.displayUnit || data.unit }}</span>
+      <!-- <tooltip-over
+        :is-inline="true"
+        :style="numStlyle"
+        :className="['num-title-card-unit-tooltip']"
+        :content="data.displayUnit || data.unit"
+        :ref-name="data.displayUnit || data.unit"
+      /> -->
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import { computed } from 'vue';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Idata {
   img: string;
   name: string;

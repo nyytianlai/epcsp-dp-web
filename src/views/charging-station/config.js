@@ -25,7 +25,7 @@ export const cdsszlFun = (data = {}) => {
     {
       img: cdzzl,
       num: data?.totalChargingStations,
-      unit: '个',
+      unit: t(`${configHead}.cdsszlFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitGe`),
       displayName: t(`${configHead}.cdsszlFun.cdzzl`),
@@ -33,7 +33,7 @@ export const cdsszlFun = (data = {}) => {
     {
       img: xnyqczl,
       num: data?.totalOperating,
-      unit: '个',
+      unit: t(`${configHead}.cdsszlFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitGe`),
       displayName: t(`${configHead}.cdsszlFun.yjryyqyzl`),
@@ -41,7 +41,7 @@ export const cdsszlFun = (data = {}) => {
     {
       img: yjryyqyzl,
       num: data?.totalNewEnergyVehicles,
-      unit: '万辆',
+      unit: t(`${configHead}.cdsszlFun.unitWanLiang`) || '万辆',
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitWanLiang`),
       displayName: t(`${configHead}.cdsszlFun.xnyqczl`),
@@ -50,73 +50,74 @@ export const cdsszlFun = (data = {}) => {
 };
 
 export const projectListFun = () => {
+  //  || '个'
   return [
     {
       num: 6399,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.cdzzl`),
     },
     {
       num: 5555,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
     },
     {
       num: 666,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.xnyqczl`),
     },
     {
       num: 2010,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
     },
     {
       num: 4800,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.xnyqczl`),
     },
     {
       num: 6399,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.cdzzl`),
     },
     {
       num: 2010,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
     },
     {
       num: 4800,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.xnyqczl`),
     },
     {
       num: 2010,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
     },
     {
       num: 4800,
-      unit: '个',
+      unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
       displayName: t(`${configHead}.projectListFun.xnyqczl`),
@@ -211,7 +212,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: fast,
           // num:29982,
           num: data?.fastChargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '快充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.kczzl`),
@@ -220,7 +221,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: slow,
           // num:142337,
           num: data?.slowChargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '慢充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.mczzl`),
@@ -229,7 +230,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: speed,
           // num:26,
           num: data?.overchargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '超充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.cczzl`),
@@ -238,7 +239,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: v2g,
           // num:21,
           num: data?.v2GEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.v2gzzl`),
@@ -250,7 +251,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: zlcd,
           num: data?.directEquCount,
           // num: 30008,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.zlzzl`),
@@ -259,7 +260,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: jlcd,
           // num: 142337,
           num: data?.exchangeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '交流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.jlzzl`),
@@ -267,7 +268,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: jlcd,
           num: data?.acandDCCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直交流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.zjlzzl`),
@@ -275,7 +276,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: jlcd,
           num: data?.othersCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '其他桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.qtzzl`),
@@ -284,7 +285,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           img: v2g,
           // num: 21,
           num: data?.v2GEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.v2gzzl`),
@@ -297,7 +298,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: fast,
           num: data?.fastChargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '快充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.kcqzl`),
@@ -305,7 +306,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: slow,
           num: data?.slowChargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '慢充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.mcqzl`),
@@ -313,7 +314,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: speed,
           num: data?.overchargeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '超充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.ccqzl`),
@@ -321,7 +322,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: v2g,
           num: data?.v2GEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.v2qzl`),
@@ -332,7 +333,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: zlcd,
           num: data?.directEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.zlqzl`),
@@ -340,7 +341,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: jlcd,
           num: data?.exchangeEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '交流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.jlqzl`),
@@ -348,7 +349,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: jlcd,
           num: data?.acandDCCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直交流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.zjlqzl`),
@@ -356,7 +357,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: jlcd,
           num: data?.othersCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '其他枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.qtqzl`),
@@ -364,7 +365,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
         {
           img: v2g,
           num: data?.v2GEquCount,
-          unit: '个',
+          unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
           displayName: t(`${configHead}.pileChargerFun.v2gqzl`),
@@ -424,7 +425,7 @@ export const todayInfoNumDataFun = (data = {}) => {
     {
       img: zxzl,
       num: data?.totalOnline,
-      unit: '个',
+      unit: t(`${configHead}.todayInfoNumDataFun.unitGe`), // '个',
       name: '在线总量',
       classStyleType: 'leftRightStyleYellow',
       displayName: t(`${configHead}.todayInfoNumDataFun.zxzl`),
@@ -638,7 +639,7 @@ export const columnDataRankFun = () => {
     {
       prop: 'operatorName',
       label: t(`${configHead}.columnDataRankFun.operatorName`) || '运营商名称',
-      minWidth: 3.8,
+      minWidth: 2,
       displayLabel: t(`${configHead}.columnDataRankFun.operatorName`)
     },
     {
@@ -660,7 +661,7 @@ export const columnDataRankFun = () => {
     {
       prop: 'gunNumber',
       label: t(`${configHead}.columnDataRankFun.gunNumber`) || '充电枪',
-      minWidth: 1,
+      minWidth: 2,
       sortable: 'custom',
       sortOrders: ['ascending', 'descending'],
       displayLabel: t(`${configHead}.columnDataRankFun.gunNumber`)

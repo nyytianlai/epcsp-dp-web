@@ -7,6 +7,10 @@ export default{
   zdcdzzt: '站点充电桩状态',
   cdssrsyxx: '充电设施日使用信息',
   zdssgl: '站点实时功率',
+  tabList: {
+    pile: '桩',
+    gun: '枪',
+  },
   config: {
     lianhuaPowerFun: {
       swdl: '上网电量',
@@ -137,7 +141,8 @@ export default{
     stationWarnOption: {
       unitGe: '个',
       gjs: '告警数',
-      yAxisName: '单位:个'
+      yAxisName: '单位:个',
+      day: '日'
     },
     batterySOHOption: {
       dccgl: '电池簇功率',

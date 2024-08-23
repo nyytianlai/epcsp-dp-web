@@ -31,7 +31,14 @@
             <div class="left-bottom-dot corner" />
             <div class="right-bottom-dot corner" />
             <div>
-              {{ item.meta.title }}
+              <!-- {{ item.meta.title }} -->
+              <!-- :is-inline="true" -->
+              <tooltip-over
+                class="top-tab-name"
+                :className="['top-tab-name-tooltip']"
+                :content="item.meta.title"
+                :ref-name="item.meta.title"
+              />
             </div>
           </div>
           <div
@@ -64,9 +71,12 @@
 
 <script>
 import config from '@sutpc/config';
+import TooltipOver from '@/components/tooltip-over.vue';
 
 export default {
-  components: {},
+  components: {
+    TooltipOver
+  },
   props: {
     activeName: {
       type: String,

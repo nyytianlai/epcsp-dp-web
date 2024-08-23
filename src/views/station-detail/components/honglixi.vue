@@ -8,7 +8,13 @@
           <div class="icon"></div>
           <div class="name">
             <!-- stationName: '红荔西5G示范站' -->
-            <span class="station-name">{{t(`${tHead}.stationName`)}}</span>
+            <!-- <span class="station-name">{{t(`${tHead}.stationName`)}}</span> -->
+            <tooltip-over
+              :is-inline="true"
+              :className="['station-name-tooltip']"
+              :content="t(`${tHead}.stationName`)"
+              :ref-name="t(`${tHead}.stationName`)"
+            />
             <!-- companyName: '中国铁塔股份有限公司深圳市分公司' -->
             <span class="company-name">{{t(`${tHead}.companyName`)}}</span>
           </div>
@@ -50,6 +56,7 @@
 import { ref, inject } from 'vue';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { msgPopList, batteryMsgFun, popRealtimeOption } from '../config.js';
+import TooltipOver from '@/components/tooltip-over.vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `station-detail.components.honglixi`;

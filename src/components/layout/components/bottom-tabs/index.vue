@@ -10,7 +10,14 @@
       <div class="icon">
         <Icon :icon="`svg-icon:${activeTab !== tab.name ? tab.type : `${tab.type}-active`}`" />
       </div>
-      <div class="text">{{ tab.text }}</div>
+      <!-- <div class="text">{{ tab.text }}</div> -->
+      <tooltip-over
+          :is-inline="true"
+          class="bottom-tab-name text"
+          :className="['bottom-tab-name-tooltip', activeTab === tab.name ?'bottom-tab-active': '']"
+          :content="tab.text"
+          :ref-name="tab.text"
+        />
     </div>
   </div>
 </template>
@@ -20,6 +27,7 @@ import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Icon from '@sutpc/vue3-svg-icon';
 import { useI18n } from 'vue-i18n';
+import TooltipOver from '@/components/tooltip-over.vue';
 interface Tab {
   type: string;
   text?: string;
@@ -111,6 +119,12 @@ const handleTabClick = (tab: Tab) => {
       color: #fff;
       text-shadow: 0 0 4px #ffa115;
     }
+    .bottom-tab-name {
+      span{
+        color: #fff !important;
+        text-shadow: 0 0 4px #ffa115 !important;
+      }
+    }
 
     .icon {
       color: #f8b44e;
@@ -129,6 +143,16 @@ const handleTabClick = (tab: Tab) => {
     font-family: 'PingFang SC';
     font-weight: 600;
     letter-spacing: 1px;
+  }
+  .bottom-tab-name{
+    span{
+      color: rgba(#fff, 0.8)!important;
+      font-size: 14px;
+      font-style: italic !important;;
+      font-family: 'PingFang SC';
+      font-weight: 600 !important;
+      letter-spacing: 1px;
+    }
   }
 
   .icon {

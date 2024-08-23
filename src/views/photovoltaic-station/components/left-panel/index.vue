@@ -25,6 +25,9 @@ import { ref, onMounted } from 'vue';
 import { cdzzlFun, companyRank } from '../../config';
 
 import { capacityRanking, projectRanking } from '../../api.js';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 //光伏电站总览数据
 const cardData = ref(cdzzlFun());
 // 企业排名
@@ -63,7 +66,7 @@ const loadProjectRanking = async () => {
   lightRank.value = res.data.map((i) => {
     return {
       num: i.integerAmount,
-      unit: '个',
+      unit: t(`overview.config.ecOptionFun.unitGe`), // '个',
       name: i.rankingName
     };
   });

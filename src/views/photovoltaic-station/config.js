@@ -40,7 +40,7 @@ export const cdzzlFun = (data = {}) => {
     {
       img: gfzzl,
       num: 1190,
-      unit: '个',
+      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
       // name: '光伏站总量'
       name: t('photovoltaic-station.cdzzlFun.gfzzl')
     },
@@ -54,7 +54,7 @@ export const cdzzlFun = (data = {}) => {
     {
       img: jrqyzs,
       num: 979,
-      unit: '个',
+      unit: t(`overview.config.ecOptionFun.unitGe`), // '个',
       // name: '接入企业总数'
       name: t('photovoltaic-station.cdzzlFun.jrqyzs')
     }
@@ -73,17 +73,17 @@ export const surfSortPieDataFun = (data = {}) => {
     {
       value: 161,
       name: '余电上网',
-      unit: '个'
+      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
     },
     {
       value: 50,
       name: '全额上网',
-      unit: '个'
+      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
     },
     {
       value: 18,
       name: '全额自用',
-      unit: '个'
+      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
     }
   ];
 };
@@ -123,7 +123,7 @@ export const jrgfdzFun = (data = {}) => {
     {
       img: jrswdl,
       num: data.onlineElec, // 今日发电总量 x 0.4
-      unit: '万kWh',
+      unit: t(`overview.right-panel.wankwh`), //'万kWh',
       // name: '今日上网电量',
       name: t('photovoltaic-station.jrgfdzFun.jrswdl'),
       numStyle: {
@@ -135,7 +135,7 @@ export const jrgfdzFun = (data = {}) => {
     {
       img: jrfdzl,
       num: data.total,
-      unit: '万kWh',
+      unit: t(`overview.right-panel.wankwh`), // '万kWh',
       // name: '今日发电总量',
       name: t('photovoltaic-station.jrgfdzFun.jrfdzl'),
       numStyle: {

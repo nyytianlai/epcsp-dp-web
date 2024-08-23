@@ -118,10 +118,11 @@ export const lianhuaWarnOption = {
           </span>
           <span class="right-data">
             <span class="value">${item.value}</span>
-            <span class="unit">${t(`${configHead}.lianhuaWarnOption.unitGe`) || '个'}</span>
+            <span class="unit">${t(`${configHead}.lianhuaWarnOption.unitGe`)}</span>
           </span>
         </div>`;
       });
+      //  || '个'
       str += '</div>';
       return str;
     }
@@ -1385,10 +1386,11 @@ export const stationWarnOption = {
           </span>
           <span class="right-data">
             <span class="value">${item.value}</span>
-            <span class="unit">${t(`${configHead}.stationWarnOption.unitGe`)||'个'}</span>
+            <span class="unit">${t(`${configHead}.stationWarnOption.unitGe`)}</span>
           </span>
         </div>`;
       });
+      // ||'个'
       str += '</div>';
       return str;
     }
@@ -2090,10 +2092,11 @@ export const baoqingWarnOption = {
           </span>
           <span class="right-data">
             <span class="value">${item.value}</span>
-            <span class="unit">${t(`${configHead}.baoqingWarnOption.unitGe`)|| '个'}</span>
+            <span class="unit">${t(`${configHead}.baoqingWarnOption.unitGe`)}</span>
           </span>
         </div>`;
       });
+      // || '个'
       str += '</div>';
       return str;
     }
@@ -2535,7 +2538,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           // value: 29982,
           name: '快充桩',
           code: 1,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2545,7 +2548,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           // value: 142337,
           name: '慢充桩',
           code: 2,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2555,7 +2558,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           // value: 26,
           name: '超充桩',
           code: 3,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2565,7 +2568,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           // value: 21,
           name: 'V2G桩',
           code: 4,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2577,33 +2580,33 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流桩',
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zlz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
           name: '交流桩',
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流桩',
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.otherCount, 
           name: '其他桩', 
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.qtz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
         {
           value: data?.chargeCountByElectricityTypeDto?.v2gCount, 
           name: 'V2G桩', 
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gz`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  }
       ];
@@ -2614,7 +2617,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           value: data?.chargeCountByChargeTypeDto?.quickCount,
           name: '快充枪',
           code: 1,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2623,7 +2626,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           value: data?.chargeCountByChargeTypeDto?.noQuickCount,
           name: '慢充枪',
           code: 2,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2632,7 +2635,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           value: data?.chargeCountByChargeTypeDto?.superCount,
           name: '超充枪',
           code: 3,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2641,7 +2644,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           value: data?.chargeCountByChargeTypeDto?.v2gCount,
           name: 'V2G枪',
           code: 4,
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
@@ -2653,26 +2656,37 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
         {
           value: data?.chargeCountByElectricityTypeDto?.directCurrentCount,
           name: '直流枪',
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zlq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
         },
-        { value: data?.chargeCountByElectricityTypeDto?.exchangeCount, name: '交流枪', unit: '个',
+        {
+          value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
+          name: '交流枪',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流枪',
-          unit: '个',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlq`),
           displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
         },
-        { value: data?.chargeCountByElectricityTypeDto?.otherCount, name: '其他枪', unit: '个',
+        {
+          value: data?.chargeCountByElectricityTypeDto?.otherCount,
+          name: '其他枪',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.qtq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
-        { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个',
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        },
+        {
+          value: data?.chargeCountByElectricityTypeDto?.v2gCount,
+          name: 'V2G枪',
+          unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  }
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        }
       ];
       break;
     default:

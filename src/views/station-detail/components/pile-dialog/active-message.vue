@@ -21,7 +21,13 @@
       <li class="info-item" v-for="(item, index) in infoList" :key="index">
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
-          <span class="name">{{ item.displayName || item.name }}</span>
+          <!-- <span class="name">{{ item.displayName || item.name }}</span> -->
+           <tooltip-over
+            :is-inline="true"
+            :className="['active-message-name-tooltip']"
+            :content="item.displayName || item.name"
+            :ref-name="item.displayName || item.name"
+          />
           <span class="num">
             <span class="value">{{ item.value }}</span>
             &nbsp;
@@ -49,6 +55,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 import dayjs from 'dayjs';
 import { selectEquipmentDynamicInfo, selectEquipmentDynamicInfoGroupByTime } from './api.js';
 import { useI18n } from 'vue-i18n';
+import TooltipOver from '@/components/tooltip-over.vue';
 const { t } = useI18n();
 const tHead = `station-detail.components.pile-dialog.active-message`;
 const pileData = inject('pileData');
@@ -199,7 +206,7 @@ const linePowerDataFun = (data = []) => {
       data: data?.map((item) => [item.time, item.count]),
       type: 'line',
       smooth: true,
-      name: dynamicActive.value?.name
+      name: dynamicActive.value?.displayName || dynamicActive.value?.name
     }
   ];
 };
