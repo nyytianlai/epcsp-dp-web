@@ -71,15 +71,9 @@ const bottomCardConfig = ref([
 const getData = async () => {
   loading.value = true;
   try {
-    const params = {
-      areaCode: '',
-      streetCode: ''
-    };
-    const { data } = await Api.busCanRunOverview(params);
-    bottomCardConfig.value[0].value = data.busNum;
-    bottomCardConfig.value[1].value = data.busRemainPower;
-    bottomCardConfig.value[2].value = data.v2gNum;
-    bottomCardConfig.value[3].value = data.v2gStationNum;
+    const { data } = await Api.getVehicleNetInterOverview();
+    bottomCardConfig.value[0].value = data.stationNum;
+    bottomCardConfig.value[1].value = data.pileNum;
   } catch (error) {}
   loading.value = false;
 };
@@ -89,7 +83,7 @@ getData();
 <style scoped lang="less">
 .operation-bus-overview {
   width: 100%;
-  height: 100%;
+  height: 330px;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

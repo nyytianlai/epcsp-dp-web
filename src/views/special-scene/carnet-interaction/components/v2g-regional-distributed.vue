@@ -23,11 +23,7 @@ const loading = ref(true);
 const getData = async () => {
   loading.value = true;
   try {
-    const params = {
-      areaCode: '',
-      streetCode: ''
-    };
-    const { data } = await Api.busCanDistribution(params);
+    const { data } = await Api.getV2GDistribution();
     scrollTableData.value = data;
   } catch (error) {}
   loading.value = false;

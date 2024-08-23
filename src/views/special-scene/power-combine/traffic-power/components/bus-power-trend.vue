@@ -70,7 +70,8 @@ const drawChart = async (data = []) => {
     });
   });
   option.xAxis.axisLabel.formatter = (params) => {
-    return dayjs(params).format('HH:mm');
+    return params;
+    // return dayjs(params).format('HH:mm');
   };
   ecOption.value = {
     ...option,

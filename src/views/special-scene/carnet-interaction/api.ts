@@ -1,45 +1,28 @@
 import request from '@sutpc/axios';
 export default {
-  // 交能协同-左-营运巴士运行总览
-  busCanRunOverview(data) {
+  // 车网互动-左-车网互动总览
+  getVehicleNetInterOverview() {
     return request.post({
-      url: '/busCan/busCanRunOverview',
-      data
+      url: '/vehicle/net/inter/getVehicleNetInterOverview',
     });
   },
-  // 交能协同-左-巴士可用能量态势
-  busCanEnergy(data) {
+  // 车网互动-左-V2G区域分布
+  getV2GDistribution() {
     return request.post({
-      url: '/busCan/busCanEnergy',
-      data
+      url: '/vehicle/net/inter/getV2GDistribution',
     });
   },
-  // 交能协同-左-巴士剩余电量分布
-  busCanDistribution(data) {
+  // 车网互动-右-虚拟电厂调节总览
+  getV2GRankByOperator() {
     return request.post({
-      url: '/busCan/busCanDistribution',
-      data
+      url: '/vehicle/net/inter/getV2GRankByOperator',
     });
   },
-  // 交能协同-右-虚拟电厂调节总览
-  busCanAdjustmentOverview(data) {
+  // 车网互动-地图V2G站点分布
+  getV2GStationDistribution() {
     return request.post({
-      url: '/busCan/busCanAdjustmentOverview',
-      data
+      url: '/vehicle/net/inter/getV2GStationDistribution',
     });
   },
-  // 交能协同-右-今日调节需求
-  busCanAdjustmentDemand(data) {
-    return request.post({
-      url: '/busCan/busCanAdjustmentDemand',
-      data
-    });
-  },
-  // 交能协同-右-调节趋势分析
-  busCanAdjustmentTrend(data) {
-    return request.post({
-      url: '/busCan/busCanAdjustmentTrend',
-      data
-    });
-  },
+
 }

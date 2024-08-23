@@ -18,12 +18,12 @@ export const v2gRegionalDistributedColumn = [
     width: 3
   },
   {
-    prop: 'surplusPower',
+    prop: 'pileNum',
     label: 'V2G桩(个)',
     width: 4
   },
   {
-    prop: 'busNum',
+    prop: 'stationNum',
     label: 'V2G站(个)',
     width: 3
   }

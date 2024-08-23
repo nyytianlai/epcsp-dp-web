@@ -4,7 +4,7 @@
     <div class="distributed-content" v-loading="isLoading">
       <rank-list
         class="operating-rank__list"
-        :data="projectList"
+        :data="rankData"
         :totalNum="projectTotalNum"
         height="100%"
       />
@@ -13,20 +13,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import Api from '../api.js';
 import dayjs from 'dayjs';
+
 const isLoading = ref(false);
 const projectTotalNum = ref(0);
-const projectList = ref([]);
-const getProjectList = async () => {
+const rankData = ref([]);
+const getrankData = async () => {
   isLoading.value = true;
   try {
+    const { data } = await Api.getV2GRankByOperator();
+    projectTotalNum.value = Math.max(...data.map((item) => +item.pileNum));
+    rankData.value = data?.map((item) => {
+      return {
+        name: item.operatorName,
+        unit: '个',
+        num: item.pileNum
+      };
+    });
   } catch (error) {
-    projectList.value = [];
+    rankData.value = [];
   }
   isLoading.value = false;
 };
+
+onMounted(() => {
+  getrankData();
+});
 </script>
 
 <style scoped lang="less">

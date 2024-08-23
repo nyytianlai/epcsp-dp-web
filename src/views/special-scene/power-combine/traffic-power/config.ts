@@ -6,7 +6,7 @@ export const powerDistributedColumn = [
     width: 3
   },
   {
-    prop: 'surplusPower',
+    prop: 'busRemainPower',
     label: '巴士剩余电量(kWh)',
     width: 4
   },

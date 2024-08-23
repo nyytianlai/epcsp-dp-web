@@ -7,6 +7,10 @@ import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
+import { getImageByCloud } from '@/global/config/map';
+import { getPopupHtml } from '@/utils/index';
+import { scale } from '@sutpc/config';
+import { transformCoordsByType } from '@/utils/map-coord-tools';
 import Api from '../api';
 
 const aircityObj = inject<any>('aircityObj');
@@ -16,70 +20,51 @@ const __g = aircityObj.value?.acApi;
 onMounted(async () => {
   await __g.reset();
   await getData();
-  // handleQuHeatMap();
-  // addPoint();
+  addPoint();
 });
 
-let quData = [];
+let positionData = [];
 const getData = async () => {
   try {
-    const params = {
-      areaCode: '',
-      streetCode: ''
-    };
-    const { data } = await Api.busCanDistribution(params);
-    quData = data;
+    const { data } = await Api.getV2GStationDistribution();
+    positionData = data;
   } catch (error) {}
-};
-const handleQuHeatMap = async () => {
-  quData.forEach((v) => {
-    const color = getIntervalCategory(v.busRemainPower);
-    console.log('color :>> ', color, __g);
-    __g.polygon.setColor('qu-' + v.areaName, color);
-  });
-};
-
-const getIntervalCategory = (value) => {
-  if (value <= 300) {
-    return '#E3E899';
-  } else if (value <= 400) {
-    return '#B8D45D';
-  } else if (value <= 500) {
-    return '#7CAE53';
-  } else if (value <= 700) {
-    return '#45802A';
-  } else {
-    return '#316528';
-  }
 };
 
 const addPoint = async () => {
-  const res1 = await requestGeojsonData('barPosition4547');
-  const quCenterPositions = res1.features;
   let markers = [];
-  quCenterPositions.forEach((item, index) => {
-    const data = quData.filter((v) => v.areaName == item.properties.QUNAME);
+  positionData.forEach((item, index) => {
+    // const data = positionData.filter((v) => v.areaName == item.properties.QUNAME);
+    const oPopUpUrl = getPopupHtml({
+      usePopupHtml: true,
+      com: 'carnet-interaction',
+      params: {
+        value: JSON.stringify({ ...item })
+      }
+    });
+    const maxLen = `${item?.pileNum || 0}`.length;
+    console.log(transformCoordsByType([item.stationLat, item.stationLng], 2)); //辐射圈坐标位置
+
     let o = {
-      id: 'traffic-power-marker-' + item.properties.QUCODE,
-      groupId: `traffic-power-marker-group`,
-      coordinate: item.geometry.coordinates,
-      anchors: [-10, 10], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [10, 10], //图片的尺寸
+      id: 'carnet-interaction-' + item.stationId,
+      groupId: `carnet-interaction-group`,
+      coordinate: transformCoordsByType([item.stationLng, item.stationLat], 2), //坐标位置
+      anchors: [-20, 48], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [43, 48], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: `${getHtmlUrl()}/static/images/circle.png`, //显示图片路径
+      imagePath: getImageByCloud('chargingStation1'), //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: `${getHtmlUrl()}/static/html/rectBar.html?value=${JSON.stringify(data)}`, //弹窗HTML链接
-      autoHidePopupWindow: false,
-      popupSize: [200, 300],
-      popupOffset: [-125, -140], //弹窗偏移
-      autoHeight: false, // 自动判断下方是否有物体
-      displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
-      priority: item.properties.PRIORITY
+      popupURL: oPopUpUrl,
+      autoHidePopupWindow: true,
+      popupSize: [scale(100 + maxLen * 8), scale(110)],
+      popupOffset: [-scale(150 + maxLen * 8) / 2, -scale(29)], //弹窗偏移
+      autoHeight: true, // 自动判断下方是否有物体
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
     markers.push(o);
   });
+  console.log('markers :>> ', markers);
   await aircityObj.value.acApi.marker.add(markers);
-  await aircityObj.value.acApi.marker.showAllPopupWindow();
 };
 </script>
 
