@@ -11,7 +11,7 @@ export const powerDistributedColumn = [
     displayLabel: t(`${configHead}.powerDistributedColumn.areaName`)
   },
   {
-    prop: 'surplusPower',
+    prop: 'busRemainPower',
     label: '巴士剩余电量(kWh)',
     width: 4,
     displayLabel: t(`${configHead}.powerDistributedColumn.soltNum`)

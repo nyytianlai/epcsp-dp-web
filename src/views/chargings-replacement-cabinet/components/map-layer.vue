@@ -81,6 +81,7 @@ const addOutStation = async (module: number, jdcode: string) => {
   const { data: res } = await getStreetPoint({ streetId: jdcode });
   let pointArr = [];
   res.forEach((item, index) => {
+    console.log('addOutStation :>> ', item);
     let xoffset = getStrLength(item.cabinetName) * 6;
     let o1 = {
       id: 'stationOut-' + index,
