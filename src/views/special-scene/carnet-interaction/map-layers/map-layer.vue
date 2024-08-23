@@ -21,6 +21,7 @@ onMounted(async () => {
   await __g.reset();
   await getData();
   addPoint();
+  addBaoAnPoint();
 });
 
 let positionData = [];
@@ -43,7 +44,6 @@ const addPoint = async () => {
       }
     });
     const maxLen = `${item?.pileNum || 0}`.length;
-    console.log(transformCoordsByType([item.stationLat, item.stationLng], 2)); //辐射圈坐标位置
 
     let o = {
       id: 'carnet-interaction-' + item.stationId,
@@ -63,8 +63,29 @@ const addPoint = async () => {
     };
     markers.push(o);
   });
-  console.log('markers :>> ', markers);
   await aircityObj.value.acApi.marker.add(markers);
+};
+
+const addBaoAnPoint = () => {
+  const point = {
+    type: 'Feature',
+    properties: { OBJECTID: 6, QUNAME: '宝安区', QUCODE: '440306' },
+    geometry: { type: 'Point', coordinates: [485959.808009100612253, 2502076.76284110173583] }
+  };
+  let o = {
+    id: 'carnet-interaction-baoAn-1',
+    groupId: `carnet-interaction-baoAn-group`,
+    coordinate: point.geometry.coordinates, //坐标位置
+    anchors: [-39, 80], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [78, 80], //图片的尺寸
+    range: [1, 1000000], //可视范围
+    imagePath: getImageByCloud('qu-point'), //显示图片路径
+    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+    autoHidePopupWindow: true,
+    autoHeight: true, // 自动判断下方是否有物体
+    displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+  };
+  aircityObj.value.acApi.marker.add(o);
 };
 </script>
 
