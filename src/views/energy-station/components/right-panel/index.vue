@@ -116,6 +116,10 @@ const socialBenefit = ref(socialBenefitFun());
       color: #64def6;
       font-size: 12px;
       display: block;
+
+      .num-card-unit-tooltip {
+        max-width: 100%;
+      }
     }
     > div {
       flex: 1;

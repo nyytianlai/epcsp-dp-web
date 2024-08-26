@@ -127,6 +127,10 @@ onMounted(() => {
       flex: 1;
       height: 0;
     }
+
+    .num-card-name-tooltip {
+      max-width: 100%;
+    }
   }
 }
 
@@ -175,6 +179,10 @@ onMounted(() => {
     :deep(.num-tile-card) {
       &:nth-of-type(n + 1) {
         margin-top: 12px;
+      }
+
+      .num-box {
+        white-space: nowrap;
       }
     }
   }
