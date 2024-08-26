@@ -315,6 +315,7 @@ const back = async () => {
       await resetSz();
     }
   }
+  bus.emit('map-back');
 };
 
 //重置到街道

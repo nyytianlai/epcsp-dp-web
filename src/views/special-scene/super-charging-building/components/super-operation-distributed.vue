@@ -4,14 +4,22 @@
     <title-column :title="t(`${tHead}.ccyyfbqk`)" />
     <tabs v-model="selectType" :data="superOperationTabType" />
     <div
-      class="super-operation-distributed-content"
+      class="super-operation-distributed-content card-wrapper"
       v-show="!isAreaDistributed"
       ref="chartWrapper"
       v-loading="isLoading"
     >
-      <ec-resize :option="ecOption" v-show="!isEmpty" />
+      <!-- <ec-resize :option="ecOption" v-show="!isEmpty" />
       <div class="chart-center" v-show="!isEmpty">
         <img :src="pieCenter" />
+      </div> -->
+      <div class="card-item" v-for="item in powerConfig" :key="item.name">
+        <img :src="power" class="icon" />
+        <div class="card-name">{{ item.name }}</div>
+        <div class="card-value">
+          {{ formatWithToLocalString(item.value) }}
+          <span class="unit">个</span>
+        </div>
       </div>
       <no-data v-show="isEmpty" />
     </div>
@@ -36,9 +44,11 @@ import { scale } from '@sutpc/config';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 import pieCenter from '../images/pie-chart-center-icon.png';
+import power from '../images/power.png';
 import Api from '../api.js';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+import { formatWithToLocalString } from '@/global/commonFun.js';
 const tHead = `special-scene.super-charging-building.components`;
 
 const ecOption = ref();
@@ -46,6 +56,7 @@ const selectType = ref(superOperationTabType[0].code);
 const chartWrapper = ref();
 const isLoading = ref(false);
 const scrollTableData = ref([]);
+const powerConfig = ref([]);
 const isEmpty = ref(true);
 
 const isAreaDistributed = computed(() => selectType.value === 'getConstructionStationDistribute');
@@ -59,7 +70,14 @@ const getData = async () => {
     if (isAreaDistributed.value) {
       scrollTableData.value = res?.data;
     } else {
-      drawChart(res?.data);
+      // drawChart(res?.data);
+      powerConfig.value = res?.data.map((item) => {
+        return {
+          name: item.levelName,
+          value: item.equipmentNum,
+          unit: '个'
+        };
+      });
       isEmpty.value = !res?.data?.length;
     }
   } catch (error) {
@@ -173,6 +191,7 @@ watch(
   .super-operation-distributed-content {
     flex: 1;
     min-height: 0;
+
     border-radius: 4px;
     position: relative;
 
@@ -182,6 +201,16 @@ watch(
       rgba(37, 177, 255, 0.02) 16.882%,
       rgba(37, 177, 255, 0.2) 100%
     );
+
+    &.card-wrapper {
+      display: grid;
+      grid-template-rows: repeat(2, minmax(80px, 1fr));
+      row-gap: 12px;
+      border-radius: 0;
+
+      box-shadow: none;
+      background: none;
+    }
 
     .chart-center {
       position: absolute;
@@ -232,6 +261,55 @@ watch(
           rgba(#0d2959, 1) 0%,
           rgba(#398fd7, 1) 100%
         );
+      }
+    }
+
+    .card-item {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      padding: 0 20px;
+      border-radius: 2px;
+      box-shadow: 0px 1px 14px 0px rgba(0, 0, 0, 0.04),
+        inset 0px 0px 35px 0px rgba(41, 76, 179, 0.2);
+      background: linear-gradient(
+        224.13deg,
+        rgba(37, 177, 255, 0.1) 2.853%,
+        rgba(37, 177, 255, 0) 100%
+      );
+
+      .icon {
+        flex: 0 0 70px;
+        width: 70px;
+        margin-right: 18px;
+      }
+
+      .card-name {
+        flex: 1;
+        min-width: 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 16px;
+      }
+
+      .card-value {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: baseline;
+        background: linear-gradient(180deg, rgb(0, 247, 255), rgb(213, 254, 255), rgb(0, 247, 255));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        line-height: 32px;
+        font-size: 30px;
+        font-weight: 700;
+        font-family: 'DIN Condensed';
+        .unit {
+          font-size: 16px;
+          font-weight: 400;
+        }
       }
     }
   }
