@@ -38,7 +38,7 @@ onMounted(async () => {
     flex: 1;
     min-height: 0;
     border-radius: 4px;
-    background: url('../images/brand-support-bg.png') no-repeat;
+    background: url('../images/brand-support-bg.png') no-repeat center center/100% auto;
   }
 }
 </style>

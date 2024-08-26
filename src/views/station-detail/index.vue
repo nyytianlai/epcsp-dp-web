@@ -30,13 +30,21 @@
       <pie-chart
         class="device-total-pie"
         :data="chargingStationPieData"
-        :totalName="curBtn === 'cdzlx' ? t(`${tHead}.cdzzs`) || '充电桩总数' : t(`${tHead}.cdqzs`) ||'充电枪总数'"
+        :totalName="
+          curBtn === 'cdzlx'
+            ? t(`${tHead}.cdzzs`) || '充电桩总数'
+            : t(`${tHead}.cdqzs`) || '充电枪总数'
+        "
         :colors="chargingColors"
       />
     </div>
     <div class="warning-message">
       <!-- gjxx: '告警信息' -->
-      <title-column :title="t(`${tHead}.gjxx`)" :showBtn="isShowList" @handleClick="handleShowWarning" />
+      <title-column
+        :title="t(`${tHead}.gjxx`)"
+        :showBtn="isShowList"
+        @handleClick="handleShowWarning"
+      />
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
@@ -207,6 +215,8 @@ import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import BaoqingDialog from './components/baoqing-dialog.vue';
+import { BaoAnMenu } from './bottom-menu.ts';
+
 import dayjs from 'dayjs';
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
 const realtimePowerColors = ['green'];
@@ -254,7 +264,7 @@ const chargingStationGunTabs = ref(chargingStationGunTabsFun());
 
 const tabList = ref([
   { value: 'cdzlx', name: '桩', index: 1, displayName: t(`${tHead}.tabList.pile`) },
-  { value: 'cdqlx', name: '枪', index: 2, displayName: t(`${tHead}.tabList.gun`)  }
+  { value: 'cdqlx', name: '枪', index: 2, displayName: t(`${tHead}.tabList.gun`) }
 ]);
 const chargeData = ref();
 // 设备类型
@@ -667,6 +677,10 @@ let timer = null;
 watch(
   () => store.detailParams,
   async () => {
+    // if (store.detailParams.isBaoAn) {
+    //   tabHasData.value = true;
+    //   tabData.value = BaoAnMenu;
+    // }
     if (store.detailParams.stationId) {
       getButtomMenuData();
       if (store.detailParams.trueStation) {
