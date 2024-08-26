@@ -53,6 +53,6 @@ export default {
   show: '显示',
   noDataSelected: '未选择任何数据',
   xq: '详情',
-  title: '我是标题',
-  check: '查看更多'
+  check: '查看更多',
+  title: '深圳市电力充储放一张网'
 };

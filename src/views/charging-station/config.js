@@ -16,9 +16,9 @@ import ssgl from './images/ssgl.png';
 
 import dayjs from 'dayjs';
 
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
-const configHead  = `charging-station.config`;
+const configHead = `charging-station.config`;
 
 export const cdsszlFun = (data = {}) => {
   return [
@@ -28,7 +28,7 @@ export const cdsszlFun = (data = {}) => {
       unit: t(`${configHead}.cdsszlFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitGe`),
-      displayName: t(`${configHead}.cdsszlFun.cdzzl`),
+      displayName: t(`${configHead}.cdsszlFun.cdzzl`)
     },
     {
       img: xnyqczl,
@@ -36,7 +36,7 @@ export const cdsszlFun = (data = {}) => {
       unit: t(`${configHead}.cdsszlFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitGe`),
-      displayName: t(`${configHead}.cdsszlFun.yjryyqyzl`),
+      displayName: t(`${configHead}.cdsszlFun.yjryyqyzl`)
     },
     {
       img: yjryyqyzl,
@@ -44,7 +44,7 @@ export const cdsszlFun = (data = {}) => {
       unit: t(`${configHead}.cdsszlFun.unitWanLiang`) || '万辆',
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.cdsszlFun.unitWanLiang`),
-      displayName: t(`${configHead}.cdsszlFun.xnyqczl`),
+      displayName: t(`${configHead}.cdsszlFun.xnyqczl`)
     }
   ];
 };
@@ -57,70 +57,70 @@ export const projectListFun = () => {
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.cdzzl`),
+      displayName: t(`${configHead}.projectListFun.cdzzl`)
     },
     {
       num: 5555,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
+      displayName: t(`${configHead}.projectListFun.yjryyqyzl`)
     },
     {
       num: 666,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.xnyqczl`),
+      displayName: t(`${configHead}.projectListFun.xnyqczl`)
     },
     {
       num: 2010,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
+      displayName: t(`${configHead}.projectListFun.yjryyqyzl`)
     },
     {
       num: 4800,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.xnyqczl`),
+      displayName: t(`${configHead}.projectListFun.xnyqczl`)
     },
     {
       num: 6399,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '充电站总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.cdzzl`),
+      displayName: t(`${configHead}.projectListFun.cdzzl`)
     },
     {
       num: 2010,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
+      displayName: t(`${configHead}.projectListFun.yjryyqyzl`)
     },
     {
       num: 4800,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.xnyqczl`),
+      displayName: t(`${configHead}.projectListFun.xnyqczl`)
     },
     {
       num: 2010,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '已接入运营企业总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.yjryyqyzl`),
+      displayName: t(`${configHead}.projectListFun.yjryyqyzl`)
     },
     {
       num: 4800,
       unit: t(`${configHead}.projectListFun.unitGe`),
       name: '新能源汽车总量',
       displayUnit: t(`${configHead}.projectListFun.unitGe`),
-      displayName: t(`${configHead}.projectListFun.xnyqczl`),
+      displayName: t(`${configHead}.projectListFun.xnyqczl`)
     }
   ];
 };
@@ -132,14 +132,14 @@ export const chargingStationTabsFun = () => {
       chargingType: 'speed',
       typeCharge: 'pile',
       label: '充电桩类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`)
     },
     {
       code: 2,
       chargingType: 'electricity',
       typeCharge: 'pile',
       label: '充电桩电流类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`)
     }
   ];
 };
@@ -151,21 +151,14 @@ export const chargingStationGunTabsFun = () => {
       chargingType: 'speed',
       typeCharge: 'gun',
       label: '充电枪类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`)
     },
     {
       code: 2,
       chargingType: 'electricity',
       typeCharge: 'gun',
       label: '充电枪电流类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqdllx`),
-    },
-    {
-      code: 3,
-      chargingType: 'speed',
-      typeCharge: 'gun',
-      label: '充电枪类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqdllx`)
     }
   ];
 };
@@ -177,28 +170,28 @@ export const pageNumFun = (data = {}) => {
       num: data?.cumulativeCharge,
       unit: data?.cumulativeChargeUnit || '亿度',
       displayName: t(`${configHead}.pageNumFun.ljcdl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitYidu`),
+      displayUnit: t(`${configHead}.pageNumFun.unitYidu`)
     },
     {
       name: '累计充电次数',
       num: parseInt(data?.cumChargeCount),
       unit: data?.cumChargeCountUnit || '万次',
       displayName: t(`${configHead}.pageNumFun.ljcdcs`),
-      displayUnit: t(`${configHead}.pageNumFun.unitWanci`),
+      displayUnit: t(`${configHead}.pageNumFun.unitWanci`)
     },
     {
       name: '累计充电时长',
       num: data?.cumChargeTime,
       unit: data?.cumChargeTimeUnit || '小时',
       displayName: t(`${configHead}.pageNumFun.ljcdsc`),
-      displayUnit: t(`${configHead}.pageNumFun.unitHour`),
+      displayUnit: t(`${configHead}.pageNumFun.unitHour`)
     },
     {
       name: '本年充电总量',
       num: data?.yearTotalCharge,
       unit: data?.yearTotalChargeUnit || '亿度',
       displayName: t(`${configHead}.pageNumFun.bncdzl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitYidu`),
+      displayUnit: t(`${configHead}.pageNumFun.unitYidu`)
     }
   ];
 };
@@ -215,7 +208,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '快充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.kczzl`),
+          displayName: t(`${configHead}.pileChargerFun.kczzl`)
         },
         {
           img: slow,
@@ -224,7 +217,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '慢充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.mczzl`),
+          displayName: t(`${configHead}.pileChargerFun.mczzl`)
         },
         {
           img: speed,
@@ -233,7 +226,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '超充桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.cczzl`),
+          displayName: t(`${configHead}.pileChargerFun.cczzl`)
         },
         {
           img: v2g,
@@ -242,7 +235,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.v2gzzl`),
+          displayName: t(`${configHead}.pileChargerFun.v2gzzl`)
         }
       ];
     } else {
@@ -254,7 +247,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.zlzzl`),
+          displayName: t(`${configHead}.pileChargerFun.zlzzl`)
         },
         {
           img: jlcd,
@@ -263,7 +256,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '交流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.jlzzl`),
+          displayName: t(`${configHead}.pileChargerFun.jlzzl`)
         },
         {
           img: jlcd,
@@ -271,7 +264,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直交流桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.zjlzzl`),
+          displayName: t(`${configHead}.pileChargerFun.zjlzzl`)
         },
         {
           img: jlcd,
@@ -279,7 +272,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '其他桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.qtzzl`),
+          displayName: t(`${configHead}.pileChargerFun.qtzzl`)
         },
         {
           img: v2g,
@@ -288,7 +281,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G桩总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.v2gzzl`),
+          displayName: t(`${configHead}.pileChargerFun.v2gzzl`)
         }
       ];
     }
@@ -301,7 +294,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '快充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.kcqzl`),
+          displayName: t(`${configHead}.pileChargerFun.kcqzl`)
         },
         {
           img: slow,
@@ -309,7 +302,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '慢充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.mcqzl`),
+          displayName: t(`${configHead}.pileChargerFun.mcqzl`)
         },
         {
           img: speed,
@@ -317,7 +310,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '超充枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.ccqzl`),
+          displayName: t(`${configHead}.pileChargerFun.ccqzl`)
         },
         {
           img: v2g,
@@ -325,7 +318,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.v2qzl`),
+          displayName: t(`${configHead}.pileChargerFun.v2qzl`)
         }
       ];
     } else {
@@ -336,7 +329,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.zlqzl`),
+          displayName: t(`${configHead}.pileChargerFun.zlqzl`)
         },
         {
           img: jlcd,
@@ -344,7 +337,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '交流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.jlqzl`),
+          displayName: t(`${configHead}.pileChargerFun.jlqzl`)
         },
         {
           img: jlcd,
@@ -352,7 +345,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '直交流枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.zjlqzl`),
+          displayName: t(`${configHead}.pileChargerFun.zjlqzl`)
         },
         {
           img: jlcd,
@@ -360,7 +353,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: '其他枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.qtqzl`),
+          displayName: t(`${configHead}.pileChargerFun.qtqzl`)
         },
         {
           img: v2g,
@@ -368,7 +361,7 @@ export const pileChargerFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.pileChargerFun.unitGe`), //'个',
           name: 'V2G枪总量',
           displayUnit: t(`${configHead}.pileChargerFun.unitGe`),
-          displayName: t(`${configHead}.pileChargerFun.v2gqzl`),
+          displayName: t(`${configHead}.pileChargerFun.v2gqzl`)
         }
       ];
     }
@@ -380,17 +373,17 @@ export const operatingTabsFun = () => {
     {
       code: 'station',
       label: '充电站',
-      displayLabel: t(`${configHead}.operatingTabsFun.cdzhan`),
+      displayLabel: t(`${configHead}.operatingTabsFun.cdzhan`)
     },
     {
       code: 'pile',
       label: '充电桩',
-      displayLabel: t(`${configHead}.operatingTabsFun.cdzhuang`),
+      displayLabel: t(`${configHead}.operatingTabsFun.cdzhuang`)
     },
     {
       code: 'gun',
       label: '充电枪',
-      displayLabel: t(`${configHead}.operatingTabsFun.cdq`),
+      displayLabel: t(`${configHead}.operatingTabsFun.cdq`)
     }
   ];
 };
@@ -400,12 +393,12 @@ export const todayTabsFun = () => {
     {
       code: 'pile',
       label: '充电桩信息',
-      displayLabel: t(`${configHead}.todayTabsFun.cdzxx`),
+      displayLabel: t(`${configHead}.todayTabsFun.cdzxx`)
     },
     {
       code: 'gun',
       label: '充电枪信息',
-      displayLabel: t(`${configHead}.todayTabsFun.cdqxx`),
+      displayLabel: t(`${configHead}.todayTabsFun.cdqxx`)
     }
   ];
 };
@@ -420,7 +413,7 @@ export const todayInfoNumDataFun = (data = {}) => {
           : '--',
       name: '整体使用率',
       classStyleType: 'leftRightStyleGreen',
-      displayName: t(`${configHead}.todayInfoNumDataFun.ztsyl`),
+      displayName: t(`${configHead}.todayInfoNumDataFun.ztsyl`)
     },
     {
       img: zxzl,
@@ -429,7 +422,7 @@ export const todayInfoNumDataFun = (data = {}) => {
       name: '在线总量',
       classStyleType: 'leftRightStyleYellow',
       displayName: t(`${configHead}.todayInfoNumDataFun.zxzl`),
-      displayUnit: t(`${configHead}.todayInfoNumDataFun.unitGe`),
+      displayUnit: t(`${configHead}.todayInfoNumDataFun.unitGe`)
     }
   ];
 };
@@ -448,7 +441,7 @@ export const lineTimeDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       name: t(`${configHead}.lineTimeDataFun.ssgl`) || '实时功率',
-      displayName: t(`${configHead}.lineTimeDataFun.ssgl`),
+      displayName: t(`${configHead}.lineTimeDataFun.ssgl`)
     }
   ];
 };
@@ -461,7 +454,7 @@ export const warningTabsDataFun = (data = {}) => {
       num: data?.firstLevel,
       code: '1',
       color: '#FA2A2D',
-      displayLabel: t(`${configHead}.warningTabsDataFun.yjrsaq`),
+      displayLabel: t(`${configHead}.warningTabsDataFun.yjrsaq`)
     },
     {
       label: '二级设备安全',
@@ -469,7 +462,7 @@ export const warningTabsDataFun = (data = {}) => {
       num: data?.secondLevel,
       code: '2',
       color: '#FF7500',
-      displayLabel: t(`${configHead}.warningTabsDataFun.ejsbaq`),
+      displayLabel: t(`${configHead}.warningTabsDataFun.ejsbaq`)
     },
     {
       label: '三级告警提示',
@@ -477,7 +470,7 @@ export const warningTabsDataFun = (data = {}) => {
       num: data?.thirdLevel,
       code: '3',
       color: '#FFBF00',
-      displayLabel: t(`${configHead}.warningTabsDataFun.sjgjts`),
+      displayLabel: t(`${configHead}.warningTabsDataFun.sjgjts`)
     }
   ];
 };
@@ -489,70 +482,70 @@ export const warningListFun = () => {
       message: '充电桩排队人数过多充电桩排队人数过多',
       area: '南山区充电桩排队人数过多',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgdcdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsqcdzpdrsgd`),
+      displayArea: t(`${configHead}.warningListFun.nsqcdzpdrsgd`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多充电桩排队人数过多',
       area: '南山区充电桩排队人数过多',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgdcdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsqcdzpdrsgd`),
+      displayArea: t(`${configHead}.warningListFun.nsqcdzpdrsgd`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     },
     {
       date: '12:30:12',
       message: '充电桩排队人数过多',
       area: '南山区',
       displayMessage: t(`${configHead}.warningListFun.cdzpdrsgd`),
-      displayArea: t(`${configHead}.warningListFun.nsq`),
+      displayArea: t(`${configHead}.warningListFun.nsq`)
     }
   ];
 };
@@ -571,7 +564,6 @@ export const bottomTabDataFun = () => {
     }
   ];
 };
-
 
 export const columnDataFun = () => {
   return [
@@ -741,23 +733,23 @@ export const filtersAlarmLevelName = [
 export const filtersAlarmTypeName = [
   {
     id: 'all',
-    label: t(`${configHead}.filtersAlarmTypeName.all`)|| '全部',
+    label: t(`${configHead}.filtersAlarmTypeName.all`) || '全部',
     displayLabel: t(`${configHead}.filtersAlarmTypeName.all`),
     children: [
       {
         id: '1',
         label: t(`${configHead}.filtersAlarmTypeName.cdxt`) || '充电系统',
-        displayLabel: t(`${configHead}.filtersAlarmTypeName.cdxt`),
+        displayLabel: t(`${configHead}.filtersAlarmTypeName.cdxt`)
       },
       {
         id: '2',
         label: t(`${configHead}.filtersAlarmTypeName.dcxt`) || '电池系统',
-        displayLabel: t(`${configHead}.filtersAlarmTypeName.dcxt`),
+        displayLabel: t(`${configHead}.filtersAlarmTypeName.dcxt`)
       },
       {
         id: '3',
         label: t(`${configHead}.filtersAlarmTypeName.pdxt`) || '配电系统',
-        displayLabel: t(`${configHead}.filtersAlarmTypeName.pdxt`),
+        displayLabel: t(`${configHead}.filtersAlarmTypeName.pdxt`)
       }
     ]
   }

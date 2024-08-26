@@ -32,7 +32,7 @@ export default {
   username: 'Username',
   password: 'Password',
   register: 'Register',
-  add:'add',
+  add: 'add',
   edit: 'edit',
   delete: 'delete',
   upload: 'upload',
@@ -53,6 +53,6 @@ export default {
   show: 'show',
   noDataSelected: "haven't select any data",
   xq: 'details', // 'details'
-  title: 'this is title', // 'this is title',
-  check: 'more', //'more'
+  title: 'A Unifiled Power Charging, Storage and DisCharging Network', // 'this is title',
+  check: 'more' //'more'
 };

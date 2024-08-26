@@ -11,12 +11,17 @@ import { getImageByCloud } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useRoute } from 'vue-router';
+import bus from '@/utils/bus';
 import Api from '../api';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 
+const store = useVisibleComponentStore();
+const route = useRoute();
 onMounted(async () => {
   await __g.reset();
   await getData();
@@ -24,12 +29,66 @@ onMounted(async () => {
   addBaoAnPoint();
 });
 
+onBeforeUnmount(() => {});
+
+let BaoAnTwinIds = [];
 let positionData = [];
 const getData = async () => {
   try {
     const { data } = await Api.getV2GStationDistribution();
     positionData = data;
   } catch (error) {}
+};
+
+useEmitt('AIRCITY_EVENT', async (e) => {
+  console.log(e, 'AIRCITY_EVENT');
+  // 点击站点图标
+  if (e.eventtype === 'LeftMouseButtonClick') {
+    if (e.GroupID === 'carnet-interaction-baoAn-group') {
+      handleToBaoAnTwin();
+    }
+  }
+
+  if (e.eventtype === 'MarkerCallBack') {
+  }
+});
+
+bus.on('map-back', () => {
+  __g.marker.showByGroupId('carnet-interaction-group', null),
+    __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),
+    __g.marker.showByGroupId('quName'),
+    setBaoAnTwinVisible(false);
+});
+
+const setBaoAnTwinVisible = async (visible) => {
+  if (!BaoAnTwinIds?.length) {
+    const data = await __g.infoTree.get();
+    const layers = data?.infotree.filter((o) => o.name.includes('宝安区政府'));
+    BaoAnTwinIds = layers.map((layer) => layer.iD);
+  }
+
+  if (visible) {
+    await __g.infoTree.show(BaoAnTwinIds);
+  } else {
+    await __g.infoTree.hide(BaoAnTwinIds);
+  }
+};
+
+const handleToBaoAnTwin = async () => {
+  await Promise.allSettled([
+    __g.marker.hideByGroupId('carnet-interaction-group', null),
+    __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null),
+    __g.marker.hideByGroupId('quName'),
+    setBaoAnTwinVisible(true)
+  ]);
+  store.changeShowComponent(false);
+  store.changeShowDetail({
+    show: true,
+    params: {
+      stationId: ''
+    }
+  });
+  await __g.camera.set(487523.240645, 2495692.052852, 144.919238, -22.519447, -131.834061, 2);
 };
 
 const addPoint = async () => {
@@ -63,7 +122,13 @@ const addPoint = async () => {
     };
     markers.push(o);
   });
-  await aircityObj.value.acApi.marker.add(markers);
+  await aircityObj.value.acApi.marker.add(markers, null);
+
+  if (route.name !== 'carnet-interaction') {
+    __g?.marker?.deleteByGroupId('carnet-interaction-group');
+    __g?.marker?.deleteByGroupId('carnet-interaction-baoAn-group');
+    return;
+  }
 };
 
 const addBaoAnPoint = () => {
