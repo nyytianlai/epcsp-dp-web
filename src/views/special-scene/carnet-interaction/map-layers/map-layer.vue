@@ -1,5 +1,6 @@
 <template>
   <qu ref="quRef"></qu>
+  <BaoAnTwin v-if="showTwin" />
 </template>
 
 <script setup lang="ts">
@@ -7,18 +8,23 @@ import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
-import { getImageByCloud } from '@/global/config/map';
+import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useRoute } from 'vue-router';
+
+import BaoAnTwin from './BaoAn-twin.vue';
+
 import bus from '@/utils/bus';
 import Api from '../api';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
+
+const showTwin = ref(false);
 
 const store = useVisibleComponentStore();
 const route = useRoute();
@@ -29,7 +35,9 @@ onMounted(async () => {
   addBaoAnPoint();
 });
 
-onBeforeUnmount(() => {});
+onBeforeUnmount(() => {
+  bus.off('map-back');
+});
 
 let BaoAnTwinIds = [];
 let positionData = [];
@@ -58,6 +66,7 @@ bus.on('map-back', () => {
     __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),
     __g.marker.showByGroupId('quName'),
     setBaoAnTwinVisible(false);
+  beforeAddOrExitHrStation(false);
 });
 
 const setBaoAnTwinVisible = async (visible) => {
@@ -74,18 +83,27 @@ const setBaoAnTwinVisible = async (visible) => {
   }
 };
 
+const beforeAddOrExitHrStation = (isShow: boolean) => {
+  !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
+  !isShow ? __g.polygon3d.show('wall') : __g.polygon3d.hide('wall');
+};
+
 const handleToBaoAnTwin = async () => {
+  showTwin.value = true;
   await Promise.allSettled([
     __g.marker.hideByGroupId('carnet-interaction-group', null),
     __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null),
     __g.marker.hideByGroupId('quName'),
-    setBaoAnTwinVisible(true)
+    setBaoAnTwinVisible(true),
+    beforeAddOrExitHrStation(true)
   ]);
   store.changeShowComponent(false);
   store.changeShowDetail({
     show: true,
     params: {
-      stationId: ''
+      stationId: '',
+      isBaoAn: true,
+      isHr: 0
     }
   });
   await __g.camera.set(487523.240645, 2495692.052852, 144.919238, -22.519447, -131.834061, 2);

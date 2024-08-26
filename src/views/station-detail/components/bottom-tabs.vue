@@ -275,6 +275,10 @@ const handleClick = async (item, sub) => {
   background-size: 100% 100%;
 }
 
+.bg-3 {
+  background: url(./images/bg-2.png) no-repeat;
+  background-size: 100% 100%;
+}
 .bg-2 {
   background: url(./images/bg-2.png) no-repeat;
   background-size: 100% 100%;
