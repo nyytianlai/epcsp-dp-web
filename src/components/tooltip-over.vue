@@ -215,12 +215,14 @@ span {
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
-  border-left: 1px solid #486785;
+  // border-left: 1px solid #486785;
+  border: none;
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 150px;
+  // max-width: 150px;
+  width: 100%;
   margin-left: 0;
 }
 
@@ -255,7 +257,7 @@ span {
   width: 100%;
   margin-left: 0px;
 }
-.num-title-card-name-tooltip{
+.num-title-card-name-tooltip {
   font-weight: bold;
   font-size: 16px;
   color: rgba(255, 255, 255, 0.8);
@@ -267,7 +269,7 @@ span {
   width: 100%;
   margin-left: 0px;
 }
-.num-title-card-unit-tooltip{
+.num-title-card-unit-tooltip {
   font-size: 14px;
   font-weight: bold;
   white-space: nowrap; /* 禁止文字换行 */
@@ -306,7 +308,7 @@ span {
   max-width: 350px;
   margin-left: 0px;
 }
-.page-num-name-tooltip{
+.page-num-name-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
@@ -315,7 +317,7 @@ span {
   max-width: 150px;
   margin-left: 0px;
 }
-.tab-label-tooltip{
+.tab-label-tooltip {
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
@@ -329,7 +331,7 @@ span {
   margin-left: 0px;
   max-width: 150px;
 }
-.tab-label-active{
+.tab-label-active {
   font-size: 18px;
   line-height: 25px;
   color: #ffffff;
@@ -343,11 +345,11 @@ span {
   margin-left: 0px;
   max-width: 150px;
 }
-.bottom-tab-label-tooltip{
+.bottom-tab-label-tooltip {
   font-size: 14px;
   line-height: 22px;
 }
-.bottom-tab-name-tooltip{
+.bottom-tab-name-tooltip {
   font-size: 14px;
   // text-shadow: 0 0 4px #ffa115;
   text-align: center;
@@ -358,17 +360,17 @@ span {
   width: 100%;
   margin-left: 0px;
   position: absolute !important;
-  top: 63px; 
+  top: 63px;
   color: rgba(#fff, 0.8);
   font-style: italic;
   font-family: 'PingFang SC';
 }
-.bottom-tab-active{
+.bottom-tab-active {
   font-size: 14px;
   color: #fff;
   text-shadow: 0 0 4px #ffa115;
 }
-.baoqing-child-label-tooltip{
+.baoqing-child-label-tooltip {
   font-size: 15px;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap; /* 禁止文字换行 */
@@ -379,7 +381,7 @@ span {
   margin-left: 0px;
   max-width: 150px;
 }
-.active-message-name-tooltip{
+.active-message-name-tooltip {
   font-size: 14px;
   line-height: 20px;
   white-space: nowrap; /* 禁止文字换行 */
@@ -390,7 +392,7 @@ span {
   margin-left: 0px;
   max-width: 100px;
 }
-.top-tab-name-tooltip{
+.top-tab-name-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
@@ -399,7 +401,7 @@ span {
   margin-left: 0px;
   max-width: 120px;
 }
-.maintain-tab-name-tooltip{
+.maintain-tab-name-tooltip {
   color: rgba(166, 214, 249, 0.5);
   padding-bottom: 4px;
   font-weight: bold;
@@ -413,11 +415,11 @@ span {
   margin-left: 0px;
   max-width: 100px;
 }
-.maintain-tab-name-active{
+.maintain-tab-name-active {
   color: #ffffff;
   border-bottom: 2px solid #0aa7ff;
 }
-.msg-name-tooltip{
+.msg-name-tooltip {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap; /* 禁止文字换行 */
@@ -428,7 +430,7 @@ span {
   margin-left: 0px;
   max-width: 150px;
 }
-.charge-detail-name-tooltip{
+.charge-detail-name-tooltip {
   color: #ffffff;
   font-size: 14px;
   white-space: nowrap; /* 禁止文字换行 */
@@ -439,7 +441,7 @@ span {
   margin-left: 0px;
   max-width: 120px;
 }
-.warning-tab-label-tooltip{
+.warning-tab-label-tooltip {
   font-size: 12px;
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
@@ -450,14 +452,14 @@ span {
   max-width: 120px;
   color: #949494;
 }
-.warning-tab-label-active{
+.warning-tab-label-active {
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
   color: #949494;
 }
 
-.bottom-menu-label-tooltip{
+.bottom-menu-label-tooltip {
   font-size: 18px;
   line-height: 30px;
   transform: translateY(18px);
@@ -470,9 +472,10 @@ span {
   width: 100%;
   margin-left: 0px;
   max-width: 120px;
-  color: #949494;
+  color: #e7e7e7;
+  text-align: center;
 }
-.bottom-menu-label-active{
+.bottom-menu-label-active {
   font-weight: 600;
   background: linear-gradient(180deg, #ffffff 62.5%, #0ae3f1 100%);
   -webkit-background-clip: text;
@@ -482,7 +485,7 @@ span {
   transform: translateY(8px);
   font-size: 20px;
 }
-.left-info-label-tooltip{
+.left-info-label-tooltip {
   margin-left: 9px;
   white-space: nowrap;
   white-space: nowrap; /* 禁止文字换行 */
