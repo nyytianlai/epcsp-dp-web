@@ -57,13 +57,13 @@ let legendListData = ref([
   },
   {
     color: '#45802A',
-    pColor: [69 / 255, 128 / 255, 42 / 255, 0.9],
+    pColor: [69 / 255, 128 / 255, 42 / 255, 0.85],
     name: '4000～7000',
     type: false
   },
   {
     color: '#316528',
-    pColor: [49 / 255, 101 / 255, 40 / 255, 1],
+    pColor: [49 / 255, 101 / 255, 40 / 255, 0.98],
     name: '≥7000',
     type: false
   }
@@ -85,7 +85,9 @@ const handleQuHeatMap = async (showHeatmap) => {
   quData.forEach((v) => {
     const color = getIntervalCategory(v.busRemainPower);
     const endColor = showHeatmap ? color : [0, 0, 0.4, 0];
-    __g.polygon.setColor('qu-' + v.areaName, endColor);
+    __g.polygon.setColor('qu-' + v.areaName, endColor, (res) => {
+      console.log(res, 'qu-' + v.areaName);
+    });
   });
 };
 
