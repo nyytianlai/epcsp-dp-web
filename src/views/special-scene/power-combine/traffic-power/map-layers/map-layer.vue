@@ -1,26 +1,37 @@
 <template>
   <qu ref="quRef"></qu>
-  <legend-list :legendList="legendListData" :legendName="legendNameData" />
+  <legend-list v-show="showRemainPower" :legendList="legendListData" :legendName="legendNameData" />
+  <MapLeftBtn>
+    <div class="remain-power" @click="handleRemainPoweLayer">
+      <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
+      <div class="name">剩余电量</div>
+    </div>
+  </MapLeftBtn>
 </template>
 
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
+import MapLeftBtn from '@/components/map-left-btn.vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { getImageByCloud } from '@/global/config/map';
 import { scale } from '@sutpc/config';
 import Api from '../api';
+import remainPowerIcon from '../images/remain-power.png';
+import remainPowerIconA from '../images/remain-power-active.png';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 
+const showRemainPower = ref(false);
+
 onMounted(async () => {
   await __g.reset();
   await getData();
-  handleQuHeatMap();
+
   addPoint();
 });
 
@@ -28,32 +39,38 @@ let legendNameData = '巴士剩余电量(kw)';
 let legendListData = ref([
   {
     color: '#E3E899',
+    pColor: [227 / 255, 232 / 255, 153 / 255, 0.7],
     name: '≤1000',
     type: false
   },
   {
     color: '#B8D45D',
+    pColor: [184 / 255, 212 / 255, 93 / 255, 0.7],
     name: '1000～2000',
     type: false
   },
   {
     color: '#7CAE53',
+    pColor: [124 / 255, 174 / 255, 83 / 255, 0.9],
     name: '2000～4000',
     type: false
   },
   {
     color: '#45802A',
+    pColor: [69 / 255, 128 / 255, 42 / 255, 0.9],
     name: '4000～7000',
     type: false
   },
   {
     color: '#316528',
+    pColor: [49 / 255, 101 / 255, 40 / 255, 1],
     name: '≥7000',
     type: false
   }
 ]);
 let quData = [];
 const getData = async () => {
+  if (quData?.length) return;
   try {
     const params = {
       areaCode: '',
@@ -63,25 +80,31 @@ const getData = async () => {
     quData = data;
   } catch (error) {}
 };
-const handleQuHeatMap = async () => {
+const handleQuHeatMap = async (showHeatmap) => {
+  await getData();
   quData.forEach((v) => {
     const color = getIntervalCategory(v.busRemainPower);
-    console.log('color :>> ', color);
-    __g.polygon.setColor('qu-' + v.areaName, color);
+    const endColor = showHeatmap ? color : [0, 0, 0.4, 0];
+    __g.polygon.setColor('qu-' + v.areaName, endColor);
   });
+};
+
+const handleRemainPoweLayer = () => {
+  showRemainPower.value = !showRemainPower.value;
+  handleQuHeatMap(showRemainPower.value);
 };
 
 const getIntervalCategory = (value) => {
   if (value <= 1000) {
-    return '#E3E899';
+    return legendListData.value[0].pColor;
   } else if (value <= 2000) {
-    return '#B8D45D';
+    return legendListData.value[1].pColor;
   } else if (value <= 4000) {
-    return '#7CAE53';
+    return legendListData.value[2].pColor;
   } else if (value <= 7000) {
-    return '#45802A';
+    return legendListData.value[3].pColor;
   } else {
-    return '#316528';
+    return legendListData.value[4].pColor;
   }
 };
 
@@ -127,4 +150,22 @@ const addPoint = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.remain-power {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 51px;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+</style>

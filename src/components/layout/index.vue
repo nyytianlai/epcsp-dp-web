@@ -165,6 +165,10 @@ onMounted(async () => {
   --right-width: 21%;
   &.layout-no-header {
     --header-height: 0px;
+
+    :deep(.map-left-btn) {
+      top: 100px !important;
+    }
   }
 }
 
