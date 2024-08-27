@@ -1,26 +1,37 @@
 <template>
   <qu ref="quRef"></qu>
-  <legend-list :legendList="legendListData" :legendName="legendNameData" />
+  <legend-list v-show="showRemainPower" :legendList="legendListData" :legendName="legendNameData" />
+  <MapLeftBtn>
+    <div class="remain-power" @click="handleRemainPoweLayer">
+      <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
+      <div class="name">剩余电量</div>
+    </div>
+  </MapLeftBtn>
 </template>
 
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
+import MapLeftBtn from '@/components/map-left-btn.vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { getImageByCloud } from '@/global/config/map';
 import { scale } from '@sutpc/config';
 import Api from '../api';
+import remainPowerIcon from '../images/remain-power.png';
+import remainPowerIconA from '../images/remain-power-active.png';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 
+const showRemainPower = ref(false);
+
 onMounted(async () => {
   await __g.reset();
   await getData();
-  handleQuHeatMap();
+
   addPoint();
 });
 
@@ -59,6 +70,7 @@ let legendListData = ref([
 ]);
 let quData = [];
 const getData = async () => {
+  if (quData?.length) return;
   try {
     const params = {
       areaCode: '',
@@ -68,12 +80,18 @@ const getData = async () => {
     quData = data;
   } catch (error) {}
 };
-const handleQuHeatMap = async () => {
+const handleQuHeatMap = async (showHeatmap) => {
+  await getData();
   quData.forEach((v) => {
     const color = getIntervalCategory(v.busRemainPower);
-    console.log('color :>> ', color);
-    __g.polygon.setColor('qu-' + v.areaName, color);
+    const endColor = showHeatmap ? color : [0, 0, 0.4, 0];
+    __g.polygon.setColor('qu-' + v.areaName, endColor);
   });
+};
+
+const handleRemainPoweLayer = () => {
+  showRemainPower.value = !showRemainPower.value;
+  handleQuHeatMap(showRemainPower.value);
 };
 
 const getIntervalCategory = (value) => {
@@ -132,4 +150,22 @@ const addPoint = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.remain-power {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 51px;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+</style>

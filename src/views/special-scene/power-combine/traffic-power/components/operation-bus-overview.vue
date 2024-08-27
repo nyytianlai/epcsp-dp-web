@@ -38,27 +38,26 @@ const loading = ref(true);
 const bottomCardConfig = ref([
   {
     name: '巴士剩余电量',
-    code: '',
-    value: '56.3',
+    code: 'busRemainPower',
+    value: '',
     unit: 'kWh',
-    icon: new URL('../images/surplus-power.png', import.meta.url).href,
-    displayName: t(`${tHead}.bottomCardConfig.jzznh`)
+    icon: new URL('../images/surplus-power.png', import.meta.url).href
   },
   {
     name: '巴士数量',
-    code: '',
-    value: '56.3',
+    code: 'busNum',
+    value: '',
     unit: '辆',
-    icon: new URL('../images/bus-nums.png', import.meta.url).href,
-    displayName: t(`${tHead}.bottomCardConfig.rjxslc`)
+    icon: new URL('../images/bus-nums.png', import.meta.url).href
+    // displayName: t(`${tHead}.bottomCardConfig.rjxslc`)
   },
   {
     name: 'V2G桩数',
-    code: '',
-    value: '2203',
+    code: 'v2gNum',
+    value: '',
     unit: '个',
-    icon: new URL('../images/v2g.png', import.meta.url).href,
-    displayName: t(`${tHead}.bottomCardConfig.rjnh`)
+    icon: new URL('../images/v2g.png', import.meta.url).href
+    // displayName: t(`${tHead}.bottomCardConfig.rjnh`)
   }
   // {
   //   name: '日均里程',
@@ -70,8 +69,8 @@ const bottomCardConfig = ref([
   // }
   // {
   //   name: 'v2g站点数',
-  //   code: '',
-  //   value: '126',
+  //   code: 'v2gStationNum',
+  //   value: '',
   //   unit: '个',
   //   icon: new URL('../images/avarage-mileage.png', import.meta.url).href
   // }
@@ -84,10 +83,9 @@ const getData = async () => {
       streetCode: ''
     };
     const { data } = await Api.busCanRunOverview(params);
-    bottomCardConfig.value[0].value = data.busNum;
-    bottomCardConfig.value[1].value = data.busRemainPower;
-    bottomCardConfig.value[2].value = data.v2gNum;
-    bottomCardConfig.value[3].value = data.v2gStationNum;
+    bottomCardConfig.value.forEach((el) => {
+      el.value = data[el.code];
+    });
   } catch (error) {}
   loading.value = false;
 };

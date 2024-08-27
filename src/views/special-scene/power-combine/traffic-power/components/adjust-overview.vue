@@ -32,8 +32,8 @@ const tHead = `special-scene.power-combine.components.adjust-overview`;
 const bottomCardConfig = ref([
   {
     name: '今日调节总需求',
-    code: '',
-    value: '2203',
+    code: 'todayAdjustmentDemand',
+    value: '',
     unit: 'MW',
     icon: new URL('../images/total-demand.png', import.meta.url).href,
     displayName: t(`${tHead}.bottomCardConfig.jrtjzxq`),
@@ -41,8 +41,8 @@ const bottomCardConfig = ref([
   },
   {
     name: '今日调节次数',
-    code: '',
-    value: '126',
+    code: 'todayAdjustmentTimes',
+    value: '',
     unit: '次',
     icon: new URL('../images/today-count.png', import.meta.url).href,
     displayName: t(`${tHead}.bottomCardConfig.jrtjcs`),
@@ -50,8 +50,8 @@ const bottomCardConfig = ref([
   },
   {
     name: '日均调节需求',
-    code: '',
-    value: '2203',
+    code: 'averageAdjustmentDemand',
+    value: '',
     unit: 'MW',
     icon: new URL('../images/avarage-demand.png', import.meta.url).href,
     displayName: t(`${tHead}.bottomCardConfig.rjtjxq`),
@@ -59,8 +59,8 @@ const bottomCardConfig = ref([
   },
   {
     name: '日均调节次数',
-    code: '',
-    value: '126',
+    code: 'averageAdjustmentTimes',
+    value: '',
     unit: '次',
     icon: new URL('../images/avarage-count.png', import.meta.url).href,
     displayName: t(`${tHead}.bottomCardConfig.rjtjcs`),
@@ -75,11 +75,9 @@ const getData = async () => {
       streetCode: ''
     };
     const { data } = await Api.busCanAdjustmentOverview(params);
-    console.log('busCanAdjustmentOverview data :>> ', data);
-    bottomCardConfig.value[0].value = data.todayAdjustmentDemand;
-    bottomCardConfig.value[1].value = data.todayAdjustmentTimes;
-    bottomCardConfig.value[2].value = data.averageAdjustmentDemand;
-    bottomCardConfig.value[3].value = data.averageAdjustmentTimes;
+    bottomCardConfig.value.forEach((el) => {
+      el.value = data[el.code];
+    });
   } catch (error) {}
   loading.value = false;
 };

@@ -11,7 +11,9 @@
         :key="index"
       >
         <span class="icon" :style="{ background: item.color }"></span>
-        <span class="name" :class="{ isGray: item?.type }">{{ item?.displayName || item?.name }}</span>
+        <span class="name" :class="{ isGray: item?.type }">
+          {{ item?.displayName || item?.name }}
+        </span>
       </li>
       <div class="hot-bar" v-else>
         <span class="min-num">{{ hotRange[0] }}</span>
@@ -59,7 +61,7 @@ const panelShow = computed(() => store.panelShow);
   position: absolute;
   bottom: 85px;
   // left: 440px;
-  left: 25%;
+  left: 23%;
   z-index: 999;
   transition: all 0.3s;
   &.panelShow {
