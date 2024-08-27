@@ -82,13 +82,13 @@ const getData = async () => {
 };
 const handleQuHeatMap = async (showHeatmap) => {
   await getData();
+  __g.polygon.updateBegin();
   quData.forEach((v) => {
     const color = getIntervalCategory(v.busRemainPower);
     const endColor = showHeatmap ? color : [0, 0, 0.4, 0];
-    __g.polygon.setColor('qu-' + v.areaName, endColor, (res) => {
-      console.log(res, 'qu-' + v.areaName);
-    });
+    __g.polygon.setColor('qu-' + v.areaName, endColor, null);
   });
+  __g.polygon.updateEnd();
 };
 
 const handleRemainPoweLayer = () => {

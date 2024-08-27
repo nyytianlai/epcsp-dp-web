@@ -30,7 +30,7 @@ const loading = ref(false);
 const chartConfig = [
   {
     name: t(`${tHead}.${'tjxq'}`) || '调节需求',
-    code: 'adjustmentTimes',
+    code: 'adjustmentPower',
     color: '0, 83, 255',
     unit: 'MW'
   }
@@ -70,7 +70,9 @@ const drawChart = async (data = []) => {
       color: `rgb(${item.color})`,
       type: 'line',
       yAxisIndex: 0,
-      data: data.map((obj) => [obj.time, obj[item.code]]),
+      data: data.map((obj) =>
+        [obj.time, obj[item.code]] ? Math.abs(obj[item.code]) : obj[item.code]
+      ),
       areaStyle: {
         color: {
           type: 'linear',
