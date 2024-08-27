@@ -7,7 +7,7 @@
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
         <!-- dw: '单位' -->
-        <div>{{t(`${tHead.dw}`)}}:%</div>
+        <div>{{ t(`${tHead}.dw`) }}:%</div>
       </div>
     </div>
   </div>
