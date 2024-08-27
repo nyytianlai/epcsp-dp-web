@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-06 10:02:57
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-09 17:46:37
+ * @LastEditTime: 2024-08-27 16:20:37
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/power-combine/parking-charge/map-layers/map-layer.vue
 -->
@@ -130,7 +130,7 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
       }) || {};
 
     // let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDNAME;
-    let idEnd = type === 'qu' ? item.properties.QUNAME : '';
+    let idEnd = type === 'qu' ? item.properties.QUNAME : item.properties.JDCODE;
     let areaCode = type === 'qu' ? item.properties.QUCODE : item.properties.JDCODE + '';
 
     const itemMax = Math.max(countObj.totalParkingSpace || 0, countObj.totalGun || 0);
@@ -140,14 +140,13 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
       com: 'rect-bar2',
       params: {
         value: JSON.stringify({ ...countObj, coordinates: item.geometry.coordinates }),
-        yMax: yMax * 1.3,
+        yMax: yMax,
         contentHeight: contentHeight,
         quName: idEnd,
         areaCode,
         hideToolTip: 1
       }
     });
-    console.log(oPopUpUrl);
     const o = {
       id: 'rectBar1-' + idEnd,
       groupId: `rectBar`,
@@ -156,21 +155,24 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
       anchors: [-0.5, -1], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [1, 1], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: `${getHtmlUrl()}/static/images/barEllipse.png`, //显示图片路径
+      imagePath: `${getHtmlUrl()}static/images/barEllipse.png`, //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: oPopUpUrl,
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
       popupSize: [100, contentHeight],
-      popupOffset: [-50, -(contentHeight + 80) / 5], //弹窗偏移
+      popupOffset: [-50, -contentHeight / 2], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
       // priority: item.properties.PRIORITY
     };
     barArr.push(o);
   });
+  console.log(barArr);
   await __g.marker.add(barArr, null);
-  __g.marker.showAllPopupWindow(null);
+  __g.marker.showAllPopupWindow((res) => {
+    console.log(res);
+  });
 };
 
 const addOutStation = async (module: number, jdcode: string) => {
@@ -179,6 +181,7 @@ const addOutStation = async (module: number, jdcode: string) => {
 bus.on('addBar', async (e: any) => {
   try {
     barData = [];
+    console.log('99999999999999');
     const { data: res } = await Api.parkChargingDistribution({ areaCode: e.quCode });
     addBar(e.type, res, e.quCode);
   } catch (err) {
@@ -215,7 +218,7 @@ const drawHoverBarMarker = async (data, show = false) => {
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     autoHidePopupWindow: false,
     popupSize: [150, 80],
-    popupOffset: [-75, -contentHeight / 4 - 52], //弹窗偏移
+    popupOffset: [-75, -contentHeight / 2 - 52], //弹窗偏移
     autoHeight: false, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };

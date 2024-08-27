@@ -215,6 +215,7 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       .num {
         width: 100%;
         text-align: center;
+        white-space: nowrap;
         .value {
           font-family: 'DIN Alternate';
           font-size: 30px;

@@ -12,9 +12,9 @@ import { computed, ref } from 'vue';
 const { isEchartsReady } = useEcharts();
 
 var urlParams = new URLSearchParams(location.search);
-let paramsValue = urlParams.get('value') ? urlParams.get('value').split(',') : [44, 55, 66];
+const paramsValue = JSON.parse(getUrlParam('value') || '');
 
-const VALUE = [{ value: Number(paramsValue[1]), label: { offset: [0, -10] } }];
+const VALUE = [{ value: Number(paramsValue.stationCount), label: { offset: [-72, 2] } }];
 const yMax = Number(urlParams.get('yMax'));
 const quName = urlParams.get('quName');
 const areaCode = urlParams.get('areaCode');
@@ -23,7 +23,7 @@ const contentHeight = Number(urlParams.get('contentHeight'));
 const ecStyle = computed(() => {
   return {
     height: contentHeight + 'px',
-    width: '60px'
+    width: '100%'
   };
 });
 
@@ -31,7 +31,7 @@ const ecOption = computed(() => {
   const offsetX = 15;
   const offsetY = 6; //和CubeTop上的点一起控制柱子顶部的四边形高度
   const offsetX1 = [-74, 0]; //控制柱子之间的距离 负数往左移
-  const offsetY1 = [0, 0, 0]; //控制柱子的上下距离 负数往上移
+  const offsetY1 = [15, 0, 0]; //控制柱子的上下距离 负数往上移
   // 绘制左侧面
   const CubeLeft = echarts.graphic.extendShape({
     shape: {
@@ -120,7 +120,7 @@ const ecOption = computed(() => {
     grid: {
       left: '0',
       right: '10%',
-      top: 30,
+      top: 50,
       bottom: '0',
       containLabel: true
     },
@@ -264,8 +264,7 @@ const ecOption = computed(() => {
         label: {
           normal: {
             show: true,
-            position: ['center', 'top'],
-
+            position: 'top',
             formatter: (e) => {
               return e.value;
             },
@@ -274,13 +273,14 @@ const ecOption = computed(() => {
             backgroundColor: {
               image: new URL('./images/back.png', import.meta.url).href
             },
-            height: 25,
-            padding: [8, 10, -2, 10]
+            height: 20,
+            padding: [2, 10, 8, 11]
           }
         },
         itemStyle: {
           color: 'transparent'
         },
+        barWidth: 20,
         data: VALUE
       }
     ]
