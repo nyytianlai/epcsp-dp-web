@@ -77,7 +77,12 @@ const getData = async () => {
       streetCode: ''
     };
     const { data } = await Api.busCanDistribution(params);
-    quData = data;
+    quData = data?.map((el) => {
+      if (el.areaName === '大鹏区') {
+        el.areaName = '大鹏新区';
+      }
+      return el;
+    });
   } catch (error) {}
 };
 const handleQuHeatMap = async (showHeatmap) => {
