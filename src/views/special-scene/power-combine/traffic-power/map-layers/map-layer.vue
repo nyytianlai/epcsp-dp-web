@@ -28,26 +28,31 @@ let legendNameData = '巴士剩余电量(kw)';
 let legendListData = ref([
   {
     color: '#E3E899',
+    pColor: [227 / 255, 232 / 255, 153 / 255, 0.7],
     name: '≤1000',
     type: false
   },
   {
     color: '#B8D45D',
+    pColor: [184 / 255, 212 / 255, 93 / 255, 0.7],
     name: '1000～2000',
     type: false
   },
   {
     color: '#7CAE53',
+    pColor: [124 / 255, 174 / 255, 83 / 255, 0.9],
     name: '2000～4000',
     type: false
   },
   {
     color: '#45802A',
+    pColor: [69 / 255, 128 / 255, 42 / 255, 0.9],
     name: '4000～7000',
     type: false
   },
   {
     color: '#316528',
+    pColor: [49 / 255, 101 / 255, 40 / 255, 1],
     name: '≥7000',
     type: false
   }
@@ -73,15 +78,15 @@ const handleQuHeatMap = async () => {
 
 const getIntervalCategory = (value) => {
   if (value <= 1000) {
-    return '#E3E899';
+    return legendListData.value[0].pColor;
   } else if (value <= 2000) {
-    return '#B8D45D';
+    return legendListData.value[1].pColor;
   } else if (value <= 4000) {
-    return '#7CAE53';
+    return legendListData.value[2].pColor;
   } else if (value <= 7000) {
-    return '#45802A';
+    return legendListData.value[3].pColor;
   } else {
-    return '#316528';
+    return legendListData.value[4].pColor;
   }
 };
 

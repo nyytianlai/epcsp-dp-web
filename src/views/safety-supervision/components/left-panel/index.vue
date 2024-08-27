@@ -9,8 +9,8 @@
           @changeTab="(data) => handleChangeTab(data, 'total-warning')"
           v-model="messageWarningType"
         >
-        <!-- ckgd: '查看更多' -->
-          <button-base @handleClick="handleClickMessageBtn">{{t(`${tHead}.ckgd`)}}</button-base>
+          <!-- ckgd: '查看更多' -->
+          <button-base @handleClick="handleClickMessageBtn">{{ t(`${tHead}.ckgd`) }}</button-base>
         </tabs>
         <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
       </div>
@@ -95,7 +95,7 @@ const getDistrictAlarmStatics = async () => {
     };
   });
   areaRankData.value = newData || [];
-  areaTotalNum.value = newData[0]?.cnt || 0;
+  areaTotalNum.value = Math.max(...newData.map((item) => item.cnt)) || 0;
 };
 
 const getSafetySupervisionAccumulated = async (
