@@ -14,6 +14,7 @@ import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useRoute } from 'vue-router';
+import { baoQingInfo } from './baoQing';
 
 import BaoAnTwin from './BaoAn-twin.vue';
 
@@ -101,12 +102,12 @@ const handleToBaoAnTwin = async () => {
   store.changeShowDetail({
     show: true,
     params: {
-      stationId: '',
+      ...baoQingInfo,
       isBaoAn: true,
       isHr: 0
     }
   });
-  await __g.camera.set(487523.240645, 2495692.052852, 144.919238, -22.519447, -131.834061, 2);
+  await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
 };
 
 const addPoint = async () => {

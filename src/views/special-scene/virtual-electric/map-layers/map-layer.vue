@@ -189,6 +189,7 @@ watch(
 );
 
 onMounted(async () => {
+  await __g.reset();
   await __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
@@ -200,6 +201,7 @@ onMounted(async () => {
 
 onBeforeUnmount(async () => {
   clearTimeout(timer);
+  await __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);

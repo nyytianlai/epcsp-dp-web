@@ -1,27 +1,41 @@
 <template>
-  <qu ref="quRef" :module="200" @addQuBar="addQuBar" @addOutStation="addOutStation"></qu>
+  <qu ref="quRef" :module="200" @addOutStation="addOutStation"></qu>
   <!-- <SuperChargeBar ref="rectBar4Ref"></SuperChargeBar> -->
   <legend-list
     :legendList="legendListData"
     :legendName="legendNameData"
-    v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
+    v-show="(currentPosition == '深圳市' || currentPosition.includes('区')) && !showRemainPower"
   />
+  <MapLeftBtn>
+    <div class="remain-power" @click="handleRemainPoweLayer">
+      <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
+      <div class="name">发展趋势</div>
+    </div>
+  </MapLeftBtn>
 </template>
 <script setup lang="ts">
 import Qu from '@/components/map-layer/qu.vue';
-// import SuperChargeBar from '@/components/map-layer/super-charge-bar.vue';
+import MapLeftBtn from '@/components/map-left-btn.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import { useMapStore } from '@/stores/map';
-// import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
-import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
+import {
+  getImageByCloud,
+  getHtmlUrl,
+  focusToHihtLightPop,
+  getTreeLayerIdByName
+} from '@/global/config/map';
+import { useRoute } from 'vue-router';
+
 import Api from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { useI18n } from 'vue-i18n';
+import remainPowerIconA from '../images/super-charge-switch-active.png';
+import remainPowerIcon from '../images/super-charge-switch.png';
+
 const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.map-layers`;
 const commonHead = `special-scene.super-charging-building.config.common`;
@@ -34,20 +48,17 @@ const props = defineProps({
 });
 
 const store = useMapStore();
-const storeVisible = useVisibleComponentStore();
 const currentPosition = computed(() => store.currentPosition);
-const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 let timer;
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 let currtentStation: any = {};
 let chartHover;
-let barPositionBak;
 let barData;
-let isInit;
 
 const quRef = ref(null);
+const showRemainPower = ref(true);
 // const rectBar4Ref = ref(null);
 let ds = t(`${tHead}.ds`); // ds: '点数',
 const legendNameData = computed(() => `${props.selectBtmTab.label}${ds || '点数'}`);
@@ -165,7 +176,6 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
   let yMax = Math.max(...stationCount);
   const res1 = await Api.requestGeojsonData(fileName);
 
-  barPositionBak = res1.features;
   if (type === 'jd') {
     res1.features = res1.features.filter((item) => {
       return item.properties.QUCODE === streetCode;
@@ -336,24 +346,28 @@ bus.on('addBar', async (e: any) => {
 
 onBeforeUnmount(async () => {
   clearTimeout(timer);
+  await deletTutor();
   await __g.marker.deleteByGroupId('bar-hover-pop');
   await __g.marker.deleteByGroupId('rectBar');
   await __g.marker.deleteByGroupId('jdStation');
   bus.off('addBar');
 });
 
+onMounted(async () => {
+  await __g.reset();
+  addEnterTutor();
+});
+
 watch(
   () => props.selectBtmTab,
   async (newVal, oldVal) => {
-    nextTick();
-    if (!isInit) {
-      await __g.reset();
-      isInit = true;
-    }
     await quRef.value?.deleteJdData();
     await __g.marker.deleteByGroupId('rectBar');
     await quRef.value?.resetSz();
-    if (oldVal !== undefined) {
+    if (showRemainPower.value) {
+      addEnterTutor();
+    } else {
+      await deletTutor();
       addQuBar();
     }
   },
@@ -374,5 +388,68 @@ watch(
     deep: true
   }
 );
+
+watch(
+  () => showRemainPower.value,
+  async () => {
+    await quRef.value?.deleteJdData();
+    await __g.marker.deleteByGroupId('rectBar');
+    await quRef.value?.resetSz();
+    if (showRemainPower.value) {
+      addEnterTutor();
+    } else {
+      await deletTutor();
+      addQuBar();
+    }
+  },
+  {
+    deep: true
+  }
+);
+
+const handleRemainPoweLayer = async () => {
+  showRemainPower.value = !showRemainPower.value;
+};
+
+const addEnterTutor = async () => {
+  // const ids = getTreeLayerIdByName('超充之城', store.treeInfo);
+  // await __g.infoTree.show(ids);
+  __g.misc.callBPFunction({
+    functionName: '播放',
+    objectName: '动画播放_0'
+  });
+  setTimeout(() => {
+    showRemainPower.value = false;
+  }, 51 * 1000);
+};
+
+const deletTutor = async () => {
+  __g.misc.callBPFunction({
+    functionName: '停止',
+    objectName: '动画播放_0'
+  });
+
+  const ids = getTreeLayerIdByName('超充之城', store.treeInfo);
+  const ids2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
+  await __g.infoTree.hide([ids, ids2]);
+};
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.remain-power {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 51px;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+</style>

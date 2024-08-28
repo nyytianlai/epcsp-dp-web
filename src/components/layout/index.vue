@@ -142,7 +142,9 @@ const handleAircityObjReady = (val) => {
   aircityObj.value = val;
 };
 const routesName = [...routes, ...specialRoutes].map((item) => item.children[0]?.name);
-const isShowMenu = computed(() => routed.name && [...routesName].includes(routed.name as string));
+const isShowMenu = computed(
+  () => routed.name && [...routesName].includes(routed.name as string) && !showDetail.value
+);
 onMounted(async () => {
   await nextTick();
   getkeepAliveList(routes);
