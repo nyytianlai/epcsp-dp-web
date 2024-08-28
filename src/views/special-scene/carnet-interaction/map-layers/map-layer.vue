@@ -123,7 +123,7 @@ const addPoint = async () => {
     const maxLen = `${item?.pileNum || 0}`.length;
 
     let o = {
-      id: 'carnet-interaction-' + item.stationId,
+      id: 'carnet-interaction-' + item.stationId + '_' + index,
       groupId: `carnet-interaction-group`,
       coordinate: transformCoordsByType([item.stationLng, item.stationLat], 2), //坐标位置
       anchors: [-20, 48], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height

@@ -5,7 +5,7 @@
   <Goback v-show="currentPosition !== '深圳市'" @click="back"></Goback>
 </template>
 <script setup lang="ts">
-import { inject, onMounted, onBeforeUnmount, reactive, computed } from 'vue';
+import { inject, onMounted, onBeforeUnmount, reactive, computed, ref } from 'vue';
 import request from '@sutpc/axios';
 import {
   layerNameQuNameArr,
@@ -60,6 +60,8 @@ const state = reactive({
 const currentPositionBak = computed(() => store.currentPositionBak);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 // const allStationID = []; //街道撒点的所有id
+
+const allQUIds = ref([]);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 编写自己的业务
@@ -598,6 +600,10 @@ const addXzqh = async (res, type: string, idName: string, userDataName: string) 
       style: 0, //单色 请参照API开发文档选取枚举
       depthTest: false //是否做深度检测 开启后会被地形高度遮挡
     };
+
+    if (type === 'qu') {
+      allQUIds.value.push(oPolygon.id);
+    }
     polygonArr.push(oPolygon);
   });
   //批量添加polygon
@@ -727,7 +733,8 @@ defineExpose({
   addStationPoint,
   highLightNormalStation,
   enterStationInfo,
-  hideHighLightNormalStation
+  hideHighLightNormalStation,
+  allQUIds
 });
 onMounted(async () => {
   __g.reset();
