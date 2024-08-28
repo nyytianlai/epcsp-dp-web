@@ -135,6 +135,17 @@ export const add3dt = async (__g, fileName: string) => {
     scale: [1, 1, 1] //缩放大小
   });
 };
+
+export const addCommon3dt = async (__g, file) => {
+  await __g.tileLayer.add({
+    id: file,
+    fileName: `${import.meta.env.VITE_FD_FileURL}/${file}`, //3dt文件路径
+    location: [0, 0, 92.5], //坐标位置
+    rotation: [0, 0, 0], //旋转角度
+    scale: [1, 1, 1] //缩放大小
+  });
+};
+
 export const delete3dt = async (__g, ids: string[]) => {
   __g.tileLayer.delete(ids);
 };
