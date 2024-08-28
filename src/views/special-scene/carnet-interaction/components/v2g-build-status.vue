@@ -5,7 +5,7 @@
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:MW</div>
+        <div>单位:个</div>
       </div>
     </div>
   </div>
@@ -24,10 +24,16 @@ const loading = ref(false);
 
 const chartConfig = [
   {
-    name: '调节需求',
-    code: 'adjustmentTimes',
-    color: '0, 83, 255',
-    unit: 'MW'
+    name: 'V2G站',
+    code: 'stationNum',
+    color: '255, 207, 95',
+    unit: '个'
+  },
+  {
+    name: 'V2G桩',
+    code: 'pileNum',
+    color: '34, 118, 252',
+    unit: '个'
   }
 ];
 // const data = Array.from({ length: 7 }, (_, i) => ({
@@ -38,17 +44,13 @@ const chartConfig = [
 //   cwlyl: (Math.random() * 100).toFixed(1)
 // }));
 const chartData = ref([]);
-const ecOption = ref(getBaseChartOption());
+const ecOption = ref();
 
 const getData = async () => {
   loading.value = true;
   try {
-    const params = {
-      areaCode: '',
-      streetCode: ''
-    };
-    const { data } = await Api.busCanAdjustmentDemand(params);
-    // console.log('busCanAdjustmentDemand data :>> ', data);
+    const { data } = await Api.getV2GResourceDistribution();
+    // console.log('getV2GResourceDistribution data :>> ', data);
     chartData.value = data;
   } catch (error) {}
   loading.value = false;
@@ -56,44 +58,35 @@ const getData = async () => {
 
 const drawChart = async (data = []) => {
   await getEcharts();
-  const option = getBaseChartOption();
+  const option: any = getBaseChartOption();
+  const legendData = [];
   const series = [];
-
   chartConfig.forEach((item, i) => {
     series.push({
       name: item.name,
       color: `rgb(${item.color})`,
-      type: 'line',
-      yAxisIndex: 0,
-      data: data.map((obj) => [obj.time, obj[item.code]]),
-      areaStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: `rgba(${item.color},0.1)`
-            },
-            {
-              offset: 1,
-              color: `rgba(${item.color},0.5)`
-            }
-          ]
-        }
+      type: 'bar',
+      data: data.map((obj) => obj[item.code])
+    });
+    legendData.push({
+      name: item.name,
+      itemStyle: {
+        color: `rgb(${item.color})`
       }
     });
   });
-
+  console.log('series :>> ', series);
   ecOption.value = {
     ...option,
+    xAxis: {
+      type: 'category',
+      data: ['2023\n第三季度', '20203\n第四季度', '2024\n第一季度', '2024\n第二季度']
+    },
     legend: {
       ...option.legend,
       left: 'auto',
-      right: '0'
+      right: '0',
+      data: legendData
     },
     series
   };
