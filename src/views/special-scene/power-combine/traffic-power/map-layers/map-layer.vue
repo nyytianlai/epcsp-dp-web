@@ -16,11 +16,13 @@ import MapLeftBtn from '@/components/map-left-btn.vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
-import { getImageByCloud } from '@/global/config/map';
+import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
 import { scale } from '@sutpc/config';
 import Api from '../api';
 import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
+import bus from '@/utils/bus';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -28,11 +30,14 @@ const __g = aircityObj.value?.acApi;
 
 const showRemainPower = ref(false);
 
+const store = useVisibleComponentStore();
+
 onMounted(async () => {
   await __g.reset();
   await getData();
 
   addPoint();
+  addBusObj();
 });
 
 let legendNameData = '巴士剩余电量(kw)';
@@ -155,6 +160,71 @@ const addPoint = async () => {
   await aircityObj.value.acApi.marker.add(markers);
   __g.marker.showPopupWindow(idList);
 };
+
+const addBusObj = async () => {
+  await __g.customObject.delete('busObj');
+  const cusObj = {
+    id: 'busObj',
+    groupId: 'busObjGroup',
+    pakFilePath: '@path:DTS_Library_V5.4.pak',
+    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/公交车_03',
+    range: [1, 10000000],
+    autoHeight: true,
+    location: [491850.03500000003, 2508888],
+    coordinateType: 0,
+    colorType: 4,
+    scale: [500, 500, 500]
+  };
+  __g.customObject.add(cusObj, (res) => {
+    console.log(res);
+    // __g.customObject.focus('busObj');
+  });
+};
+
+const handleToBusTwin = async () => {
+  await Promise.allSettled([
+    __g.customObject.hide('busObj'),
+    __g.marker.hideByGroupId('quName'),
+    beforeAddOrExitHrStation(true)
+  ]);
+  store.changeShowDetail({
+    show: false,
+    params: {
+      isBaoAn: true,
+      isHr: 0
+    }
+  });
+  __g.customObject.hide('busObj');
+  // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
+  __g.misc.callBPFunction({
+    functionName: '播放',
+    objectName: '动画播放_3'
+  });
+
+  setTimeout(() => {
+    __g.customObject.show('busObj'),
+      __g.marker.showByGroupId('quName'),
+      beforeAddOrExitHrStation(false);
+  }, 26);
+};
+
+const beforeAddOrExitHrStation = (isShow: boolean) => {
+  !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
+  !isShow ? __g.polygon3d.show('wall') : __g.polygon3d.hide('wall');
+};
+
+useEmitt('AIRCITY_EVENT', async (e) => {
+  console.log(e, 'AIRCITY_EVENT');
+  // 点击站点图标
+  if (e.eventtype === 'LeftMouseButtonClick') {
+    if (e.Type === 'CustomObj') {
+      handleToBusTwin();
+    }
+  }
+
+  if (e.eventtype === 'MarkerCallBack') {
+  }
+});
 </script>
 
 <style scoped lang="less">
