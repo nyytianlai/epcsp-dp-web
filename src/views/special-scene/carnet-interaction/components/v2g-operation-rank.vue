@@ -1,5 +1,5 @@
 <template>
-  <div class="area-distributed">
+  <div class="v2g-operation-rank">
     <title-column title="V2G桩数运营商排名" />
     <div class="distributed-content" v-loading="isLoading">
       <rank-list
@@ -44,7 +44,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
-.area-distributed {
+.v2g-operation-rank {
   width: 100%;
   height: 100%;
   display: flex;
@@ -52,7 +52,8 @@ onMounted(() => {
   row-gap: 12px;
 
   .distributed-content {
-    flex: 1;
+    height: 300px;
+    overflow-y: auto;
     min-height: 0;
     border-radius: 4px;
 
