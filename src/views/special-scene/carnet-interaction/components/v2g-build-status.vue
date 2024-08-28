@@ -1,6 +1,6 @@
 <template>
-  <div class="today-adjust-demand">
-    <title-column title="全市负荷趋势" />
+  <div class="v2g-build-status">
+    <title-column title="V2G建设情况" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
@@ -105,7 +105,7 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="less">
-.today-adjust-demand {
+.v2g-build-status {
   width: 100%;
   height: 100%;
   display: flex;

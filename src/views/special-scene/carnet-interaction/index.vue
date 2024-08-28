@@ -3,10 +3,10 @@
     <panel class="special-scene-panel left">
       <CarNetworkOverview />
       <V2G />
-      <ResourceCategry />
+      <V2gBuildStatus />
     </panel>
     <panel class="special-scene-panel right" type="right">
-      <CityLoadTrend />
+      <V2gModel />
       <V2gOperationRank />
       <BrandSupport />
     </panel>
@@ -19,8 +19,8 @@ import { inject, ref } from 'vue';
 import MapLayer from './map-layers/map-layer.vue';
 import CarNetworkOverview from './components/car-network-overview.vue';
 import V2G from './components/v2g-regional-distributed.vue';
-import ResourceCategry from './components/resource-categry.vue';
-import CityLoadTrend from './components/city-load-trend.vue';
+import V2gBuildStatus from './components/v2g-build-status.vue';
+import V2gModel from './components/v2g-model.vue';
 import V2gOperationRank from './components/v2g-operation-rank.vue';
 import BrandSupport from './components/brand-support.vue';
 
