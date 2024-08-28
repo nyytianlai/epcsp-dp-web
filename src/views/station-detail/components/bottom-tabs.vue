@@ -43,7 +43,7 @@ import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 interface SubMenu {
   viewName: string;
@@ -67,7 +67,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   tabData: () => []
 });
 
-const emit = defineEmits('handleSelect');
 const { tabData } = toRefs(props);
 // console.log('传过来的底部菜单数据', tabData);
 const store = useMapStore();
@@ -276,7 +275,7 @@ const handleClick = async (item, sub) => {
 }
 
 .bg-3 {
-  background: url(./images/bg-2.png) no-repeat;
+  background: url(./images/bg-3.png) no-repeat;
   background-size: 100% 100%;
 }
 .bg-2 {

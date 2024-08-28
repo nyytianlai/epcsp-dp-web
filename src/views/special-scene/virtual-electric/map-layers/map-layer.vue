@@ -1,13 +1,7 @@
 <template>
   <qu ref="quRef"></qu>
-  <div class="time-slider" v-show="!showVirture">
-    <el-slider
-      v-model="currentDt"
-      :step="1"
-      :max="2"
-      show-tooltip
-      :format-tooltip="formatTooltip"
-    />
+  <div class="time-slider-wrapper" v-show="!showVirture">
+    <TimeSlide v-model="currentDt" :data="range" />
   </div>
 </template>
 
@@ -16,6 +10,7 @@ import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nex
 import Qu from '@/components/map-layer/qu.vue';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
+import TimeSlide from '@/components/time-slider/index.vue';
 import bus from '@/utils/bus';
 import {
   getImageByCloud,
@@ -209,11 +204,11 @@ onBeforeUnmount(async () => {
 </script>
 
 <style scoped>
-.time-slider {
+.time-slider-wrapper {
   position: absolute;
   left: 50%;
-  bottom: 30px;
-  width: 50%;
+  bottom: 100px;
+  width: 45%;
   transform: translateX(-50%);
 }
 </style>

@@ -2,25 +2,36 @@
   <el-slider
     class="time-slider"
     v-model="sliderValue"
-    :step="step"
+    :step="1"
     show-stops
     :marks="marks"
+    :max="data?.length - 1"
     :format-tooltip="formatTooltip"
   />
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted, watch, ref } from 'vue';
-const emit = defineEmits([]);
+import { reactive, onMounted, watch, ref, computed } from 'vue';
+const emit = defineEmits(['change', 'update:modelValue']);
 const props = defineProps({
   data: {
     type: Array,
     default: []
+  },
+  modelValue: {
+    type: Number,
+    default: 0
   }
 });
 onMounted(() => {});
-const sliderValue = defineModel({ default: 0 });
-const step = ref(0);
+const sliderValue = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(v) {
+    emit('update:modelValue', v);
+  }
+});
 const marks = reactive({});
 const formatTooltip = (v) => {
   return marks[v].label;
@@ -29,9 +40,8 @@ watch(
   () => props.data,
   (val) => {
     const key = 100 / (val.length - 1);
-    step.value = key;
     val.forEach((v, i) => {
-      marks[key * i] = {
+      marks[i] = {
         style: {
           color: '#ffffff'
         },
@@ -44,24 +54,11 @@ watch(
     immediate: true
   }
 );
-watch(
-  () => sliderValue.value,
-  (v) => {
-    emit('change', marks[v].label);
-  },
-  {
-    immediate: true
-  }
-);
 </script>
 
 <style lang="less" scoped>
 .time-slider {
-  width: 600px;
-  position: absolute;
-  bottom: 200px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
   :deep(.el-slider__runway) {
     .el-slider__stop {
       display: none;
