@@ -146,7 +146,7 @@ const setCurrent = async () => {
 // 设置飞渡开启黑暗模式
 const openDarkMode = async () => {
   __g.weather.setDarkMode(false, () => {
-    __g.weather.setDateTime(2023, 10, 13, 17, 30, false, () => {
+    __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
       __g.weather.setDarkMode(true);
       Promise.resolve(1);
     });
@@ -260,6 +260,7 @@ bus.on('map-back', async () => {
   __g.marker.showByGroupId('quName');
   __g.marker.showByGroupId('qu');
   addHeatLayer();
+  await closeDarkMode();
 });
 
 watch(
@@ -285,6 +286,7 @@ onBeforeUnmount(async () => {
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
+  await closeDarkMode();
 });
 </script>
 
