@@ -86,11 +86,21 @@ onMounted(async () => {
       margin-bottom: 30px;
     }
     .mid-left {
-      transform: translateX(-25%);
+      transform: translateX(-25px);
     }
 
     .mid-right {
-      transform: translateX(25%);
+      transform: translateX(25px);
+    }
+  }
+}
+@media screen and (min-width: 3200px) {
+  .brand-support {
+    height: 26%;
+    .brand-support-content {
+      .item {
+        margin-bottom: 20px;
+      }
     }
   }
 }
