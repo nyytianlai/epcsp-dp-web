@@ -140,19 +140,64 @@ const setCurrent = async () => {
 
 // 设置飞渡开启黑暗模式
 const openDarkMode = async () => {
-  await __g.weather.setDarkMode(false, null);
-  await __g.weather.setDateTime(2023, 11, 1, 17, 30, false);
-  await __g.weather.setDarkMode(true, null);
+  await __g.weather.setDarkMode(false);
+  await __g.weather.setCloudDensity(0);
+  await __g.weather.setCloudHeight(0);
+  await __g.weather.setCloudThickness(0);
+  await __g.weather.setFogParam(0, 0, 0, 0);
 };
 
 // 设置飞渡关闭黑暗模式
 const closeDarkMode = async () => {
-  await __g.weather.setDarkMode(false, null);
   await __g.weather.setDateTime(2023, 11, 1, 12, 30, false);
-  await __g.weather.setDarkMode(true, null);
+};
+
+const cameraList = [
+  {
+    camera: [504325.743677, 2480839.845799, 24138.2675, -57.410416, -95.114723, 0.000013],
+    duration: 1
+  },
+  {
+    camera: [504709.319766, 2484384.665938, 17244.20875, -57.410416, -95.114723, 0.000013],
+    duration: 2
+  },
+  {
+    camera: [504993.713125, 2487022.868125, 12327.4025, -57.410416, -95.114723, 0.000013],
+    duration: 2
+  },
+  {
+    camera: [504813.355078, 2489086.646875, 8820.76, -57.410416, -95.114723, 0.000013],
+    duration: 2
+  },
+  {
+    camera: [504790.477695, 2483499.580938, 3368.43625, -15.498402, -91.806519, 0.000004],
+    duration: 6
+  }
+];
+
+const playCameraTortur = async () => {
+  await __g.cameraTour.delete('1');
+  // await __g.camera.set(cameraList[0].camera);
+  //通过接口添加导览并播放
+  let frames = [];
+  //注意：rocation属可选参数，若不传入则相机朝向会根据相机的连续位置自动计算
+  let duration = 0;
+  cameraList.forEach((element, i) => {
+    duration += element.duration;
+    // @ts-nocheck
+    frames.push(
+      //@ts-ignore
+      new CameraTourKeyFrame(i, duration, element.camera.slice(0, 3), element.camera.slice(3))
+    );
+  });
+  //@ts-ignore
+  let o = new CameraTourData('1', 'test', frames);
+  await __g.cameraTour.add(o);
+  await __g.cameraTour.play('1', (res) => {});
 };
 
 const handleToVirture = async () => {
+  await openDarkMode();
   clearTimeout(timer);
   showVirture.value = true;
   store.changeCurrentQu('福田区');
@@ -166,8 +211,9 @@ const handleToVirture = async () => {
   // await __g.camera.set(virtureView);
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
-  // __g.weather.simulateTime([12, 0], [17, 30], 5);
-  await playCamera(__g, '虚拟电厂');
+  __g.weather.simulateTime([12, 0], [17, 30], 5);
+  playCameraTortur();
+  // await playCamera(__g, '虚拟电厂');
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -180,16 +226,17 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 bus.on('map-back', async () => {
+  closeDarkMode();
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   await __g.infoTree.hide(ids);
+  await __g.cameraTour.delete('1');
   showVirture.value = false;
   __g.marker.showByGroupId('virtual-point');
   __g.marker.showByGroupId('quName');
   __g.marker.showByGroupId('qu');
   addHeatLayer();
-  // closeDarkMode();
 });
 
 watch(
@@ -201,7 +248,6 @@ watch(
 
 onMounted(async () => {
   await __g.reset();
-  // closeDarkMode();
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
   addHeatLayer();
@@ -212,7 +258,8 @@ onMounted(async () => {
 onBeforeUnmount(async () => {
   bus.off('map-back');
   clearTimeout(timer);
-  // closeDarkMode();
+  closeDarkMode();
+  await __g.cameraTour.delete('1');
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
