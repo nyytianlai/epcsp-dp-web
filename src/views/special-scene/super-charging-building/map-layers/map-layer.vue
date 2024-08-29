@@ -51,6 +51,7 @@ const props = defineProps({
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 let timer;
+let torturTimer;
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -346,8 +347,8 @@ bus.on('addBar', async (e: any) => {
 });
 
 onBeforeUnmount(async () => {
-  await deletTutor();
   clearTimeout(timer);
+  await deletTutor();
   await __g.marker.deleteByGroupId('bar-hover-pop');
   await __g.marker.deleteByGroupId('rectBar');
   await __g.marker.deleteByGroupId('jdStation');
@@ -357,7 +358,7 @@ onBeforeUnmount(async () => {
 
 onMounted(async () => {
   await __g.reset();
-  setTimeout(async () => {
+  torturTimer = setTimeout(async () => {
     await setTwinVisible(true);
     await addEnterTutor();
   }, 3000);
@@ -440,6 +441,7 @@ const addEnterTutor = async () => {
 };
 
 const deletTutor = async () => {
+  clearTimeout(torturTimer);
   __g.misc.callBPFunction({
     functionName: '停止',
     objectName: '动画播放_0'
