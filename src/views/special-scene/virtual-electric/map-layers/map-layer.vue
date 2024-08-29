@@ -129,10 +129,10 @@ const addVirturePoint = async () => {
 };
 
 const setCurrent = async () => {
-  clearTimeout(timer);
   timer = setTimeout(async () => {
     if (currentDt.value < 2) {
       currentDt.value = currentDt.value + 1;
+      clearTimeout(timer);
       setCurrent();
     }
   }, 2000);
@@ -253,6 +253,7 @@ bus.on('map-back', async () => {
 watch(
   () => currentDt.value,
   () => {
+    if (showVirture.value) return
     addHeatLayer();
   }
 );

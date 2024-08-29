@@ -179,12 +179,12 @@ const addBusObj = async () => {
     id: 'busObj',
     groupId: 'busObjGroup',
     pakFilePath: '@path:DTS_Library_V5.4.pak',
-    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/公交车_03',
+    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/公交车_04',
     range: [1, 10000000],
     autoHeight: true,
     location: [491850.03500000003, 2508888],
     coordinateType: 0,
-    colorType: 4,
+    colorType: 1,
     scale: [500, 500, 500]
   };
   __g.customObject.add(cusObj, null);
