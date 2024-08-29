@@ -225,8 +225,8 @@ const handleToVirture = async () => {
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
   // await __g.weather.simulateTime([12, 0], [17, 30], 5);
-  // playCameraTortur();
-  await playCamera(__g, '虚拟电厂');
+  playCameraTortur();
+  // await playCamera(__g, '虚拟电厂');
 };
 
 const init = async () => {
@@ -248,7 +248,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
 
 bus.on('map-back', async () => {
   await closeDarkMode();
-  __g.camera.stopAnimation();
+  await __g.camera.stopAnimation();
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
@@ -276,7 +276,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
-  __g.camera.stopAnimation();
+  await __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
   await closeDarkMode();
