@@ -4,7 +4,7 @@ export const BaoAnMenu = [
     viewName: 'V2G放电',
     viewOrder: 1,
     viewInfoType: 'BAOAN_1',
-    viewInfo: '[487380.904766, 2495524.5175, 14.773356, -26.378954, 154.184738]',
+    viewInfo: '[487376.19875, 2495555.671875, 23.924675, -26.378927, 154.184799]',
     isHover: false,
     icon: 'device',
     iconIdList: null,
