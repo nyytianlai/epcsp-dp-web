@@ -156,7 +156,7 @@ const addPoint = async () => {
   }
 };
 
-const addBaoAnPoint = () => {
+const addBaoAnPoint = async () => {
   const point = {
     type: 'Feature',
     properties: { OBJECTID: 6, QUNAME: '宝安区', QUCODE: '440306' },
@@ -185,12 +185,12 @@ const addBaoAnPoint = () => {
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
     autoHidePopupWindow: false,
     popupURL: oPopUpUrl,
-    popupSize: [scale(100 + maxLen * 8), scale(110)],
-    popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(5)], //弹窗偏移
+    popupSize: [scale(100 + maxLen * 8), scale(50)],
+    popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(35)], //弹窗偏移
     autoHeight: true, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
-  aircityObj.value.acApi.marker.add(o);
+  await aircityObj.value.acApi.marker.add(o);
   aircityObj.value.acApi.marker.showPopupWindow(o.id);
 };
 </script>
