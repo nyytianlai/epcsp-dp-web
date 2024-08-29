@@ -40,7 +40,7 @@ import remainPowerIcon from '../images/super-charge-switch.png';
 const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.map-layers`;
 const commonHead = `special-scene.super-charging-building.config.common`;
-
+const emits = defineEmits(['playTwin']);
 const props = defineProps({
   selectBtmTab: {
     type: Object,
@@ -449,6 +449,17 @@ const deletTutor = async () => {
   const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
   await __g.tileLayer.hide(id);
 };
+
+watch(
+  () => showRemainPower.value,
+  () => {
+    emits('playTwin', showRemainPower.value);
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
 </script>
 <style lang="less" scoped>
 .remain-power {
