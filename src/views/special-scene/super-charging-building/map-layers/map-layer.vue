@@ -22,7 +22,8 @@ import {
   getImageByCloud,
   getHtmlUrl,
   focusToHihtLightPop,
-  addCommon3dt
+  addCommon3dt,
+  getTreeLayerIdByName
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
 
@@ -345,17 +346,21 @@ bus.on('addBar', async (e: any) => {
 });
 
 onBeforeUnmount(async () => {
-  clearTimeout(timer);
   await deletTutor();
+  clearTimeout(timer);
   await __g.marker.deleteByGroupId('bar-hover-pop');
   await __g.marker.deleteByGroupId('rectBar');
   await __g.marker.deleteByGroupId('jdStation');
+  await setTwinVisible(false);
   bus.off('addBar');
 });
 
 onMounted(async () => {
   await __g.reset();
-  addEnterTutor();
+  setTimeout(async () => {
+    await setTwinVisible(true);
+    await addEnterTutor();
+  }, 3000);
 });
 
 watch(
@@ -372,8 +377,7 @@ watch(
     }
   },
   {
-    deep: true,
-    immediate: true
+    deep: true
   }
 );
 
@@ -411,7 +415,21 @@ const handleRemainPoweLayer = async () => {
   showRemainPower.value = !showRemainPower.value;
 };
 
+const setTwinVisible = async (visible) => {
+  const twinId1 = getTreeLayerIdByName('会展中心', store.treeInfo);
+  const twinId2 = getTreeLayerIdByName('科技公园', store.treeInfo);
+
+  if (visible) {
+    await __g.infoTree.show([twinId1, twinId2]);
+  } else {
+    await __g.infoTree.hide([twinId1, twinId2]);
+  }
+};
+
 const addEnterTutor = async () => {
+  const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
+  await __g.tileLayer.show(id);
+
   __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_0'
@@ -426,9 +444,6 @@ const deletTutor = async () => {
     functionName: '停止',
     objectName: '动画播放_0'
   });
-
-  const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
-  await __g.tileLayer.hide(id);
 };
 </script>
 <style lang="less" scoped>
