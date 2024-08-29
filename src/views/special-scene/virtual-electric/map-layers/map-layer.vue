@@ -23,10 +23,15 @@ import { useRoute } from 'vue-router';
 import { allHeatIds, virtureTileIds, virtureView, virturePoint, timeline } from './layer-config';
 import Api from '../api';
 import { useMapStore } from '@/stores/map';
+import dayjs from 'dayjs';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
-const range = ['2024-03', '2024-06', '2024-09'];
+const range = Array.from({ length: 3 }, (_, i) =>
+  dayjs()
+    .subtract(3 - i, 'days')
+    .format('YYYY-MM-DD')
+);
 const currentDt = ref(0);
 const store = useMapStore();
 const route = useRoute();
@@ -138,19 +143,25 @@ const setCurrent = async () => {
   }, 2000);
 };
 
-// // 设置飞渡开启黑暗模式
-// const openDarkMode = async () => {
-//   // await __g.weather.setDarkMode(false);
-//   await __g.weather.setDateTime(2023, 10, 13, 17, 30, false);
-//   // await __g.weather.setDarkMode(true);
-// };
+// 设置飞渡开启黑暗模式
+const openDarkMode = async () => {
+  __g.weather.setDarkMode(false, () => {
+    __g.weather.setDateTime(2023, 10, 13, 17, 30, false, () => {
+      __g.weather.setDarkMode(true);
+      Promise.resolve(1);
+    });
+  });
+};
 
-// // 设置飞渡关闭黑暗模式
-// const closeDarkMode = async () => {
-//   // await __g.weather.setDarkMode(false);
-//   await __g.weather.setDateTime(2023, 10, 13, 9, 30, false);
-//   // await __g.weather.setDarkMode(true);
-// };
+// 设置飞渡关闭黑暗模式
+const closeDarkMode = async () => {
+  __g.weather.setDarkMode(false, () => {
+    __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
+      __g.weather.setDarkMode(true);
+      Promise.resolve(1);
+    });
+  });
+};
 
 const cameraList = [
   {
@@ -199,7 +210,8 @@ const playCameraTortur = async () => {
 
 const handleToVirture = async () => {
   clearTimeout(timer);
-  // await openDarkMode();
+  await __g.camera.stopAnimation();
+  await openDarkMode();
   showVirture.value = true;
   store.changeCurrentQu('福田区');
   store.changeCurrentPosition('福田区');
@@ -209,12 +221,12 @@ const handleToVirture = async () => {
   __g.marker.hideByGroupId('virtual-point');
   __g.marker.hideByGroupId('quName');
   __g.marker.hideByGroupId('qu');
-  // await __g.camera.set(virtureView);
+  await __g.camera.set(virtureView);
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
   // await __g.weather.simulateTime([12, 0], [17, 30], 5);
-  playCameraTortur();
-  // await playCamera(__g, '虚拟电厂');
+  // playCameraTortur();
+  await playCamera(__g, '虚拟电厂');
 };
 
 const init = async () => {
@@ -235,7 +247,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 bus.on('map-back', async () => {
-  // closeDarkMode();
+  await closeDarkMode();
   __g.camera.stopAnimation();
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
@@ -253,7 +265,7 @@ bus.on('map-back', async () => {
 watch(
   () => currentDt.value,
   () => {
-    if (showVirture.value) return
+    if (showVirture.value) return;
     addHeatLayer();
   }
 );
@@ -267,7 +279,7 @@ onBeforeUnmount(async () => {
   __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
-  // await closeDarkMode();
+  await closeDarkMode();
   await __g.cameraTour.stop();
   await __g.cameraTour.delete('xndc');
   await __g?.marker?.deleteByGroupId('area-point-layer');
