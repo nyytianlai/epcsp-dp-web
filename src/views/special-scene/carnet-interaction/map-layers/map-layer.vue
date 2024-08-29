@@ -127,7 +127,7 @@ const addPoint = async () => {
         value: JSON.stringify({ ...item })
       }
     });
-    const maxLen = `${item?.pileNum || 0}`.length;
+    const maxLen = `${item?.stationName || 0}`.length;
 
     let o = {
       id: 'carnet-interaction-' + item.stationId + '_' + index,
@@ -162,6 +162,18 @@ const addBaoAnPoint = () => {
     properties: { OBJECTID: 6, QUNAME: '宝安区', QUCODE: '440306' },
     geometry: { type: 'Point', coordinates: [485959.808009100612253, 2502076.76284110173583] }
   };
+  const data = {
+    stationName: '宝安区政府车网互动示范站'
+  };
+  const oPopUpUrl = getPopupHtml({
+    usePopupHtml: true,
+    com: 'carnet-interaction-baoan',
+    params: {
+      value: JSON.stringify({ ...data })
+    }
+  });
+
+  const maxLen = `${data?.stationName || 0}`.length + 1;
   let o = {
     id: 'carnet-interaction-baoAn-1',
     groupId: `carnet-interaction-baoAn-group`,
@@ -171,11 +183,15 @@ const addBaoAnPoint = () => {
     range: [1, 1000000], //可视范围
     imagePath: getImageByCloud('qu-point'), //显示图片路径
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-    autoHidePopupWindow: true,
+    autoHidePopupWindow: false,
+    popupURL: oPopUpUrl,
+    popupSize: [scale(100 + maxLen * 8), scale(110)],
+    popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(5)], //弹窗偏移
     autoHeight: true, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
   aircityObj.value.acApi.marker.add(o);
+  aircityObj.value.acApi.marker.showPopupWindow(o.id);
 };
 </script>
 

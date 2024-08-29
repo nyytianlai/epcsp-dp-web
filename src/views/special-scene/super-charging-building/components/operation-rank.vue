@@ -36,7 +36,8 @@ const getProjectList = async () => {
     const res = await method({
       startTime: dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
       endTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      limitSize: 10
+      limitSize: 10,
+      stationType: 3
     });
     projectTotalNum.value = Math.max(...res.data.map((item) => +item.chargeCapacity));
     projectList.value = res?.data?.map((item) => {
