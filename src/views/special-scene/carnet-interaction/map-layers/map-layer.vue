@@ -33,8 +33,7 @@ const store = useVisibleComponentStore();
 const route = useRoute();
 onMounted(async () => {
   await __g.reset();
-  await getData();
-  addPoint();
+  getData();
   addBaoAnPoint();
 });
 
@@ -49,6 +48,7 @@ const getData = async () => {
   try {
     const { data } = await Api.getV2GStationDistribution();
     positionData = data;
+    addPoint();
   } catch (error) {}
 };
 
