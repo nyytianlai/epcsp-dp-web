@@ -22,7 +22,7 @@ import {
   getImageByCloud,
   getHtmlUrl,
   focusToHihtLightPop,
-  getTreeLayerIdByName
+  addCommon3dt
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
 
@@ -412,8 +412,6 @@ const handleRemainPoweLayer = async () => {
 };
 
 const addEnterTutor = async () => {
-  // const ids = getTreeLayerIdByName('超充之城', store.treeInfo);
-  // await __g.infoTree.show(ids);
   __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_0'
@@ -429,9 +427,8 @@ const deletTutor = async () => {
     objectName: '动画播放_0'
   });
 
-  const ids = getTreeLayerIdByName('超充之城', store.treeInfo);
-  const ids2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
-  await __g.infoTree.hide([ids, ids2]);
+  const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
+  await __g.tileLayer.hide(id);
 };
 </script>
 <style lang="less" scoped>
