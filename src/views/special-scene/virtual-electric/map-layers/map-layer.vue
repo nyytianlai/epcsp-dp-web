@@ -138,19 +138,19 @@ const setCurrent = async () => {
   }, 2000);
 };
 
-// 设置飞渡开启黑暗模式
-const openDarkMode = async () => {
-  await __g.weather.setDarkMode(false);
-  await __g.weather.setCloudDensity(0);
-  await __g.weather.setCloudHeight(0);
-  await __g.weather.setCloudThickness(0);
-  await __g.weather.setFogParam(0, 0, 0, 0);
-};
+// // 设置飞渡开启黑暗模式
+// const openDarkMode = async () => {
+//   // await __g.weather.setDarkMode(false);
+//   await __g.weather.setDateTime(2023, 10, 13, 17, 30, false);
+//   // await __g.weather.setDarkMode(true);
+// };
 
-// 设置飞渡关闭黑暗模式
-const closeDarkMode = async () => {
-  await __g.weather.setDateTime(2023, 11, 1, 12, 30, false);
-};
+// // 设置飞渡关闭黑暗模式
+// const closeDarkMode = async () => {
+//   // await __g.weather.setDarkMode(false);
+//   await __g.weather.setDateTime(2023, 10, 13, 9, 30, false);
+//   // await __g.weather.setDarkMode(true);
+// };
 
 const cameraList = [
   {
@@ -197,8 +197,8 @@ const playCameraTortur = async () => {
 };
 
 const handleToVirture = async () => {
-  await openDarkMode();
   clearTimeout(timer);
+  // await openDarkMode();
   showVirture.value = true;
   store.changeCurrentQu('福田区');
   store.changeCurrentPosition('福田区');
@@ -211,9 +211,17 @@ const handleToVirture = async () => {
   // await __g.camera.set(virtureView);
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
-  __g.weather.simulateTime([12, 0], [17, 30], 5);
+  // await __g.weather.simulateTime([12, 0], [17, 30], 5);
   playCameraTortur();
   // await playCamera(__g, '虚拟电厂');
+};
+
+const init = async () => {
+  await __g.reset();
+  await delete3dt(__g, allHeatIds);
+  await __g.infoTree.hide(virtureTileIds);
+  addHeatLayer();
+  addVirturePoint();
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -226,7 +234,8 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 bus.on('map-back', async () => {
-  closeDarkMode();
+  // closeDarkMode();
+  __g.camera.stopAnimation();
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
@@ -247,18 +256,15 @@ watch(
 );
 
 onMounted(async () => {
-  await __g.reset();
-  await delete3dt(__g, allHeatIds);
-  await __g.infoTree.hide(virtureTileIds);
-  addHeatLayer();
-  addVirturePoint();
+  await init();
   setTimeout(setCurrent, 2000);
 });
 
 onBeforeUnmount(async () => {
+  __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
-  closeDarkMode();
+  // await closeDarkMode();
   await __g.cameraTour.delete('1');
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);

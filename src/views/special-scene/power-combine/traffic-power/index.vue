@@ -10,7 +10,7 @@
       <TodayAdjustDemand />
       <AdjustTrendAnalysis />
     </panel>
-    <map-layer v-if="aircityObj" />
+    <map-layer v-if="aircityObj" @playTwin="playTwin" />
   </div>
 </template>
 
@@ -23,7 +23,11 @@ import BusPowerTrend from './components/bus-power-trend.vue';
 import AdjustOverview from './components/adjust-overview.vue';
 import TodayAdjustDemand from './components/today-adjust-demand.vue';
 import AdjustTrendAnalysis from './components/adjust-trend-analysis.vue';
+const emits = defineEmits(['playTwin']);
 const aircityObj = inject('aircityObj');
+const playTwin = (vl) => {
+  emits('playTwin', vl);
+};
 </script>
 
 <style lang="less" scoped>

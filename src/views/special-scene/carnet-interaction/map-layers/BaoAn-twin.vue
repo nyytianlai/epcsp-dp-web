@@ -75,10 +75,19 @@ const handleTabSelect = async (tab) => {
       });
       break;
     case 'BAOAN_3': // 视角漫游
-      await __g.tileLayer.hide([...id, ...id2]);
+      await __g.misc.callBPFunction({
+        functionName: '停止',
+        objectName: '动画播放_2'
+      });
+      await __g.misc.callBPFunction({
+        functionName: '停止',
+        objectName: '播放动画_1'
+      });
+      await __g.tileLayer.hide([id, id2]);
       playCamera(__g, '宝安区政府');
       break;
     default:
+      await __g.camera.stopAnimation();
       await __g.tileLayer.hide([id, id2, id4]);
       await __g.tileLayer.show(id3);
       resetTab3dt();
@@ -104,19 +113,24 @@ const resetTab3dt = async () => {
 
 const showAllPos = async () => {
   const id2 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
+  const id5 = getTreeLayerIdByName('变电箱', store.treeInfo);
   await __g.tileLayer.show(id2);
+  await __g.tileLayer.show(id5);
 };
 
 const hideAllPos = async () => {
   const id = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
   const id2 = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id3 = getTreeLayerIdByName('能源消纳', store.treeInfo);
+  const id5 = getTreeLayerIdByName('变电箱', store.treeInfo);
   await __g.tileLayer.hide(id);
   await __g.tileLayer.hide(id2);
   await __g.tileLayer.hide(id3);
+  await __g.tileLayer.hide(id5);
 };
 
 onBeforeUnmount(async () => {
+  __g.camera.stopAnimation();
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
   const id2 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);

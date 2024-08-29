@@ -1,7 +1,7 @@
 <template>
   <qu ref="quRef"></qu>
   <legend-list v-show="showRemainPower" :legendList="legendListData" :legendName="legendNameData" />
-  <MapLeftBtn>
+  <MapLeftBtn v-show="!isPlaying">
     <div class="remain-power" @click="handleRemainPoweLayer">
       <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
       <div class="name">剩余电量</div>
@@ -27,8 +27,11 @@ import { useMapStore } from '@/stores/map';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
+const emits = defineEmits(['playTwin']);
 
 const showRemainPower = ref(false);
+
+const isPlaying = ref(false);
 
 const mapStore = useMapStore();
 
@@ -188,6 +191,7 @@ const addBusObj = async () => {
 };
 
 const handleToBusTwin = async () => {
+  isPlaying.value = true;
   await Promise.allSettled([
     __g.customObject.hide('busObj'),
     __g.marker.hideByGroupId('quName'),
@@ -205,13 +209,15 @@ const handleToBusTwin = async () => {
   });
 
   setTimeout(() => {
+    isPlaying.value = false;
     __g.customObject.show('busObj'),
       __g.marker.showByGroupId('quName'),
       beforeAddOrExitHrStation(false);
-  }, 26);
+  }, 26000);
 };
 
 bus.on('map-back', async () => {
+  isPlaying.value = false;
   __g.misc.callBPFunction({
     functionName: '停止',
     objectName: '动画播放_3'
@@ -240,6 +246,16 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'MarkerCallBack') {
   }
 });
+
+watch(
+  () => isPlaying.value,
+  (val) => {
+    emits('playTwin', val);
+  },
+  {
+    deep: true
+  }
+);
 </script>
 
 <style scoped lang="less">
