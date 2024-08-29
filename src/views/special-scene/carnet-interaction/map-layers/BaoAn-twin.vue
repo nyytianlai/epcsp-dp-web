@@ -24,9 +24,10 @@ const store = useMapStore();
 let v2gTimer;
 let nyxnTimer;
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
+  await resetTab3dt();
 });
 
 useEmitt('AIRCITY_EVENT', async (e) => {
@@ -88,8 +89,9 @@ const resetTab3dt = async () => {
   clearTimeout(nyxnTimer);
   const id = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
+  const id4 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
   const id3 = getTreeLayerIdByName('宝安区政府站点_植被', store.treeInfo);
-  await __g.tileLayer.hide([id, id2]);
+  await __g.tileLayer.hide([id, id2, id4]);
   await __g.tileLayer.show(id3);
 };
 
