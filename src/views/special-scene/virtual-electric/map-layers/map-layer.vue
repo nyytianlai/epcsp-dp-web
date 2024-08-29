@@ -142,7 +142,7 @@ const handleToVirture = async () => {
   showVirture.value = true;
   store.changeCurrentQu('福田区');
   store.changeCurrentPosition('福田区');
-  __g.polygon.hide(quRef.value.allQUIds);
+  __g.polygon.hide(quRef.value?.allQUIds);
   __g.polygon3d.hide('wall');
   __g.weather.simulateTime([12, 0], [17, 30], 5);
   delete3dt(__g, allHeatIds);
@@ -164,7 +164,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 bus.on('map-back', async () => {
-  __g.polygon.show(quRef.value.allQUIds);
+  __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   await __g.infoTree.hide(ids);
@@ -195,6 +195,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  bus.off('map-back');
   clearTimeout(timer);
   await __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
   await __g?.marker?.deleteByGroupId('area-point-layer');

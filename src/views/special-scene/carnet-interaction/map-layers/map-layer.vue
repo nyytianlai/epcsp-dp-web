@@ -8,13 +8,14 @@ import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
-import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
+import { getImageByCloud, layerNameQuNameArr, getTreeLayerIdByName } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useRoute } from 'vue-router';
 import { baoQingInfo } from './baoQing';
+import { useMapStore } from '@/stores/map';
 
 import BaoAnTwin from './BaoAn-twin.vue';
 
@@ -24,6 +25,7 @@ import Api from '../api';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
+const mapStore = useMapStore();
 
 const showTwin = ref(false);
 
@@ -38,6 +40,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   bus.off('map-back');
+  showTwin.value = false;
 });
 
 let BaoAnTwinIds = [];
@@ -68,19 +71,20 @@ bus.on('map-back', () => {
     __g.marker.showByGroupId('quName'),
     setBaoAnTwinVisible(false);
   beforeAddOrExitHrStation(false);
+  showTwin.value = false;
 });
 
 const setBaoAnTwinVisible = async (visible) => {
   if (!BaoAnTwinIds?.length) {
-    const data = await __g.infoTree.get();
-    const layers = data?.infotree.filter((o) => o.name.includes('宝安区政府'));
-    BaoAnTwinIds = layers.map((layer) => layer.iD);
+    const id1 = getTreeLayerIdByName('宝安区政府站点', mapStore.treeInfo);
+    const id2 = getTreeLayerIdByName('宝安区政府站点_植被', mapStore.treeInfo);
+    id1 && BaoAnTwinIds.push(id1);
+    id2 && BaoAnTwinIds.push(id2);
   }
-
   if (visible) {
-    await __g.infoTree.show(BaoAnTwinIds);
+    await __g.tileLayer.show(BaoAnTwinIds);
   } else {
-    await __g.infoTree.hide(BaoAnTwinIds);
+    await __g.tileLayer.hide(BaoAnTwinIds);
   }
 };
 

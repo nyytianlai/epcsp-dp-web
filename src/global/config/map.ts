@@ -137,13 +137,16 @@ export const add3dt = async (__g, fileName: string) => {
 };
 
 export const addCommon3dt = async (__g, file, id = file, location = [0, 0, 92.5]) => {
-  await __g.tileLayer.add({
-    id: id,
-    fileName: `${import.meta.env.VITE_FD_FileURL}/${file}`, //3dt文件路径
-    location: location, //坐标位置
-    rotation: [0, 0, 0], //旋转角度
-    scale: [1, 1, 1] //缩放大小
-  });
+  await __g.tileLayer.add(
+    {
+      id: id,
+      fileName: `${import.meta.env.VITE_FD_FileURL}/${file}`, //3dt文件路径
+      location: location, //坐标位置
+      rotation: [0, 0, 0], //旋转角度
+      scale: [1, 1, 1] //缩放大小
+    },
+    null
+  );
 };
 
 export const delete3dt = async (__g, ids: string[]) => {
@@ -282,4 +285,16 @@ export const focusToHihtLightPop = async (longitude, latitude, __g) => {
     -89.44,
     1
   );
+};
+
+// 播放explorer中漫游
+//播放漫游
+export const playCamera = async (__g, tortureName) => {
+  await __g.camera.stopAnimation();
+  const cameraList = await __g.camera.getAnimationList();
+  console.log(cameraList, 'cameraList');
+  if (cameraList?.data) {
+    const curCamera = cameraList?.data.find((elm) => elm.name === tortureName);
+    curCamera && __g.camera.playAnimation(curCamera.id, null);
+  }
 };

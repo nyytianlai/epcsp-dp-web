@@ -14,7 +14,7 @@ import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import MapLeftBtn from '@/components/map-left-btn.vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
-import { getHtmlUrl } from '@/global/config/map';
+import { getHtmlUrl, getTreeLayerIdByName } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
 import { scale } from '@sutpc/config';
@@ -23,6 +23,7 @@ import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
+import { useMapStore } from '@/stores/map';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -31,6 +32,7 @@ const __g = aircityObj.value?.acApi;
 const showRemainPower = ref(false);
 
 const store = useVisibleComponentStore();
+const mapStore = useMapStore();
 
 onMounted(async () => {
   await __g.reset();
@@ -38,6 +40,15 @@ onMounted(async () => {
 
   addPoint();
   addBusObj();
+});
+
+onBeforeUnmount(async () => {
+  await __g.misc.callBPFunction({
+    functionName: '停止',
+    objectName: '动画播放_3'
+  });
+  const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+  id&&(await __g.tileLayer.hide(id));
 });
 
 let legendNameData = '巴士剩余电量(kw)';
@@ -175,10 +186,7 @@ const addBusObj = async () => {
     colorType: 4,
     scale: [500, 500, 500]
   };
-  __g.customObject.add(cusObj, (res) => {
-    console.log(res);
-    // __g.customObject.focus('busObj');
-  });
+  __g.customObject.add(cusObj, null);
 };
 
 const handleToBusTwin = async () => {
@@ -196,6 +204,8 @@ const handleToBusTwin = async () => {
   });
   __g.customObject.hide('busObj');
   // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
+  const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+  id&&(await __g.tileLayer.show(id));
   __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_3'
@@ -207,6 +217,18 @@ const handleToBusTwin = async () => {
       beforeAddOrExitHrStation(false);
   }, 26);
 };
+
+bus.on('map-back', async () => {
+  __g.misc.callBPFunction({
+    functionName: '停止',
+    objectName: '动画播放_3'
+  });
+  __g.customObject.show('busObj'),
+    __g.marker.showByGroupId('quName'),
+    beforeAddOrExitHrStation(false);
+  const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+  id&&(await __g.tileLayer.hide(id));
+});
 
 const beforeAddOrExitHrStation = (isShow: boolean) => {
   !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
