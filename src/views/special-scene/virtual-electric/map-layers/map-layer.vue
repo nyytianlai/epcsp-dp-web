@@ -236,6 +236,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
 bus.on('map-back', async () => {
   // closeDarkMode();
   __g.camera.stopAnimation();
+  __g.cameraTour.delete('1');
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
@@ -261,6 +262,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  __g.cameraTour.delete('1');
   __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
