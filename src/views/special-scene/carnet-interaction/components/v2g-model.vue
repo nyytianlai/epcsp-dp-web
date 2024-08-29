@@ -79,7 +79,8 @@ getData();
 <style scoped lang="less">
 .v2g-model {
   width: 100%;
-  height: 330px;
+  height: 100%;
+  // height: 330px;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

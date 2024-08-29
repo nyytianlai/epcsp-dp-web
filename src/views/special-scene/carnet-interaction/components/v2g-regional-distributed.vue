@@ -34,7 +34,8 @@ getData();
 <style scoped lang="less">
 .v2g-regional-distributed {
   width: 100%;
-  height: 300px;
+  height: 30%;
+  // height: 300px;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

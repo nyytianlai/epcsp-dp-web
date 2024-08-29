@@ -46,13 +46,12 @@ onMounted(() => {
 <style scoped lang="less">
 .v2g-operation-rank {
   width: 100%;
-  height: 100%;
+  height: 30%;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;
 
   .distributed-content {
-    height: 300px;
     overflow-y: auto;
     min-height: 0;
     border-radius: 4px;
