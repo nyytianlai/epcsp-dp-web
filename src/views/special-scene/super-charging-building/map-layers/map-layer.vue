@@ -361,7 +361,7 @@ onMounted(async () => {
   torturTimer = setTimeout(async () => {
     await setTwinVisible(true);
     await addEnterTutor();
-  }, 3000);
+  }, 2000);
 });
 
 watch(
