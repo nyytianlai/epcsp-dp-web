@@ -168,7 +168,6 @@ const handleToVirture = async () => {
   __g.infoTree.show(ids);
   // __g.weather.simulateTime([12, 0], [17, 30], 5);
   await playCamera(__g, '虚拟电厂');
-  openDarkMode();
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -190,7 +189,7 @@ bus.on('map-back', async () => {
   __g.marker.showByGroupId('quName');
   __g.marker.showByGroupId('qu');
   addHeatLayer();
-  closeDarkMode();
+  // closeDarkMode();
 });
 
 watch(
@@ -202,10 +201,9 @@ watch(
 
 onMounted(async () => {
   await __g.reset();
-  closeDarkMode();
+  // closeDarkMode();
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
-  // getData();
   addHeatLayer();
   addVirturePoint();
   setTimeout(setCurrent, 2000);
@@ -214,7 +212,7 @@ onMounted(async () => {
 onBeforeUnmount(async () => {
   bus.off('map-back');
   clearTimeout(timer);
-  closeDarkMode();
+  // closeDarkMode();
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
