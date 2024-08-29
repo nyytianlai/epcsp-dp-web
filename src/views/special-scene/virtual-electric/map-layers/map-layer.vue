@@ -176,7 +176,8 @@ const cameraList = [
 ];
 
 const playCameraTortur = async () => {
-  await __g.cameraTour.delete('1');
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('xndc');
   // await __g.camera.set(cameraList[0].camera);
   //通过接口添加导览并播放
   let frames = [];
@@ -191,9 +192,9 @@ const playCameraTortur = async () => {
     );
   });
   //@ts-ignore
-  let o = new CameraTourData('1', 'test', frames);
+  let o = new CameraTourData('xndc', 'xndc', frames);
   await __g.cameraTour.add(o);
-  await __g.cameraTour.play('1', (res) => {});
+  await __g.cameraTour.play('xndc');
 };
 
 const handleToVirture = async () => {
@@ -236,12 +237,12 @@ useEmitt('AIRCITY_EVENT', (e) => {
 bus.on('map-back', async () => {
   // closeDarkMode();
   __g.camera.stopAnimation();
-  __g.cameraTour.delete('1');
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   await __g.infoTree.hide(ids);
-  await __g.cameraTour.delete('1');
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('xndc');
   showVirture.value = false;
   __g.marker.showByGroupId('virtual-point');
   __g.marker.showByGroupId('quName');
@@ -262,12 +263,12 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
-  __g.cameraTour.delete('1');
   __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
   // await closeDarkMode();
-  await __g.cameraTour.delete('1');
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('xndc');
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
