@@ -86,11 +86,11 @@ onMounted(async () => {
       margin-bottom: 30px;
     }
     .mid-left {
-      transform: translateX(-25px);
+      transform: translateX(-25%);
     }
 
     .mid-right {
-      transform: translateX(25px);
+      transform: translateX(25%);
     }
   }
 }
