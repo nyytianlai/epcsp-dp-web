@@ -103,6 +103,8 @@ const handleToBaoAnTwin = async () => {
     beforeAddOrExitHrStation(true)
   ]);
   store.changeShowComponent(false);
+  mapStore.changeCurrentQu('宝安区');
+  mapStore.changeCurrentPosition('宝安区');
   store.changeShowDetail({
     show: true,
     params: {

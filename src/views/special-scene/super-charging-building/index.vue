@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-22 15:19:08
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-07-30 16:58:57
+ * @LastEditTime: 2024-08-29 18:46:48
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/super-charging-building/index.vue
 -->
@@ -22,8 +22,12 @@
         <SuperOperationDistributed />
       </div>
     </panel>
-    <MapLayer v-if="aircityObj?.acApi" :selectBtmTab="selectBtmTab" />
-    <bottom-menu-tabs :data="bottomTabsData" @changeTab="changeButtomTab" />
+    <MapLayer v-if="aircityObj?.acApi" :selectBtmTab="selectBtmTab" @playTwin="playTwin" />
+    <bottom-menu-tabs
+      :data="bottomTabsData"
+      @changeTab="changeButtomTab"
+      v-show="!hideBottomBabs"
+    />
   </div>
 </template>
 
@@ -40,6 +44,7 @@ import SuperOperationDistributed from './components/super-operation-distributed.
 import Api from './api.js';
 // 底部button
 const bottomTabsData = ref(bottomTabDataFun());
+const hideBottomBabs = ref(false);
 const selectBtmTab = ref(bottomTabsData.value[0]);
 // 头部累计数据
 const pageNumData = ref(pageNumFun());
@@ -53,6 +58,10 @@ const getData = async () => {
   pageNumData.value = pageNumFun(res?.data);
 };
 getData();
+
+const playTwin = (vl) => {
+  hideBottomBabs.value = vl;
+};
 </script>
 
 <style lang="less" scoped>

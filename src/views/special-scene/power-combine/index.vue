@@ -1,8 +1,9 @@
 <template>
   <div class="special-scene-index">
-    <TrafficPower v-if="selectBtmTab === bottomTabsData[0].code" />
+    <TrafficPower v-if="selectBtmTab === bottomTabsData[0].code" @playTwin="playTwin" />
     <ParkingCharge v-else />
     <bottom-menu-tabs
+      v-show="!hideBottom"
       :activeValue="selectBtmTab"
       :data="bottomTabsData"
       @changeTab="changeButtomTab"
@@ -17,8 +18,12 @@ import ParkingCharge from './parking-charge/index.vue';
 import { bottomTabDataFun } from './config';
 const bottomTabsData = ref(bottomTabDataFun());
 const selectBtmTab = ref(bottomTabsData.value[0].code);
+const hideBottom = ref(false);
 const changeButtomTab = (item) => {
   selectBtmTab.value = item.code;
+};
+const playTwin = (vl) => {
+  hideBottom.value = vl;
 };
 </script>
 
