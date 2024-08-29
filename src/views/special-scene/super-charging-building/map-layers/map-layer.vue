@@ -444,6 +444,8 @@ const deletTutor = async () => {
     functionName: '停止',
     objectName: '动画播放_0'
   });
+  const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
+  await __g.tileLayer.hide(id);
 };
 </script>
 <style lang="less" scoped>
