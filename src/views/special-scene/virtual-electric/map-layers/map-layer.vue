@@ -16,7 +16,8 @@ import {
   getImageByCloud,
   addCommon3dt,
   delete3dt,
-  getTreeLayerIdByName
+  getTreeLayerIdByName,
+  playCamera
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
 import { allHeatIds, virtureTileIds, virtureView, virturePoint, timeline } from './layer-config';
@@ -137,6 +138,20 @@ const setCurrent = async () => {
   }, 2000);
 };
 
+// 设置飞渡开启黑暗模式
+const openDarkMode = async () => {
+  await __g.weather.setDarkMode(false, null);
+  await __g.weather.setDateTime(2023, 11, 1, 17, 30, false);
+  await __g.weather.setDarkMode(true, null);
+};
+
+// 设置飞渡关闭黑暗模式
+const closeDarkMode = async () => {
+  await __g.weather.setDarkMode(false, null);
+  await __g.weather.setDateTime(2023, 11, 1, 12, 30, false);
+  await __g.weather.setDarkMode(true, null);
+};
+
 const handleToVirture = async () => {
   clearTimeout(timer);
   showVirture.value = true;
@@ -144,14 +159,16 @@ const handleToVirture = async () => {
   store.changeCurrentPosition('福田区');
   __g.polygon.hide(quRef.value?.allQUIds);
   __g.polygon3d.hide('wall');
-  __g.weather.simulateTime([12, 0], [17, 30], 5);
   delete3dt(__g, allHeatIds);
   __g.marker.hideByGroupId('virtual-point');
   __g.marker.hideByGroupId('quName');
   __g.marker.hideByGroupId('qu');
-  await __g.camera.set(virtureView);
+  // await __g.camera.set(virtureView);
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
+  // __g.weather.simulateTime([12, 0], [17, 30], 5);
+  await playCamera(__g, '虚拟电厂');
+  openDarkMode();
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -168,12 +185,12 @@ bus.on('map-back', async () => {
   __g.polygon3d.show('wall');
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   await __g.infoTree.hide(ids);
-  __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
   showVirture.value = false;
   __g.marker.showByGroupId('virtual-point');
   __g.marker.showByGroupId('quName');
   __g.marker.showByGroupId('qu');
   addHeatLayer();
+  closeDarkMode();
 });
 
 watch(
@@ -185,7 +202,7 @@ watch(
 
 onMounted(async () => {
   await __g.reset();
-  await __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
+  closeDarkMode();
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
   // getData();
@@ -197,7 +214,7 @@ onMounted(async () => {
 onBeforeUnmount(async () => {
   bus.off('map-back');
   clearTimeout(timer);
-  await __g.weather.setDateTime(2024, 11, 1, 12, 0, 0, false);
+  closeDarkMode();
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);

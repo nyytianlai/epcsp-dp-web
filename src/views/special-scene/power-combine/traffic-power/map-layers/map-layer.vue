@@ -22,7 +22,6 @@ import Api from '../api';
 import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
-import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useMapStore } from '@/stores/map';
 
 const aircityObj = inject<any>('aircityObj');
@@ -31,7 +30,6 @@ const __g = aircityObj.value?.acApi;
 
 const showRemainPower = ref(false);
 
-const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 
 onMounted(async () => {
@@ -48,7 +46,7 @@ onBeforeUnmount(async () => {
     objectName: '动画播放_3'
   });
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
-  id&&(await __g.tileLayer.hide(id));
+  id && (await __g.tileLayer.hide(id));
 });
 
 let legendNameData = '巴士剩余电量(kw)';
@@ -195,17 +193,12 @@ const handleToBusTwin = async () => {
     __g.marker.hideByGroupId('quName'),
     beforeAddOrExitHrStation(true)
   ]);
-  store.changeShowDetail({
-    show: false,
-    params: {
-      isBaoAn: true,
-      isHr: 0
-    }
-  });
+  mapStore.changeCurrentQu('福田区');
+  mapStore.changeCurrentPosition('福田区');
   __g.customObject.hide('busObj');
   // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
-  id&&(await __g.tileLayer.show(id));
+  id && (await __g.tileLayer.show(id));
   __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_3'
@@ -227,7 +220,7 @@ bus.on('map-back', async () => {
     __g.marker.showByGroupId('quName'),
     beforeAddOrExitHrStation(false);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
-  id&&(await __g.tileLayer.hide(id));
+  id && (await __g.tileLayer.hide(id));
 });
 
 const beforeAddOrExitHrStation = (isShow: boolean) => {
