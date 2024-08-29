@@ -20,6 +20,10 @@ const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 const store = useMapStore();
+
+let v2gTimer;
+let nyxnTimer;
+
 onBeforeUnmount(() => {
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
@@ -44,28 +48,32 @@ const handleTabSelect = async (tab) => {
   await __g.tileLayer.hide(id3);
   switch (tab.viewInfoType) {
     case 'BAOAN_1': // V2G放电
+      clearTimeout(nyxnTimer);
       await __g.tileLayer.hide(id2);
-      __g.tileLayer.show(id);
-      // await __g.misc.callBPFunction({
-      //   functionName: '停止',
-      //   objectName: '动画播放_2'
-      // });
-      // __g.misc.callBPFunction({
-      //   functionName: '播放',
-      //   objectName: '动画播放_1'
-      // });
+      await __g.misc.callBPFunction({
+        functionName: '停止',
+        objectName: '动画播放_2'
+      });
+      __g.misc.callBPFunction({
+        functionName: '播放',
+        objectName: '播放动画_1'
+      });
+      v2gTimer = setTimeout(() => {
+        __g.camera.set(487378.9825, 2495522.527188, 12.540851, -26.378933, 143.160629, 0);
+        __g.tileLayer.show(id);
+      }, 20000);
       break;
     case 'BAOAN_2': // 能源消纳
-      // await __g.misc.callBPFunction({
-      //   functionName: '停止',
-      //   objectName: '动画播放_1'
-      // });
-      // __g.misc.callBPFunction({
-      //   functionName: '播放',
-      //   objectName: '动画播放_2'
-      // });
+      clearTimeout(v2gTimer);
       await __g.tileLayer.hide(id);
-      __g.tileLayer.show(id2);
+      await __g.misc.callBPFunction({
+        functionName: '停止',
+        objectName: '播放动画_1'
+      });
+      __g.misc.callBPFunction({
+        functionName: '播放',
+        objectName: '动画播放_2'
+      });
       break;
     case 'BAOAN_3': // 视角漫游
       await __g.tileLayer.hide([...id, ...id2]);
@@ -76,6 +84,8 @@ const handleTabSelect = async (tab) => {
 };
 const resetTab3dt = async () => {
   await __g.cameraTour.stop();
+  clearTimeout(v2gTimer);
+  clearTimeout(nyxnTimer);
   const id = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
   const id3 = getTreeLayerIdByName('宝安区政府站点_植被', store.treeInfo);
