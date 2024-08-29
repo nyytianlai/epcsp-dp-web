@@ -2,7 +2,23 @@
   <div class="operation-bus-overview">
     <title-column title="车网互动总览" />
     <div class="distributed-content">
-      <div class="top-card-item" v-for="(item, index) in bottomCardConfig" :key="item.name">
+      <div class="card-item" v-for="(item, index) in topCardConfig" :key="item.name">
+        <img :src="item.icon" class="icon" />
+        <div class="card-data">
+          <div class="card-value">
+            <span class="value fontSize32DIN">
+              {{ formatWithToLocalString(item.value) ?? '--' }}
+            </span>
+            <span class="unit">{{ item.unit || '' }}</span>
+          </div>
+          <div class="card-name">{{ item.name }}</div>
+        </div>
+      </div>
+      <div class="mid-card">
+        <img src="../images/mid-icon.png" class="icon" />
+        <span class="text">光储超充和车网互动一体化站</span>
+      </div>
+      <div class="card-item" v-for="(item, index) in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
@@ -24,7 +40,7 @@ import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 
 const loading = ref(true);
-const bottomCardConfig = ref([
+const topCardConfig = ref([
   {
     name: 'v2g站数',
     code: '',
@@ -38,42 +54,59 @@ const bottomCardConfig = ref([
     value: '2203',
     unit: '个',
     icon: new URL('../images/v2g.png', import.meta.url).href
+  }
+]);
+
+const bottomCardConfig = ref([
+  // {
+  //   name: 'V2G服务参与车辆',
+  //   code: '',
+  //   value: '126',
+  //   unit: '辆',
+  //   icon: new URL('../images/car.png', import.meta.url).href
+  // },
+  // {
+  //   name: '调节次数',
+  //   code: '',
+  //   value: '2203',
+  //   unit: '次',
+  //   icon: new URL('../images/adjust.png', import.meta.url).href
+  // },
+  // {
+  //   name: '累计调节量',
+  //   code: '',
+  //   value: '126',
+  //   unit: '万kwh',
+  //   icon: new URL('../images/total-adjust.png', import.meta.url).href
+  // },
+  // {
+  //   name: '累计放电量',
+  //   code: '',
+  //   value: '2203',
+  //   unit: 'kWh',
+  //   icon: new URL('../images/total-power.png', import.meta.url).href
+  // },
+  {
+    name: '已建成',
+    code: '',
+    value: '31',
+    unit: '座',
+    icon: new URL('../images/build-1.png', import.meta.url).href
   },
   {
-    name: 'V2G服务参与车辆',
+    name: '建设中',
     code: '',
-    value: '126',
-    unit: '辆',
-    icon: new URL('../images/car.png', import.meta.url).href
-  },
-  {
-    name: '调节次数',
-    code: '',
-    value: '2203',
-    unit: '次',
-    icon: new URL('../images/adjust.png', import.meta.url).href
-  },
-  {
-    name: '累计调节量',
-    code: '',
-    value: '126',
-    unit: '万kwh',
-    icon: new URL('../images/total-adjust.png', import.meta.url).href
-  },
-  {
-    name: '累计放电量',
-    code: '',
-    value: '2203',
-    unit: 'kWh',
-    icon: new URL('../images/total-power.png', import.meta.url).href
+    value: '26',
+    unit: '座',
+    icon: new URL('../images/build-2.png', import.meta.url).href
   }
 ]);
 const getData = async () => {
   loading.value = true;
   try {
     const { data } = await Api.getVehicleNetInterOverview();
-    bottomCardConfig.value[0].value = data.stationNum;
-    bottomCardConfig.value[1].value = data.pileNum;
+    topCardConfig.value[0].value = data.stationNum;
+    topCardConfig.value[1].value = data.pileNum;
   } catch (error) {}
   loading.value = false;
 };
@@ -104,7 +137,24 @@ getData();
     gap: 6px;
   }
 
-  .top-card-item {
+  .mid-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .text {
+      display: inline-block;
+      width: 208px;
+      height: 18px;
+      color: rgb(198, 209, 219);
+      font-family: PingFang SC;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 18px;
+      letter-spacing: 0px;
+      margin-left: 15px;
+    }
+  }
+  .card-item {
     flex: calc(50% - 3px);
     min-width: 0;
     display: flex;

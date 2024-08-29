@@ -19,7 +19,7 @@ const paramsValue = JSON.parse(getUrlParam('value') || '{}');
 
 <style scoped lang="less">
 .pop-wrapper {
-  // width: 100%;
+  width: 100%;
   background: url('./images/pop-bg.png') no-repeat left top/100% 100%;
   padding: 8px 12px;
   display: flex;
