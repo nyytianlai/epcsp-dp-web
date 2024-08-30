@@ -273,7 +273,6 @@ bus.on('map-back', async () => {
   __g.marker.showByGroupId('quName');
   __g.marker.showByGroupId('qu');
   addHeatLayer();
-  await closeDarkMode();
 });
 
 watch(
@@ -297,9 +296,9 @@ onBeforeUnmount(async () => {
   await __g.cameraTour.stop();
   await __g.cameraTour.delete('xndc');
   await __g?.marker?.deleteByGroupId('area-point-layer');
+  await __g.marker.showByGroupId('virtual-point');
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
-  await closeDarkMode();
 });
 </script>
 
