@@ -83,7 +83,7 @@ const handleTabSelect = async (tab) => {
         objectName: '播放动画_1'
       });
       await __g.tileLayer.hide([id, id2]);
-      playCamera(__g, '宝安区政府_1');
+      playCamera(__g, '宝安区政府2');
       break;
     default:
       await __g.camera.stopAnimation();
