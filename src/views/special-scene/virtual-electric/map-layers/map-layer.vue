@@ -155,25 +155,25 @@ const setWeather = async () => {
 // 设置飞渡开启黑暗模式
 const openDarkMode = async () => {
   await setWeather();
-  await __g.weather.setDarkMode(false, () => {
-    __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
-      __g.weather.setDarkMode(true, () => {
-        Promise.resolve(1);
-      });
-    });
-  });
+  // await __g.weather.setDarkMode(false, () => {
+  //   __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
+  //     __g.weather.setDarkMode(true, () => {
+  //       Promise.resolve(1);
+  //     });
+  //   });
+  // });
 };
 
 // 设置飞渡关闭黑暗模式
 const closeDarkMode = async () => {
   await setWeather();
-  await __g.weather.setDarkMode(false, () => {
-    __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
-      __g.weather.setDarkMode(true, () => {
-        Promise.resolve(1);
-      });
-    });
-  });
+  // await __g.weather.setDarkMode(false, () => {
+  //   __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
+  //     __g.weather.setDarkMode(true, () => {
+  //       Promise.resolve(1);
+  //     });
+  //   });
+  // });
 };
 
 const cameraList = [
