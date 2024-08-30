@@ -143,24 +143,37 @@ const setCurrent = async () => {
   }, 2000);
 };
 
+const setWeather = async () => {
+  await Promise.allSettled([
+    __g.weather.setCloudDensity(0),
+    __g.weather.setCloudHeight(0),
+    __g.weather.setCloudThickness(0),
+    __g.weather.setFogParam(0, 0, 0, 0)
+  ]);
+};
+
 // 设置飞渡开启黑暗模式
 const openDarkMode = async () => {
-  // __g.weather.setDarkMode(false, () => {
-  //   __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
-  //     __g.weather.setDarkMode(true);
-  //     Promise.resolve(1);
-  //   });
-  // });
+  await setWeather();
+  await __g.weather.setDarkMode(false, () => {
+    __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
+      __g.weather.setDarkMode(true, () => {
+        Promise.resolve(1);
+      });
+    });
+  });
 };
 
 // 设置飞渡关闭黑暗模式
 const closeDarkMode = async () => {
-  //__g.weather.setDarkMode(false, () => {
-  //   __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
-  //     __g.weather.setDarkMode(true);
-  //     Promise.resolve(1);
-  //   });
-  // });
+  await setWeather();
+  await __g.weather.setDarkMode(false, () => {
+    __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
+      __g.weather.setDarkMode(true, () => {
+        Promise.resolve(1);
+      });
+    });
+  });
 };
 
 const cameraList = [
@@ -224,7 +237,7 @@ const handleToVirture = async () => {
   await __g.camera.set(virtureView);
   const ids = getTreeLayerIdByName('行政地图_虚拟电厂_福田', store.treeInfo);
   __g.infoTree.show(ids);
-  // await __g.weather.simulateTime([12, 0], [17, 30], 5);
+  await __g.weather.simulateTime([12, 0], [17, 30], 5);
   playCameraTortur();
   // await playCamera(__g, '虚拟电厂');
 };

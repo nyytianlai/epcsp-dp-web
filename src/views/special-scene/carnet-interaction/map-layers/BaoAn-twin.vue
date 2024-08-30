@@ -41,7 +41,6 @@ const handleTabSelect = async (tab) => {
   const id = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
   const id3 = getTreeLayerIdByName('宝安区政府站点_植被', store.treeInfo);
-  const id4 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
   await __g.tileLayer.hide(id3);
   switch (tab.viewInfoType) {
     case 'BAOAN_1': // V2G放电
@@ -88,7 +87,7 @@ const handleTabSelect = async (tab) => {
       break;
     default:
       await __g.camera.stopAnimation();
-      await __g.tileLayer.hide([id, id2, id4]);
+      await __g.tileLayer.hide([id, id2]);
       await __g.tileLayer.show(id3);
       resetTab3dt();
   }
@@ -107,8 +106,10 @@ const resetTab3dt = async () => {
   });
   const id2 = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id3 = getTreeLayerIdByName('能源消纳', store.treeInfo);
+  const id4 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
   await __g.tileLayer.hide(id2);
   await __g.tileLayer.hide(id3);
+  await __g.tileLayer.show(id4);
 };
 
 const showAllPos = async () => {
