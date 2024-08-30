@@ -11,9 +11,9 @@ import ntgdl from './components/images/ntgdl.png';
 import cddy from './components/images/cddy.png';
 import { baoqingDevice } from './components/baoqing-device.js';
 
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
-const configHead  = `station-detail.config`;
+const configHead = `station-detail.config`;
 
 // 宝清储能站可高亮TileLayer
 export const tileLayerIds = ['91C288AF40176FFAD02BD09F258CA575'];
@@ -25,7 +25,7 @@ export const lianhuaPowerFun = (data = {}) => {
       name: '上网电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleGreen',
-      displayName: t(`${configHead}.lianhuaPowerFun.swdl`),
+      displayName: t(`${configHead}.lianhuaPowerFun.swdl`)
     },
     {
       img: num,
@@ -33,7 +33,7 @@ export const lianhuaPowerFun = (data = {}) => {
       name: '发电电量',
       unit: 'kWh',
       classStyleType: 'leftRightStyleYellow',
-      displayName: t(`${configHead}.lianhuaPowerFun.fddl`),
+      displayName: t(`${configHead}.lianhuaPowerFun.fddl`)
     }
   ];
 };
@@ -157,7 +157,7 @@ export const lianhuaWarnOption = {
         if (value === '今日') {
           return value;
         } else {
-          return dayjs(value).format('DD') + t(`${configHead}.lianhuaWarnOption.day`) ||'日';
+          return dayjs(value).format('DD') + t(`${configHead}.lianhuaWarnOption.day`) || '日';
         }
       }
     },
@@ -166,7 +166,7 @@ export const lianhuaWarnOption = {
     }
   },
   yAxis: {
-    name: t(`${configHead}.lianhuaWarnOption.yAxisName`) ||'单位:个',
+    name: t(`${configHead}.lianhuaWarnOption.yAxisName`) || '单位:个',
     interval: 10,
     max: 50,
     min: -10,
@@ -1365,9 +1365,10 @@ const realtimeSeriesDataFun = (min = 0, max = 100) => {
 export const stationWarnOption = {
   grid: {
     top: 30,
-    bottom: 24,
-    right: 15,
-    left: 25
+    bottom: 10,
+    right: 20,
+    left: 20,
+    containLabel: true
   },
   tooltip: {
     backgroundColor: 'transparent',
@@ -1396,7 +1397,7 @@ export const stationWarnOption = {
     }
   },
   legend: {
-    data: [ t(`${configHead}.stationWarnOption.gjs`) || '告警数'],
+    data: [t(`${configHead}.stationWarnOption.gjs`) || '告警数'],
     textStyle: {
       color: '#fff'
     },
@@ -1425,7 +1426,7 @@ export const stationWarnOption = {
         if (value === '今日') {
           return value;
         } else {
-          return dayjs(value).format('DD') +  t(`${configHead}.stationWarnOption.day`) || '日';
+          return dayjs(value).format('DD') + t(`${configHead}.stationWarnOption.day`) || '日';
         }
       }
     },
@@ -1434,10 +1435,12 @@ export const stationWarnOption = {
     }
   },
   yAxis: {
-    name:  t(`${configHead}.stationWarnOption.yAxisName`) ||'单位:个',
-    interval: 10,
-    max: 50,
-    min: -10,
+    name: t(`${configHead}.stationWarnOption.yAxisName`) || '单位:个',
+    // interval: 10,
+    // max: 50,
+    // min: -10,
+    splitNumber: 4,
+    minInterval: 1,
     axisLine: {
       show: false
     },
@@ -1550,7 +1553,7 @@ export const batterySOHOption = () => {
       }
     },
     yAxis: {
-      name: t(`${configHead}.batterySOHOption.yAxisName`) ||'单位：kW',
+      name: t(`${configHead}.batterySOHOption.yAxisName`) || '单位：kW',
       axisLine: {
         show: false
       },
@@ -1578,7 +1581,7 @@ export const batterySOHOption = () => {
         data: todaySeriesData,
         type: 'line',
         smooth: true,
-        name: t(`${configHead}.batterySOHOption.seriesName`) ||'电池簇功率',
+        name: t(`${configHead}.batterySOHOption.seriesName`) || '电池簇功率',
         areaStyle: {
           origin: 'start',
           color: {
@@ -1675,7 +1678,7 @@ export const batteryTempOption = {
     }
   },
   yAxis: {
-    name: t(`${configHead}.batteryTempOption.yAxisName`) ||'单位:℃',
+    name: t(`${configHead}.batteryTempOption.yAxisName`) || '单位:℃',
     axisLine: {
       show: false
     },
@@ -1703,7 +1706,7 @@ export const batteryTempOption = {
       data: realtimeSeriesDataFun(28, 66),
       type: 'line',
       smooth: true,
-      name: t(`${configHead}.batteryTempOption.seriesName`) ||'簇最低温度',
+      name: t(`${configHead}.batteryTempOption.seriesName`) || '簇最低温度',
       areaStyle: {
         origin: 'start',
         color: {
@@ -1814,49 +1817,49 @@ export const warnList = [
         message: '保护[BCMS内部通讯故障]发生故…',
         area: '#1电池簇',
         displayMessage: t(`${configHead}.warnList.message1`),
-        displayArea: t(`${configHead}.warnList.area1`),
+        displayArea: t(`${configHead}.warnList.area1`)
       },
       {
         date: '2023-19-02 12:18:56',
         message: '保护[BCMS内部通讯故障]发生',
         area: '#2电池簇',
         displayMessage: t(`${configHead}.warnList.message2`),
-        displayArea: t(`${configHead}.warnList.area2`),
+        displayArea: t(`${configHead}.warnList.area2`)
       },
       {
         date: '2023-19-02 12:17:56',
         message: '告警[单体压差大]产生',
         area: '#3电池簇',
         displayMessage: t(`${configHead}.warnList.message3`),
-        displayArea: t(`${configHead}.warnList.area3`),
+        displayArea: t(`${configHead}.warnList.area3`)
       },
       {
         date: '2023-19-02 11:58:21',
         message: '告警[单体压差大]产生',
         area: '#8电池簇',
         displayMessage: t(`${configHead}.warnList.message4`),
-        displayArea: t(`${configHead}.warnList.area4`),
+        displayArea: t(`${configHead}.warnList.area4`)
       },
       {
         date: '2023-19-02 11:23:01',
         message: '告警[单体压差大]产生',
         area: '#9电池簇',
         displayMessage: t(`${configHead}.warnList.message5`),
-        displayArea: t(`${configHead}.warnList.area5`),
+        displayArea: t(`${configHead}.warnList.area5`)
       },
       {
         date: '2023-19-02 10:45:42',
         message: '告警[单体压差大]产生',
         area: '#9电池簇',
         displayMessage: t(`${configHead}.warnList.message6`),
-        displayArea: t(`${configHead}.warnList.area6`),
+        displayArea: t(`${configHead}.warnList.area6`)
       },
       {
         date: '2023-19-02 09:16:01',
         message: '告警[单体压差大]产生',
         area: '#9电池簇',
         displayMessage: t(`${configHead}.warnList.message7`),
-        displayArea: t(`${configHead}.warnList.area7`),
+        displayArea: t(`${configHead}.warnList.area7`)
       }
     ]
   }
@@ -1867,7 +1870,7 @@ const baoqingSytemStatusFun = () => {
   for (let i = 0; i < 36; i++) {
     let obj = {
       id: 'baoqingSytemStatus' + i,
-      value: `#${i + 1}${t(`${configHead}.baoqingSytemStatusFun.fxt`)||'分系统'}`,
+      value: `#${i + 1}${t(`${configHead}.baoqingSytemStatusFun.fxt`) || '分系统'}`,
       status: 1
     };
     // if (i < 50) {
@@ -2030,7 +2033,7 @@ export const baoqingRealtimeOption = () => {
         data: dataC,
         type: 'line',
         // smooth: true,
-        name: t(`${configHead}.baoqingRealtimeOption.seriesName`) ||'实时充放',
+        name: t(`${configHead}.baoqingRealtimeOption.seriesName`) || '实时充放',
         areaStyle: {
           color: {
             type: 'linear',
@@ -2189,7 +2192,7 @@ export const baoqingWarnOption = {
       data: baoqingWarnDataFun(),
       type: 'line',
       smooth: true,
-      name: t(`${configHead}.baoqingWarnOption.seriesName`) ||'告警数',
+      name: t(`${configHead}.baoqingWarnOption.seriesName`) || '告警数',
       areaStyle: {
         color: {
           type: 'linear',
@@ -2233,32 +2236,32 @@ export const msgList = [
   {
     label: '分系统最大可充功率',
     value: '500kW',
-    displayLabel: t(`${configHead}.msgList.fxtzdkcgl`),
+    displayLabel: t(`${configHead}.msgList.fxtzdkcgl`)
   },
   {
     label: '分系统最大可放功率',
     value: '500kW',
-    displayLabel: t(`${configHead}.msgList.fxtzdkfgl`),
+    displayLabel: t(`${configHead}.msgList.fxtzdkfgl`)
   },
   {
     label: '分系统可放电量',
     value: '1103.10',
-    displayLabel: t(`${configHead}.msgList.fxtkfdl`),
+    displayLabel: t(`${configHead}.msgList.fxtkfdl`)
   },
   {
     label: '分系统可充电量',
     value: '857.90',
-    displayLabel: t(`${configHead}.msgList.fxtkcdl`),
+    displayLabel: t(`${configHead}.msgList.fxtkcdl`)
   },
   {
     label: '分系统总充电量',
     value: '368635.19',
-    displayLabel: t(`${configHead}.msgList.fxtzcdl`),
+    displayLabel: t(`${configHead}.msgList.fxtzcdl`)
   },
   {
     label: '分系统总放电量',
     value: '343971.09',
-    displayLabel: t(`${configHead}.msgList.fxtzfdl`),
+    displayLabel: t(`${configHead}.msgList.fxtzfdl`)
   }
 ];
 
@@ -2435,7 +2438,7 @@ export const popRealtimeOption = () => {
         data: dataC,
         type: 'line',
         // smooth: true,
-        name:  t(`${configHead}.popRealtimeOption.seriesName`) || '实时充放',
+        name: t(`${configHead}.popRealtimeOption.seriesName`) || '实时充放',
         // areaStyle: {
         //   color: {
         //     type: 'linear',
@@ -2471,21 +2474,21 @@ export const pageNumLianhuaxiFun = (data = {}) => {
       num: 1.12,
       unit: '万kWh',
       displayName: t(`${configHead}.pageNumLianhuaxiFun.nljfdl`),
-      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.wanKwh`) 
+      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.wanKwh`)
     },
     {
       name: '年有效利用小时数',
       num: 569,
       unit: '小时',
       displayName: t(`${configHead}.pageNumLianhuaxiFun.nyxlyxss`),
-      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.unitHour`) 
+      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.unitHour`)
     },
     {
       name: '年累计CO²减排量',
       num: 1.1,
       unit: '吨',
       displayName: t(`${configHead}.pageNumLianhuaxiFun.nljco2jpl`),
-      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.unitTon`) 
+      displayUnit: t(`${configHead}.pageNumLianhuaxiFun.unitTon`)
     }
   ];
 };
@@ -2497,14 +2500,14 @@ export const chargingStationTabsFun = () => {
       chargingType: 'speed',
       typeCharge: 'pile',
       label: '充电桩类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`)
     },
     {
       code: 'cdzdllx',
       chargingType: 'electricity',
       typeCharge: 'pile',
       label: '充电桩电流类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`)
     }
   ];
 };
@@ -2516,14 +2519,14 @@ export const chargingStationGunTabsFun = () => {
       chargingType: 'speed',
       typeCharge: 'gun',
       label: '充电枪类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`)
     },
     {
       code: 'cdqdllx',
       chargingType: 'electricity',
       typeCharge: 'gun',
       label: '充电枪电流类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqdllx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqdllx`)
     }
   ];
 };
@@ -2541,7 +2544,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.noQuickCount,
@@ -2551,7 +2554,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.superCount,
@@ -2561,7 +2564,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.v2gCount,
@@ -2571,7 +2574,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), // '个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         }
       ];
       break;
@@ -2582,33 +2585,36 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           name: '直流桩',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zlz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
           name: '交流桩',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流桩',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
-          value: data?.chargeCountByElectricityTypeDto?.otherCount, 
-          name: '其他桩', 
+          value: data?.chargeCountByElectricityTypeDto?.otherCount,
+          name: '其他桩',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.qtz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        },
         {
-          value: data?.chargeCountByElectricityTypeDto?.v2gCount, 
-          name: 'V2G桩', 
+          value: data?.chargeCountByElectricityTypeDto?.v2gCount,
+          name: 'V2G桩',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  }
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        }
       ];
       break;
     case 'cdqlx':
@@ -2620,7 +2626,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.noQuickCount,
@@ -2629,7 +2635,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.superCount,
@@ -2638,7 +2644,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.v2gCount,
@@ -2647,7 +2653,7 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.v2gq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         }
       ];
       break;
@@ -2658,20 +2664,21 @@ export const chargingStationPieDataFun = (code = 'cdzlx', data = {}) => {
           name: '直流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
           name: '交流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)  },
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.zlz`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`) 
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.otherCount,
@@ -2708,7 +2715,7 @@ export const batteryMsgFun = (data = {}) => {
         textFillColor: 'transparent',
         '-webkit-background-clip': 'text'
       },
-      displayName: t(`${configHead}.batteryMsgFun.zdfdl`),
+      displayName: t(`${configHead}.batteryMsgFun.zdfdl`)
     },
     {
       img: ntgdl,
@@ -2720,7 +2727,7 @@ export const batteryMsgFun = (data = {}) => {
         textFillColor: 'transparent',
         '-webkit-background-clip': 'text'
       },
-      displayName: t(`${configHead}.batteryMsgFun.fddy`),
+      displayName: t(`${configHead}.batteryMsgFun.fddy`)
     },
     {
       img: cddy,
@@ -2732,7 +2739,7 @@ export const batteryMsgFun = (data = {}) => {
         textFillColor: 'transparent',
         '-webkit-background-clip': 'text'
       },
-      displayName: t(`${configHead}.batteryMsgFun.cddy`),
+      displayName: t(`${configHead}.batteryMsgFun.cddy`)
     }
   ];
 };
@@ -2790,7 +2797,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
           displayName: t(`${configHead}.getSuperHeaderData.cc`)
         }
       ],
-      displayName: t(`${configHead}.getSuperHeaderData.cdl`),
+      displayName: t(`${configHead}.getSuperHeaderData.cdl`)
     },
     {
       name: '充电次数',
@@ -2799,7 +2806,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
       unit: '次',
       children: [
         {
-          name: type ?  '站点' : '站点',
+          name: type ? '站点' : '站点',
           num: data?.stationChargeCount,
           displayName: t(`${configHead}.getSuperHeaderData.zd`)
         },
@@ -2811,7 +2818,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         }
       ],
       displayName: t(`${configHead}.getSuperHeaderData.cdcs`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`),
+      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`)
     },
     {
       name: '充电时长',
@@ -2832,7 +2839,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         }
       ],
       displayName: t(`${configHead}.getSuperHeaderData.zdfdl`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitHour`),
+      displayUnit: t(`${configHead}.getSuperHeaderData.unitHour`)
     },
     {
       name: '站点故障次数',
@@ -2840,7 +2847,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
       nameColor: '#64DEF6',
       unit: '次',
       displayName: t(`${configHead}.getSuperHeaderData.zdgzcs`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`),
+      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`)
       // children: [
       //   {
       //     name: type ? '站点' : '充电桩',
