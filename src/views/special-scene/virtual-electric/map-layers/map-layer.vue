@@ -154,7 +154,7 @@ const setWeather = async () => {
 
 // 设置飞渡开启黑暗模式
 const openDarkMode = async () => {
-  await setWeather();
+  // await setWeather();
   // await __g.weather.setDarkMode(false, () => {
   //   __g.weather.setDateTime(2023, 10, 13, 18, 30, false, () => {
   //     __g.weather.setDarkMode(true, () => {
@@ -166,7 +166,8 @@ const openDarkMode = async () => {
 
 // 设置飞渡关闭黑暗模式
 const closeDarkMode = async () => {
-  await setWeather();
+  // await setWeather();
+  await __g.weather.simulateTime([9, 10], [9, 30], 1);
   // await __g.weather.setDarkMode(false, () => {
   //   __g.weather.setDateTime(2023, 10, 13, 9, 30, false, () => {
   //     __g.weather.setDarkMode(true, () => {
