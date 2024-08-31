@@ -24,6 +24,7 @@ const store = useMapStore();
 
 let v2gTimer;
 let nyxnTimer;
+let timer;
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
@@ -56,7 +57,7 @@ const handleTabSelect = async (tab) => {
         objectName: '播放动画_1'
       });
       v2gTimer = setTimeout(() => {
-        __g.camera.set(487378.9825, 2495522.527188, 12.540851, -26.378933, 143.160629, 0);
+        __g.camera.set(487377.52875, 2495514.220625, 8.841861, -21.831865, -173.74321, 0);
         __g.tileLayer.show(id);
       }, 20000);
       break;
@@ -74,6 +75,8 @@ const handleTabSelect = async (tab) => {
       });
       break;
     case 'BAOAN_3': // 视角漫游
+      clearTimeout(v2gTimer)
+      clearTimeout(nyxnTimer)
       await __g.misc.callBPFunction({
         functionName: '停止',
         objectName: '动画播放_2'
@@ -86,6 +89,8 @@ const handleTabSelect = async (tab) => {
       playCamera(__g, '宝安区政府2');
       break;
     default:
+      clearTimeout(v2gTimer)
+      clearTimeout(nyxnTimer)
       await __g.camera.stopAnimation();
       await __g.tileLayer.hide([id, id2]);
       await __g.tileLayer.show(id3);
@@ -132,6 +137,7 @@ const hideAllPos = async () => {
 
 onBeforeUnmount(async () => {
   __g.camera.stopAnimation();
+  clearTimeout(timer);
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
   const id2 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
@@ -143,7 +149,9 @@ onBeforeUnmount(async () => {
 bus.on('handleTabSelect', handleTabSelect);
 
 bus.on('resetTab3dt', resetTab3dt);
-onMounted(showAllPos);
+onMounted(() => {
+  timer = setTimeout(showAllPos, 2000);
+});
 </script>
 
 <style scoped></style>

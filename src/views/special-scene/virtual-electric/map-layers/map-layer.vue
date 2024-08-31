@@ -248,7 +248,7 @@ const init = async () => {
   await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
   addHeatLayer();
-  addVirturePoint();
+  // addVirturePoint();
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -261,7 +261,7 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 bus.on('map-back', async () => {
-  await closeDarkMode();
+  // closeDarkMode();
   await __g.camera.stopAnimation();
   __g.polygon.show(quRef.value?.allQUIds);
   __g.polygon3d.show('wall');
@@ -290,10 +290,10 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  // closeDarkMode();
   await __g.camera.stopAnimation();
   bus.off('map-back');
   clearTimeout(timer);
-  await closeDarkMode();
   await __g.cameraTour.stop();
   await __g.cameraTour.delete('xndc');
   await __g?.marker?.deleteByGroupId('area-point-layer');

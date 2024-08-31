@@ -1,63 +1,63 @@
 export default {
-  'power-combine':{
-    'config': {
-      bottomTabDataFun:{
+  'power-combine': {
+    config: {
+      bottomTabDataFun: {
         jnxt: '交能协同',
-        tcyt: '停充一体',
+        tcyt: '停充一体'
       },
       parkingChargeAreaColumn: {
         areaName: '行政区',
         totalParkingSpace: '车位数(个)',
         totalGun: '充电枪数(个)',
-        stopChargeRatio: '车充配比',  
+        stopChargeRatio: '车充配比'
       },
       parkingChargeOperationColumn: {
         areaName: '行政区',
         dailyParkingVolume: '停车量(辆)',
         dailyChargingVolume: '充电量(kWh)',
-        rate: '车位/充电枪利用率(%)',  
+        rate: '车位/充电枪利用率(%)'
       },
-      powerDistributedColumn:{
+      powerDistributedColumn: {
         areaName: '行政区',
-        soltNum: '巴士剩余电量(kWh)',
-        connectorNum: '巴士数量(辆)',
+        soltNum: '巴士储能电量(kWh)',
+        connectorNum: '巴士数量(辆)'
       },
-      parkingChargeOperationColumn1:{
+      parkingChargeOperationColumn1: {
         areaName: '行政区',
         parkingNum: '停车量(辆)',
         power: '充电量(kWh)',
-        rate: '车位/充电枪利用率(%)',
+        rate: '车位/充电枪利用率(%)'
       },
-      operationTrendConfig:{
+      operationTrendConfig: {
         busNum: '巴士数量',
         unitCar: '辆',
-        busCapacity: '巴士剩余电量',
-        unitKwh: 'kwh',
+        busCapacity: '巴士储能电量',
+        unitKwh: 'kwh'
       },
-      adjustTrendConfig:{
+      adjustTrendConfig: {
         busNum: '调节次数',
         unitCi: '次',
         busCapacity: '调节功率',
-        unitMw: 'MW',  
+        unitMw: 'MW'
       }
     },
-    'map-layer':{
+    'map-layer': {
       sl: '数量',
-      legendListData:{
+      legendListData: {
         tcw: '停车位',
-        cdq: '充电枪',  
+        cdq: '充电枪'
       }
     },
-    'components':{
-      'parking-charge-area':{
+    components: {
+      'parking-charge-area': {
         qytcyxqk: '区域停充运行情况'
       },
-      'parking-charge-distributed':{
+      'parking-charge-distributed': {
         tcqyfb: '停充区域分布'
       },
-      'parking-charge-operation':{
+      'parking-charge-operation': {
         tcrjyxzl: '停充日均运行总览',
-        bottomCardConfig:{
+        bottomCardConfig: {
           cwlyl: '车位利用率',
           cdqlyl: '充电枪利用率',
           cdl: '充电量',
@@ -65,80 +65,80 @@ export default {
           unitHour: '小时',
           tcl: '停车量',
           unitCar: '辆',
-          tcsc: '停车时长',
+          tcsc: '停车时长'
         }
       },
-      'parking-charge-overview':{
+      'parking-charge-overview': {
         tcjrzl: '停充接入总览',
-        topCardConfig:{
+        topCardConfig: {
           zcws: '总车位数',
           unitGe: '个',
-          cdqs: '充电枪数',
+          cdqs: '充电枪数'
         },
         rate: {
           stopChargeRatio: '停充配比'
         },
-        bottomCardConfig:{
+        bottomCardConfig: {
           tclsl: '停车场数量',
           unitGe: '个',
-          cdzsl: '充电站数量',
+          cdzsl: '充电站数量'
         }
       },
-      'parking-charge-rank':{
+      'parking-charge-rank': {
         tcythtccpm: '停充一体化停车场排名',
         tcws: '停车位数',
         cdqs: '充电枪数',
         tcpb: '停充配比',
-        legend:{
+        legend: {
           totalParkingSpace: '车位',
-          totalGun: '充电枪',
+          totalGun: '充电枪'
         }
       },
-      'parking-charge-trend':{
+      'parking-charge-trend': {
         tcyxqsfx: '停充运行趋势分析',
         dw: '单位',
-        chartConfig:{
+        chartConfig: {
           dailyGunUtilizationRate: '充电枪利用率',
-          dailyParkingSpaceUtilizationRate: '车位利用率',
+          dailyParkingSpaceUtilizationRate: '车位利用率'
         }
       },
-      'adjust-overview':{
+      'adjust-overview': {
         bottomCardConfig: {
           jrtjzxq: '今日调节总需求',
           unitMW: 'MW',
           jrtjcs: '今日调节次数',
           unitCi: '次',
           rjtjxq: '日均调节需求',
-          rjtjcs: '日均调节次数',
+          rjtjcs: '日均调节次数'
         },
         xndctjzl: '虚拟电厂调节总览'
       },
-      'adjust-trend-analysis':{
+      'adjust-trend-analysis': {
         tjqsfx: '调节趋势分析',
         unitCi: '单位:次',
         unitMw: '单位:MW'
       },
-      'bus-power-distributed':{
-        bssydlfb: '巴士剩余电量分布'
+      'bus-power-distributed': {
+        bssydlfb: '巴士储能电量分布'
       },
-      'bus-power-trend':{
+      'bus-power-trend': {
         bskynlts: '巴士可用能量态势',
         unitLiang: '单位:辆',
         unitKWH: '单位:kwh'
       },
-      'operation-bus-overview':{
+      'operation-bus-overview': {
         yybsyxzl: '营运巴士运行总览',
         bottomCardConfig: {
           jzznh: '今日总耗能',
           rjxslc: '今日行驶里程',
           rjnh: '日均能耗',
-          rjlc: '日均里程',
+          rjlc: '日均里程'
         }
       },
-      'today-adjust-demand':{
+      'today-adjust-demand': {
         jrtjxq: '今日调节需求',
         unitMW: '单位:MW',
-        tjxq: '调节需求',
+        tjxq: '调节需求'
       }
     }
   },
@@ -183,7 +183,7 @@ export default {
         jrcdsc: '今日充电时长',
         unitHour: '小时',
         jrcddds: '今日充电订单数',
-        ccrjlyl: '超充日均利用率',
+        ccrjlyl: '超充日均利用率'
       }
     },
     components: {
@@ -195,10 +195,10 @@ export default {
       ccyyfbqk: '超充营运分布情况',
       cczl: '超充总览',
       hour: '时',
-      unitDay: '日',
+      unitDay: '日'
     },
     'map-layers': {
-      ds: '点数',
+      ds: '点数'
     }
   },
   'virtual-electric': {
@@ -206,7 +206,7 @@ export default {
       baseline: '基线',
       planNum: '计划',
       actualNum: '实际',
-      ssjhyxqk: "实时聚合运行情况",
+      ssjhyxqk: '实时聚合运行情况',
       unitMW: '单位:MW',
       ktrlqyfb: '可调容量区域分布',
       ddyxqk: '调度运行情况',
@@ -233,4 +233,4 @@ export default {
       wcl: '完成率(%)'
     }
   }
-}
+};

@@ -8,13 +8,18 @@ import Qu from '@/components/map-layer/qu.vue';
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { getHtmlUrl } from '@/global/config/map';
-import { getImageByCloud, layerNameQuNameArr, getTreeLayerIdByName } from '@/global/config/map';
+import {
+  getImageByCloud,
+  layerNameQuNameArr,
+  getTreeLayerIdByName,
+  playCamera
+} from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import { useRoute } from 'vue-router';
-import { baoQingInfo } from './baoQing';
+import { baoQingInfo, toBaoQingCameraList } from './baoQing';
 import { useMapStore } from '@/stores/map';
 
 import BaoAnTwin from './BaoAn-twin.vue';
@@ -33,13 +38,16 @@ const store = useVisibleComponentStore();
 const route = useRoute();
 onMounted(async () => {
   await __g.reset();
-  getData();
-  addBaoAnPoint();
+  await getData();
+  await addBaoAnPoint();
+  handleToBaoAnTwin();
 });
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
   bus.off('map-back');
   showTwin.value = false;
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('1');
 });
 
 let BaoAnTwinIds = [];
@@ -73,6 +81,26 @@ bus.on('map-back', () => {
   beforeAddOrExitHrStation(false);
   showTwin.value = false;
 });
+
+const playCameraTortur = async () => {
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('1');
+  //通过接口添加导览并播放
+  let frames = [];
+  let duration = 0;
+  toBaoQingCameraList.forEach((element, i) => {
+    duration += element.duration;
+    // @ts-nocheck
+    frames.push(
+      //@ts-ignore
+      new CameraTourKeyFrame(i, duration, element.camera.slice(0, 3), element.camera.slice(3))
+    );
+  });
+  //@ts-ignore
+  let o = new CameraTourData('1', 'test', frames);
+  await __g.cameraTour.add(o);
+  await __g.cameraTour.play('1');
+};
 
 const setBaoAnTwinVisible = async (visible) => {
   if (!BaoAnTwinIds?.length) {
@@ -113,7 +141,10 @@ const handleToBaoAnTwin = async () => {
       isHr: 0
     }
   });
-  await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
+
+  playCameraTortur();
+  // playCamera(__g, '宝安区政府');
+  // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
 };
 
 const addPoint = async () => {
@@ -147,7 +178,9 @@ const addPoint = async () => {
     };
     markers.push(o);
   });
-  await aircityObj.value.acApi.marker.add(markers, null);
+  await aircityObj.value.acApi.marker.add(markers, () => {
+    __g.marker.hideByGroupId('carnet-interaction-group', null);
+  });
 
   if (route.name !== 'carnet-interaction') {
     __g?.marker?.deleteByGroupId('carnet-interaction-group');
@@ -190,7 +223,9 @@ const addBaoAnPoint = async () => {
     autoHeight: true, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
-  await aircityObj.value.acApi.marker.add(o);
+  await aircityObj.value.acApi.marker.add(o, () => {
+    __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null);
+  });
   aircityObj.value.acApi.marker.showPopupWindow(o.id);
 };
 </script>

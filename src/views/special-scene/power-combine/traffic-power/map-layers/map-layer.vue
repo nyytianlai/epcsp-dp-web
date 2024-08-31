@@ -4,7 +4,7 @@
   <MapLeftBtn v-show="!isPlaying">
     <div class="remain-power" @click="handleRemainPoweLayer">
       <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
-      <div class="name">剩余电量</div>
+      <div class="name">巴士储能</div>
     </div>
   </MapLeftBtn>
 </template>
@@ -18,6 +18,7 @@ import { getHtmlUrl, getTreeLayerIdByName } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
 import { scale } from '@sutpc/config';
+import { busLineList } from './map-config';
 import Api from '../api';
 import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
@@ -28,6 +29,7 @@ const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 const emits = defineEmits(['playTwin']);
+const bus_idList = busLineList.map((item) => item.id);
 
 const showRemainPower = ref(false);
 
@@ -41,6 +43,7 @@ onMounted(async () => {
 
   addPoint();
   addBusObj();
+  addBusLine();
 });
 
 onBeforeUnmount(async () => {
@@ -50,37 +53,39 @@ onBeforeUnmount(async () => {
   });
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   id && (await __g.tileLayer.hide(id));
+  await __g.customObject.delete(bus_idList);
+  await __g.polyline.delete(bus_idList);
 });
 
-let legendNameData = '巴士剩余电量(kw)';
+let legendNameData = '巴士储能电量(kw)';
 let legendListData = ref([
   {
-    color: '#E3E899',
-    pColor: [227 / 255, 232 / 255, 153 / 255, 0.7],
+    color: 'rgb(253, 255, 223)',
+    pColor: [253 / 255, 255 / 255, 223 / 255, 0.7],
     name: '≤1000',
     type: false
   },
   {
-    color: '#B8D45D',
-    pColor: [184 / 255, 212 / 255, 93 / 255, 0.7],
+    color: 'rgb(245, 249, 180)',
+    pColor: [245 / 255, 249 / 255, 180 / 255, 0.7],
     name: '1000～2000',
     type: false
   },
   {
-    color: '#7CAE53',
-    pColor: [124 / 255, 174 / 255, 83 / 255, 0.9],
+    color: 'rgb(200, 231, 98)',
+    pColor: [200 / 255, 231 / 255, 98 / 255, 0.8],
     name: '2000～4000',
     type: false
   },
   {
-    color: '#45802A',
-    pColor: [69 / 255, 128 / 255, 42 / 255, 0.85],
+    color: 'rgb(138, 201, 86)',
+    pColor: [138 / 255, 201 / 255, 86 / 255, 0.8],
     name: '4000～7000',
     type: false
   },
   {
-    color: '#316528',
-    pColor: [49 / 255, 101 / 255, 40 / 255, 0.98],
+    color: 'rgb(91, 165, 57)',
+    pColor: [91 / 255, 165 / 255, 57 / 255, 0.8],
     name: '≥7000',
     type: false
   }
@@ -174,32 +179,112 @@ const addPoint = async () => {
 };
 
 const addBusObj = async () => {
-  await __g.customObject.delete('busObj');
-  const cusObj = {
-    id: 'busObj',
-    groupId: 'busObjGroup',
-    pakFilePath: '@path:DTS_Library_V5.4.pak',
-    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/公交车_04',
-    range: [1, 10000000],
-    autoHeight: true,
-    location: [491850.03500000003, 2508888],
-    coordinateType: 0,
-    colorType: 1,
-    scale: [500, 500, 500]
-  };
-  __g.customObject.add(cusObj, null);
+  await __g.customObject.delete(bus_idList);
+  const arr = [];
+  const markerList = [];
+  const moveMap = {};
+  busLineList.forEach((item) => {
+    const cusObj = {
+      id: item.id,
+      groupId: 'busObjGroup',
+      userData: JSON.stringify({ isHighLight: item.isHighLight }),
+      pakFilePath: '@path:能源_公交车.pak',
+      assetPath: item.assetPath,
+      range: [1, 10000000],
+      autoHeight: true,
+      location: item.path[0],
+      coordinateType: 0,
+      scale: [200, 200, 200]
+    };
+    arr.push(cusObj);
+    moveMap[item.id] = item.path.map((el, i) => {
+      return {
+        time: i * 60 * 10,
+        coordinate: el,
+        // @ts-ignore
+        rotation: item.rotation
+      };
+    });
+
+    if (item.isHighLight) {
+      const marker = {
+        id: item.id,
+        groupId: 'busObjGroup',
+        coordinate: item.path[0],
+        anchors: [-23, -14.5], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+        imageSize: [46, 29], //图片的尺寸
+        range: [1, 1000000], //可视范围
+        imagePath: getImageByCloud('circle'), //显示图片路径
+        displayMode: 2,
+        autoHeight: true,
+        priority: 1,
+        occlusionCull: false
+      };
+      markerList.push(marker);
+    }
+  });
+  await __g.customObject.add(arr);
+  // await __g.marker.add(markerList);
+
+  // __g.marker.setAttachCustomObject(
+  //   markerList.map((item) => {
+  //     return {
+  //       markerId: item.id,
+  //       objectId: item.id,
+  //       offset: [0, 0, 0]
+  //     };
+  //   })
+  // );
+  __g.customObject.updateBegin();
+  Object.keys(moveMap).forEach((key) => {
+    __g.customObject.startMove(key, 0, moveMap[key]);
+  });
+  // __g.customObject.glow(
+  //   busLineList
+  //     .filter((item) => item.isHighLight)
+  //     .map((item) => ({
+  //       id: item.id,
+  //       color: [243 / 255, 218 / 255, 32 / 255, 1],
+  //       colors: [243 / 255, 218 / 255, 32 / 255, 1],
+  //       duration: 3600,
+  //       interval: 1
+  //     }))
+  // );
+  __g.customObject.highlight(busLineList.filter((item) => item.isHighLight).map((item) => item.id));
+  __g.customObject.updateEnd();
+};
+
+const addBusLine = async () => {
+  await __g.polyline.delete(bus_idList);
+  const arr = [];
+  busLineList.forEach((item) => {
+    const line = {
+      id: item.id,
+      groupId: 'buslineGroup',
+      color: [0 / 255, 0 / 255, 255 / 255, 0.9],
+      coordinates: item.path,
+      range: [1, 10000000],
+      thickness: 300,
+      intensity: 0.2,
+      depthTest: false,
+      shape: 0,
+      style: 4
+    };
+    arr.push(line);
+  });
+  __g.polyline.add(arr);
 };
 
 const handleToBusTwin = async () => {
   isPlaying.value = true;
   await Promise.allSettled([
-    __g.customObject.hide('busObj'),
+    __g.customObject.hide(bus_idList),
+    __g.polyline.hide(bus_idList),
     __g.marker.hideByGroupId('quName'),
     beforeAddOrExitHrStation(true)
   ]);
   mapStore.changeCurrentQu('福田区');
   mapStore.changeCurrentPosition('福田区');
-  __g.customObject.hide('busObj');
   // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   id && (await __g.tileLayer.show(id));
@@ -210,7 +295,8 @@ const handleToBusTwin = async () => {
 
   setTimeout(() => {
     isPlaying.value = false;
-    __g.customObject.show('busObj'),
+    __g.customObject.show(bus_idList),
+      __g.polyline.show(bus_idList),
       __g.marker.showByGroupId('quName'),
       beforeAddOrExitHrStation(false);
   }, 26000);
@@ -222,7 +308,8 @@ bus.on('map-back', async () => {
     functionName: '停止',
     objectName: '动画播放_3'
   });
-  __g.customObject.show('busObj'),
+  __g.customObject.show(bus_idList),
+    __g.polyline.show(bus_idList),
     __g.marker.showByGroupId('quName'),
     beforeAddOrExitHrStation(false);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
@@ -239,7 +326,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Type === 'CustomObj') {
-      handleToBusTwin();
+      const data = JSON.parse(e.UserData ?? '{}');
+      data?.isHighLight && handleToBusTwin();
     }
   }
 

@@ -358,10 +358,8 @@ onBeforeUnmount(async () => {
 
 onMounted(async () => {
   await __g.reset();
-  torturTimer = setTimeout(async () => {
-    await setTwinVisible(true);
-    await addEnterTutor();
-  }, 2000);
+  await setTwinVisible(true);
+  await addEnterTutor();
 });
 
 watch(
@@ -436,7 +434,7 @@ const addEnterTutor = async () => {
     objectName: '动画播放_0'
   });
   setTimeout(() => {
-    showRemainPower.value = false;
+    // showRemainPower.value = false;
   }, 51 * 1000);
 };
 
