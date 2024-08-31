@@ -30,10 +30,4 @@ export default {
       url: '/vehicle/net/inter/getV2GResourceDistribution'
     });
   },
-  // 车网互动-地图V2G站点分布
-  getV2GStationDistribution() {
-    return request.post({
-      url: '/vehicle/net/inter/getV2GStationDistribution'
-    });
-  }
 };
