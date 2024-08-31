@@ -2,17 +2,17 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-06 10:02:57
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-27 16:20:37
+ * @LastEditTime: 2024-08-31 17:35:48
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/power-combine/parking-charge/map-layers/map-layer.vue
 -->
 <template>
   <qu ref="quRef" :module="200" @addQuBar="addQuBar"></qu>
-  <legend-list
+  <!-- <legend-list
     :legendList="legendListData"
     :legendName="legendName || '数量'"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
-  />
+  /> -->
 </template>
 
 <script setup lang="ts">
@@ -24,6 +24,7 @@ import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import Api from '../api';
 import { useI18n } from 'vue-i18n';
+import { scale } from '@sutpc/config';
 const { t } = useI18n();
 const tHead = `special-scene.power-combine.map-layer`;
 
@@ -57,6 +58,7 @@ const legendListData = reactive([
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标高亮
+  console.log('点击外面的点数据', e);
   if (e.eventtype === 'LeftMouseButtonClick') {
     console.log('点击外面的点数据', e);
   }
@@ -137,7 +139,7 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
     let contentHeight = Math.max((180 * itemMax) / yMax, 60);
     const oPopUpUrl = getPopupHtml({
       usePopupHtml: true,
-      com: 'rect-bar2',
+      com: 'power-combine-parking-charge',
       params: {
         value: JSON.stringify({ ...countObj, coordinates: item.geometry.coordinates }),
         yMax: yMax,
@@ -147,21 +149,25 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
         hideToolTip: 1
       }
     });
+    const maxLen = Math.max(
+      `${countObj.totalParkingSpace || 0}`.length,
+      `${countObj.totalGun || 0}`.length
+    );
     const o = {
       id: 'rectBar1-' + idEnd,
       groupId: `rectBar`,
       userData: areaCode,
       coordinate: item.geometry.coordinates,
-      anchors: [-0.5, -1], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [1, 1], //图片的尺寸
+      anchors: [-10, 10], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [10, 10], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: `${getHtmlUrl()}static/images/barEllipse.png`, //显示图片路径
+      imagePath: getImageByCloud('circle'), //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: oPopUpUrl,
       popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
       autoHidePopupWindow: false,
-      popupSize: [100, contentHeight],
-      popupOffset: [-50, -contentHeight / 2], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 8), scale(110)],
+      popupOffset: [-scale(100 + maxLen * 8) / 2 - 5, -scale(15)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
       // priority: item.properties.PRIORITY

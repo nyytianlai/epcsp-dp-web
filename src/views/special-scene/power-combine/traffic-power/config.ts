@@ -1,7 +1,7 @@
 import { scale } from '@sutpc/config';
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
-const configHead  = `special-scene.power-combine.config`;
+const configHead = `special-scene.power-combine.config`;
 
 export const powerDistributedColumn = [
   {
@@ -12,7 +12,7 @@ export const powerDistributedColumn = [
   },
   {
     prop: 'busRemainPower',
-    label: '巴士剩余电量(kWh)',
+    label: '巴士储能电量(kWh)',
     width: 4,
     displayLabel: t(`${configHead}.powerDistributedColumn.soltNum`)
   },
@@ -66,7 +66,7 @@ export const operationTrendConfig = () => [
     displayUnit: t(`${configHead}.operationTrendConfig.unitCar`)
   },
   {
-    name: '巴士剩余电量',
+    name: '巴士储能电量',
     code: 'busRemainEnergy',
     type: 'line',
     data: [],

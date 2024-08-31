@@ -37,7 +37,7 @@ const loading = ref(true);
 
 const bottomCardConfig = ref([
   {
-    name: '巴士剩余电量',
+    name: '巴士储能电量',
     code: 'busRemainPower',
     value: '',
     unit: 'kWh',
