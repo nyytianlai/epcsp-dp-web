@@ -188,7 +188,7 @@ const addBusObj = async () => {
       id: item.id,
       groupId: 'busObjGroup',
       userData: JSON.stringify({ isHighLight: item.isHighLight }),
-      pakFilePath: '@path:DTS_Library_V5.4.pak',
+      pakFilePath: '@path:能源_公交车.pak',
       assetPath: item.assetPath,
       range: [1, 10000000],
       autoHeight: true,
@@ -201,6 +201,7 @@ const addBusObj = async () => {
       return {
         time: i * 60 * 10,
         coordinate: el,
+        // @ts-ignore
         rotation: item.rotation
       };
     });
