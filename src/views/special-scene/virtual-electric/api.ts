@@ -30,8 +30,15 @@ export default {
       data
     });
   },
+  // 右上-虚拟电厂公告
+  vppNotice(data = {}) {
+    return request.post({
+      url: '/virtualPowerPlant/vppNotice',
+      data
+    });
+  },
   // 右上-调度运行情况
-  dispatchInfo(data = {}) {
+  dispatchInfo(data) {
     return request.post({
       url: '/virtualPowerPlant/dispatchInfo',
       data
@@ -45,10 +52,31 @@ export default {
     });
   },
   // 右下-实时聚合运行情况
-  adjustDemandHourInfo() {
+  adjustDemandHourInfo(data) {
     return request.post({
       url: '/virtualPowerPlant/adjustDemandHourInfo',
+      data
+    });
+  },
+  // 获取中间屏幕时间轴信息
+  getVppAdjustTime(data) {
+    return request.post({
+      url: '/virtualPowerPlant/getVppAdjustTime',
+      data
+    });
+  }, 
+  // 获取中间地图热力图数据
+  getVppAdjustData() {
+    return request.post({
+      url: '/virtualPowerPlant/getVppAdjustData',
       data: {}
+    });
+  },
+  // 地图上方指标
+  getAdjustOverViewByTime(data) {
+    return request.post({
+      url: '/virtualPowerPlant/getAdjustOverViewByTime',
+      data
     });
   },
   requestGeojsonData(fileName) {

@@ -90,3 +90,23 @@ export const getBaseChartOption = () => {
     series: []
   };
 };
+
+export const pageNumFun = (data = {}) => {
+  return [
+    {
+      name: '基线',
+      num: data?.baseline,
+      unit: 'MW',
+    },
+    {
+      name: '计划',
+      num: data?.planNum,
+      unit: 'MW',
+    },
+    {
+      name: '实际',
+      num: data?.actualNum,
+      unit: 'MW',
+    },
+  ];
+};
