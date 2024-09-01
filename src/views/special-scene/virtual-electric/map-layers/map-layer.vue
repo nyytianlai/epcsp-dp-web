@@ -27,11 +27,14 @@ import dayjs from 'dayjs';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
-const range = Array.from({ length: 3 }, (_, i) =>
-  dayjs()
-    .subtract(3 - i, 'days')
-    .format('YYYY-MM-DD')
+const range = ref(
+  Array.from({ length: 3 }, (_, i) =>
+    dayjs()
+      .subtract(3 - i, 'days')
+      .format('YYYY-MM-DD')
+  )
 );
+const rangeData = ref([]);
 const currentDt = ref(0);
 const store = useMapStore();
 const route = useRoute();
@@ -113,6 +116,19 @@ const addHeatLayer = async () => {
   __g.tileLayer.updateEnd();
 };
 
+const handleTopData = async () => {
+  const date = rangeData.value.filter(
+    (v) => v.adjustTime === rangeData.value[currentDt.value].adjustTime
+  )[0];
+  const param = {
+    adjustTime: date?.adjustTime,
+    dataTime: '',
+    districtCode: ''
+  };
+  const { data } = await Api.getAdjustOverViewByTime(param);
+  bus.emit('virtual-electric-top-data', data);
+};
+
 const addVirturePoint = async () => {
   await __g.marker.delete('virtual-point');
   const marker = {
@@ -134,11 +150,18 @@ const addVirturePoint = async () => {
 };
 
 const setCurrent = async () => {
-  timer = setTimeout(async () => {
-    if (currentDt.value < 2) {
+  // timer = setTimeout(async () => {
+  //   if (currentDt.value < range.value.length - 1) {
+  //     currentDt.value = currentDt.value + 1;
+  //     clearTimeout(timer);
+  //     setCurrent();
+  //   }
+  // }, 2000);
+  setInterval(() => {
+    if (currentDt.value < range.value.length - 1) {
       currentDt.value = currentDt.value + 1;
-      clearTimeout(timer);
-      setCurrent();
+    } else {
+      currentDt.value = 0;
     }
   }, 2000);
 };
@@ -260,6 +283,19 @@ useEmitt('AIRCITY_EVENT', (e) => {
   }
 });
 
+bus.on('getVppAdjustTime', async (date) => {
+  const param = {
+    adjustTime: '',
+    dataTime: date,
+    districtCode: ''
+  };
+  const { data } = await Api.getVppAdjustTime(param);
+  rangeData.value = data;
+  range.value = data.map((v) => v.adjustTimeText);
+  currentDt.value = 0;
+  handleTopData();
+});
+
 bus.on('map-back', async () => {
   // closeDarkMode();
   await __g.camera.stopAnimation();
@@ -281,6 +317,7 @@ watch(
   () => {
     if (showVirture.value) return;
     addHeatLayer();
+    handleTopData();
   }
 );
 
@@ -293,6 +330,7 @@ onBeforeUnmount(async () => {
   // closeDarkMode();
   await __g.camera.stopAnimation();
   bus.off('map-back');
+  bus.off('getVppAdjustTime');
   clearTimeout(timer);
   await __g.cameraTour.stop();
   await __g.cameraTour.delete('xndc');

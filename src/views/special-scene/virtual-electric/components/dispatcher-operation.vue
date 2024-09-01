@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
 import { useI18n } from 'vue-i18n';
@@ -30,6 +30,20 @@ const tHead = `special-scene.virtual-electric.components`;
 
 const loading = ref(true);
 const totalData = ref({});
+const props = defineProps({
+  adjustDate: {
+    type: String,
+    default: ''
+  }
+});
+watch(
+  () => props.adjustDate,
+  () => {
+    if (props.adjustDate) {
+      getData();
+    }
+  }
+);
 
 const type = [
   { name: '今日', code: 0, displayName: t(`${tHead}.today`) },
@@ -37,7 +51,7 @@ const type = [
 ];
 const cardConfig = [
   {
-    name: '削峰调节次数',
+    name: '调节次数',
     code: ['dispatchNumToday', 'dispatchNumAcc'],
     unit: '次',
     icon: new URL('../images/xftjcs.png', import.meta.url).href,
@@ -45,29 +59,28 @@ const cardConfig = [
     displayUnit: t(`${tHead}.unitCi`)
   },
   {
-    name: '削峰调节量',
+    name: '调节量',
     code: ['dispatchAmountToday', 'dispatchAmountAcc'],
     unit: 'MW',
     icon: new URL('../images/xftjl.png', import.meta.url).href,
-    displayName: t(`${tHead}.xftjl`),
+    displayName: t(`${tHead}.xftjl`)
   }
 ];
 
 const getData = async () => {
   loading.value = true;
   try {
-    const res = await Api.dispatchInfo();
+    const res = await Api.dispatchInfo({ dataTime: props.adjustDate });
     totalData.value = res?.data || {};
   } catch (error) {}
   loading.value = false;
 };
-getData();
 </script>
 
 <style scoped lang="less">
 .dispatcher-operation {
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;
