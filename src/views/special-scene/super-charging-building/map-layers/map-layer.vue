@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef" :module="200" @addOutStation="addOutStation"></qu>
+  <qu ref="quRef" :module="200" @addOutStation="addOutStation" @addQuBar="addQuBar"></qu>
   <!-- <SuperChargeBar ref="rectBar4Ref"></SuperChargeBar> -->
   <legend-list
     :legendList="legendListData"
