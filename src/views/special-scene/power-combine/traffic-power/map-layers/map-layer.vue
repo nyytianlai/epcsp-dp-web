@@ -55,6 +55,7 @@ onBeforeUnmount(async () => {
   id && (await __g.tileLayer.hide(id));
   await __g.customObject.delete(bus_idList);
   await __g.polyline.delete(bus_idList);
+  await __g.marker.deleteByGroupId('busObjGroup');
 });
 
 let legendNameData = '巴士储能电量(kw)';
@@ -180,6 +181,8 @@ const addPoint = async () => {
 
 const addBusObj = async () => {
   await __g.customObject.delete(bus_idList);
+  await __g.polyline.delete(bus_idList);
+  await __g.marker.deleteByGroupId('busObjGroup');
   const arr = [];
   const markerList = [];
   const moveMap = {};
@@ -193,16 +196,20 @@ const addBusObj = async () => {
       range: [1, 10000000],
       autoHeight: true,
       location: item.path[0],
+      localRotation: item.rotation,
       coordinateType: 0,
+      isEffectRotation: true,
       scale: [200, 200, 200]
     };
     arr.push(cusObj);
     moveMap[item.id] = item.path.map((el, i) => {
       return {
-        time: i * 60 * 10,
-        coordinate: el,
+        id: item.id,
+        // smoothTime: i * 60 * 10,
+        time: i * 60 * 2,
+        coordinate: el
         // @ts-ignore
-        rotation: item.rotation
+        // rotation: item.rotation
       };
     });
 
@@ -210,11 +217,12 @@ const addBusObj = async () => {
       const marker = {
         id: item.id,
         groupId: 'busObjGroup',
+        userData: JSON.stringify({ isHighLight: item.isHighLight }),
         coordinate: item.path[0],
-        anchors: [-23, -14.5], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-        imageSize: [46, 29], //图片的尺寸
+        anchors: [-25 * 1, 28 * 1], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+        imageSize: [25 * 2, 28 * 2], //图片的尺寸
         range: [1, 1000000], //可视范围
-        imagePath: getImageByCloud('circle'), //显示图片路径
+        imagePath: getImageByCloud('qu-point'), //显示图片路径
         displayMode: 2,
         autoHeight: true,
         priority: 1,
@@ -224,20 +232,24 @@ const addBusObj = async () => {
     }
   });
   await __g.customObject.add(arr);
-  // await __g.marker.add(markerList);
+  await __g.marker.add(markerList);
 
-  // __g.marker.setAttachCustomObject(
-  //   markerList.map((item) => {
-  //     return {
-  //       markerId: item.id,
-  //       objectId: item.id,
-  //       offset: [0, 0, 0]
-  //     };
-  //   })
-  // );
+  __g.marker.setAttachCustomObject(
+    markerList.map((item) => {
+      return {
+        markerId: item.id,
+        objectId: item.id,
+        offset: [0, 0, 2]
+      };
+    })
+  );
   __g.customObject.updateBegin();
   Object.keys(moveMap).forEach((key) => {
     __g.customObject.startMove(key, 0, moveMap[key]);
+    // moveMap[key].forEach((el) => {
+    //   console.log(el, 'moveTo');
+    //   __g.customObject.moveTo(el);
+    // });
   });
   // __g.customObject.glow(
   //   busLineList
@@ -250,7 +262,8 @@ const addBusObj = async () => {
   //       interval: 1
   //     }))
   // );
-  __g.customObject.highlight(busLineList.filter((item) => item.isHighLight).map((item) => item.id));
+  // await __g.settings.highlightColor([0, 1, 1, 1]);
+  // __g.customObject.highlight(busLineList.filter((item) => item.isHighLight).map((item) => item.id));
   __g.customObject.updateEnd();
 };
 
@@ -280,6 +293,7 @@ const handleToBusTwin = async () => {
   await Promise.allSettled([
     __g.customObject.hide(bus_idList),
     __g.polyline.hide(bus_idList),
+    __g.marker.hideByGroupId('busObjGroup'),
     __g.marker.hideByGroupId('quName'),
     beforeAddOrExitHrStation(true)
   ]);
@@ -298,6 +312,7 @@ const handleToBusTwin = async () => {
     __g.customObject.show(bus_idList),
       __g.polyline.show(bus_idList),
       __g.marker.showByGroupId('quName'),
+      __g.marker.showByGroupId('busObjGroup'),
       beforeAddOrExitHrStation(false);
   }, 26000);
 };
@@ -310,6 +325,7 @@ bus.on('map-back', async () => {
   });
   __g.customObject.show(bus_idList),
     __g.polyline.show(bus_idList),
+    __g.marker.showByGroupId('busObjGroup'),
     __g.marker.showByGroupId('quName'),
     beforeAddOrExitHrStation(false);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
@@ -325,7 +341,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Type === 'CustomObj') {
+    if (e.Type === 'CustomObj' || e.GroupID === 'busObjGroup') {
       const data = JSON.parse(e.UserData ?? '{}');
       data?.isHighLight && handleToBusTwin();
     }

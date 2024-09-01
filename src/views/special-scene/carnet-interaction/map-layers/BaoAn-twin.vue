@@ -73,10 +73,13 @@ const handleTabSelect = async (tab) => {
         functionName: '播放',
         objectName: '动画播放_2'
       });
+      nyxnTimer = setTimeout(() => {
+        __g.camera.set(487374.469531, 2495456.315625, 38.918171, -28.753633, -71.135651, 0);
+      }, 19000);
       break;
     case 'BAOAN_3': // 视角漫游
-      clearTimeout(v2gTimer)
-      clearTimeout(nyxnTimer)
+      clearTimeout(v2gTimer);
+      clearTimeout(nyxnTimer);
       await __g.misc.callBPFunction({
         functionName: '停止',
         objectName: '动画播放_2'
@@ -89,8 +92,8 @@ const handleTabSelect = async (tab) => {
       playCamera(__g, '宝安区政府2');
       break;
     default:
-      clearTimeout(v2gTimer)
-      clearTimeout(nyxnTimer)
+      clearTimeout(v2gTimer);
+      clearTimeout(nyxnTimer);
       await __g.camera.stopAnimation();
       await __g.tileLayer.hide([id, id2]);
       await __g.tileLayer.show(id3);
