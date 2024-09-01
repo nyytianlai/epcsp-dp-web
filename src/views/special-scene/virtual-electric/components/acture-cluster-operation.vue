@@ -7,14 +7,14 @@
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
         <!-- unitMW: '单位:MW' -->
-        <div>{{t(`${tHead}.unitMW`)}}</div>
+        <div>{{ t(`${tHead}.unitMW`) }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
 import { getBaseChartOption } from '../config';
@@ -26,7 +26,20 @@ const tHead = `special-scene.virtual-electric.components`;
 
 const isEmpty = ref(false);
 const loading = ref(false);
-
+const props = defineProps({
+  adjustDate: {
+    type: String,
+    default: ''
+  }
+});
+watch(
+  () => props.adjustDate,
+  () => {
+    if (props.adjustDate) {
+      getData();
+    }
+  }
+);
 const chartConfig = [
   {
     name: '基线',
@@ -82,7 +95,7 @@ const drawChart = async (data = []) => {
 const getData = async () => {
   loading.value = true;
   try {
-    const res = await Api.adjustDemandHourInfo();
+    const res = await Api.adjustDemandHourInfo({ dataTime: props.adjustDate });
     isEmpty.value = !res?.data?.length;
     drawChart(res?.data || []);
   } catch (error) {
@@ -90,7 +103,7 @@ const getData = async () => {
   }
   loading.value = false;
 };
-onMounted(getData);
+// onMounted();
 </script>
 
 <style scoped lang="less">
