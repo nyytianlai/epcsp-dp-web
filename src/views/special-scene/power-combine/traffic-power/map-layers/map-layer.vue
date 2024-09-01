@@ -193,16 +193,20 @@ const addBusObj = async () => {
       range: [1, 10000000],
       autoHeight: true,
       location: item.path[0],
+      localRotation: item.rotation,
       coordinateType: 0,
+      isEffectRotation: true,
       scale: [200, 200, 200]
     };
     arr.push(cusObj);
     moveMap[item.id] = item.path.map((el, i) => {
       return {
-        time: i * 60 * 10,
-        coordinate: el,
+        id: item.id,
+        // smoothTime: i * 60 * 10,
+        time: i * 60,
+        coordinate: el
         // @ts-ignore
-        rotation: item.rotation
+        // rotation: item.rotation
       };
     });
 
@@ -238,6 +242,10 @@ const addBusObj = async () => {
   __g.customObject.updateBegin();
   Object.keys(moveMap).forEach((key) => {
     __g.customObject.startMove(key, 0, moveMap[key]);
+    // moveMap[key].forEach((el) => {
+    //   console.log(el, 'moveTo');
+    //   __g.customObject.moveTo(el);
+    // });
   });
   // __g.customObject.glow(
   //   busLineList
@@ -250,6 +258,7 @@ const addBusObj = async () => {
   //       interval: 1
   //     }))
   // );
+  await __g.settings.highlightColor([0, 1, 1, 1]);
   __g.customObject.highlight(busLineList.filter((item) => item.isHighLight).map((item) => item.id));
   __g.customObject.updateEnd();
 };
@@ -290,7 +299,7 @@ const handleToBusTwin = async () => {
   id && (await __g.tileLayer.show(id));
   __g.misc.callBPFunction({
     functionName: '播放',
-    objectName: '动画播放_3'
+    objectName: '播放动画_3'
   });
 
   setTimeout(() => {

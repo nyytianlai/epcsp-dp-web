@@ -26,7 +26,7 @@ import {
   getTreeLayerIdByName
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
-
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Api from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
 import bus from '@/utils/bus';
@@ -36,6 +36,7 @@ import { scale } from '@sutpc/config';
 import { useI18n } from 'vue-i18n';
 import remainPowerIconA from '../images/super-charge-switch-active.png';
 import remainPowerIcon from '../images/super-charge-switch.png';
+import { MinLeInfo } from './map-config';
 
 const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.map-layers`;
@@ -49,6 +50,7 @@ const props = defineProps({
 });
 
 const store = useMapStore();
+const visibleStore = useVisibleComponentStore();
 const currentPosition = computed(() => store.currentPosition);
 let timer;
 let torturTimer;
@@ -114,6 +116,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         quRef.value.highLightNormalStation(currtentStation);
       }
     }
+    if (e.GroupID === 'super-charge-minle-group') {
+      hanleToMinLe({ ...MinLeInfo });
+    }
   }
   //关闭弹窗
   if (e.eventtype === 'MarkerCallBack' && e.Data == 'closeStationHighLight') {
@@ -147,6 +152,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       const data = JSON.parse(e.Data.split('mouseout-')[1]);
       chartHover = false;
       drawHoverBarMarker(data, false);
+    }
+
+    if (e.Data === 'click-minle') {
+      hanleToMinLe({ ...MinLeInfo });
     }
   }
 });
@@ -335,6 +344,36 @@ const addHighLightStation = async (item) => {
   await focusToHihtLightPop(item.lng, item.lat, __g);
 };
 
+const addMinLeStation = async () => {
+  await __g.marker.delete('super-charge-minle');
+  const maxLen = `${MinLeInfo?.stationName || 0}`.length + 1;
+  const oPopUpUrl = getPopupHtml({
+    usePopupHtml: true,
+    com: 'super-charge-minLe',
+    params: {
+      value: JSON.stringify({ ...MinLeInfo })
+    }
+  });
+  let o = {
+    id: 'super-charge-minle',
+    groupId: `super-charge-minle-group`,
+    coordinate: MinLeInfo.coord, //坐标位置
+    anchors: [-42 * 1.4, 60 * 1.4], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [84 * 1.4, 60 * 1.4], //图片的尺寸
+    range: [1, 1000000], //可视范围
+    imagePath: getImageByCloud('minle-point'), //显示图片路径
+    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+    autoHidePopupWindow: false,
+    popupURL: oPopUpUrl,
+    popupSize: [scale(100 + maxLen * 20), scale(70)],
+    popupOffset: [-scale(100 + maxLen * 20) / 2 - 42 * 1.4, -scale(50)], //弹窗偏移
+    autoHeight: true, // 自动判断下方是否有物体
+    displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+  };
+  await aircityObj.value.acApi.marker.add(o);
+  aircityObj.value.acApi.marker.showPopupWindow(o.id);
+};
+
 bus.on('addBar', async (e: any) => {
   try {
     barData = [];
@@ -346,20 +385,41 @@ bus.on('addBar', async (e: any) => {
   }
 });
 
+bus.on('map-back', () => {
+  if (showRemainPower.value) {
+    __g.marker.show('super-charge-minle');
+    __g.camera.set(505152.146562, 2499594.937187, 1051.391094, -58.262615, -161.735718, 0);
+  }
+});
+
+const hanleToMinLe = (item) => {
+  __g.marker.hide('super-charge-minle');
+  __g.camera.lookAt(504715.7940625, 2499630.88, 93.90845703125, 75, -44.205788, 146.805252, 3);
+  visibleStore.changeShowComponent(false);
+  visibleStore.changeShowDetail({
+    show: true,
+    params: item
+  });
+};
+
 onBeforeUnmount(async () => {
   clearTimeout(timer);
+  clearTimeout(torturTimer);
+  bus.off('addBar');
+  bus.off('map-back');
   await deletTutor();
   await __g.marker.deleteByGroupId('bar-hover-pop');
   await __g.marker.deleteByGroupId('rectBar');
   await __g.marker.deleteByGroupId('jdStation');
   await setTwinVisible(false);
-  bus.off('addBar');
 });
 
 onMounted(async () => {
   await __g.reset();
-  await setTwinVisible(true);
-  await addEnterTutor();
+  setTimeout(async () => {
+    await setTwinVisible(true);
+    await addEnterTutor();
+  }, 1000);
 });
 
 watch(
@@ -417,11 +477,12 @@ const handleRemainPoweLayer = async () => {
 const setTwinVisible = async (visible) => {
   const twinId1 = getTreeLayerIdByName('会展中心', store.treeInfo);
   const twinId2 = getTreeLayerIdByName('科技公园', store.treeInfo);
+  const twinId3 = getTreeLayerIdByName('118默认展示', store.treeInfo);
 
   if (visible) {
-    await __g.infoTree.show([twinId1, twinId2]);
+    await __g.infoTree.show([twinId1, twinId2, twinId3]);
   } else {
-    await __g.infoTree.hide([twinId1, twinId2]);
+    await __g.infoTree.hide([twinId1, twinId2, twinId3]);
   }
 };
 
@@ -433,9 +494,11 @@ const addEnterTutor = async () => {
     functionName: '播放',
     objectName: '动画播放_0'
   });
-  setTimeout(() => {
+  torturTimer = setTimeout(() => {
     // showRemainPower.value = false;
-  }, 51 * 1000);
+    addMinLeStation();
+    __g.camera.set(505152.146562, 2499594.937187, 1051.391094, -58.262615, -161.735718, 0);
+  }, 54.4 * 1000);
 };
 
 const deletTutor = async () => {
@@ -446,6 +509,7 @@ const deletTutor = async () => {
   });
   const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
   await __g.tileLayer.hide(id);
+  await __g.marker.delete('super-charge-minle');
 };
 
 watch(
