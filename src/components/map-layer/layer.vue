@@ -47,9 +47,10 @@ const handleMapReady = async (obj) => {
   let ids = getTreeLayerIdByName('118默认展示', ref.infotree);
   let ids2 = getTreeLayerIdByName('超充之城', ref.infotree);
   let ids3 = getTreeLayerIdByName('车网互动', ref.infotree);
-  let ids4 = getTreeLayerIdByName('营运巴士', ref.infotree);
+  let ids4 = ref.infotree.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   let ids5 = getTreeLayerIdByName('行政地图_虚拟电厂_福田', ref.infotree);
-  await acApi.infoTree.hide([ids, ids2, ids3, ids4, ids5]);
+  await acApi.tileLayer.hide(ids4);
+  await acApi.infoTree.hide([ids, ids2, ids3, ids5]);
   acApi.misc.callBPFunction({
     functionName: '停止',
     objectName: '动画播放_0'
@@ -81,9 +82,10 @@ onMounted(() => {
     let ids = getTreeLayerIdByName('118默认展示', treeInfo.value || []);
     let ids2 = getTreeLayerIdByName('超充之城', treeInfo.value || []);
     let ids3 = getTreeLayerIdByName('车网互动', treeInfo.value || []);
-    let ids4 = getTreeLayerIdByName('营运巴士', treeInfo.value || []);
-    let ids5 = getTreeLayerIdByName('行政地图_虚拟电厂_福田', treeInfo.value || []);
-    await acApi.infoTree.hide([ids, ids2, ids3, ids4, ids5]);
+    let ids4 = treeInfo.value?.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+    let ids5 = getTreeLayerIdByName('行政地图_虚拟电厂_福田', treeInfo.value);
+    await acApi.tileLayer.hide(ids4);
+    await acApi.infoTree.hide([ids, ids2, ids3, ids5]);
     acApi.misc.callBPFunction({
       functionName: '停止',
       objectName: '动画播放_0'
