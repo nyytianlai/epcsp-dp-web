@@ -1,6 +1,6 @@
 <template>
   <qu ref="quRef"></qu>
-  <div class="time-slider-wrapper" v-show="!showVirture">
+  <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
     <TimeSlide v-model="currentDt" :data="range" />
   </div>
 </template>
@@ -22,18 +22,20 @@ import {
 import { useRoute } from 'vue-router';
 import { allHeatIds, virtureTileIds, virtureView, virturePoint, timeline } from './layer-config';
 import Api from '../api';
+import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
 import dayjs from 'dayjs';
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
-const range = ref(
-  Array.from({ length: 3 }, (_, i) =>
-    dayjs()
-      .subtract(3 - i, 'days')
-      .format('YYYY-MM-DD')
-  )
-);
+// const range = ref(
+//   Array.from({ length: 3 }, (_, i) =>
+//     dayjs()
+//       .subtract(3 - i, 'days')
+//       .format('YYYY-MM-DD')
+//   )
+// );
+const range = ref([]);
 const rangeData = ref([]);
 const currentDt = ref(0);
 const store = useMapStore();
@@ -157,7 +159,8 @@ const setCurrent = async () => {
   //     setCurrent();
   //   }
   // }, 2000);
-  setInterval(() => {
+  clearInterval(timer);
+  timer = setInterval(() => {
     if (currentDt.value < range.value.length - 1) {
       currentDt.value = currentDt.value + 1;
     } else {
@@ -266,6 +269,57 @@ const handleToVirture = async () => {
   // await playCamera(__g, '虚拟电厂');
 };
 
+const addPoint = async () => {
+  const res1 = await requestGeojsonData('barPosition4547');
+  const date = rangeData.value.filter(
+    (v) => v.adjustTime === rangeData.value[currentDt.value].adjustTime
+  )[0];
+  const res = await Api.getVppAdjustData(date?.adjustTime);
+  const quData = res?.data || [];
+  const quCenterPositions = res1.features;
+
+  const idList = [];
+  let markers = [];
+  quCenterPositions.forEach((item, index) => {
+    const dataObj = quData.find((el) => `${el.areaCode}` === `${item.properties.QUCODE}`) || {};
+    const oPopUpUrl = getPopupHtml({
+      usePopupHtml: true,
+      com: 'virtual-electric',
+      params: {
+        value: JSON.stringify({ ...dataObj })
+      }
+    });
+    const maxLen = Math.max(
+      `${dataObj?.virtualPowerPlantNum || 0}`.length,
+      `${dataObj?.adjustableResource || 0}`.length,
+      `${dataObj?.adjustableCapacity || 0}`.length,
+      `${dataObj?.installedCapacity || 0}`.length
+    );
+
+    let o = {
+      id: 'traffic-power-marker-' + item.properties.QUCODE,
+      groupId: `traffic-power-marker-group`,
+      coordinate: item.geometry.coordinates,
+      anchors: [-10, 10], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [10, 10], //图片的尺寸
+      range: [1, 1000000], //可视范围
+      imagePath: getImageByCloud('circle'), //显示图片路径
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      popupURL: oPopUpUrl,
+      autoHidePopupWindow: false,
+      popupSize: [scale(100 + maxLen * 14), scale(110)],
+      popupOffset: [-scale(100 + maxLen * 14) / 2 - 5, -scale(15)], //弹窗偏移
+      autoHeight: false, // 自动判断下方是否有物体
+      displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      priority: item.properties.PRIORITY
+    };
+    markers.push(o);
+    idList.push(o.id);
+  });
+  await aircityObj.value.acApi.marker.add(markers);
+  __g.marker.showPopupWindow(idList);
+};
+
 const init = async () => {
   await __g.reset();
   await delete3dt(__g, allHeatIds);
@@ -289,11 +343,14 @@ bus.on('getVppAdjustTime', async (date) => {
     dataTime: date,
     districtCode: ''
   };
+  console.log('getVppAdjustTime11111111111111111111111111111111111');
   const { data } = await Api.getVppAdjustTime(param);
   rangeData.value = data;
   range.value = data.map((v) => v.adjustTimeText);
   currentDt.value = 0;
   handleTopData();
+  console.log('getVppAdjustTime11111111111111111111111111111111111');
+  // addPoint();
 });
 
 bus.on('map-back', async () => {
@@ -318,6 +375,7 @@ watch(
     if (showVirture.value) return;
     addHeatLayer();
     handleTopData();
+    // addPoint();
   }
 );
 

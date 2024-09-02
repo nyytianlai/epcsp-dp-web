@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject, watch } from 'vue';
 import { scale } from '@sutpc/config';
 import GaugeChart from '@/components/gauge-chart/index.vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
@@ -41,6 +41,7 @@ const icon = new URL('../images/ad-icon.png', import.meta.url).href;
 const loading = ref(true);
 const active = ref('');
 const noticeList = ref([]);
+const aircityObj = inject<any>('aircityObj');
 const getData = async () => {
   loading.value = true;
   try {
@@ -69,6 +70,17 @@ const handleClick = async (item) => {
   emit('activeChange', active.value);
   bus.emit('getVppAdjustTime', active.value);
 };
+
+watch(
+  () => aircityObj,
+  (newVal, oldVal) => {
+    if (aircityObj?.value?.acApi && !oldVal?.value?.acApi) {
+      bus.emit('getVppAdjustTime', active.value);
+      emit('activeChange', active.value);
+    }
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <style scoped lang="less">
