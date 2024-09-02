@@ -489,7 +489,7 @@ const setTwinVisible = async (visible) => {
 const addEnterTutor = async () => {
   const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
   await __g.tileLayer.show(id);
-
+  store.changeCurrentPosition('动画播放_0');
   __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_0'
@@ -502,6 +502,7 @@ const addEnterTutor = async () => {
 };
 
 const deletTutor = async () => {
+  store.changeCurrentPosition('深圳市');
   clearTimeout(torturTimer);
   __g.misc.callBPFunction({
     functionName: '停止',

@@ -65,22 +65,10 @@ const getData = async () => {
 getData();
 
 const handleClick = async (item) => {
-  console.log('item :>> ', item);
   active.value = item.adjustDate;
   emit('activeChange', active.value);
-  bus.emit('getVppAdjustTime', active.value);
+  // bus.emit('getVppAdjustTime', active.value);
 };
-
-watch(
-  () => aircityObj,
-  (newVal, oldVal) => {
-    if (aircityObj?.value?.acApi && !oldVal?.value?.acApi) {
-      bus.emit('getVppAdjustTime', active.value);
-      emit('activeChange', active.value);
-    }
-  },
-  { deep: true, immediate: true }
-);
 </script>
 
 <style scoped lang="less">

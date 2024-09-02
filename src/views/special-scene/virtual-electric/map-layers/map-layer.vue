@@ -25,6 +25,14 @@ import Api from '../api';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
 import dayjs from 'dayjs';
+
+const props = defineProps({
+  adjustDate: {
+    type: String,
+    default: ''
+  }
+});
+
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -110,21 +118,23 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
 const addHeatLayer = async () => {
   const filterIds = allHeatIds.filter((el, i) => i > currentDt.value);
   const showIds = allHeatIds.filter((el, i) => i <= currentDt.value);
+  filterIds.length && (await delete3dt(__g, filterIds));
   __g.tileLayer.updateBegin();
-  filterIds.length && delete3dt(__g, filterIds);
+
   showIds.forEach((el) => {
     addCommon3dt(__g, el);
   });
-  __g.tileLayer.updateEnd();
+  await __g.tileLayer.updateEnd();
 };
 
 const handleTopData = async () => {
-  const date = rangeData.value.filter(
+  const date = rangeData.value.find(
     (v) => v.adjustTime === rangeData.value[currentDt.value].adjustTime
-  )[0];
+  );
+  if (!date) return;
   const param = {
     adjustTime: date?.adjustTime,
-    dataTime: '',
+    dataTime: dayjs(date.adjustTime).format('YYYY-MM-DD'),
     districtCode: ''
   };
   const { data } = await Api.getAdjustOverViewByTime(param);
@@ -322,9 +332,7 @@ const addPoint = async () => {
 
 const init = async () => {
   await __g.reset();
-  await delete3dt(__g, allHeatIds);
   await __g.infoTree.hide(virtureTileIds);
-  addHeatLayer();
   // addVirturePoint();
 };
 
@@ -337,21 +345,28 @@ useEmitt('AIRCITY_EVENT', (e) => {
   }
 });
 
-bus.on('getVppAdjustTime', async (date) => {
-  const param = {
-    adjustTime: '',
-    dataTime: date,
-    districtCode: ''
-  };
-  console.log('getVppAdjustTime11111111111111111111111111111111111');
-  const { data } = await Api.getVppAdjustTime(param);
-  rangeData.value = data;
-  range.value = data.map((v) => v.adjustTimeText);
-  currentDt.value = 0;
-  handleTopData();
-  console.log('getVppAdjustTime11111111111111111111111111111111111');
-  // addPoint();
-});
+watch(
+  () => props.adjustDate,
+  async () => {
+    if (props.adjustDate) {
+      const param = {
+        adjustTime: '',
+        dataTime: props.adjustDate,
+        districtCode: ''
+      };
+      const { data } = await Api.getVppAdjustTime(param);
+      rangeData.value = data;
+      range.value = data.map((v) => v.adjustTimeText);
+      currentDt.value = 0;
+      handleTopData();
+      setCurrent();
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
 
 bus.on('map-back', async () => {
   // closeDarkMode();
@@ -371,17 +386,21 @@ bus.on('map-back', async () => {
 
 watch(
   () => currentDt.value,
-  () => {
+  async () => {
     if (showVirture.value) return;
+
     addHeatLayer();
     handleTopData();
     // addPoint();
+  },
+  {
+    deep: true,
+    immediate: true
   }
 );
 
 onMounted(async () => {
   await init();
-  setTimeout(setCurrent, 2000);
 });
 
 onBeforeUnmount(async () => {

@@ -34,15 +34,15 @@ export const getOperatCardConfig = (data = {}) => {
           displayName: t(`${configHead}.common.cczhuang`),
           displayUnit: t(`${configHead}.common.unitGe`)
         },
-        {
-          name: '超充桩',
-          code: 'equipmentOperateNum',
-          value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
-          unit: '个',
-          displayName: t(`${configHead}.common.cczhuang`),
-          displayUnit: t(`${configHead}.common.unitGe`)
-        },
+        // {
+        //   name: '超充桩',
+        //   code: 'equipmentOperateNum',
+        //   value: null,
+        //   icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+        //   unit: '个',
+        //   displayName: t(`${configHead}.common.cczhuang`),
+        //   displayUnit: t(`${configHead}.common.unitGe`)
+        // },
         {
           name: '装机功率',
           code: 'sscRatedPower',
