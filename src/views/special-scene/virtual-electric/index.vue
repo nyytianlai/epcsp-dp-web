@@ -47,7 +47,7 @@ onBeforeUnmount(async () => {
 </script>
 
 <style lang="less" scoped>
-:deep(.panel) {
+:deep(.left) {
   display: grid;
   > div {
     min-width: 0;

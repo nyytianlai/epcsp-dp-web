@@ -96,7 +96,7 @@
         class="station-power__chart"
         :chartStyle="{
           width: '100%',
-          height: '1.89rem'
+          height: '1.80rem'
         }"
       />
       <!-- <line-time-chart
