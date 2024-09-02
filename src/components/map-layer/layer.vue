@@ -75,7 +75,8 @@ const handleMapReady = async (obj) => {
     `虚拟电厂/热力图1.3dt`,
     `虚拟电厂/热力图2.3dt`,
     `虚拟电厂/热力图3.3dt`,
-    '场内设施Icon'
+    '场内设施Icon_宏观',
+    '场内设施Icon_微观'
   ]);
   acApi.settings.setMainUIVisibility(false);
   emit('aircityObjReady', obj);
@@ -115,7 +116,8 @@ onMounted(() => {
       `虚拟电厂/热力图1.3dt`,
       `虚拟电厂/热力图2.3dt`,
       `虚拟电厂/热力图3.3dt`,
-      '场内设施Icon'
+      '场内设施Icon_宏观',
+      '场内设施Icon_微观'
     ]);
   });
   return '';

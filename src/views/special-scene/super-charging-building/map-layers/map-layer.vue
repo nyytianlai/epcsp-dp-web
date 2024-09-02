@@ -25,7 +25,7 @@ import {
   addCommon3dt,
   getTreeLayerIdByName
 } from '@/global/config/map';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Api from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
@@ -37,7 +37,7 @@ import { useI18n } from 'vue-i18n';
 import remainPowerIconA from '../images/super-charge-switch-active.png';
 import remainPowerIcon from '../images/super-charge-switch.png';
 import { MinLeInfo } from './map-config';
-
+const router = useRouter();
 const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.map-layers`;
 const commonHead = `special-scene.super-charging-building.config.common`;
@@ -54,6 +54,7 @@ const visibleStore = useVisibleComponentStore();
 const currentPosition = computed(() => store.currentPosition);
 let timer;
 let torturTimer;
+let startTimer;
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -386,6 +387,9 @@ bus.on('addBar', async (e: any) => {
 });
 
 bus.on('map-back', () => {
+  if (store.currentPosition === '动画播放_0') {
+    router.push('/overview');
+  }
   if (showRemainPower.value) {
     __g.marker.show('super-charge-minle');
     __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
@@ -405,6 +409,7 @@ const hanleToMinLe = (item) => {
 onBeforeUnmount(async () => {
   clearTimeout(timer);
   clearTimeout(torturTimer);
+  clearTimeout(startTimer);
   bus.off('addBar');
   bus.off('map-back');
   await deletTutor();
@@ -416,7 +421,8 @@ onBeforeUnmount(async () => {
 
 onMounted(async () => {
   await __g.reset();
-  setTimeout(async () => {
+  clearTimeout(startTimer);
+  startTimer = setTimeout(async () => {
     await setTwinVisible(true);
     await addEnterTutor();
   }, 2000);
@@ -490,15 +496,16 @@ const addEnterTutor = async () => {
   const id = store.treeInfo.find((el) => el.name === '超充之城' && el.type === 'EPT_Scene')?.iD;
   await __g.tileLayer.show(id);
   store.changeCurrentPosition('动画播放_0');
-  __g.misc.callBPFunction({
+  await __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_0'
   });
+  __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
   torturTimer = setTimeout(() => {
     // showRemainPower.value = false;
+    __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
     addMinLeStation();
-    __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
-  }, 54.4 * 1000);
+  }, 37.1 * 1000);
 };
 
 const deletTutor = async () => {

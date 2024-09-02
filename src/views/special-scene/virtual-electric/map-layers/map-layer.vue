@@ -390,7 +390,7 @@ watch(
     if (showVirture.value) return;
 
     addHeatLayer();
-    handleTopData();
+    // handleTopData();
     // addPoint();
   },
   {

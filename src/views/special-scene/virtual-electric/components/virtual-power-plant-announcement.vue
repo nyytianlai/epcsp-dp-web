@@ -51,7 +51,7 @@ const getData = async () => {
     });
     noticeList.value = data;
     active.value = data[0].adjustDate;
-    bus.emit('getVppAdjustTime', active.value);
+    // bus.emit('getVppAdjustTime', active.value);
     emit('activeChange', active.value);
     const param = {
       adjustTime: '',
