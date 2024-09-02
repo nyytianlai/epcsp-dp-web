@@ -58,6 +58,7 @@ const handleTabSelect = async (tab) => {
       });
       v2gTimer = setTimeout(() => {
         __g.camera.set(487381.053086, 2495512.37291, 12.932627, -26.528049, -178.387619, 0);
+        // __g.camera.set(487377.52875, 2495514.220625, 8.841861, -21.831865, -173.74321, 0);
         __g.tileLayer.show(id);
       }, 20000);
       break;
