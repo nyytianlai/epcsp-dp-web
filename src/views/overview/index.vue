@@ -5,6 +5,7 @@
     <right-panel />
     <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
     <div class="play-btn" @click="handlePlayVideo" />
+    <div class="specail-btn" @click="router.push('/super-charging/building')"></div>
   </div>
 </template>
 
@@ -16,7 +17,9 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import MapLayer from './components/map-layer.vue';
 import LeftPanel from './components/left-panel/index.vue';
 import RightPanel from './components/right-panel/index.vue';
+import { useRouter } from 'vue-router';
 const aircityObj = inject('aircityObj');
+const router = useRouter();
 const mapLayerRef = ref(null);
 const state = reactive({
   pageNumData: []
@@ -49,5 +52,19 @@ onMounted(async () => {
   top: 148px;
   right: 23%;
   z-index: 999;
+}
+
+.specail-btn {
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  background-image: url('./images/special-secene.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  position: absolute;
+  top: 190px;
+  right: 23%;
+  z-index: 999;
+  transform: translateX(8px);
 }
 </style>

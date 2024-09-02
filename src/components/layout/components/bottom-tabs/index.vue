@@ -12,12 +12,12 @@
       </div>
       <!-- <div class="text">{{ tab.text }}</div> -->
       <tooltip-over
-          :is-inline="true"
-          class="bottom-tab-name text"
-          :className="['bottom-tab-name-tooltip', activeTab === tab.name ?'bottom-tab-active': '']"
-          :content="tab.text"
-          :ref-name="tab.text"
-        />
+        :is-inline="true"
+        class="bottom-tab-name text"
+        :className="['bottom-tab-name-tooltip', activeTab === tab.name ? 'bottom-tab-active' : '']"
+        :content="tab.text"
+        :ref-name="tab.text"
+      />
     </div>
   </div>
 </template>
@@ -78,14 +78,14 @@ const tabs = [
     name: 'PowerExchangeStation',
     type: 'power-exchange-station',
     path: '/power-exchange-station'
-  },
-  {
-    // text: '亮点场景',
-    text: t('menu.special-scene'),
-    name: '/super-charging/building',
-    type: 'special-scene',
-    path: '/super-charging/building'
   }
+  // {
+  //   // text: '亮点场景',
+  //   text: t('menu.special-scene'),
+  //   name: '/super-charging/building',
+  //   type: 'special-scene',
+  //   path: '/super-charging/building'
+  // }
 ];
 const activeTab = computed(() => route.name);
 const handleTabClick = (tab: Tab) => {
@@ -100,12 +100,14 @@ const handleTabClick = (tab: Tab) => {
 .bottom-tabs {
   width: 664px;
   display: flex;
+  justify-content: space-around;
 }
 .tab {
+  flex: 0 0 80px;
   position: relative;
-  width: 94px;
+  width: 80px;
   height: 93px;
-  margin-right: 20px;
+  margin-right: 24px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   cursor: pointer;
@@ -120,7 +122,7 @@ const handleTabClick = (tab: Tab) => {
       text-shadow: 0 0 4px #ffa115;
     }
     .bottom-tab-name {
-      span{
+      span {
         color: #fff !important;
         text-shadow: 0 0 4px #ffa115 !important;
       }
@@ -144,19 +146,20 @@ const handleTabClick = (tab: Tab) => {
     font-weight: 600;
     letter-spacing: 1px;
   }
-  .bottom-tab-name{
-    span{
-      color: rgba(#fff, 0.8)!important;
+  .bottom-tab-name {
+    span {
+      color: rgba(#fff, 0.8) !important;
       font-size: 14px;
-      font-style: italic !important;;
+      font-style: italic !important;
       font-family: 'PingFang SC';
       font-weight: 600 !important;
       letter-spacing: 1px;
+      text-align: center;
     }
   }
 
   .icon {
-    font-size: 76px;
+    font-size: 84px;
     padding-top: 8px;
   }
 }
