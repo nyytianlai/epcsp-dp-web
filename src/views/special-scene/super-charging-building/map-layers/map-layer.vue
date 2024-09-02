@@ -419,7 +419,7 @@ onMounted(async () => {
   setTimeout(async () => {
     await setTwinVisible(true);
     await addEnterTutor();
-  }, 1000);
+  }, 2000);
 });
 
 watch(
