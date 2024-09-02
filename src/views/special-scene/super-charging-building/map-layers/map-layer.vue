@@ -9,7 +9,7 @@
   <MapLeftBtn>
     <div class="remain-power" @click="handleRemainPoweLayer">
       <img draggable="false" :src="showRemainPower ? remainPowerIconA : remainPowerIcon" />
-      <div class="name">发展趋势</div>
+      <!-- <div class="name">发展趋势</div> -->
     </div>
   </MapLeftBtn>
 </template>
@@ -388,7 +388,7 @@ bus.on('addBar', async (e: any) => {
 bus.on('map-back', () => {
   if (showRemainPower.value) {
     __g.marker.show('super-charge-minle');
-    __g.camera.set(505152.146562, 2499594.937187, 1051.391094, -58.262615, -161.735718, 0);
+    __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
   }
 });
 
@@ -497,7 +497,7 @@ const addEnterTutor = async () => {
   torturTimer = setTimeout(() => {
     // showRemainPower.value = false;
     addMinLeStation();
-    __g.camera.set(505152.146562, 2499594.937187, 1051.391094, -58.262615, -161.735718, 0);
+    __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
   }, 54.4 * 1000);
 };
 
