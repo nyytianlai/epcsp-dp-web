@@ -25,7 +25,7 @@ import {
   addCommon3dt,
   getTreeLayerIdByName
 } from '@/global/config/map';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import Api from '../api.js';
 import { getStrLength, GCJ02_2_4547 } from '@/utils/index';
@@ -37,7 +37,7 @@ import { useI18n } from 'vue-i18n';
 import remainPowerIconA from '../images/super-charge-switch-active.png';
 import remainPowerIcon from '../images/super-charge-switch.png';
 import { MinLeInfo } from './map-config';
-
+const router = useRouter();
 const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.map-layers`;
 const commonHead = `special-scene.super-charging-building.config.common`;
@@ -386,6 +386,9 @@ bus.on('addBar', async (e: any) => {
 });
 
 bus.on('map-back', () => {
+  if (store.currentPosition === '动画播放_0') {
+    router.push('/overview');
+  }
   if (showRemainPower.value) {
     __g.marker.show('super-charge-minle');
     __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
