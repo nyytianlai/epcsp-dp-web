@@ -40,7 +40,7 @@ onMounted(async () => {
   await __g.reset();
   await getData();
   await addBaoAnPoint();
-  handleToBaoAnTwin();
+  handleToBaoAnTwin(true);
 });
 
 onBeforeUnmount(async () => {
@@ -121,7 +121,7 @@ const beforeAddOrExitHrStation = (isShow: boolean) => {
   !isShow ? __g.polygon3d.show('wall') : __g.polygon3d.hide('wall');
 };
 
-const handleToBaoAnTwin = async () => {
+const handleToBaoAnTwin = async (init = false) => {
   showTwin.value = true;
   await Promise.allSettled([
     __g.marker.hideByGroupId('carnet-interaction-group', null),
@@ -141,8 +141,14 @@ const handleToBaoAnTwin = async () => {
       isHr: 0
     }
   });
+  if (init) {
+    __g.camera.set(487526.749609, 2495341.483125, 230.779473, -42.134712, -87.412994, 0);
+  } else {
+    playCameraTortur();
+  }
 
-  playCameraTortur();
+  // playCameraTortur();
+  // __g.camera.set(487526.749609, 2495341.483125, 230.779473, -42.134712, -87.412994, 0);
   // playCamera(__g, '宝安区政府');
   // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
 };
