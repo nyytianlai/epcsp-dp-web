@@ -86,7 +86,7 @@ watch(
 <style scoped lang="less">
 .virtual-power-plant-announcement {
   width: 100%;
-  height: 100%;
+  height: 50%;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

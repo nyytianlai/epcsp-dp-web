@@ -40,15 +40,18 @@ watch(
   () => props.adjustDate,
   () => {
     if (props.adjustDate) {
+      let date = props.adjustDate.replaceAll('0', '').split('-');
+      type.value[0].name = `${date[1]}月${date[2]}日`;
+      console.log('type :>> ', type);
       getData();
     }
   }
 );
 
-const type = [
+const type = ref([
   { name: '今日', code: 0, displayName: t(`${tHead}.today`) },
   { name: '累计', code: 1, displayName: t(`${tHead}.lj`) }
-];
+]);
 const cardConfig = [
   {
     name: '调节次数',
@@ -80,7 +83,7 @@ const getData = async () => {
 <style scoped lang="less">
 .dispatcher-operation {
   width: 100%;
-  // height: 100%;
+  height: 50%;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

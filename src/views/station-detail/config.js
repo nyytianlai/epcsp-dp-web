@@ -1419,7 +1419,7 @@ export const stationWarnOption = {
     },
     axisLabel: {
       fontFamily: 'Source Han Sans CN',
-      fontSize: 12,
+      fontSize: 10,
       lineHeight: 18,
       color: '#B4C0CC',
       formatter: (value) => {
@@ -1449,7 +1449,7 @@ export const stationWarnOption = {
     },
     axisLabel: {
       fontFamily: 'Helvetica',
-      fontSize: 12,
+      fontSize: 10,
       lineHeight: 16,
       color: '#B4C0CC',
       formatter: (value) => {
