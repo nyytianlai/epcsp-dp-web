@@ -1,8 +1,8 @@
 import { scale } from '@sutpc/config';
 import dayjs from 'dayjs';
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
-const configHead  = `special-scene.super-charging-building.config`;
+const configHead = `special-scene.super-charging-building.config`;
 
 // getOperatCardConfig: {
 //   yy: '营运',
@@ -141,20 +141,20 @@ export const getCardConfig1 = (data = {}) =>
           code: 'stationPlanNum',
           value: '',
           seprate: '/',
-          displayName: t(`${configHead}.common.guihua`),
+          displayName: t(`${configHead}.common.guihua`)
         },
         {
           name: '建设',
           code: 'stationBuildNum',
           value: '',
           seprate: '/',
-          displayName: t(`${configHead}.common.jianshe`),
+          displayName: t(`${configHead}.common.jianshe`)
         },
         {
           name: '营运',
           code: 'stationOperateNum',
           value: '',
-          displayName: t(`${configHead}.common.yingyun`),
+          displayName: t(`${configHead}.common.yingyun`)
         }
       ]
     },
@@ -172,20 +172,20 @@ export const getCardConfig1 = (data = {}) =>
           code: 'equipmentPlanNum',
           value: '',
           seprate: '/',
-          displayName: t(`${configHead}.common.guihua`),
+          displayName: t(`${configHead}.common.guihua`)
         },
         {
           name: '建设',
           code: 'equipmentBuildNum',
           value: '',
           seprate: '/',
-          displayName: t(`${configHead}.common.jianshe`),
+          displayName: t(`${configHead}.common.jianshe`)
         },
         {
           name: '营运',
           code: 'equipmentOperateNum',
           value: '',
-          displayName: t(`${configHead}.common.yingyun`),
+          displayName: t(`${configHead}.common.yingyun`)
         }
       ]
     },
@@ -203,13 +203,13 @@ export const getCardConfig1 = (data = {}) =>
           code: 'stationBuildCompanyNum',
           value: '',
           seprate: '/',
-          displayName: t(`${configHead}.common.jiansheqiye`),
+          displayName: t(`${configHead}.common.jiansheqiye`)
         },
         {
           name: '营运企业',
           code: 'stationOperateCompanyNum',
           value: '',
-          displayName: t(`${configHead}.common.yingyunqiye`),
+          displayName: t(`${configHead}.common.yingyunqiye`)
         }
       ]
     }
@@ -245,33 +245,33 @@ export const getCardConfig2 = (data = {}) =>
           displayName: t(`${configHead}.common.sqtgs`)
         }
       ]
-    },
-    {
-      name: '超充标识',
-      unit: '个',
-      typeName: '充电枪',
-      displayName: t(`${configHead}.common.ccbs`),
-      displayUnit: t(`${configHead}.common.unitGe`),
-      displayTypeName: t(`${configHead}.common.cdq`),
-      icon: new URL('./images/super-equipment.png', import.meta.url).href,
-      children: [
-        {
-          name: '申请',
-          code: 'connectorTagApplyNum',
-          value: '',
-          seprate: '/',
-          color: '#84C2FF',
-          displayName: t(`${configHead}.common.sq`),
-        },
-        {
-          name: '申请通过数',
-          code: 'connectorTagApplyPassNum',
-          value: '',
-          color: '#00F7FF',
-          displayName: t(`${configHead}.common.sqtgs`),
-        }
-      ]
     }
+    // {
+    //   name: '超充标识',
+    //   unit: '个',
+    //   typeName: '充电枪',
+    //   displayName: t(`${configHead}.common.ccbs`),
+    //   displayUnit: t(`${configHead}.common.unitGe`),
+    //   displayTypeName: t(`${configHead}.common.cdq`),
+    //   icon: new URL('./images/super-equipment.png', import.meta.url).href,
+    //   children: [
+    //     {
+    //       name: '申请',
+    //       code: 'connectorTagApplyNum',
+    //       value: '',
+    //       seprate: '/',
+    //       color: '#84C2FF',
+    //       displayName: t(`${configHead}.common.sq`),
+    //     },
+    //     {
+    //       name: '申请通过数',
+    //       code: 'connectorTagApplyPassNum',
+    //       value: '',
+    //       color: '#00F7FF',
+    //       displayName: t(`${configHead}.common.sqtgs`),
+    //     }
+    //   ]
+    // }
   ].map((item) => {
     item.children.forEach((e) => (e.value = data[e.code]));
     return item;
@@ -289,13 +289,13 @@ export const columnKeyListFun = (type = 'Plan') => {
       prop: `station${type}Num`,
       label: t(`${configHead}.common.cczhange`) || '超充站(个)',
       width: 2,
-      displayLabel: t(`${configHead}.common.cczhange`),
+      displayLabel: t(`${configHead}.common.cczhange`)
     },
     {
       prop: `equipment${type}Num`,
       label: t(`${configHead}.common.cczhuangge`) || '超充桩(个)',
       width: 2,
-      displayLabel: t(`${configHead}.common.cczhuangge`),
+      displayLabel: t(`${configHead}.common.cczhuangge`)
     }
   ];
 };
@@ -305,12 +305,12 @@ export const bottomTabDataFun = () => {
     {
       code: 1,
       label: '超充站',
-      displayLabel: t(`${configHead}.common.cczhan`),
+      displayLabel: t(`${configHead}.common.cczhan`)
     },
     {
       code: 0,
       label: '超充桩',
-      displayLabel: t(`${configHead}.common.cczhuang`),
+      displayLabel: t(`${configHead}.common.cczhuang`)
     }
   ];
 };
@@ -322,27 +322,27 @@ export const pageNumFun = (data = {}) => {
       num: data?.chargeCapacity,
       unit: '度',
       displayName: t(`${configHead}.common.jrcdl`),
-      displayNum: t(`${configHead}.common.unitDu`),
+      displayNum: t(`${configHead}.common.unitDu`)
     },
     {
       name: '今日充电时长',
       num: parseInt(data?.chargeHour),
       unit: '小时',
       displayName: t(`${configHead}.common.jrcdsc`),
-      displayNum: t(`${configHead}.common.unitHour`),
+      displayNum: t(`${configHead}.common.unitHour`)
     },
     {
       name: '今日充电订单数',
       num: data?.orderNum,
       unit: '个',
       displayName: t(`${configHead}.common.jrcddds`),
-      displayNum: t(`${configHead}.common.unitGe`),
+      displayNum: t(`${configHead}.common.unitGe`)
     },
     {
       name: '超充日均利用率',
       num: data?.totalUseRatio,
       unit: '%',
-      displayName: t(`${configHead}.common.ccrjlyl`),
+      displayName: t(`${configHead}.common.ccrjlyl`)
     }
   ];
 };
@@ -351,17 +351,17 @@ export const areaDistributedTabType = [
   {
     code: 'Operate',
     label: '营运',
-    displayLabel: t(`${configHead}.common.yingyun`),
+    displayLabel: t(`${configHead}.common.yingyun`)
   },
   {
     code: 'Build',
     label: '建设',
-    displayLabel: t(`${configHead}.common.jianshe`),
+    displayLabel: t(`${configHead}.common.jianshe`)
   },
   {
     code: 'Plan',
     label: '规划',
-    displayLabel: t(`${configHead}.common.guihua`),
+    displayLabel: t(`${configHead}.common.guihua`)
   }
 ];
 
@@ -370,7 +370,7 @@ export const operationTabType = [
     code: 'hour',
     label: '今日',
     timeRange: [dayjs().format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD HH:mm:ss')],
-    displayLabel: t(`${configHead}.common.jinri`),
+    displayLabel: t(`${configHead}.common.jinri`)
   },
   {
     code: 'date',
@@ -379,7 +379,7 @@ export const operationTabType = [
       dayjs().subtract(6, 'days').format('YYYY-MM-DD 00:00:00'),
       dayjs().format('YYYY-MM-DD HH:mm:ss')
     ],
-    displayLabel: t(`${configHead}.common.jinqiri`),
+    displayLabel: t(`${configHead}.common.jinqiri`)
   }
 ];
 
@@ -394,7 +394,7 @@ export const operationTrendConfig = (data) => [
     legendName: '超充充电次数(次）',
     displayName: t(`${configHead}.common.cccdcs`),
     displayUnit: t(`${configHead}.common.unitCi`),
-    displayLegendName: t(`${configHead}.common.cccdcsCi`),
+    displayLegendName: t(`${configHead}.common.cccdcsCi`)
   },
   {
     name: '超充充电量',
@@ -406,7 +406,7 @@ export const operationTrendConfig = (data) => [
     legendName: '超充充电量(度)',
     displayName: t(`${configHead}.common.cccdl`),
     displayUnit: t(`${configHead}.common.unitDu`),
-    displayLegendName: t(`${configHead}.common.cccdlDu`),
+    displayLegendName: t(`${configHead}.common.cccdlDu`)
   }
 ];
 

@@ -364,6 +364,7 @@ span {
   color: rgba(#fff, 0.8);
   font-style: italic;
   font-family: 'PingFang SC';
+  text-align: center;
 }
 .bottom-tab-active {
   font-size: 14px;
