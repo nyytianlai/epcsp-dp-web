@@ -32,9 +32,8 @@ const currentHrStationID = computed(() => store.currentHrStationID); //当前点
 const aircityObj = inject('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
-__g.reset();
-__g.reset(4);
 let currtentStation = {};
+let timer;
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标高亮
@@ -229,7 +228,11 @@ const addHighLightStation = async (item, stationType: string) => {
 defineExpose({});
 
 onMounted(async () => {
-  addQuBar();
+  await __g.reset();
+  await __g.reset(4);
+  timer = setTimeout(() => {
+    addQuBar();
+  }, 200);
   bus.on('addBar', async (e) => {
     // const { data: res } = await getStreetBar({ areaCode: e.quCode });
     // rectBar4Ref.value.addBar(e.type, res, e.quCode);
@@ -245,6 +248,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   bus.off('addBar');
+  clearTimeout(timer);
 });
 </script>
 <style lang="less" scoped></style>
