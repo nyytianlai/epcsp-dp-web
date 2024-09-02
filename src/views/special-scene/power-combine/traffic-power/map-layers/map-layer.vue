@@ -219,10 +219,10 @@ const addBusObj = async () => {
         groupId: 'busObjGroup',
         userData: JSON.stringify({ isHighLight: item.isHighLight }),
         coordinate: item.path[0],
-        anchors: [-25 * 1, 28 * 1], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-        imageSize: [25 * 2, 28 * 2], //图片的尺寸
+        anchors: [-23, 14.5], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+        imageSize: [46, 29], //图片的尺寸
         range: [1, 1000000], //可视范围
-        imagePath: getImageByCloud('qu-point'), //显示图片路径
+        imagePath: getImageByCloud('bus-icon'), //显示图片路径
         displayMode: 2,
         autoHeight: true,
         priority: 1,
