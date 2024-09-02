@@ -199,14 +199,14 @@ const addBusObj = async () => {
       localRotation: item.rotation,
       coordinateType: 0,
       isEffectRotation: true,
-      scale: [200, 200, 200]
+      scale: [300, 300, 300]
     };
     arr.push(cusObj);
     moveMap[item.id] = item.path.map((el, i) => {
       return {
         id: item.id,
         // smoothTime: i * 60 * 10,
-        time: i * 60 * 2,
+        time: i * 30,
         coordinate: el
         // @ts-ignore
         // rotation: item.rotation
@@ -231,15 +231,15 @@ const addBusObj = async () => {
       markerList.push(marker);
     }
   });
-  await __g.customObject.add(arr);
   await __g.marker.add(markerList);
+  await __g.customObject.add(arr);
 
   __g.marker.setAttachCustomObject(
     markerList.map((item) => {
       return {
         markerId: item.id,
         objectId: item.id,
-        offset: [0, 0, 2]
+        offset: [0, 0, 0.5]
       };
     })
   );
