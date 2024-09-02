@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-13 14:31:47
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-14 17:16:13
+ * @LastEditTime: 2024-09-02 10:33:58
  * @Description:
  * @FilePath: /epcsp-dp-web/src/views/special-scene/virtual-electric/api.ts
  */
@@ -64,12 +64,12 @@ export default {
       url: '/virtualPowerPlant/getVppAdjustTime',
       data
     });
-  }, 
+  },
   // 获取中间地图热力图数据
-  getVppAdjustData() {
+  getVppAdjustData(adjustTime = '') {
     return request.post({
       url: '/virtualPowerPlant/getVppAdjustData',
-      data: {}
+      data: { adjustTime: adjustTime, dataTime: '', districtCode: '' }
     });
   },
   // 地图上方指标

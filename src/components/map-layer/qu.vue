@@ -296,6 +296,8 @@ const back = async () => {
   state.currentSelectStation = {
     stationId: ''
   };
+  const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
+  __g.infoTree.show(id);
   await __g.cameraTour.pause();
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
@@ -516,6 +518,8 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
     //       }
     //     )
     //   : '';
+    const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
+    __g.infoTree.hide(id);
     isShow &&
       __g.camera.lookAt(
         502320.17625,
@@ -739,6 +743,7 @@ defineExpose({
 onMounted(async () => {
   __g.reset();
   __g.reset(4);
+
   bus.on('toHr', async (e) => {
     // 传参由回调函数中的形参接受
     request.cancel(mapRequestCancelId);
@@ -754,6 +759,8 @@ onMounted(async () => {
     addHrStation(e.stationId, true, e.isFly);
   });
   hideAllStation3dt(__g, store.treeInfo);
+  const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
+  __g.infoTree.show(id);
   await __g.settings.setEnableCameraMovingEvent(false); //取消相机监听事件
   let res = await requestGeojsonData('qu4547');
   quFeatures = res.features;
@@ -796,6 +803,8 @@ onBeforeUnmount(() => {
   bus.off('searchEnterStation');
   __g.reset();
   __g.reset(4);
+  const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
+  __g.infoTree.show(id);
 });
 </script>
 <style lang="less" scoped>

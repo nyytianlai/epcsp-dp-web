@@ -66,6 +66,7 @@ const cardConfig = computed(() => {
     font-size: 12px;
     color: #fff;
     font-weight: 400;
+    white-space: nowrap;
   }
 
   .card-value {
@@ -76,6 +77,7 @@ const cardConfig = computed(() => {
     align-items: baseline;
     line-height: 20px;
     font-family: 'DIN Condensed';
+    white-space: nowrap;
 
     span {
       font-size: 12px;
