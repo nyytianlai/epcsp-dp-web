@@ -84,7 +84,9 @@ onMounted(() => {
     let ids3 = getTreeLayerIdByName('车网互动', treeInfo.value || []);
     let ids4 = treeInfo.value?.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
     let ids5 = getTreeLayerIdByName('行政地图_虚拟电厂_福田', treeInfo.value);
+    const id = getTreeLayerIdByName('福田植物02', treeInfo.value);
     await acApi.tileLayer.hide(ids4);
+    await acApi.tileLayer.show(id);
     await acApi.infoTree.hide([ids, ids2, ids3, ids5]);
     acApi.misc.callBPFunction({
       functionName: '停止',
