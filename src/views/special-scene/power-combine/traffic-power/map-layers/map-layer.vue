@@ -35,6 +35,8 @@ const showRemainPower = ref(false);
 
 const isPlaying = ref(false);
 
+let timer;
+
 const mapStore = useMapStore();
 
 onMounted(async () => {
@@ -47,6 +49,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  clearTimeout(timer);
   await __g.misc.callBPFunction({
     functionName: '停止',
     objectName: '动画播放_3'
@@ -289,6 +292,7 @@ const addBusLine = async () => {
 };
 
 const handleToBusTwin = async () => {
+  clearTimeout(timer);
   isPlaying.value = true;
   await Promise.allSettled([
     __g.customObject.hide(bus_idList),
@@ -302,22 +306,26 @@ const handleToBusTwin = async () => {
   // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   id && (await __g.tileLayer.show(id));
-  __g.misc.callBPFunction({
+  await __g.misc.callBPFunction({
     functionName: '播放',
     objectName: '动画播放_3'
   });
-
-  setTimeout(() => {
-    isPlaying.value = false;
-    __g.customObject.show(bus_idList),
-      __g.polyline.show(bus_idList),
-      __g.marker.showByGroupId('quName'),
-      __g.marker.showByGroupId('busObjGroup'),
-      beforeAddOrExitHrStation(false);
-  }, 26000);
+  __g.camera.set(505295.399707, 2492716.725, 1553.664844, -57.992973, -90.920784, 0);
+  timer = setTimeout(async () => {
+    // isPlaying.value = false;
+    // __g.customObject.show(bus_idList),
+    //   __g.polyline.show(bus_idList),
+    //   __g.marker.showByGroupId('quName'),
+    //   __g.marker.showByGroupId('busObjGroup'),
+    //   beforeAddOrExitHrStation(false);
+    __g.camera.set(505295.399707, 2492716.725, 1553.664844, -57.992973, -90.920784, 0);
+    id && (await __g.tileLayer.hide(id));
+    id && (await __g.tileLayer.show(id));
+  }, 22.44 * 1000);
 };
 
 bus.on('map-back', async () => {
+  clearTimeout(timer);
   isPlaying.value = false;
   __g.misc.callBPFunction({
     functionName: '停止',
