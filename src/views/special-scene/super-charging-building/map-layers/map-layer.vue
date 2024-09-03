@@ -488,9 +488,10 @@ const setTwinVisible = async (visible) => {
   const twinId1 = getTreeLayerIdByName('会展中心', store.treeInfo);
   const twinId2 = getTreeLayerIdByName('科技公园', store.treeInfo);
   const twinId3 = getTreeLayerIdByName('118默认展示', store.treeInfo);
+  const twinId4 = getTreeLayerIdByName('福田中心区_益田路_车辆', store.treeInfo);
 
   if (visible) {
-    await __g.infoTree.show([twinId1, twinId2, twinId3]);
+    await __g.infoTree.show([twinId1, twinId2, twinId3, twinId4]);
   } else {
     await __g.infoTree.hide([twinId1, twinId2, twinId3]);
   }
@@ -505,11 +506,11 @@ const addEnterTutor = async () => {
     objectName: '动画播放_0'
   });
   __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
-  torturTimer = setTimeout(() => {
-    // showRemainPower.value = false;
-    __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
-    addMinLeStation();
-  }, 37.1 * 1000);
+  // torturTimer = setTimeout(() => {
+  //   // showRemainPower.value = false;
+  //   __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
+  //   addMinLeStation();
+  // }, 37.1 * 1000);
 };
 
 const deletTutor = async () => {
