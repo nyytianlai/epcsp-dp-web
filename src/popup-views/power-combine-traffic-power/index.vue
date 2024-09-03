@@ -38,10 +38,12 @@ const cardConfig = computed(() => {
 <style scoped lang="less">
 .pop-wrapper {
   width: 100%;
+  height: 100%;
   background: url('./images/pop-bg.png') no-repeat left top/100% 100%;
-  padding: 8px 12px;
+  padding: 0 12px;
   display: flex;
   flex-flow: column nowrap;
+  justify-content: center;
 }
 
 .card-row {

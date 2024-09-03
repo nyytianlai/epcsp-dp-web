@@ -44,8 +44,8 @@ onMounted(async () => {
   await getData();
 
   addPoint();
+  await addBusLine();
   addBusObj();
-  addBusLine();
 });
 
 onBeforeUnmount(async () => {
@@ -169,8 +169,8 @@ const addPoint = async () => {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: oPopUpUrl,
       autoHidePopupWindow: false,
-      popupSize: [scale(100 + maxLen * 8), scale(110)],
-      popupOffset: [-scale(100 + maxLen * 8) / 2 - 5, -scale(15)], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 8), scale(60)],
+      popupOffset: [-scale(100 + maxLen * 8) / 2 - 5, -scale(40)], //弹窗偏移
       autoHeight: false, // 自动判断下方是否有物体
       displayMode: 2, //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
       priority: item.properties.PRIORITY
@@ -184,7 +184,6 @@ const addPoint = async () => {
 
 const addBusObj = async () => {
   await __g.customObject.delete(bus_idList);
-  await __g.polyline.delete(bus_idList);
   await __g.marker.deleteByGroupId('busObjGroup');
   const arr = [];
   const markerList = [];
@@ -202,7 +201,8 @@ const addBusObj = async () => {
       localRotation: item.rotation,
       coordinateType: 0,
       isEffectRotation: true,
-      scale: [300, 300, 300]
+      scale: [300, 300, 300],
+      supportAttach: false
     };
     arr.push(cusObj);
     moveMap[item.id] = item.path.map((el, i) => {
@@ -288,7 +288,7 @@ const addBusLine = async () => {
     };
     arr.push(line);
   });
-  __g.polyline.add(arr);
+  await __g.polyline.add(arr, null);
 };
 
 const handleToBusTwin = async () => {
