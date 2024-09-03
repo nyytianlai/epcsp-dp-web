@@ -12,7 +12,7 @@ const configHead = `special-scene.super-charging-building.config`;
 export const getOperatCardConfig = (data = {}) => {
   return [
     {
-      name: '建设中',
+      name: '已建成',
       color: '#00D2D9',
       displayName: t(`${configHead}.common.yingyun`),
       children: [
