@@ -160,7 +160,7 @@ export default {
         cccdlDu: '超充充电量(度)',
         jinri: '今日',
         jinqiri: '近七日',
-        yingyun: '营运',
+        yingyun: '建设中',
         jianshe: '建设',
         guihua: '规划',
         unitGe: '个',
