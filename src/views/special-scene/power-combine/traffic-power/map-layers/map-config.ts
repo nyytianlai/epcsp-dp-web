@@ -28,7 +28,7 @@ export const busLineList = [
   {
     name: '公交3号线',
     id: 'bus_3',
-    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/能源_公交车_2',
+    assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/能源_公交车_0',
     path: [
       [501714.84375, 2505745.25, 70.56999969482422],
       [506503.660625, 2505425.44, 75.8925],
