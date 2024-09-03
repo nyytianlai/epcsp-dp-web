@@ -240,7 +240,10 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
     barArr.push(o);
   });
   await __g.marker.add(barArr, null);
-  __g.marker.showAllPopupWindow(null);
+  if (showRemainPower.value) {
+  } else {
+    __g.marker.showAllPopupWindow(null);
+  }
 };
 
 const drawHoverBarMarker = async (data, show = false) => {
@@ -399,6 +402,7 @@ bus.on('map-back', () => {
 const hanleToMinLe = (item) => {
   __g.marker.hide('super-charge-minle');
   __g.camera.lookAt(504715.7940625, 2499630.88, 93.90845703125, 75, -44.205788, 146.805252, 3);
+  store.changeCurrentPosition('民乐站');
   visibleStore.changeShowComponent(false);
   visibleStore.changeShowDetail({
     show: true,
