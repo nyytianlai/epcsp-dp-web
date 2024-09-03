@@ -277,7 +277,7 @@ const addBusLine = async () => {
     const line = {
       id: item.id,
       groupId: 'buslineGroup',
-      color: [0 / 255, 0 / 255, 255 / 255, 0.9],
+      color: [0 / 255, 255 / 255, 148 / 255, 0.9],
       coordinates: item.path,
       range: [1, 10000000],
       thickness: 300,
