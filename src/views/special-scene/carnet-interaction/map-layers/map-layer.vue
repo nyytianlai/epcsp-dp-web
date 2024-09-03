@@ -177,8 +177,8 @@ const addPoint = async () => {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       popupURL: oPopUpUrl,
       autoHidePopupWindow: true,
-      popupSize: [scale(100 + maxLen * 8), scale(110)],
-      popupOffset: [-scale(150 + maxLen * 8) / 2, -scale(29)], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 8), scale(60)],
+      popupOffset: [-scale(150 + maxLen * 8) / 2, -scale(50)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };

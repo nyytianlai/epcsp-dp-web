@@ -20,10 +20,12 @@ const paramsValue = JSON.parse(getUrlParam('value') || '{}');
 <style scoped lang="less">
 .pop-wrapper {
   width: 100%;
+  height: 100%;
   background: url('./images/pop-bg.png') no-repeat left top/100% 100%;
   padding: 8px 12px;
   display: flex;
   flex-flow: column;
+  justify-content: center;
 }
 .title {
   white-space: nowrap;
@@ -40,6 +42,7 @@ const paramsValue = JSON.parse(getUrlParam('value') || '{}');
     font-size: 12px;
     color: #fff;
     font-weight: 400;
+    white-space: nowrap;
   }
 
   .card-value {
