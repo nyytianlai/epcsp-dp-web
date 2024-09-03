@@ -24,6 +24,7 @@ import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
+import { useRoute } from 'vue-router';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -38,6 +39,8 @@ const isPlaying = ref(false);
 let timer;
 
 const mapStore = useMapStore();
+
+const route = useRoute();
 
 onMounted(async () => {
   await __g.reset();
@@ -179,6 +182,10 @@ const addPoint = async () => {
     idList.push(o.id);
   });
   await aircityObj.value.acApi.marker.add(markers);
+  if (route.name !== 'powerCombine') {
+    __g.customObject.delete(bus_idList);
+    return;
+  }
   __g.marker.showPopupWindow(idList);
 };
 
@@ -236,16 +243,20 @@ const addBusObj = async () => {
   });
   // await __g.marker.add(markerList);
   await __g.customObject.add(arr);
+  if (route.name !== 'powerCombine') {
+    __g.customObject.delete(bus_idList);
+    return;
+  }
 
-  __g.marker.setAttachCustomObject(
-    markerList.map((item) => {
-      return {
-        markerId: item.id,
-        objectId: item.id,
-        offset: [0, 0, 0.5]
-      };
-    })
-  );
+  // __g.marker.setAttachCustomObject(
+  //   markerList.map((item) => {
+  //     return {
+  //       markerId: item.id,
+  //       objectId: item.id,
+  //       offset: [0, 0, 0.5]
+  //     };
+  //   })
+  // );
   __g.customObject.updateBegin();
   Object.keys(moveMap).forEach((key) => {
     __g.customObject.startMove(key, 0, moveMap[key]);
@@ -289,6 +300,10 @@ const addBusLine = async () => {
     arr.push(line);
   });
   await __g.polyline.add(arr, null);
+  if (route.name !== 'powerCombine') {
+    __g.customObject.delete(bus_idList);
+    return;
+  }
 };
 
 const handleToBusTwin = async () => {
