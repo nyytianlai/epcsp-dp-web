@@ -506,11 +506,11 @@ const addEnterTutor = async () => {
     objectName: '动画播放_0'
   });
   __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
-  // torturTimer = setTimeout(() => {
-  //   // showRemainPower.value = false;
-  //   __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
-  //   addMinLeStation();
-  // }, 37.1 * 1000);
+  torturTimer = setTimeout(() => {
+    // showRemainPower.value = false;
+    __g.camera.set(505079.6875, 2499513.0, 230.99, -25.576988, -164.023865, 0);
+    addMinLeStation();
+  }, 37.1 * 1000);
 };
 
 const deletTutor = async () => {
