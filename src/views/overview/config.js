@@ -2183,7 +2183,7 @@ export const changeElectricFun = (data = {}) => {
   return [
     {
       img: cnzzs,
-      num: 42,
+      num: 49,
       unit: '/个',
       name: '换电站总数',
       i18nKey: 'hdzzs',

@@ -17,7 +17,7 @@ export const powerExchangeAllInfoFun = (data = {}) => {
   return [
     {
       img: gfzzl,
-      num: 43,
+      num: 49,
       // unit: '个',
       // name: '换电站总量',
       unit: t('power-exchange-station.unit.unitGe'),
