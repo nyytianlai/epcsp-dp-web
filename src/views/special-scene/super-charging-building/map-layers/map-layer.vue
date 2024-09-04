@@ -392,6 +392,7 @@ bus.on('addBar', async (e: any) => {
 bus.on('map-back', async () => {
   if (store.currentPosition === '动画播放_0') {
     router.push('/overview');
+    store.changeCurrentPosition();
   }
   if (showRemainPower.value) {
     await __g.marker.show('super-charge-minle');
