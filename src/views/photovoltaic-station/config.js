@@ -39,7 +39,7 @@ export const cdzzlFun = (data = {}) => {
   return [
     {
       img: gfzzl,
-      num: 1190,
+      num: 2300,
       unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
       // name: '光伏站总量'
       name: t('photovoltaic-station.cdzzlFun.gfzzl')
@@ -73,17 +73,17 @@ export const surfSortPieDataFun = (data = {}) => {
     {
       value: 161,
       name: '余电上网',
-      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
+      unit: t(`overview.config.ecOptionFun.unitGe`) //'个',
     },
     {
       value: 50,
       name: '全额上网',
-      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
+      unit: t(`overview.config.ecOptionFun.unitGe`) //'个',
     },
     {
       value: 18,
       name: '全额自用',
-      unit: t(`overview.config.ecOptionFun.unitGe`), //'个',
+      unit: t(`overview.config.ecOptionFun.unitGe`) //'个',
     }
   ];
 };
