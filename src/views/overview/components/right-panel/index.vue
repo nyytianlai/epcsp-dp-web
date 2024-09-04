@@ -87,7 +87,7 @@ const handleStation = (item) => {
       break;
     case 3:
       ecOption.value = ecOptionFun(
-        [19, 22, 29, 35],
+        [16.24, 20.45, 28.04, 51.85, 82.73],
         ['2020年', '2021年', '2022年', '2023年', '2024年'],
         3
       );
