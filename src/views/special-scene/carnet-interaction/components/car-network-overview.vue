@@ -42,7 +42,7 @@ import Api from '../api';
 const loading = ref(true);
 const topCardConfig = ref([
   {
-    name: 'v2g站数',
+    name: 'V2G站数',
     code: '',
     value: '126',
     unit: '个',
