@@ -242,7 +242,7 @@ const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
   await __g.marker.add(barArr, null);
   if (showRemainPower.value) {
   } else {
-    __g.marker.showAllPopupWindow(null);
+    __g.marker.showPopupWindow(barArr.map((el) => el.id));
   }
 };
 
@@ -374,8 +374,8 @@ const addMinLeStation = async () => {
     autoHeight: true, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
-  await aircityObj.value.acApi.marker.add(o);
-  aircityObj.value.acApi.marker.showPopupWindow(o.id);
+  await __g.marker.add(o);
+  __g.marker.showPopupWindow([o.id], null);
 };
 
 bus.on('addBar', async (e: any) => {
@@ -390,6 +390,7 @@ bus.on('addBar', async (e: any) => {
 });
 
 bus.on('map-back', () => {
+  console.log(store.currentPosition, showRemainPower.value, '1111111111111111');
   if (store.currentPosition === '动画播放_0') {
     router.push('/overview');
   }
