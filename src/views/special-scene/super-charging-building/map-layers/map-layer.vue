@@ -389,14 +389,14 @@ bus.on('addBar', async (e: any) => {
   }
 });
 
-bus.on('map-back', () => {
-  console.log(store.currentPosition, showRemainPower.value, '1111111111111111');
+bus.on('map-back', async () => {
   if (store.currentPosition === '动画播放_0') {
     router.push('/overview');
   }
   if (showRemainPower.value) {
-    __g.marker.show('super-charge-minle');
+    await __g.marker.show('super-charge-minle');
     __g.camera.set(505540.657969, 2499453.488125, 502.166211, -22.178129, -161.735657, 0);
+    store.changeCurrentPosition('动画播放_0');
   }
 });
 

@@ -405,9 +405,9 @@ onMounted(async () => {
 
 onBeforeUnmount(async () => {
   // closeDarkMode();
-  await __g.camera.stopAnimation();
   bus.off('map-back');
   bus.off('getVppAdjustTime');
+  await __g.camera.stopAnimation();
   clearTimeout(timer);
   await __g.cameraTour.stop();
   await __g.cameraTour.delete('xndc');
