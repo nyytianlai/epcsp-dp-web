@@ -116,6 +116,7 @@ const loadSelectHrStationInfoForOverview = async () => {
 const loadChargingStation = async () => {
   const res = await chargingStation();
   state.chargingStations = chargingStationsFun(res.data);
+  state.photovoltaicStations = photovoltaicStationFun(res.data);
 };
 // 获取电动自行车
 const loadTotalStatistics = async () => {
