@@ -14,7 +14,7 @@ const { isEchartsReady } = useEcharts();
 var urlParams = new URLSearchParams(location.search);
 const paramsValue = JSON.parse(getUrlParam('value') || '');
 
-const VALUE = [{ value: Number(paramsValue.stationCount), label: { offset: [-72, 2] } }];
+const VALUE = [{ value: Number(paramsValue.stationCount), label: { offset: [-18, 0] } }];
 const yMax = Number(urlParams.get('yMax'));
 const quName = urlParams.get('quName');
 const areaCode = urlParams.get('areaCode');
@@ -23,15 +23,15 @@ const contentHeight = Number(urlParams.get('contentHeight'));
 const ecStyle = computed(() => {
   return {
     height: contentHeight + 'px',
-    width: '100%'
+    width: '60px'
   };
 });
 
 const ecOption = computed(() => {
-  const offsetX = 15;
-  const offsetY = 6; //和CubeTop上的点一起控制柱子顶部的四边形高度
-  const offsetX1 = [-74, 0]; //控制柱子之间的距离 负数往左移
-  const offsetY1 = [15, 0, 0]; //控制柱子的上下距离 负数往上移
+  const offsetX = 16;
+  const offsetY = 5;
+  const offsetX1 = [-16, 0, -35];
+  const offsetY1 = [14, 10, 0];
   // 绘制左侧面
   const CubeLeft = echarts.graphic.extendShape({
     shape: {
@@ -108,12 +108,6 @@ const ecOption = computed(() => {
       ['#0091B0', '#00529D'],
       ['#4AD9FC', '#096FA8'],
       ['#B6F2FF', '#B6F2FF']
-    ],
-    [
-      //高亮 绿色
-      ['#267A7B', '#03817D'],
-      ['#59FFFF', '#117370'],
-      ['#B6F2FF', '#B6F2FF']
     ]
   ];
   return {
@@ -140,12 +134,11 @@ const ecOption = computed(() => {
       axisLabel: {
         fontSize: 14
       },
-      boundaryGap: [0, 0],
       show: false
     },
     yAxis: {
       type: 'value',
-      max: yMax * 1.1,
+      max: yMax,
       axisLine: {
         show: true,
         lineStyle: {
@@ -165,13 +158,13 @@ const ecOption = computed(() => {
       axisLabel: {
         fontSize: 14
       },
-      boundaryGap: [0, 0],
       show: false
     },
     series: [
       {
         type: 'custom',
         renderItem: (params, api) => {
+          // console.log("params", params, api);
           const location = api.coord([api.value(0), api.value(1)]);
           return {
             type: 'group',
@@ -266,6 +259,11 @@ const ecOption = computed(() => {
             show: true,
             position: 'top',
             formatter: (e) => {
+              // if(areaCode=='440305'){
+              //   e.value=1500
+              // }else if(areaCode=='440304'){
+              //   e.value=1318
+              // }
               return e.value;
             },
             fontSize: 14,
@@ -280,7 +278,6 @@ const ecOption = computed(() => {
         itemStyle: {
           color: 'transparent'
         },
-        barWidth: 20,
         data: VALUE
       }
     ]
