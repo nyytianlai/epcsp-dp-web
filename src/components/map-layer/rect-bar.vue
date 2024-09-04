@@ -79,6 +79,8 @@ const getBarPositionByQuName = (quName: string) => {
 };
 
 const addBar = async (type: 'qu' | 'jd', streetId?: string) => {
+  await aircityObj.value.acApi.marker.deleteByGroupId('rectBar');
+  await aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
   let barArr = [];
   const { data: res } = type === 'qu' ? await getRectBar() : await getRectBarByStreet(streetId);
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
