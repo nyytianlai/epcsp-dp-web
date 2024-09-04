@@ -72,7 +72,8 @@ export const dayEquInfo = (type) => {
     url: '/dp/api/v1/overview/dayEquInfo',
     data: {
       type,
-      ...timeOnNow()
+      startTime: dayjs().subtract(24, 'hours').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     }
   });
 };
