@@ -42,7 +42,7 @@ const companyRankTotal = ref<number>(0);
 const handleCompany = (item) => {
   // console.log('item', item);
   companyRankData.value = item.code === 1 ? stationRnk.value : lightRank.value;
-  companyRankTotal.value = companyRankData.value[0].num;
+  companyRankTotal.value = Math.max(...companyRankData.value.map((i) => i.num || 0));
 };
 
 // 获取站点容量排名
@@ -57,7 +57,7 @@ const loadCapacityRanking = async () => {
     };
   });
   companyRankData.value = stationRnk.value;
-  companyRankTotal.value = companyRankData.value[0].num;
+  companyRankTotal.value = Math.max(...companyRankData.value.map((i) => i.num || 0));
 };
 // 获取光伏站数量排名
 const loadProjectRanking = async () => {

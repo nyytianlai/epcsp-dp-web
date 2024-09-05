@@ -101,6 +101,7 @@ const { data, totalNum } = toRefs(props);
 .bottom-bar {
   background: rgba(255, 255, 255, 0.1);
   height: 6px;
+  padding-left: 6px;
   .progress {
     height: 100%;
     background: linear-gradient(270deg, #13adc4 0%, #0b2f55 100%);
