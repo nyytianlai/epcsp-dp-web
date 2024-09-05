@@ -595,7 +595,7 @@ const addXzqh = async (res, type: string, idName: string, userDataName: string) 
       id: type + '-' + item.properties[idName], //polygon唯一标识id
       groupId: type == 'qu' ? type : item.properties.QUNAME,
       coordinates: item.geometry.coordinates[0], //构成polygon的坐标点数组
-      range: [200, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
+      range: [300, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
       userData: item.properties[userDataName],
       color: [0, 0, 0.4, 0], //多边形的填充颜色
       frameColor: '#8ae0fa', //边框颜色
@@ -627,7 +627,7 @@ const addXzqhName = async (res, type: string, idName: string, userDataName: stri
       imagePath: getImageByCloud('regionName'),
       text: item.properties[idName], //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      textRange: [1, 150000], //文本可视范围[近裁距离, 远裁距离]
+      textRange: [200, 150000], //文本可视范围[近裁距离, 远裁距离]
       textOffset: type == 'qu' ? [-42, -15] : [-52, -15], // 文本偏移
       textBackgroundColor: [1, 1, 1, 0], //文本背景颜色
       fontSize: 14, //字体大小
@@ -738,7 +738,8 @@ defineExpose({
   highLightNormalStation,
   enterStationInfo,
   hideHighLightNormalStation,
-  allQUIds
+  allQUIds,
+  beforeAddOrExitHrStation
 });
 onMounted(async () => {
   __g.reset();
