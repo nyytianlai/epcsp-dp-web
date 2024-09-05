@@ -48,12 +48,14 @@ const handleTabSelect = async (tab) => {
   switch (tab.viewInfoType) {
     case 'BAOAN_1': // V2G放电
       clearTimeout(nyxnTimer);
-      await __g.tileLayer.hide(id2);
-      await __g.tileLayer.show(id);
-      await __g.misc.callBPFunction({
-        functionName: '停止',
-        objectName: '动画播放_2'
-      });
+      await Promise.allSettled([
+        __g.tileLayer.hide(id2),
+        __g.tileLayer.show(id),
+        __g.misc.callBPFunction({
+          functionName: '停止',
+          objectName: '动画播放_2'
+        })
+      ]);
       await __g.misc.callBPFunction({
         functionName: '播放',
         objectName: '播放动画_1'
@@ -61,18 +63,19 @@ const handleTabSelect = async (tab) => {
       __g.camera.set(487377.53125, 2495514.25, 8.84, -21.831873, 186.256775, 0);
       v2gTimer = setTimeout(() => {
         __g.camera.set(487377.53125, 2495514.25, 8.84, -21.831873, 186.256775, 0);
-        // __g.camera.set(487377.52875, 2495514.220625, 8.841861, -21.831865, -173.74321, 0);
         __g.tileLayer.show(id);
       }, 20000);
       break;
     case 'BAOAN_2': // 能源消纳
       clearTimeout(v2gTimer);
-      await __g.tileLayer.hide(id);
-      await __g.tileLayer.show(id2);
-      await __g.misc.callBPFunction({
-        functionName: '停止',
-        objectName: '播放动画_1'
-      });
+      await Promise.allSettled([
+        __g.tileLayer.hide(id),
+        __g.tileLayer.show(id2),
+        __g.misc.callBPFunction({
+          functionName: '停止',
+          objectName: '播放动画_1'
+        })
+      ]);
       await __g.misc.callBPFunction({
         functionName: '播放',
         objectName: '动画播放_2'
@@ -110,22 +113,22 @@ const handleTabSelect = async (tab) => {
 const resetTab3dt = async () => {
   clearTimeout(v2gTimer);
   clearTimeout(nyxnTimer);
-  await __g.cameraTour.stop();
-  await __g.camera.stopAnimation();
-  await __g.misc.callBPFunction({
-    functionName: '停止',
-    objectName: '动画播放_2'
-  });
-  await __g.misc.callBPFunction({
-    functionName: '停止',
-    objectName: '播放动画_1'
-  });
   const id2 = getTreeLayerIdByName('V2G放电', store.treeInfo);
   const id3 = getTreeLayerIdByName('能源消纳', store.treeInfo);
   const id4 = getTreeLayerIdByName('场内设施Icon_微观', store.treeInfo);
-  await __g.tileLayer.hide(id2);
-  await __g.tileLayer.hide(id3);
-  await __g.tileLayer.hide(id4);
+  await Promise.allSettled([
+    __g.cameraTour.stop(),
+    __g.camera.stopAnimation(),
+    __g.misc.callBPFunction({
+      functionName: '停止',
+      objectName: '动画播放_2'
+    }),
+    __g.misc.callBPFunction({
+      functionName: '停止',
+      objectName: '播放动画_1'
+    })
+  ]),
+    __g.tileLayer.hide([id2, id3, id4]);
 };
 
 const showAllPos = async () => {
@@ -154,16 +157,18 @@ const hideAllPos = async () => {
 };
 
 onBeforeUnmount(async () => {
-  await __g.camera.stopAnimation();
-  await __g.cameraTour.stop();
-  await __g.camera.set(infoObj.szView, 0);
   clearTimeout(timer);
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
   const id2 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
-  await resetTab3dt();
-  await hideAllPos();
-  await __g.tileLayer.hide(id2);
+  await __g.camera.stopAnimation(),
+    await __g.cameraTour.stop(),
+    await Promise.allSettled([
+      __g.camera.set(infoObj.szView, 0),
+      resetTab3dt(),
+      hideAllPos(),
+      __g.tileLayer.hide(id2)
+    ]);
 });
 
 bus.on('handleTabSelect', handleTabSelect);
