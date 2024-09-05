@@ -2787,7 +2787,11 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
       children: [
         {
           name: type ? '站点' : '站点',
-          num: data?.stationChargeCapacity,
+          num:
+            data?.stationChargeCapacity > Math.pow(10, 6)
+              ? (data?.stationChargeCapacity / Math.pow(10, 6)).toFixed(2) +
+                t(`${configHead}.getSuperHeaderData.w`)
+              : data?.stationChargeCapacity,
           displayName: t(`${configHead}.getSuperHeaderData.zd`)
         },
         {
