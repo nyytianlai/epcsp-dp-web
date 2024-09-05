@@ -8,7 +8,8 @@ import {
   getHtmlUrl,
   focusToHihtLightPop,
   getTreeLayerIdByName,
-  playCamera
+  playCamera,
+  infoObj
 } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
@@ -43,8 +44,7 @@ const handleTabSelect = async (tab) => {
   const id2 = getTreeLayerIdByName('能源消纳', store.treeInfo);
   const id3 = getTreeLayerIdByName('宝安区政府站点_植被', store.treeInfo);
   const id5 = getTreeLayerIdByName('场内设施Icon_微观', store.treeInfo);
-  await __g.tileLayer.hide(id3);
-  await __g.tileLayer.show(id5);
+  await Promise.allSettled([__g.tileLayer.hide(id3), __g.tileLayer.show(id5)]);
   switch (tab.viewInfoType) {
     case 'BAOAN_1': // V2G放电
       clearTimeout(nyxnTimer);
@@ -85,15 +85,17 @@ const handleTabSelect = async (tab) => {
     case 'BAOAN_3': // 视角漫游
       clearTimeout(v2gTimer);
       clearTimeout(nyxnTimer);
-      await __g.misc.callBPFunction({
-        functionName: '停止',
-        objectName: '动画播放_2'
-      });
-      await __g.misc.callBPFunction({
-        functionName: '停止',
-        objectName: '播放动画_1'
-      });
-      await __g.tileLayer.hide([id, id2]);
+      await Promise.allSettled([
+        __g.misc.callBPFunction({
+          functionName: '停止',
+          objectName: '动画播放_2'
+        }),
+        __g.misc.callBPFunction({
+          functionName: '停止',
+          objectName: '播放动画_1'
+        }),
+        __g.tileLayer.hide([id, id2])
+      ]);
       playCamera(__g, '宝安区政府_1');
       break;
     default:
@@ -109,6 +111,7 @@ const resetTab3dt = async () => {
   clearTimeout(v2gTimer);
   clearTimeout(nyxnTimer);
   await __g.cameraTour.stop();
+  await __g.camera.stopAnimation();
   await __g.misc.callBPFunction({
     functionName: '停止',
     objectName: '动画播放_2'
@@ -151,7 +154,9 @@ const hideAllPos = async () => {
 };
 
 onBeforeUnmount(async () => {
-  __g.camera.stopAnimation();
+  await __g.camera.stopAnimation();
+  await __g.cameraTour.stop();
+  await __g.camera.set(infoObj.szView, 0);
   clearTimeout(timer);
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
