@@ -1,4 +1,4 @@
-export default{
+export default {
   cdzdxx: '充电站点信息',
   sbssxx: '设备设施信息',
   cdzzs: '充电桩总数',
@@ -9,16 +9,16 @@ export default{
   zdssgl: '站点实时功率',
   tabList: {
     pile: '桩',
-    gun: '枪',
+    gun: '枪'
   },
   config: {
     lianhuaPowerFun: {
       swdl: '上网电量',
-      fddl: '发电电量',
+      fddl: '发电电量'
     },
     lianhuaWarnFun: {
       today: '今日',
-      gjs: '告警数',
+      gjs: '告警数'
     },
     lianhuaWarnOption: {
       unitGe: '个',
@@ -29,15 +29,15 @@ export default{
     lianhuaRealtimeOption: {
       ssgl: '实时功率',
       yAxisName: '单位:kW ',
-      seriesName: '实时功率',
+      seriesName: '实时功率'
     },
     deviceInfoFun: {
       zdzjrl: '站点装机容量',
-      zdgfbmj: '站点光伏板面积',
+      zdgfbmj: '站点光伏板面积'
     },
     facilitiesLabel: {
-      electricalRoom: "配电房",
-      toilet: "卫生间",
+      electricalRoom: '配电房',
+      toilet: '卫生间',
       store: '便利店',
       rest: '休息区',
       maintenance: '维修区',
@@ -68,7 +68,7 @@ export default{
       fan: '风机',
       machineRoom: '机房',
       microwave: '微波',
-      '5GAntenna': '5G天线',
+      '5GAntenna': '5G天线'
     },
     floor1SpaceMarker: {
       gypds: '高压配电室',
@@ -76,21 +76,21 @@ export default{
       pcss: 'PCS室',
       dcds1: '#1电池堆室',
       dcds3: '#3电池堆室',
-      dcc: '电池簇',
+      dcc: '电池簇'
     },
     floor2SpaceMarker: {
       dzk: '吊装孔',
       cndcds5: '储能电池堆室#5',
       ktjf: '空调机房',
       dcds2: '#2电池堆室',
-      dcds4: '#4电池堆室',
+      dcds4: '#4电池堆室'
     },
     floor1DeviceMarker: {
       pcsgyzhq: 'PCS规约转换器',
-      dcc: '电池簇',
+      dcc: '电池簇'
     },
     floor2DeviceMarker: {
-      dcc: '电池簇',
+      dcc: '电池簇'
     },
     pageNumFun: {
       zdcdl: '站点充电量',
@@ -99,28 +99,28 @@ export default{
       unitCi: '次',
       zdcdsc: '站点充电时长',
       unitHour: '小时',
-      zdgzcs: '站点故障次数',
+      zdgzcs: '站点故障次数'
     },
     deviceInfoDataFun: {
       cdzg: '充电桩/个',
-      cdqg: '充电枪/个',
+      cdqg: '充电枪/个'
     },
     warningTabsDataFun: {
       yjrsaq: '一级人身安全',
       ejsbaq: '二级设备安全',
-      sjgjts: '三级告警提示',
+      sjgjts: '三级告警提示'
     },
     chargingTypesTabsFun: {
       cdzsyqk: '充电桩使用情况',
-      cdqsyqk: '充电枪使用情况',
+      cdqsyqk: '充电枪使用情况'
     },
     chargingTypesFun: {
       dqsyl: '当前使用率',
       unitCi: '次',
-      sycs: '使用次数',
+      sycs: '使用次数'
     },
     linePowerDataFun: {
-      ssgl: '实时功率',
+      ssgl: '实时功率'
     },
     columnDataFun: {
       yysmc: '运营商名称',
@@ -130,7 +130,7 @@ export default{
       gjlx: '告警类型',
       gjsj: '告警时间',
       aqfzr: '安全负责人',
-      lxdh: '联系电话',
+      lxdh: '联系电话'
     },
     realtimeTrendFun: {
       gjs: '告警数'
@@ -162,13 +162,13 @@ export default{
       unitPer: '%',
       soh: 'SOH',
       rgzcs: '日故障次数',
-      unitCi: '次',
+      unitCi: '次'
     },
     runingFun: {
       zdkcglmv: '最大可充功率/MW',
       zdkfglmv: '最大可放功率/MW',
       zdkcsjmin: '最大可充时间/min',
-      zdkfsjmin: '最大可放时间/min',
+      zdkfsjmin: '最大可放时间/min'
     },
     warnList: {
       message1: '保护[BCMS内部通讯故障]发生故…',
@@ -184,14 +184,14 @@ export default{
       message6: '告警[单体压差大]产生',
       area6: '#9电池簇',
       message7: '告警[单体压差大]产生',
-      area7: '#9电池簇',
+      area7: '#9电池簇'
     },
     baoqingSytemStatusFun: {
-      fxt: '分系统',
+      fxt: '分系统'
     },
     baoqingRealtimeOption: {
       yAxisName: '单位:GWH',
-      seriesName: '实时充放',
+      seriesName: '实时充放'
     },
     baoqingWarnOption: {
       unitGe: '个',
@@ -208,7 +208,7 @@ export default{
       fxtkfdl: '分系统可放电量',
       fxtkcdl: '分系统可充电量',
       fxtzcdl: '分系统总充电量',
-      fxtzfdl: '分系统总放电量',
+      fxtzfdl: '分系统总放电量'
     },
     msgPopList: {
       zdqy: '站点区域',
@@ -216,11 +216,11 @@ export default{
       jtdz: '具体地址',
       address: '深圳市福田区红荔西路与香蜜湖路东北交叉口',
       zdxz: '站点性质',
-      '5gjz': '5G基站',
+      '5gjz': '5G基站'
     },
     popRealtimeOption: {
-      yAxisName:'单位:kw',
-      seriesName:'实时充放'
+      yAxisName: '单位:kw',
+      seriesName: '实时充放'
     },
     pageNumLianhuaxiFun: {
       nljfdl: '年累计发电量',
@@ -228,15 +228,15 @@ export default{
       nyxlyxss: '年有效利用小时数',
       unitHour: '小时',
       nljco2jpl: '年累计CO²减排量',
-      unitTon: '吨',
+      unitTon: '吨'
     },
     chargingStationTabsFun: {
       cdzlx: '充电桩类型',
-      cdzdllx: '充电桩电流类型',
+      cdzdllx: '充电桩电流类型'
     },
     chargingStationGunTabsFun: {
       cdqlx: '充电枪类型',
-      cdqdllx: '充电枪电流类型',
+      cdqdllx: '充电枪电流类型'
     },
     chargingStationPieDataFun: {
       kcz: '快充桩',
@@ -255,7 +255,7 @@ export default{
       jlq: '交流枪',
       jzlq: '交直流枪',
       qtq: '其他枪',
-      unitGe: '个',
+      unitGe: '个'
     },
     batteryMsgFun: {
       zdfdl: '最大放电量',
@@ -271,15 +271,16 @@ export default{
       unitHour: '小时',
       zdgzcs: '站点故障次数',
       unitCi: '次',
-    },
+      w: '万'
+    }
   },
   components: {
-    baiqing:{
+    baiqing: {
       floors: {
         all: '全部',
         F1: 'F1',
         F2: 'F2',
-        F3: 'F3',
+        F3: 'F3'
       },
       floorMenu: {
         'space-distribution': '空间分布',
@@ -304,13 +305,13 @@ export default{
       pcsgjxx: 'PCS告警信息',
       btnList: {
         cdys: '充电演示',
-        fdys: '放电演示',
+        fdys: '放电演示'
       }
     },
     'baoqing-system-status': {
       state: {
         offline: '离线',
-        online: '在线',
+        online: '在线'
       }
     },
     baoqingchuneng: {
@@ -333,11 +334,11 @@ export default{
         fzr: '负责人：',
         fzrValue: '张小辉',
         lxfs: '联系方式：',
-        lxfsValue: '010-2891029839',
+        lxfsValue: '010-2891029839'
       }
     },
     'battery-msg': {
-      infoListFun:{
+      infoListFun: {
         csoh: '簇SOH',
         csoc: '簇SOC',
         'jydz+': '绝缘电阻+',
@@ -345,7 +346,7 @@ export default{
         cssgl: '簇实时功率',
         cdl: '簇电流',
         cljcdl: '簇累计充电量',
-        cljfdl: '簇累计放电量',
+        cljfdl: '簇累计放电量'
       }
     },
     'charging-state': {
@@ -353,7 +354,7 @@ export default{
         offline: '离线',
         nowork: '空闲',
         charging: '充电中',
-        errorwork: '故障',
+        errorwork: '故障'
       },
       warnState: {
         chargingWarning: '告警'
@@ -361,7 +362,7 @@ export default{
       typeFormate: {
         kc: '快充',
         mc: '慢充',
-        cc: '超充',
+        cc: '超充'
       }
     },
     'dialog-battery': {
@@ -376,7 +377,7 @@ export default{
         pcsaxdl: 'PCS A相电流',
         pcsbxdl: 'PCS B相电流',
         pcscxdl: 'PCS C相电流',
-        pcspl: 'PCS 频率',
+        pcspl: 'PCS 频率'
       },
       rightList: {
         pcstxzt: 'PCS 通讯状态',
@@ -384,27 +385,27 @@ export default{
         pcsyfkz: 'PCS 远方控制',
         pcsyxzt: 'PCS 运行状态',
         pcsgzzt: 'PCS 故障状态',
-        pcsgjzt: 'PCS 告警状态',
+        pcsgjzt: 'PCS 告警状态'
       }
     },
     'honglixi-popup': {
       ssgl: '实时功率'
     },
-    honglixi:{
+    honglixi: {
       zdjbxx: '站点基本信息',
       stationName: '红荔西5G示范站',
       companyName: '中国铁塔股份有限公司深圳市分公司',
       zc: '正常',
       cndcxx: '储能电池信息',
-      sscfqk: '实时充放情况',
+      sscfqk: '实时充放情况'
     },
     'lianhua-popup': {
-      ssfdgl: '实时发电功率',
+      ssfdgl: '实时发电功率'
     },
     lianhuajinggui: {
       state: {
         offline: '离线',
-        online: '在线',
+        online: '在线'
       }
     },
     lianhuaxi: {
@@ -427,7 +428,7 @@ export default{
         bwqk: '并网情况：',
         bwqkValue: '已并网',
         lxfs: '联系方式：',
-        lxfsValue: '13682341234',
+        lxfsValue: '13682341234'
       }
     },
     'pop-box': {
@@ -435,22 +436,22 @@ export default{
       cndcxx: '储能电池信息',
       zdzdfdl: '站点最大放电量',
       zdsscfqk: '站点实时充放情况',
-      warnBottomList:{
+      warnBottomList: {
         fddy: '放电电压',
-        cddy: '充电电压',
+        cddy: '充电电压'
       }
     },
     'station-info': {
       stationProperty: {
         gy: '公用',
-        zy: '专用',
+        zy: '专用'
       },
       stationStatus: {
         wz: '未知',
         jsz: '建设中',
         gbxx: '关闭下线',
         whz: '维护中',
-        zcsy: '正常使用',
+        zcsy: '正常使用'
       },
       stationType: {
         gg: '公共',
@@ -459,15 +460,15 @@ export default{
         hwzy: '环卫（专用）',
         wlzy: '物流（专用）',
         czczy: '出租车（专用）',
-        qt: '其他',
+        qt: '其他'
       },
-      infoListFun:{
+      infoListFun: {
         zdqy: '站点区域：',
         jtdz: '具体地址：',
         zdxz: '站点性质：',
         zdlx: '站点类型：',
         fzr: '负责人：',
-        lxfs: '联系方式：',
+        lxfs: '联系方式：'
       }
     },
     'temperature-msg': {
@@ -475,7 +476,7 @@ export default{
         totalVoltage: '簇总电压',
         prechargeVoltage: '簇预充电压',
         avgVoltage: '簇平均电压',
-        avgTemperature: '簇平均温度',
+        avgTemperature: '簇平均温度'
       }
     },
     'pile-dialog': {
@@ -489,12 +490,12 @@ export default{
           ssgl: '实时功率',
           gzl: '故障率',
           lyl: '利用率',
-          nbwd: '内部温度',
+          nbwd: '内部温度'
         },
         state: {
           offline: '离线',
           normal: '正常',
-          warning: '故障',
+          warning: '故障'
         }
       },
       'base-info': {
@@ -503,7 +504,7 @@ export default{
         state: {
           offline: '离线',
           online: '正常',
-          warning: '故障',
+          warning: '故障'
         },
         equipmentTypeFun: {
           zlsb: '直流设备',
@@ -511,7 +512,7 @@ export default{
           jzlytsb: '交直流一体设备',
           wxsb: '无线充电',
           cfdsb: '充放电设备',
-          qt: '其他',
+          qt: '其他'
         },
         listDataFun: {
           equipmentName: '设备名称：',
@@ -521,25 +522,25 @@ export default{
           equipmentModel: '设备型号：',
           equipmentPower: '设备总功率：',
           gunSum: '总枪数：',
-          ratedPower: '额定功率：',
+          ratedPower: '额定功率：'
         },
         messageColumnKeyListFun: {
           index: '序号',
           connectorName: '设备接口名称',
-          connectorId: '设备接口编码',
+          connectorId: '设备接口编码'
         }
       },
       'normal-pile': {
         jbxx: '基本信息',
         dtxx: '动态信息',
-        gjxx: '告警信息',
+        gjxx: '告警信息'
       },
       'pile-dialog': {
         ckgjxq: '查看告警详情',
         state: {
           offline: '离线',
           online: '在线',
-          warning: '故障',
+          warning: '故障'
         }
       },
       'warning-box': {
@@ -547,7 +548,7 @@ export default{
         state: {
           offline: '离线',
           online: '在线',
-          warning: '故障',
+          warning: '故障'
         }
       },
       'warning-message': {
@@ -555,7 +556,7 @@ export default{
           index: '序号',
           alarmTime: '告警时间',
           alarmType: '告警类型',
-          alarmDesc: '告警描述',
+          alarmDesc: '告警描述'
         }
       },
       'warning-pile': {
@@ -567,7 +568,7 @@ export default{
         alarmLevelData: {
           yjrsaq: '一级人身安全',
           ejsbaq: '二级设备安全',
-          sjgjts: '三级告警提示',
+          sjgjts: '三级告警提示'
         },
         equipmentTypes: {
           zlsb: '直流设备',
@@ -575,37 +576,37 @@ export default{
           jzlytsb: '交直流一体设备',
           wxcd: '无线充电',
           cfdsb: '充放电设备',
-          qt: '其他',
+          qt: '其他'
         },
         alarmTypes: {
           cdxtgz: '充电系统故障',
           dcxtgz: '电池系统故障',
-          pdxtgz: '配电系统故障',
+          pdxtgz: '配电系统故障'
         },
         affirms: {
           unaffirms: '未确认',
-          affirms: '已确认',
+          affirms: '已确认'
         },
         listDataLeftFun: {
           equipmentName: '设备名称：',
           equipmentId: '设备编号：',
           alarmType: '告警类型：',
           alarmTime: '告警时间：',
-          affirm: '确认结果：',
+          affirm: '确认结果：'
         },
         listDataRightFun: {
           equipmentType: '设备类型：',
           connectorId: '设备接口编码：',
           alarmDesc: '告警描述：',
           reportingTime: '上报时间：',
-          contactTel: '负责人电话：',
+          contactTel: '负责人电话：'
         },
         btnList: {
           video: '视频',
           voice: '麦克风',
-          hangup: '挂断',
+          hangup: '挂断'
         }
       }
     }
   }
-}
+};

@@ -595,7 +595,7 @@ const addXzqh = async (res, type: string, idName: string, userDataName: string) 
       id: type + '-' + item.properties[idName], //polygon唯一标识id
       groupId: type == 'qu' ? type : item.properties.QUNAME,
       coordinates: item.geometry.coordinates[0], //构成polygon的坐标点数组
-      range: [1, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
+      range: [200, 100000], //可视范围：[近裁距离, 远裁距离]，取值范围: [任意负值, 任意正值]
       userData: item.properties[userDataName],
       color: [0, 0, 0.4, 0], //多边形的填充颜色
       frameColor: '#8ae0fa', //边框颜色
@@ -623,7 +623,7 @@ const addXzqhName = async (res, type: string, idName: string, userDataName: stri
       coordinate: item.geometry.coordinates, //坐标位置
       anchors: [-11, 19], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [22, 19], //图片的尺寸
-      range: [1, 150000], //可视范围
+      range: [200, 150000], //可视范围
       imagePath: getImageByCloud('regionName'),
       text: item.properties[idName], //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
