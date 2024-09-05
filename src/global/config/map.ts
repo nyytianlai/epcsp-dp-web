@@ -292,7 +292,6 @@ export const focusToHihtLightPop = async (longitude, latitude, __g) => {
 export const playCamera = async (__g, tortureName) => {
   await __g.camera.stopAnimation();
   const cameraList = await __g.camera.getAnimationList();
-  console.log(cameraList, 'cameraList');
   if (cameraList?.data) {
     const curCamera = cameraList?.data.find((elm) => elm.name === tortureName);
     curCamera && __g.camera.playAnimation(curCamera.id, null);
