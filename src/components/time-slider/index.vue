@@ -7,6 +7,7 @@
     :marks="marks"
     :max="data?.length - 1"
     :format-tooltip="formatTooltip"
+    :disabled="disabled"
   />
 </template>
 
@@ -17,6 +18,10 @@ const props = defineProps({
   data: {
     type: Array,
     default: []
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   },
   modelValue: {
     type: Number,

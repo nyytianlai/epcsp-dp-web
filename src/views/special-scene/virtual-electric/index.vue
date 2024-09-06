@@ -11,7 +11,7 @@
       <DispatcherOperation :adjustDate="active" />
       <ActureClusterOperation :adjustDate="active" />
     </panel>
-    <map-layer v-if="aircityObj" :adjustDate="active" />
+    <map-layer v-if="aircityObj" :adjustDate="active" :activeIndex="activeIndex" />
   </div>
 </template>
 
@@ -33,8 +33,11 @@ const aircityObj = inject('aircityObj');
 const pageNumData = ref(pageNumFun());
 
 const active = ref('active');
-const handleActiveChange = (val) => {
-  active.value = val;
+const activeIndex = ref();
+const handleActiveChange = ({ value, index }) => {
+  console.log(value, index, '00000000000000');
+  active.value = value;
+  activeIndex.value = index;
 };
 bus.on('virtual-electric-top-data', (data) => {
   pageNumData.value = pageNumFun(data);

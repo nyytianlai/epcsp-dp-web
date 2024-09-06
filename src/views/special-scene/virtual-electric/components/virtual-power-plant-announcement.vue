@@ -6,9 +6,9 @@
       <div class="left-data">
         <div
           class="left-card-item"
-          v-for="item in noticeList"
+          v-for="(item, i) in noticeList"
           :key="item.adjustDate"
-          @click="handleClick(item)"
+          @click="handleClick(item, i)"
           :class="{ active: item.adjustDate === active }"
         >
           <div class="icon">
@@ -52,7 +52,7 @@ const getData = async () => {
     noticeList.value = data;
     active.value = data[0].adjustDate;
     // bus.emit('getVppAdjustTime', active.value);
-    emit('activeChange', active.value);
+    emit('activeChange', { value: active.value, index: 0 });
     const param = {
       adjustTime: '',
       dataTime: active.value,
@@ -64,9 +64,9 @@ const getData = async () => {
 };
 getData();
 
-const handleClick = async (item) => {
+const handleClick = async (item, i) => {
   active.value = item.adjustDate;
-  emit('activeChange', active.value);
+  emit('activeChange', { value: active.value, index: i });
   // bus.emit('getVppAdjustTime', active.value);
 };
 </script>
