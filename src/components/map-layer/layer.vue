@@ -16,6 +16,7 @@ import HawkEye from '@/components/map-layer/hawk-eye.vue';
 import { useMapStore } from '@/stores/map';
 import { storeToRefs } from 'pinia';
 import { getTreeLayerIdByName, delete3dt, hideAllStation3dt } from '@/global/config/map';
+import { allHeatIdsList } from '@/views/special-scene/virtual-electric/map-layers/layer-config';
 const emit = defineEmits(['aircityObjReady']);
 const { treeInfo } = storeToRefs(useMapStore());
 const aircityObj = ref(null);
@@ -70,14 +71,7 @@ const handleMapReady = async (obj) => {
   let ids5 = getTreeLayerIdByName('行政地图_虚拟电厂_福田', ref.infotree);
   await acApi.tileLayer.hide(ids4);
   await acApi.infoTree.hide([ids, ids2, ids3, ids5]);
-  await delete3dt(acApi, [
-    'NewYYSFB',
-    `虚拟电厂/热力图1.3dt`,
-    `虚拟电厂/热力图2.3dt`,
-    `虚拟电厂/热力图3.3dt`,
-    '场内设施Icon_宏观',
-    '场内设施Icon_微观'
-  ]);
+  await delete3dt(acApi, ['NewYYSFB', ...allHeatIdsList.flat(3)]);
   acApi.settings.setMainUIVisibility(false);
   emit('aircityObjReady', obj);
 };
@@ -111,14 +105,7 @@ onMounted(() => {
     await acApi.tileLayer.hide(ids4);
     await acApi.tileLayer.show(id);
     await acApi.infoTree.hide([ids, ids2, ids3, ids5]);
-    delete3dt(acApi, [
-      'NewYYSFB',
-      `虚拟电厂/热力图1.3dt`,
-      `虚拟电厂/热力图2.3dt`,
-      `虚拟电厂/热力图3.3dt`,
-      '场内设施Icon_宏观',
-      '场内设施Icon_微观'
-    ]);
+    delete3dt(acApi, ['NewYYSFB', ...allHeatIdsList.flat(3)]);
   });
   return '';
 });
