@@ -1,7 +1,7 @@
 <template>
   <qu ref="quRef"></qu>
   <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
-    <TimeSlide v-model="currentDt" :data="range" />
+    <TimeSlide v-model="currentDt" :data="range" disabled />
   </div>
 </template>
 
@@ -20,7 +20,7 @@ import {
   playCamera
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
-import { allHeatIds, virtureTileIds, virtureView, virturePoint, timeline } from './layer-config';
+import { virtureTileIds, virtureView, virturePoint, allHeatIdsList } from './layer-config';
 import Api from '../api';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
@@ -30,6 +30,9 @@ const props = defineProps({
   adjustDate: {
     type: String,
     default: ''
+  },
+  activeIndex: {
+    type: Number
   }
 });
 
@@ -53,6 +56,8 @@ const quRef = ref();
 const showVirture = ref(false);
 
 let timer;
+
+const allHeatIds = computed(() => allHeatIdsList[props.activeIndex] || []);
 
 const formatTooltip = (vl) => {
   return range[vl];
@@ -116,8 +121,8 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
 };
 
 const addHeatLayer = async () => {
-  const filterIds = allHeatIds.filter((el, i) => i > currentDt.value);
-  const showIds = allHeatIds.filter((el, i) => i <= currentDt.value);
+  const filterIds = allHeatIds.value.filter((el, i) => i > currentDt.value);
+  const showIds = allHeatIds.value.filter((el, i) => i <= currentDt.value);
   filterIds.length && (await delete3dt(__g, filterIds));
   __g.tileLayer.updateBegin();
 
@@ -267,7 +272,7 @@ const handleToVirture = async () => {
   store.changeCurrentPosition('福田区');
   __g.polygon.hide(quRef.value?.allQUIds);
   __g.polygon3d.hide('wall');
-  delete3dt(__g, allHeatIds);
+  delete3dt(__g, allHeatIdsList.flat(3));
   __g.marker.hideByGroupId('virtual-point');
   __g.marker.hideByGroupId('quName');
   __g.marker.hideByGroupId('qu');
@@ -346,21 +351,24 @@ useEmitt('AIRCITY_EVENT', (e) => {
 });
 
 watch(
-  () => props.adjustDate,
+  () => [props.adjustDate, props.activeIndex],
   async () => {
-    if (props.adjustDate) {
-      const param = {
-        adjustTime: '',
-        dataTime: props.adjustDate,
-        districtCode: ''
-      };
-      const { data } = await Api.getVppAdjustTime(param);
-      rangeData.value = data;
-      range.value = data.map((v) => v.adjustTimeText);
-      currentDt.value = 0;
-      handleTopData();
-      setCurrent();
-    }
+    nextTick(async () => {
+      console.log(props.adjustDate, props.activeIndex, '11111111111');
+      if (props.adjustDate) {
+        const param = {
+          adjustTime: '',
+          dataTime: props.adjustDate,
+          districtCode: ''
+        };
+        const { data } = await Api.getVppAdjustTime(param);
+        rangeData.value = data;
+        range.value = data.map((v) => v.adjustTimeText);
+        currentDt.value = 0;
+        handleTopData();
+        setCurrent();
+      }
+    });
   },
   {
     deep: true,
@@ -413,7 +421,7 @@ onBeforeUnmount(async () => {
   await __g.cameraTour.delete('xndc');
   await __g?.marker?.deleteByGroupId('area-point-layer');
   await __g.marker.showByGroupId('virtual-point');
-  await delete3dt(__g, allHeatIds);
+  await delete3dt(__g, allHeatIdsList.flat(3));
   await __g.infoTree.hide(virtureTileIds);
 });
 </script>
