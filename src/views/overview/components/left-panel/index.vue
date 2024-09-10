@@ -110,7 +110,15 @@ const store = useVisibleComponentStore();
 // 获取数字孪生站点信息
 const loadSelectHrStationInfoForOverview = async () => {
   const res = await selectHrStationInfoForOverview();
-  state.digitalTwinSites = (res && res.data) || [];
+  state.digitalTwinSites = ((res && res.data) || []).map((item) => {
+    const stationPicObj = new URL(`../../images/${item.stationId}.jpg`, import.meta.url);
+    const stationPic =
+      stationPicObj.pathname === '/undefined' ? item.stationPic : stationPicObj.href;
+    return {
+      ...item,
+      stationPic
+    };
+  });
 };
 // 获取新能源充电站
 const loadChargingStation = async () => {

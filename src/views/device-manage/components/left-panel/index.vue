@@ -2,7 +2,11 @@
   <panel>
     <div class="charging-station-num">
       <!-- cdsszl: '充电设施总量'  -->
-      <title-column :title="t(`${tHead}.cdsszl`)" :showBtn="true" @handleClick="handleDetailClick" />
+      <title-column
+        :title="t(`${tHead}.cdsszl`)"
+        :showBtn="true"
+        @handleClick="handleDetailClick"
+      />
       <tabs
         :data="bottomBtnCur === 1 ? chargingStationTabs : chargingStationGunTabs"
         @changeTab="(data) => handleChangeTab(data, 'charging-station')"
@@ -11,7 +15,11 @@
       <pie-chart
         class="device-total-pie"
         :data="chargingStationPieData"
-        :totalName="bottomBtnCur === 1 ? t(`${tHead}.cdzzs`) || '充电桩总数' : t(`${tHead}.cdqzs`) || '充电枪总数'"
+        :totalName="
+          bottomBtnCur === 1
+            ? t(`${tHead}.cdzzs`) || '充电桩总数'
+            : t(`${tHead}.cdqzs`) || '充电枪总数'
+        "
         :mode="isCanChoose ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="totalCurCode === 1 ? chargingStationColors : chargingGunColors"
@@ -144,7 +152,17 @@ const getSelectChargeCountByArea = async () => {
 const getSelectHrStationInfo = async () => {
   const res = await selectHrStationInfo();
   if (res?.data?.length) {
-    chargingNum.value = res.data.sort((a, b) => a.sort - b.sort);
+    chargingNum.value = res.data
+      .sort((a, b) => a.sort - b.sort)
+      .map((item) => {
+        const stationPicObj = new URL(`../../images/${item.stationId}_device.jpg`, import.meta.url);
+        const stationPic =
+          stationPicObj.pathname === '/undefined' ? item.stationPic : stationPicObj.href;
+        return {
+          ...item,
+          stationPic
+        };
+      });
   } else {
     chargingNum.value = [];
   }
