@@ -144,16 +144,16 @@ onMounted(async () => {
     }
   }
 }
-@media screen and (min-width: 3200px) {
-  .brand-support {
-    height: 26%;
-    .brand-support-content {
-      .item {
-        margin-bottom: 20px;
-      }
-    }
-  }
-}
+// @media screen and (min-width: 3200px) {
+//   .brand-support {
+//     height: 26%;
+//     .brand-support-content {
+//       .item {
+//         margin-bottom: 20px;
+//       }
+//     }
+//   }
+// }
 
 @keyframes rotateParent {
   from {

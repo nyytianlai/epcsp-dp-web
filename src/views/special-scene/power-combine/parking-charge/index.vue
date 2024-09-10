@@ -35,11 +35,11 @@ const aircityObj = inject('aircityObj');
   }
 
   &.left {
-    grid-template-rows: auto 260px 1fr;
+    grid-template-rows: auto 1fr 1fr;
   }
 
   &.right {
-    grid-template-rows: auto 300px 1fr;
+    grid-template-rows: auto 1fr 1fr;
   }
 }
 </style>

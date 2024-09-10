@@ -66,7 +66,8 @@ const drawChart = async (data = []) => {
       name: item.name,
       color: `rgb(${item.color})`,
       type: 'bar',
-      data: data.map((obj) => obj[item.code])
+      data: data.map((obj) => obj[item.code]),
+      barWidth: scale(22)
     });
     legendData.push({
       name: item.name,
