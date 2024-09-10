@@ -1,9 +1,9 @@
 ###
  # @Author: xiang cao caoxiang@sutpc.com
  # @Date: 2023-04-11 09:55:35
- # @LastEditors: xiang cao caoxiang@sutpc.com
- # @LastEditTime: 2023-04-18 19:05:17
- # @FilePath: \epcsp-dp-web\config\.env.pro
+ # @LastEditors: niyayong@sutpc.com
+ # @LastEditTime: 2024-09-10 17:03:41
+ # @FilePath: /epcsp-dp-web/config/.env.pro
  # @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 ### 
 NODE_ENV = production
@@ -25,7 +25,7 @@ VITE_REDIRECT_LOGIN = 0
 # VITE_FD_URL=location.hostname:3480 #开发环境  //斜对面电脑
 # 飞渡文件磁盘地址
 VITE_FD_FileURL=D:/FreeDo/Cloud/SDK/data/3dt # 开发环境  //斜对面电脑
-
+VITE_FD_PID=2
 # 应用名称，用于网页头部等
 VITE_APP_TITLE = 电力充储放一张网
 

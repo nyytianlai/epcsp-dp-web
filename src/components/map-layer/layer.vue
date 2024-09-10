@@ -2,6 +2,7 @@
   <base-ac
     :cloudHost="cloudHost"
     :option="fdOption"
+    :pid="pid"
     :cloudMangerInfo="{ command: 'GetOneFreeInstance' }"
     @map-ready="handleMapReady"
   >
@@ -28,6 +29,7 @@ const ifHawkEye = computed(() => currentPosition.value.includes('市'));
 // const cloudHost = `${location.host}/freedo`;
 // 20231128在证数局调试时，要用本地临时的飞渡服务地址
 let cloudHost = import.meta.env.VITE_FD_URL;
+const pid = import.meta.env.VITE_FD_PID;
 if (!cloudHost) {
   cloudHost = `${location.host}/freedo`;
 }
