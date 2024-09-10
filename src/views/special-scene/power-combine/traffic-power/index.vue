@@ -39,7 +39,7 @@ const playTwin = (vl) => {
   }
 
   &.left {
-    grid-template-rows: auto 240px 1fr;
+    grid-template-rows: auto 1fr 1fr;
   }
 
   &.right {

@@ -46,7 +46,7 @@ onMounted(() => {
 <style scoped lang="less">
 .v2g-operation-rank {
   width: 100%;
-  height: 30%;
+  height: 100%;
   display: flex;
   flex-flow: column nowrap;
   row-gap: 12px;

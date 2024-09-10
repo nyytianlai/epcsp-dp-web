@@ -37,19 +37,19 @@ const aircityObj = inject('aircityObj');
     min-height: 0;
   }
 }
-// :deep(.panel) {
-//   display: grid;
-//   > div {
-//     min-width: 0;
-//     min-height: 0;
-//   }
+:deep(.panel) {
+  display: grid;
+  > div {
+    min-width: 0;
+    min-height: 0;
+  }
 
-//   &.left {
-//     grid-template-rows: auto 240px 1fr;
-//   }
+  &.left {
+    grid-template-rows: auto 1fr 1fr;
+  }
 
-//   &.right {
-//     grid-template-rows: auto 1fr 1fr;
-//   }
-// }
+  &.right {
+    grid-template-rows: auto 1fr 1fr;
+  }
+}
 </style>

@@ -116,7 +116,7 @@ getData();
 <style scoped lang="less">
 .operation-bus-overview {
   width: 100%;
-  height: 42%;
+  height: 100%;
   // height: 330px;
   display: flex;
   flex-flow: column nowrap;
