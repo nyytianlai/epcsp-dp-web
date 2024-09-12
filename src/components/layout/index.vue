@@ -21,7 +21,12 @@
           </div> -->
           <Goback
             v-show="currentPosition === '深圳市' && isShowMenu"
-            @click="router.push('/overview')"
+            @click="
+              router.push({
+                path: '/overview',
+                query: { h: getHashParam('h') || getUrlParam('h') }
+              })
+            "
           />
           <router-view v-slot="{ Component, route }">
             <keep-alive :exclude="excludeViews">

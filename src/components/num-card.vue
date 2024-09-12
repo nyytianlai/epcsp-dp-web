@@ -213,8 +213,10 @@ const styleImgFont = computed<IStyleImgFont>(() => {
       align-items: center;
       width: 100%;
       .num {
+        display: flex;
+        align-items: baseline;
         width: 100%;
-        text-align: center;
+        justify-content: center;
         white-space: nowrap;
         .value {
           font-family: 'DIN Alternate';
@@ -224,12 +226,15 @@ const styleImgFont = computed<IStyleImgFont>(() => {
         }
         .unit {
           font-size: 14px;
+          line-height: 14px;
         }
       }
       .name {
+        width: 100%;
         font-size: 14px;
         white-space: nowrap;
         color: #c6d1db;
+        text-align: center;
       }
     }
   }
@@ -266,7 +271,7 @@ const styleImgFont = computed<IStyleImgFont>(() => {
         }
         .unit {
           font-size: 12px;
-          line-height: 17px;
+          line-height: 12px;
           color: rgba(255, 255, 255, 0.8);
         }
       }

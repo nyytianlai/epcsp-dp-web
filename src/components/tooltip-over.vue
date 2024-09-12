@@ -116,7 +116,7 @@ span {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  max-width: 225px;
+  max-width: 100%;
 }
 
 .name-card-name {
@@ -142,7 +142,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   // width: 50px;
-  max-width: 75px;
+  max-width: 100%;
   display: inline-block;
   margin-left: 5px;
 }
@@ -155,7 +155,7 @@ span {
   white-space: nowrap; /* 禁止文字换行 */
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
-  max-width: 115px;
+  max-width: 100%;
   display: inline-block;
 }
 .tabs-active-label {
@@ -184,7 +184,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 100px;
+  max-width: 100%;
   margin-left: 0;
 }
 
@@ -196,7 +196,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 60px;
+  max-width: 100%;
   margin-left: 0;
 }
 .pie-chart-name {
@@ -205,7 +205,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 120px;
+  max-width: 100%;
   margin-left: 0;
 }
 
@@ -236,7 +236,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 250px;
+  max-width: 100%;
   margin-left: 8px;
 }
 .num-card-value-tooltip {
@@ -244,7 +244,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 60px;
+  max-width: 100%;
   width: 100%;
   margin-left: 0px;
 }
@@ -253,7 +253,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 36px;
+  max-width: 100%;
   width: 100%;
   margin-left: 0px;
 }
@@ -286,7 +286,7 @@ span {
   overflow: hidden; /* 超出容器宽度时隐藏内容 */
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
-  max-width: 90px;
+  max-width: 100%;
   width: 100%;
   margin-left: 0px;
   // background: linear-gradient(258.38deg, rgba(37, 177, 255, 0.1) 2.46%, rgba(37, 177, 255, 0) 100%);
@@ -305,7 +305,7 @@ span {
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
   width: 100%;
-  max-width: 350px;
+  max-width: 100%;
   margin-left: 0px;
 }
 .page-num-name-tooltip {
@@ -314,7 +314,7 @@ span {
   text-overflow: ellipsis; /* 超出容器宽度时显示省略号 */
   display: inline-block;
   width: 100%;
-  max-width: 150px;
+  max-width: 100%;
   margin-left: 0px;
 }
 .tab-label-tooltip {
@@ -329,7 +329,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 150px;
+  max-width: 100%;
 }
 .tab-label-active {
   font-size: 18px;
@@ -343,7 +343,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 150px;
+  max-width: 100%;
 }
 .bottom-tab-label-tooltip {
   font-size: 14px;
@@ -380,7 +380,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 150px;
+  max-width: 100%;
 }
 .active-message-name-tooltip {
   font-size: 14px;
@@ -391,7 +391,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 100px;
+  max-width: 100%;
 }
 .top-tab-name-tooltip {
   white-space: nowrap; /* 禁止文字换行 */
@@ -400,7 +400,7 @@ span {
   // display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 120px;
+  max-width: 100%;
 }
 .maintain-tab-name-tooltip {
   color: rgba(166, 214, 249, 0.5);
@@ -414,7 +414,7 @@ span {
   // display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 100px;
+  max-width: 100%;
 }
 .maintain-tab-name-active {
   color: #ffffff;
@@ -429,7 +429,7 @@ span {
   // display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 150px;
+  max-width: 100%;
 }
 .charge-detail-name-tooltip {
   color: #ffffff;
@@ -440,7 +440,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 120px;
+  max-width: 100%;
 }
 .warning-tab-label-tooltip {
   font-size: 12px;
@@ -450,7 +450,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 120px;
+  max-width: 100%;
   color: #949494;
 }
 .warning-tab-label-active {
@@ -472,7 +472,7 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 120px;
+  max-width: 100%;
   color: #e7e7e7;
   text-align: center;
 }
@@ -495,6 +495,6 @@ span {
   display: inline-block;
   width: 100%;
   margin-left: 0px;
-  max-width: 105px;
+  max-width: 100%;
 }
 </style>

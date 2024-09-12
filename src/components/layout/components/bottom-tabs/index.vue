@@ -28,6 +28,7 @@ import { useRouter, useRoute } from 'vue-router';
 import Icon from '@sutpc/vue3-svg-icon';
 import { useI18n } from 'vue-i18n';
 import TooltipOver from '@/components/tooltip-over.vue';
+import { getHashParam, getUrlParam } from '@sutpc/zebra';
 interface Tab {
   type: string;
   text?: string;
@@ -91,7 +92,8 @@ const activeTab = computed(() => route.name);
 const handleTabClick = (tab: Tab) => {
   // store.changeHomeTab(tab.type);
   if (tab.path) {
-    router.push(tab.path);
+    // router.push(tab.path);
+    router.push({ path: tab.path, query: { h: getHashParam('h') || getUrlParam('h') } });
   }
 };
 </script>

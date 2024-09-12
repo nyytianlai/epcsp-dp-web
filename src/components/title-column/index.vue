@@ -8,13 +8,13 @@
       <div class="bgc"></div>
       <icon icon="svg-icon:arrow" class="arrow" />
       <!-- <span class="title"> -->
-        <!-- {{ title }} -->
-        <tooltip-over
-          :is-inline="true"
-          :className="['tab-left-title']"
-          :content="title"
-          :ref-name="title"
-        />
+      <!-- {{ title }} -->
+      <tooltip-over
+        :is-inline="true"
+        :className="['tab-left-title']"
+        :content="title"
+        :ref-name="title"
+      />
       <!-- </span> -->
       <icon :icon="`svg-icon:${icon}`" class="car" />
     </div>
@@ -22,7 +22,7 @@
       <div class="bevel-edge"></div>
       <div class="line"></div>
       <!-- 详情 xq: '详情' -->
-      <span class="detail-btn" v-if="showBtn" @click="handleClick">{{ t(`${tHead}.xq`)  }}</span>
+      <span class="detail-btn" v-if="showBtn" @click="handleClick">{{ t(`${tHead}.xq`) }}</span>
     </div>
     <div class="right-tab-btn" v-if="showTabBtn">
       <div
@@ -93,6 +93,8 @@ const handleTabBtn = (item) => {
   align-items: flex-end;
 }
 .left-bgc {
+  flex: 1;
+  min-width: 80%;
   display: flex;
   align-items: center;
   width: fit-content;
