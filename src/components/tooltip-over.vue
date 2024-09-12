@@ -401,6 +401,7 @@ span {
   width: 100%;
   margin-left: 0px;
   max-width: 100%;
+  text-align: center;
 }
 .maintain-tab-name-tooltip {
   color: rgba(166, 214, 249, 0.5);

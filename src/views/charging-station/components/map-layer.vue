@@ -6,6 +6,7 @@
   <legend-list
     :legendType="legendType"
     :legendName="legendName"
+    :legendList="list"
     :hotRange="[0, '10万']"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
@@ -23,6 +24,13 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `charging-station.map-layer`;
 
+const list = [
+  {
+    color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
+    name: t(`charging-station.config.operatingTabsFun.cdzhan`)
+  }
+];
+
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3]);
@@ -38,12 +46,12 @@ let name = t(`${tHead}.cdslg`);
 const legendName = ref(name || '充电数量(个)');
 const isHeatMap = ref(false);
 
-let cdglkw = t(`${tHead}.cdglkw`); 
+let cdglkw = t(`${tHead}.cdglkw`);
 const setRectBarVisibility = (value: boolean) => {
   value ? store.changeButtomTabCode(1) : store.changeButtomTabCode(2);
   quRef.value.resetSz(false);
   legendType.value = value ? 'normal' : 'hot';
-  legendName.value = value ? name || '充电数量(个)' :  cdglkw || '充电功率(kW)';
+  legendName.value = value ? name || '充电站数量(个)' : cdglkw || '充电功率(kW)';
   value ? addQuBar() : aircityObj.value?.acApi.marker.deleteByGroupId('rectBar');
 };
 const setHeatMapVisibility = async (value: boolean) => {
