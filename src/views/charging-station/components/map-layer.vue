@@ -7,7 +7,7 @@
     :legendType="legendType"
     :legendName="legendName"
     :legendList="list"
-    :hotRange="[0, '10万']"
+    :hotRange="[0, `10${$t(`${tHead}.w`)}`]"
     v-show="currentPosition == '深圳市' || currentPosition.includes('区')"
   />
 </template>

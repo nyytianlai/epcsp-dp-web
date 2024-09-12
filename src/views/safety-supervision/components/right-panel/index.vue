@@ -18,6 +18,7 @@
         :mode="totalCurCode === 1 && bottomCode === 1 ? 'canChoose' : 'default'"
         @choose="handleChoose"
         :colors="warningMonitorColors"
+        :totalName="t(`${tHead}.hj`)"
       />
     </div>
     <div class="realtime-state">
