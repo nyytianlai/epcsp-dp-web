@@ -4,7 +4,9 @@
       <ec-resize :option="ecOption" @instanceReady="watchInstanceReady" />
       <div class="total-content" v-if="!selectIndex && selectIndex !== 0">
         <span class="value" style="fontsize: 40px; lineheight: 32px">{{ totalNum }}</span>
-        <span class="name" style="fontsize: 14px; lineheight: 20px; text-align: center;">{{ totalName }}</span>
+        <span class="name" style="fontsize: 14px; lineheight: 20px; text-align: center">
+          {{ totalName }}
+        </span>
       </div>
     </div>
     <div class="legend-wrap" v-if="mode === 'default'">
@@ -244,6 +246,8 @@ const handleCanChoose = (item) => {
   .left-info {
     display: flex;
     align-items: center;
+    flex: 1;
+    min-width: 0;
     .icon {
       width: 16px;
       height: 16px;
