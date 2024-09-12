@@ -1,5 +1,5 @@
 <template>
-  <div class="warning-tabs">
+  <div class="warning-tabs" :style="`--len:${data.length}`">
     <div
       class="tab"
       v-for="(item, index) in data"
@@ -13,7 +13,10 @@
       </span> -->
       <tooltip-over
         class="label"
-        :className="['warning-tab-label-tooltip', item.code === activeTab ? 'warning-tab-label-active' : '']"
+        :className="[
+          'warning-tab-label-tooltip',
+          item.code === activeTab ? 'warning-tab-label-active' : ''
+        ]"
         :content="item.displayLabel || item.label"
         :ref-name="item.displayLabel || item.displayLabel"
       />
@@ -76,6 +79,7 @@ watch(data, (newVal) => {
     align-items: center;
     padding-bottom: 6px;
     cursor: pointer;
+    max-width: calc(100% / var(--len));
     &.active {
       position: relative;
       border-bottom: 1.5px solid;

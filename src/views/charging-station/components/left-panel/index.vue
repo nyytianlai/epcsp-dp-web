@@ -35,12 +35,13 @@
     </div>
     <div class="operating-company">
       <!-- yyqypm: '运营企业排名', -->
-      <title-column :title="t(`${tHead}.yyqypm`)"  :showBtn="true" @handleClick="handleDetailClick" />
-      <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
-      <rank-list class="operating-company__list"
-        :data="projectList"
-        :totalNum="projectTotalNum"
+      <title-column
+        :title="t(`${tHead}.yyqypm`)"
+        :showBtn="true"
+        @handleClick="handleDetailClick"
       />
+      <tabs :data="operatingTabsData" @changeTab="(data) => handleChangeTab(data, 'operating')" />
+      <rank-list class="operating-company__list" :data="projectList" :totalNum="projectTotalNum" />
     </div>
   </panel>
   <enterprise-rank-list-dialog :visible="dialogRankVisible" @closed="handleCloseRankDialog" />
@@ -163,7 +164,6 @@ onMounted(() => {
   .num-wrap {
     display: flex;
     justify-content: space-between;
-    // height: 160px;
     padding: 5px 22px;
     margin-top: 16px;
     background: linear-gradient(
@@ -176,6 +176,11 @@ onMounted(() => {
     border-radius: 4px;
     container-type: inline-size;
     container-name: numCard;
+
+    :deep(.num-card) {
+      flex: 1;
+      min-width: 0;
+    }
     @container numCard (min-width: 500px) {
       .num-card {
         flex-direction: row;
@@ -213,6 +218,8 @@ onMounted(() => {
     padding-right: 10px;
 
     .num-card {
+      min-width: 0;
+      min-height: 0;
       width: 100%;
       height: 100%;
       display: flex;
@@ -223,6 +230,11 @@ onMounted(() => {
 .pile-charger-header {
   display: flex;
   justify-content: space-between;
+
+  :deep(.tabs) {
+    flex: 1;
+    min-width: 0;
+  }
 }
 .right-tab-btn {
   display: flex;

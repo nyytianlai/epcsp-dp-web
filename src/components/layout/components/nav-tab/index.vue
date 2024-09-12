@@ -72,6 +72,7 @@
 <script>
 import config from '@sutpc/config';
 import TooltipOver from '@/components/tooltip-over.vue';
+import { getHashParam, getUrlParam } from '@sutpc/zebra';
 
 export default {
   components: {
@@ -148,14 +149,15 @@ export default {
       let path = data.children?.length ? data.children[0].path : data.path;
       if (data.children && data.children[0]?.meta.disabled) return;
       if (path === this.$route.fullPath) return;
-      this.$router.push(path);
+      this.$router.push({ path, query: { h: getHashParam('h') || getUrlParam('h') } });
     },
     handleSubTab(data) {
       if (Object.prototype.hasOwnProperty.call(data.meta, 'disabled') && data.meta.disabled) {
         return;
       }
       if (data.path === this.$route.fullPath) return;
-      this.$router.push(data.path);
+      // this.$router.push(data.path);
+      this.$router.push({ path: data.path, query: { h: getHashParam('h') || getUrlParam('h') } });
     },
     handleHover(tab) {
       tab.isHover = true;
@@ -170,7 +172,8 @@ export default {
       }
       if (path === this.$route.fullPath || child.meta.disabled) return;
       tab.isHover = false;
-      this.$router.push(path);
+      // this.$router.push(path);
+      this.$router.push({ path, query: { h: getHashParam('h') || getUrlParam('h') } });
     }
   }
 };
@@ -192,6 +195,10 @@ export default {
     border: 1px solid rgba(84, 181, 255, 0.3);
     position: relative;
     color: #bbe1ff;
+
+    .tab-nav {
+      width: 100%;
+    }
 
     &.disabled {
       cursor: not-allowed;

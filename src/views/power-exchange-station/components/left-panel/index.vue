@@ -49,6 +49,16 @@ const { cardData, rankData, rankTotal, deviceInfoData } = toRefs(state);
     @{deep} {
       .num-card.top-down {
         flex-direction: row;
+
+        .num,
+        .name {
+          justify-content: flex-start !important;
+          padding-left: 12px;
+        }
+
+        .num-card-name-tooltip {
+          text-align: left;
+        }
       }
     }
   }
@@ -59,7 +69,7 @@ const { cardData, rankData, rankTotal, deviceInfoData } = toRefs(state);
     display: flex;
     justify-content: space-between;
     // height: 160px;
-    padding: 20px 0;
+    padding: 20px 22px;
     margin-top: 16px;
     background: linear-gradient(
       255.75deg,

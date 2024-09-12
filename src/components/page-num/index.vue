@@ -4,7 +4,7 @@
       <div class="num-wrap" v-for="(item, index) in data" :key="index">
         <span class="name" :style="{ color: item.nameColor }">
           <template v-if="item.children?.length" v-for="(el, i) in item.children" :key="el.name">
-            <span>{{ el.displayName ||el.name }}</span>
+            <span>{{ el.displayName || el.name }}</span>
             <p class="seprate" v-if="i < item.children.length - 1">/</p>
           </template>
           <!-- <span>{{ item.displayName || item.name }}</span> -->
@@ -70,7 +70,7 @@ const panelShow = computed(() => {
 <style lang="less">
 .layout-no-header {
   .page-num-wrap {
-    top: 30px !important;
+    top: 90px !important;
   }
 }
 </style>

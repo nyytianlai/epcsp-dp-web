@@ -102,14 +102,23 @@ onMounted(() => {
     }
   }
 }
-
 @container numWrap (min-width: 500px) {
-  .num-card.top-down {
-    flex-direction: row;
-    @{deep} {
+  @{deep} {
+    .num-card.top-down {
       .icon {
         width: 70px;
         margin-right: 10px;
+      }
+      flex-direction: row;
+
+      .num,
+      .name {
+        justify-content: flex-start !important;
+        padding-left: 12px;
+      }
+
+      .num-card-name-tooltip {
+        text-align: left;
       }
     }
   }

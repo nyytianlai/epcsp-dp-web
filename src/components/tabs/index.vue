@@ -6,6 +6,7 @@
       :key="index"
       :class="[{ active: item.code === activeTab }]"
       @click="handleSelect(item)"
+      :style="`--len:${data?.length}`"
     >
       <!-- <span class="label">
         {{ item.displayLabel || item.label }}
@@ -65,6 +66,7 @@ const handleSelect = (item) => {
     justify-content: center;
     cursor: pointer;
     white-space: nowrap;
+    max-width: calc(100% / var(--len) - 40px * (var(--len) - 1) / var(--len));
     &:last-of-type {
       margin-right: 0;
     }
@@ -82,7 +84,6 @@ const handleSelect = (item) => {
         line-height: 25px;
         color: #ffffff;
         text-align: center;
-      
       }
       &::after {
         content: '';
