@@ -39,7 +39,7 @@
     </div>
     <div class="realtime-trend">
       <!-- ssgjqsqk: '实时告警趋势情况' -->
-       <!-- tabList: {day: '日', month: '月', year: '年'}  -->
+      <!-- tabList: {day: '日', month: '月', year: '年'}  -->
       <title-column
         :title="t(`${tHead}.ssgjqsqk`)"
         :showTabBtn="true"
@@ -53,7 +53,8 @@
       <line-time-chart
         :data="realtimeTrend"
         :colors="['#FF6B4B']"
-        mode="haveTab" :chartStyle="{
+        mode="haveTab"
+        :chartStyle="{
           width: '100%',
           height: '1.89rem'
         }"
@@ -261,7 +262,7 @@ onMounted(async () => {
         width: 230px;
       }
       .right-info {
-        width: 100px;
+        width: fit-content;
       }
     }
   }
