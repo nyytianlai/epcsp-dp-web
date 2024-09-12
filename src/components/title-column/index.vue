@@ -93,8 +93,7 @@ const handleTabBtn = (item) => {
   align-items: flex-end;
 }
 .left-bgc {
-  flex: 1;
-  min-width: 80%;
+  max-width: 80%;
   display: flex;
   align-items: center;
   width: fit-content;
