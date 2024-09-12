@@ -146,6 +146,7 @@ export default {
   'map-layer': {
     cdslg: 'Charging quantity (pcs)', // '充电数量(个)',
     cdglkw: 'Charging power (kW)', // '充电功率(kW)'
+    w: 'W'
   },
   'rank-detail':{
     tyshxym: 'Unified Social Credit Code:', // '统一社会信用码：',

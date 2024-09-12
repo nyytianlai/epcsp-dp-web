@@ -191,7 +191,7 @@ const addFacilitiesLabel = async (id) => {
   facilitiesLabel(id).forEach((item, index) => {
     // console.log(item.value,getStrLength(item.value));
 
-    let xoffset = (getStrLength(item.value) * 12 + 30) / 2;
+    let xoffset = (getStrLength(item.displayValue) * 12) / 2;
     let o1 = {
       id: item.type ? item.id : 'facilitiesLabel-' + item.id,
       groupId: 'stationFacilitiesLabel',
@@ -201,10 +201,10 @@ const addFacilitiesLabel = async (id) => {
       imageSize: [48, 52], //图片的尺寸
       range: [1, 1500], //可视范围
       imagePath: getImageByCloud(item.img),
-      text: item.value, //显示的文字
+      text: item.displayValue, //显示的文字
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       textRange: [1, 300], //文本可视范围[近裁距离, 远裁距离]
-      textOffset: [-xoffset, -35], // 文本偏移
+      textOffset: [-xoffset - 24, -35], // 文本偏移
       textBackgroundColor: [11 / 255, 67 / 255, 92 / 255, 1], //文本背景颜色
       fontSize: 14, //字体大小
       fontColor: '#FFFFFF', //字体颜色

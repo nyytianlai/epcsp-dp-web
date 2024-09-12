@@ -1,27 +1,27 @@
 export default {
-  config:{
+  config: {
     pageNumFun: {
       ljgjzs: '累计告警总数',
       unitGe: '个',
       yfs: '已发生',
-      yhf: '已恢复',
+      yhf: '已恢复'
     },
     totalWarningTabsFun: {
       yys: '运营商',
-      cdz: '充电站',
+      cdz: '充电站'
     },
-    areaRankDataFun:{
-      unitCi: "次",
-      nsq: "南山区",
-      baq: "宝安区",
-      lhq: "罗湖区",
-      longhq: "龙华区",
-      longgq: "龙岗区",
-      dpxq: "大鹏新区",
+    areaRankDataFun: {
+      unitCi: '次',
+      nsq: '南山区',
+      baq: '宝安区',
+      lhq: '罗湖区',
+      longhq: '龙华区',
+      longgq: '龙岗区',
+      dpxq: '大鹏新区'
     },
     warningMonitorTabsFun: {
       gjjb: '告警级别',
-      gjlx: '告警类型',
+      gjlx: '告警类型'
     },
     warningMonitorPieDataFun: {
       ysrsaq: '一级人身安全',
@@ -33,12 +33,12 @@ export default {
       gjts: '告警提示',
       cdxt: '充电系统',
       dcxt: '电池系统',
-      pdxt: '配电系统',
+      pdxt: '配电系统'
     },
     realtimeStateTabsFun: {
       cdzhan: '充电站',
       cdzhuang: '充电桩',
-      cdq: '充电枪',
+      cdq: '充电枪'
     },
     realtimeStateDataFun: {
       zcg: '正常/个',
@@ -51,14 +51,14 @@ export default {
       zxg: '在线/个',
       lxg: '离线/个',
       zyg: '占用/个',
-      kxg: '空闲/个',
+      kxg: '空闲/个'
     },
     realtimeTrendFun: {
-      gjs: '告警数',
+      gjs: '告警数'
     },
     bottomTabDataFun: {
       gjxx: '告警信息',
-      cdzzt: '充电站状态',
+      cdzzt: '充电站状态'
     },
     columnDataFun: {
       operatorName: '运营商名称',
@@ -68,13 +68,13 @@ export default {
       alarmDesc: '告警描述',
       alarmTime: '告警时间',
       contactPerson: '安全负责人',
-      contactTel: '联系电话',
+      contactTel: '联系电话'
     },
     filtersAlarmLevelName: {
       all: '全部',
       yjrsaq: '一级人身安全',
       ejsbaq: '二级设备安全',
-      sjgjts: '三级告警提示',
+      sjgjts: '三级告警提示'
     },
     filtersAlarmTypeName: {
       all: '全部',
@@ -87,7 +87,7 @@ export default {
       cdzmc: '充电站名称',
       gjs: '告警数',
       yfs: '已发生',
-      yhf: '已恢复',
+      yhf: '已恢复'
     },
     messageColumnKeyListFun: {
       yysmc: '运营商名称',
@@ -97,12 +97,12 @@ export default {
       yqr: '已确认',
       yhf: '已恢复',
       fzr: '负责人',
-      lxdh: '联系电话',
+      lxdh: '联系电话'
     },
     legendList: {
       cdzhan: '充电站',
       cdzhuang: '充电桩',
-      cdq: '充电枪',
+      cdq: '充电枪'
     }
   },
   'left-panel': {
@@ -110,7 +110,7 @@ export default {
     ckgd: '查看更多',
     xzqgjsjqk: '行政区告警数据情况',
     unitCi: '次',
-    tabList:{
+    tabList: {
       day: '日',
       month: '月',
       year: '年'
@@ -121,24 +121,25 @@ export default {
     jrsbgjjk: '今日设备告警监控',
     ssztqk: '实时状态情况',
     ssgjqsqk: '实时告警趋势情况',
+    hj: '合计',
     tabList: {
-      day: '日', 
-      month: '月', 
+      day: '日',
+      month: '月',
       year: '年'
     }
   },
-  'map-layer':{
+  'map-layer': {
     gjjbg: '告警级别（个）',
-    legendListData1:{
+    legendListData1: {
       yjrsaq: '一级 人身安全',
       ejsbaq: '二级 设备安全',
-      sjgjts: '三级 告警提示',
+      sjgjts: '三级 告警提示'
     },
     cdzzt: '充电站状态',
-    legendListData2:{
+    legendListData2: {
       zc: '正常',
       yj: '预警',
-      wsx: '未上线',
+      wsx: '未上线'
     }
   },
   'warn-count-list-dialog': {
@@ -147,12 +148,12 @@ export default {
     cz: '操作',
     xq: '详情',
     yysgjlb: '运营商告警列表',
-    cdzgjlb: '充电站告警列表',
+    cdzgjlb: '充电站告警列表'
   },
-  'warn-info-list-dialog':{
+  'warn-info-list-dialog': {
     gjxxlb: '告警信息列表',
     qsr: '请输入',
     cz: '操作',
-    xq: '详情',
+    xq: '详情'
   }
-}
+};

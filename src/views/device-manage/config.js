@@ -3,7 +3,7 @@ import dqlx from './images/dqlx.png';
 import dqsyl from './images/dqsyl.png';
 import dqgzl from './images/dqgzl.png';
 import dayjs from 'dayjs';
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
 const configHead = `device-manage.config`;
 
@@ -15,7 +15,7 @@ export const pageNumFun = (data = {}) => {
       num: data?.stationCount,
       unit: t(`${configHead}.pageNumFun.unitGe`), // '个',
       displayName: t(`${configHead}.pageNumFun.cdzhanzl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitGe`),
+      displayUnit: t(`${configHead}.pageNumFun.unitGe`)
     },
     {
       name: '充电桩总量',
@@ -23,7 +23,7 @@ export const pageNumFun = (data = {}) => {
       num: data?.equipmentCount,
       unit: t(`${configHead}.pageNumFun.unitGe`), // '个',
       displayName: t(`${configHead}.pageNumFun.cdzhuangzl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitGe`),
+      displayUnit: t(`${configHead}.pageNumFun.unitGe`)
     },
     {
       name: '充电枪总量',
@@ -31,7 +31,7 @@ export const pageNumFun = (data = {}) => {
       num: data?.gunCount,
       unit: t(`${configHead}.pageNumFun.unitGe`), // '个',
       displayName: t(`${configHead}.pageNumFun.cdqzl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitGe`),
+      displayUnit: t(`${configHead}.pageNumFun.unitGe`)
     },
     {
       name: '充电总功率',
@@ -39,7 +39,7 @@ export const pageNumFun = (data = {}) => {
       digits: 2,
       unit: '万kW',
       displayName: t(`${configHead}.pageNumFun.cdzgl`),
-      displayUnit: t(`${configHead}.pageNumFun.unitWanKW`),
+      displayUnit: t(`${configHead}.pageNumFun.unitWanKW`)
     }
   ];
 };
@@ -50,13 +50,13 @@ export const chargingStationTabsFun = () => {
       code: 'cdzlx',
       index: 1,
       label: '充电桩类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzlx`)
     },
     {
       code: 'cdzdllx',
       index: 2,
       label: '充电桩电流类型',
-      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`),
+      displayLabel: t(`${configHead}.chargingStationTabsFun.cdzdllx`)
     }
   ];
 };
@@ -67,13 +67,13 @@ export const chargingStationGunTabsFun = () => {
       code: 'cdqlx',
       index: 1,
       label: '充电枪类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`)
     },
     {
       code: 'cdqdllx',
       index: 2,
       label: '充电枪电流类型',
-      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`),
+      displayLabel: t(`${configHead}.chargingStationGunTabsFun.cdqlx`)
     }
   ];
 };
@@ -91,7 +91,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.noQuickCount,
@@ -101,7 +101,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.superCount,
@@ -111,7 +111,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         }
         // {
         //   value: data?.chargeCountByChargeTypeDto?.v2gCount,
@@ -131,7 +131,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: false,
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zzz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
@@ -139,7 +139,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: false,
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
@@ -147,7 +147,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: false,
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.otherCount,
@@ -155,7 +155,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           isChoose: false,
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.qtz`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         }
         // {
         //   value: data?.chargeCountByElectricityTypeDto?.v2gCount,
@@ -174,7 +174,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.kcq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.noQuickCount,
@@ -183,7 +183,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.mcq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByChargeTypeDto?.superCount,
@@ -192,7 +192,7 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           isChoose: true,
           displayName: t(`${configHead}.chargingStationPieDataFun.ccq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         }
         // {
         //   value: data?.chargeCountByChargeTypeDto?.v2gCount,
@@ -210,27 +210,29 @@ export const chargingStationPieDataFun = (code = 1, data = {}, maintab = 1) => {
           name: '直流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.zlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.exchangeCount,
           name: '交流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`), },
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        },
         {
           value: data?.chargeCountByElectricityTypeDto?.directAndExchangeCount,
           name: '交直流枪',
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.jzlq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`),
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
         },
         {
           value: data?.chargeCountByElectricityTypeDto?.otherCount,
           name: '其他枪',
           unit: t(`${configHead}.chargingStationPieDataFun.unitGe`), //'个',
           displayName: t(`${configHead}.chargingStationPieDataFun.qtq`),
-          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`), }
+          displayUnit: t(`${configHead}.chargingStationPieDataFun.unitGe`)
+        }
         // { value: data?.chargeCountByElectricityTypeDto?.v2gCount, name: 'V2G枪', unit: '个' }
       ];
       break;
@@ -248,70 +250,70 @@ export const areaRankDataFun = () => {
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '南山区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.nsq`),
+      displayName: t(`${configHead}.areaRankDataFun.nsq`)
     },
     {
       num: 201,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '宝安区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.baq`),
+      displayName: t(`${configHead}.areaRankDataFun.baq`)
     },
     {
       num: 48,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '罗湖区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.lhq`),
+      displayName: t(`${configHead}.areaRankDataFun.lhq`)
     },
     {
       num: 201,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '龙华区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.longhq`),
+      displayName: t(`${configHead}.areaRankDataFun.longhq`)
     },
     {
       num: 48,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '龙岗区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.longgq`),
+      displayName: t(`${configHead}.areaRankDataFun.longgq`)
     },
     {
       num: 6399,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '南山区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.nsq`),
+      displayName: t(`${configHead}.areaRankDataFun.nsq`)
     },
     {
       num: 201,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '宝安区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.baq`),
+      displayName: t(`${configHead}.areaRankDataFun.baq`)
     },
     {
       num: 48,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '罗湖区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.lhq`),
+      displayName: t(`${configHead}.areaRankDataFun.lhq`)
     },
     {
       num: 201,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '龙华区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.longhq`),
+      displayName: t(`${configHead}.areaRankDataFun.longhq`)
     },
     {
       num: 48,
       unit: t(`${configHead}.areaRankDataFun.unitCi`), //'次',
       name: '大鹏新区',
       displayUnit: t(`${configHead}.areaRankDataFun.unitCi`),
-      displayName: t(`${configHead}.areaRankDataFun.dpxq`),
+      displayName: t(`${configHead}.areaRankDataFun.dpxq`)
     }
   ];
 };
@@ -321,12 +323,12 @@ export const chargingTypesTabsFun = () => {
     {
       code: 1,
       label: '充电桩状态',
-      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdzzt`),
+      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdzzt`)
     },
     {
       code: 2,
       label: '充电枪状态',
-      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdqzt`),
+      displayLabel: t(`${configHead}.chargingTypesTabsFun.cdqzt`)
     }
   ];
 };
@@ -340,7 +342,7 @@ export const chargingTypesFun = (data = {}) => {
       name: '当前在线',
       classStyleType: 'leftRightStyleGreen6656',
       displayUnit: t(`${configHead}.chargingTypesFun.unitGe`),
-      displayName: t(`${configHead}.chargingTypesFun.dqzx`),
+      displayName: t(`${configHead}.chargingTypesFun.dqzx`)
     },
     {
       img: dqlx,
@@ -349,7 +351,7 @@ export const chargingTypesFun = (data = {}) => {
       name: '当前离线',
       classStyleType: 'leftRightStyleGray6656',
       displayUnit: t(`${configHead}.chargingTypesFun.unitGe`),
-      displayName: t(`${configHead}.chargingTypesFun.dqlx`),
+      displayName: t(`${configHead}.chargingTypesFun.dqlx`)
     }
   ];
 };
@@ -362,7 +364,7 @@ export const lineStateDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       name: t(`${configHead}.lineStateDataFun.zx`) || '在线',
-      displayName: t(`${configHead}.lineStateDataFun.zx`),
+      displayName: t(`${configHead}.lineStateDataFun.zx`)
     },
     {
       yAxisIndex: 1,
@@ -370,7 +372,7 @@ export const lineStateDataFun = (data = []) => {
       type: 'line',
       smooth: true,
       name: t(`${configHead}.lineStateDataFun.lx`) || '离线',
-      displayName: t(`${configHead}.lineStateDataFun.lx`),
+      displayName: t(`${configHead}.lineStateDataFun.lx`)
     }
   ];
 };
@@ -380,12 +382,12 @@ export const chargingRunTabsFun = () => {
     {
       code: 1,
       label: '充电桩运行情况',
-      displayLabel: t(`${configHead}.chargingRunTabsFun.cdzyxqk`),
+      displayLabel: t(`${configHead}.chargingRunTabsFun.cdzyxqk`)
     },
     {
       code: 2,
       label: '充电枪运行情况',
-      displayLabel: t(`${configHead}.chargingRunTabsFun.cdqyxqk`),
+      displayLabel: t(`${configHead}.chargingRunTabsFun.cdqyxqk`)
     }
   ];
 };
@@ -398,7 +400,7 @@ export const chargingRunDataFun = (data = {}) => {
       // unit: '%',
       name: '当前使用率',
       classStyleType: 'leftRightStyleGreen6656',
-      displayName: t(`${configHead}.chargingRunDataFun.dqsyl`),
+      displayName: t(`${configHead}.chargingRunDataFun.dqsyl`)
     },
     {
       img: dqgzl,
@@ -406,7 +408,7 @@ export const chargingRunDataFun = (data = {}) => {
       // unit: '%',
       name: '当前故障率',
       classStyleType: 'leftRightStyleGray6656',
-      displayName: t(`${configHead}.chargingRunDataFun.dqgzl`),
+      displayName: t(`${configHead}.chargingRunDataFun.dqgzl`)
     }
   ];
 };
@@ -418,14 +420,20 @@ export const lineRunDataFun = (data = [], code = 1) => {
       data: data.map((item) => [yearMonthDay + item.time, item.useRate]),
       type: 'line',
       smooth: true,
-      name: code === 1 ? t(`${configHead}.lineRunDataFun.zsyl`) || '桩使用率' : t(`${configHead}.lineRunDataFun.qsyl`) || '枪使用率'
+      name:
+        code === 1
+          ? t(`${configHead}.lineRunDataFun.zsyl`) || '桩使用率'
+          : t(`${configHead}.lineRunDataFun.qsyl`) || '枪使用率'
     },
     {
       yAxisIndex: 1,
       data: data.map((item) => [yearMonthDay + item.time, item.troubleRate]),
       type: 'line',
       smooth: true,
-      name: code === 1 ?  t(`${configHead}.lineRunDataFun.zgzl`) ||'桩故障率' :  t(`${configHead}.lineRunDataFun.qgzl`) ||'枪故障率'
+      name:
+        code === 1
+          ? t(`${configHead}.lineRunDataFun.zgzl`) || '桩故障率'
+          : t(`${configHead}.lineRunDataFun.qgzl`) || '枪故障率'
     }
   ];
 };
@@ -434,13 +442,13 @@ export const bottomTabDataFun = () => {
   return [
     {
       code: 1,
-      label: '充电桩',
-      displayName: t(`${configHead}.bottomTabDataFun.cdz`),
+      // label: '充电桩',
+      label: t(`${configHead}.bottomTabDataFun.cdz`)
     },
     {
       code: 2,
-      label: '充电枪',
-      displayName: t(`${configHead}.bottomTabDataFun.cdq`),
+      // label: '充电枪',
+      label: t(`${configHead}.bottomTabDataFun.cdq`)
     }
   ];
 };
@@ -459,20 +467,20 @@ export const columnDataFun = () => {
       prop: 'stationName',
       label: t(`${configHead}.columnDataFun.stationName`) || '充电站名称',
       minWidth: 2.8,
-      displayName: t(`${configHead}.columnDataFun.stationName`),
+      displayName: t(`${configHead}.columnDataFun.stationName`)
     },
     {
       prop: 'operatorName',
       label: t(`${configHead}.columnDataFun.operatorName`) || '运营企业名称',
       minWidth: 2,
-      displayName: t(`${configHead}.columnDataFun.operatorName`),
+      displayName: t(`${configHead}.columnDataFun.operatorName`)
     },
     {
       prop: 'areaName',
       label: t(`${configHead}.columnDataFun.areaName`) || '所属区域',
       minWidth: 2,
       filterMultiple: true,
-      displayName: t(`${configHead}.columnDataFun.areaName`),
+      displayName: t(`${configHead}.columnDataFun.areaName`)
     },
     {
       prop: 'equipmentCount',
@@ -480,7 +488,7 @@ export const columnDataFun = () => {
       minWidth: 2,
       sortable: 'custom',
       sortOrders: ['ascending', 'descending'],
-      displayName: t(`${configHead}.columnDataFun.equipmentCount`),
+      displayName: t(`${configHead}.columnDataFun.equipmentCount`)
     },
     {
       prop: 'gunCount',
@@ -488,7 +496,7 @@ export const columnDataFun = () => {
       minWidth: 2,
       sortable: 'custom',
       sortOrders: ['ascending', 'descending'],
-      displayName: t(`${configHead}.columnDataFun.gunCount`),
+      displayName: t(`${configHead}.columnDataFun.gunCount`)
     },
     {
       prop: 'equipmentPower',
@@ -496,7 +504,7 @@ export const columnDataFun = () => {
       minWidth: 2,
       sortable: 'custom',
       sortOrders: ['ascending', 'descending'],
-      displayName: t(`${configHead}.columnDataFun.equipmentPower`),
+      displayName: t(`${configHead}.columnDataFun.equipmentPower`)
     }
   ];
 };
@@ -511,57 +519,57 @@ export const filters = [
       {
         id: 440303,
         label: '罗湖区',
-        displayLabel: t(`${configHead}.filters.lhq`),
+        displayLabel: t(`${configHead}.filters.lhq`)
       },
       {
         id: 440304,
         label: '福田区',
-        displayLabel: t(`${configHead}.filters.ftq`),
+        displayLabel: t(`${configHead}.filters.ftq`)
       },
       {
         id: 440305,
         label: '南山区',
-        displayLabel: t(`${configHead}.filters.nsq`),
+        displayLabel: t(`${configHead}.filters.nsq`)
       },
       {
         id: 440306,
         label: '宝安区',
-        displayLabel: t(`${configHead}.filters.baq`),
+        displayLabel: t(`${configHead}.filters.baq`)
       },
       {
         id: 440307,
         label: '龙岗区',
-        displayLabel: t(`${configHead}.filters.longgq`),
+        displayLabel: t(`${configHead}.filters.longgq`)
       },
       {
         id: 440308,
         label: '盐田区',
-        displayLabel: t(`${configHead}.filters.ytq`),
+        displayLabel: t(`${configHead}.filters.ytq`)
       },
       {
         id: 440309,
         label: '龙华区',
-        displayLabel: t(`${configHead}.filters.longhq`),
+        displayLabel: t(`${configHead}.filters.longhq`)
       },
       {
         id: 440310,
         label: '坪山区',
-        displayLabel: t(`${configHead}.filters.psq`),
+        displayLabel: t(`${configHead}.filters.psq`)
       },
       {
         id: 440311,
         label: '光明区',
-        displayLabel: t(`${configHead}.filters.gmq`),
+        displayLabel: t(`${configHead}.filters.gmq`)
       },
       {
         id: 440343,
         label: '大鹏新区',
-        displayLabel: t(`${configHead}.filters.dpxq`),
+        displayLabel: t(`${configHead}.filters.dpxq`)
       },
       {
         id: 441521,
         label: '深汕特别合作区',
-        displayLabel: t(`${configHead}.filters.sstbhzq`),
+        displayLabel: t(`${configHead}.filters.sstbhzq`)
       }
     ]
   }

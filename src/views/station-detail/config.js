@@ -1063,28 +1063,28 @@ export const warningTabsDataFun = (data = []) => {
   });
   return [
     {
-      label: '一级人身安全',
+      // label: '一级人身安全',
       icon: 'first-level',
       num: levelData[1],
       code: 1,
       color: '#FA2A2D',
-      displayName: t(`${configHead}.warningTabsDataFun.yjrsaq`)
+      label: t(`${configHead}.warningTabsDataFun.yjrsaq`)
     },
     {
-      label: '二级设备安全',
+      // label: '二级设备安全',
       icon: 'second-level',
       num: levelData[2],
       code: 2,
       color: '#FF7500',
-      displayName: t(`${configHead}.warningTabsDataFun.ejsbaq`)
+      label: t(`${configHead}.warningTabsDataFun.ejsbaq`)
     },
     {
-      label: '三级告警提示',
+      // label: '三级告警提示',
       icon: 'third-level',
       num: levelData[3],
       code: 3,
       color: '#FFBF00',
-      displayName: t(`${configHead}.warningTabsDataFun.sjgjts`)
+      label: t(`${configHead}.warningTabsDataFun.sjgjts`)
     }
   ];
 };
