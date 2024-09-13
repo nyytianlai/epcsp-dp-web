@@ -11,7 +11,7 @@
       ref="list"
     >
       <icon :icon="`svg-icon:${item.icon}`" />
-      <span class="label">{{ item.viewName }}</span>
+      <span class="label">{{ item[viewNameCode] }}</span>
       <div
         class="sub-tab"
         v-if="item.secondMenuList && item.secondMenuList?.length"
@@ -28,9 +28,11 @@
           :key="ii"
           :class="[{ active: sub.viewOrder === selectIndex }]"
         >
-          <div class="sub-item-name" v-if="sub.viewName.length < 7">{{ sub.viewName }}</div>
-          <el-tooltip :content="sub.viewName || ''" placement="right" v-else>
-            <div class="sub-item-name">{{ sub.viewName }}</div>
+          <div class="sub-item-name" v-if="sub[viewNameCode].length < 7">
+            {{ sub[viewNameCode] }}
+          </div>
+          <el-tooltip :content="sub[viewNameCode] || ''" placement="right" v-else>
+            <div class="sub-item-name">{{ sub[viewNameCode] }}</div>
           </el-tooltip>
         </div>
       </div>
@@ -42,7 +44,7 @@ import { ref, toRefs, toRef, inject, computed } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
-
+import i18n from '@/locales/i18n';
 const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 interface SubMenu {
@@ -66,12 +68,12 @@ type TabElement = {
 const props = withDefaults(defineProps<PropsType>(), {
   tabData: () => []
 });
-
 const { tabData } = toRefs(props);
 // console.log('传过来的底部菜单数据', tabData);
 const store = useMapStore();
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
-
+const isEn = computed(() => (i18n as any)?.globale?.locale.value.includes('en'));
+const viewNameCode = computed(() => (isEn.value ? 'viewNameEn' : 'viewName'));
 const selectIndex = ref(null);
 const activeTab = ref();
 const handleHover = (tab) => {
@@ -173,8 +175,11 @@ const handleClick = async (item, sub) => {
   display: flex;
   justify-content: center;
   z-index: 1001;
+  padding: 0 420px;
   .tab {
     display: flex;
+    flex: 1;
+    min-width: 0;
     align-items: center;
     margin-right: 34px;
     position: relative;

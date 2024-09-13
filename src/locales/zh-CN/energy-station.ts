@@ -5,7 +5,8 @@ export default {
     cnzpm: '储能站排名',
     jrcnzyxxx: '今日储能站运行信息',
     shxyxx: '社会效益信息',
-    totalName: '储能站/个'
+    totalName: '储能站/个',
+    jrzddfnl: '今日最大顶峰能力'
   },
   units: {
     unitGe: '个',

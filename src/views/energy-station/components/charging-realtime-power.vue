@@ -5,7 +5,7 @@
       <span class="num">
         {{ formatWithToLocalString(data) }}
       </span>
-      <span class="unit-info">今日最大顶峰能力/MW</span>
+      <span class="unit-info">{{ $t('energy-station.panelTitle.jrzddfnl') }}/MW</span>
     </div>
   </div>
 </template>
