@@ -72,7 +72,7 @@ const { tabData } = toRefs(props);
 // console.log('传过来的底部菜单数据', tabData);
 const store = useMapStore();
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
-const isEn = computed(() => (i18n as any)?.globale?.locale.value.includes('en'));
+const isEn = computed(() => localStorage.getItem('lang')?.includes('en'));
 const viewNameCode = computed(() => (isEn.value ? 'viewNameEn' : 'viewName'));
 const selectIndex = ref(null);
 const activeTab = ref();
@@ -185,6 +185,7 @@ const handleClick = async (item, sub) => {
     position: relative;
     cursor: pointer;
     padding-top: 10px;
+    justify-content: center;
 
     &:last-of-type {
       margin-right: 0;
@@ -282,13 +283,16 @@ const handleClick = async (item, sub) => {
 .bg-3 {
   background: url(./images/bg-3.png) no-repeat;
   background-size: 100% 100%;
+  padding: 0 540px;
 }
 .bg-2 {
   background: url(./images/bg-2.png) no-repeat;
   background-size: 100% 100%;
+  padding: 0 640px;
 }
 .bg-1 {
   background: url(./images/bg-1.png) no-repeat;
   background-size: 100% 100%;
+  padding: 0 710px;
 }
 </style>
