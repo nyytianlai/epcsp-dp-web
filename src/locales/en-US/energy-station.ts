@@ -5,7 +5,8 @@ export default {
     cnzpm: 'Ranking of energy storage site',
     jrcnzyxxx: "Today's energy storage site operation information",
     shxyxx: 'Social benefit information',
-    totalName: 'Energy storage station/No.'
+    totalName: 'Energy storage station/No.',
+    jrzddfnl: 'Maximum peak capacity today'
   },
   units: {
     unitGe: '',
