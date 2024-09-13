@@ -2807,7 +2807,7 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
       name: '充电次数',
       num: data?.stationChargeCount,
       nameColor: '#64DEF6',
-      unit: '次',
+      // unit: '次',
       children: [
         {
           name: type ? '站点' : '站点',
@@ -2822,12 +2822,12 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         }
       ],
       displayName: t(`${configHead}.getSuperHeaderData.cdcs`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`)
+      unit: t(`${configHead}.getSuperHeaderData.unitCi`)
     },
     {
       name: '充电时长',
       num: Math.round(data?.stationChargeDuration),
-      unit: '小时',
+      // unit: '小时',
       nameColor: '#64DEF6',
       children: [
         {
@@ -2843,15 +2843,15 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
         }
       ],
       displayName: t(`${configHead}.getSuperHeaderData.zdfdl`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitHour`)
+      unit: t(`${configHead}.getSuperHeaderData.unitHour`)
     },
     {
       name: '站点故障次数',
       num: data?.stationFailureNumber,
       nameColor: '#64DEF6',
-      unit: '次',
+      // unit: '次',
       displayName: t(`${configHead}.getSuperHeaderData.zdgzcs`),
-      displayUnit: t(`${configHead}.getSuperHeaderData.unitCi`)
+      unit: t(`${configHead}.getSuperHeaderData.unitCi`)
       // children: [
       //   {
       //     name: type ? '站点' : '充电桩',

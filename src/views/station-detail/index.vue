@@ -48,6 +48,7 @@
       <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
+        v-if="isShowList"
       />
       <div class="wran-year-list-box" v-if="isShowList">
         <div class="wran-year-list" v-for="(item, index) in warningListYearData" :key="index">
