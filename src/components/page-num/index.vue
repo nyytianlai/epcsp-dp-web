@@ -82,6 +82,7 @@ const panelShow = computed(() => {
   transform: translateX(-50%);
   z-index: 19;
   width: fit-content !important;
+  max-width: 56%;
   height: 79px;
   background: url(./images/bottom-bgc.png) no-repeat;
   background-size: 100% 70px;
@@ -89,12 +90,14 @@ const panelShow = computed(() => {
   padding: 0 64px 30px 76px;
   // padding: 0 0 30px 0;
   display: flex;
+  flex-flow: row nowrap;
   justify-content: space-between;
   column-gap: 18px;
   &.red-bgc {
     background-image: url(./images/bottom-red-bgc.png);
   }
   .num-wrap {
+    flex-shrink: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -109,6 +112,8 @@ const panelShow = computed(() => {
       color: #64def6;
       transform: matrix(1, 0, -0.25, 0.97, 0, 0);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .seprate {
       margin: 0 2px;
@@ -136,6 +141,7 @@ const panelShow = computed(() => {
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
+        white-space: nowrap;
       }
     }
   }
