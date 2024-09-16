@@ -13,13 +13,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { chargingStationsFun } from '../config';
 const emits = defineEmits(['handleDetail']);
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []
+  }
+});
 const chargingStations = ref(chargingStationsFun());
 const handleDetail = () => {
   emits('handleDetail');
 };
+
+watch(
+  () => props.data,
+  (val) => {
+    const obj = {};
+    val?.forEach((item: any) => {
+      obj[item.type] = item.cnt;
+    });
+    chargingStations.value = chargingStationsFun(obj);
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 </script>
 
 <style scoped lang="less">

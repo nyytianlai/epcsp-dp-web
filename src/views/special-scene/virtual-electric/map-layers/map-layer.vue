@@ -16,7 +16,7 @@
     :width="'8rem'"
     @close="showDialog = false"
   >
-    <searchDialog @handleDetail="handleDetail" />
+    <searchDialog :data="distributedResource" @handleDetail="handleDetail" />
   </CustomerDialog>
 </template>
 
@@ -34,7 +34,8 @@ import {
   addCommon3dt,
   delete3dt,
   getTreeLayerIdByName,
-  playCamera
+  playCamera,
+  returnStationPointConfig
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
 import { virtureTileIds, virtureView, virturePoint, allHeatIdsList, showIds } from './layer-config';
@@ -44,7 +45,11 @@ import Api from '../api';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
 import MapLeftBtn from '@/components/map-left-btn.vue';
-import { transformCoords, transformCoordsArrByType } from '@/utils/map-coord-tools';
+import {
+  transformCoords,
+  transformCoordsArrByType,
+  transformCoordsByType
+} from '@/utils/map-coord-tools';
 import CustomerDialog from '@/components/custom-dialog/index.vue';
 import dayjs from 'dayjs';
 
@@ -58,6 +63,7 @@ const props = defineProps({
   }
 });
 const showDialog = ref(false);
+const distributedResource = ref([]);
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -78,6 +84,8 @@ let isInit;
 const isDrawing = ref(false);
 
 const showVirture = ref(false);
+
+let distributedPoint;
 
 let timer;
 
@@ -140,6 +148,10 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
   if (route.name !== 'virtualElectric') {
     __g?.marker?.deleteByGroupId('area-point-layer');
     return;
+  }
+
+  if (isDrawing.value) {
+    __g.marker.hideByGroupId('area-point-layer');
   }
   __g.marker.showPopupWindow(idList);
 };
@@ -372,23 +384,31 @@ const getBBox = (center, radius) => {
   console.log(bboxs);
 };
 
+const getDistributerResource = async (data) => {
+  distributedPoint = data;
+  const res = await Api.getDistributedResource({
+    lng: distributedPoint[0],
+    lat: distributedPoint[1]
+  });
+  distributedResource.value = res?.data;
+};
+
 const drawCircle = async (radius, centerPoint) => {
-  getBBox(centerPoint, radius);
+  // getBBox(centerPoint, radius);
   await __g.polygon3d.delete('search-circle');
   const options = { steps: 100, units: 'kilometers' };
   const polygon = circle(centerPoint, radius / 1000, options);
-  const coord = transformCoordsArrByType(polygon.geometry.coordinates[0], 0, 3000);
+  const coord = transformCoordsArrByType(polygon.geometry.coordinates[0], 1, 3000);
   const p = {
     id: 'search-circle',
     coordinates: coord,
-    coordinateType: 1,
     range: [1, 200000],
     height: 1,
-    color: [75 / 255, 222 / 255, 255 / 255, 0.6],
+    color: [75 / 255, 222 / 255, 255 / 255, 0.4],
     frameColor: 'RGB(255,255,255)',
     frameThickness: 100, //边框厚度
     intensity: 1, //亮度
-    style: 0, //单色 请参照API开发文档选取枚举
+    // style: 0, //单色 请参照API开发文档选取枚举
     depthTest: false, //是否做深度检测 开启后会被地形高度遮挡
     // intensity: 1.0,
     style: 10,
@@ -405,12 +425,56 @@ const drawCircle = async (radius, centerPoint) => {
     __g.polygon3d.focus('circleLayer', radius / 1000 > 3 ? 7500 : 4500, 2);
     showDialog.value = true;
   });
+  getDistributerResource(centerPoint);
 };
 
-const handleDetail = () => {
+const drawPoint = async (res = []) => {
+  await __g.marker.hideByGroupId('');
+  const pointArr = [];
+  const imgName = {
+    1: 'station50',
+    2: 'station50',
+    3: 'stationpoint-ccz',
+    4: 'stationpoint-v2g',
+    5: 'stationpoint-ccz-oubiao'
+  };
+  res.forEach((item, index) => {
+    let xoffset = item.stationName.length * 12;
+    item['xoffset'] = xoffset;
+    item['stationType'] = imgName[item.stationLogo] || 'station50';
+    let o1 = returnStationPointConfig(item);
+    if (item.isHr == 0) {
+      let o = {
+        id: 'station-' + index + '-' + item.isHr,
+        groupId: 'jdStation',
+        userData: item.isHr + '',
+        // coordinateType: 2,
+        coordinate: transformCoordsByType([item.lng, item.lat], 2),
+        anchors: [-11.5, 200],
+        imageSize: [33, 36],
+        range: [1, 150000],
+        imagePath: getImageByCloud('1'),
+        displayMode: 2,
+        autoHeight: true
+      };
+      pointArr.push(o);
+    }
+    pointArr.push(o1);
+  });
+  await __g.marker.add(pointArr, null);
+};
+
+const handleDetail = async () => {
   console.log('detail');
   showDialog.value = false;
   __g.polygon3d.delete('search-circle');
+  __g.tileLayer.hide(showIds[props.activeIndex]);
+  if (!distributedPoint?.length) return;
+  const data = await Api.getDistributedResourceDetails({
+    lng: distributedPoint[0],
+    lat: distributedPoint[1]
+  });
+  drawPoint(data?.data);
 };
 
 const handleDraw = async () => {
