@@ -7,6 +7,7 @@ export default {
   zdcdzzt: '站点充电桩状态',
   cdssrsyxx: '充电设施日使用信息',
   zdssgl: '站点实时功率',
+  gjlb: '告警列表',
   tabList: {
     pile: '桩',
     gun: '枪'

@@ -163,7 +163,7 @@ export const specialRoutes = [
     name: 'carnet',
     meta: {
       // title: '车网互动',
-      title: t('sub-menu.specialRoutes.cwhd'),
+      title: t('sub-menu.specialRoutes.cwhd')
       // disabled: true
     },
     component: Layout,
@@ -196,7 +196,7 @@ let routesMap = [
       {
         path: '/overview',
         name: 'Overview',
-        meta: { title: '总览', keepAlive: false },
+        meta: { title: '总览', keepAlive: false, dropDownList: true },
         component: () => import('@/views/overview/index.vue')
       },
       {

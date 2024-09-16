@@ -40,7 +40,7 @@ onMounted(async () => {
   await __g.reset();
   await getData();
   await addBaoAnPoint();
-  handleToBaoAnTwin(true);
+  // handleToBaoAnTwin(true);
 });
 
 onBeforeUnmount(async () => {
@@ -185,7 +185,7 @@ const addPoint = async () => {
     markers.push(o);
   });
   await aircityObj.value.acApi.marker.add(markers, () => {
-    __g.marker.hideByGroupId('carnet-interaction-group', null);
+    // __g.marker.hideByGroupId('carnet-interaction-group', null);
   });
 
   if (route.name !== 'carnet-interaction') {
@@ -230,7 +230,7 @@ const addBaoAnPoint = async () => {
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
   await aircityObj.value.acApi.marker.add(o, () => {
-    __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null);
+    // __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null);
   });
   aircityObj.value.acApi.marker.showPopupWindow(o.id);
 };

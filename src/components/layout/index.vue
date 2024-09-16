@@ -8,7 +8,7 @@
         <nav-tab ref="navTab" :nav-drop-list="navDropList" v-if="isShowMenu" />
       </div>
       <time-weather v-if="showHeader" />
-      <locale-dropdown class="locale-dropdown-wrap"></locale-dropdown>
+      <!-- <locale-dropdown class="locale-dropdown-wrap"></locale-dropdown> -->
       <div class="subject-container">
         <div class="main-content">
           <div class="base-ac-wrap">
@@ -42,7 +42,10 @@
           <Transition>
             <station-detail v-if="showDetail" />
           </Transition>
-          <div class="bottom-tabs-box" v-if="!isShowMenu && !showDetail">
+          <div
+            class="bottom-tabs-box"
+            v-if="($route.meta.dropDownList || !isShowMenu) && !showDetail"
+          >
             <bottom-tabs />
             <div class="bottom-tabs-bg"></div>
           </div>
@@ -91,9 +94,11 @@ const router = useRouter();
 const routed = useRoute();
 // const navDropList = ref(routes.slice(0, routes.length));
 const navDropList = computed(() => {
-  return [routes, specialRoutes].find((item) =>
-    item.some((o) => o.children.some((el) => el.name === routed.name))
-  );
+  return routed.meta.dropDownList
+    ? specialRoutes
+    : [routes, specialRoutes].find((item) =>
+        item.some((o) => o.children.some((el) => el.name === routed.name))
+      );
 });
 const excludeViews = ref([]);
 const includeViews = ref([]);
@@ -148,7 +153,9 @@ const handleAircityObjReady = (val) => {
 };
 const routesName = [...routes, ...specialRoutes].map((item) => item.children[0]?.name);
 const isShowMenu = computed(
-  () => routed.name && [...routesName].includes(routed.name as string) && !showDetail.value
+  () =>
+    routed.meta.dropDownList ||
+    (routed.name && [...routesName].includes(routed.name as string) && !showDetail.value)
 );
 onMounted(async () => {
   await nextTick();

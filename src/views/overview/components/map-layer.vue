@@ -29,10 +29,10 @@ const storeVisible = useVisibleComponentStore();
 const currentPosition = computed(() => store.currentPosition);
 const currentHrStationID = computed(() => store.currentHrStationID); //当前点击的高渲染站点id
 
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
-let currtentStation = {};
+let currtentStation: any = {};
 let timer;
 
 useEmitt('AIRCITY_EVENT', async (e) => {
@@ -60,10 +60,20 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       });
       currtentStation = JSON.parse(e.UserData);
       currtentStation['stationId1'] = e.Id;
+
       if (e.Id?.includes('chargingStation-')) {
-        //充电站
-        quRef.value.highLightNormalStation(currtentStation);
-        quRef.value.enterStationInfo(currtentStation);
+        if (currtentStation?.isHr == 0 && currtentStation?.hrId) {
+          quRef.value.enterStationInfo(currtentStation);
+          quRef.value.addHrStation(
+            currtentStation.stationId,
+            true,
+            currtentStation.stationId === '118'
+          );
+        } else {
+          //充电站
+          quRef.value.highLightNormalStation(currtentStation);
+          quRef.value.enterStationInfo(currtentStation);
+        }
       } else {
         let stationType = e.Id.split('-')[1];
         __g.marker.hide(e.Id);
@@ -233,7 +243,7 @@ onMounted(async () => {
   timer = setTimeout(() => {
     addQuBar();
   }, 200);
-  bus.on('addBar', async (e) => {
+  bus.on('addBar', async (e: any) => {
     // const { data: res } = await getStreetBar({ areaCode: e.quCode });
     // rectBar4Ref.value.addBar(e.type, res, e.quCode);
     try {

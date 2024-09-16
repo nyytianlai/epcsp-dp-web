@@ -219,6 +219,7 @@ const handleClick = async (item, sub) => {
       font-size: 18px;
       line-height: 20px;
       color: rgba(255, 255, 255, 0.6);
+      white-space: nowrap;
     }
 
     .sub-tab {

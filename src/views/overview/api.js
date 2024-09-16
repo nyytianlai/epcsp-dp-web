@@ -8,9 +8,15 @@ export const selectHrStationInfoForOverview = () => {
   });
 };
 // 新能源汽车充电站
+// export const chargingStation = () => {
+//   return request.get({
+//     url: '/overviews/all/chargingStation'
+//   });
+// };
+
 export const chargingStation = () => {
   return request.get({
-    url: '/overviews/all/chargingStation'
+    url: '/dp/api/v1/overview/getOverviewStationStatistics'
   });
 };
 

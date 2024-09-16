@@ -18,6 +18,7 @@ import { scale } from '@sutpc/config';
 import i18n from '@/locales/i18n';
 const { t } = i18n.global;
 const configHead = `overview.config`;
+
 export const pageNumFun = (data = {}) => {
   return [
     {
@@ -60,28 +61,88 @@ export const chargingStationsFun = (data = {}) => {
   return [
     {
       img: ztsyl,
-      num: data?.totalChargingStations,
+      num: data?.stationCount,
       unit: '/个',
-      name: '充电站总数',
+      name: '充电站',
       i18nKey: 'cdzhangs',
-      displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
     },
     {
-      img: ncd,
-      num: data?.yearTotalCharge,
-      unit: '/亿KWh',
-      name: '年充电量',
-      i18nKey: 'ncdl',
-      displayName: t(`${configHead}.chargingStationsFun.ncdl`),
-      unitI18nKey: 'unitBilKWh',
-      displayUnit: t(`${configHead}.chargingStationsFun.unitBilKWh`),
-      classStyleType: 'leftRightStyleYellow5858'
+      img: ztsyl,
+      num: data?.equipmentCount,
+      unit: '/个',
+      name: '充电桩',
+      i18nKey: 'cdzhangs',
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.superChargeStationNum,
+      unit: '/个',
+      name: '超充站',
+      i18nKey: 'cdzhangs',
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.v2gStationNum,
+      unit: '/个',
+      name: 'V2G站',
+      i18nKey: 'cdzhangs',
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.euStandardStationNum,
+      unit: '/个',
+      name: '欧标站',
+      i18nKey: 'cdzhangs',
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+      classStyleType: 'leftRightStyleGreen'
     }
   ];
 };
+
+// export const chargingStationsFun = (data = {}) => {
+//   return [
+//     {
+//       img: ztsyl,
+//       num: data?.totalChargingStations,
+//       unit: '/个',
+//       name: '充电站总数',
+//       i18nKey: 'cdzhangs',
+//       displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+//       unitI18nKey: 'unitGe',
+//       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+//       classStyleType: 'leftRightStyleGreen'
+//     },
+//     {
+//       img: ncd,
+//       num: data?.yearTotalCharge,
+//       unit: '/亿KWh',
+//       name: '年充电量',
+//       i18nKey: 'ncdl',
+//       displayName: t(`${configHead}.chargingStationsFun.ncdl`),
+//       unitI18nKey: 'unitBilKWh',
+//       displayUnit: t(`${configHead}.chargingStationsFun.unitBilKWh`),
+//       classStyleType: 'leftRightStyleYellow5858'
+//     }
+//   ];
+// };
 
 export const energyStationFun = (data = {}) => {
   return [
@@ -95,18 +156,18 @@ export const energyStationFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.energyStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: ncd,
-      num: 1926,
-      unit: '/次',
-      name: '年充放电数',
-      i18nKey: 'ncfds',
-      displayName: t(`${configHead}.energyStationFun.ncfds`),
-      unitI18nKey: 'unitCi',
-      displayUnit: t(`${configHead}.energyStationFun.unitCi`),
-      classStyleType: 'leftRightStyleYellow5858'
     }
+    // {
+    //   img: ncd,
+    //   num: 1926,
+    //   unit: '/次',
+    //   name: '年充放电数',
+    //   i18nKey: 'ncfds',
+    //   displayName: t(`${configHead}.energyStationFun.ncfds`),
+    //   unitI18nKey: 'unitCi',
+    //   displayUnit: t(`${configHead}.energyStationFun.unitCi`),
+    //   classStyleType: 'leftRightStyleYellow5858'
+    // }
   ];
 };
 
@@ -123,19 +184,19 @@ export const photovoltaicStationFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.photovoltaicStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: nfdl,
-      num: '2.13',
-      code: '',
-      unit: '/亿KWh',
-      name: '年发电量',
-      i18nKey: 'nfdl',
-      displayName: t(`${configHead}.photovoltaicStationFun.nfdl`),
-      unitI18nKey: 'unitBilKWh',
-      displayUnit: t(`${configHead}.photovoltaicStationFun.unitBilKWh`),
-      classStyleType: 'leftRightStyleYellow5858'
     }
+    // {
+    //   img: nfdl,
+    //   num: '2.13',
+    //   code: '',
+    //   unit: '/亿KWh',
+    //   name: '年发电量',
+    //   i18nKey: 'nfdl',
+    //   displayName: t(`${configHead}.photovoltaicStationFun.nfdl`),
+    //   unitI18nKey: 'unitBilKWh',
+    //   displayUnit: t(`${configHead}.photovoltaicStationFun.unitBilKWh`),
+    //   classStyleType: 'leftRightStyleYellow5858'
+    // }
   ].map((el) => {
     return {
       ...el,
@@ -156,18 +217,18 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingsReplacementCabinetFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: ncd,
-      num: data?.yearChargingCapacity,
-      unit: '/亿KWh',
-      name: '年充电量',
-      i18nKey: 'ncdl',
-      displayName: t(`${configHead}.chargingsReplacementCabinetFun.ncdl`),
-      unitI18nKey: 'unitBilKWh',
-      displayUnit: t(`${configHead}.chargingsReplacementCabinetFun.unitBilKWh`),
-      classStyleType: 'leftRightStyleYellow5858'
     }
+    // {
+    //   img: ncd,
+    //   num: data?.yearChargingCapacity,
+    //   unit: '/亿KWh',
+    //   name: '年充电量',
+    //   i18nKey: 'ncdl',
+    //   displayName: t(`${configHead}.chargingsReplacementCabinetFun.ncdl`),
+    //   unitI18nKey: 'unitBilKWh',
+    //   displayUnit: t(`${configHead}.chargingsReplacementCabinetFun.unitBilKWh`),
+    //   classStyleType: 'leftRightStyleYellow5858'
+    // }
   ];
 };
 export const digitalTwinSiteFun = () => {
@@ -974,6 +1035,15 @@ export const lineCarbonDataFun = (data = [], xaxis = []) => {
   const yearMonthDay = dayjs().format('YYYY/M/D');
   // console.log('carbon', carbon);
   let list = deepClone(carbon);
+  const len = list.length - 1;
+  list = list.map((item, i) => {
+    return {
+      ...item,
+      date: dayjs()
+        .subtract(len - i, 'day')
+        .format('YYYY/M/D')
+    };
+  });
   const index = carbon.findIndex((i) => i.date.trim() == yearMonthDay);
   if (index !== -1) {
     list.splice(index + 1);
@@ -2191,17 +2261,17 @@ export const changeElectricFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.changeElectricFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
-    },
-    {
-      img: ncd,
-      num: 13.16,
-      unit: '/万次',
-      name: '年充电数',
-      i18nKey: 'ncds',
-      displayName: t(`${configHead}.changeElectricFun.ncds`),
-      unitI18nKey: 'unitWanCi',
-      displayUnit: t(`${configHead}.changeElectricFun.unitWanCi`),
-      classStyleType: 'leftRightStyleYellow5858'
     }
+    // {
+    //   img: ncd,
+    //   num: 13.16,
+    //   unit: '/万次',
+    //   name: '年充电数',
+    //   i18nKey: 'ncds',
+    //   displayName: t(`${configHead}.changeElectricFun.ncds`),
+    //   unitI18nKey: 'unitWanCi',
+    //   displayUnit: t(`${configHead}.changeElectricFun.unitWanCi`),
+    //   classStyleType: 'leftRightStyleYellow5858'
+    // }
   ];
 };

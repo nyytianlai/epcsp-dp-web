@@ -91,22 +91,73 @@ export const getBaseChartOption = () => {
   };
 };
 
-export const pageNumFun = (data = {}) => {
+export const pageNumFun = (data: any = {}) => {
   return [
     {
       name: '基线',
       num: data?.baseline,
-      unit: 'MW',
+      unit: 'MW'
     },
     {
       name: '计划',
       num: data?.planNum,
-      unit: 'MW',
+      unit: 'MW'
     },
     {
       name: '实际',
       num: data?.actualNum,
-      unit: 'MW',
+      unit: 'MW'
+    }
+  ];
+};
+
+import ztsyl from '@/views/charging-station/images/ztsyl.png';
+export const chargingStationsFun = (data: any = {}) => {
+  return [
+    {
+      img: ztsyl,
+      num: 100 || data?.stationCount,
+      unit: '/个',
+      name: '充电站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
     },
+    {
+      img: ztsyl,
+      num: data?.equipmentCount,
+      unit: '/个',
+      name: '充电桩',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.superChargeStationNum,
+      unit: '/个',
+      name: '超充站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.v2gStationNum,
+      unit: '/个',
+      name: 'V2G站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.euStandardStationNum,
+      unit: '/个',
+      name: '欧标站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    }
   ];
 };

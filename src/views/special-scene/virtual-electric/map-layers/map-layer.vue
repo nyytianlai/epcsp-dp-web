@@ -1,8 +1,23 @@
 <template>
   <qu ref="quRef"></qu>
-  <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
+  <MapLeftBtn>
+    <div class="remain-power" @click="handleDraw">
+      <img draggable="false" :src="isDrawing ? remainPowerIconA : remainPowerIcon" />
+      <div class="name">开始绘制</div>
+    </div>
+  </MapLeftBtn>
+  <!-- <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
     <TimeSlide v-model="currentDt" :data="range" disabled />
-  </div>
+  </div> -->
+  <CustomerDialog
+    class="virture-dialog"
+    title="资源信息"
+    :visible="showDialog"
+    :width="'8rem'"
+    @close="showDialog = false"
+  >
+    <searchDialog @handleDetail="handleDetail" />
+  </CustomerDialog>
 </template>
 
 <script setup lang="ts">
@@ -10,8 +25,10 @@ import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nex
 import Qu from '@/components/map-layer/qu.vue';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
-import TimeSlide from '@/components/time-slider/index.vue';
+import { circle, bbox, getCoord } from '@turf/turf';
+// import TimeSlide from '@/components/time-slider/index.vue';
 import bus from '@/utils/bus';
+import searchDialog from '../components/search-dialog.vue';
 import {
   getImageByCloud,
   addCommon3dt,
@@ -20,10 +37,15 @@ import {
   playCamera
 } from '@/global/config/map';
 import { useRoute } from 'vue-router';
-import { virtureTileIds, virtureView, virturePoint, allHeatIdsList } from './layer-config';
+import { virtureTileIds, virtureView, virturePoint, allHeatIdsList, showIds } from './layer-config';
+import remainPowerIconA from '@/views/special-scene/super-charging-building/images/super-charge-switch-active.png';
+import remainPowerIcon from '@/views/special-scene/super-charging-building/images/super-charge-switch.png';
 import Api from '../api';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
+import MapLeftBtn from '@/components/map-left-btn.vue';
+import { transformCoords, transformCoordsArrByType } from '@/utils/map-coord-tools';
+import CustomerDialog from '@/components/custom-dialog/index.vue';
 import dayjs from 'dayjs';
 
 const props = defineProps({
@@ -35,7 +57,7 @@ const props = defineProps({
     type: Number
   }
 });
-
+const showDialog = ref(false);
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
@@ -52,12 +74,14 @@ const currentDt = ref(0);
 const store = useMapStore();
 const route = useRoute();
 const quRef = ref();
+let isInit;
+const isDrawing = ref(false);
 
 const showVirture = ref(false);
 
 let timer;
 
-const allHeatIds = computed(() => allHeatIdsList[props.activeIndex] || []);
+const allHeatIds = computed(() => showIds[props.activeIndex] || []);
 
 const formatTooltip = (vl) => {
   return range[vl];
@@ -121,15 +145,10 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
 };
 
 const addHeatLayer = async () => {
-  const filterIds = allHeatIds.value.filter((el, i) => i > currentDt.value);
-  const showIds = allHeatIds.value.filter((el, i) => i <= currentDt.value);
-  filterIds.length && (await delete3dt(__g, filterIds));
-  __g.tileLayer.updateBegin();
-
-  showIds.forEach((el) => {
-    addCommon3dt(__g, el);
-  });
-  await __g.tileLayer.updateEnd();
+  // const filterIds = allHeatIds.value.filter((el, i) => i > currentDt.value);
+  // const showIds = allHeatIds.value.filter((el, i) => i <= currentDt.value);
+  await delete3dt(__g, showIds.flat(3));
+  addCommon3dt(__g, showIds[props.activeIndex]);
 };
 
 const handleTopData = async () => {
@@ -167,13 +186,6 @@ const addVirturePoint = async () => {
 };
 
 const setCurrent = async () => {
-  // timer = setTimeout(async () => {
-  //   if (currentDt.value < range.value.length - 1) {
-  //     currentDt.value = currentDt.value + 1;
-  //     clearTimeout(timer);
-  //     setCurrent();
-  //   }
-  // }, 2000);
   clearInterval(timer);
   timer = setInterval(() => {
     if (currentDt.value < range.value.length - 1) {
@@ -338,7 +350,83 @@ const addPoint = async () => {
 const init = async () => {
   await __g.reset();
   await __g.infoTree.hide(virtureTileIds);
+  setTimeout(() => {
+    addHeatLayer();
+  }, 2000);
+  isInit = true;
   // addVirturePoint();
+};
+
+const getBBox = (center, radius) => {
+  const bboxs = bbox(
+    {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Point',
+        coordinates: getCoord(center)
+      }
+    },
+    radius
+  );
+  console.log(bboxs);
+};
+
+const drawCircle = async (radius, centerPoint) => {
+  getBBox(centerPoint, radius);
+  await __g.polygon3d.delete('search-circle');
+  const options = { steps: 100, units: 'kilometers' };
+  const polygon = circle(centerPoint, radius / 1000, options);
+  const coord = transformCoordsArrByType(polygon.geometry.coordinates[0], 0, 3000);
+  const p = {
+    id: 'search-circle',
+    coordinates: coord,
+    coordinateType: 1,
+    range: [1, 200000],
+    height: 1,
+    color: [75 / 255, 222 / 255, 255 / 255, 0.6],
+    frameColor: 'RGB(255,255,255)',
+    frameThickness: 100, //边框厚度
+    intensity: 1, //亮度
+    style: 0, //单色 请参照API开发文档选取枚举
+    depthTest: false, //是否做深度检测 开启后会被地形高度遮挡
+    // intensity: 1.0,
+    style: 10,
+    tillingX: 0,
+    tillingY: 0,
+    generateTop: true,
+    generateSide: true,
+    generateBottom: true
+  };
+
+  let pArr = [];
+  pArr.push(p);
+  __g.polygon3d.add(pArr).then(() => {
+    __g.polygon3d.focus('circleLayer', radius / 1000 > 3 ? 7500 : 4500, 2);
+    showDialog.value = true;
+  });
+};
+
+const handleDetail = () => {
+  console.log('detail');
+  showDialog.value = false;
+  __g.polygon3d.delete('search-circle');
+};
+
+const handleDraw = async () => {
+  isDrawing.value = !isDrawing.value;
+  if (isDrawing.value) {
+    await Promise.allSettled([
+      __g.marker.hideByGroupId('area-point-layer')
+      // __g.tileLayer.hide(showIds[props.activeIndex])
+    ]);
+  } else {
+    await Promise.allSettled([
+      __g.marker.showByGroupId('area-point-layer'),
+      // __g.tileLayer.show(showIds[props.activeIndex]),
+      __g.polygon3d.delete('search-circle')
+    ]);
+  }
 };
 
 useEmitt('AIRCITY_EVENT', (e) => {
@@ -347,6 +435,14 @@ useEmitt('AIRCITY_EVENT', (e) => {
     if (e.Id === 'virtual-point') {
       handleToVirture();
     }
+
+    if (isDrawing.value) {
+      const coord = transformCoords('EPSG:4547', 'EPSG:4326', [
+        e.MouseClickPoint[0],
+        e.MouseClickPoint[1]
+      ]);
+      drawCircle(3000, [coord[0], coord[1]]);
+    }
   }
 });
 
@@ -354,7 +450,6 @@ watch(
   () => [props.adjustDate, props.activeIndex],
   async () => {
     nextTick(async () => {
-      console.log(props.adjustDate, props.activeIndex, '11111111111');
       if (props.adjustDate) {
         const param = {
           adjustTime: '',
@@ -366,7 +461,11 @@ watch(
         range.value = data.map((v) => v.adjustTimeText);
         currentDt.value = 0;
         handleTopData();
-        setCurrent();
+        getData();
+        if (isInit) {
+          addHeatLayer();
+        }
+        // setCurrent();
       }
     });
   },
@@ -392,20 +491,18 @@ bus.on('map-back', async () => {
   addHeatLayer();
 });
 
-watch(
-  () => currentDt.value,
-  async () => {
-    if (showVirture.value) return;
+// watch(
+//   () => currentDt.value,
+//   async () => {
+//     if (showVirture.value) return;
 
-    addHeatLayer();
-    // handleTopData();
-    // addPoint();
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
+//     addHeatLayer();
+//   },
+//   {
+//     deep: true,
+//     immediate: true
+//   }
+// );
 
 onMounted(async () => {
   await init();
@@ -415,6 +512,7 @@ onBeforeUnmount(async () => {
   // closeDarkMode();
   bus.off('map-back');
   bus.off('getVppAdjustTime');
+  isInit = false;
   await __g.camera.stopAnimation();
   clearTimeout(timer);
   await __g.cameraTour.stop();
@@ -427,11 +525,32 @@ onBeforeUnmount(async () => {
 </script>
 
 <style scoped>
+.virture-dialog {
+  height: 500px !important;
+}
 .time-slider-wrapper {
   position: absolute;
   left: 50%;
   bottom: 100px;
   width: 45%;
   transform: translateX(-50%);
+}
+
+.remain-power {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 51px;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
 }
 </style>
