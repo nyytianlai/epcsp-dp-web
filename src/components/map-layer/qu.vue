@@ -405,7 +405,10 @@ const addJdStation = async (jdCode: string) => {
     }
     pointArr.push(o1);
   });
-  await __g.marker.add(pointArr, null);
+  // await __g.marker.add(pointArr, null);
+  setTimeout(() => {
+    __g.marker.add(pointArr, null);
+  }, 1000);
   // await __g.marker.focus(allStationID)
 };
 
