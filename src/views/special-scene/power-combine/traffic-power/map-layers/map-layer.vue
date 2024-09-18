@@ -62,6 +62,9 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  timerMap.forEach((el) => {
+    clearTimeout(el);
+  });
   clearTimeout(timer);
   await __g.misc.callBPFunction({
     functionName: '停止',
@@ -108,9 +111,9 @@ let legendListData = ref([
   }
 ]);
 let quData = [];
-let timerMap = {};
-let busLineDatas = [];
-let currentIndexMap = [];
+let timerMap = [];
+let busLineList = [];
+let currentIndex = 0;
 const getData = async () => {
   if (quData?.length) return;
   try {
@@ -154,9 +157,8 @@ const getBusLineData = async () => {
   const list = locats
     .filter((el: any) => el.value?.data.every((item) => item.lng && item.lat))
     .map((el: any) => el.value?.data || []);
-  console.log(list);
-  busLineDatas = list;
-  addBusLine(list);
+  busLineList = list;
+  addBusLine();
 };
 
 const handleRemainPoweLayer = () => {
@@ -342,7 +344,26 @@ const addAttachBus = async (data) => {
   __g.marker.showPopupWindow(marker.id);
 };
 
-const addBusLine = async (busLineList) => {
+const setModelLocation = async (nextIndex) => {
+  // 更新车辆位置
+  __g.customObject.updateBegin();
+  busLineList.forEach((item, i) => {
+    // const timeGap = dayjs(item[1].gpsTime).diff(dayjs(item[0].gpsTime), 'second');
+    currentIndex = 1;
+    __g.customObject.setLocation(
+      item[1].plateNumber,
+      transformCoordsByType([item[nextIndex].lng, item[nextIndex].lat], 2),
+      5
+    );
+  });
+  await __g.customObject.updateEnd();
+  busLineList.forEach((item, i) => {
+    const timeGap = dayjs(item[1].gpsTime).diff(dayjs(item[0].gpsTime), 'second');
+    pushBusData(item, nextIndex + 1, i, 5);
+  });
+};
+
+const addBusLine = async () => {
   await __g.polyline.delete(bus_idList);
   const arr = [];
   const arr2 = [];
@@ -355,10 +376,10 @@ const addBusLine = async (busLineList) => {
       id: item[0].plateNumber,
       userData: JSON.stringify(item[0]),
       groupId: 'buslineGroup',
-      color: [0 / 255, 255 / 255, 148 / 255, 0.9],
+      color: [0 / 255, 255 / 255, 148 / 255, 0.5],
       coordinates: path,
       range: [1, 10000000],
-      thickness: 200,
+      thickness: 120,
       intensity: 0.2,
       depthTest: false,
       shape: 0,
@@ -396,21 +417,7 @@ const addBusLine = async (busLineList) => {
     return;
   }
 
-  // 更新车辆位置
-  __g.customObject.updateBegin();
-  busLineList.forEach((item, i) => {
-    const timeGap = dayjs(item[1].gpsTime).diff(dayjs(item[0].gpsTime), 'second');
-    currentIndexMap[i] = 1;
-    __g.customObject.setLocation(
-      item[1].plateNumber,
-      transformCoordsByType([item[1].lng, item[1].lat], 2),
-      timeGap
-    );
-  });
-  await __g.customObject.updateEnd();
-  busLineList.forEach((item, i) => {
-    pushBusData(item, 2, i);
-  });
+  setModelLocation(1);
 };
 
 const handleToBusTwin = async () => {
@@ -439,22 +446,23 @@ const handleToBusTwin = async () => {
   }, 22.44 * 1000);
 };
 
-const pushBusData = async (dataList, nextIndex, listIndex) => {
+const pushBusData = async (dataList, nextIndex, listIndex, timeout) => {
   if (nextIndex < dataList.length - 1) {
-    const timeGap = dayjs(dataList[nextIndex].gpsTime).diff(
-      dayjs(nextIndex[nextIndex - 1].gpsTime),
-      'second'
-    );
+    // const timeGap = dayjs(dataList[nextIndex].gpsTime).diff(
+    //   dayjs(dataList[nextIndex - 1].gpsTime),
+    //   'second'
+    // );
     const item = dataList[nextIndex];
     timerMap[listIndex] = setTimeout(async () => {
-      currentIndexMap[listIndex] = nextIndex;
+      currentIndex = nextIndex;
       await __g.customObject.setLocation(
         item.plateNumber,
         transformCoordsByType([item.lng, item.lat], 2),
-        timeGap
+        5
       );
-      pushBusData(dataList, nextIndex + 1, listIndex);
-    }, timeGap);
+      clearTimeout(timerMap[listIndex]);
+      pushBusData(dataList, nextIndex + 1, listIndex, 2);
+    }, 5 * 1000);
   }
 };
 
@@ -468,28 +476,28 @@ const addBusV2g = async (pos) => {
   const arr = [];
   const odLines = [];
   res?.data?.forEach((el) => {
-    // const oPopUpUrl = getPopupHtml({
-    //   usePopupHtml: true,
-    //   com: 'carnet-interaction-baoan',
-    //   params: {
-    //     value: JSON.stringify({ ...el, stationName: el.name })
-    //   }
-    // });
+    const oPopUpUrl = getPopupHtml({
+      usePopupHtml: true,
+      com: 'recommend-bus-line',
+      params: {
+        value: JSON.stringify({ ...el, stationName: el.name })
+      }
+    });
 
     const maxLen = `${el?.name || 0}`.length + 1;
     const marker = {
       id: el.name,
       groupId: `bus-v2g`,
       coordinate: transformCoordsByType([el.longitude, el.latitude], 2), //坐标位置
-      anchors: [-39, 80], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [78, 80], //图片的尺寸
+      anchors: [-39 * 1.2, 80 * 1.2], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [78 * 1.2, 80 * 1.2], //图片的尺寸
       range: [1, 1000000], //可视范围
       imagePath: getImageByCloud('qu-point'), //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       autoHidePopupWindow: false,
-      // popupURL: oPopUpUrl,
-      popupSize: [scale(100 + maxLen * 8), scale(60)],
-      popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(45)], //弹窗偏移
+      popupURL: oPopUpUrl,
+      popupSize: [scale(100 + maxLen * 8), scale(40)],
+      popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(25)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
@@ -497,17 +505,17 @@ const addBusV2g = async (pos) => {
 
     const odLine = {
       id: el.name,
-      color: 'RGB(0,255,102)',
+      color: [251 / 255, 217 / 255, 31 / 255, 0.8],
       lineThickness: 100,
       coordinates: [
         transformCoordsByType(clickCoord, 2),
         transformCoordsByType([el.longitude, el.latitude], 2)
       ],
-      flowPointSizeScale: 140,
+      flowPointSizeScale: 120,
       flowRate: 0.5,
-      lineShape: 1,
+      lineShape: 0,
       flowShape: 1,
-      lineStyle: 2 //  0:纯色 1:箭头，2:流动点
+      lineStyle: 0 //  0:纯色 1:箭头，2:流动点
       // startPointShape: 1,
       // endPointShape: 1
     };
@@ -523,19 +531,24 @@ const addBusV2g = async (pos) => {
 };
 
 bus.on('map-back', async () => {
-  clearTimeout(timer);
-  isPlaying.value = false;
-  __g.misc.callBPFunction({
-    functionName: '停止',
-    objectName: '动画播放_3'
-  });
-  __g.customObject.show(bus_idList),
-    __g.polyline.show(bus_idList),
-    __g.marker.showByGroupId('busObjGroup'),
-    __g.marker.showByGroupId('quName'),
-    beforeAddOrExitHrStation(false);
-  const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
-  id && (await __g.tileLayer.hide(id));
+  // clearTimeout(timer);
+  // isPlaying.value = false;
+  // __g.misc.callBPFunction({
+  //   functionName: '停止',
+  //   objectName: '动画播放_3'
+  // });
+  // __g.customObject.show(bus_idList),
+  //   __g.polyline.show(bus_idList),
+  //   __g.marker.showByGroupId('busObjGroup'),
+  //   __g.marker.showByGroupId('quName'),
+  //   beforeAddOrExitHrStation(false);
+  // const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+  // id && (await __g.tileLayer.hide(id));
+  __g.marker.deleteByGroupId('attach-marker');
+  __g.customObject.show(bus_idList);
+  __g.polyline.show(bus_idList);
+  __g.marker.deleteByGroupId('bus-v2g');
+  setModelLocation(currentIndex);
 });
 
 const beforeAddOrExitHrStation = (isShow: boolean) => {
@@ -559,6 +572,12 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         __g.customObject.hide(bus_idList.filter((el) => el !== data?.plateNumber)),
         __g.polyline.hide(bus_idList.filter((el) => el !== data?.plateNumber))
       ]);
+
+      timerMap.forEach((el) => {
+        clearTimeout(el);
+      });
+      mapStore.changeCurrentQu('福田区');
+      mapStore.changeCurrentPosition('福田区');
       addAttachBus(data);
       // addBusV2g(coord);
     }
