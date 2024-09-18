@@ -53,6 +53,7 @@ let clickCoord = [];
 onMounted(async () => {
   await __g.reset();
   await getData();
+  await __g.settings.setEnableCameraMovingEvent(true);
 
   // addPoint();
   // await addBusLine();
@@ -61,6 +62,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  await __g.settings.setEnableCameraMovingEvent(false);
   timerMap.forEach((el) => {
     clearTimeout(el);
   });
@@ -495,8 +497,8 @@ const addBusV2g = async (pos) => {
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       autoHidePopupWindow: false,
       popupURL: oPopUpUrl,
-      popupSize: [scale(100 + maxLen * 8), scale(40)],
-      popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(25)], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 20), scale(50)],
+      popupOffset: [-scale(100 + maxLen * 20) / 2, -scale(35)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
@@ -525,6 +527,7 @@ const addBusV2g = async (pos) => {
       arr.map((el) => el.id),
       2000
     );
+    __g.marker.showPopupWindow(arr.map((el) => el.id));
   });
   __g.odline.add(odLines);
 };
@@ -553,6 +556,20 @@ bus.on('map-back', async () => {
 const beforeAddOrExitHrStation = (isShow: boolean) => {
   !isShow ? __g.polygon.show(layerNameQuNameArr('qu')) : __g.polygon.hide(layerNameQuNameArr('qu'));
   !isShow ? __g.polygon3d.show('wall') : __g.polygon3d.hide('wall');
+};
+
+const setScaleByHeight = (height) => {
+  let scale = 300;
+  if (height > 18000) {
+    scale = 300;
+  } else {
+    scale = Math.max((height / 18000) * 300, 100);
+  }
+  __g.customObject.updateBegin();
+  bus_idList.forEach((el) => {
+    __g.customObject.setScale(el, [scale, scale, scale]);
+  });
+  __g.customObject.updateEnd();
 };
 
 useEmitt('AIRCITY_EVENT', async (e) => {
@@ -587,6 +604,15 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       await __g.marker.hideByGroupId('attach-marker');
       addBusV2g(clickCoord);
     }
+  }
+
+  if (e.eventtype === 'CameraStartMove') {
+  }
+
+  if (e.eventtype === 'CameraStopMove') {
+    const data = await __g.camera.get();
+    const height = data?.camera[2];
+    setScaleByHeight(height);
   }
 });
 

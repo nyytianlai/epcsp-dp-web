@@ -367,6 +367,7 @@ const addStationPoint = (jdCode: string) => {
 //添加区的点 isHr 0-是高渲染站点；1-否
 const addJdStation = async (jdCode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
+  await aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
   const { data: res } = await getJdStation({
     chargeType: Array.from(stationType.value),
     equipmentType: buttomTabCode.value,

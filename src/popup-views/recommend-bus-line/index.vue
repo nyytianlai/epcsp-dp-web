@@ -67,9 +67,10 @@ const handleToRecommend = () => {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: center;
 
   .card-name {
-    font-size: 12px;
+    font-size: 18px;
     color: #fff;
     font-weight: 400;
     white-space: nowrap;
