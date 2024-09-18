@@ -52,7 +52,7 @@ watch(
 .num-wrap {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 80px;
+  grid-auto-rows: 50px;
   gap: 12px;
   > div {
     min-width: 0;
@@ -65,9 +65,24 @@ watch(
       justify-content: center;
     }
 
+    .num {
+      line-height: 14px !important;
+    }
+
+    .icon {
+      width: 54px !important;
+      height: auto !important;
+    }
+
     .name {
-      line-height: 30px;
+      line-height: 12px !important;
       margin-bottom: 0;
+      font-size: 14px !important;
+    }
+
+    .value {
+      font-size: 16px !important;
+      line-height: 16px !important;
     }
   }
 }

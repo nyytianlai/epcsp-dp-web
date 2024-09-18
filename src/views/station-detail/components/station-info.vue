@@ -3,7 +3,11 @@
     <div class="name-wrap">
       <div class="icon"></div>
       <div class="name">
-        <el-tooltip :content="data?.stationName" placement="top" v-if="data?.stationName?.length > 13">
+        <el-tooltip
+          :content="data?.stationName"
+          placement="top"
+          v-if="data?.stationName?.length > 13"
+        >
           <div class="station-name">
             {{ data?.stationName || '--' }}
           </div>
@@ -27,6 +31,9 @@
             {{ item.value }}
           </el-tooltip>
         </span>
+        <div v-if="isVirture && index === infoListData.length - 1" class="detail">
+          <div class="content" @click="handleVoice">通知下发</div>
+        </div>
       </li>
     </ul>
     <div class="status" :class="stationStatusClass[props.data.stationStatus]">
@@ -37,6 +44,7 @@
 <script lang="ts" setup>
 import { ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { ElMessageBox } from 'element-plus';
 const { t } = useI18n();
 const tHead = `station-detail.components.station-info`;
 interface Data {
@@ -56,6 +64,11 @@ const props = defineProps({
     default() {
       return {};
     }
+  },
+  isVirture: {
+    // 是否为虚拟电厂进入
+    type: Boolean,
+    default: false
   }
 });
 
@@ -95,45 +108,52 @@ const infoListFun = (data: Data) => {
     {
       label: '站点区域：',
       value: data?.areaName || '--',
-      displayLabel: t(`${tHead}.infoListFun.zdqy`),
+      displayLabel: t(`${tHead}.infoListFun.zdqy`)
     },
     {
       label: '具体地址：',
       value: data?.address || '--',
-      displayLabel: t(`${tHead}.infoListFun.jtdz`),
+      displayLabel: t(`${tHead}.infoListFun.jtdz`)
     },
     {
       label: '站点性质：',
       value: stationProperty[data?.stationProperty] || '--',
-      displayLabel: t(`${tHead}.infoListFun.zdxz`),
+      displayLabel: t(`${tHead}.infoListFun.zdxz`)
     },
     {
       label: '站点类型：',
       value: stationType[data?.stationType] || '--',
-      displayLabel: t(`${tHead}.infoListFun.zdlx`),
+      displayLabel: t(`${tHead}.infoListFun.zdlx`)
     },
     {
       label: '负责人：',
       value: data?.stationPrincipal || '--',
-      displayLabel: t(`${tHead}.infoListFun.fzr`),
+      displayLabel: t(`${tHead}.infoListFun.fzr`)
     },
     {
       label: '联系方式：',
       value: data?.telephone || '--',
-      displayLabel: t(`${tHead}.infoListFun.lxfs`),
+      displayLabel: t(`${tHead}.infoListFun.lxfs`)
     }
   ];
 };
 const infoListData = ref();
+
+const handleVoice = () => {
+  ElMessageBox.confirm('确认下发通知?');
+};
+
 watch(data, () => {
   infoListData.value = infoListFun(data.value);
 });
 </script>
 <style lang="less" scoped>
 .station-info {
-  background: linear-gradient(255.75deg,
-      rgba(37, 177, 255, 0.04) 23.33%,
-      rgba(19, 83, 119, 0.4) 100%);
+  background: linear-gradient(
+    255.75deg,
+    rgba(37, 177, 255, 0.04) 23.33%,
+    rgba(19, 83, 119, 0.4) 100%
+  );
   mix-blend-mode: normal;
   box-shadow: 0px 1px 14px rgba(0, 0, 0, 0.04), inset 0px 0px 35px rgba(41, 76, 179, 0.2);
   backdrop-filter: blur(2px);
@@ -187,6 +207,7 @@ watch(data, () => {
       margin-bottom: 6px;
       display: flex;
       white-space: nowrap;
+      position: relative;
 
       &:nth-last-of-type(1) {
         margin-bottom: 0;
@@ -196,6 +217,29 @@ watch(data, () => {
     label {
       color: rgba(238, 253, 255, 0.6);
       min-width: 70px;
+    }
+
+    .detail {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 103px;
+      height: 38px;
+      padding: 3px;
+      border-radius: 4px;
+      background: url(../images/blue-btn-bgc.png) no-repeat;
+      background-size: 100% 100%;
+      cursor: pointer;
+      .content {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(270deg, #0a4174 0%, #3483df 100%);
+        border: 1.5px solid #99ceff;
+        font-size: 14px;
+      }
     }
   }
 }
@@ -209,23 +253,37 @@ watch(data, () => {
   top: 0;
 
   &.blue {
-    background: linear-gradient(93.04deg,
-        #04a1cf 0.63%,
-        #bae7ff 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #04a1cf 0.63%,
+      #bae7ff 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 
   &.gray {
-    background: linear-gradient(93.04deg,
-        #a8a7a5 0.63%,
-        #dddddd 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #a8a7a5 0.63%,
+      #dddddd 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
 
   &.yellow {
-    background: linear-gradient(93.04deg,
-        #cfa204 0.63%,
-        #fffcba 184.61%,
-        rgba(255, 255, 255, 0) 510.76%);
+    background: linear-gradient(
+      93.04deg,
+      #cfa204 0.63%,
+      #fffcba 184.61%,
+      rgba(255, 255, 255, 0) 510.76%
+    );
   }
-}</style>
+}
+</style>
+<style lang="less">
+.el-message-box {
+  background: rgba(4, 19, 43, 0.65) !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25), inset 0px 0px 20px rgba(10, 167, 255, 0.5) !important;
+  border-radius: 2px !important;
+}
+</style>

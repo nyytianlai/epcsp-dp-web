@@ -113,6 +113,17 @@ export const chargingStationsFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: cnzzs,
+      num: 5100,
+      unit: '/个',
+      name: '5G储能基站',
+      i18nKey: 'cdzhangs',
+      // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
+      unitI18nKey: 'unitGe',
+      displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
+      classStyleType: 'leftRightStyleGreen'
     }
   ];
 };

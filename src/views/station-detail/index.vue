@@ -4,7 +4,7 @@
     <div class="station-info">
       <!-- cdzdxx: '充电站点信息',  -->
       <title-column :title="t(`${tHead}.cdzdxx`)" />
-      <station-info :data="stationInfoData" />
+      <station-info :data="stationInfoData" :isVirture="isVirtual" />
     </div>
     <div class="device-info">
       <!-- sbssxx: '设备设施信息' -->
@@ -289,6 +289,8 @@ const isHr = computed(() => store.detailParams?.isHr);
 const isSuper = computed(
   () => store.detailParams?.isSuper || store.detailParams?.stationLogo === '3'
 );
+// 是否为虚拟电厂进入
+const isVirtual = computed(() => store.detailParams?.fromVirture);
 const isLianhuaxi = computed(() => store.detailParams?.stationId === '-2');
 const pageNumData = ref(
   isSuper.value ? getSuperHeaderData({}, store.detailParams?.equipType) : pageNumFun()
