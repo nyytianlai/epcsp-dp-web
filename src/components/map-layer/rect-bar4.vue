@@ -74,7 +74,6 @@ const drawHoverBarMarker = async (data, show = false) => {
       value: JSON.stringify(data)
     }
   });
-  console.log(mPopUpUrl, 'mPopUpUrl');
   const marker = {
     id: data.areaCode + 'bar-hover-pop',
     groupId: 'bar-hover-pop',
@@ -94,12 +93,14 @@ const drawHoverBarMarker = async (data, show = false) => {
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };
   await aircityObj.value.acApi.marker.add(marker);
-  aircityObj.value.acApi.marker.showPopupWindow(marker.id, async () => {
-    if (!chartHover) {
-      aircityObj.value.acApi.marker.hidePopupWindow(marker.id);
-      aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
-    }
-  });
+  if (chartHover && show) {
+    aircityObj.value.acApi.marker.showPopupWindow(marker.id, async () => {
+      if (!chartHover) {
+        aircityObj.value.acApi.marker.hidePopupWindow(marker.id);
+        aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
+      }
+    });
+  }
 };
 
 const getBarPositionByQuName = (quName: string) => {
