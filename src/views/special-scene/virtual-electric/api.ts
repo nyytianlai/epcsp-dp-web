@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-08-13 14:31:47
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-09-02 10:33:58
+ * @LastEditTime: 2024-09-16 16:36:17
  * @Description:
  * @FilePath: /epcsp-dp-web/src/views/special-scene/virtual-electric/api.ts
  */
@@ -81,5 +81,19 @@ export default {
   },
   requestGeojsonData(fileName) {
     return getStaticFile(`static/geojson/${fileName}.geojson`);
+  },
+  // 获取最近的分布式资源
+  getDistributedResource(data) {
+    return request.post({
+      url: '/busCan/getDistributedResource',
+      data
+    });
+  },
+  // 获取最近的分布式详情
+  getDistributedResourceDetails(data) {
+    return request.post({
+      url: '/busCan/getDistributedResourceDetails',
+      data
+    });
   }
 };

@@ -40,12 +40,8 @@
     </div>
     <div class="warning-message">
       <!-- gjxx: '告警信息' -->
-      <title-column
-        :title="t(`${tHead}.gjxx`)"
-        :showBtn="isShowList"
-        @handleClick="handleShowWarning"
-      />
-      <warning-tabs
+      <title-column title="告警列表" :showBtn="true" @handleClick="handleShowWarning" />
+      <!-- <warning-tabs
         :data="warningTabsData"
         @changeTab="(data) => handleChangeTab(data, 'warning-message')"
         v-if="isShowList"
@@ -55,8 +51,8 @@
           <div class="year-name">{{ index }}</div>
           <warning-list @handleClick="clickWarningList" :data="item" height="fit-content" />
         </div>
-      </div>
-
+      </div> -->
+      <scroll-table :scrollTableData="scrollTableData" :columnKeyList="columnKeyList" />
       <!-- <line-time-chart
         v-if="!isShowList"
         :data="realtimeTrend"
@@ -64,7 +60,7 @@
         :colors="warnColor"
         mode="haveTab"
       /> -->
-      <EcResize v-if="!isShowList" class="warning-ec-wrap" :option="state.realtimeTrend" />
+      <!-- <EcResize v-if="!isShowList" class="warning-ec-wrap" :option="state.realtimeTrend" /> -->
     </div>
   </panel>
   <panel type="right" v-if="isShowBoth">
@@ -90,13 +86,14 @@
       <!-- zdssgl: '站点实时功率' -->
       <title-column :title="t(`${tHead}.zdssgl`)" />
       <line-time-chart
+        :data="lineTimeData"
         unit="kW"
-        :data="linePowerData"
-        :colors="realtimePowerColors"
-        class="station-power__chart"
+        :colors="lineTimeColors"
+        :customOption="{ animation: false }"
         :chartStyle="{
           width: '100%',
-          height: '1.80rem'
+          flex: '1',
+          minHeight: 0
         }"
       />
       <!-- <line-time-chart
@@ -179,6 +176,9 @@ import EcResize from '@sutpc/vue3-ec-resize';
 import { tableColumnFun } from '@/global/commonFun.js';
 import Goback from '@/components/goback/index.vue';
 import { useI18n } from 'vue-i18n';
+import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
+import { timePowerGraph } from '@/views/charging-station/api.js';
+import { lineTimeDataFun } from '@/views/charging-station/config.js';
 const { t } = useI18n();
 const tHead = `station-detail`;
 
@@ -194,7 +194,8 @@ import {
   selectWarningStatisticByStationId,
   viewMenuData,
   alarmLevelAndTypeByTIme,
-  selectDetailChargeCount
+  selectDetailChargeCount,
+  getAlarmList
 } from './api.js';
 import {
   getSuperHeaderData,
@@ -209,7 +210,8 @@ import {
   stationWarnOption,
   chargingStationTabsFun,
   chargingStationGunTabsFun,
-  chargingStationPieDataFun
+  chargingStationPieDataFun,
+  columnKeyList
 } from './config.js';
 import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
@@ -673,7 +675,33 @@ const handleDetail = (data) => {
   pileType.value = 'pile';
   pileVisible.value = true;
 };
+
+const scrollTableData = ref([]);
+const getScrollTableData = async () => {
+  const res = await getAlarmList({
+    operatorId: store.detailParams?.operatorId,
+    stationId: store.detailParams?.stationId
+  });
+  scrollTableData.value = res?.data;
+};
+// 实时功率图表
+const lineTimeColors = ['blue'];
+const lineTimeData = ref([]);
+let timer2;
+const getTimePowerGraph = async () => {
+  const res = await timePowerGraph();
+  lineTimeData.value = lineTimeDataFun(res.data);
+  if (res.data.length) {
+    const data = res.data || [];
+    const info = {
+      totalPower: data[data.length - 1].ratedPower,
+      realTimePower: data[data.length - 1].realTimePower
+    };
+    // powerInfoNumData.value = info.realTimePower;
+  }
+};
 let timer = null;
+
 watch(
   () => store.detailParams,
   async () => {
@@ -707,6 +735,8 @@ watch(
         getStationRealTimePowerByStationId();
         getWarningStatisticByStationId();
         loadSelectDetailChargeCount();
+        getScrollTableData();
+        getTimePowerGraph();
         console.log('store.detailParams', store.detailParams);
         if (store.detailParams?.isWarning && __g) {
           //防止地图没有
@@ -724,10 +754,16 @@ watch(
 
           console.log('store.detailParams', store.detailParams);
         }
+        clearInterval(timer);
+        clearInterval(timer2);
         timer = setInterval(() => {
           getEquipmentStatusByStationId();
           getStationRealTimePowerByStationId();
         }, 900000);
+
+        timer2 = setInterval(() => {
+          getTimePowerGraph();
+        }, 1000 * 30);
       }
     }
   },
@@ -738,7 +774,9 @@ watch(
 );
 onUnmounted(() => {
   clearInterval(timer);
+  clearInterval(timer2);
   timer = null;
+  timer2 = null;
 });
 // onMounted(() => {
 //   getStationStatistics();

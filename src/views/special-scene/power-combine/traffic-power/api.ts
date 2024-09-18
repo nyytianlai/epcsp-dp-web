@@ -42,4 +42,25 @@ export default {
       data
     });
   },
-}
+  // 获取所有巴士gps
+  getAllBus(data = {}) {
+    return request.post({
+      url: '/busCan/getAllBus',
+      data
+    });
+  },
+  // 传入参数后去gps 升序
+  getGpsByPlateNumber(data) {
+    return request.post({
+      url: '/busCan/getGpsByPlateNumber',
+      data
+    });
+  },
+  // 获取围V2G充电站
+  getNearestV2GStations(data) {
+    return request.post({
+      url: '/busCan/getNearestV2GStations',
+      data
+    });
+  }
+};

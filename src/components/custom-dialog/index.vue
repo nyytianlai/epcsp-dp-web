@@ -2,7 +2,7 @@
   <el-dialog
     v-model="visible"
     class="custom-dialog"
-    width="15.58rem"
+    :width="width"
     @close="emit('update:visible', false)"
     @closed="emit('closed')"
     align-center
@@ -33,6 +33,10 @@ const props = defineProps({
   title: {
     type: String,
     default: ''
+  },
+  width: {
+    type: String,
+    default: '15.58rem'
   }
 });
 const emit = defineEmits(['update:visible', 'closed']);
@@ -42,6 +46,9 @@ const { visible } = toRefs(props);
 .el-overlay {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(8px);
+}
+.virture-dialog.custom-dialog.el-dialog {
+  height: 350px;
 }
 .custom-dialog.el-dialog {
   background: rgba(4, 19, 43, 0.65);

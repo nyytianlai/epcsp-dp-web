@@ -5,7 +5,7 @@
     <right-panel />
     <map-layer v-if="aircityObj" :ref="(el) => (mapLayerRef = el)" />
     <div class="play-btn" @click="handlePlayVideo" />
-    <div class="specail-btn" @click="router.push('/super-charging/building')"></div>
+    <!-- <div class="specail-btn" @click="router.push('/super-charging/building')"></div> -->
   </div>
 </template>
 

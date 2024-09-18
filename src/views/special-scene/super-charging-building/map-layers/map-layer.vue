@@ -63,7 +63,7 @@ let chartHover;
 let barData;
 
 const quRef = ref(null);
-const showRemainPower = ref(true);
+const showRemainPower = ref(false);
 // const rectBar4Ref = ref(null);
 let ds = t(`${tHead}.ds`); // ds: '点数',
 const legendNameData = computed(() => `${props.selectBtmTab.label}${ds || '点数'}`);
@@ -108,8 +108,14 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       currtentStation.equipType = props.selectBtmTab.code;
 
       if (currtentStation?.isHr == 0 && currtentStation?.hrId) {
-        bus.emit('toHr', currtentStation);
+        // bus.emit('toHr', currtentStation);
+        // quRef.value.enterStationInfo(currtentStation);
         quRef.value.enterStationInfo(currtentStation);
+        quRef.value.addHrStation(
+          currtentStation.stationId,
+          true,
+          currtentStation.stationId === '118'
+        );
       } else {
         await __g.marker.hide(e.Id);
         quRef.value.enterStationInfo(currtentStation);
@@ -428,10 +434,12 @@ onBeforeUnmount(async () => {
 
 onMounted(async () => {
   await __g.reset();
+  // setTwinVisible(true);
+  addQuBar();
   clearTimeout(startTimer);
   startTimer = setTimeout(async () => {
     await setTwinVisible(true);
-    await addEnterTutor();
+    // await addEnterTutor();
   }, 2000);
 });
 

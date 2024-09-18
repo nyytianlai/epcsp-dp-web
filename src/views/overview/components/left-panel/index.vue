@@ -13,43 +13,45 @@
             </template>
           </div>
         </div>
-        <div class="left-title__panel line-box">
-          <!-- 储能站 cnz: '储能站'-->
-          <div class="box-title">{{ t(`${tHead}.cnz`) }}</div>
-          <div class="num-wrap">
-            <template v-for="(item, index) in state.energyStations" :key="index">
-              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-            </template>
+        <div class="last-panel">
+          <div class="left-title__panel line-box">
+            <!-- 储能站 cnz: '储能站'-->
+            <div class="box-title">{{ t(`${tHead}.cnz`) }}</div>
+            <div class="num-wrap">
+              <template v-for="(item, index) in state.energyStations" :key="index">
+                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+              </template>
+            </div>
           </div>
-        </div>
-        <div class="left-title__panel line-box">
-          <!-- 光伏站 gfz: '光伏站' -->
-          <div class="box-title">{{ t(`${tHead}.gfz`) }}</div>
-          <div class="num-wrap">
-            <template v-for="(item, index) in state.photovoltaicStations" :key="index">
-              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-            </template>
+          <div class="left-title__panel line-box">
+            <!-- 光伏站 gfz: '光伏站' -->
+            <div class="box-title">{{ t(`${tHead}.gfz`) }}</div>
+            <div class="num-wrap">
+              <template v-for="(item, index) in state.photovoltaicStations" :key="index">
+                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+              </template>
+            </div>
           </div>
-        </div>
-        <div class="left-title__panel line-box">
-          <!-- 电动自行车充换电柜 ddzxcchdg: '电动自行车充换电柜'-->
-          <div class="box-title">{{ t(`${tHead}.ddzxcchdg`) }}</div>
-          <div class="num-wrap">
-            <template
-              v-for="(item, index) in state.chargingsReplacementCabinetStations"
-              :key="index"
-            >
-              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-            </template>
+          <div class="left-title__panel line-box">
+            <!-- 电动自行车充换电柜 ddzxcchdg: '电动自行车充换电柜'-->
+            <div class="box-title">{{ t(`${tHead}.ddzxcchdg`) }}</div>
+            <div class="num-wrap">
+              <template
+                v-for="(item, index) in state.chargingsReplacementCabinetStations"
+                :key="index"
+              >
+                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+              </template>
+            </div>
           </div>
-        </div>
-        <div class="left-title__panel line-box">
-          <!-- 换电站 hdz: '换电站'-->
-          <div class="box-title">{{ t(`${tHead}.hdz`) }}</div>
-          <div class="num-wrap">
-            <template v-for="(item, index) in state.changeElectric" :key="index">
-              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-            </template>
+          <div class="left-title__panel line-box">
+            <!-- 换电站 hdz: '换电站'-->
+            <div class="box-title">{{ t(`${tHead}.hdz`) }}</div>
+            <div class="num-wrap">
+              <template v-for="(item, index) in state.changeElectric" :key="index">
+                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -99,7 +101,7 @@ const tHead = `overview.left-panel`;
 const state = reactive({
   activeBottomMenu: 'overview',
   pageNumData: [],
-  chargingStations: [] as any[],
+  chargingStations: chargingStationsFun({}),
   energyStations: [] as any[],
   photovoltaicStations: [] as any[],
   chargingsReplacementCabinetStations: [] as any[],
@@ -197,6 +199,23 @@ onMounted(async () => {
     }
   }
 }
+
+.last-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-flow: row wrap;
+
+  .left-title__panel {
+    flex: 0 0 50%;
+
+    :deep(.num-card) {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}
+
 .left-title__panel {
   flex: 1;
   // height: 0;
@@ -204,15 +223,18 @@ onMounted(async () => {
   flex-direction: column;
 }
 .num-wrap {
-  height: 100%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-flow: row wrap;
   // margin-top: 16px;
 
   :deep(.num-card) {
     // width: 49%;
-    flex: 1;
+    flex: 0 0 50%;
     width: 0;
     display: flex;
     justify-content: center;

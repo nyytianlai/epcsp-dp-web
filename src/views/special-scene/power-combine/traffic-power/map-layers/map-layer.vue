@@ -25,6 +25,7 @@ import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 import { useRoute } from 'vue-router';
+import { transformCoordsArrByType } from '@/utils/map-coord-tools';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -46,9 +47,10 @@ onMounted(async () => {
   await __g.reset();
   await getData();
 
-  addPoint();
-  await addBusLine();
-  addBusObj();
+  // addPoint();
+  // await addBusLine();
+  getBusLineData();
+  // addBusObj();
 });
 
 onBeforeUnmount(async () => {
@@ -123,6 +125,26 @@ const handleQuHeatMap = async (showHeatmap) => {
     __g.polygon.setColor('qu-' + v.areaName, endColor, null);
   });
   __g.polygon.updateEnd();
+};
+
+const getBusLineData = async () => {
+  const res = await Api.getAllBus();
+  const busPlateList = res.data.slice(0, 31).map((el) => el.plateNumber);
+  // const plateNumber = 'BS01984D';
+  const locats = await Promise.allSettled(
+    busPlateList.map((plateNumber) =>
+      Api.getGpsByPlateNumber({
+        plateNumber: plateNumber,
+        startTime: '2024-08-15 12:00:00',
+        endTime: '2024-08-15 13:30:00'
+      })
+    )
+  );
+  const list = locats
+    .filter((el: any) => el.value?.data.every((item) => item.lng && item.lat))
+    .map((el: any) => el.value?.data || []);
+  console.log(list);
+  addBusLine(list);
 };
 
 const handleRemainPoweLayer = () => {
@@ -265,41 +287,68 @@ const addBusObj = async () => {
     //   __g.customObject.moveTo(el);
     // });
   });
-  // __g.customObject.glow(
-  //   busLineList
-  //     .filter((item) => item.isHighLight)
-  //     .map((item) => ({
-  //       id: item.id,
-  //       color: [243 / 255, 218 / 255, 32 / 255, 1],
-  //       colors: [243 / 255, 218 / 255, 32 / 255, 1],
-  //       duration: 3600,
-  //       interval: 1
-  //     }))
-  // );
-  // await __g.settings.highlightColor([0, 1, 1, 1]);
-  // __g.customObject.highlight(busLineList.filter((item) => item.isHighLight).map((item) => item.id));
   __g.customObject.updateEnd();
 };
 
-const addBusLine = async () => {
+const addBusLine = async (busLineList) => {
   await __g.polyline.delete(bus_idList);
   const arr = [];
+  const arr2 = [];
+  const moveMap = {};
   busLineList.forEach((item) => {
+    const path = transformCoordsArrByType(
+      item.map((el) => [el.lng, el.lat]),
+      2
+    );
     const line = {
-      id: item.id,
+      id: item[0].plateNumber,
+      userData: JSON.stringify(item[0]),
       groupId: 'buslineGroup',
       color: [0 / 255, 255 / 255, 148 / 255, 0.9],
-      coordinates: item.path,
+      coordinates: path,
       range: [1, 10000000],
-      thickness: 300,
+      thickness: 200,
       intensity: 0.2,
       depthTest: false,
       shape: 0,
       style: 4
     };
+    const cusObj = {
+      id: item[0].plateNumber,
+      groupId: 'busObjGroup',
+      userData: JSON.stringify(item[0]),
+      pakFilePath: '@path:能源_公交车.pak',
+      assetPath: '/JC_CustomAssets/VehicleLibrary/Exhibition/能源_公交车_0',
+      range: [1, 10000000],
+      autoHeight: true,
+      location: path[0],
+      // localRotation: item.rotation,
+      isEffectRotation: true,
+      scale: [300, 300, 300],
+      supportAttach: false
+    };
+    moveMap[cusObj.id] = path.map((el, i) => {
+      return {
+        id: cusObj.id,
+        // smoothTime: i * 60 * 10,
+        time: i * 2,
+        coordinate: el,
+        // @ts-ignore
+        rotation: [0, 74, 0]
+      };
+    });
+    arr2.push(cusObj);
     arr.push(line);
   });
+
   await __g.polyline.add(arr, null);
+  await __g.customObject.add(arr2);
+  __g.customObject.updateBegin();
+  Object.keys(moveMap).forEach((key) => {
+    __g.customObject.startMove(key, 0, moveMap[key]);
+  });
+  __g.customObject.updateEnd();
+
   if (route.name !== 'powerCombine') {
     __g.customObject.delete(bus_idList);
     return;
@@ -318,7 +367,6 @@ const handleToBusTwin = async () => {
   ]);
   mapStore.changeCurrentQu('福田区');
   mapStore.changeCurrentPosition('福田区');
-  // await __g.camera.set(487515.321875, 2495233.355625, 145.108057, -19.415611, -82.359184, 2);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   id && (await __g.tileLayer.show(id));
   await __g.misc.callBPFunction({
@@ -327,16 +375,14 @@ const handleToBusTwin = async () => {
   });
   __g.camera.set(505295.399707, 2492716.725, 1553.664844, -57.992973, -90.920784, 0);
   timer = setTimeout(async () => {
-    // isPlaying.value = false;
-    // __g.customObject.show(bus_idList),
-    //   __g.polyline.show(bus_idList),
-    //   __g.marker.showByGroupId('quName'),
-    //   __g.marker.showByGroupId('busObjGroup'),
-    //   beforeAddOrExitHrStation(false);
     __g.camera.set(505295.399707, 2492716.725, 1553.664844, -57.992973, -90.920784, 0);
     id && (await __g.tileLayer.hide(id));
     id && (await __g.tileLayer.show(id));
   }, 22.44 * 1000);
+};
+
+const addBusV2g = async () => {
+  await __g.marker.deleteByGroupId('bus-v2g');
 };
 
 bus.on('map-back', async () => {
@@ -366,7 +412,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (e.Type === 'CustomObj' || e.GroupID === 'busObjGroup') {
       const data = JSON.parse(e.UserData ?? '{}');
-      data?.isHighLight && handleToBusTwin();
+      // data?.isHighLight && handleToBusTwin();
+      addBusV2g(data);
     }
   }
 

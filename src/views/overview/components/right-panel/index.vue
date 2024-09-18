@@ -1,6 +1,20 @@
 <template>
   <panel type="right">
     <div class="right-panel-wrap">
+      <div class="box ele">
+        <title-column title="今日充电实时功率信息" />
+        <charging-realtime-power :data="powerInfoNumData" />
+        <line-time-chart
+          :data="lineTimeData"
+          unit="kW"
+          :colors="lineTimeColors"
+          :customOption="{ animation: false }"
+          :chartStyle="{
+            width: '100%',
+            height: '1.89rem'
+          }"
+        />
+      </div>
       <div class="box station">
         <!-- 充储设施历年规模统计 ccsslngmtj: '充储设施历年规模统计' -->
         <title-column :title="t(`${tHead}.ccsslngmtj`)" />
@@ -27,23 +41,6 @@
           :customOption="{ legend: { itemGap: scale(10), left: 0 } }"
         />
       </div>
-      <div class="box ele">
-        <!-- 充储放电数据 ccfdsj: '充储放电数据' -->
-        <title-column :title="t(`${tHead}.ccfdsj`)" />
-        <!-- 万kwh wankwh: '万kwh' -->
-        <line-time-chart
-          :data="lineElectricData"
-          :colors="ElectricColor"
-          :yaxisName="t(`${tHead}.wankwh`)"
-          mode="onlyLine"
-          unit=""
-          :chartStyle="{
-            width: '100%',
-            height: '1.89rem'
-          }"
-          :customOption="{ legend: { itemGap: scale(0), left: 0 } }"
-        />
-      </div>
     </div>
   </panel>
 </template>
@@ -59,12 +56,16 @@ import {
 import { yearChargingStation } from '../../api.js';
 import EcResize from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
+import { lineTimeDataFun } from '@/views/charging-station/config.js';
+import { timePowerGraph } from '@/views/charging-station/api.js';
+import ChargingRealtimePower from '@/views/charging-station/components/charging-realtime-power.vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `overview.right-panel`;
 
 const co2Color = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
 const ElectricColor = ['green', 'blue', '#F9E900', '#9A4AFF', '#FF7723'];
+const lineTimeColors = ['blue'];
 // 左一柱状图
 const chongdianzhan = ref([]);
 const ecOption = ref({});
@@ -108,9 +109,26 @@ const loadYearChargingStation = async () => {
     '2024年'
   ]);
 };
+// 充电功率
+const powerInfoNumData = ref(0);
+// 充电功率折线
+const lineTimeData = ref(lineTimeDataFun());
+const getTimePowerGraph = async () => {
+  const res = await timePowerGraph();
+  lineTimeData.value = lineTimeDataFun(res.data);
+  if (res.data.length) {
+    const data = res.data || [];
+    const info = {
+      totalPower: data[data.length - 1].ratedPower,
+      realTimePower: data[data.length - 1].realTimePower
+    };
+    powerInfoNumData.value = info.realTimePower;
+  }
+};
 
 onMounted(async () => {
   loadYearChargingStation();
+  getTimePowerGraph();
 });
 </script>
 
@@ -125,6 +143,9 @@ onMounted(async () => {
   height: 0;
   display: flex;
   flex-direction: column;
+  &.ele {
+    flex-grow: 1.2;
+  }
   + .box {
     margin-top: 20px;
   }
@@ -135,6 +156,7 @@ onMounted(async () => {
     margin-top: 16px;
   }
 }
+
 .station {
   :deep(.tabs) {
     margin-top: 16px;
@@ -146,7 +168,8 @@ onMounted(async () => {
 }
 
 .ec-box {
-  height: 230px;
+  flex: 1;
+  min-height: 0;
   width: 100%;
   margin-top: 12px;
 }

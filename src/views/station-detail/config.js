@@ -2866,3 +2866,21 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
     }
   ];
 };
+
+export const columnKeyList = [
+  {
+    prop: 'cnt',
+    label: '告警数',
+    width: 2
+  },
+  {
+    prop: 'occurCount',
+    label: '已发生',
+    width: 2
+  },
+  {
+    prop: 'affirmCnt',
+    label: '已恢复',
+    width: 2
+  }
+];

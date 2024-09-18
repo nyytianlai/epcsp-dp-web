@@ -91,22 +91,73 @@ export const getBaseChartOption = () => {
   };
 };
 
-export const pageNumFun = (data = {}) => {
+export const pageNumFun = (data: any = {}) => {
   return [
     {
       name: '基线',
       num: data?.baseline,
-      unit: 'MW',
+      unit: 'MW'
     },
     {
       name: '计划',
       num: data?.planNum,
-      unit: 'MW',
+      unit: 'MW'
     },
     {
       name: '实际',
       num: data?.actualNum,
-      unit: 'MW',
+      unit: 'MW'
+    }
+  ];
+};
+
+import ztsyl from '@/views/charging-station/images/ztsyl.png';
+export const chargingStationsFun = (data: any = {}) => {
+  return [
+    {
+      img: ztsyl,
+      num: data?.['0'],
+      unit: '/个',
+      name: '充换电站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
     },
+    {
+      img: ztsyl,
+      num: data?.['1'],
+      unit: '/个',
+      name: 'V2G站',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.['2'],
+      unit: '/个',
+      name: '光伏站点',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    },
+    {
+      img: ztsyl,
+      num: data?.['3'],
+      unit: '/个',
+      name: '电动自行车充换电柜',
+      i18nKey: 'cdzhangs',
+      unitI18nKey: 'unitGe',
+      classStyleType: 'leftRightStyleGreen'
+    }
+    // {
+    //   img: ztsyl,
+    //   num: data?.euStandardStationNum,
+    //   unit: '/个',
+    //   name: '欧标站',
+    //   i18nKey: 'cdzhangs',
+    //   unitI18nKey: 'unitGe',
+    //   classStyleType: 'leftRightStyleGreen'
+    // }
   ];
 };

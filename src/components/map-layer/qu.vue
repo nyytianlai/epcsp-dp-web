@@ -299,6 +299,7 @@ const back = async () => {
   const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
   __g.infoTree.show(id);
   await __g.cameraTour.pause();
+  console.log(currentPosition.value, '99999999999999999999999');
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     await resetSz();
@@ -333,7 +334,7 @@ const resetJd = async () => {
 //重置到区
 const resetQu = async () => {
   await __g.marker.deleteByGroupId('jdStation');
-  await __g.camera.set(...quView[currentQu.value]);
+  quView[currentQu.value] && (await __g.camera.set(...quView[currentQu.value]));
   await addJdData(currentQu.value);
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
@@ -739,7 +740,8 @@ defineExpose({
   enterStationInfo,
   hideHighLightNormalStation,
   allQUIds,
-  beforeAddOrExitHrStation
+  beforeAddOrExitHrStation,
+  addHrStation
 });
 onMounted(async () => {
   __g.reset();

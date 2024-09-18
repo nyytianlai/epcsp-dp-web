@@ -124,3 +124,10 @@ export const selectDetailChargeCount = (data) => {
     data
   });
 };
+// 告警列表
+export const getAlarmList = (data) => {
+  return request.post({
+    url: '/alarmInfo/alarmList',
+    data
+  });
+};

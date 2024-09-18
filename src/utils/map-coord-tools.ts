@@ -104,14 +104,14 @@ export const transformCoordsByType = (coordinate: number[], coordinateType = 0, 
  * 批量转换
  */
 
-export const transformCoordsArrByType = (coordinates, coordinateType = 0) => {
+export const transformCoordsArrByType = (coordinates, coordinateType = 0, height = 0) => {
   if (isArray(coordinates[0])) {
     const newCoordinate = [];
     coordinates.forEach((coor) => {
-      newCoordinate.push(transformCoordsArrByType(coor, coordinateType));
+      newCoordinate.push(transformCoordsArrByType(coor, coordinateType, height));
     });
     return newCoordinate;
   } else {
-    return transformCoordsByType(coordinates, coordinateType);
+    return transformCoordsByType(coordinates, coordinateType, height);
   }
 };
