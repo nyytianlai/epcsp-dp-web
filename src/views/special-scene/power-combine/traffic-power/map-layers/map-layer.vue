@@ -482,7 +482,7 @@ const addBusV2g = async (pos) => {
         value: JSON.stringify({ ...el, stationName: el.name })
       }
     });
-
+    console.log(oPopUpUrl);
     const maxLen = `${el?.name || 0}`.length + 1;
     const marker = {
       id: el.name,

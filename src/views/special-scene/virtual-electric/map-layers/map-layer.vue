@@ -157,10 +157,10 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
     });
     console.log(oPopUpUrl);
     const maxLen = Math.max(
-      `${dataObj?.adjustableCapacity || 0}`.length,
-      `${dataObj?.adjustableResource || 0}`.length,
-      `${dataObj?.installedCapacity || 0}`.length,
-      `${dataObj?.virtualPowerPlantNum || 0}`.length
+      `${dataObj?.planNum || 0}`.length,
+      `${dataObj?.actualNum || 0}`.length,
+      `${dataObj?.actualAdjust || 0}`.length,
+      `${dataObj?.baseline || 0}`.length
     );
     const marker = {
       id: `${item.properties.QUCODE}`,
