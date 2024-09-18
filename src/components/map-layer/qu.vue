@@ -333,9 +333,8 @@ const resetJd = async () => {
 };
 //重置到区
 const resetQu = async () => {
-  console.log('0000000000000000000000000000000000000000', currentQu.value, currentPosition.value);
   await __g.marker.deleteByGroupId('jdStation');
-  await __g.camera.set(...quView[currentQu.value]);
+  quView[currentQu.value] && (await __g.camera.set(...quView[currentQu.value]));
   await addJdData(currentQu.value);
   store.changeCurrentPositionBak(currentPosition.value);
   store.changeCurrentPosition(currentQu.value);
