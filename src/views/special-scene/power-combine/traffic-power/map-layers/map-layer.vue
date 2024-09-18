@@ -498,7 +498,7 @@ const addBusV2g = async (pos) => {
       autoHidePopupWindow: false,
       popupURL: oPopUpUrl,
       popupSize: [scale(100 + maxLen * 20), scale(50)],
-      popupOffset: [-scale(100 + maxLen * 20) / 2, -scale(35)], //弹窗偏移
+      popupOffset: [-scale(100 + maxLen * 20) / 2 - 78 * 1.2, -scale(55)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
