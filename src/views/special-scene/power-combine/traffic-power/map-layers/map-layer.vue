@@ -514,12 +514,37 @@ const addBusV2g = async (pos) => {
       ],
       flowPointSizeScale: 120,
       flowRate: 0.5,
-      lineShape: 0,
-      flowShape: 1,
-      lineStyle: 0 //  0:纯色 1:箭头，2:流动点
-      // startPointShape: 1,
-      // endPointShape: 1
+      intensity: 10,
+      lineShape: 2,
+      flowShape: 0,
+      lineStyle: 2, //  0:纯色 1:箭头，2:流动点
+      startPointShape: 0,
+      endPointShape: 0,
+      startLabelShape: 0,
+      endLabelShape: 0,
+      tiling: 1
     };
+    const odLine2 = {
+      id: el.name + '_2',
+      color: [251 / 255, 217 / 255, 31 / 255, 0],
+      lineThickness: 80,
+      coordinates: [
+        transformCoordsByType(clickCoord, 2),
+        transformCoordsByType([el.longitude, el.latitude], 2)
+      ],
+      flowPointSizeScale: 120,
+      flowRate: 1,
+      intensity: 10,
+      lineShape: 2,
+      flowShape: 0,
+      lineStyle: 2, //  0:纯色 1:箭头，2:流动点
+      startPointShape: 0,
+      endPointShape: 0,
+      startLabelShape: 0,
+      endLabelShape: 0,
+      tiling: 100
+    };
+    odLines.push(odLine2);
     odLines.push(odLine);
   });
   __g.marker.add(arr, () => {
@@ -546,10 +571,14 @@ bus.on('map-back', async () => {
   //   beforeAddOrExitHrStation(false);
   // const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   // id && (await __g.tileLayer.hide(id));
+  timerMap.forEach((el) => {
+    clearTimeout(el);
+  });
   __g.marker.deleteByGroupId('attach-marker');
   __g.customObject.show(bus_idList);
   __g.polyline.show(bus_idList);
   __g.marker.deleteByGroupId('bus-v2g');
+  __g.odline.clear();
   setModelLocation(currentIndex);
 });
 
@@ -592,6 +621,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       timerMap.forEach((el) => {
         clearTimeout(el);
       });
+      timerMap = [];
       mapStore.changeCurrentQu('福田区');
       mapStore.changeCurrentPosition('福田区');
       addAttachBus(data);
