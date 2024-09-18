@@ -129,7 +129,7 @@
   <!-- gjlb: '告警列表', 告警列表 -->
   <custom-dialog v-model:visible="dialogTableVisible" :title="t(`${tHead}.gjlb`)">
     <el-table
-      :data="alarmTableData"
+      :data="scrollTableData"
       height="6.19rem"
       style="width: 100%"
       class="custom-dialog-table"

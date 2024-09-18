@@ -2869,18 +2869,18 @@ export const getSuperHeaderData = (data = {}, type = 0) => {
 
 export const columnKeyList = [
   {
-    prop: 'cnt',
-    label: '告警数',
+    prop: 'alarmTypeName',
+    label: '告警类型',
     width: 2
   },
   {
-    prop: 'occurCount',
-    label: '已发生',
+    prop: 'alarmLevelName',
+    label: '告警级别',
     width: 2
   },
   {
-    prop: 'affirmCnt',
-    label: '已恢复',
+    prop: 'alarmDesc',
+    label: '告警描述',
     width: 2
   }
 ];

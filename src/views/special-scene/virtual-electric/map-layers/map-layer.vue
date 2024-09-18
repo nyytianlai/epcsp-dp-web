@@ -1,5 +1,6 @@
 <template>
   <qu ref="quRef"></qu>
+  <legend-list :legendList="legendListData" :legendName="legendNameData" />
   <MapLeftBtn>
     <div class="remain-power" @click="handleDraw">
       <img draggable="false" :src="isDrawing ? remainPowerIconA : remainPowerIcon" />
@@ -95,6 +96,35 @@ let distributedPoint;
 
 let timer;
 
+let legendNameData = '负荷热力(kw)';
+let legendListData = ref([
+  {
+    color: 'rgb(0, 185, 255)',
+    name: '≤500',
+    type: false
+  },
+  {
+    color: 'rgb(97, 255, 0)',
+    name: '500～1000',
+    type: false
+  },
+  {
+    color: 'rgb(255, 255, 0)',
+    name: '1000～3000',
+    type: false
+  },
+  {
+    color: 'rgb(255, 132, 0)',
+    name: '3000～5000',
+    type: false
+  },
+  {
+    color: 'rgb(255, 0, 6)',
+    name: '≥5000',
+    type: false
+  }
+]);
+
 const allHeatIds = computed(() => showIds[props.activeIndex] || []);
 
 const formatTooltip = (vl) => {
@@ -103,7 +133,9 @@ const formatTooltip = (vl) => {
 
 const getData = async () => {
   const res = await Promise.all([
-    Api.adjustableCapacityDistribution(),
+    Api.getAdjustOverViewByDate({
+      dataTime: dayjs(props.adjustDate).format('YYYY-MM-DD')
+    }),
     Api.requestGeojsonData('barPosition4547')
   ]);
   drawAreaLayer(res[0]?.data, res[1]?.features);
@@ -123,6 +155,7 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
         value: JSON.stringify({ ...dataObj })
       }
     });
+    console.log(oPopUpUrl);
     const maxLen = Math.max(
       `${dataObj?.adjustableCapacity || 0}`.length,
       `${dataObj?.adjustableResource || 0}`.length,
@@ -678,7 +711,6 @@ bus.on('map-back', async () => {
   // __g.marker.showByGroupId('quName');
   // __g.marker.showByGroupId('qu');
   // addHeatLayer();
-  console.log(currentPosition.value, '1111111111111111');
   if (currentPosition.value === '深圳市') {
     __g.tileLayer.show(showIds[props.activeIndex]);
     __g.marker.showByGroupId('area-point-layer');

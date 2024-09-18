@@ -148,7 +148,7 @@ export const energyStationFun = (data = {}) => {
   return [
     {
       img: cnzzs,
-      num: 15,
+      num: data?.energyStorageStationNum,
       unit: '/个',
       name: '储能站总数',
       i18nKey: 'cnzzs',
@@ -176,7 +176,7 @@ export const photovoltaicStationFun = (data = {}) => {
     {
       img: gfzzs,
       num: '',
-      code: 'totalPhotovoltaicStations',
+      code: 'pvStationNum',
       unit: '/个',
       name: '光伏站总数',
       i18nKey: 'gfzzs',
@@ -209,7 +209,7 @@ export const chargingsReplacementCabinetFun = (data = {}) => {
   return [
     {
       img: sszs,
-      num: data?.total,
+      num: data?.electricBicycleCabinetNum,
       unit: '/个',
       name: '设施总数',
       i18nKey: 'sszs',
