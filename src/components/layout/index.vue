@@ -20,7 +20,7 @@
             <img src="./images/back.png" alt="" @click="router.push('/overview')" />
           </div> -->
           <Goback
-            v-show="currentPosition === '深圳市' && isShowMenu"
+            v-show="currentPosition === '深圳市' && isShowMenu && !$route.meta.dropDownList"
             @click="
               router.push({
                 path: '/overview',
