@@ -95,5 +95,12 @@ export default {
       url: '/busCan/getDistributedResourceDetails',
       data
     });
+  },
+  // 根据日期、行政区 查询 基线、计划、实际、实际调节
+  getAdjustOverViewByDate(data) {
+    return request.post({
+      url: '/virtualPowerPlant/getAdjustOverViewByDate',
+      data
+    });
   }
 };

@@ -25,13 +25,19 @@ import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 import { useRoute } from 'vue-router';
-import { transformCoordsArrByType } from '@/utils/map-coord-tools';
+import {
+  transformCoords,
+  transformCoordsArrByType,
+  transformCoordsByType
+} from '@/utils/map-coord-tools';
+import { bearing, point } from '@turf/turf';
+import dayjs from 'dayjs';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 const emits = defineEmits(['playTwin']);
-const bus_idList = busLineList.map((item) => item.id);
+let bus_idList = [];
 
 const showRemainPower = ref(false);
 
@@ -42,6 +48,8 @@ let timer;
 const mapStore = useMapStore();
 
 const route = useRoute();
+
+let clickCoord = [];
 
 onMounted(async () => {
   await __g.reset();
@@ -100,6 +108,9 @@ let legendListData = ref([
   }
 ]);
 let quData = [];
+let timerMap = {};
+let busLineDatas = [];
+let currentIndexMap = [];
 const getData = async () => {
   if (quData?.length) return;
   try {
@@ -144,6 +155,7 @@ const getBusLineData = async () => {
     .filter((el: any) => el.value?.data.every((item) => item.lng && item.lat))
     .map((el: any) => el.value?.data || []);
   console.log(list);
+  busLineDatas = list;
   addBusLine(list);
 };
 
@@ -290,11 +302,50 @@ const addBusObj = async () => {
   __g.customObject.updateEnd();
 };
 
+const pushData = () => {};
+
+const addAttachBus = async (data) => {
+  await __g.marker.deleteByGroupId('attach-marker');
+  const oPopUpUrl = getPopupHtml({
+    usePopupHtml: true,
+    com: 'attach-bus',
+    params: {
+      value: JSON.stringify({ ...data, stationName: data.name })
+    }
+  });
+  const marker = {
+    id: data.plateNumber,
+    groupId: 'attach-marker',
+    userData: JSON.stringify({ ...data }),
+    coordinate: [+data.lng, +data.lat],
+    anchors: [-0.5, -0.5], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [1, 1], //图片的尺寸
+    range: [1, 1000000], //可视范围
+    imagePath: getImageByCloud('bus-icon'), //显示图片路径
+    popupURL: oPopUpUrl,
+    popupSize: [scale(200), scale(90)],
+    popupOffset: [-scale(200) / 2, -scale(50)], //弹窗偏移
+    displayMode: 2,
+    autoHeight: true,
+    priority: 1,
+    occlusionCull: false,
+    autoHidePopupWindow: false
+  };
+  await __g.marker.add(marker);
+  await __g.marker.setAttachCustomObject([
+    {
+      markerId: marker.id,
+      objectId: marker.id,
+      offset: [0, 0, 0.5]
+    }
+  ]);
+  __g.marker.showPopupWindow(marker.id);
+};
+
 const addBusLine = async (busLineList) => {
   await __g.polyline.delete(bus_idList);
   const arr = [];
   const arr2 = [];
-  const moveMap = {};
   busLineList.forEach((item) => {
     const path = transformCoordsArrByType(
       item.map((el) => [el.lng, el.lat]),
@@ -325,34 +376,41 @@ const addBusLine = async (busLineList) => {
       // localRotation: item.rotation,
       isEffectRotation: true,
       scale: [300, 300, 300],
+      localRotation: [0, 74, 0],
       supportAttach: false
     };
-    moveMap[cusObj.id] = path.map((el, i) => {
-      return {
-        id: cusObj.id,
-        // smoothTime: i * 60 * 10,
-        time: i * 2,
-        coordinate: el,
-        // @ts-ignore
-        rotation: [0, 74, 0]
-      };
-    });
     arr2.push(cusObj);
     arr.push(line);
   });
 
+  bus_idList = arr.map((el) => el.id);
+
   await __g.polyline.add(arr, null);
   await __g.customObject.add(arr2);
   __g.customObject.updateBegin();
-  Object.keys(moveMap).forEach((key) => {
-    __g.customObject.startMove(key, 0, moveMap[key]);
-  });
+
   __g.customObject.updateEnd();
 
   if (route.name !== 'powerCombine') {
     __g.customObject.delete(bus_idList);
     return;
   }
+
+  // 更新车辆位置
+  __g.customObject.updateBegin();
+  busLineList.forEach((item, i) => {
+    const timeGap = dayjs(item[1].gpsTime).diff(dayjs(item[0].gpsTime), 'second');
+    currentIndexMap[i] = 1;
+    __g.customObject.setLocation(
+      item[1].plateNumber,
+      transformCoordsByType([item[1].lng, item[1].lat], 2),
+      timeGap
+    );
+  });
+  await __g.customObject.updateEnd();
+  busLineList.forEach((item, i) => {
+    pushBusData(item, 2, i);
+  });
 };
 
 const handleToBusTwin = async () => {
@@ -381,8 +439,87 @@ const handleToBusTwin = async () => {
   }, 22.44 * 1000);
 };
 
-const addBusV2g = async () => {
+const pushBusData = async (dataList, nextIndex, listIndex) => {
+  if (nextIndex < dataList.length - 1) {
+    const timeGap = dayjs(dataList[nextIndex].gpsTime).diff(
+      dayjs(nextIndex[nextIndex - 1].gpsTime),
+      'second'
+    );
+    const item = dataList[nextIndex];
+    timerMap[listIndex] = setTimeout(async () => {
+      currentIndexMap[listIndex] = nextIndex;
+      await __g.customObject.setLocation(
+        item.plateNumber,
+        transformCoordsByType([item.lng, item.lat], 2),
+        timeGap
+      );
+      pushBusData(dataList, nextIndex + 1, listIndex);
+    }, timeGap);
+  }
+};
+
+const addBusV2g = async (pos) => {
+  const res = await Api.getNearestV2GStations({
+    lng: pos[0],
+    lat: pos[1]
+  });
+
   await __g.marker.deleteByGroupId('bus-v2g');
+  const arr = [];
+  const odLines = [];
+  res?.data?.forEach((el) => {
+    // const oPopUpUrl = getPopupHtml({
+    //   usePopupHtml: true,
+    //   com: 'carnet-interaction-baoan',
+    //   params: {
+    //     value: JSON.stringify({ ...el, stationName: el.name })
+    //   }
+    // });
+
+    const maxLen = `${el?.name || 0}`.length + 1;
+    const marker = {
+      id: el.name,
+      groupId: `bus-v2g`,
+      coordinate: transformCoordsByType([el.longitude, el.latitude], 2), //坐标位置
+      anchors: [-39, 80], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [78, 80], //图片的尺寸
+      range: [1, 1000000], //可视范围
+      imagePath: getImageByCloud('qu-point'), //显示图片路径
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      autoHidePopupWindow: false,
+      // popupURL: oPopUpUrl,
+      popupSize: [scale(100 + maxLen * 8), scale(60)],
+      popupOffset: [-scale(180 + maxLen * 8) / 2, -scale(45)], //弹窗偏移
+      autoHeight: true, // 自动判断下方是否有物体
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+    };
+    arr.push(marker);
+
+    const odLine = {
+      id: el.name,
+      color: 'RGB(0,255,102)',
+      lineThickness: 100,
+      coordinates: [
+        transformCoordsByType(clickCoord, 2),
+        transformCoordsByType([el.longitude, el.latitude], 2)
+      ],
+      flowPointSizeScale: 140,
+      flowRate: 0.5,
+      lineShape: 1,
+      flowShape: 1,
+      lineStyle: 2 //  0:纯色 1:箭头，2:流动点
+      // startPointShape: 1,
+      // endPointShape: 1
+    };
+    odLines.push(odLine);
+  });
+  __g.marker.add(arr, () => {
+    __g.marker.focus(
+      arr.map((el) => el.id),
+      2000
+    );
+  });
+  __g.odline.add(odLines);
 };
 
 bus.on('map-back', async () => {
@@ -413,11 +550,25 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Type === 'CustomObj' || e.GroupID === 'busObjGroup') {
       const data = JSON.parse(e.UserData ?? '{}');
       // data?.isHighLight && handleToBusTwin();
-      addBusV2g(data);
+      const coord = transformCoords('EPSG:4547', 'EPSG:4326', [
+        e.MouseClickPoint[0],
+        e.MouseClickPoint[1]
+      ]);
+      clickCoord = coord;
+      await Promise.allSettled([
+        __g.customObject.hide(bus_idList.filter((el) => el !== data?.plateNumber)),
+        __g.polyline.hide(bus_idList.filter((el) => el !== data?.plateNumber))
+      ]);
+      addAttachBus(data);
+      // addBusV2g(coord);
     }
   }
 
   if (e.eventtype === 'MarkerCallBack') {
+    if (e.Data === 'click-recommend-line') {
+      await __g.marker.hideByGroupId('attach-marker');
+      addBusV2g(clickCoord);
+    }
   }
 });
 
