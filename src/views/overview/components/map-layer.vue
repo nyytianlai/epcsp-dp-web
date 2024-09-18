@@ -6,6 +6,24 @@
     :legendName="legendNameData"
     v-show="currentHrStationID == ''"
   />
+  <MapLeftBtn>
+    <div class="remain-power" @click="handleRemainPoweLayer">
+      <img draggable="false" :src="isPlaying ? remainPowerIconA : remainPowerIcon" />
+      <!-- <div class="name">APP</div> -->
+    </div>
+  </MapLeftBtn>
+  <CustomerDialog
+    class="app-video-dialog"
+    title=""
+    :visible="isPlaying"
+    :width="'4rem'"
+    :modal="false"
+    @close="isPlaying = false"
+  >
+    <video :src="video" controls autoplay muted loop width="100%" height="100%">
+      <source :src="video" type="video/mp4" />
+    </video>
+  </CustomerDialog>
   <!-- v-show="currentPosition == '深圳市' || currentPosition.includes('区')" -->
 </template>
 <script setup lang="ts">
@@ -13,6 +31,7 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useMapStore } from '@/stores/map';
+import MapLeftBtn from '@/components/map-left-btn.vue';
 // import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
@@ -21,6 +40,10 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useI18n } from 'vue-i18n';
+import remainPowerIcon from '../images/special-secene.png';
+import remainPowerIconA from '../images/special-secene.png';
+import CustomerDialog from '@/components/custom-dialog/index.vue';
+import video from '../APP.mp4';
 const { t } = useI18n();
 const tHead = `overview.map-layer`;
 
@@ -34,6 +57,8 @@ const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 let currtentStation: any = {};
 let timer;
+
+const isPlaying = ref(false);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   // 点击站点图标高亮
@@ -125,6 +150,10 @@ let legendListData = reactive([
     displayName: t(`${tHead}.legendListData.hdz`)
   }
 ]);
+
+const handleRemainPoweLayer = () => {
+  isPlaying.value = !isPlaying.value;
+};
 
 const addQuBar = async () => {
   const { data: res } = await getDistrictBar();
@@ -262,4 +291,34 @@ onBeforeUnmount(() => {
   clearTimeout(timer);
 });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.remain-power {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  img {
+    height: 51px;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+</style>
+<style lang="less">
+.app-video-dialog.custom-dialog.el-dialog {
+  .el-dialog__body {
+    height: 6.5rem;
+
+    video {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+</style>

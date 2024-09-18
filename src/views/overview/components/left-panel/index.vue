@@ -155,7 +155,7 @@ onMounted(async () => {
   state.changeElectric = changeElectricFun();
   loadSelectHrStationInfoForOverview();
   loadChargingStation();
-  loadTotalStatistics();
+  // loadTotalStatistics();
 });
 </script>
 

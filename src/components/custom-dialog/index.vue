@@ -6,6 +6,7 @@
     @close="emit('update:visible', false)"
     @closed="emit('closed')"
     align-center
+    :modal="modal"
   >
     <template #header>
       <div class="title-box">
@@ -37,6 +38,10 @@ const props = defineProps({
   width: {
     type: String,
     default: '15.58rem'
+  },
+  modal: {
+    type: Boolean,
+    default: true
   }
 });
 const emit = defineEmits(['update:visible', 'closed']);

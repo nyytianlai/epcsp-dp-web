@@ -308,12 +308,15 @@ const addBusObj = async () => {
 const pushData = () => {};
 
 const addAttachBus = async (data) => {
+  const res = await Api.getBusRunningInfo({
+    plateNumber: data.plateNumber
+  });
   await __g.marker.deleteByGroupId('attach-marker');
   const oPopUpUrl = getPopupHtml({
     usePopupHtml: true,
     com: 'attach-bus',
     params: {
-      value: JSON.stringify({ ...data, stationName: data.name })
+      value: JSON.stringify({ ...data, stationName: data.name, ...(res?.data || {}) })
     }
   });
   const marker = {
@@ -326,8 +329,8 @@ const addAttachBus = async (data) => {
     range: [1, 1000000], //可视范围
     imagePath: getImageByCloud('bus-icon'), //显示图片路径
     popupURL: oPopUpUrl,
-    popupSize: [scale(200), scale(90)],
-    popupOffset: [-scale(200) / 2, -scale(50)], //弹窗偏移
+    popupSize: [scale(200), scale(170)],
+    popupOffset: [-scale(200) / 2, -scale(100)], //弹窗偏移
     displayMode: 2,
     autoHeight: true,
     priority: 1,
@@ -632,7 +635,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data === 'click-recommend-line') {
       await __g.marker.hideByGroupId('attach-marker');
-      addBusV2g(clickCoord);
+      // addBusV2g(clickCoord);
+      handleToBusTwin();
     }
   }
 

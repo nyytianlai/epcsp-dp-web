@@ -4,7 +4,7 @@
       <div class="card-name">{{ item.name }}</div>
       <div class="card-value">
         {{ item.value ?? '--' }}
-        <!-- <span v-show="item.unit">{{ item.unit }}</span> -->
+        <span v-show="item.unit">{{ item.unit }}</span>
       </div>
     </div>
     <div class="bottom-btn">
@@ -28,19 +28,25 @@ const cardConfig = computed(() => {
       name: '线路编码',
       code: 'line',
       value: null
+    },
+    {
+      name: '剩余电量',
+      code: 'soc',
+      value: null,
+      unit: '%'
+    },
+    {
+      name: '车辆速度',
+      code: 'speed',
+      value: null,
+      unit: 'km/h'
+    },
+    {
+      name: '行驶里程',
+      code: 'mileage',
+      value: null,
+      unit: 'km'
     }
-    // {
-    //   name: '可调容量',
-    //   code: 'adjustableCapacity',
-    //   value: null,
-    //   unit: 'MW'
-    // },
-    // {
-    //   name: '报装容量',
-    //   code: 'installedCapacity',
-    //   value: null,
-    //   unit: 'MA'
-    // }
   ].map((item) => {
     item.value = paramsValue[item.code];
     return item;
@@ -86,7 +92,7 @@ const handleToRecommend = () => {
     white-space: nowrap;
 
     span {
-      font-size: 12px;
+      font-size: 16px;
       font-weight: 400;
     }
   }

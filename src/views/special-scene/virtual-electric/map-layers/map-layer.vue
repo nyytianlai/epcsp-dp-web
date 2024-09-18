@@ -14,7 +14,8 @@
     class="virture-dialog"
     title="资源信息"
     :visible="showDialog"
-    :width="'8rem'"
+    :width="'7rem'"
+    :modal="false"
     @close="showDialog = false"
   >
     <searchDialog :data="distributedResource" @handleDetail="handleDetail" />
@@ -502,7 +503,7 @@ const drawPoint = async (res = {}) => {
         let o1 = {
           id: `stationOut-${key}-${index}`,
           groupId: 'jdStation',
-          userData: JSON.stringify(item),
+          userData: JSON.stringify({ ...item, fromVirture: true }),
           // coordinateType: 2,
           coordinate: transformCoordsByType([item.longitude, item.latitude], 2), //坐标位置
           anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
@@ -781,5 +782,12 @@ onBeforeUnmount(async () => {
     font-weight: 400;
     color: rgba(255, 255, 255, 0.8);
   }
+}
+</style>
+<style lang="less">
+.virture-dialog.custom-dialog.el-dialog {
+  height: 300px;
+  margin-right: 0;
+  background: rgba(4, 19, 43, 0.9);
 }
 </style>
