@@ -561,19 +561,19 @@ const addBusV2g = async (pos) => {
 };
 
 bus.on('map-back', async () => {
-  // clearTimeout(timer);
-  // isPlaying.value = false;
-  // __g.misc.callBPFunction({
-  //   functionName: '停止',
-  //   objectName: '动画播放_3'
-  // });
-  // __g.customObject.show(bus_idList),
-  //   __g.polyline.show(bus_idList),
-  //   __g.marker.showByGroupId('busObjGroup'),
-  //   __g.marker.showByGroupId('quName'),
-  //   beforeAddOrExitHrStation(false);
-  // const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
-  // id && (await __g.tileLayer.hide(id));
+  clearTimeout(timer);
+  isPlaying.value = false;
+  __g.misc.callBPFunction({
+    functionName: '停止',
+    objectName: '动画播放_3'
+  });
+  __g.customObject.show(bus_idList),
+    __g.polyline.show(bus_idList),
+    __g.marker.showByGroupId('busObjGroup'),
+    __g.marker.showByGroupId('quName'),
+    beforeAddOrExitHrStation(false);
+  const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
+  id && (await __g.tileLayer.hide(id));
   timerMap.forEach((el) => {
     clearTimeout(el);
   });

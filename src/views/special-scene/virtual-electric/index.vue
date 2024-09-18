@@ -26,6 +26,8 @@ import AreaDistributed from './components/area-distributed.vue';
 import DispatcherOperation from './components/dispatcher-operation.vue';
 import VirtualPowerPlantAnnouncement from './components/virtual-power-plant-announcement.vue';
 import ActureClusterOperation from './components/acture-cluster-operation.vue';
+
+import V2G from '@/views/special-scene/carnet-interaction/components/v2g-regional-distributed.vue';
 import bus from '@/utils/bus';
 
 const aircityObj = inject('aircityObj');

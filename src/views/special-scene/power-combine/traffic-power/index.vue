@@ -6,8 +6,9 @@
       <BusPowerDistributed />
     </panel>
     <panel class="special-scene-panel right" type="right">
-      <AdjustOverview />
-      <TodayAdjustDemand />
+      <!-- <AdjustOverview />
+      <TodayAdjustDemand /> -->
+      <V2G />
       <AdjustTrendAnalysis />
     </panel>
     <map-layer v-if="aircityObj" @playTwin="playTwin" />
@@ -20,9 +21,10 @@ import MapLayer from './map-layers/map-layer.vue';
 import OperationBusOverview from './components/operation-bus-overview.vue';
 import BusPowerDistributed from './components/bus-power-distributed.vue';
 import BusPowerTrend from './components/bus-power-trend.vue';
-import AdjustOverview from './components/adjust-overview.vue';
-import TodayAdjustDemand from './components/today-adjust-demand.vue';
+// import AdjustOverview from './components/adjust-overview.vue';
+// import TodayAdjustDemand from './components/today-adjust-demand.vue';
 import AdjustTrendAnalysis from './components/adjust-trend-analysis.vue';
+import V2G from '@/views/special-scene/carnet-interaction/components/v2g-regional-distributed.vue';
 const emits = defineEmits(['playTwin']);
 const aircityObj = inject('aircityObj');
 const playTwin = (vl) => {
@@ -43,7 +45,7 @@ const playTwin = (vl) => {
   }
 
   &.right {
-    grid-template-rows: auto 1fr 1fr;
+    grid-template-rows: 576px 1fr;
   }
 }
 </style>
