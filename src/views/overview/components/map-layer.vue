@@ -140,6 +140,7 @@ let fieldTrans = {
 
 const addOutStation = async (module: number, jdcode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
+  await __g.marker.deleteByGroupId('bar-hover-pop');
   const { data: res } = await getStreetPoint({ streetId: jdcode });
   let pointArr = [];
   for (const key in res) {

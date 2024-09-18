@@ -18,7 +18,6 @@ import { getHtmlUrl, getTreeLayerIdByName } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { getImageByCloud, layerNameQuNameArr } from '@/global/config/map';
 import { scale } from '@sutpc/config';
-import { busLineList } from './map-config';
 import Api from '../api';
 import remainPowerIcon from '../images/remain-power.png';
 import remainPowerIconA from '../images/remain-power-active.png';
