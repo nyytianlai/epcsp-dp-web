@@ -116,48 +116,58 @@ export const chargingStationsFun = (data: any = {}) => {
   return [
     {
       img: ztsyl,
-      num: data?.['0'],
-      unit: '/个',
-      name: '充换电站',
-      i18nKey: 'cdzhangs',
-      unitI18nKey: 'unitGe',
-      classStyleType: 'leftRightStyleGreen'
+      children: [
+        {
+          name: '充电桩数量',
+          num: data?.['0'],
+          unit: '/个'
+        },
+        {
+          name: '装机功率',
+          num: null,
+          unit: '/KW'
+        }
+      ]
     },
     {
       img: ztsyl,
-      num: data?.['1'],
-      unit: '/个',
-      name: 'V2G站',
-      i18nKey: 'cdzhangs',
-      unitI18nKey: 'unitGe',
-      classStyleType: 'leftRightStyleGreen'
+      children: [
+        {
+          name: 'V2G桩数量',
+          unit: '/个',
+          num: data?.['1']
+        },
+        {
+          name: '装机功率',
+          unit: '/KW',
+          num: null
+        }
+      ]
     },
     {
       img: ztsyl,
-      num: data?.['2'],
-      unit: '/个',
-      name: '光伏站点',
-      i18nKey: 'cdzhangs',
-      unitI18nKey: 'unitGe',
-      classStyleType: 'leftRightStyleGreen'
+      children: [
+        {
+          name: '光伏桩数量',
+          unit: '/个',
+          num: data?.['2']
+        },
+        {
+          name: '装机功率',
+          unit: '/KW',
+          num: null
+        }
+      ]
     },
     {
       img: ztsyl,
-      num: data?.['3'],
-      unit: '/个',
-      name: '电动自行车充换电柜',
-      i18nKey: 'cdzhangs',
-      unitI18nKey: 'unitGe',
-      classStyleType: 'leftRightStyleGreen'
+      children: [
+        {
+          name: '电动自行车充换电柜',
+          unit: '/个',
+          num: data?.['3']
+        }
+      ]
     }
-    // {
-    //   img: ztsyl,
-    //   num: data?.euStandardStationNum,
-    //   unit: '/个',
-    //   name: '欧标站',
-    //   i18nKey: 'cdzhangs',
-    //   unitI18nKey: 'unitGe',
-    //   classStyleType: 'leftRightStyleGreen'
-    // }
   ];
 };
