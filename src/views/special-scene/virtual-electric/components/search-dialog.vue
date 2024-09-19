@@ -1,9 +1,24 @@
 <template>
   <div class="dialog-content">
     <div class="num-wrap">
-      <template v-for="(item, index) in chargingStations" :key="index">
-        <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
-      </template>
+      <div class="card-item" v-for="(item, index) in chargingStations" :key="index">
+        <img :src="item.img" />
+        <div class="info">
+          <div class="name">
+            <template v-for="(child, i) in item.children" :key="child.name">
+              {{ child.name
+              }}{{ item.children.length > 1 && i < item.children.length - 1 ? '/' : '' }}
+            </template>
+          </div>
+          <div class="num fontSize18DIN">
+            <template v-for="(child, i) in item.children" :key="child.name">
+              {{ child.num ?? '--' }}
+              <span class="pingfangsc">{{ child.unit }}</span>
+              {{ item.children.length > 1 && i < item.children.length - 1 ? ' /' : '' }}
+            </template>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="bottom-btns">
       <div class="detail" @click="handleDetail"><div class="content">详情</div></div>
@@ -60,29 +75,35 @@ watch(
     background: #375374;
   }
 
-  :deep(.num-card) {
-    .info {
-      justify-content: center;
+  .card-item {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 8px 8px 0;
+
+    .name {
+      font-size: 14px;
+      margin-top: -8px;
     }
 
     .num {
-      line-height: 14px !important;
+      display: flex;
+      flex-flow: row nowrap;
+      font-weight: 700;
+      color: #00f7ff;
+      line-height: 16px;
+      align-items: baseline;
+      margin-top: 4px;
+
+      span {
+        font-weight: 400;
+        font-size: 14px;
+      }
     }
 
-    .icon {
-      width: 54px !important;
-      height: auto !important;
-    }
-
-    .name {
-      line-height: 12px !important;
-      margin-bottom: 0;
-      font-size: 14px !important;
-    }
-
-    .value {
-      font-size: 16px !important;
-      line-height: 16px !important;
+    img {
+      width: 52px;
+      margin-right: 4px;
     }
   }
 }

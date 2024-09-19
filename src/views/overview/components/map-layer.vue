@@ -6,13 +6,13 @@
     :legendName="legendNameData"
     v-show="currentHrStationID == ''"
   />
-  <MapLeftBtn>
+  <!-- <MapLeftBtn>
     <div class="remain-power" @click="handleRemainPoweLayer">
       <img draggable="false" :src="isPlaying ? remainPowerIconA : remainPowerIcon" />
-      <!-- <div class="name">APP</div> -->
+      <div class="name">APP</div>
     </div>
-  </MapLeftBtn>
-  <CustomerDialog
+  </MapLeftBtn> -->
+  <!-- <CustomerDialog
     class="app-video-dialog"
     title=""
     :visible="isPlaying"
@@ -23,7 +23,7 @@
     <video :src="video" controls autoplay muted loop width="100%" height="100%">
       <source :src="video" type="video/mp4" />
     </video>
-  </CustomerDialog>
+  </CustomerDialog> -->
   <!-- v-show="currentPosition == '深圳市' || currentPosition.includes('区')" -->
 </template>
 <script setup lang="ts">
@@ -31,7 +31,7 @@ import Qu from '@/components/map-layer/qu.vue';
 import RectBar4 from '@/components/map-layer/rect-bar4.vue';
 import { inject, reactive, onMounted, onBeforeUnmount, ref, computed } from 'vue';
 import { useMapStore } from '@/stores/map';
-import MapLeftBtn from '@/components/map-left-btn.vue';
+// import MapLeftBtn from '@/components/map-left-btn.vue';
 // import { mapJdStationPoint, mapQuBar, mapJdBar } from '../config';
 import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
 import { getDistrictBar, getStreetBar, getStreetPoint } from '../api.js';
@@ -40,9 +40,9 @@ import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
 import { useI18n } from 'vue-i18n';
-import remainPowerIcon from '../images/special-secene.png';
-import remainPowerIconA from '../images/special-secene.png';
-import CustomerDialog from '@/components/custom-dialog/index.vue';
+// import remainPowerIcon from '../images/special-secene.png';
+// import remainPowerIconA from '../images/special-secene.png';
+// import CustomerDialog from '@/components/custom-dialog/index.vue';
 import video from '../APP.mp4';
 const { t } = useI18n();
 const tHead = `overview.map-layer`;

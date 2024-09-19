@@ -14,7 +14,7 @@
         ></numberFlipping>
       </div>
       <!-- ssgl: '实时功率' -->
-      <span class="unit-info">{{t(`${tHead}.ssgl`)}}/kW</span>
+      <span class="unit-info">{{ t(`${tHead}.ssgl`) }}/kW</span>
     </div>
   </div>
 </template>
@@ -30,14 +30,14 @@ const tHead = `charging-station.charging-realtime-power`;
 const props = defineProps({
   data: {
     type: Number,
-    default: 0.0
+    default: ''
   }
 });
 const { data } = toRefs(props);
 const d = reactive({
   num: 0
 });
-const isResize = ref(true);
+const isResize = ref(false);
 const number = ref();
 const isAnimation = ref(true);
 const temp = ref([]);

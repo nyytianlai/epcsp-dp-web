@@ -17,7 +17,7 @@
       </div>
       <div class="box station">
         <!-- 充储设施历年规模统计 ccsslngmtj: '充储设施历年规模统计' -->
-        <title-column :title="t(`${tHead}.ccsslngmtj`)" />
+        <title-column title="充电设施历年规模统计" />
         <tabs :data="stationTabType" @changeTab="handleStation" />
         <div class="ec-box">
           <ec-resize :option="ecOption" />

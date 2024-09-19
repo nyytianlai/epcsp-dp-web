@@ -445,7 +445,7 @@ const drawCircle = async (radius, centerPoint) => {
     coordinates: coord,
     range: [1, 200000],
     height: 1,
-    color: [75 / 255, 222 / 255, 255 / 255, 0.4],
+    color: [75 / 255, 222 / 255, 255 / 255, 0.1],
     frameColor: 'RGB(255,255,255)',
     frameThickness: 100, //边框厚度
     intensity: 1, //亮度
@@ -455,15 +455,15 @@ const drawCircle = async (radius, centerPoint) => {
     style: 10,
     tillingX: 0,
     tillingY: 0,
-    generateTop: true,
-    generateSide: true,
-    generateBottom: true
+    generateTop: false,
+    generateSide: false,
+    generateBottom: false
   };
 
   let pArr = [];
   pArr.push(p);
-  __g.polygon3d.add(pArr).then(() => {
-    __g.polygon3d.focus('circleLayer', radius / 1000 > 3 ? 7500 : 4500, 2);
+  __g.polygon3d.add(pArr).then(async () => {
+    __g.polygon3d.focus('search-circle', 15500, 0);
     showDialog.value = true;
   });
   getDistributerResource(centerPoint);
