@@ -160,8 +160,8 @@ const getData = async () => {
     column-gap: 6px;
 
     .icon {
-      width: 72px;
-      flex: 0 0 72px;
+      width: 68px;
+      flex: 0 0 68px;
     }
 
     .card-data {

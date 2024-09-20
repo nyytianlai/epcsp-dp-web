@@ -14,10 +14,6 @@
           <div class="card-name">{{ item.name }}</div>
         </div>
       </div>
-      <div class="mid-card">
-        <img src="../images/mid-icon.png" class="icon" />
-        <span class="text">光储超充和车网互动一体化站</span>
-      </div>
       <div class="card-item" v-for="(item, index) in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
@@ -28,6 +24,17 @@
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
           <div class="card-name">{{ item.name }}</div>
+        </div>
+      </div>
+
+      <div class="mid-card">
+        <img src="../images/mid-icon.png" class="icon" />
+        <span class="text">本年度累计放电量</span>
+        <div class="card-value">
+          <span class="value fontSize32DIN">
+            {{ formatWithToLocalString(4389) ?? '--' }}
+          </span>
+          <span class="unit">KWh</span>
         </div>
       </div>
     </div>
@@ -94,7 +101,7 @@ const bottomCardConfig = ref([
     icon: new URL('../images/v2g.png', import.meta.url).href
   },
   {
-    name: 'V2G桩功率',
+    name: 'V2G桩放电功率',
     code: 'pilePower',
     value: '',
     unit: 'KW',
@@ -142,17 +149,35 @@ getData();
     width: 100%;
     display: flex;
     align-items: center;
+    img {
+      width: 86px;
+    }
     .text {
       display: inline-block;
       width: 208px;
       height: 18px;
-      color: rgb(198, 209, 219);
+      color: #c6d1db;
       font-family: PingFang SC;
       font-size: 16px;
       font-weight: 500;
       line-height: 18px;
       letter-spacing: 0px;
       margin-left: 15px;
+    }
+    .card-value {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: baseline;
+      line-height: 30px;
+      .value {
+        font-weight: 700;
+        color: rgb(0, 247, 255);
+      }
+
+      .unit {
+        font-size: 14px;
+        color: rgb(0, 247, 255);
+      }
     }
   }
   .card-item {

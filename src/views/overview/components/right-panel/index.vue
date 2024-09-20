@@ -81,7 +81,6 @@ const lineCarbonData = ref(lineCarbonDataFun());
 const lineElectricData = ref(lineElectricDataFun());
 // 充电站tab点击
 const handleStation = (item) => {
-  console.log('item', item);
   switch (item.code) {
     case 1:
       ecOption.value = ecOptionFun(chongdianzhan.value, [
@@ -94,8 +93,21 @@ const handleStation = (item) => {
       break;
     case 3:
       ecOption.value = ecOptionFun(
-        [16.24, 20.45, 28.04, 51.85, 82.73],
-        ['2020年', '2021年', '2022年', '2023年', '2024年'],
+        // [4100, 18270, 29036, 40622, 60953, 84229, 93000, 97000, 126432, 287503, 375669],
+        [93000, 97000, 126432, 287503, 375669],
+        [
+          // '2014年',
+          // '2015年',
+          // '2016年',
+          // '2017年',
+          // '2018年',
+          // '2019年',
+          '2020年',
+          '2021年',
+          '2022年',
+          '2023年',
+          '2024年'
+        ],
         3
       );
       break;
