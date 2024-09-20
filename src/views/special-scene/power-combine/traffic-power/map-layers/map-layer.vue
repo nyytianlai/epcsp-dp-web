@@ -480,17 +480,74 @@ const addBusV2g = async (pos) => {
     lng: pos[0],
     lat: pos[1]
   });
-
+  const data = [
+    {
+      longitude: 114.032701,
+      latitude: 22.546226,
+      name: '香蜜湖充电站',
+      id: '005202',
+      distance: 2.6101244793292127,
+      wasteTime: 0.07,
+      maxPower: 150,
+      poleNumber: 2,
+      statuses: [
+        {
+          sid: '005202',
+          equipmentId: '0107141106101715',
+          status: 3
+        },
+        {
+          sid: '005202',
+          equipmentId: '0107141106101716',
+          status: 3
+        }
+      ]
+    },
+    {
+      longitude: 114.01357,
+      latitude: 22.565017,
+      name: '兰江山第充电站',
+      id: '1803981889021497344',
+      distance: 5.144772432998587,
+      wasteTime: 0.13,
+      maxPower: 7,
+      poleNumber: 5,
+      statuses: null
+    },
+    {
+      longitude: 114.047584,
+      latitude: 22.59432,
+      name: '民乐地铁接驳站（普天桩）',
+      id: '009371',
+      distance: 5.7448476904329695,
+      wasteTime: 0.14,
+      maxPower: 150,
+      poleNumber: 2,
+      statuses: [
+        {
+          sid: '009371',
+          equipmentId: '1092014',
+          status: 3
+        },
+        {
+          sid: '009371',
+          equipmentId: '1092013',
+          status: 3
+        }
+      ]
+    }
+  ];
   await __g.marker.deleteByGroupId('bus-v2g');
   await __g.odline.clear();
   const arr = [];
   const odLines = [];
-  res?.data?.forEach((el) => {
+  res?.data?.forEach((el, i) => {
+    // data?.forEach((el, i) => {
     const oPopUpUrl = getPopupHtml({
       usePopupHtml: true,
       com: 'recommend-bus-line',
       params: {
-        value: JSON.stringify({ ...el, stationName: el.name })
+        value: JSON.stringify({ ...el, lineName: `推荐线路${i + 1}` })
       }
     });
     const maxLen = `${el?.name || 0}`.length + 1;
@@ -498,15 +555,15 @@ const addBusV2g = async (pos) => {
       id: el.name,
       groupId: `bus-v2g`,
       coordinate: transformCoordsByType([el.longitude, el.latitude], 1), //坐标位置
-      anchors: [-39 * 1.2, 80 * 1.2], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [78 * 1.2, 80 * 1.2], //图片的尺寸
+      anchors: [-22.5, 150], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [55, 150], //图片的尺寸
       range: [1, 1000000], //可视范围
-      imagePath: getImageByCloud('qu-point'), //显示图片路径
+      imagePath: getImageByCloud('stationpoint-v2g'), //显示图片路径
       useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
       autoHidePopupWindow: false,
       popupURL: oPopUpUrl,
-      popupSize: [scale(100 + maxLen * 20), scale(50)],
-      popupOffset: [-scale(100 + maxLen * 20) / 2 - 78 * 1.2 * 0.75, -scale(55)], //弹窗偏移
+      popupSize: [scale(100 + maxLen * 20), scale(200)],
+      popupOffset: [-scale(100 + maxLen * 20) / 2 - 55 * 0.8 + 22.5, -scale(180)], //弹窗偏移
       autoHeight: true, // 自动判断下方是否有物体
       displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
     };
@@ -515,6 +572,7 @@ const addBusV2g = async (pos) => {
     const odLine = {
       id: el.name,
       color: [251 / 255, 217 / 255, 31 / 255, 0.8],
+      // color: [0 / 255, 255 / 255, 0 / 255, 0.8],
       lineThickness: 100,
       coordinates: [
         transformCoordsByType(clickCoord, 1),
@@ -523,44 +581,44 @@ const addBusV2g = async (pos) => {
       flowPointSizeScale: 120,
       flowRate: 0.5,
       intensity: 10,
-      lineShape: 2,
-      flowShape: 0,
-      lineStyle: 2, //  0:纯色 1:箭头，2:流动点
+      lineShape: 1,
+      flowShape: 1,
+      lineStyle: 0, //  0:纯色 1:箭头，2:流动点
       startPointShape: 0,
       endPointShape: 0,
       startLabelShape: 0,
       endLabelShape: 0,
       tiling: 1
     };
-    const odLine2 = {
-      id: el.name + '_2',
-      color: [251 / 255, 217 / 255, 31 / 255, 0],
-      lineThickness: 80,
-      coordinates: [
-        transformCoordsByType(clickCoord, 1),
-        transformCoordsByType([el.longitude, el.latitude], 1)
-      ],
-      flowPointSizeScale: 120,
-      flowRate: 1,
-      intensity: 10,
-      lineShape: 2,
-      flowShape: 0,
-      lineStyle: 2, //  0:纯色 1:箭头，2:流动点
-      startPointShape: 0,
-      endPointShape: 0,
-      startLabelShape: 0,
-      endLabelShape: 0,
-      tiling: 100
-    };
+    // const odLine2 = {
+    //   id: el.name + '_2',
+    //   color: [251 / 255, 217 / 255, 31 / 255, 0],
+    //   lineThickness: 80,
+    //   coordinates: [
+    //     transformCoordsByType(clickCoord, 1),
+    //     transformCoordsByType([el.longitude, el.latitude], 1)
+    //   ],
+    //   flowPointSizeScale: 120,
+    //   flowRate: 1,
+    //   intensity: 10,
+    //   lineShape: 2,
+    //   flowShape: 0,
+    //   lineStyle: 0, //  0:纯色 1:箭头，2:流动点
+    //   startPointShape: 0,
+    //   endPointShape: 0,
+    //   startLabelShape: 0,
+    //   endLabelShape: 0,
+    //   tiling: 100
+    // };
     odLineIdlist.push(odLine.id);
-    odLineIdlist.push(odLine2.id);
-    odLines.push(odLine2);
+    // odLineIdlist.push(odLine2.id);
+    // odLines.push(odLine2);
     odLines.push(odLine);
   });
   __g.marker.add(arr, () => {
     __g.marker.focus(
       arr.map((el) => el.id),
-      2000
+      5000
     );
     __g.marker.showPopupWindow(arr.map((el) => el.id));
   });
@@ -684,6 +742,7 @@ const setScaleByHeight = (height) => {
   __g.odline.updateBegin();
   odLineIdlist.forEach((el) => {
     __g.odline.setLineThickness(el, busLineWidth);
+    __g.odline.setflowPointSizeScale(el, busLineWidth * 2.5);
   });
   __g.odline.updateEnd();
 };

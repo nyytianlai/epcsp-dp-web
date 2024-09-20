@@ -62,8 +62,8 @@ watch(
 
 .num-wrap {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 50px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 60px;
   gap: 12px;
   > div {
     min-width: 0;
@@ -110,7 +110,8 @@ watch(
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
+  // justify-content: flex-end;
+  justify-content: center;
   column-gap: 12px;
 
   .detail {

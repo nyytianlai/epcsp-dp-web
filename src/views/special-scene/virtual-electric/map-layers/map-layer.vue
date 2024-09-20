@@ -4,7 +4,7 @@
   <MapLeftBtn>
     <div class="remain-power" @click="handleDraw">
       <img draggable="false" :src="isDrawing ? remainPowerIconA : remainPowerIcon" />
-      <div class="name">开始绘制</div>
+      <div class="name">响应通知</div>
     </div>
   </MapLeftBtn>
   <!-- <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
@@ -14,7 +14,7 @@
     class="virture-dialog"
     title="资源信息"
     :visible="showDialog"
-    :width="'7rem'"
+    :width="'5.2rem'"
     :modal="false"
     @close="showDialog = false"
   >
@@ -787,7 +787,7 @@ onBeforeUnmount(async () => {
 <style lang="less">
 .virture-dialog.custom-dialog.el-dialog {
   height: 300px;
-  margin-right: 200px;
+  margin-right: 400px;
   background: rgba(4, 19, 43, 0.9);
 }
 </style>
