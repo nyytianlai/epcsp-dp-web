@@ -5,7 +5,7 @@
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:个</div>
+        <div>单位:KWh</div>
         <div>单位:%</div>
       </div>
     </div>
@@ -26,16 +26,16 @@ const loading = ref(false);
 const chartConfig = [
   {
     name: '用电量',
-    code: 'stationNum',
-    color: '136, 198, 255, 1',
-    unit: '个',
+    code: 'chargeCapacity',
+    color: '34, 118, 252',
+    unit: 'KWh',
     type: 'bar'
   },
   {
     name: '占比',
-    code: 'pileNum',
-    color: '0, 255, 249, 1',
-    unit: '个',
+    code: 'chargeCapacityRatio',
+    color: '255, 207, 95, 1',
+    unit: '%',
     type: 'line'
   }
 ];
@@ -61,23 +61,13 @@ const drawChart = async (data = []) => {
       name: item.name,
       color: `rgb(${item.color})`,
       type: item.type,
-      data: data.map((obj) => obj[item.code]),
-      barWidth: scale(22),
+      data: data.map((obj) => [
+        obj.time,
+        item.unit === '%' ? obj[item.code] && (obj[item.code] * 100)?.toFixed(2) : obj[item.code]
+      ]),
+      barWidth: scale(10),
       yAxisIndex: i,
-      itemStyle: item.type === 'bar' && {
-        color: () => {
-          return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 1,
-              color: 'rgba(0, 58, 255, 0.0001)'
-            },
-            {
-              offset: 0,
-              color: '#88C6FF'
-            }
-          ]);
-        }
-      }
+      symbol: 'none'
     });
     legendData.push({
       name: item.name,
