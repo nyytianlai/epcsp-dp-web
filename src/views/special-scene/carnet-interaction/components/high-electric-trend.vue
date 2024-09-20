@@ -45,7 +45,7 @@ const ecOption = ref();
 const getData = async () => {
   loading.value = true;
   try {
-    const { data } = await Api.getV2GResourceDistribution();
+    const { data } = await Api.getV2GChargeCapacityHour();
     chartData.value = data;
   } catch (error) {}
   loading.value = false;

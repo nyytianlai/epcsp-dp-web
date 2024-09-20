@@ -41,5 +41,11 @@ export default {
     return request.post({
       url: '/vehicle/net/inter/getV2GStationPlaceDistribution'
     });
+  },
+  // 用电高峰
+  getV2GChargeCapacityHour() {
+    return request.post({
+      url: '/vehicle/net/inter/getV2GChargeCapacityHour'
+    });
   }
 };
