@@ -356,10 +356,11 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
   });
   return {
     grid: {
-      top: scale(50),
-      bottom: scale(28),
-      right: scale(5),
-      left: scale(42)
+      top: scale(40),
+      bottom: scale(0),
+      right: scale(0),
+      left: scale(0),
+      containLabel: true
     },
     legend: {
       itemWidth: scale(18),
@@ -2459,17 +2460,17 @@ export const columnDataFun = () => {
       v2gStation: 4,
       superStation: 15,
       operationNum: 75
-    },
-    {
-      areaName: '未知',
-      stationNum: '--',
-      gunNum: '--',
-      DynamicGunNum: '--',
-      DynamicGunRate: '--',
-      v2gEquipment: '--',
-      v2gStation: '--',
-      superStation: '--',
-      operationNum: 84
     }
+    // {
+    //   areaName: '未知',
+    //   stationNum: '--',
+    //   gunNum: '--',
+    //   DynamicGunNum: '--',
+    //   DynamicGunRate: '--',
+    //   v2gEquipment: '--',
+    //   v2gStation: '--',
+    //   superStation: '--',
+    //   operationNum: 84
+    // }
   ];
 };

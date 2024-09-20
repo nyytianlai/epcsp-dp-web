@@ -84,9 +84,9 @@
     </div>
   </panel>
   <CustomerDialog
-    title="动态接入情况"
+    title="各区接入情况"
     :visible="showDialog"
-    :width="'11.5rem'"
+    :width="'11.6rem'"
     @close="showDialog = false"
     style="height: auto"
   >
