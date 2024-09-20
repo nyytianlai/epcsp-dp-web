@@ -144,7 +144,7 @@ const handleQuHeatMap = async (showHeatmap) => {
 
 const getBusLineData = async () => {
   const res = await Api.getAllBus();
-  const busPlateList = res.data.slice(0, 31).map((el) => el.plateNumber);
+  const busPlateList = res?.data?.slice(0, 31).map((el) => el.plateNumber);
   // const plateNumber = 'BS01984D';
   const locats = await Promise.allSettled(
     busPlateList.map((plateNumber) =>
@@ -560,6 +560,58 @@ const addBusV2g = async (pos) => {
   __g.odline.add(odLines);
 };
 
+const handleToRecommLine = async (pos) => {
+  const res = await Api.getNearestV2GStationsLine({
+    lng: pos[0],
+    lat: pos[1]
+  });
+  await __g.marker.deleteByGroupId('bus-v2g');
+  await __g.polyline.delete(['bus-v2g-1', 'bus-v2g-2', 'bus-v2g-3']);
+  const markerList = [];
+  const lineList = [];
+  res?.data?.forEach((el, i) => {
+    const coord = el?.features[0]?.geometry?.coordinates;
+    if (coord?.length) {
+      const transCoord = transformCoordsArrByType(coord, 2);
+      console.log(transCoord);
+      const marker = {
+        id: `bus-v2g-${i + 1}`,
+        groupId: `bus-v2g`,
+        coordinate: transCoord[transCoord.length - 1], //坐标位置
+        anchors: [-39 * 1.2, 80 * 1.2], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+        imageSize: [78 * 1.2, 80 * 1.2], //图片的尺寸
+        range: [1, 1000000], //可视范围
+        imagePath: getImageByCloud('qu-point'), //显示图片路径
+        useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+        autoHidePopupWindow: false,
+        // popupURL: oPopUpUrl,
+        // popupSize: [scale(100 + maxLen * 20), scale(50)],
+        // popupOffset: [-scale(100 + maxLen * 20) / 2 - 78 * 1.2 * 0.75, -scale(55)], //弹窗偏移
+        autoHeight: false, // 自动判断下方是否有物体
+        displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      };
+      markerList.push(marker);
+      const polyline = {
+        id: `bus-v2g-${i + 1}`,
+        groupId: 'recommendLine',
+        color: [251 / 255, 217 / 255, 31 / 255, 0.8],
+        coordinates: transCoord,
+        range: [1, 10000000],
+        thickness: 120,
+        intensity: 0.8,
+        depthTest: false,
+        flowRate: 0.2,
+        shape: 0,
+        style: 4
+        // style: 2
+      };
+      lineList.push(polyline);
+    }
+  });
+  __g.marker.add(markerList);
+  __g.polyline.add(lineList);
+};
+
 bus.on('map-back', async () => {
   clearTimeout(timer);
   isPlaying.value = false;
@@ -574,6 +626,9 @@ bus.on('map-back', async () => {
     beforeAddOrExitHrStation(false);
   const id = mapStore.treeInfo.find((el) => el.name === '营运巴士' && el.type === 'EPT_Scene')?.iD;
   id && (await __g.tileLayer.hide(id));
+
+  await __g.marker.deleteByGroupId('bus-v2g');
+  await __g.polyline.delete(['bus-v2g-1', 'bus-v2g-2', 'bus-v2g-3']);
   timerMap.forEach((el) => {
     clearTimeout(el);
   });
@@ -592,16 +647,25 @@ const beforeAddOrExitHrStation = (isShow: boolean) => {
 
 const setScaleByHeight = (height) => {
   let scale = 300;
+  let busLineWidth = 120;
   if (height > 18000) {
     scale = 300;
+    busLineWidth = 120;
   } else {
     scale = Math.max((height / 18000) * 300, 100);
+    busLineWidth = Math.max((height / 18000) * 120, 50);
   }
   __g.customObject.updateBegin();
   bus_idList.forEach((el) => {
     __g.customObject.setScale(el, [scale, scale, scale]);
   });
   __g.customObject.updateEnd();
+
+  __g.polyline.updateBegin();
+  ['bus-v2g-1', 'bus-v2g-2', 'bus-v2g-3'].forEach((el) => {
+    __g.polyline.setThickness(el, busLineWidth);
+  });
+  __g.polyline.updateEnd();
 };
 
 useEmitt('AIRCITY_EVENT', async (e) => {
@@ -636,7 +700,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     if (e.Data === 'click-recommend-line') {
       await __g.marker.hideByGroupId('attach-marker');
       // addBusV2g(clickCoord);
-      handleToBusTwin();
+      // handleToBusTwin();
+      handleToRecommLine(clickCoord);
     }
   }
 

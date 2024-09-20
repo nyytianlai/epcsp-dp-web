@@ -255,6 +255,10 @@ let routesMap = [
         component: () => import('@/views/station-detail/index.vue')
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ];
 if (import.meta.env.DEV) {

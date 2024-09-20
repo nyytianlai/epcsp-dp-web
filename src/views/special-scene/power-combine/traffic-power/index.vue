@@ -2,14 +2,14 @@
   <div class="special-scene">
     <panel class="special-scene-panel left">
       <OperationBusOverview />
-      <BusPowerTrend />
       <BusPowerDistributed />
     </panel>
     <panel class="special-scene-panel right" type="right">
       <!-- <AdjustOverview />
       <TodayAdjustDemand /> -->
       <V2G />
-      <AdjustTrendAnalysis />
+      <!-- <AdjustTrendAnalysis /> -->
+      <BusPowerTrend />
     </panel>
     <map-layer v-if="aircityObj" @playTwin="playTwin" />
   </div>
@@ -41,7 +41,7 @@ const playTwin = (vl) => {
   }
 
   &.left {
-    grid-template-rows: auto 1fr 1fr;
+    grid-template-rows: auto 1fr;
   }
 
   &.right {
