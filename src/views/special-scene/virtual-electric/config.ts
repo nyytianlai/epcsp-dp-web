@@ -168,24 +168,24 @@ export const chargingStationsFun = (data: any = []) => {
         }
       ]
     },
-    {
-      img: ztsyl,
-      code: 0,
-      children: [
-        {
-          name: '换电站',
-          unit: '/个',
-          num: null,
-          code: 'cnt'
-        },
-        {
-          name: '装机功率',
-          unit: '/KW',
-          code: 'power',
-          num: null
-        }
-      ]
-    },
+    // {
+    //   img: ztsyl,
+    //   code: 0,
+    //   children: [
+    //     {
+    //       name: '换电站',
+    //       unit: '/个',
+    //       num: null,
+    //       code: 'cnt'
+    //     },
+    //     {
+    //       name: '装机功率',
+    //       unit: '/KW',
+    //       code: 'power',
+    //       num: null
+    //     }
+    //   ]
+    // },
     {
       img: ztsyl,
       code: 3,
