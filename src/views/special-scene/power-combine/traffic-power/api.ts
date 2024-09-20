@@ -69,5 +69,12 @@ export default {
       url: '/busCan/getBusRunningInfo',
       data
     });
+  },
+  // 获取最近的车辆信息,传入经纬度信息
+  getNearestV2GStationsLine(data) {
+    return request.post({
+      url: '/busCan/getNearestV2GStationsLine',
+      data
+    });
   }
 };

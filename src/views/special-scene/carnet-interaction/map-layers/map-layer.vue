@@ -12,7 +12,8 @@ import {
   getImageByCloud,
   layerNameQuNameArr,
   getTreeLayerIdByName,
-  playCamera
+  playCamera,
+  returnStationPointConfig
 } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
@@ -37,6 +38,8 @@ const showTwin = ref(false);
 const store = useVisibleComponentStore();
 const route = useRoute();
 onMounted(async () => {
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('深圳市');
   await __g.reset();
   await getData();
   await addBaoAnPoint();
@@ -44,6 +47,10 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('深圳市');
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('');
   bus.off('map-back');
   showTwin.value = false;
   await __g.cameraTour.stop();
@@ -54,8 +61,8 @@ let BaoAnTwinIds = [];
 let positionData = [];
 const getData = async () => {
   try {
-    const { data } = await Api.getV2GStationDistribution();
-    positionData = data;
+    const { data } = await Api.getV2GStationDistributionRealData();
+    positionData = data?.filter((item) => item.lng && item.lat);
     addPoint();
   } catch (error) {}
 };
@@ -74,7 +81,8 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 bus.on('map-back', () => {
-  __g.marker.showByGroupId('carnet-interaction-group', null),
+  __g.reset(4);
+  __g.marker.showByGroupId('jdStation', null),
     __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),
     __g.marker.showByGroupId('quName'),
     setBaoAnTwinVisible(false);
@@ -124,7 +132,7 @@ const beforeAddOrExitHrStation = (isShow: boolean) => {
 const handleToBaoAnTwin = async (init = false) => {
   showTwin.value = true;
   await Promise.allSettled([
-    __g.marker.hideByGroupId('carnet-interaction-group', null),
+    __g.marker.hideByGroupId('jdStation', null),
     __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null),
     __g.marker.hideByGroupId('quName'),
     setBaoAnTwinVisible(true),
@@ -154,42 +162,45 @@ const handleToBaoAnTwin = async (init = false) => {
 };
 
 const addPoint = async () => {
-  let markers = [];
+  await __g.marker.deleteByGroupId('jdStation');
+  await aircityObj.value.acApi.marker.deleteByGroupId('bar-hover-pop');
+  const pointArr = [];
+  const imgName = {
+    1: 'station50',
+    2: 'station50',
+    3: 'stationpoint-ccz',
+    4: 'stationpoint-v2g',
+    5: 'stationpoint-ccz-oubiao'
+  };
   positionData.forEach((item, index) => {
-    // const data = positionData.filter((v) => v.areaName == item.properties.QUNAME);
-    const oPopUpUrl = getPopupHtml({
-      usePopupHtml: true,
-      com: 'carnet-interaction',
-      params: {
-        value: JSON.stringify({ ...item })
-      }
-    });
-    const maxLen = `${item?.stationName || 0}`.length;
-
-    let o = {
-      id: 'carnet-interaction-' + item.stationId + '_' + index,
-      groupId: `carnet-interaction-group`,
-      coordinate: transformCoordsByType([item.stationLng, item.stationLat], 2), //坐标位置
-      anchors: [-20, 48], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [43, 48], //图片的尺寸
-      range: [1, 1000000], //可视范围
-      imagePath: getImageByCloud('chargingStation1'), //显示图片路径
-      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
-      popupURL: oPopUpUrl,
-      autoHidePopupWindow: true,
-      popupSize: [scale(100 + maxLen * 8), scale(60)],
-      popupOffset: [-scale(150 + maxLen * 8) / 2, -scale(50)], //弹窗偏移
-      autoHeight: true, // 自动判断下方是否有物体
-      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
-    };
-    markers.push(o);
+    let xoffset = item.stationName.length * 12;
+    item['xoffset'] = xoffset;
+    item['stationType'] = imgName[item.stationLogo] || 'station50';
+    let o1 = returnStationPointConfig(item);
+    if (item.isHr == 0) {
+      let o = {
+        id: 'station-' + index + '-' + item.isHr,
+        groupId: 'jdStation',
+        userData: item.isHr + '',
+        // coordinateType: 2,
+        coordinate: transformCoordsByType([item.lng, item.lat], 2),
+        anchors: [-11.5, 200],
+        imageSize: [33, 36],
+        range: [1, 150000],
+        imagePath: getImageByCloud('1'),
+        displayMode: 2,
+        autoHeight: true
+      };
+      pointArr.push(o);
+    }
+    pointArr.push(o1);
   });
-  await aircityObj.value.acApi.marker.add(markers, () => {
-    // __g.marker.hideByGroupId('carnet-interaction-group', null);
-  });
+  setTimeout(() => {
+    __g.marker.add(pointArr, null);
+  }, 1000);
 
   if (route.name !== 'carnet-interaction') {
-    __g?.marker?.deleteByGroupId('carnet-interaction-group');
+    __g?.marker?.deleteByGroupId('jdStation');
     __g?.marker?.deleteByGroupId('carnet-interaction-baoAn-group');
     return;
   }

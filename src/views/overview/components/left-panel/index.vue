@@ -86,7 +86,7 @@
   <CustomerDialog
     title="各区接入情况"
     :visible="showDialog"
-    :width="'11.6rem'"
+    :width="'12rem'"
     @close="showDialog = false"
     style="height: auto"
   >
