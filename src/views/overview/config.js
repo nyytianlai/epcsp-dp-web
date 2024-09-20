@@ -2460,17 +2460,17 @@ export const columnDataFun = () => {
       v2gStation: 4,
       superStation: 15,
       operationNum: 75
-    },
-    {
-      areaName: '未知',
-      stationNum: '--',
-      gunNum: '--',
-      DynamicGunNum: '--',
-      DynamicGunRate: '--',
-      v2gEquipment: '--',
-      v2gStation: '--',
-      superStation: '--',
-      operationNum: 84
     }
+    // {
+    //   areaName: '未知',
+    //   stationNum: '--',
+    //   gunNum: '--',
+    //   DynamicGunNum: '--',
+    //   DynamicGunRate: '--',
+    //   v2gEquipment: '--',
+    //   v2gStation: '--',
+    //   superStation: '--',
+    //   operationNum: 84
+    // }
   ];
 };
