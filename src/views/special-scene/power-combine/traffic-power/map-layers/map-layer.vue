@@ -118,6 +118,7 @@ let legendListData = ref([
 let quData = [];
 let timerMap = [];
 let busLineList = [];
+let odLineIdlist = [];
 let currentIndex = 0;
 const getData = async () => {
   if (quData?.length) return;
@@ -360,14 +361,14 @@ const setModelLocation = async (nextIndex) => {
     currentIndex = 1;
     __g.customObject.setLocation(
       item[1].plateNumber,
-      transformCoordsByType([item[nextIndex].lng, item[nextIndex].lat], 2),
-      5
+      transformCoordsByType([item[nextIndex].lng, item[nextIndex].lat], 1),
+      10
     );
   });
   await __g.customObject.updateEnd();
   busLineList.forEach((item, i) => {
     const timeGap = dayjs(item[1].gpsTime).diff(dayjs(item[0].gpsTime), 'second');
-    pushBusData(item, nextIndex + 1, i, 5);
+    pushBusData(item, nextIndex + 1, i, 10);
   });
 };
 
@@ -466,11 +467,11 @@ const pushBusData = async (dataList, nextIndex, listIndex, timeout) => {
       currentIndex = nextIndex;
       await __g.customObject.setLocation(
         item.plateNumber,
-        transformCoordsByType([item.lng, item.lat], 2),
-        5
+        transformCoordsByType([item.lng, item.lat], 1),
+        10
       );
       pushBusData(dataList, nextIndex + 1, listIndex, 2);
-    }, 5 * 1000);
+    }, 10 * 1000);
   }
 };
 
@@ -481,6 +482,7 @@ const addBusV2g = async (pos) => {
   });
 
   await __g.marker.deleteByGroupId('bus-v2g');
+  await __g.odline.clear();
   const arr = [];
   const odLines = [];
   res?.data?.forEach((el) => {
@@ -491,12 +493,11 @@ const addBusV2g = async (pos) => {
         value: JSON.stringify({ ...el, stationName: el.name })
       }
     });
-    console.log(oPopUpUrl);
     const maxLen = `${el?.name || 0}`.length + 1;
     const marker = {
       id: el.name,
       groupId: `bus-v2g`,
-      coordinate: transformCoordsByType([el.longitude, el.latitude], 2), //坐标位置
+      coordinate: transformCoordsByType([el.longitude, el.latitude], 1), //坐标位置
       anchors: [-39 * 1.2, 80 * 1.2], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
       imageSize: [78 * 1.2, 80 * 1.2], //图片的尺寸
       range: [1, 1000000], //可视范围
@@ -516,8 +517,8 @@ const addBusV2g = async (pos) => {
       color: [251 / 255, 217 / 255, 31 / 255, 0.8],
       lineThickness: 100,
       coordinates: [
-        transformCoordsByType(clickCoord, 2),
-        transformCoordsByType([el.longitude, el.latitude], 2)
+        transformCoordsByType(clickCoord, 1),
+        transformCoordsByType([el.longitude, el.latitude], 1)
       ],
       flowPointSizeScale: 120,
       flowRate: 0.5,
@@ -536,8 +537,8 @@ const addBusV2g = async (pos) => {
       color: [251 / 255, 217 / 255, 31 / 255, 0],
       lineThickness: 80,
       coordinates: [
-        transformCoordsByType(clickCoord, 2),
-        transformCoordsByType([el.longitude, el.latitude], 2)
+        transformCoordsByType(clickCoord, 1),
+        transformCoordsByType([el.longitude, el.latitude], 1)
       ],
       flowPointSizeScale: 120,
       flowRate: 1,
@@ -551,6 +552,8 @@ const addBusV2g = async (pos) => {
       endLabelShape: 0,
       tiling: 100
     };
+    odLineIdlist.push(odLine.id);
+    odLineIdlist.push(odLine2.id);
     odLines.push(odLine2);
     odLines.push(odLine);
   });
@@ -642,6 +645,7 @@ bus.on('map-back', async () => {
   __g.polyline.show(bus_idList);
   __g.marker.deleteByGroupId('bus-v2g');
   __g.odline.clear();
+  odLineIdlist = [];
   setModelLocation(currentIndex);
 
   mapStore.changeCurrentQu('');
@@ -673,7 +677,15 @@ const setScaleByHeight = (height) => {
   ['bus-v2g-1', 'bus-v2g-2', 'bus-v2g-3'].forEach((el) => {
     __g.polyline.setThickness(el, busLineWidth);
   });
+  bus_idList.forEach((el) => {
+    __g.polyline.setThickness(el, busLineWidth);
+  });
   __g.polyline.updateEnd();
+  __g.odline.updateBegin();
+  odLineIdlist.forEach((el) => {
+    __g.odline.setLineThickness(el, busLineWidth);
+  });
+  __g.odline.updateEnd();
 };
 
 useEmitt('AIRCITY_EVENT', async (e) => {

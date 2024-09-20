@@ -72,7 +72,7 @@ export const chargingStationsFun = (data = {}) => {
     },
     {
       img: ztsyl,
-      num: data?.equipmentCount,
+      num: '375,669' || data?.equipmentCount,
       unit: '/个',
       name: '充电桩',
       i18nKey: 'cdzhangs',
@@ -323,31 +323,44 @@ export const digitalTwinSiteFun = () => {
   ];
 };
 
+// export const stationTabType = [
+//   {
+//     code: 1,
+//     label: '充电站',
+//     i18nKey: 'czd',
+//     displayLabel: t(`${configHead}.stationTabType.czd`)
+//   },
+//   // {
+//   //   code: 2,
+//   //   label: '储能站'
+//   // },
+//   {
+//     code: 3,
+//     label: '光伏站',
+//     i18nKey: 'gfz',
+//     displayLabel: t(`${configHead}.stationTabType.gfz`)
+//   }
+//   // {
+//   //   code: 4,
+//   //   label: '充换电柜'
+//   // },
+//   // {
+//   //   code: 5,
+//   //   label: '换电站'
+//   // }
+// ];
+
 export const stationTabType = [
   {
     code: 1,
     label: '充电站',
-    i18nKey: 'czd',
-    displayLabel: t(`${configHead}.stationTabType.czd`)
+    displayLabel: '充电站'
   },
-  // {
-  //   code: 2,
-  //   label: '储能站'
-  // },
   {
     code: 3,
-    label: '光伏站',
-    i18nKey: 'gfz',
-    displayLabel: t(`${configHead}.stationTabType.gfz`)
+    label: '充电桩',
+    displayLabel: '充电桩'
   }
-  // {
-  //   code: 4,
-  //   label: '充换电柜'
-  // },
-  // {
-  //   code: 5,
-  //   label: '换电站'
-  // }
 ];
 
 export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
@@ -387,11 +400,12 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: `{b}：{c}${
-        code === 1
-          ? t(`${configHead}.ecOptionFun.unitGe`) || '个'
-          : t(`${configHead}.ecOptionFun.unitWKW`) || '万千瓦'
-      }`
+      formatter: `{b}：{c}${'个'}`
+      // formatter: `{b}：{c}${
+      //   code === 1
+      //     ? t(`${configHead}.ecOptionFun.unitGe`) || '个'
+      //     : t(`${configHead}.ecOptionFun.unitWKW`) || '万千瓦'
+      // }`
       // formatter:(params)=>{
       //   return params[0].value + '个'
       // }
@@ -421,11 +435,12 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
     },
     yAxis: {
       type: 'value',
-      name: `${t(`${configHead}.ecOptionFun.unit`) || '单位'}/${
-        code === 1
-          ? t(`${configHead}.ecOptionFun.unitGe`) || '个'
-          : t(`${configHead}.ecOptionFun.unitWKW`) || '万千瓦'
-      }`,
+      // name: `${t(`${configHead}.ecOptionFun.unit`) || '单位'}/${
+      //   code === 1
+      //     ? t(`${configHead}.ecOptionFun.unitGe`) || '个'
+      //     : t(`${configHead}.ecOptionFun.unitWKW`) || '万千瓦'
+      // }`,
+      name: '单位/个',
       nameTextStyle: {
         color: '#B4C0CC',
         fontSize: scale(16)
