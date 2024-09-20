@@ -112,62 +112,97 @@ export const pageNumFun = (data: any = {}) => {
 };
 
 import ztsyl from '@/views/charging-station/images/ztsyl.png';
-export const chargingStationsFun = (data: any = {}) => {
+export const chargingStationsFun = (data: any = []) => {
   return [
     {
       img: ztsyl,
+      code: 5,
       children: [
         {
           name: '充电桩数量',
-          num: data?.['0'],
+          num: null,
+          code: 'cnt',
           unit: '/个'
         },
         {
           name: '装机功率',
           num: null,
+          code: 'power',
           unit: '/KW'
         }
       ]
     },
     {
       img: ztsyl,
+      code: 6,
       children: [
         {
           name: 'V2G桩数量',
           unit: '/个',
-          num: data?.['1']
+          num: null,
+          code: 'cnt'
         },
         {
           name: '装机功率',
           unit: '/KW',
+          code: 'power',
           num: null
         }
       ]
     },
     {
       img: ztsyl,
+      code: 2,
       children: [
         {
           name: '光伏桩数量',
           unit: '/个',
-          num: data?.['2']
+          num: null,
+          code: 'cnt'
         },
         {
           name: '装机功率',
           unit: '/KW',
+          code: 'power',
           num: null
         }
       ]
     },
     {
       img: ztsyl,
+      code: 0,
+      children: [
+        {
+          name: '换电站',
+          unit: '/个',
+          num: null,
+          code: 'cnt'
+        },
+        {
+          name: '装机功率',
+          unit: '/KW',
+          code: 'power',
+          num: null
+        }
+      ]
+    },
+    {
+      img: ztsyl,
+      code: 3,
       children: [
         {
           name: '电动自行车充换电柜',
           unit: '/个',
-          num: data?.['3']
+          num: null,
+          code: 'cnt'
         }
       ]
     }
-  ];
+  ].map((item) => {
+    const fd = data.find((el) => el.type == item.code);
+    item.children.forEach((child) => {
+      child.num = fd ? fd[child.code] : null;
+    });
+    return item;
+  });
 };

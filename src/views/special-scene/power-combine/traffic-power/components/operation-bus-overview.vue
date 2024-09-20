@@ -5,19 +5,19 @@
     <div class="distributed-content">
       <div
         class="top-card-item"
+        :class="[{ 'one-row': index === bottomCardConfig.length - 1 }]"
         v-for="(item, index) in bottomCardConfig"
         :key="item.name"
-        :class="[{ 'one-row': index === 0 }]"
       >
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
-            <span class="value fontSize32DIN">
+            <span class="value fontSize30DIN">
               {{ formatWithToLocalString(item.value) ?? '--' }}
             </span>
             <span class="unit">{{ item.unit || '' }}</span>
           </div>
-          <div class="card-name">{{ item.displayName || item.name }}</div>
+          <div class="card-name">{{ item.name }}</div>
         </div>
       </div>
     </div>
@@ -37,27 +37,53 @@ const loading = ref(true);
 
 const bottomCardConfig = ref([
   {
-    name: '巴士储能电量',
-    code: 'busRemainPower',
-    value: '',
-    unit: 'kWh',
-    icon: new URL('../images/surplus-power.png', import.meta.url).href
-  },
-  {
-    name: '巴士数量',
+    name: '新能源巴士数量',
     code: 'busNum',
-    value: '',
+    value: '3850',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
-    // displayName: t(`${tHead}.bottomCardConfig.rjxslc`)
+  },
+  {
+    name: '适配V2G巴士数量',
+    code: 'v2gbusNum',
+    value: '1074',
+    unit: '辆',
+    icon: new URL('../images/bus-nums.png', import.meta.url).href
+  },
+  {
+    name: 'V2G站',
+    code: 'v2gNums',
+    value: '145',
+    unit: '个',
+    icon: new URL('../images/v2g.png', import.meta.url).href
   },
   {
     name: 'V2G桩数',
     code: 'v2gNum',
-    value: '',
+    value: '306',
     unit: '个',
     icon: new URL('../images/v2g.png', import.meta.url).href
-    // displayName: t(`${tHead}.bottomCardConfig.rjnh`)
+  },
+  {
+    name: '正在运行巴士数量',
+    code: 'runBUs',
+    value: '408',
+    unit: '辆',
+    icon: new URL('../images//bus-nums.png', import.meta.url).href
+  },
+  {
+    name: '可调度V2G巴士数量',
+    code: 'runBUs',
+    value: '13',
+    unit: '辆',
+    icon: new URL('../images//bus-nums.png', import.meta.url).href
+  },
+  {
+    name: '巴士储能电量',
+    code: 'busRemainPower',
+    value: '23566',
+    unit: 'kWh',
+    icon: new URL('../images/surplus-power.png', import.meta.url).href
   }
   // {
   //   name: '日均里程',
@@ -89,7 +115,7 @@ const getData = async () => {
   } catch (error) {}
   loading.value = false;
 };
-getData();
+// getData();
 </script>
 
 <style scoped lang="less">
@@ -134,8 +160,8 @@ getData();
     column-gap: 6px;
 
     .icon {
-      width: 86px;
-      flex: 0 0 86px;
+      width: 72px;
+      flex: 0 0 72px;
     }
 
     .card-data {
@@ -144,7 +170,7 @@ getData();
     }
 
     .card-name {
-      font-size: 16px;
+      font-size: 14px;
       color: #c6d1db;
     }
 

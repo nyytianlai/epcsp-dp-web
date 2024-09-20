@@ -457,6 +457,7 @@ const pushBusData = async (dataList, nextIndex, listIndex, timeout) => {
     //   'second'
     // );
     const item = dataList[nextIndex];
+    clearTimeout(timerMap[listIndex]);
     timerMap[listIndex] = setTimeout(async () => {
       currentIndex = nextIndex;
       await __g.customObject.setLocation(
@@ -464,7 +465,6 @@ const pushBusData = async (dataList, nextIndex, listIndex, timeout) => {
         transformCoordsByType([item.lng, item.lat], 2),
         5
       );
-      clearTimeout(timerMap[listIndex]);
       pushBusData(dataList, nextIndex + 1, listIndex, 2);
     }, 5 * 1000);
   }
