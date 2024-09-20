@@ -297,3 +297,13 @@ export const playCamera = async (__g, tortureName) => {
     curCamera && __g.camera.playAnimation(curCamera.id, null);
   }
 };
+
+export const resetSzView = async (__g) => {
+  await __g.camera.set(infoObj.ssView, 0.2);
+};
+
+// export const resetAllLayers = async (__g) => {
+//   await Promise.allSettled([
+//     __g.marker.clear()
+//   ])
+// }

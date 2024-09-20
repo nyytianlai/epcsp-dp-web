@@ -378,7 +378,7 @@ const addBusLine = async () => {
   busLineList.forEach((item) => {
     const path = transformCoordsArrByType(
       item.map((el) => [el.lng, el.lat]),
-      2
+      1
     );
     const line = {
       id: item[0].plateNumber,
@@ -576,8 +576,7 @@ const handleToRecommLine = async (pos) => {
   res?.data?.forEach((el, i) => {
     const coord = el?.features[0]?.geometry?.coordinates;
     if (coord?.length) {
-      const transCoord = transformCoordsArrByType(coord, 2);
-      console.log(transCoord);
+      const transCoord = transformCoordsArrByType(coord, 1);
       const marker = {
         id: `bus-v2g-${i + 1}`,
         groupId: `bus-v2g`,
@@ -661,7 +660,7 @@ const setScaleByHeight = (height) => {
     scale = 300;
     busLineWidth = 120;
   } else {
-    scale = Math.max((height / 18000) * 300, 100);
+    scale = Math.max((height / 18000) * 300, 10);
     busLineWidth = Math.max((height / 18000) * 120, 10);
   }
   __g.customObject.updateBegin();
@@ -681,7 +680,10 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
-    if (e.Type === 'CustomObj' || e.GroupID === 'busObjGroup') {
+    if (e.Type === 'CustomObj' && e.GroupID === 'busObjGroup') {
+      timerMap.forEach((el) => {
+        clearTimeout(el);
+      });
       const data = JSON.parse(e.UserData ?? '{}');
       // data?.isHighLight && handleToBusTwin();
       const coord = transformCoords('EPSG:4547', 'EPSG:4326', [
@@ -693,11 +695,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
         __g.customObject.hide(bus_idList.filter((el) => el !== data?.plateNumber)),
         __g.polyline.hide(bus_idList.filter((el) => el !== data?.plateNumber))
       ]);
-
-      timerMap.forEach((el) => {
-        clearTimeout(el);
-      });
-      timerMap = [];
       mapStore.changeCurrentQu('福田区');
       mapStore.changeCurrentPosition('福田区');
       addAttachBus(data);
@@ -717,7 +714,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'CameraStartMove') {
   }
 
-  if (e.eventtype === 'CameraStopMove') {
+  if (e.eventtype === 'CameraStopMove' || e.eventtype === 'CameraChanged') {
     const data = await __g.camera.get();
     const height = data?.camera[2];
     setScaleByHeight(height);

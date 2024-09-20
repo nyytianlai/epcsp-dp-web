@@ -45,7 +45,7 @@ const playTwin = (vl) => {
   }
 
   &.right {
-    grid-template-rows: 576px 1fr;
+    grid-template-rows: minmax(auto, 576px) 1fr;
   }
 }
 </style>
