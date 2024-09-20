@@ -705,9 +705,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data === 'click-recommend-line') {
       await __g.marker.hideByGroupId('attach-marker');
-      // addBusV2g(clickCoord);
+      addBusV2g(clickCoord);
       // handleToBusTwin();
-      handleToRecommLine(clickCoord);
+      // handleToRecommLine(clickCoord);
     }
   }
 

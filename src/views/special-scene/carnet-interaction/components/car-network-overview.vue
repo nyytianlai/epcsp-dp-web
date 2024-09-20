@@ -14,10 +14,10 @@
           <div class="card-name">{{ item.name }}</div>
         </div>
       </div>
-      <div class="mid-card">
+      <!-- <div class="mid-card">
         <img src="../images/mid-icon.png" class="icon" />
         <span class="text">光储超充和车网互动一体化站</span>
-      </div>
+      </div> -->
       <div class="card-item" v-for="(item, index) in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">

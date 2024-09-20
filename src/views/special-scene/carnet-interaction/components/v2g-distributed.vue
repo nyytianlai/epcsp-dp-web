@@ -1,7 +1,7 @@
 <template>
   <div class="resource-categry">
     <!-- zyfbzb: '资源分布占比' -->
-    <title-column :title="t(`${tHead}.zyfbzb`)" />
+    <title-column title="V2G资源分布占比" />
     <div class="distributed-content" v-loading="loading">
       <div class="chart-wrapper" v-show="!isEmpty">
         <ec-resize :option="ecOption" />
