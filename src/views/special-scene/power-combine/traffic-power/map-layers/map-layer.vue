@@ -51,6 +51,8 @@ const route = useRoute();
 let clickCoord = [];
 
 onMounted(async () => {
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('深圳市');
   await __g.reset();
   await getData();
   await __g.settings.setEnableCameraMovingEvent(true);
@@ -62,6 +64,8 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('深圳市');
   await __g.settings.setEnableCameraMovingEvent(false);
   timerMap.forEach((el) => {
     clearTimeout(el);
@@ -609,7 +613,9 @@ const handleToRecommLine = async (pos) => {
     }
   });
   __g.marker.add(markerList);
-  __g.polyline.add(lineList);
+  __g.polyline.add(lineList, () => {
+    __g.polyline.focus(lineList.map((el) => el.id));
+  });
 };
 
 bus.on('map-back', async () => {
@@ -638,6 +644,9 @@ bus.on('map-back', async () => {
   __g.marker.deleteByGroupId('bus-v2g');
   __g.odline.clear();
   setModelLocation(currentIndex);
+
+  mapStore.changeCurrentQu('');
+  mapStore.changeCurrentPosition('深圳市');
 });
 
 const beforeAddOrExitHrStation = (isShow: boolean) => {
@@ -653,7 +662,7 @@ const setScaleByHeight = (height) => {
     busLineWidth = 120;
   } else {
     scale = Math.max((height / 18000) * 300, 100);
-    busLineWidth = Math.max((height / 18000) * 120, 50);
+    busLineWidth = Math.max((height / 18000) * 120, 10);
   }
   __g.customObject.updateBegin();
   bus_idList.forEach((el) => {

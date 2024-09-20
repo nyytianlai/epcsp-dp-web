@@ -6,9 +6,9 @@
       <V2gBuildStatus />
     </panel>
     <panel class="special-scene-panel right" type="right">
-      <V2gModel />
+      <V2gDistributed />
       <V2gOperationRank />
-      <BrandSupport />
+      <HighElectricTrend />
     </panel>
     <map-layer v-if="aircityObj" />
   </div>
@@ -22,7 +22,9 @@ import V2G from './components/v2g-regional-distributed.vue';
 import V2gBuildStatus from './components/v2g-build-status.vue';
 import V2gModel from './components/v2g-model.vue';
 import V2gOperationRank from './components/v2g-operation-rank.vue';
+import V2gDistributed from './components/v2g-distributed.vue';
 import BrandSupport from './components/brand-support.vue';
+import HighElectricTrend from './components/high-electric-trend.vue';
 
 const aircityObj = inject('aircityObj');
 </script>
@@ -49,7 +51,7 @@ const aircityObj = inject('aircityObj');
   }
 
   &.right {
-    grid-template-rows: auto 1fr 1fr;
+    grid-template-rows: 270px 1fr 1fr;
   }
 }
 </style>

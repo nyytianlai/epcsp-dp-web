@@ -43,17 +43,17 @@ const loading = ref(true);
 const topCardConfig = ref([
   {
     name: 'V2G站数',
-    code: '',
-    value: '126',
+    code: 'stationNum',
+    value: '',
     unit: '个',
     icon: new URL('../images/v2g.png', import.meta.url).href
   },
   {
-    name: 'V2G桩数',
-    code: '',
-    value: '2203',
-    unit: '个',
-    icon: new URL('../images/v2g.png', import.meta.url).href
+    name: 'V2G站装机功率',
+    code: 'stationPower',
+    value: '',
+    unit: 'KW',
+    icon: new URL('../images/total-power.png', import.meta.url).href
   }
 ]);
 
@@ -87,26 +87,27 @@ const bottomCardConfig = ref([
   //   icon: new URL('../images/total-power.png', import.meta.url).href
   // },
   {
-    name: '已建成',
-    code: '',
+    name: 'V2G桩数',
+    code: 'pileNum',
     value: '31',
     unit: '座',
-    icon: new URL('../images/build-1.png', import.meta.url).href
+    icon: new URL('../images/v2g.png', import.meta.url).href
   },
   {
-    name: '建设中',
-    code: '',
-    value: '26',
-    unit: '座',
-    icon: new URL('../images/build-2.png', import.meta.url).href
+    name: 'V2G桩功率',
+    code: 'pilePower',
+    value: '',
+    unit: 'KW',
+    icon: new URL('../images/total-power.png', import.meta.url).href
   }
 ]);
 const getData = async () => {
   loading.value = true;
   try {
     const { data } = await Api.getVehicleNetInterOverview();
-    topCardConfig.value[0].value = data.stationNum;
-    topCardConfig.value[1].value = data.pileNum;
+    [...topCardConfig.value, ...bottomCardConfig.value].forEach((el) => {
+      el.value = data[el.code];
+    });
   } catch (error) {}
   loading.value = false;
 };
