@@ -356,10 +356,11 @@ export const ecOptionFun = (data = [], xaxis = [], code = 1) => {
   });
   return {
     grid: {
-      top: scale(50),
-      bottom: scale(28),
-      right: scale(5),
-      left: scale(42)
+      top: scale(40),
+      bottom: scale(0),
+      right: scale(0),
+      left: scale(0),
+      containLabel: true
     },
     legend: {
       itemWidth: scale(18),

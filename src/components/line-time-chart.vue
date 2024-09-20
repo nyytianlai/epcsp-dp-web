@@ -1,6 +1,6 @@
 <template>
   <div class="ec-wrap" :style="chartStyle">
-    <div class="unit" v-if="unit">{{t(`${tHead}.unit`)}}: {{ unit }}</div>
+    <div class="unit" v-if="unit">{{ t(`${tHead}.unit`) }}: {{ unit }}</div>
     <ec-resize :option="ecOption" />
   </div>
 </template>
@@ -245,10 +245,11 @@ function simplifyNum(number) {
 const ecOptionFun = () => {
   let option = {
     grid: {
-      top: scale(30),
-      bottom: scale(24),
-      right: scale(15),
-      left: scale(42),
+      top: scale(34),
+      bottom: scale(0),
+      right: scale(0),
+      left: scale(0),
+      containLabel: true
     },
     legend: {
       itemWidth: 16,
@@ -402,7 +403,7 @@ const ecOptionFunMode = () => {
       axisLabel: {
         fontFamily: 'Source Han Sans CN',
         fontSize: scale(14),
-        lineHeight: 18,
+        lineHeight: 18
         // color: '#B4C0CC'
       },
       splitLine: {
@@ -489,7 +490,7 @@ const ecOptionFunOnlyLine = () => {
       top: scale(60),
       bottom: scale(24),
       right: scale(15),
-      left: scale(42),
+      left: scale(42)
     },
     legend: {
       itemWidth: scale(16),
