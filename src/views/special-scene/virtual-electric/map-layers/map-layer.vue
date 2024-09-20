@@ -787,7 +787,7 @@ onBeforeUnmount(async () => {
 <style lang="less">
 .virture-dialog.custom-dialog.el-dialog {
   height: 300px;
-  margin-right: 0;
+  margin-right: 200px;
   background: rgba(4, 19, 43, 0.9);
 }
 </style>

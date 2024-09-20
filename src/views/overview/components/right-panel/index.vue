@@ -23,12 +23,12 @@
           <ec-resize :option="ecOption" />
         </div>
       </div>
-      <div class="box carbon-sort">
+      <div class="carbon-sort">
         <!-- 分类碳减排量 fltjpl: '分类碳减排量' -->
-        <title-column :title="t(`${tHead}.fltjpl`)" />
+        <title-column title="运营商企业充电桩排名top5" />
         <!-- <ec-resize :option="lineCarbonOption" /> -->
         <!-- 吨 ton: '吨' -->
-        <line-time-chart
+        <!-- <line-time-chart
           :data="lineCarbonData"
           :colors="co2Color"
           :yaxisName="t(`${tHead}.ton`)"
@@ -39,6 +39,11 @@
             height: '1.89rem'
           }"
           :customOption="{ legend: { itemGap: scale(10), left: 0 } }"
+        /> -->
+        <rank-list
+          class="operating-company__list"
+          :data="projectList"
+          :totalNum="projectTotalNum"
         />
       </div>
     </div>
@@ -60,6 +65,7 @@ import { lineTimeDataFun } from '@/views/charging-station/config.js';
 import { timePowerGraph } from '@/views/charging-station/api.js';
 import ChargingRealtimePower from '@/views/charging-station/components/charging-realtime-power.vue';
 import { useI18n } from 'vue-i18n';
+import { stationOpeTop10 } from '@/views/charging-station/api.js';
 const { t } = useI18n();
 const tHead = `overview.right-panel`;
 
@@ -126,9 +132,32 @@ const getTimePowerGraph = async () => {
   }
 };
 
+const projectTotalNum = ref(0);
+const projectList = ref([]);
+
+const getStationOpeTop10 = async () => {
+  const res = await stationOpeTop10('pile');
+  // console.log(res);
+  if (res?.data) {
+    const data = res.data.map((item) => {
+      return {
+        num: item.amount,
+        unit: '个', //'个',
+        name: item.operatorName
+      };
+    });
+    projectList.value = data?.slice(0, 5);
+    projectTotalNum.value = data[0].num || 0;
+  } else {
+    projectList.value = [];
+    projectTotalNum.value = 0;
+  }
+};
+
 onMounted(async () => {
   loadYearChargingStation();
   getTimePowerGraph();
+  getStationOpeTop10();
 });
 </script>
 
@@ -172,5 +201,11 @@ onMounted(async () => {
   min-height: 0;
   width: 100%;
   margin-top: 12px;
+}
+
+.operating-company__list {
+  // flex: 1;
+  // min-height: 0;
+  height: 250px;
 }
 </style>

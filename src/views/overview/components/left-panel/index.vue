@@ -2,7 +2,11 @@
   <panel>
     <div class="left-wrap">
       <!-- zdlxtj: '站点类型统计' -->
-      <title-column :title="t(`${tHead}.zdlxtj`)" />
+      <title-column
+        :title="t(`${tHead}.zdlxtj`)"
+        :showBtn="true"
+        @handleClick="handleDetailClick"
+      />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <!-- 新能源汽车充电站 -->
@@ -79,6 +83,19 @@
       </div>
     </div>
   </panel>
+  <CustomerDialog
+    title="动态接入情况"
+    :visible="showDialog"
+    :width="'11.5rem'"
+    @close="showDialog = false"
+    style="height: auto"
+  >
+    <scroll-table
+      :scrollTableData="columnDataFun()"
+      :columnKeyList="columnKeyListFun()"
+      style="height: 100%; padding-bottom: 24px"
+    />
+  </CustomerDialog>
 </template>
 
 <script lang="ts" setup>
@@ -88,13 +105,17 @@ import {
   changeElectricFun,
   chargingsReplacementCabinetFun,
   energyStationFun,
-  photovoltaicStationFun
+  photovoltaicStationFun,
+  columnKeyListFun,
+  columnDataFun
 } from '../../config.js';
 import { selectHrStationInfoForOverview, chargingStation, totalStatistics } from '../../api.js';
 
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
 import { useI18n } from 'vue-i18n';
+import CustomerDialog from '@/components/custom-dialog/index.vue';
+import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
 const { t } = useI18n();
 const tHead = `overview.left-panel`;
 
@@ -109,6 +130,9 @@ const state = reactive({
   changeElectric: [] as any[]
 });
 const store = useVisibleComponentStore();
+
+const showDialog = ref(false);
+
 // 获取数字孪生站点信息
 const loadSelectHrStationInfoForOverview = async () => {
   const res = await selectHrStationInfoForOverview();
@@ -146,6 +170,10 @@ const handlePlayUeVideo = (item) => {
   });
   // }
   bus.emit('toHr', item);
+};
+
+const handleDetailClick = () => {
+  showDialog.value = true;
 };
 
 onMounted(async () => {

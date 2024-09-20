@@ -45,11 +45,7 @@ const handleDetail = () => {
 watch(
   () => props.data,
   (val) => {
-    const obj = {};
-    val?.forEach((item: any) => {
-      obj[item.type] = item.cnt;
-    });
-    chargingStations.value = chargingStationsFun(obj);
+    chargingStations.value = chargingStationsFun(props.data);
   },
   {
     immediate: true,
@@ -94,6 +90,7 @@ watch(
       line-height: 16px;
       align-items: baseline;
       margin-top: 4px;
+      white-space: nowrap;
 
       span {
         font-weight: 400;

@@ -2286,3 +2286,190 @@ export const changeElectricFun = (data = {}) => {
     // }
   ];
 };
+
+export const columnKeyListFun = () => {
+  return [
+    {
+      prop: 'areaName',
+      label: '行政区名称',
+      width: 2
+    },
+    {
+      prop: `stationNum`,
+      label: '充电场站数量(个)',
+      width: 2
+    },
+    {
+      prop: `gunNum`,
+      label: '登记枪数(个)',
+      width: 2
+    },
+    {
+      prop: `DynamicGunNum`,
+      label: '动态接入枪(个)',
+      width: 2
+    },
+    {
+      prop: `DynamicGunRate`,
+      label: '动态接入率(%)',
+      width: 2
+    },
+    {
+      prop: `v2gEquipment`,
+      label: 'V2G桩数量(个)',
+      width: 2
+    },
+    {
+      prop: `v2gStation`,
+      label: 'V2G站点数(个)',
+      width: 2
+    },
+    {
+      prop: `superStation`,
+      label: '超充站(个)',
+      width: 2
+    },
+    {
+      prop: `operationNum`,
+      label: '运营商数量(家)',
+      width: 2
+    }
+  ];
+};
+
+export const columnDataFun = () => {
+  return [
+    {
+      areaName: '光明区',
+      stationNum: 432,
+      gunNum: 17591,
+      DynamicGunNum: 9538,
+      DynamicGunRate: 54.22,
+      v2gEquipment: 2,
+      v2gStation: 2,
+      superStation: 8,
+      operationNum: 36
+    },
+    {
+      areaName: '南山区',
+      stationNum: 1668,
+      gunNum: 41932,
+      DynamicGunNum: 29182,
+      DynamicGunRate: 69.59,
+      v2gEquipment: 34,
+      v2gStation: 6,
+      superStation: 17,
+      operationNum: 64
+    },
+    {
+      areaName: '坪山区',
+      stationNum: 353,
+      gunNum: 16620,
+      DynamicGunNum: 12191,
+      DynamicGunRate: 73.35,
+      v2gEquipment: 2,
+      v2gStation: 2,
+      superStation: 3,
+      operationNum: 8
+    },
+    {
+      areaName: '大鹏新区',
+      stationNum: 186,
+      gunNum: 5257,
+      DynamicGunNum: 4230,
+      DynamicGunRate: 80.46,
+      v2gEquipment: 0,
+      v2gStation: 0,
+      superStation: 4,
+      operationNum: 2
+    },
+    {
+      areaName: '宝安区',
+      stationNum: 2571,
+      gunNum: 77351,
+      DynamicGunNum: 43696,
+      DynamicGunRate: 56.49,
+      v2gEquipment: 37,
+      v2gStation: 16,
+      superStation: 40,
+      operationNum: 207
+    },
+    {
+      areaName: '深汕特别合作区',
+      stationNum: 45,
+      gunNum: 512,
+      DynamicGunNum: 487,
+      DynamicGunRate: 95.12,
+      v2gEquipment: 0,
+      v2gStation: 0,
+      superStation: 1,
+      operationNum: 5
+    },
+    {
+      areaName: '盐田区',
+      stationNum: 349,
+      gunNum: 7955,
+      DynamicGunNum: 5255,
+      DynamicGunRate: 66.06,
+      v2gEquipment: 5,
+      v2gStation: 3,
+      superStation: 7,
+      operationNum: 8
+    },
+    {
+      areaName: '福田区',
+      stationNum: 1525,
+      gunNum: 27565,
+      DynamicGunNum: 18681,
+      DynamicGunRate: 67.77,
+      v2gEquipment: 25,
+      v2gStation: 4,
+      superStation: 11,
+      operationNum: 48
+    },
+    {
+      areaName: '罗湖区',
+      stationNum: 887,
+      gunNum: 16594,
+      DynamicGunNum: 11089,
+      DynamicGunRate: 66.83,
+      v2gEquipment: 1,
+      v2gStation: 1,
+      superStation: 7,
+      operationNum: 33
+    },
+    {
+      areaName: '龙华区',
+      stationNum: 1235,
+      gunNum: 37013,
+      DynamicGunNum: 24116,
+      DynamicGunRate: 65.16,
+      v2gEquipment: 15,
+      v2gStation: 9,
+      superStation: 10,
+      operationNum: 48
+    },
+    {
+      areaName: '龙岗区',
+      stationNum: 2257,
+      gunNum: 67976,
+      DynamicGunNum: 44253,
+      DynamicGunRate: 65.1,
+      v2gEquipment: 10,
+      v2gStation: 4,
+      superStation: 15,
+      operationNum: 75
+    },
+    {
+      areaName: '未知',
+      stationNum: '--',
+      gunNum: '--',
+      DynamicGunNum: '--',
+      DynamicGunRate: '--',
+      v2gEquipment: '--',
+      v2gStation: '--',
+      superStation: '--',
+      operationNum: 84
+    }
+  ];
+};
