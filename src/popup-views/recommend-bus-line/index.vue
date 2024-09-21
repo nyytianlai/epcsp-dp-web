@@ -27,7 +27,8 @@ const cardConfig = computed(() => {
     {
       name: '距离',
       code: 'distance',
-      value: null
+      value: null,
+      unit: 'km'
     },
     {
       name: '前往时长',
