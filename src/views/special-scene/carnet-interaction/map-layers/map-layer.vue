@@ -49,8 +49,6 @@ onMounted(async () => {
 onBeforeUnmount(async () => {
   mapStore.changeCurrentQu('');
   mapStore.changeCurrentPosition('深圳市');
-  mapStore.changeCurrentQu('');
-  mapStore.changeCurrentPosition('');
   bus.off('map-back');
   showTwin.value = false;
   await __g.cameraTour.stop();
@@ -82,8 +80,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 
 bus.on('map-back', () => {
   __g.reset(4);
-  __g.marker.showByGroupId('jdStation', null),
-    __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),
+  // __g.marker.showByGroupId('jdStation', null),
+  addPoint();
+  __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),
     __g.marker.showByGroupId('quName'),
     setBaoAnTwinVisible(false);
   beforeAddOrExitHrStation(false);
