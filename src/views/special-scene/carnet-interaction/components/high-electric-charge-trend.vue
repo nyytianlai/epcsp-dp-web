@@ -30,7 +30,7 @@
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
         <div>单位:KWh</div>
-        <div>单位:%</div>
+        <!-- <div>单位:%</div> -->
       </div>
     </div>
   </div>
@@ -47,22 +47,24 @@ import { deepClone } from '@/utils';
 
 const isEmpty = ref(false);
 const loading = ref(false);
+
 const highlightData = ref([]);
+
 const chartConfig = [
   {
-    name: '用电量',
+    name: '充电量',
     code: 'chargeCapacity',
     color: '34, 118, 252',
     unit: 'KWh',
     type: 'bar'
-  },
-  {
-    name: '占比',
-    code: 'chargeCapacityRatio',
-    color: '255, 207, 95, 1',
-    unit: '%',
-    type: 'line'
   }
+  // {
+  //   name: '占比',
+  //   code: 'chargeCapacityRatio',
+  //   color: '255, 207, 95, 1',
+  //   unit: '%',
+  //   type: 'line'
+  // }
 ];
 const chartData = ref([]);
 const ecOption = ref();
@@ -70,7 +72,7 @@ const ecOption = ref();
 const getData = async () => {
   loading.value = true;
   try {
-    const { data } = await Api.getV2GChargeCapacityHour();
+    const { data } = await Api.getV2GChargeCapacityHourByTime();
     chartData.value = data;
     highlightData.value = deepClone(data)
       .sort((a, b) => b.chargeCapacity - a.chargeCapacity)
@@ -182,6 +184,13 @@ onMounted(async () => {
         min-width: 0;
         display: flex;
         flex-flow: column nowrap;
+        row-gap: 4px;
+      }
+
+      .item-row {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
       }
 
       .value {
@@ -190,6 +199,7 @@ onMounted(async () => {
         display: flex;
         line-height: 14px;
         align-items: baseline;
+        margin-left: 4px;
 
         .unit {
           font-size: 12px;

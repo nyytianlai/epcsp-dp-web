@@ -7,6 +7,16 @@
       <div class="name">巴士储能</div>
     </div>
   </MapLeftBtn>
+  <CustomerDialog
+    class="power-combine-dialog"
+    :title="dialogData?.name"
+    :visible="showDialog"
+    :width="'5.2rem'"
+    @close="showDialog = false"
+    style="height: auto"
+  >
+    <searchDialog :data="dialogData" @handleDetail="handleDetail" />
+  </CustomerDialog>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +34,8 @@ import remainPowerIconA from '../images/remain-power-active.png';
 import bus from '@/utils/bus';
 import { useMapStore } from '@/stores/map';
 import { useRoute } from 'vue-router';
+import CustomerDialog from '@/components/custom-dialog/index.vue';
+import searchDialog from '../components/search-dialog.vue';
 import {
   transformCoords,
   transformCoordsArrByType,
@@ -50,6 +62,9 @@ const route = useRoute();
 
 let clickCoord = [];
 
+const showDialog = ref(false);
+const dialogData = ref();
+
 onMounted(async () => {
   mapStore.changeCurrentQu('');
   mapStore.changeCurrentPosition('深圳市');
@@ -61,6 +76,8 @@ onMounted(async () => {
   // await addBusLine();
   getBusLineData();
   // addBusObj();
+
+  addBusStationPoint();
 });
 
 onBeforeUnmount(async () => {
@@ -80,6 +97,8 @@ onBeforeUnmount(async () => {
   await __g.customObject.delete(bus_idList);
   await __g.polyline.delete(bus_idList);
   await __g.marker.deleteByGroupId('busObjGroup');
+
+  await __g.marker.deleteByGroupId('bus-station');
 });
 
 let legendNameData = '巴士储能电量(kw)';
@@ -480,63 +499,7 @@ const addBusV2g = async (pos) => {
     lng: pos[0],
     lat: pos[1]
   });
-  const data = [
-    {
-      longitude: 114.032701,
-      latitude: 22.546226,
-      name: '香蜜湖充电站',
-      id: '005202',
-      distance: 2.6101244793292127,
-      wasteTime: 0.07,
-      maxPower: 150,
-      poleNumber: 2,
-      statuses: [
-        {
-          sid: '005202',
-          equipmentId: '0107141106101715',
-          status: 3
-        },
-        {
-          sid: '005202',
-          equipmentId: '0107141106101716',
-          status: 3
-        }
-      ]
-    },
-    {
-      longitude: 114.01357,
-      latitude: 22.565017,
-      name: '兰江山第充电站',
-      id: '1803981889021497344',
-      distance: 5.144772432998587,
-      wasteTime: 0.13,
-      maxPower: 7,
-      poleNumber: 5,
-      statuses: null
-    },
-    {
-      longitude: 114.047584,
-      latitude: 22.59432,
-      name: '民乐地铁接驳站（普天桩）',
-      id: '009371',
-      distance: 5.7448476904329695,
-      wasteTime: 0.14,
-      maxPower: 150,
-      poleNumber: 2,
-      statuses: [
-        {
-          sid: '009371',
-          equipmentId: '1092014',
-          status: 3
-        },
-        {
-          sid: '009371',
-          equipmentId: '1092013',
-          status: 3
-        }
-      ]
-    }
-  ];
+
   await __g.marker.deleteByGroupId('bus-v2g');
   await __g.odline.clear();
   const arr = [];
@@ -575,7 +538,7 @@ const addBusV2g = async (pos) => {
       // color: [0 / 255, 255 / 255, 0 / 255, 0.8],
       lineThickness: 100,
       coordinates: [
-        transformCoordsByType(clickCoord, 1),
+        transformCoordsByType(pos, 1),
         transformCoordsByType([el.longitude, el.latitude], 1)
       ],
       flowPointSizeScale: 120,
@@ -706,6 +669,8 @@ bus.on('map-back', async () => {
   odLineIdlist = [];
   setModelLocation(currentIndex);
 
+  await __g.marker.showByGroupId('bus-station');
+
   mapStore.changeCurrentQu('');
   mapStore.changeCurrentPosition('深圳市');
 });
@@ -747,6 +712,57 @@ const setScaleByHeight = (height) => {
   __g.odline.updateEnd();
 };
 
+const addBusStationPoint = async () => {
+  await __g.marker.deleteByGroupId('bus-station');
+  const res = await Api.getBusGroupBusTerminal();
+  const arr = [];
+  res.data?.forEach((item) => {
+    const marker = {
+      id: `${item.id}`,
+      userData: JSON.stringify(item),
+      coordinate: transformCoordsByType([item.longitude, item.latitude], 1),
+      groupId: 'bus-station',
+      anchors: [-39, 80], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [78, 80], //图片的尺寸
+      range: [1, 1000000], //可视范围
+      textRange: [1, 1000000], //可视范围
+      imagePath: getImageByCloud('qu-point'), //显示图片路径
+      // text: item.name, //显示文本
+      textOffset: [-((item.name.length * 12) / 2) - 78, -40], //文本偏移
+      textColor: [1, 1, 1, 1], //文本颜色
+      fontSize: 12, //文本字体大小
+      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
+      fontOutlineSize: 1, //字体轮廓线大小
+      fontColor: '#FFFFFF', //字体颜色
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      autoHidePopupWindow: false,
+      autoHeight: true, // 自动判断下方是否有物体
+      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+    };
+    arr.push(marker);
+  });
+  __g.marker.add(arr, null);
+};
+
+const handleDetail = async () => {
+  mapStore.changeCurrentQu('福田区');
+  mapStore.changeCurrentPosition('福田区');
+  showDialog.value = false;
+
+  await __g.marker.hideByGroupId('attach-marker');
+  await __g.marker.hideByGroupId('bus-station');
+  timerMap.forEach((el) => {
+    clearTimeout(el);
+  });
+  await Promise.allSettled([
+    __g.customObject.hide(bus_idList),
+    __g.polyline.hide(bus_idList),
+    __g.marker.hideByGroupId('attach-marker'),
+    __g.marker.hideByGroupId('bus-station')
+  ]);
+  addBusV2g([dialogData.value?.longitude, dialogData.value?.latitude]);
+};
+
 useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
@@ -771,11 +787,22 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       addAttachBus(data);
       // addBusV2g(coord);
     }
+
+    if (e.GroupID === 'bus-station') {
+      const data = JSON.parse(e.UserData ?? '{}');
+      const res = await Api.getBusGroupBusTerminalInfoById({
+        id: data?.id
+      });
+      clickCoord = [data?.longitude, data?.latitude];
+      dialogData.value = res.data;
+      showDialog.value = true;
+    }
   }
 
   if (e.eventtype === 'MarkerCallBack') {
     if (e.Data === 'click-recommend-line') {
       await __g.marker.hideByGroupId('attach-marker');
+      await __g.marker.hideByGroupId('bus-station');
       addBusV2g(clickCoord);
       // handleToBusTwin();
       // handleToRecommLine(clickCoord);

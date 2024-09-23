@@ -131,3 +131,17 @@ export const getAlarmList = (data) => {
     data
   });
 };
+// 运营商响应信息
+export const getOperatorResponseInfo = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/getOperatorResponseInfo',
+    data
+  });
+};
+// 运营商充电站信息
+export const getStationInfoPage = (data) => {
+  return request.post({
+    url: '/dp/api/v1/operator/getStationInfoPage',
+    data
+  });
+};

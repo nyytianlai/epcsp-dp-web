@@ -121,6 +121,34 @@ export const getOperatCardConfig = (data = {}) => {
         e.value = data && data[e.code];
         return e;
       })
+    },
+    {
+      name: '已接入',
+      color: '#00D2D9',
+      displayName: '已接入',
+      children: [
+        {
+          name: '超充站',
+          code: 'accessStationNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhan`),
+          displayUnit: t(`${configHead}.common.unitGe`)
+        }
+        // {
+        //   name: '超充桩',
+        //   code: 'equipmentPlanNum',
+        //   value: null,
+        //   icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+        //   unit: '个',
+        //   displayName: t(`${configHead}.common.cczhuang`),
+        //   displayUnit: t(`${configHead}.common.unitGe`)
+        // }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
     }
   ];
 };
@@ -362,6 +390,11 @@ export const areaDistributedTabType = [
     code: 'Plan',
     label: '规划',
     displayLabel: t(`${configHead}.common.guihua`)
+  },
+  {
+    code: 'Access',
+    label: '已接入',
+    displayLabel: '已接入' || t(`${configHead}.common.guihua`)
   }
 ];
 

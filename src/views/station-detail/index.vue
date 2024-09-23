@@ -1,6 +1,6 @@
 <template>
   <page-num :data="pageNumData" v-if="pageNumData?.length !== 0" :class="{ isSuper }" />
-  <panel v-if="isShowBoth">
+  <panel v-if="isShowBoth" style="z-index: 22">
     <div class="station-info">
       <!-- cdzdxx: '充电站点信息',  -->
       <title-column :title="t(`${tHead}.cdzdxx`)" />

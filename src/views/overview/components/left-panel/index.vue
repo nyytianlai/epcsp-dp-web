@@ -2,18 +2,20 @@
   <panel>
     <div class="left-wrap">
       <!-- zdlxtj: '站点类型统计' -->
-      <title-column
-        :title="t(`${tHead}.zdlxtj`)"
-        :showBtn="true"
-        @handleClick="handleDetailClick"
-      />
+      <title-column :title="t(`${tHead}.zdlxtj`)" :showBtn="true" detailText="点击充电桩" />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <!-- 新能源汽车充电站 -->
           <div class="box-title">{{ t(`${tHead}.xnyqccdz`) }}</div>
           <div class="num-wrap">
             <template v-for="(item, index) in state.chargingStations" :key="index">
-              <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+              <num-card
+                :data="item"
+                type="left-right"
+                :classStyleType="item.classStyleType"
+                :class="{ clickAbel: item.clickAble }"
+                @click="handleCardClick(item)"
+              />
             </template>
           </div>
         </div>
@@ -23,7 +25,13 @@
             <div class="box-title">{{ t(`${tHead}.cnz`) }}</div>
             <div class="num-wrap">
               <template v-for="(item, index) in state.energyStations" :key="index">
-                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+                <num-card
+                  :data="item"
+                  type="left-right"
+                  :classStyleType="item.classStyleType"
+                  :class="{ clickAbel: item.clickAble }"
+                  @click="handleCardClick(item)"
+                />
               </template>
             </div>
           </div>
@@ -32,7 +40,13 @@
             <div class="box-title">{{ t(`${tHead}.gfz`) }}</div>
             <div class="num-wrap">
               <template v-for="(item, index) in state.photovoltaicStations" :key="index">
-                <num-card :data="item" type="left-right" :classStyleType="item.classStyleType" />
+                <num-card
+                  :data="item"
+                  type="left-right"
+                  :classStyleType="item.classStyleType"
+                  :class="{ clickAbel: item.clickAble }"
+                  @click="handleCardClick(item)"
+                />
               </template>
             </div>
           </div>
@@ -91,9 +105,19 @@
     style="height: auto"
   >
     <scroll-table
-      :scrollTableData="columnDataFun()"
-      :columnKeyList="columnKeyListFun()"
-      style="height: 100%; padding-bottom: 24px"
+      :scrollTableData="tableData"
+      :columnKeyList="columns"
+      style="height: 5rem; padding-bottom: 24px; max-height: 6rem"
+    />
+    <el-pagination
+      style="margin-bottom: 12px"
+      v-if="showPagination"
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChangeRank"
     />
   </CustomerDialog>
 </template>
@@ -107,9 +131,11 @@ import {
   energyStationFun,
   photovoltaicStationFun,
   columnKeyListFun,
-  columnDataFun
+  columnDataFun,
+  getTableColumnByType
 } from '../../config.js';
 import { selectHrStationInfoForOverview, chargingStation, totalStatistics } from '../../api.js';
+import * as Api from '../../api.js';
 
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import bus from '@/utils/bus';
@@ -132,6 +158,21 @@ const state = reactive({
 const store = useVisibleComponentStore();
 
 const showDialog = ref(false);
+const columns = ref([]);
+const tableData = ref([]);
+const showPagination = ref(false);
+const apiKey = ref('');
+
+const pageObj = reactive({
+  pageSize: 10,
+  total: 0,
+  currentPage: 1
+});
+
+const handPageChangeRank = (value) => {
+  pageObj.currentPage = value;
+  loadData();
+};
 
 // 获取数字孪生站点信息
 const loadSelectHrStationInfoForOverview = async () => {
@@ -153,6 +194,7 @@ const loadChargingStation = async () => {
   state.photovoltaicStations = photovoltaicStationFun(res.data);
   state.energyStations = energyStationFun(res.data);
   state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun(res.data);
+  state.changeElectric = changeElectricFun(res.data);
 };
 // 获取电动自行车
 const loadTotalStatistics = async () => {
@@ -172,7 +214,26 @@ const handlePlayUeVideo = (item) => {
   bus.emit('toHr', item);
 };
 
-const handleDetailClick = () => {
+const loadData = async () => {
+  let param;
+  if (showPagination.value) {
+    param = {
+      pageNum: pageObj.currentPage,
+      pageSize: pageObj.pageSize
+    };
+  }
+  const res = await Api[apiKey.value](param);
+  tableData.value = res?.data?.list;
+  pageObj.total = res?.data?.total;
+};
+
+const handleCardClick = async (item) => {
+  if (!item.clickAble || !item.apiCode) return;
+  columns.value = getTableColumnByType(item.code);
+  showPagination.value = item.showPagination;
+  apiKey.value = item.apiCode;
+  await loadData();
+
   showDialog.value = true;
 };
 
@@ -261,6 +322,10 @@ onMounted(async () => {
   align-items: center;
   flex-flow: row wrap;
   // margin-top: 16px;
+
+  .clickAbel {
+    cursor: pointer;
+  }
 
   :deep(.num-card) {
     // width: 49%;

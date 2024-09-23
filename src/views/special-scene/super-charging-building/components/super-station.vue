@@ -4,7 +4,9 @@
     <title-column :title="t(`${tHead}.cczl`)" />
     <div class="overview-content" v-loading="loading">
       <div class="top-card-item" v-for="item in cardConfig1" :key="`${item.name}`">
-        <div class="card-type-name" :style="{ backgroundColor: item.color }">{{ item.displayName || item.name }}</div>
+        <div class="card-type-name" :style="{ backgroundColor: item.color }">
+          {{ item.displayName || item.name }}
+        </div>
         <div class="card-item-content" v-for="card in item.children" :key="card.name">
           <img draggable="false" :src="card.icon" class="icon" />
           <div class="card-data">
@@ -16,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="bottom-card-wrapper">
+      <!-- <div class="bottom-card-wrapper">
         <div
           class="card-item"
           v-for="item in cardConfig2"
@@ -44,7 +46,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -59,17 +61,17 @@ const { t } = useI18n();
 const tHead = `special-scene.super-charging-building.components`;
 
 const cardConfig1 = ref(getOperatCardConfig());
-const cardConfig2 = ref(getCardConfig2());
+// const cardConfig2 = ref(getCardConfig2());
 const loading = ref(true);
 const getData = async () => {
   loading.value = true;
   try {
     const res = await Api.getSuperChargeStationCount();
     cardConfig1.value = getOperatCardConfig(res?.data || {});
-    cardConfig2.value = getCardConfig2(res?.data || {});
+    // cardConfig2.value = getCardConfig2(res?.data || {});
   } catch (err) {
     cardConfig1.value = getOperatCardConfig({});
-    cardConfig2.value = getCardConfig2({});
+    // cardConfig2.value = getCardConfig2({});
   } finally {
     loading.value = false;
   }

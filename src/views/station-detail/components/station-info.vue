@@ -2,17 +2,17 @@
   <div class="station-info">
     <div class="name-wrap">
       <div class="icon"></div>
-      <div class="name">
+      <div class="name" @click="showCluster">
         <el-tooltip
           :content="data?.stationName"
           placement="top"
           v-if="data?.stationName?.length > 13"
         >
-          <div class="station-name">
+          <div class="station-name" :class="{ clickAble: isVirture }">
             {{ data?.stationName || '--' }}
           </div>
         </el-tooltip>
-        <div class="station-name" v-else>
+        <div class="station-name" v-else :class="{ clickAble: isVirture }">
           {{ data?.stationName || '--' }}
         </div>
         <span class="company-name">
@@ -40,11 +40,55 @@
       {{ stationStatus[props.data.stationStatus] }}
     </div>
   </div>
+  <CustomerDialog
+    title="响应详情"
+    :visible="showDialog"
+    :width="'12rem'"
+    @close="showDialog = false"
+    style="height: auto"
+  >
+    <div class="response-row">
+      <div class="dialog-row">
+        <label>响应次数:</label>
+        <div class="value fontSize18DIN">
+          {{ responseInfo?.responseNumber || '--' }}
+          <span>次</span>
+        </div>
+      </div>
+      <div class="dialog-row">
+        <label>响应充电量:</label>
+        <div class="value fontSize18DIN">
+          {{ responseInfo?.chargeCapacity || '--' }}
+          <span>KWh</span>
+        </div>
+      </div>
+    </div>
+    <scroll-table
+      :scrollTableData="tableData"
+      :columnKeyList="actionColumns"
+      style="height: 100%; padding-bottom: 24px; max-height: 6rem"
+    />
+    <el-pagination
+      style="margin-bottom: 12px"
+      :page-size="pageObj.pageSize"
+      layout="prev, pager, next"
+      :total="pageObj.total"
+      :background="true"
+      :current-page="pageObj.currentPage"
+      @current-change="handPageChangeRank"
+    />
+  </CustomerDialog>
 </template>
 <script lang="ts" setup>
-import { ref, toRefs, watch } from 'vue';
+import { ref, toRefs, watch, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ElMessageBox } from 'element-plus';
+import CustomerDialog from '@/components/custom-dialog/index.vue';
+import { actionColumns } from '../config.js';
+import ScrollTable from '@/views/safety-supervision/components/scroll-table.vue';
+import { getOperatorResponseInfo, getStationInfoPage } from '../api.js';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
+
 const { t } = useI18n();
 const tHead = `station-detail.components.station-info`;
 interface Data {
@@ -71,6 +115,11 @@ const props = defineProps({
     default: false
   }
 });
+
+const store = useVisibleComponentStore();
+const showDialog = ref(false);
+const tableData = ref([]);
+const responseInfo = ref<any>({});
 
 const stationProperty = {
   1: t(`${tHead}.stationProperty.gy`) || '公用',
@@ -103,6 +152,29 @@ const stationType = {
 };
 
 const { data } = toRefs(props);
+
+const pageObj = reactive({
+  pageSize: 10,
+  total: 0,
+  currentPage: 1
+});
+
+const handPageChangeRank = (value) => {
+  pageObj.currentPage = value;
+  loadData();
+};
+
+const loadData = async () => {
+  const res = await getStationInfoPage({
+    __page: pageObj.currentPage,
+    __pagesize: pageObj.pageSize,
+    operatorId: store.detailParams?.operatorId
+  });
+  console.log(data, res);
+  tableData.value = res?.data?.pageData || [];
+  pageObj.total = res?.data?.itemCount || 0;
+};
+
 const infoListFun = (data: Data) => {
   return [
     {
@@ -141,6 +213,16 @@ const infoListData = ref();
 
 const handleVoice = () => {
   ElMessageBox.confirm('确认下发通知?');
+};
+
+const showCluster = async () => {
+  if (!props.isVirture) return;
+  loadData();
+  const res = await getOperatorResponseInfo({
+    operatorId: store.detailParams?.operatorId
+  });
+  responseInfo.value = res?.data;
+  showDialog.value = true;
 };
 
 watch(data, () => {
@@ -189,6 +271,10 @@ watch(data, () => {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .clickAble {
+        cursor: pointer;
       }
 
       .company-name {
@@ -277,6 +363,36 @@ watch(data, () => {
       #fffcba 184.61%,
       rgba(255, 255, 255, 0) 510.76%
     );
+  }
+}
+
+.response-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.dialog-row {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-bottom: 8px;
+  background: #375374;
+  padding: 8px;
+
+  .value {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+    line-height: 16px;
+
+    font-weight: 700;
+    color: #00f7ff;
+
+    span {
+      font-weight: 500;
+      font-size: 12px;
+    }
   }
 }
 </style>
