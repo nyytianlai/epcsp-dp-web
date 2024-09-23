@@ -1,4 +1,5 @@
 import request from '@sutpc/axios';
+import dayjs from 'dayjs';
 export default {
   // 车网互动-左-车网互动总览
   getVehicleNetInterOverview() {
@@ -46,6 +47,16 @@ export default {
   getV2GChargeCapacityHour() {
     return request.post({
       url: '/vehicle/net/inter/getV2GChargeCapacityHour'
+    });
+  },
+  // 用电高峰
+  getV2GChargeCapacityHourByTime() {
+    return request.post({
+      url: '/vehicle/net/inter/getV2GChargeCapacityHourByTime',
+      data: {
+        startTime: dayjs().startOf('year').format('YYYY-MM-DD HH:mm:ss'),
+        endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      }
     });
   }
 };

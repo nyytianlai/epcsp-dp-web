@@ -54,5 +54,8 @@ let currentChange = (row) => {
 <style lang="less" scoped>
 :deep(.el-scrollbar__view) {
   height: 100%;
+  .el-table__empty-block {
+    height: 200px !important;
+  }
 }
 </style>

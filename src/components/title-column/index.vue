@@ -22,7 +22,9 @@
       <div class="bevel-edge"></div>
       <div class="line"></div>
       <!-- 详情 xq: '详情' -->
-      <span class="detail-btn" v-if="showBtn" @click="handleClick">{{ t(`${tHead}.xq`) }}</span>
+      <span class="detail-btn" v-if="showBtn" @click="handleClick">
+        {{ detailText || t(`${tHead}.xq`) }}
+      </span>
     </div>
     <div class="right-tab-btn" v-if="showTabBtn">
       <div
@@ -59,6 +61,7 @@ interface Props {
   title: string;
   btnText?: string;
   showBtn?: boolean;
+  detailText?: string;
   showTabBtn?: boolean;
   tabList?: TabList[];
   icon?: string;
@@ -68,6 +71,7 @@ const checkText = t(`${tHead}.check`);
 const props = withDefaults(defineProps<Props>(), {
   title: '我是标题',
   btnText: '查看更多',
+  detailText: '详情',
   showBtn: false,
   showTabBtn: false,
   // 按钮 [{value:'xxx',name:'xxx'}]

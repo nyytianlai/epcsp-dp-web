@@ -76,5 +76,18 @@ export default {
       url: '/busCan/getNearestV2GStationsLine',
       data
     });
+  },
+  // 巴士集团公交总站撒点
+  getBusGroupBusTerminal(data = {}) {
+    return request.post({
+      url: '/busCan/getBusGroupBusTerminal',
+      data
+    });
+  },
+  // 巴士集团公交总站-弹窗详情
+  getBusGroupBusTerminalInfoById(data) {
+    return request.post({
+      url: '/busCan/getBusGroupBusTerminalInfoById?id=' + data.id
+    });
   }
 };

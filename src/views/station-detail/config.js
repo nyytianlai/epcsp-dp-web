@@ -2884,3 +2884,46 @@ export const columnKeyList = [
     width: 2
   }
 ];
+
+export const actionColumns = [
+  {
+    prop: 'stationName',
+    label: '充电站名称',
+    width: 2
+  },
+  {
+    prop: 'areaName',
+    label: '行政区',
+    width: 2
+  },
+  {
+    prop: 'streetName',
+    label: '街道',
+    width: 2
+  },
+  {
+    prop: 'equipmentSum',
+    label: '充电桩数量(个)',
+    width: 2
+  },
+  {
+    prop: 'powerSum',
+    label: '充电站功率(KW)',
+    width: 2
+  },
+  {
+    prop: 'stationTypeName',
+    label: '站点性质',
+    width: 2
+  },
+  {
+    prop: 'serviceContact',
+    label: '联系人',
+    width: 2
+  },
+  {
+    prop: 'servicePhone',
+    label: '联系方式',
+    width: 2
+  }
+];

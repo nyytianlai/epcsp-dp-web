@@ -72,7 +72,7 @@ export const chargingStationsFun = (data = {}) => {
     },
     {
       img: ztsyl,
-      num: '375,669' || data?.equipmentCount,
+      num: data?.equipmentCount,
       unit: '/个',
       name: '充电桩',
       i18nKey: 'cdzhangs',
@@ -84,39 +84,49 @@ export const chargingStationsFun = (data = {}) => {
     {
       img: ztsyl,
       num: data?.superChargeStationNum,
+      code: 'superChargeStationNum',
+      apiCode: 'getSuperChargeStationStatistics',
       unit: '/个',
       name: '超充站',
       i18nKey: 'cdzhangs',
       // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true
     },
     {
       img: ztsyl,
       num: data?.v2gStationNum,
+      code: 'v2gStationNum',
+      apiCode: 'getV2GStationStatistics',
       unit: '/个',
       name: 'V2G站',
       i18nKey: 'cdzhangs',
       // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true
     },
     {
       img: ztsyl,
       num: data?.euStandardStationNum,
+      code: 'euStandardStationNum',
+      apiCode: 'getEuStandardStationStatistics',
       unit: '/个',
       name: '欧标站',
       i18nKey: 'cdzhangs',
       // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true
     },
     {
       img: cnzzs,
-      num: 5100,
+      num: data?.g5StationNum,
+      code: '5GenergyStorageStationNum',
       unit: '/个',
       name: '5G储能基站',
       i18nKey: 'cdzhangs',
@@ -160,13 +170,17 @@ export const energyStationFun = (data = {}) => {
     {
       img: cnzzs,
       num: data?.energyStorageStationNum,
+      code: 'energyStorageStationNum',
       unit: '/个',
       name: '储能站总数',
+      apiCode: 'getEnergyStorageStationStatistics',
       i18nKey: 'cnzzs',
       displayName: t(`${configHead}.energyStationFun.cnzzs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.energyStationFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true,
+      showPagination: true
     }
     // {
     //   img: ncd,
@@ -190,11 +204,14 @@ export const photovoltaicStationFun = (data = {}) => {
       code: 'pvStationNum',
       unit: '/个',
       name: '光伏站总数',
+      apiCode: 'getPhotovoltaicStationStatistics',
       i18nKey: 'gfzzs',
       displayName: t(`${configHead}.photovoltaicStationFun.gfzzs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.photovoltaicStationFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true,
+      showPagination: true
     }
     // {
     //   img: nfdl,
@@ -2280,7 +2297,7 @@ export const changeElectricFun = (data = {}) => {
   return [
     {
       img: cnzzs,
-      num: 49,
+      num: data?.electricExchangeStationNum,
       unit: '/个',
       name: '换电站总数',
       i18nKey: 'hdzzs',
@@ -2488,4 +2505,187 @@ export const columnDataFun = () => {
     //   operationNum: 84
     // }
   ];
+};
+
+export const getTableColumnByType = (type) => {
+  switch (type) {
+    case 'superChargeStationNum':
+      return [
+        {
+          prop: 'areaName',
+          label: '行政区名称',
+          width: 2
+        },
+        {
+          prop: `stationCount`,
+          label: '超充站数量(个)',
+          width: 2
+        },
+        {
+          prop: `pileCount`,
+          label: '超充桩数量(个)',
+          width: 2
+        },
+        {
+          prop: `maxPower`,
+          label: '单枪最大功率(KW)',
+          width: 2
+        },
+        {
+          prop: `totalPower`,
+          label: '站点总功率(KW)',
+          width: 2
+        }
+      ];
+    case 'v2gStationNum':
+      return [
+        {
+          prop: 'areaName',
+          label: '行政区名称',
+          width: 2
+        },
+        {
+          prop: `stationCount`,
+          label: 'V2G站数量(个)',
+          width: 2
+        },
+        {
+          prop: `pileCount`,
+          label: 'V2G桩数量(个)',
+          width: 2
+        },
+        {
+          prop: `v2gPower`,
+          label: 'V2G桩放电功率(KW)',
+          width: 2
+        },
+        {
+          prop: `totalPower`,
+          label: '站点总功率(KW)',
+          width: 2
+        }
+      ];
+    case 'euStandardStationNum':
+      return [
+        {
+          prop: `stationName`,
+          label: '欧标场站名称',
+          width: 2
+        },
+        {
+          prop: `areaName`,
+          label: '行政区',
+          width: 2
+        },
+        {
+          prop: `streetName`,
+          label: '街道',
+          width: 2
+        },
+        {
+          prop: 'euPileCount',
+          label: '欧标桩数量(个)',
+          width: 2
+        },
+        {
+          prop: `euPilePower`,
+          label: '欧标桩功率(KW)',
+          width: 2
+        },
+        {
+          prop: `totalPower`,
+          label: '站点总功率(KW)',
+          width: 2
+        }
+      ];
+    case 'energyStorageStationNum':
+      return [
+        {
+          prop: `stationName`,
+          label: '储能站名称',
+          width: 2
+        },
+        {
+          prop: `areaName`,
+          label: '行政区',
+          width: 2
+        },
+        {
+          prop: `streetName`,
+          label: '街道',
+          width: 2
+        },
+        {
+          prop: 'capacity',
+          label: '站点装机容量',
+          width: 2
+        }
+      ];
+    case 'pvStationNum':
+      return [
+        {
+          prop: `areaName`,
+          label: '行政区',
+          width: 2
+        },
+        {
+          prop: `stationCount`,
+          label: '光伏站数量(个)',
+          width: 2
+        },
+        {
+          prop: 'capacity',
+          label: '站点装机容量',
+          width: 2
+        }
+      ];
+    default:
+      return [
+        {
+          prop: 'areaName',
+          label: '行政区名称',
+          width: 2
+        },
+        {
+          prop: `stationNum`,
+          label: '充电场站数量(个)',
+          width: 2
+        },
+        {
+          prop: `connectorNum`,
+          label: '登记枪数(个)',
+          width: 2
+        },
+        {
+          prop: `dynamicConnectorNum`,
+          label: '动态接入枪(个)',
+          width: 2
+        },
+        {
+          prop: `dynamicConnectorRate`,
+          label: '动态接入率(%)',
+          width: 2
+        },
+        {
+          prop: `v2gEquipmentNum`,
+          label: 'V2G桩数量(个)',
+          width: 2
+        },
+        {
+          prop: `v2gStationNum`,
+          label: 'V2G站点数(个)',
+          width: 2
+        },
+        {
+          prop: `superChargeStationNum`,
+          label: '超充站(个)',
+          width: 2
+        },
+        {
+          prop: `operatorNum`,
+          label: '运营商数量(家)',
+          width: 2
+        }
+      ];
+  }
 };

@@ -28,6 +28,7 @@
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
 import Api from '../api';
+import V2GApi from '@/views/special-scene/carnet-interaction/api';
 
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -72,7 +73,7 @@ const bottomCardConfig = ref([
     icon: new URL('../images//bus-nums.png', import.meta.url).href
   },
   {
-    name: '可调度V2G巴士数量',
+    name: '正在运行V2G巴士数量',
     code: 'runBUs',
     value: '13',
     unit: '辆',
@@ -115,6 +116,13 @@ const getData = async () => {
   } catch (error) {}
   loading.value = false;
 };
+
+const getV2Gdata = async () => {
+  const res = await V2GApi.getVehicleNetInterOverview();
+  bottomCardConfig.value[2].value = res.data.stationNum;
+  bottomCardConfig.value[3].value = res.data.pileNum;
+};
+getV2Gdata();
 // getData();
 </script>
 

@@ -183,8 +183,8 @@ const addQuBar = async () => {
 const addBar = async (type: 'qu' | 'jd', res, streetCode?) => {
   await __g.marker.deleteByGroupId('rectBar');
   const dataCode = props.selectBtmTab.code
-    ? ['stationPlanNum', 'stationBuildNum', 'stationOperateNum']
-    : ['equipmentPlanNum', 'equipmentBuildNum', 'equipmentOperateNum'];
+    ? ['stationPlanNum', 'stationBuildNum', 'stationOperateNum', 'stationAccessNum']
+    : ['equipmentPlanNum', 'equipmentBuildNum', 'equipmentOperateNum', 'equipmentAccessNum'];
   chartHover = false;
   let barArr = [];
   const fileName = type === 'qu' ? 'barPosition4547' : 'jdBarPosition4547';
@@ -276,8 +276,8 @@ const drawHoverBarMarker = async (data, show = false) => {
     popupURL: mPopUpUrl,
     popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
     autoHidePopupWindow: false,
-    popupSize: [150, 52],
-    popupOffset: [-75, -contentHeight / 5 - 52], //弹窗偏移
+    popupSize: [100, 80],
+    popupOffset: [-50, -contentHeight / 5 - 60], //弹窗偏移
     autoHeight: false, // 自动判断下方是否有物体
     displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
   };

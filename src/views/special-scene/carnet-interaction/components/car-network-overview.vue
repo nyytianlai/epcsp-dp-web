@@ -96,7 +96,7 @@ const bottomCardConfig = ref([
   {
     name: 'V2G桩数',
     code: 'pileNum',
-    value: '31',
+    value: '',
     unit: '座',
     icon: new URL('../images/v2g.png', import.meta.url).href
   },
@@ -128,7 +128,7 @@ getData();
   // height: 330px;
   display: flex;
   flex-flow: column nowrap;
-  row-gap: 12px;
+  row-gap: 8px;
 
   .distributed-content {
     padding: 12px;

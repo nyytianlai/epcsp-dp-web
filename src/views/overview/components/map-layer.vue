@@ -268,8 +268,8 @@ const addHighLightStation = async (item, stationType: string) => {
 defineExpose({});
 
 onMounted(async () => {
-  await __g.reset(4);
-  await __g.reset();
+  // await __g.reset(4);
+  // await __g.reset();
   timer = setTimeout(() => {
     addQuBar();
   }, 200);

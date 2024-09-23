@@ -1,7 +1,7 @@
 <template>
   <div class="mask-bgc" :class="type" v-if="panelShow"></div>
   <transition>
-    <div class="panel" :class="type" v-if="panelShow">
+    <div class="panel" :class="type" v-if="panelShow" :style="style">
       <slot />
       <!-- <div class="circle-bg"></div> -->
     </div>
@@ -14,6 +14,7 @@ const store = useVisibleComponentStore();
 type Itype = 'left' | 'right';
 interface Props {
   type?: Itype;
+  style?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'left'
