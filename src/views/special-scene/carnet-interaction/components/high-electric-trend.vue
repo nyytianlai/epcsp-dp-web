@@ -1,6 +1,6 @@
 <template>
   <div class="v2g-build-status">
-    <title-column title="今年充电高峰统计" />
+    <title-column title="今日用电高峰统计" />
     <div class="chart-card">
       <div class="card-title">
         主要充电时段:{{ highlightData.map((el) => el.time + '点').join('、') }}

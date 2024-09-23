@@ -92,3 +92,10 @@ export const getPhotovoltaicStationStatistics = () => {
     url: '/dp/api/v1/overview/getPhotovoltaicStationStatistics'
   });
 };
+
+// 按行政区 充电站行政区 充电场站数量 登记枪数 动态接入枪 动态接入率 v2g桩数量 v2g站点数 超充站 运营商数量
+export const getOverviewStationStatisticsByArea = () => {
+  return request.get({
+    url: '/dp/api/v1/overview/getOverviewStationStatisticsByArea'
+  });
+};

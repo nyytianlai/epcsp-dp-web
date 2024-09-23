@@ -2616,7 +2616,7 @@ export const getTableColumnByType = (type) => {
           width: 2
         },
         {
-          prop: 'totalPower(KW)',
+          prop: 'capacity',
           label: '站点装机容量',
           width: 2
         }
@@ -2634,12 +2634,58 @@ export const getTableColumnByType = (type) => {
           width: 2
         },
         {
-          prop: 'totalPower',
-          label: '光伏站装机总功率(KW)',
+          prop: 'capacity',
+          label: '站点装机容量',
           width: 2
         }
       ];
     default:
-      return [];
+      return [
+        {
+          prop: 'areaName',
+          label: '行政区名称',
+          width: 2
+        },
+        {
+          prop: `stationNum`,
+          label: '充电场站数量(个)',
+          width: 2
+        },
+        {
+          prop: `connectorNum`,
+          label: '登记枪数(个)',
+          width: 2
+        },
+        {
+          prop: `dynamicConnectorNum`,
+          label: '动态接入枪(个)',
+          width: 2
+        },
+        {
+          prop: `dynamicConnectorRate`,
+          label: '动态接入率(%)',
+          width: 2
+        },
+        {
+          prop: `v2gEquipmentNum`,
+          label: 'V2G桩数量(个)',
+          width: 2
+        },
+        {
+          prop: `v2gStationNum`,
+          label: 'V2G站点数(个)',
+          width: 2
+        },
+        {
+          prop: `superChargeStationNum`,
+          label: '超充站(个)',
+          width: 2
+        },
+        {
+          prop: `operatorNum`,
+          label: '运营商数量(家)',
+          width: 2
+        }
+      ];
   }
 };

@@ -135,16 +135,16 @@ export const getOperatCardConfig = (data = {}) => {
           unit: '个',
           displayName: t(`${configHead}.common.cczhan`),
           displayUnit: t(`${configHead}.common.unitGe`)
+        },
+        {
+          name: '超充桩',
+          code: 'accessEquipmentNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhuang`),
+          displayUnit: t(`${configHead}.common.unitGe`)
         }
-        // {
-        //   name: '超充桩',
-        //   code: 'equipmentPlanNum',
-        //   value: null,
-        //   icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
-        //   unit: '个',
-        //   displayName: t(`${configHead}.common.cczhuang`),
-        //   displayUnit: t(`${configHead}.common.unitGe`)
-        // }
       ].map((e) => {
         e.value = data && data[e.code];
         return e;

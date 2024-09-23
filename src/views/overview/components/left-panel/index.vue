@@ -2,7 +2,17 @@
   <panel>
     <div class="left-wrap">
       <!-- zdlxtj: '站点类型统计' -->
-      <title-column :title="t(`${tHead}.zdlxtj`)" :showBtn="true" detailText="点击充电桩" />
+      <title-column
+        :title="t(`${tHead}.zdlxtj`)"
+        :showBtn="true"
+        detailText="点击充电桩"
+        @click="
+          handleCardClick({
+            clickAble: true,
+            apiCode: 'getOverviewStationStatisticsByArea'
+          })
+        "
+      />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <!-- 新能源汽车充电站 -->
@@ -107,7 +117,7 @@
     <scroll-table
       :scrollTableData="tableData"
       :columnKeyList="columns"
-      style="height: 5rem; padding-bottom: 24px; max-height: 6rem"
+      style="height: 6rem; padding-bottom: 24px; max-height: 6rem"
     />
     <el-pagination
       style="margin-bottom: 12px"
@@ -164,7 +174,7 @@ const showPagination = ref(false);
 const apiKey = ref('');
 
 const pageObj = reactive({
-  pageSize: 10,
+  pageSize: 12,
   total: 0,
   currentPage: 1
 });
@@ -223,7 +233,7 @@ const loadData = async () => {
     };
   }
   const res = await Api[apiKey.value](param);
-  tableData.value = res?.data?.list;
+  tableData.value = Array.isArray(res?.data) ? res?.data : res?.data?.list;
   pageObj.total = res?.data?.total;
 };
 
@@ -237,10 +247,17 @@ const handleCardClick = async (item) => {
   showDialog.value = true;
 };
 
-onMounted(async () => {
-  state.energyStations = energyStationFun();
-  state.photovoltaicStations = photovoltaicStationFun();
+const handleTodetail = () => {
+  showDialog.value = true;
+  tableData.value = columnDataFun();
+  columns.value = columnKeyListFun();
+};
 
+onMounted(async () => {
+  state.chargingStations = chargingStationsFun();
+  state.photovoltaicStations = photovoltaicStationFun();
+  state.energyStations = energyStationFun();
+  state.chargingsReplacementCabinetStations = chargingsReplacementCabinetFun();
   state.changeElectric = changeElectricFun();
   loadSelectHrStationInfoForOverview();
   loadChargingStation();
