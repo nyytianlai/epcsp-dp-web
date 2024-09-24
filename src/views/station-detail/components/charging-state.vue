@@ -1,13 +1,17 @@
 <template>
   <div class="charging-wrap">
     <ul class="content four-column-wrap" v-if="data && data.length">
-      <li class="four-column-item"
+      <li
+        class="four-column-item"
         v-for="(item, index) in data"
         :key="index"
         :class="[stateFormate(item.status)?.code, warnStateFormate(item.isAlarm)?.code]"
         @click="emit('handleClickState', item.eid, item.status, item)"
       >
         <span class="type">{{ typeFormate(item.chargingType).code }}</span>
+        <span class="v2g-icon" v-if="item.equipmentType == '5'">
+          <img src="../images/v2g.svg" />
+        </span>
         <icon
           :icon="`svg-icon:${warnStateFormate(item.isAlarm)?.code}`"
           v-if="item.isAlarm === 0"
@@ -15,7 +19,9 @@
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" v-else />
         <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
         <span class="state">
-          <span class="text">{{ stateFormate(item.status).displayName || stateFormate(item.status).name }}</span>
+          <span class="text">
+            {{ stateFormate(item.status).displayName || stateFormate(item.status).name }}
+          </span>
         </span>
       </li>
     </ul>
@@ -37,9 +43,10 @@ interface Data {
   status?: number;
   chargingType: string;
   equipmentName?: string;
+  equipmentType?: string;
 }
 const mapStore = useMapStore();
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 const props = defineProps({
   data: {
@@ -107,7 +114,7 @@ const typeFormate = (type) => {
       code: t(`${tHead}.typeFormate.kc`) || '快充'
     },
     2: {
-      code: t(`${tHead}.typeFormate.mc`) ||'慢充'
+      code: t(`${tHead}.typeFormate.mc`) || '慢充'
     },
     3: {
       code: t(`${tHead}.typeFormate.cc`) || '超充'
@@ -192,7 +199,7 @@ watch([data, aircityObj], (newVal) => {
       })
       .filter((item) => item);
     // noUseEquipment.push('006694'); //隐藏车辆充电那个动画
-        let ids = [
+    let ids = [
       '006694',
       '334225_1',
       '334222_2',
@@ -267,6 +274,16 @@ onBeforeUnmount(() => {
       line-height: 20px;
       text-align: center;
       font-size: 12px;
+    }
+
+    .v2g-icon {
+      position: absolute;
+      top: 5px;
+      right: -32px;
+
+      img {
+        width: 48px;
+      }
     }
     .power {
       width: 100%;

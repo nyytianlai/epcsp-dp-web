@@ -185,7 +185,7 @@ const hideHighLightNormalStation = async () => {
   }
   await __g.radiationPoint.clear();
 };
-const handleQuChange = (quName: string, cameraJdInfo: {}) => {
+const handleQuChange = (quName: string, cameraJdInfo: any) => {
   store.changeCurrentPositionBak(currentPosition.value);
   if (currentPosition.value.includes('区')) {
     addJdData(quName);
@@ -585,6 +585,18 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
         89.799957,
         3
       ));
+  } else if (stationId === '4403040422') {
+    // 南网_莲花山充电站
+    isShow &&
+      (await __g.camera.lookAt(
+        505956.157246,
+        2496585.157188,
+        77.881128,
+        5,
+        -42.564358,
+        -141.974182,
+        3
+      ));
   }
   await beforeAddOrExitHrStation(isShow); //添加完成后再清一次数据
 };
@@ -751,7 +763,7 @@ onMounted(async () => {
   __g.reset();
   __g.reset(4);
 
-  bus.on('toHr', async (e) => {
+  bus.on('toHr', async (e: any) => {
     // 传参由回调函数中的形参接受
     request.cancel(mapRequestCancelId);
     console.log('高渲染站点信息2', e);

@@ -49,20 +49,34 @@
   >
     <div class="response-row">
       <div class="dialog-row">
-        <label>响应次数:</label>
+        <label>最近响应时间:</label>
         <div class="value fontSize18DIN">
-          {{ responseInfo?.responseNumber || '--' }}
-          <span>次</span>
+          {{ responseInfo?.responseTime || '--' }}
+        </div>
+      </div>
+      <div class="dialog-row">
+        <label>响应资源总量:</label>
+        <div class="value fontSize18DIN">
+          {{ responseInfo?.responseNum || '--' }}
+          <span></span>
+        </div>
+      </div>
+      <div class="dialog-row">
+        <label>响应功率:</label>
+        <div class="value fontSize18DIN">
+          {{ responseInfo?.actualAdjust || '--' }}
+          <span>KW</span>
         </div>
       </div>
       <div class="dialog-row">
         <label>响应充电量:</label>
         <div class="value fontSize18DIN">
-          {{ responseInfo?.chargeCapacity || '--' }}
+          {{ responseInfo?.responseElectric || '--' }}
           <span>KWh</span>
         </div>
       </div>
     </div>
+    <div class="box-title">运营商资源列表</div>
     <scroll-table
       :scrollTableData="tableData"
       :columnKeyList="actionColumns"
@@ -365,7 +379,24 @@ watch(data, () => {
     );
   }
 }
+.box-title {
+  font-weight: 500;
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 12px;
 
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border: 5px solid rgba(249, 233, 0, 0.1);
+    background: #f9e900;
+    transform: rotate(45deg);
+    background-clip: padding-box;
+    margin-right: 8px;
+  }
+}
 .response-row {
   display: flex;
   flex-flow: row nowrap;

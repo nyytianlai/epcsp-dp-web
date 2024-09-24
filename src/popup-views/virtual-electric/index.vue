@@ -17,28 +17,28 @@ const paramsValue = JSON.parse(getUrlParam('value') || '{}');
 const cardConfig = computed(() => {
   return [
     {
+      name: '基线',
+      code: 'baseline',
+      value: null,
+      unit: 'MW'
+    },
+    {
       name: '计划',
       code: 'planNum',
       value: null,
-      unit: 'KW'
+      unit: 'MW'
     },
     {
       name: '实际',
       code: 'actualNum',
       value: null,
-      unit: 'KW'
+      unit: 'MW'
     },
     {
       name: '实际调节',
       code: 'actualAdjust',
       value: null,
-      unit: 'KW'
-    },
-    {
-      name: '基线',
-      code: 'baseline',
-      value: null,
-      unit: 'KW'
+      unit: 'MW'
     }
   ].map((item) => {
     item.value = paramsValue[item.code];
@@ -82,6 +82,7 @@ const cardConfig = computed(() => {
     span {
       font-size: 12px;
       font-weight: 400;
+      margin-left: 4px;
     }
   }
 }

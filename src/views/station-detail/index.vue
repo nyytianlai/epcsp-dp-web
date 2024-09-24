@@ -217,7 +217,7 @@ import bus from '@/utils/bus';
 import { handleClickFocus } from './mapOperate';
 import { getTreeLayerIdByName } from '@/global/config/map';
 import BaoqingDialog from './components/baoqing-dialog.vue';
-import { BaoAnMenu } from './bottom-menu';
+// import { BaoAnMenu } from './bottom-menu';
 
 import dayjs from 'dayjs';
 const chargingColors = ['#E5CC48', '#3254DD', '#4BDEFF', '#ED8ECA', '#BEE5FB'];
@@ -708,12 +708,7 @@ watch(
   () => store.detailParams,
   async () => {
     if (store.detailParams.stationId) {
-      if (store.detailParams.isBaoAn) {
-        tabHasData.value = true;
-        tabData.value = BaoAnMenu;
-      } else {
-        getButtomMenuData();
-      }
+      getButtomMenuData();
 
       if (store.detailParams.trueStation) {
         // 非真实站点

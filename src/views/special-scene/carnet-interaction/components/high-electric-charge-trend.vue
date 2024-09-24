@@ -1,24 +1,33 @@
 <template>
   <div class="v2g-build-status">
     <title-column title="今年充电高峰统计" />
+    <tabs v-model="selectType" :data="tabTypeList" />
     <div class="chart-card">
-      <div class="card-title">
-        主要充电时段:{{ highlightData.map((el) => el.time + '点').join('、') }}
-      </div>
       <div class="card-content">
-        <div class="card-item" v-for="item in highlightData" :key="item.time">
-          <div class="item-title">{{ item.time }}点</div>
+        <div class="card-item" v-for="item in Object.keys(highlightData)" :key="item">
+          <div class="item-row">
+            <label>{{ highlightData[item].typeName }}:</label>
+            <span class="value fontSize16DIN">
+              {{
+                highlightData[item].timeRange
+                  .split('-')
+                  .map((el) => el + '点')
+                  .join('-')
+              }}
+            </span>
+          </div>
+
           <div class="item-row">
             <label class="">充电量:</label>
             <span class="value fontSize16DIN">
-              {{ item.chargeCapacity }}
+              {{ highlightData[item].chargeCapacity }}
               <span class="unit">KWh</span>
             </span>
           </div>
           <div class="item-row">
             <label>占比:</label>
             <span class="value fontSize16DIN">
-              {{ (item.chargeCapacityRatio * 100)?.toFixed(2) ?? '--' }}
+              {{ highlightData[item].chargeCapacityRatio?.toFixed(2) ?? '--' }}
               <span class="unit">%</span>
             </span>
           </div>
@@ -30,7 +39,7 @@
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
         <div>单位:KWh</div>
-        <!-- <div>单位:%</div> -->
+        <div>单位:%</div>
       </div>
     </div>
   </div>
@@ -40,7 +49,7 @@
 import { ref, computed, onMounted } from 'vue';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
-import { getBaseChartOption } from '../config';
+import { getBaseChartOption, tabTypeList } from '../config';
 import dayjs from 'dayjs';
 import Api from '../api';
 import { deepClone } from '@/utils';
@@ -48,7 +57,7 @@ import { deepClone } from '@/utils';
 const isEmpty = ref(false);
 const loading = ref(false);
 
-const highlightData = ref([]);
+const highlightData = ref<any>({});
 
 const chartConfig = [
   {
@@ -57,28 +66,39 @@ const chartConfig = [
     color: '34, 118, 252',
     unit: 'KWh',
     type: 'bar'
+  },
+  {
+    name: '占比',
+    code: 'chargeCapacityRatio',
+    color: '255, 207, 95, 1',
+    unit: '%',
+    type: 'line'
   }
-  // {
-  //   name: '占比',
-  //   code: 'chargeCapacityRatio',
-  //   color: '255, 207, 95, 1',
-  //   unit: '%',
-  //   type: 'line'
-  // }
 ];
 const chartData = ref([]);
 const ecOption = ref();
+const selectType = ref(tabTypeList[0].code);
 
 const getData = async () => {
   loading.value = true;
   try {
     const { data } = await Api.getV2GChargeCapacityHourByTime();
     chartData.value = data;
-    highlightData.value = deepClone(data)
-      .sort((a, b) => b.chargeCapacity - a.chargeCapacity)
-      .slice(0, 3);
   } catch (error) {}
   loading.value = false;
+};
+
+const getHighlightData = async () => {
+  const obj = {};
+  const res = await Api.getV2GChargeCapacityStat(0);
+  console.log(res?.data);
+  res.data.forEach((item) => {
+    obj[item.timeProperty] = {
+      ...item,
+      typeName: item.timeProperty === 'bottom' ? '低谷时段' : '尖峰时段'
+    };
+  });
+  highlightData.value = obj;
 };
 
 const drawChart = async (data = []) => {
@@ -92,7 +112,7 @@ const drawChart = async (data = []) => {
       color: `rgb(${item.color})`,
       type: item.type,
       data: data.map((obj) => [
-        obj.time,
+        obj.time + '时',
         item.unit === '%' ? obj[item.code] && (obj[item.code] * 100)?.toFixed(2) : obj[item.code]
       ]),
       barWidth: scale(10),
@@ -106,6 +126,7 @@ const drawChart = async (data = []) => {
       }
     });
   });
+  option.xAxis.axisLabel.interval = 1;
   ecOption.value = {
     ...option,
     yAxis: [option.yAxis, option.yAxis],
@@ -119,6 +140,7 @@ const drawChart = async (data = []) => {
   };
 };
 onMounted(async () => {
+  getHighlightData();
   await getData();
   drawChart(chartData.value);
 });

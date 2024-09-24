@@ -14,9 +14,10 @@ export const allHeatIdsList = [
   ]
 ];
 export const showIds = [
-  [`虚拟电厂/热力图5.3dt`],
+  [`虚拟电厂/热力图1.3dt`],
+  [`虚拟电厂/热力图6.3dt`],
   [`虚拟电厂/热力图2.3dt`],
-  [`虚拟电厂/热力图6.3dt`]
+  [`虚拟电厂/热力图1.3dt`]
 ];
 export const virtureTileIds = '2C897BAD4F66E30971D5488BADFE9727';
 export const virtureView = [504324.51625, 2480835.005, 24153.905, -57.411629, -95.109795, 0];

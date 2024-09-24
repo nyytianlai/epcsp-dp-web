@@ -2,9 +2,15 @@
   <qu ref="quRef"></qu>
   <legend-list :legendList="legendListData" :legendName="legendNameData" />
   <MapLeftBtn>
-    <div class="remain-power" @click="handleDraw">
-      <img draggable="false" :src="isDrawing ? remainPowerIconA : remainPowerIcon" />
-      <div class="name">响应通知</div>
+    <div class="tbn-list">
+      <div class="remain-power" @click="handleDraw">
+        <img draggable="false" :src="isDrawing ? remainPowerIconA : remainPowerIcon" />
+        <div class="name">响应通知</div>
+      </div>
+      <div class="remain-power" v-show="showFIlter" @click="handleFilter">
+        <img draggable="false" :src="isFilter ? filterIconA : filterIcon" />
+        <div class="name">参与运营商</div>
+      </div>
     </div>
   </MapLeftBtn>
   <!-- <div class="time-slider-wrapper" v-show="!showVirture" v-if="range.length">
@@ -45,6 +51,8 @@ import { useRoute } from 'vue-router';
 import { virtureTileIds, virtureView, virturePoint, allHeatIdsList, showIds } from './layer-config';
 import remainPowerIconA from '@/views/special-scene/super-charging-building/images/super-charge-switch-active.png';
 import remainPowerIcon from '@/views/special-scene/super-charging-building/images/super-charge-switch.png';
+import filterIconA from '@/views/special-scene/super-charging-building/images/filter-active.png';
+import filterIcon from '@/views/special-scene/super-charging-building/images/filter.png';
 import Api from '../api';
 import { requestGeojsonData } from '@/components/map-layer/api.js';
 import { useMapStore } from '@/stores/map';
@@ -126,10 +134,18 @@ let legendListData = ref([
   }
 ]);
 
+const showFIlter = ref(false);
+const isFilter = ref(false);
+
 const allHeatIds = computed(() => showIds[props.activeIndex] || []);
 
 const formatTooltip = (vl) => {
   return range[vl];
+};
+
+const handleFilter = () => {
+  isFilter.value = !isFilter.value;
+  handleDetail();
 };
 
 const getData = async () => {
@@ -559,10 +575,12 @@ const handleDetail = async () => {
   const data = await Api.getDistributedResourceDetails({
     lng: distributedPoint[0],
     lat: distributedPoint[1],
-    distance: 2.5
+    distance: 2.5,
+    filter: isFilter.value ? true : undefined
   });
   store.changeCurrentQu('circleSearch区');
   store.changeCurrentPosition('circleSearch区');
+  showFIlter.value = true;
   drawPoint(data?.data);
 };
 
@@ -674,6 +692,11 @@ watch(
   async () => {
     nextTick(async () => {
       if (props.adjustDate) {
+        await __g.marker.deleteByGroupId('jdStation');
+
+        await __g.polygon3d.delete('search-circle');
+        isDrawing.value = false;
+
         const param = {
           adjustTime: '',
           dataTime: props.adjustDate,
@@ -712,6 +735,7 @@ bus.on('map-back', async () => {
   // __g.marker.showByGroupId('quName');
   // __g.marker.showByGroupId('qu');
   // addHeatLayer();
+  showFIlter.value = false;
   if (currentPosition.value === '深圳市') {
     __g.tileLayer.show(showIds[props.activeIndex]);
     __g.marker.showByGroupId('area-point-layer');
@@ -765,7 +789,11 @@ onBeforeUnmount(async () => {
   width: 45%;
   transform: translateX(-50%);
 }
-
+.tbn-list {
+  display: flex;
+  flex-flow: row nowrap;
+  column-gap: 20px;
+}
 .remain-power {
   display: flex;
   flex-flow: column nowrap;
