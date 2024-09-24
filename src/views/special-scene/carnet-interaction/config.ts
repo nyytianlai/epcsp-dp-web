@@ -172,3 +172,14 @@ export const getBaseChartOption = () => {
     series: []
   };
 };
+
+export const tabTypeList = [
+  {
+    code: 'Operate',
+    label: '公共充电桩'
+  },
+  {
+    code: 'Build',
+    label: '私人充电桩'
+  }
+];

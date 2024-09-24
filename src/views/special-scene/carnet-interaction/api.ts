@@ -58,5 +58,18 @@ export default {
         endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
       }
     });
+  },
+  // 用电高峰
+  getV2GChargeCapacityStat(type: 0 | 1) {
+    // 0:今年1今日
+    return request.post({
+      url: '/vehicle/net/inter/getV2GChargeCapacityStat',
+      data: {
+        startTime: !type
+          ? dayjs().startOf('year').format('YYYY-MM-DD HH:mm:ss')
+          : dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+        endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+      }
+    });
   }
 };

@@ -110,6 +110,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       if (currtentStation?.isHr == 0 && currtentStation?.hrId) {
         // bus.emit('toHr', currtentStation);
         // quRef.value.enterStationInfo(currtentStation);
+        store.changeCurrentHrStationId('station-' + currtentStation.stationId);
         quRef.value.enterStationInfo(currtentStation);
         quRef.value.addHrStation(
           currtentStation.stationId,

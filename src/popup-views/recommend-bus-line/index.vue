@@ -49,6 +49,12 @@ const cardConfig = computed(() => {
     //   unit: ''
     // },
     {
+      name: 'V2G桩额定功率',
+      code: 'maxPower',
+      value: null,
+      unit: 'KW'
+    },
+    {
       name: 'V2G桩最大放电功率',
       code: 'maxPower',
       value: null,
@@ -98,7 +104,7 @@ const handleToRecommend = () => {
   padding: 8px 12px;
   display: flex;
   flex-flow: column nowrap;
-  row-gap: 8px;
+  row-gap: 5px;
 }
 
 .card-row {

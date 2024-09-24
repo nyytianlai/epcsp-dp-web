@@ -3,6 +3,7 @@
   <LianHuaPopup v-if="currentHrStationID === '-2'" />
   <HongLiXi v-if="currentHrStationID === '-3'" />
   <HonglixiPopup v-if="currentHrStationID === '-3'" />
+  <Nanwang_lianhuashan v-if="currentHrStationID === '4403040422'" />
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, ref, computed } from 'vue';
@@ -26,11 +27,13 @@ import HonglixiPopup from './honglixi-popup.vue';
 import { getStrLength } from '@/utils/index';
 import { getHtmlUrl } from '@/global/config/map';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import Nanwang_lianhuashan from './nanwang_lianhuashan.vue';
 
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const requestTimer = computed(() => mapStore.requestTimer);
 const currentHrStationID = computed(() => {
+  console.log(mapStore.currentHrStationID, '1111111111111111111');
   if (mapStore.currentHrStationID.split('-').length === 3) {
     return '-' + mapStore.currentHrStationID.split('-')[2];
   } else {
@@ -109,7 +112,7 @@ const carChargingCameraTour = async () => {
   let frames = [];
   //注意：rocation属可选参数，若不传入则相机朝向会根据相机的连续位置自动计算
   frames.push(
-    new CameraTourKeyFrame(
+    new (window as any).CameraTourKeyFrame(
       0,
       0,
       [504725.026719, 2499660.45375, 114.91292],
@@ -117,7 +120,7 @@ const carChargingCameraTour = async () => {
     )
   );
   frames.push(
-    new CameraTourKeyFrame(
+    new (window as any).CameraTourKeyFrame(
       1,
       3.0,
       [504738.923594, 2499643.70875, 98.432363],
@@ -125,7 +128,7 @@ const carChargingCameraTour = async () => {
     )
   );
 
-  let o = new CameraTourData('1', 'carChargingCameraTour', frames);
+  let o = new (window as any).CameraTourData('1', 'carChargingCameraTour', frames);
   await __g.cameraTour.add(o);
   __g.cameraTour.play('1');
 };
@@ -235,7 +238,7 @@ onMounted(() => {
     addFacilitiesLabel(currentHrStationID.value);
     addChageingIcon(chargeIcon());
   }
-  bus.on('handleTabSelect', async (e) => {
+  bus.on('handleTabSelect', async (e: any) => {
     if (currentHrStationID.value === '-1') {
     } else {
       //一级菜单栏切换
