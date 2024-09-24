@@ -592,7 +592,7 @@ const addHrStation = async (stationId: string, isShow: boolean, fly = true) => {
         505956.157246,
         2496585.157188,
         77.881128,
-        20,
+        5,
         -42.564358,
         -141.974182,
         3
