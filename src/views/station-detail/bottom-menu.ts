@@ -15,7 +15,7 @@ export const BaoAnMenu = [
     viewName: '光伏信息',
     viewOrder: 3,
     viewInfoType: 'LHS_CCZ2',
-    viewInfo: '[505893.355, 2496645.1875, 73.929795, -49.667236, 67.511841]',
+    viewInfo: '[505905.403789, 2496648.321875, 73.929795, -49.667229, 63.516453]',
     isHover: false,
     icon: 'electric',
     iconIdList: null,

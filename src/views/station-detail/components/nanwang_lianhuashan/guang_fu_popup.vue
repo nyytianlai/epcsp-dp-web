@@ -82,7 +82,7 @@ onMounted(async () => {
   bus.on('focusToPile', (e) => {
     focusToPile(e);
   });
-  bus.on('calcVal', (val: string) => {
+  bus.on('lianhuashan-calcVal', (val: string) => {
     state.currentPower.value = val;
   });
   bus.on('closePowerPopup', (e) => {
@@ -93,6 +93,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   bus.off('focusToPile');
   bus.off('closePowerPopup');
+  bus.off('lianhuashan-calcVal');
 });
 </script>
 <style lang="less" scoped>

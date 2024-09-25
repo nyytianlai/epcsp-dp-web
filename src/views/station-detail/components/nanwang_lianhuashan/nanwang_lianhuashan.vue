@@ -21,7 +21,8 @@ import {
   facilities,
   timeRandom,
   getGuangFuData,
-  guangFuPoints
+  guangFuPoints,
+  cameraList
 } from './nanwang_lianhuashan_config';
 import { connectorStatusInfo } from '@/views/station-detail/api.js';
 import bus from '@/utils/bus';
@@ -34,10 +35,13 @@ const __g = aircityObj.value?.acApi;
 const store = useMapStore();
 const visibleStore = useVisibleComponentStore();
 let timer;
+let toturTimer;
+const stationName = '4403040422Station';
+let guangFuActive = false;
 // 光伏板数据
 const state = reactive({
   list: [],
-  selectedCurID: ''
+  selectedCurID: 'photovoltaic_1'
 });
 
 const showGuangFUPopup = ref(false);
@@ -46,6 +50,12 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
+    if (guangFuActive) {
+      __g.tileLayer.stopHighlightAllActors();
+      const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
+      __g.settings.highlightColor('#FF6B4B');
+      __g.tileLayer.highlightActor(layerId, e.ObjectID);
+    }
   }
 
   if (e.eventtype === 'MarkerCallBack') {
@@ -53,8 +63,14 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 const handleTabSelect = async (tab) => {
+  clearInterval(timer);
+  clearTimeout(toturTimer);
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('1');
+  __g.tileLayer.stopHighlightAllActors();
   const viewInfo = tab.viewInfo && JSON.parse(tab.viewInfo);
   viewInfo && __g.camera.set(viewInfo, 2);
+  guangFuActive = tab.viewInfoType === 'LHS_CCZ2';
   switch (tab.viewInfoType) {
     case 'LHS_CCZ1': // 站内设施
       showGuangFUPopup.value = false;
@@ -62,14 +78,24 @@ const handleTabSelect = async (tab) => {
       break;
     case 'LHS_CCZ2': // 光伏信息
       showGuangFUPopup.value = true;
+      calcData();
       addFacilitiesLabels(guangFuPoints());
       break;
     case 'LHS_CCZ3': // 视角漫游
       showGuangFUPopup.value = false;
+      playCameraTortur(cameraList);
       break;
   }
 };
-const resetTab3dt = async () => {};
+const resetTab3dt = async () => {
+  clearInterval(timer);
+  clearTimeout(toturTimer);
+  await Promise.allSettled([
+    __g.marker.deleteByGroupId(facilities[0]?.groupId, null),
+    __g.cameraTour.stop(),
+    __g.cameraTour.delete('1')
+  ]);
+};
 
 const enterStation = async () => {
   const id = getTreeLayerIdByName('南网_莲花山充电站', store.treeInfo);
@@ -171,12 +197,34 @@ const calcData = () => {
     });
     const data = state.list.find((item) => item.id === state.selectedCurID);
     if (data) {
-      bus.emit('calcVal', data.calcVal);
+      bus.emit('lianhuashan-calcVal', data.calcVal);
     }
   }, 3000);
 };
-// 添加光伏板点位
-
+// 视角漫游
+const playCameraTortur = async (cameraList = []) => {
+  clearTimeout(toturTimer);
+  await __g.cameraTour.stop();
+  await __g.cameraTour.delete('1');
+  await __g.camera.set(...cameraList[0]?.camera.slice(0, 5), 2);
+  //通过接口添加导览并播放
+  let frames = [];
+  let duration = 0;
+  toturTimer = setTimeout(async () => {
+    cameraList.forEach((element, i) => {
+      duration += element.duration;
+      // @ts-nocheck
+      frames.push(
+        //@ts-ignore
+        new CameraTourKeyFrame(i, duration, element.camera.slice(0, 3), element.camera.slice(3))
+      );
+    });
+    //@ts-ignore
+    let o = new CameraTourData('1', 'test', frames);
+    await __g.cameraTour.add(o);
+    await __g.cameraTour.play('1');
+  }, 3000);
+};
 // 定位到充电桩
 const focusToPile = async (pile) => {
   console.log(pile, 'pile');
@@ -195,6 +243,7 @@ onBeforeUnmount(async () => {
   bus.off('resetTab3dt');
   bus.off('focusToPile');
   exitStation();
+  resetTab3dt();
 });
 </script>
 
