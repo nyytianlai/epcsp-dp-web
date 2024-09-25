@@ -2,17 +2,7 @@
   <panel>
     <div class="left-wrap">
       <!-- zdlxtj: '站点类型统计' -->
-      <title-column
-        :title="t(`${tHead}.zdlxtj`)"
-        :showBtn="true"
-        detailText="点击充电桩"
-        @click="
-          handleCardClick({
-            clickAble: true,
-            apiCode: 'getOverviewStationStatisticsByArea'
-          })
-        "
-      />
+      <title-column :title="t(`${tHead}.zdlxtj`)" />
       <div class="left-title-container">
         <div class="left-title__panel line-box">
           <!-- 新能源汽车充电站 -->
