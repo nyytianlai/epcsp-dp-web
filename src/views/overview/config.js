@@ -79,7 +79,9 @@ export const chargingStationsFun = (data = {}) => {
       // displayName: t(`${configHead}.chargingStationsFun.cdzhangs`),
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
-      classStyleType: 'leftRightStyleGreen'
+      classStyleType: 'leftRightStyleGreen',
+      clickAble: true,
+      apiCode: 'getOverviewStationStatisticsByArea'
     },
     {
       img: ztsyl,
