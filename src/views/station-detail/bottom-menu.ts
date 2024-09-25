@@ -1,20 +1,20 @@
 export const BaoAnMenu = [
   {
-    viewCode: 'BAOAN1',
-    viewName: 'V2G放电',
+    viewCode: 'LHS_CCZ1',
+    viewName: '站内设施',
     viewOrder: 1,
-    viewInfoType: 'BAOAN_1',
-    viewInfo: '[487376.19875, 2495555.671875, 23.924675, -26.378927, 154.184799]',
+    viewInfoType: 'LHS_CCZ1',
+    viewInfo: '[505893.355, 2496645.1875, 73.929795, -49.667236, 67.511841]',
     isHover: false,
     icon: 'device',
     iconIdList: null,
     secondMenuList: null
   },
   {
-    viewCode: 'BAOAN2',
-    viewName: '能源消纳',
+    viewCode: 'LHS_CCZ2',
+    viewName: '光伏信息',
     viewOrder: 3,
-    viewInfoType: 'BAOAN_2',
+    viewInfoType: 'LHS_CCZ2',
     // viewInfo: '[487319.167734, 2495555.448594, 66.991094, -34.444927, 38.247749]',
     isHover: false,
     icon: 'electric',
@@ -22,10 +22,10 @@ export const BaoAnMenu = [
     secondMenuList: null
   },
   {
-    viewCode: 'BAOAN3',
+    viewCode: 'LHS_CCZ3',
     viewName: '视角漫游',
     viewOrder: 5,
-    viewInfoType: 'BAOAN_3',
+    viewInfoType: 'LHS_CCZ3',
     viewInfo: null,
     isHover: false,
     icon: 'camera',

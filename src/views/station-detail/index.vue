@@ -559,6 +559,7 @@ useEmitt &&
   });
 // 定位到桩弹窗
 const focusToPile = async (eid, status, item: any = {}) => {
+  bus.emit('focusToPile', item);
   console.log('item', item);
   let layerId = getTreeLayerIdByName('118Station', mapStore.treeInfo);
   if (item.isAlarm === 1) {

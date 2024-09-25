@@ -854,3 +854,83 @@ export const videoInfo = [
   { fid: 19, OBJID: 'LHS_SXT_07' },
   { fid: 20, OBJID: 'LHS_SXT_08' }
 ];
+// 站内设施
+export const facilities = [
+  {
+    value: '',
+    id: 'camera1',
+    groupId: 'stationFacilitiesLabel',
+    position: [505942.125, 2496614.88, 29.3537451171875],
+    img: 'camera'
+  },
+  // {
+  //   value: '',
+  //   id: 'camera2',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505931.07937500003, 2496610.08, 29.339990234375],
+  //   img: 'camera'
+  // },
+  {
+    value: '',
+    id: 'camera3',
+    groupId: 'stationFacilitiesLabel',
+    position: [505917.960625, 2496602.72, 29.3636962890625],
+    img: 'camera'
+  },
+  {
+    value: '',
+    id: 'camera4',
+    groupId: 'stationFacilitiesLabel',
+    position: [505902.735, 2496595.2, 29.365283203125],
+    img: 'camera'
+  },
+  {
+    value: '',
+    id: 'camera5',
+    groupId: 'stationFacilitiesLabel',
+    position: [505939.00125000003, 2496620, 29.4389892578125],
+    img: 'camera'
+  },
+  {
+    value: '',
+    id: 'camera6',
+    groupId: 'stationFacilitiesLabel',
+    position: [505928.65125, 2496614.88, 29.4350537109375],
+    img: 'camera'
+  },
+  {
+    value: '',
+    id: 'camera7',
+    groupId: 'stationFacilitiesLabel',
+    position: [505911.018125, 2496606.56, 29.4438525390625],
+    img: 'camera'
+  },
+  {
+    value: '',
+    id: 'camera8',
+    groupId: 'stationFacilitiesLabel',
+    position: [505900.029375, 2496600.8000000003, 29.43298828125],
+    img: 'camera'
+  },
+  {
+    value: '配电房',
+    id: 'electricalRoom',
+    groupId: 'stationFacilitiesLabel',
+    position: [505890.84500000003, 2496584, 29.21857421875],
+    img: 'electricalRoom'
+  },
+  {
+    value: '办公/监控区',
+    id: 'workRoom',
+    groupId: 'stationFacilitiesLabel',
+    position: [505906.749375, 2496620.16, 32.06466796875],
+    img: 'workRoom'
+  },
+  {
+    value: '休息区',
+    id: 'rest',
+    groupId: 'stationFacilitiesLabel',
+    position: [505880.603125, 2496605.92, 28.6278271484375],
+    img: 'rest'
+  }
+];

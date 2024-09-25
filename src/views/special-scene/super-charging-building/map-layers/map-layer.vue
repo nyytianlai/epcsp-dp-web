@@ -130,6 +130,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
   }
   //关闭弹窗
   if (e.eventtype === 'MarkerCallBack' && e.Data == 'closeStationHighLight') {
+    console.log('点击外面的点数据', e);
     if (e.ID?.includes('stationOut-')) {
       __g.marker.delete('stationOut-hight');
       __g.marker.show(currtentStation.stationId1);
