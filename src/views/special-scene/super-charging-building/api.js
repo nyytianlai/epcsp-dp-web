@@ -64,7 +64,9 @@ export default {
   overTodayCount() {
     return request.post({
       url: '/dp/superChargeStation/overTodayCount',
-      data: {}
+      data: {
+        stationType: 3
+      }
     });
   },
 
