@@ -107,7 +107,9 @@
     <scroll-table
       :scrollTableData="tableData"
       :columnKeyList="columns"
-      style="height: 6rem; padding-bottom: 24px; max-height: 6rem"
+      :style="`height: ${
+        pageObj.total / pageObj.pageSize > 1 ? '6rem' : 'auto'
+      }; padding-bottom: 24px; max-height: 6rem`"
     />
     <el-pagination
       style="margin-bottom: 12px"
@@ -232,6 +234,7 @@ const handleCardClick = async (item) => {
   columns.value = getTableColumnByType(item.code);
   showPagination.value = item.showPagination;
   apiKey.value = item.apiCode;
+  pageObj.total = 0;
   await loadData();
 
   showDialog.value = true;

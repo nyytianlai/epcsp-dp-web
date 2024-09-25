@@ -64,7 +64,7 @@
       <div class="dialog-row">
         <label>响应功率:</label>
         <div class="value fontSize18DIN">
-          {{ responseInfo?.actualAdjust || '--' }}
+          {{ responseInfo?.actualAdjustment || '--' }}
           <span>KW</span>
         </div>
       </div>
