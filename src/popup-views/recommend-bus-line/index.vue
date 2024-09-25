@@ -50,7 +50,7 @@ const cardConfig = computed(() => {
     // },
     {
       name: 'V2G桩额定功率',
-      code: 'maxPower',
+      code: 'disPower',
       value: null,
       unit: 'KW'
     },
@@ -84,7 +84,7 @@ const cardConfig = computed(() => {
         });
       item.value = str.slice(0, str.length - 1);
     } else {
-      item.value = paramsValue[item.code];
+      item.value = item.value || paramsValue[item.code];
     }
     return item;
   });
