@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <GuangFuPopup v-if="showGuangFUPopup" />
+</template>
 
 <script setup lang="ts">
 import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nextTick } from 'vue';
@@ -15,10 +17,16 @@ import {
 import { getPopupHtml, getStrLength } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
-import { facilities, timeRandom, getGuangFuData } from './nanwang_lianhuashan_config';
-import { connectorStatusInfo } from '../api.js';
+import {
+  facilities,
+  timeRandom,
+  getGuangFuData,
+  guangFuPoints
+} from './nanwang_lianhuashan_config';
+import { connectorStatusInfo } from '@/views/station-detail/api.js';
 import bus from '@/utils/bus';
 import dayjs from 'dayjs';
+import GuangFuPopup from './guang_fu_popup.vue';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -26,6 +34,13 @@ const __g = aircityObj.value?.acApi;
 const store = useMapStore();
 const visibleStore = useVisibleComponentStore();
 let timer;
+// 光伏板数据
+const state = reactive({
+  list: [],
+  selectedCurID: ''
+});
+
+const showGuangFUPopup = ref(false);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
@@ -42,12 +57,16 @@ const handleTabSelect = async (tab) => {
   viewInfo && __g.camera.set(viewInfo, 2);
   switch (tab.viewInfoType) {
     case 'LHS_CCZ1': // 站内设施
+      showGuangFUPopup.value = false;
       addFacilitiesLabels(facilities);
       break;
     case 'LHS_CCZ2': // 光伏信息
-      addFacilitiesLabels(facilities);
+      showGuangFUPopup.value = true;
+      addFacilitiesLabels(guangFuPoints());
       break;
     case 'LHS_CCZ3': // 视角漫游
+      showGuangFUPopup.value = false;
+      break;
   }
 };
 const resetTab3dt = async () => {};

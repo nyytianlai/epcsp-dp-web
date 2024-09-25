@@ -27,7 +27,7 @@ import HonglixiPopup from './honglixi-popup.vue';
 import { getStrLength } from '@/utils/index';
 import { getHtmlUrl } from '@/global/config/map';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
-import Nanwang_lianhuashan from './nanwang_lianhuashan.vue';
+import Nanwang_lianhuashan from './nanwang_lianhuashan/nanwang_lianhuashan.vue';
 
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();

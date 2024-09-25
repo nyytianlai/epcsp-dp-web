@@ -938,10 +938,17 @@ export const facilities = [
 export const guangFuPoints = (type = 0 | 1) => [
   {
     value: '光伏电池板',
-    id: 'camera1',
+    id: 'photovoltaic1',
     groupId: 'stationFacilitiesLabel',
-    position: [505942.125, 2496614.88, 29.3537451171875],
-    img: 'camera'
+    position: [505920.278125, 2496603.84, 29.36634765625],
+    img: 'photovoltaic'
+  },
+  {
+    value: '光伏电池板',
+    id: 'photovoltaic2',
+    groupId: 'stationFacilitiesLabel',
+    position: [505927.23125, 2496631.52, 29.393896484375002],
+    img: 'photovoltaic'
   }
 ];
 
