@@ -863,13 +863,13 @@ export const facilities = [
     position: [505942.125, 2496614.88, 29.3537451171875],
     img: 'camera'
   },
-  // {
-  //   value: '',
-  //   id: 'camera2',
-  //   groupId: 'stationFacilitiesLabel',
-  //   position: [505931.07937500003, 2496610.08, 29.339990234375],
-  //   img: 'camera'
-  // },
+  {
+    value: '',
+    id: 'camera2',
+    groupId: 'stationFacilitiesLabel',
+    position: [505931.3125, 2496609.7600000002, 29.347451171875],
+    img: 'camera'
+  },
   {
     value: '',
     id: 'camera3',
@@ -902,7 +902,7 @@ export const facilities = [
     value: '',
     id: 'camera7',
     groupId: 'stationFacilitiesLabel',
-    position: [505911.018125, 2496606.56, 29.4438525390625],
+    position: [505915.59125, 2496607.36, 29.39630859375],
     img: 'camera'
   },
   {
@@ -934,3 +934,64 @@ export const facilities = [
     img: 'rest'
   }
 ];
+
+export const guangFuPoints = (type = 0 | 1) => [
+  {
+    value: '光伏电池板',
+    id: 'camera1',
+    groupId: 'stationFacilitiesLabel',
+    position: [505942.125, 2496614.88, 29.3537451171875],
+    img: 'camera'
+  }
+];
+
+// 光伏功率数据
+export const getGuangFuData = (weather = 0) => {
+  let data = [];
+  const photoData = [
+    397, 468, 482, 476, 437, 455, 481, 453, 429, 426, 452, 426, 452, 438, 467, 466, 488, 453, 433,
+    456, 364, 362, 421, 395, 392, 397, 381, 367, 387, 375, 362, 377, 341, 327, 346, 349
+  ];
+  for (let i = 0; i < 36; i++) {
+    let obj = {
+      id: `photovoltaic_${i + 1}`,
+      text: '540W',
+      value: weather === 1 ? photoData[i] - parseInt(`${photoData[i] * 0.23}`) : photoData[i],
+      status: 1
+    };
+    data.push(obj);
+  }
+  return data;
+};
+export const timeRandom = {
+  '05:00': 0,
+  '05:30': 5,
+  '06:00': 10,
+  '06:30': 15,
+  '07:00': 25,
+  '07:30': 35,
+  '08:00': 50,
+  '08:30': 65,
+  '09:00': 75,
+  '09:30': 80,
+  '10:00': 85,
+  '10:30': 90,
+  '11:00': 95,
+  '11:30': 98,
+  '12:00': 100,
+  '12:30': 100,
+  '13:00': 98,
+  '13:30': 95,
+  '14:00': 90,
+  '14:30': 88,
+  '15:00': 85,
+  '15:30': 75,
+  '16:00': 65,
+  '16:30': 50,
+  '17:00': 35,
+  '17:30': 25,
+  '18:00': 15,
+  '18:30': 10,
+  '19:00': 5,
+  '19:30': 0
+};

@@ -15,16 +15,17 @@ import {
 import { getPopupHtml, getStrLength } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
-import { facilities } from './nanwang_lianhuashan_config';
+import { facilities, timeRandom, getGuangFuData } from './nanwang_lianhuashan_config';
 import { connectorStatusInfo } from '../api.js';
-
 import bus from '@/utils/bus';
+import dayjs from 'dayjs';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 const store = useMapStore();
 const visibleStore = useVisibleComponentStore();
+let timer;
 
 useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e, 'AIRCITY_EVENT');
@@ -37,13 +38,14 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 const handleTabSelect = async (tab) => {
+  const viewInfo = tab.viewInfo && JSON.parse(tab.viewInfo);
+  viewInfo && __g.camera.set(viewInfo, 2);
   switch (tab.viewInfoType) {
     case 'LHS_CCZ1': // 站内设施
-      const viewInfo = tab.viewInfo && JSON.parse(tab.viewInfo);
-      viewInfo && __g.camera.set(viewInfo, 2);
-      addFacilitiesLabels();
+      addFacilitiesLabels(facilities);
       break;
     case 'LHS_CCZ2': // 光伏信息
+      addFacilitiesLabels(facilities);
       break;
     case 'LHS_CCZ3': // 视角漫游
   }
@@ -97,11 +99,11 @@ const hideCarByStatus = async (data = []) => {
 const showAllPos = async () => {};
 
 const hideAllPos = async () => {};
-
-const addFacilitiesLabels = async () => {
+// 场内设施
+const addFacilitiesLabels = async (data = []) => {
   const pointArr = [];
-  await __g.marker.deleteByGroupId(facilities[0].groupId, null);
-  facilities.forEach((item, index) => {
+  await __g.marker.deleteByGroupId(facilities[0]?.groupId, null);
+  data?.forEach((item, index) => {
     let xoffset = (getStrLength(item.value) * 12) / 2;
     let o1 = {
       id: 'facilitiesLabel-' + item.id,
@@ -126,6 +128,35 @@ const addFacilitiesLabels = async () => {
   //批量添加点位
   await __g.marker.add(pointArr, null);
 };
+// 计算光伏板功率
+const calcData = () => {
+  if (timer) {
+    clearInterval(timer);
+  }
+  const guangFudata = getGuangFuData(0);
+  timer = setInterval(() => {
+    let percent = 0;
+    const hours = dayjs().hour();
+    const minutes = dayjs().minute();
+    if (hours <= 5 || hours >= 20) {
+      percent = 0;
+    } else {
+      let h = dayjs().format('HH');
+      let m = minutes >= 30 ? '30' : '00';
+      percent = timeRandom[`${h}:${m}`] / 100;
+    }
+    state.list = guangFudata.map((item) => {
+      const random = Math.random() * 0.05 - 0.05;
+      item.calcVal = ((item.value + item.value * random) * percent).toFixed(2);
+      return item;
+    });
+    const data = state.list.find((item) => item.id === state.selectedCurID);
+    if (data) {
+      bus.emit('calcVal', data.calcVal);
+    }
+  }, 3000);
+};
+// 添加光伏板点位
 
 // 定位到充电桩
 const focusToPile = async (pile) => {
@@ -138,7 +169,6 @@ bus.on('focusToPile', focusToPile);
 onMounted(async () => {
   await enterStation();
   // queryAllPileStatus();
-  addFacilitiesLabels();
 });
 
 onBeforeUnmount(async () => {

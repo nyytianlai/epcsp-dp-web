@@ -33,7 +33,6 @@ const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const requestTimer = computed(() => mapStore.requestTimer);
 const currentHrStationID = computed(() => {
-  console.log(mapStore.currentHrStationID, '1111111111111111111');
   if (mapStore.currentHrStationID.split('-').length === 3) {
     return '-' + mapStore.currentHrStationID.split('-')[2];
   } else {
