@@ -17,7 +17,10 @@
           v-if="item.isAlarm === 0"
         />
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" v-else />
-        <span class="power text-ellipsis-1">
+        <span
+          class="power text-ellipsis-1"
+          :title="isGun ? item.connectorName : item.equipmentName"
+        >
           {{ isGun ? item.connectorName : item.equipmentName }}
         </span>
         <span class="state">
