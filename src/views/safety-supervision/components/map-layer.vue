@@ -23,7 +23,8 @@ import {
   quNameCodeInterTrans,
   infoObj,
   getImageUrl,
-  getImageByCloud
+  getImageByCloud,
+  resetSzView
 } from '@/global/config/map';
 import bus from '@/utils/bus';
 
@@ -85,10 +86,11 @@ const legendListData2 = reactive([
 ]);
 let cirBar3Ref = ref(null);
 let quRef = ref(null);
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
-__g.reset(4);
+// __g.reset(4);
+resetSzView(__g);
 const setLegendData = (code: 1 | 2) => {
   let legendListData = code == 1 ? legendListData1 : legendListData2;
   legendListData.forEach((item) => {

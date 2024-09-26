@@ -1,8 +1,7 @@
 <template>
-  <!-- <div class="backBox" v-show="currentPosition !== '深圳市'">
-    <img src="./images/back.png" alt="" @click="back" />
-  </div> -->
-  <Goback v-show="currentPosition !== '深圳市'" @click="back"></Goback>
+  <span>
+    <Goback v-show="currentPosition !== '深圳市'" @click="back"></Goback>
+  </span>
 </template>
 <script setup lang="ts">
 import { inject, onMounted, onBeforeUnmount, reactive, computed, ref } from 'vue';
@@ -17,7 +16,9 @@ import {
   getTreeLayerIdByName,
   hideAllStation3dt,
   returnStationPointConfig,
-  mapRequestCancelId
+  mapRequestCancelId,
+  resetSzView,
+  resetAllLayers
 } from '@/global/config/map';
 import { pointIsInPolygon, Cartesian2D } from '@/utils/index';
 import bus from '@/utils/bus';
@@ -76,9 +77,9 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       if (e.ID?.includes('区') && props.module !== 4) {
         let quName = e.ID.split('-')[1];
         if (!quView[quName]) return;
-        if (quName === currentQu.value) {
-          return;
-        }
+        // if (quName === currentQu.value) {
+        //   return;
+        // }
         __g.polygon.setColor('qu-' + quName, [75 / 255, 222 / 255, 255 / 255, 0.0]);
         store.changeCurrentQu(quName);
         store.changeCurrentPosition(quName);
@@ -299,7 +300,6 @@ const back = async () => {
   const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
   __g.infoTree.show(id);
   await __g.cameraTour.pause();
-  console.log(currentPosition.value, '99999999999999999999999');
   if (currentPosition.value.includes('区') || currentPosition.value.includes('市')) {
     //返回市
     await resetSz();
@@ -760,8 +760,8 @@ defineExpose({
   addHrStation
 });
 onMounted(async () => {
-  __g.reset();
-  __g.reset(4);
+  await resetAllLayers(__g);
+  await resetSzView(__g);
 
   bus.on('toHr', async (e: any) => {
     // 传参由回调函数中的形参接受
@@ -821,7 +821,8 @@ onBeforeUnmount(() => {
   bus.off('hrBackSz');
   bus.off('searchEnterStation');
   __g.reset();
-  __g.reset(4);
+  resetSzView(__g);
+  // __g.reset(4);
   const id = getTreeLayerIdByName('福田植物02', store.treeInfo);
   __g.infoTree.show(id);
 });

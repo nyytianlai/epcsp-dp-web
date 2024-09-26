@@ -36,7 +36,7 @@ export const getBaseChartOption = () => {
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(9, 41, 75, 0.8)',
+      backgroundColor: 'transparent',
       borderWidth: 0,
       textStyle: {
         color: '#fff',

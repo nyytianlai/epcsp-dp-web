@@ -14,7 +14,7 @@ import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
 import { getDistrict, getStreet, getPoint } from '../api';
-import { getImageByCloud, getHtmlUrl, focusToHihtLightPop } from '@/global/config/map';
+import { getImageByCloud, getHtmlUrl, focusToHihtLightPop, resetSzView } from '@/global/config/map';
 import { getStrLength } from '@/utils/index';
 
 import { transformCoordsByType } from '@/utils/map-coord-tools';
@@ -23,11 +23,12 @@ const { t } = useI18n();
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 __g.reset();
-__g.reset(4);
+// __g.reset(4);
+resetSzView(__g);
 let quRef = ref(null);
 let rectBarOutRef = ref(null);
 const areaCode = ref();

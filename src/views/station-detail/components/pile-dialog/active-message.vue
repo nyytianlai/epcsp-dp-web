@@ -22,7 +22,7 @@
         <icon :icon="`svg-icon:${item.icon}`" />
         <div class="right">
           <!-- <span class="name">{{ item.displayName || item.name }}</span> -->
-           <tooltip-over
+          <tooltip-over
             :is-inline="true"
             :className="['active-message-name-tooltip']"
             :content="item.displayName || item.name"
@@ -112,7 +112,7 @@ const infoListFun = (data = {}) => {
       value: data?.power === 0 ? data.power : data.power || '--',
       dynamicType: 5,
       unit: 'kW',
-      displayName: t(`${tHead}.infoListFun.ssgl`),
+      displayName: t(`${tHead}.infoListFun.ssgl`)
     },
     {
       icon: 'gzl',
@@ -120,7 +120,7 @@ const infoListFun = (data = {}) => {
       value: data?.troubleRate === 0 ? data.troubleRate : data.troubleRate || '--',
       dynamicType: 6,
       unit: '%',
-      displayName: t(`${tHead}.infoListFun.gzl`),
+      displayName: t(`${tHead}.infoListFun.gzl`)
     },
     {
       icon: 'lyl',
@@ -128,7 +128,7 @@ const infoListFun = (data = {}) => {
       value: data?.useRate === 0 ? data.useRate : data.useRate || '--',
       dynamicType: 7,
       unit: '%',
-      displayName: t(`${tHead}.infoListFun.lyl`),
+      displayName: t(`${tHead}.infoListFun.lyl`)
     },
     {
       icon: 'nbwd',
@@ -136,7 +136,7 @@ const infoListFun = (data = {}) => {
       value: data?.equipmentTemp === 0 ? data.equipmentTemp : data.equipmentTemp || '--',
       dynamicType: 8,
       unit: 'C⁰',
-      displayName: t(`${tHead}.infoListFun.nbwd`),
+      displayName: t(`${tHead}.infoListFun.nbwd`)
     }
   ];
 };
@@ -185,7 +185,7 @@ const stateFormate = (state) => {
 const tabsFun = () => {
   const arr = [];
   if (pileData.value?.gunInfoVoList?.length) {
-    pileData.value?.gunInfoVoList.slice(0, 2).map((item) => {
+    pileData.value?.gunInfoVoList?.map((item) => {
       arr.push({
         ...item,
         name: item.connectorName,
@@ -277,12 +277,16 @@ watch(
 <style lang="less" scoped>
 .active-message {
   :deep(.beveled-tabs) {
+    .el-tabs__nav-scroll {
+      overflow-x: auto;
+    }
+
     .el-tabs__active-bar {
       display: none;
     }
 
     .el-tabs__nav {
-      width: 100%;
+      // width: 100%;
     }
 
     &.tabs-length1 {
@@ -291,12 +295,12 @@ watch(
       }
     }
 
-    &.tabs-length2 {
-      .el-tabs__item:nth-child(3) {
-        clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
-        margin-left: -15px;
-      }
-    }
+    // &.tabs-length2 {
+    //   .el-tabs__item:nth-child(3) {
+    //     clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
+    //     margin-left: -15px;
+    //   }
+    // }
 
     .el-tabs__item {
       flex: 1;
@@ -305,21 +309,36 @@ watch(
       font-size: 18px;
       line-height: 40px;
       color: #d6f8ff;
+      clip-path: polygon(0 0, 20px 100%, 100% 100%, calc(100% - 20px) 0);
+      margin-right: -15px;
+      padding: 0 15px !important;
 
-      &:nth-child(2) {
-        clip-path: polygon(0% 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 0 0);
+      &:nth-of-type(2) {
+        clip-path: polygon(0 0, 0 100%, 100% 100%, calc(100% - 20px) 0);
+        margin-right: -15px;
+        margin-left: 0;
       }
 
-      &:nth-child(3) {
-        clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 20px 0);
-        flex: 1.05;
-        margin-left: -15px;
+      &:last-of-type {
+        clip-path: polygon(0 0, 20px 100%, 100% 100%, 100% 0);
+        margin-left: 0;
+        margin-right: 0;
       }
 
-      &:nth-child(4) {
-        clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
-        margin-left: -15px;
-      }
+      // &:nth-child(2) {
+      //   clip-path: polygon(0% 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 0 0);
+      // }
+
+      // &:nth-child(3) {
+      //   clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0 100%, 20px 0);
+      //   flex: 1.05;
+      //   margin-left: -15px;
+      // }
+
+      // &:nth-child(4) {
+      //   clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0 100%, 20px 0);
+      //   margin-left: -15px;
+      // }
     }
 
     .el-tabs__item.is-active {
@@ -327,6 +346,11 @@ watch(
       line-height: 40px;
       color: #fff;
       background: rgba(84, 181, 255, 0.4);
+    }
+
+    .el-tabs__nav-next,
+    .el-tabs__nav-prev {
+      font-size: 18px;
     }
 
     .custom-tabs-label {

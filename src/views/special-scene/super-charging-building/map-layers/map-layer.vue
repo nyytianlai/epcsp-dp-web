@@ -89,9 +89,9 @@ const legendListData = reactive([
 ]);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
+  console.log('点击外面的点数据', e);
   // 点击站点图标高亮
   if (e.eventtype === 'LeftMouseButtonClick') {
-    console.log('点击外面的点数据', e);
     if (e.Id?.includes('stationOut-')) {
       //关闭上一个高亮其他站点
       if (currtentStation.stationId1 === e.Id) return;
@@ -292,6 +292,7 @@ const drawHoverBarMarker = async (data, show = false) => {
 
 const addOutStation = async (module: number, jdcode: string) => {
   await __g.marker.deleteByGroupId('jdStation');
+  await __g.marker.deleteByGroupId('rectBar');
   const { data: res } = await Api.getScStationDistribute({
     streetId: jdcode
   });

@@ -27,13 +27,12 @@ import HonglixiPopup from './honglixi-popup.vue';
 import { getStrLength } from '@/utils/index';
 import { getHtmlUrl } from '@/global/config/map';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
-import Nanwang_lianhuashan from './nanwang_lianhuashan.vue';
+import Nanwang_lianhuashan from './nanwang_lianhuashan/nanwang_lianhuashan.vue';
 
 const store = useVisibleComponentStore();
 const mapStore = useMapStore();
 const requestTimer = computed(() => mapStore.requestTimer);
 const currentHrStationID = computed(() => {
-  console.log(mapStore.currentHrStationID, '1111111111111111111');
   if (mapStore.currentHrStationID.split('-').length === 3) {
     return '-' + mapStore.currentHrStationID.split('-')[2];
   } else {

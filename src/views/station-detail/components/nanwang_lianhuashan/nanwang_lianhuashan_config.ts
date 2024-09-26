@@ -854,3 +854,181 @@ export const videoInfo = [
   { fid: 19, OBJID: 'LHS_SXT_07' },
   { fid: 20, OBJID: 'LHS_SXT_08' }
 ];
+// 站内设施
+export const facilities = [
+  // {
+  //   value: '',
+  //   id: 'camera1',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505942.125, 2496614.88, 29.3537451171875],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera2',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505931.3125, 2496609.7600000002, 29.347451171875],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera3',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505917.960625, 2496602.72, 29.3636962890625],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera4',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505902.735, 2496595.2, 29.365283203125],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera5',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505939.00125000003, 2496620, 29.4389892578125],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera6',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505928.65125, 2496614.88, 29.4350537109375],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera7',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505915.59125, 2496607.36, 29.39630859375],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera8',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505900.029375, 2496600.8000000003, 29.43298828125],
+  //   img: 'camera'
+  // },
+  {
+    value: '配电房',
+    id: 'electricalRoom',
+    groupId: 'stationFacilitiesLabel',
+    position: [505890.84500000003, 2496584, 29.21857421875],
+    img: 'electricalRoom'
+  },
+  {
+    value: '办公/监控区',
+    id: 'workRoom',
+    groupId: 'stationFacilitiesLabel',
+    position: [505906.749375, 2496620.16, 32.06466796875],
+    img: 'workRoom'
+  },
+  {
+    value: '休息区',
+    id: 'rest',
+    groupId: 'stationFacilitiesLabel',
+    position: [505880.603125, 2496605.92, 28.6278271484375],
+    img: 'rest'
+  }
+];
+
+export const guangFuPoints = (type = 0 | 1) => [
+  {
+    value: '光伏电池板',
+    id: 'photovoltaic1',
+    groupId: 'stationFacilitiesLabel',
+    position: [505920.278125, 2496603.84, 29.36634765625],
+    img: 'photovoltaic'
+  },
+  {
+    value: '光伏电池板',
+    id: 'photovoltaic2',
+    groupId: 'stationFacilitiesLabel',
+    position: [505927.23125, 2496631.52, 29.393896484375002],
+    img: 'photovoltaic'
+  }
+];
+
+// 光伏功率数据
+export const getGuangFuData = (weather = 0) => {
+  let data = [];
+  const photoData = [
+    397, 468, 482, 476, 437, 455, 481, 453, 429, 426, 452, 426, 452, 438, 467, 466, 488, 453, 433,
+    456, 364, 362, 421, 395, 392, 397, 381, 367, 387, 375, 362, 377, 341, 327, 346, 349
+  ];
+  for (let i = 0; i < 36; i++) {
+    let obj = {
+      id: `photovoltaic_${i + 1}`,
+      text: '540W',
+      value: weather === 1 ? photoData[i] - parseInt(`${photoData[i] * 0.23}`) : photoData[i],
+      status: 1
+    };
+    data.push(obj);
+  }
+  return data;
+};
+export const timeRandom = {
+  '05:00': 0,
+  '05:30': 5,
+  '06:00': 10,
+  '06:30': 15,
+  '07:00': 25,
+  '07:30': 35,
+  '08:00': 50,
+  '08:30': 65,
+  '09:00': 75,
+  '09:30': 80,
+  '10:00': 85,
+  '10:30': 90,
+  '11:00': 95,
+  '11:30': 98,
+  '12:00': 100,
+  '12:30': 100,
+  '13:00': 98,
+  '13:30': 95,
+  '14:00': 90,
+  '14:30': 88,
+  '15:00': 85,
+  '15:30': 75,
+  '16:00': 65,
+  '16:30': 50,
+  '17:00': 35,
+  '17:30': 25,
+  '18:00': 15,
+  '18:30': 10,
+  '19:00': 5,
+  '19:30': 0
+};
+export const cameraList = [
+  {
+    camera: [505935.533105, 2496653.290625, 27.014089, 2.042315, 68.040459, 0],
+    duration: 1
+  },
+  {
+    camera: [505939.56041, 2496647.193125, 27.014089, 2.042315, 68.040459, 0],
+    duration: 2
+  },
+  {
+    camera: [505942.906875, 2496639.045, 27.014089, 2.042315, 68.040459, 0],
+    duration: 2
+  },
+  {
+    camera: [505946.864121, 2496631.728125, 27.238396, 1.883179, 141.61702, 0],
+    duration: 3
+  },
+  {
+    camera: [505933.186396, 2496622.776875, 28.872756, -3.862547, 162.590286, 0],
+    duration: 3
+  },
+  {
+    camera: [505919.532305, 2496616.068125, 28.872756, -3.862547, 162.590286, 0],
+    duration: 4
+  },
+  {
+    camera: [505906.251563, 2496609.00125, 28.299097, -2.091479, 167.317932, -0],
+    duration: 3
+  }
+];

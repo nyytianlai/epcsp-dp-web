@@ -170,19 +170,27 @@ const getBusLineData = async () => {
   const res = await Api.getAllBus();
   const busPlateList = res?.data?.slice(0, 31).map((el) => el.plateNumber);
   // const plateNumber = 'BS01984D';
-  const locats = await Promise.allSettled(
-    busPlateList.map((plateNumber) =>
-      Api.getGpsByPlateNumber({
-        plateNumber: plateNumber,
-        startTime: '2024-08-15 12:00:00',
-        endTime: '2024-08-15 13:30:00'
-      })
-    )
+  // const locats = await Promise.allSettled(
+  //   busPlateList.map((plateNumber) =>
+  //     Api.getGpsByPlateNumber({
+  //       plateNumber: plateNumber,
+  //       startTime: '2024-08-15 12:00:00',
+  //       endTime: '2024-08-15 13:30:00'
+  //     })
+  //   )
+  // );
+  const locats = await Api.getGpsByPlateNumbers({
+    plateNumbers: busPlateList,
+    startTime: '2024-08-15 12:00:00',
+    endTime: '2024-08-15 13:30:00'
+  });
+  // const list = locats
+  //   .filter((el: any) => el.value?.data.every((item) => item.lng && item.lat))
+  //   .map((el: any) => el.value?.data || []);
+  // busLineList = list;
+  busLineList = Object.values(locats.data).filter((el: any) =>
+    el.every((item) => item.lng && item.lat)
   );
-  const list = locats
-    .filter((el: any) => el.value?.data.every((item) => item.lng && item.lat))
-    .map((el: any) => el.value?.data || []);
-  busLineList = list;
   addBusLine();
 };
 
@@ -369,6 +377,10 @@ const addAttachBus = async (data) => {
       offset: [0, 0, 0.5]
     }
   ]);
+  if (route.name !== 'powerCombine') {
+    __g.marker.deleteByGroupId('attach-marker');
+    return;
+  }
   __g.marker.showPopupWindow(marker.id);
 };
 
@@ -442,6 +454,7 @@ const addBusLine = async () => {
 
   if (route.name !== 'powerCombine') {
     __g.customObject.delete(bus_idList);
+    __g.polyline.delete(bus_idList);
     return;
   }
 
@@ -586,6 +599,10 @@ const addBusV2g = async (pos) => {
     __g.marker.showPopupWindow(arr.map((el) => el.id));
   });
   __g.odline.add(odLines);
+  if (route.name !== 'powerCombine') {
+    __g.odline.clear();
+    return;
+  }
 };
 
 const handleToRecommLine = async (pos) => {
@@ -687,7 +704,7 @@ const setScaleByHeight = (height) => {
     scale = 300;
     busLineWidth = 120;
   } else {
-    scale = Math.max((height / 18000) * 300, 10);
+    scale = Math.max((height / 18000) * 300, 20);
     busLineWidth = Math.max((height / 18000) * 120, 10);
   }
   __g.customObject.updateBegin();
@@ -742,6 +759,10 @@ const addBusStationPoint = async () => {
     arr.push(marker);
   });
   __g.marker.add(arr, null);
+  if (route.name !== 'powerCombine') {
+    __g.marker.deleteByGroupId('bus-station');
+    return;
+  }
 };
 
 const handleDetail = async () => {

@@ -145,3 +145,17 @@ export const getStationInfoPage = (data) => {
     data
   });
 };
+// 根据站点id查询枪状态信息
+export const connectorStatusInfo = (data) => {
+  return request.post({
+    url: '/connectorStatusInfo/connectorStatusInfo',
+    data
+  });
+};
+// 根据站点id查询枪状态信息
+export const selectConnectorStatusByStationId = (data) => {
+  return request.post({
+    url: '/dp/api/v1/equipmentManageDetail/selectConnectorStatusByStationId',
+    data
+  });
+};

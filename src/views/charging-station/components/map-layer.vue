@@ -19,6 +19,7 @@ import { projectCGCS2000_2_GK114 } from '@/utils/index';
 import { getHeatMap } from '../api.js';
 import { gcj02ToWgs84 } from '@sutpc/zebra';
 import { useMapStore } from '@/stores/map';
+import { resetSzView } from '@/global/config/map';
 
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -36,9 +37,10 @@ const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3]);
 
 let updateHeatMapInterval = null; //定时更新热力图的定时器
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 aircityObj.value?.acApi.reset();
-aircityObj.value?.acApi.reset(4);
+// aircityObj.value?.acApi.reset(4);
+resetSzView(aircityObj.value?.acApi);
 let quRef = ref(null);
 let rectBarRef = ref(null);
 const legendType = ref('normal');
