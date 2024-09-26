@@ -66,8 +66,12 @@
   <panel type="right" v-if="isShowBoth">
     <div class="charging-bar-state">
       <!-- zdcdzzt: '站点充电桩状态' -->
-      <title-column :title="t(`${tHead}.zdcdzzt`)" />
-      <charging-state :data="chargingStateData" @handleClickState="focusToPile" />
+      <title-column :title="showGunInfo ? '充电枪状态' : t(`${tHead}.zdcdzzt`)" />
+      <charging-state
+        :isGun="showGunInfo"
+        :data="chargingStateData"
+        @handleClickState="focusToPile"
+      />
     </div>
     <div class="device-use-info">
       <!-- cdssrsyxx: '充电设施日使用信息', 充电设施日使用信息 -->
@@ -189,6 +193,7 @@ import {
   selectStationInfoByStationId,
   selectWarningInfoByStationId,
   selectEquipmentStatusByStationId,
+  selectConnectorStatusByStationId,
   selectEquipmentUseRateByStationId,
   selectStationRealTimePowerByStationId,
   selectWarningStatisticByStationId,
@@ -225,6 +230,9 @@ const realtimePowerColors = ['green'];
 const showBqDialog = ref(false);
 
 const tileLayerDialogMode = ref('');
+// 站点充电桩状态-展示充电枪信息的站点
+const gunListStations = ['4401040161', '4403040422'];
+const showGunInfo = computed(() => gunListStations.includes(store.detailParams?.stationId));
 
 const headerDataMsg = {
   pcsCabinet: {
@@ -439,7 +447,9 @@ const getWarningInfoByStationId = async (alarmLevel, pageNum = 1, pageSize = 999
 };
 //设备详情/站点充电桩状态
 const getEquipmentStatusByStationId = async () => {
-  const res = await selectEquipmentStatusByStationId(params.value);
+  const res = await (gunListStations.includes(params.value.stationId)
+    ? selectConnectorStatusByStationId
+    : selectEquipmentStatusByStationId)(params.value);
   const eidObj = {};
   chargingStateData.value = (res?.data || []).map((item) => {
     eidObj[item.eid] = item;

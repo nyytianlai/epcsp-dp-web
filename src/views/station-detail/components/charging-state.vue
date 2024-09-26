@@ -17,7 +17,9 @@
           v-if="item.isAlarm === 0"
         />
         <icon :icon="`svg-icon:${stateFormate(item.status)?.code}`" v-else />
-        <span class="power text-ellipsis-1">{{ item.equipmentName }}</span>
+        <span class="power text-ellipsis-1">
+          {{ isGun ? item.connectorName : item.equipmentName }}
+        </span>
         <span class="state">
           <span class="text">
             {{ stateFormate(item.status).displayName || stateFormate(item.status).name }}
@@ -44,6 +46,7 @@ interface Data {
   chargingType: string;
   equipmentName?: string;
   equipmentType?: string;
+  connectorName?: string;
 }
 const mapStore = useMapStore();
 const aircityObj = inject<any>('aircityObj');
@@ -52,6 +55,10 @@ const props = defineProps({
   data: {
     type: Array as () => Data[],
     default: []
+  },
+  isGun: {
+    type: Boolean,
+    default: false
   }
 });
 const emit = defineEmits(['handleClickState']);

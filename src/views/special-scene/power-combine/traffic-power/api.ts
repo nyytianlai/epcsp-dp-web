@@ -89,5 +89,12 @@ export default {
     return request.post({
       url: '/busCan/getBusGroupBusTerminalInfoById?id=' + data.id
     });
+  },
+  // 获取GPS信息
+  getGpsByPlateNumbers(data) {
+    return request.post({
+      url: '/busCan/getGpsByPlateNumbers',
+      data
+    });
   }
 };
