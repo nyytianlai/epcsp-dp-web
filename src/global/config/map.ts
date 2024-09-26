@@ -150,7 +150,7 @@ export const addCommon3dt = async (__g, file, id = file, location = [0, 0, 92.5]
 };
 
 export const delete3dt = async (__g, ids: string[]) => {
-  __g.tileLayer.delete(ids);
+  await __g.tileLayer.delete(ids);
 };
 
 export const isShowActors = async (__g, layerid: string, ids: string[], isShow: boolean) => {
@@ -299,11 +299,19 @@ export const playCamera = async (__g, tortureName) => {
 };
 
 export const resetSzView = async (__g) => {
-  await __g.camera.set(infoObj.ssView, 0.2);
+  await __g.camera.set(infoObj.szView, 0.2);
 };
 
-// export const resetAllLayers = async (__g) => {
-//   await Promise.allSettled([
-//     __g.marker.clear()
-//   ])
-// }
+export const resetAllLayers = async (__g) => {
+  await Promise.allSettled([
+    __g.camera.stopAnimation(),
+    __g.polygon.clear(),
+    __g.polyline.clear(),
+    __g.marker.clear(),
+    __g.polygon3d.clear(),
+    __g.odline.clear(),
+    __g.customObject.clear(),
+    __g.heatmap.clear(),
+    __g.heatmap3d.clear()
+  ]);
+};

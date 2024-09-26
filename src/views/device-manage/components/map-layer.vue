@@ -12,16 +12,17 @@ import Qu from '@/components/map-layer/qu.vue';
 import CirBar4 from '@/components/map-layer/cir-bar4.vue';
 import { inject, onMounted, onBeforeUnmount, ref, computed, reactive } from 'vue';
 import { useMapStore } from '@/stores/map';
-import { layerNameQuNameArr, quNameCodeInterTrans } from '@/global/config/map';
+import { layerNameQuNameArr, quNameCodeInterTrans, resetSzView } from '@/global/config/map';
 import bus from '@/utils/bus';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const tHead = `device-manage.map-layer`;
 
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value.acApi;
 __g.reset();
-__g.reset(4);
+// __g.reset(4);
+resetSzView(__g);
 const store = useMapStore();
 //所在位置 深圳市 xx区 xx站(取值'')
 const currentPosition = computed(() => store.currentPosition);
@@ -43,19 +44,19 @@ let legendListData = reactive([
     color: 'linear-gradient(178.17deg, #FBFF2C 4.74%, #4E6200 95.4%)',
     name: '快充桩',
     type: false,
-    displayName: t(`${tHead}.legendListData.kcz`),
+    displayName: t(`${tHead}.legendListData.kcz`)
   },
   {
     color: 'linear-gradient(178.21deg, #5678F9 6.05%, #003077 94.76%)',
     name: '慢充桩',
     type: false,
-    displayName: t(`${tHead}.legendListData.mcz`),
+    displayName: t(`${tHead}.legendListData.mcz`)
   },
   {
     color: 'linear-gradient(178.1deg, #4AD9FC 3.02%, #003077 97.03%)',
     name: '超充桩',
     type: false,
-    displayName: t(`${tHead}.legendListData.ccz`),
+    displayName: t(`${tHead}.legendListData.ccz`)
   }
   // {
   //   color: 'linear-gradient(178.17deg, #B9FFFF 4.74%, #214D4B 95.4%)',
@@ -68,10 +69,10 @@ const setLegendData = (code: 1 | 2) => {
   let type = code == 1 ? '桩' : '枪';
   legendNameData.value = code == 1 ? cdzsg : cdqsg;
   // (legendNameData.value = `充电${type}数/个`),
-    legendListData.forEach((item) => {
-      item.name = item.name.slice(0, -1) + type;
-      item.type = false;
-    });
+  legendListData.forEach((item) => {
+    item.name = item.name.slice(0, -1) + type;
+    item.type = false;
+  });
 };
 
 const buttomTabChange = async (code: 1 | 2) => {

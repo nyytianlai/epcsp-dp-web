@@ -1,7 +1,7 @@
 import { scale } from '@sutpc/config';
-import i18n from '@/locales/i18n'; 
+import i18n from '@/locales/i18n';
 const { t } = i18n.global;
-const configHead  = `special-scene.power-combine.config`;
+const configHead = `special-scene.power-combine.config`;
 
 export const parkingChargeAreaColumn = [
   {
@@ -87,7 +87,7 @@ export const getBaseChartOption = () => {
     },
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(9, 41, 75, 0.8)',
+      backgroundColor: 'transparent',
       borderWidth: 0,
       textStyle: {
         color: '#fff',

@@ -16,7 +16,8 @@ import {
   infoObj,
   getImageUrl,
   returnStationPointConfig,
-  getImageByCloud
+  getImageByCloud,
+  resetSzView
 } from '@/global/config/map';
 import { useMapStore } from '@/stores/map';
 import bus from '@/utils/bus';
@@ -30,7 +31,7 @@ const tHead = `public-service.map-layer`;
 const store = useMapStore();
 const currentPosition = computed(() => store.currentPosition);
 store.changeStationType([1, 2, 3]);
-let rsr = t(`${tHead}.rsr`);  
+let rsr = t(`${tHead}.rsr`);
 let legendNameData = ref(rsr || '人数/人');
 
 let legendListData = reactive([
@@ -48,10 +49,11 @@ let legendListData = reactive([
   }
 ]);
 let rectBar2Ref = ref(null);
-const aircityObj = inject('aircityObj');
+const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
 __g.reset();
-__g.reset(4);
+// __g.reset(4);
+resetSzView(__g);
 const getBarData = () => {
   const data = mapQuBar();
   rectBar2Ref.value.addBar(data, 'qu');

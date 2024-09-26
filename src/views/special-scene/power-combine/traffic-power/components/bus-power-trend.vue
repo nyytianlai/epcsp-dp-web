@@ -62,7 +62,12 @@ const drawChart = async (data = []) => {
       symbol: 'none',
       barWidth: item.type === 'bar' && scale(10),
       yAxisIndex: i,
-      data: data.map((obj) => [obj.time, obj[item.code]])
+      data: data.map((obj) => {
+        return {
+          value: [obj.time, obj[item.code]],
+          unit: item.unit
+        };
+      })
     });
 
     legendData.push({
@@ -77,6 +82,28 @@ const drawChart = async (data = []) => {
   option.xAxis.axisLabel.formatter = (params) => {
     return params;
     // return dayjs(params).format('HH:mm');
+  };
+  option.tooltip.formatter = (params) => {
+    const dataTime = params[0].axisValueLabel;
+    let str = `<div class="time-tooltip">`;
+    str += `<div class="time">${dataTime}</div>`;
+    params.map((item) => {
+      console.log(item);
+      str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
+              <span class="unit">${item.data.unit}</span>
+            </span>
+          </div>`;
+    });
+    str += '</div>';
+    return str;
   };
   ecOption.value = {
     ...option,

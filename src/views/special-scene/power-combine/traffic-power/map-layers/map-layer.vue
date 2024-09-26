@@ -369,6 +369,10 @@ const addAttachBus = async (data) => {
       offset: [0, 0, 0.5]
     }
   ]);
+  if (route.name !== 'powerCombine') {
+    __g.marker.deleteByGroupId('attach-marker');
+    return;
+  }
   __g.marker.showPopupWindow(marker.id);
 };
 
@@ -442,6 +446,7 @@ const addBusLine = async () => {
 
   if (route.name !== 'powerCombine') {
     __g.customObject.delete(bus_idList);
+    __g.polyline.delete(bus_idList);
     return;
   }
 
@@ -586,6 +591,10 @@ const addBusV2g = async (pos) => {
     __g.marker.showPopupWindow(arr.map((el) => el.id));
   });
   __g.odline.add(odLines);
+  if (route.name !== 'powerCombine') {
+    __g.odline.clear();
+    return;
+  }
 };
 
 const handleToRecommLine = async (pos) => {
@@ -742,6 +751,10 @@ const addBusStationPoint = async () => {
     arr.push(marker);
   });
   __g.marker.add(arr, null);
+  if (route.name !== 'powerCombine') {
+    __g.marker.deleteByGroupId('bus-station');
+    return;
+  }
 };
 
 const handleDetail = async () => {

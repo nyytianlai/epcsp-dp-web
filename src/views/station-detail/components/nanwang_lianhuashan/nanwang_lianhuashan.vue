@@ -28,6 +28,7 @@ import { connectorStatusInfo } from '@/views/station-detail/api.js';
 import bus from '@/utils/bus';
 import dayjs from 'dayjs';
 import GuangFuPopup from './guang_fu_popup.vue';
+import { selectCameraByStationId } from '../../api.js';
 
 const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
@@ -75,6 +76,7 @@ const handleTabSelect = async (tab) => {
     case 'LHS_CCZ1': // 站内设施
       showGuangFUPopup.value = false;
       addFacilitiesLabels(facilities);
+      getCameraData();
       break;
     case 'LHS_CCZ2': // 光伏信息
       showGuangFUPopup.value = true;
@@ -144,6 +146,16 @@ const hideCarByStatus = async (data = []) => {
 const showAllPos = async () => {};
 
 const hideAllPos = async () => {};
+
+// 获取摄像头位置信息
+const getCameraData = async () => {
+  const res = await selectCameraByStationId({
+    operatorId: visibleStore.detailParams?.operatorId,
+    stationId: visibleStore.detailParams?.stationId
+  });
+  console.log(res.data);
+};
+
 // 场内设施
 const addFacilitiesLabels = async (data = []) => {
   const pointArr = [];

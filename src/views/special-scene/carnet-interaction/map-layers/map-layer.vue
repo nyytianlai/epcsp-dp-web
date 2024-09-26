@@ -13,7 +13,8 @@ import {
   layerNameQuNameArr,
   getTreeLayerIdByName,
   playCamera,
-  returnStationPointConfig
+  returnStationPointConfig,
+  resetSzView
 } from '@/global/config/map';
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
@@ -79,7 +80,7 @@ useEmitt('AIRCITY_EVENT', async (e) => {
 });
 
 bus.on('map-back', () => {
-  __g.reset(4);
+  resetSzView(__g);
   // __g.marker.showByGroupId('jdStation', null),
   addPoint();
   __g.marker.showByGroupId('carnet-interaction-baoAn-group', null),

@@ -856,62 +856,62 @@ export const videoInfo = [
 ];
 // 站内设施
 export const facilities = [
-  {
-    value: '',
-    id: 'camera1',
-    groupId: 'stationFacilitiesLabel',
-    position: [505942.125, 2496614.88, 29.3537451171875],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera2',
-    groupId: 'stationFacilitiesLabel',
-    position: [505931.3125, 2496609.7600000002, 29.347451171875],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera3',
-    groupId: 'stationFacilitiesLabel',
-    position: [505917.960625, 2496602.72, 29.3636962890625],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera4',
-    groupId: 'stationFacilitiesLabel',
-    position: [505902.735, 2496595.2, 29.365283203125],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera5',
-    groupId: 'stationFacilitiesLabel',
-    position: [505939.00125000003, 2496620, 29.4389892578125],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera6',
-    groupId: 'stationFacilitiesLabel',
-    position: [505928.65125, 2496614.88, 29.4350537109375],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera7',
-    groupId: 'stationFacilitiesLabel',
-    position: [505915.59125, 2496607.36, 29.39630859375],
-    img: 'camera'
-  },
-  {
-    value: '',
-    id: 'camera8',
-    groupId: 'stationFacilitiesLabel',
-    position: [505900.029375, 2496600.8000000003, 29.43298828125],
-    img: 'camera'
-  },
+  // {
+  //   value: '',
+  //   id: 'camera1',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505942.125, 2496614.88, 29.3537451171875],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera2',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505931.3125, 2496609.7600000002, 29.347451171875],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera3',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505917.960625, 2496602.72, 29.3636962890625],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera4',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505902.735, 2496595.2, 29.365283203125],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera5',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505939.00125000003, 2496620, 29.4389892578125],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera6',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505928.65125, 2496614.88, 29.4350537109375],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera7',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505915.59125, 2496607.36, 29.39630859375],
+  //   img: 'camera'
+  // },
+  // {
+  //   value: '',
+  //   id: 'camera8',
+  //   groupId: 'stationFacilitiesLabel',
+  //   position: [505900.029375, 2496600.8000000003, 29.43298828125],
+  //   img: 'camera'
+  // },
   {
     value: '配电房',
     id: 'electricalRoom',

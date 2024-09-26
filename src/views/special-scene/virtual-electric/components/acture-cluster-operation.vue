@@ -68,7 +68,7 @@ const ecOption = ref(getBaseChartOption());
 
 const drawChart = async (data = []) => {
   await getEcharts();
-  const option = getBaseChartOption();
+  const option: any = getBaseChartOption();
   const series = [];
 
   chartConfig.forEach((item, i) => {
@@ -77,10 +77,36 @@ const drawChart = async (data = []) => {
       color: `rgb(${item.color})`,
       type: 'line',
       yAxisIndex: 0,
-      data: data.map((obj) => [obj.time, obj[item.code]])
+      data: data.map((obj) => {
+        return {
+          value: [obj.time + '时', obj[item.code]],
+          unit: item.unit || item.code
+        };
+      })
     });
   });
-
+  option.tooltip.formatter = (params) => {
+    const dataTime = params[0].axisValueLabel;
+    let str = `<div class="time-tooltip">`;
+    str += `<div class="time">${dataTime}</div>`;
+    params.map((item) => {
+      console.log(item);
+      str += `<div class="item-data">
+            <span class="left-data">
+              ${item?.marker}
+              <span class="name">${item?.seriesName}</span>
+            </span>
+            <span class="right-data">
+              <span class="value">${
+                item?.value[1] || item?.value[1] === 0 ? item?.value[1] : '--'
+              }</span>
+              <span class="unit">${item.data.unit}</span>
+            </span>
+          </div>`;
+    });
+    str += '</div>';
+    return str;
+  };
   ecOption.value = {
     ...option,
     legend: {
