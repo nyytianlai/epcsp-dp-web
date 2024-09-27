@@ -66,10 +66,10 @@ const { t } = useI18n();
 const tHead = `charging-station.right-panel`;
 
 interface Aircity {
-  value: object;
+  value: any;
 }
 const storeVisible = useVisibleComponentStore();
-const aircityObj: Aircity = inject('aircityObj');
+const aircityObj: Aircity = inject<any>('aircityObj');
 const warningDom = ref(null);
 // 今日充电设施数据信息code
 const realtimeCode = ref('pile');
@@ -78,7 +78,7 @@ const dialogTableVisible = ref(false);
 const todayTabs = ref(todayTabsFun());
 const todayInfoNumData = ref(todayInfoNumDataFun());
 // 充电功率
-const powerInfoNumData = ref(0);
+const powerInfoNumData = ref('0');
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
 const lineTimeColors = ['blue'];

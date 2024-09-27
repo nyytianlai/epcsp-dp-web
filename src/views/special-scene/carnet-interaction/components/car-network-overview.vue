@@ -113,7 +113,7 @@ const getData = async () => {
   try {
     const { data } = await Api.getVehicleNetInterOverview();
     [...topCardConfig.value, ...bottomCardConfig.value].forEach((el) => {
-      el.value = data[el.code];
+      el.value = Number(data[el.code]).toFixed(0);
     });
   } catch (error) {}
   loading.value = false;

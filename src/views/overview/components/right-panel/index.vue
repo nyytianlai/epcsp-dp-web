@@ -128,7 +128,7 @@ const loadYearChargingStation = async () => {
   ]);
 };
 // 充电功率
-const powerInfoNumData = ref(0);
+const powerInfoNumData = ref<number | string>(0);
 // 充电功率折线
 const lineTimeData = ref(lineTimeDataFun());
 const getTimePowerGraph = async () => {
@@ -140,7 +140,7 @@ const getTimePowerGraph = async () => {
       totalPower: data[data.length - 1].ratedPower,
       realTimePower: data[data.length - 1].realTimePower
     };
-    powerInfoNumData.value = info.realTimePower;
+    powerInfoNumData.value = Number(info.realTimePower).toFixed(0);
   }
 };
 

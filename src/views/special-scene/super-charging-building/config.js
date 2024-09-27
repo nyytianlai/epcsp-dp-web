@@ -12,9 +12,62 @@ const configHead = `special-scene.super-charging-building.config`;
 export const getOperatCardConfig = (data = {}) => {
   return [
     {
-      name: '已建成',
+      name: '规划',
+      color: '#17A4FA',
+      children: [
+        {
+          name: '超充站',
+          code: 'stationPlanNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhan`),
+          displayUnit: t(`${configHead}.common.unitGe`)
+        },
+        {
+          name: '超充桩',
+          code: 'equipmentPlanNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhuang`),
+          displayUnit: t(`${configHead}.common.unitGe`)
+        }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
+    },
+    {
+      name: '建设',
+      color: '#3A60EE',
+      children: [
+        {
+          name: '超充站',
+          code: 'stationBuildNum',
+          value: null,
+          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhan`),
+          displayUnit: t(`${configHead}.common.unitGe`)
+        },
+        {
+          name: '超充桩',
+          code: 'equipmentBuildNum',
+          value: null,
+          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
+          unit: '个',
+          displayName: t(`${configHead}.common.cczhuang`),
+          displayUnit: t(`${configHead}.common.unitGe`)
+        }
+      ].map((e) => {
+        e.value = data && data[e.code];
+        return e;
+      })
+    },
+    {
+      name: '建成',
       color: '#00D2D9',
-      displayName: t(`${configHead}.common.yingyun`),
       children: [
         {
           name: '超充站',
@@ -66,66 +119,11 @@ export const getOperatCardConfig = (data = {}) => {
         return e;
       })
     },
+
     {
-      name: '建设中',
-      color: '#3A60EE',
-      displayName: t(`${configHead}.common.jsz`),
-      children: [
-        {
-          name: '超充站',
-          code: 'stationBuildNum',
-          value: null,
-          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
-          unit: '个',
-          displayName: t(`${configHead}.common.cczhan`),
-          displayUnit: t(`${configHead}.common.unitGe`)
-        },
-        {
-          name: '超充桩',
-          code: 'equipmentBuildNum',
-          value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
-          unit: '个',
-          displayName: t(`${configHead}.common.cczhuang`),
-          displayUnit: t(`${configHead}.common.unitGe`)
-        }
-      ].map((e) => {
-        e.value = data && data[e.code];
-        return e;
-      })
-    },
-    {
-      name: '规划',
-      color: '#17A4FA',
-      displayName: t(`${configHead}.common.guihua`),
-      children: [
-        {
-          name: '超充站',
-          code: 'stationPlanNum',
-          value: null,
-          icon: new URL('./images/chaochongzhan.png', import.meta.url).href,
-          unit: '个',
-          displayName: t(`${configHead}.common.cczhan`),
-          displayUnit: t(`${configHead}.common.unitGe`)
-        },
-        {
-          name: '超充桩',
-          code: 'equipmentPlanNum',
-          value: null,
-          icon: new URL('./images/chaochongzhuang.png', import.meta.url).href,
-          unit: '个',
-          displayName: t(`${configHead}.common.cczhuang`),
-          displayUnit: t(`${configHead}.common.unitGe`)
-        }
-      ].map((e) => {
-        e.value = data && data[e.code];
-        return e;
-      })
-    },
-    {
-      name: '已接入',
+      name: '接入',
       color: '#00D2D9',
-      displayName: '已接入',
+      displayName: '接入',
       children: [
         {
           name: '超充站',
@@ -309,8 +307,7 @@ export const columnKeyListFun = (type = 'Plan') => {
   return [
     {
       prop: 'areaName',
-      label: t(`${configHead}.common.xzqmc`) || '行政区名称',
-      displayLabel: t(`${configHead}.common.xzqmc`),
+      label: '区域',
       width: 3
     },
     {
@@ -348,23 +345,23 @@ export const pageNumFun = (data = {}) => {
     {
       name: '今日充电量',
       num: data?.chargeCapacity,
-      unit: '度',
-      displayName: t(`${configHead}.common.jrcdl`),
-      displayNum: t(`${configHead}.common.unitDu`)
+      unit: '万度',
+      displayName: t(`${configHead}.common.jrcdl`)
+      // displayNum: t(`${configHead}.common.unitDu`)
     },
     {
       name: '今日充电时长',
       num: parseInt(data?.chargeHour),
-      unit: '小时',
-      displayName: t(`${configHead}.common.jrcdsc`),
-      displayNum: t(`${configHead}.common.unitHour`)
+      unit: '万小时',
+      displayName: t(`${configHead}.common.jrcdsc`)
+      // displayNum: t(`${configHead}.common.unitHour`)
     },
     {
       name: '今日充电订单数',
       num: data?.orderNum,
-      unit: '个',
-      displayName: t(`${configHead}.common.jrcddds`),
-      displayNum: t(`${configHead}.common.unitGe`)
+      unit: '万个',
+      displayName: t(`${configHead}.common.jrcddds`)
+      // displayNum: t(`${configHead}.common.unitGe`)
     },
     {
       name: '超充日均利用率',

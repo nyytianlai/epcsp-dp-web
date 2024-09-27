@@ -7,8 +7,10 @@ import vitePluginSutpcLessDeep from 'vite-plugin-sutpc-less-deep';
 import vitePluginPurgeIcons from 'vite-plugin-purge-icons';
 import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
-import { ViteEjsPlugin } from "vite-plugin-ejs";
+import { ViteEjsPlugin } from 'vite-plugin-ejs';
 // import rollupPluginVisualizer from 'rollup-plugin-visualizer';
+import OptimizationPersist from 'vite-plugin-optimize-persist';
+import PkgConfig from 'vite-plugin-package-config';
 
 import type { UserConfig, ConfigEnv } from 'vite';
 
@@ -34,6 +36,8 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     plugins: [
+      PkgConfig(),
+      OptimizationPersist(),
       vue(),
       vitePluginSutpcLibStaticImport(),
       vitePluginSutpcLessDeep(),
@@ -101,6 +105,19 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           rewrite: (path) => path.replace(/^\/station-camera/, '')
         }
       }
+    },
+    optimizeDeps: {
+      include: [
+        'vue',
+        'vue-router',
+        'element-plus',
+        'pinia',
+        'dayjs',
+        '@sutpc/vue3-ec-resize',
+        'echarts',
+        'lodash-es',
+        '@sutpc/zebra'
+      ]
     }
   };
 };

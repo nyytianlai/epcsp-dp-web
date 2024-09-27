@@ -1,14 +1,9 @@
 <template>
   <div class="operation-bus-overview">
     <!-- yybsyxzl: '营运巴士运行总览' -->
-    <title-column :title="t(`${tHead}.yybsyxzl`)" />
+    <title-column title="新能源公交情况总览" />
     <div class="distributed-content">
-      <div
-        class="top-card-item"
-        :class="[{ 'one-row': index === bottomCardConfig.length - 1 }]"
-        v-for="(item, index) in bottomCardConfig"
-        :key="item.name"
-      >
+      <div class="top-card-item" v-for="(item, index) in bottomCardConfig" :key="item.name">
         <img :src="item.icon" class="icon" />
         <div class="card-data">
           <div class="card-value">
@@ -38,54 +33,61 @@ const loading = ref(true);
 
 const bottomCardConfig = ref([
   {
-    name: '新能源巴士数量',
+    name: '公交场站数量',
+    code: 'stationNum',
+    value: '3850',
+    unit: '个',
+    icon: new URL('../images/total-demand.png', import.meta.url).href
+  },
+  {
+    name: '新能源公交数量',
     code: 'busNum',
     value: '3850',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
-    name: '适配V2G巴士数量',
-    code: 'v2gbusNum',
+    name: '支持V2G公交数量',
+    code: 'v2gNum',
     value: '1074',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
-    name: 'V2G站',
-    code: 'v2gNums',
-    value: '145',
-    unit: '个',
-    icon: new URL('../images/v2g.png', import.meta.url).href
-  },
-  {
-    name: 'V2G桩数',
-    code: 'v2gNum',
-    value: '306',
-    unit: '个',
-    icon: new URL('../images/v2g.png', import.meta.url).href
-  },
-  {
-    name: '正在运行巴士数量',
-    code: 'runBUs',
-    value: '408',
-    unit: '辆',
-    icon: new URL('../images//bus-nums.png', import.meta.url).href
-  },
-  {
-    name: '正在运行V2G巴士数量',
-    code: 'runBUs',
-    value: '13',
-    unit: '辆',
-    icon: new URL('../images//bus-nums.png', import.meta.url).href
-  },
-  {
-    name: '巴士储能电量',
+    name: '公交储能总电量',
     code: 'busRemainPower',
-    value: '23566',
+    value: '',
     unit: 'kWh',
     icon: new URL('../images/surplus-power.png', import.meta.url).href
   }
+  // {
+  //   name: 'V2G站',
+  //   code: 'v2gNums',
+  //   value: '145',
+  //   unit: '个',
+  //   icon: new URL('../images/v2g.png', import.meta.url).href
+  // },
+  // {
+  //   name: 'V2G桩数',
+  //   code: 'v2gNum',
+  //   value: '306',
+  //   unit: '个',
+  //   icon: new URL('../images/v2g.png', import.meta.url).href
+  // },
+  // {
+  //   name: '正在运行巴士数量',
+  //   code: 'runBUs',
+  //   value: '408',
+  //   unit: '辆',
+  //   icon: new URL('../images//bus-nums.png', import.meta.url).href
+  // },
+  // {
+  //   name: '正在运行V2G巴士数量',
+  //   code: 'runBUs',
+  //   value: '13',
+  //   unit: '辆',
+  //   icon: new URL('../images//bus-nums.png', import.meta.url).href
+  // },
   // {
   //   name: '日均里程',
   //   code: '',
@@ -119,11 +121,11 @@ const getData = async () => {
 
 const getV2Gdata = async () => {
   const res = await V2GApi.getVehicleNetInterOverview();
-  bottomCardConfig.value[2].value = res.data.stationNum;
-  bottomCardConfig.value[3].value = res.data.pileNum;
+  // bottomCardConfig.value[2].value = res.data.stationNum;
+  // bottomCardConfig.value[3].value = res.data.pileNum;
 };
 getV2Gdata();
-// getData();
+getData();
 </script>
 
 <style scoped lang="less">

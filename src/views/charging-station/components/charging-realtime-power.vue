@@ -3,7 +3,8 @@
     <icon icon="svg-icon:power" />
     <div class="num-info">
       <div class="num num-realtime" id="number" ref="number">
-        <div v-if="!isResize">{{ formatWithToLocalString(data) }}</div>
+        <div>{{ formatWithToLocalString(data) }}</div>
+        <!-- <div v-if="!isResize">{{ formatWithToLocalString(data) }}</div>
         <numberFlipping
           v-else
           v-for="(item, index) in formatWithToLocalString(data)"
@@ -11,10 +12,10 @@
           :num="item === '.' || item === ',' ? item : Number(item)"
           :id="`${index}`"
           @resize="hanldeResize"
-        ></numberFlipping>
+        ></numberFlipping> -->
       </div>
       <!-- ssgl: '实时功率' -->
-      <span class="unit-info">{{ t(`${tHead}.ssgl`) }}/kW</span>
+      <span class="unit-info">实时功率/kW</span>
     </div>
   </div>
 </template>
@@ -22,15 +23,15 @@
 import { toRefs, onMounted, reactive, watch, ref, nextTick } from 'vue';
 import Icon from '@sutpc/vue3-svg-icon';
 import { formatWithToLocalString } from '@/global/commonFun.js';
-import gsap from 'gsap';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
-const tHead = `charging-station.charging-realtime-power`;
+// import gsap from 'gsap';
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n();
+// const tHead = `charging-station.charging-realtime-power`;
 
 const props = defineProps({
   data: {
     type: Number,
-    default: ''
+    default: 0
   }
 });
 const { data } = toRefs(props);

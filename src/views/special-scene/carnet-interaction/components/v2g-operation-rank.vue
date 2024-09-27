@@ -52,6 +52,8 @@ onMounted(() => {
   row-gap: 12px;
 
   .distributed-content {
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     min-height: 0;
     border-radius: 4px;

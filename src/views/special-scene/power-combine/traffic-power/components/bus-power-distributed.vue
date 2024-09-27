@@ -1,7 +1,7 @@
 <template>
   <div class="bus-power-distributed">
     <!-- bssydlfb: '巴士剩余电量分布' -->
-    <title-column :title="t(`${tHead}.bssydlfb`)" />
+    <title-column title="区域公交储能与V2G统计" />
     <div class="distributed-content" v-loading="loading">
       <scroll-table
         :scrollTableData="scrollTableData"
@@ -31,8 +31,22 @@ const getData = async () => {
       areaCode: '',
       streetCode: ''
     };
-    const { data } = await Api.busCanDistribution(params);
-    scrollTableData.value = data;
+    const arr = [];
+    const res = await Promise.allSettled([
+      Api.busCanDistribution(params),
+      Api.getV2GDistribution()
+    ]);
+    res.forEach((item: any) => {
+      item.value?.data?.forEach((v: any) => {
+        const fd = arr.find((fd: any) => fd.areaCode === v.areaCode);
+        if (fd) {
+          Object.assign(fd, v);
+        } else {
+          arr.push(v);
+        }
+      });
+    });
+    scrollTableData.value = arr;
   } catch (error) {}
   loading.value = false;
 };

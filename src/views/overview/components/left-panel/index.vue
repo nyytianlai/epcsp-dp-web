@@ -98,7 +98,7 @@
     </div>
   </panel>
   <CustomerDialog
-    title="各区接入情况"
+    :title="modalTitle"
     :visible="showDialog"
     :width="'12rem'"
     @close="showDialog = false"
@@ -107,6 +107,7 @@
     <scroll-table
       :scrollTableData="tableData"
       :columnKeyList="columns"
+      class="custom-dialog-table"
       :style="`height: ${
         pageObj.total / pageObj.pageSize > 1 ? '6rem' : 'auto'
       }; padding-bottom: 24px; max-height: 6rem`"
@@ -164,6 +165,8 @@ const columns = ref([]);
 const tableData = ref([]);
 const showPagination = ref(false);
 const apiKey = ref('');
+
+const modalTitle = ref('');
 
 const pageObj = reactive({
   pageSize: 12,
@@ -231,6 +234,7 @@ const loadData = async () => {
 
 const handleCardClick = async (item) => {
   if (!item.clickAble || !item.apiCode) return;
+  modalTitle.value = item.modalTitle;
   columns.value = getTableColumnByType(item.code);
   showPagination.value = item.showPagination;
   apiKey.value = item.apiCode;

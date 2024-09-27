@@ -6,21 +6,38 @@ const configHead = `special-scene.power-combine.config`;
 export const powerDistributedColumn = [
   {
     prop: 'areaName',
-    label: '行政区',
-    width: 3,
-    displayLabel: t(`${configHead}.powerDistributedColumn.areaName`)
+    label: '区域',
+    width: 3
   },
   {
     prop: 'busRemainPower',
     label: '巴士储能电量(kWh)',
-    width: 4,
-    displayLabel: t(`${configHead}.powerDistributedColumn.soltNum`)
+    width: 5,
+    align: 'center'
   },
   {
     prop: 'busNum',
-    label: '巴士数量(辆)',
+    label: '数量(辆)',
     width: 3,
-    displayLabel: t(`${configHead}.powerDistributedColumn.connectorNum`)
+    align: 'center'
+  },
+  {
+    prop: 'stationNum',
+    label: 'V2G站(个)',
+    width: 3,
+    align: 'center'
+  },
+  {
+    prop: 'pileNum',
+    label: 'V2G桩(个)',
+    width: 3,
+    align: 'center'
+  },
+  {
+    prop: '合计',
+    label: '合计(个)',
+    width: 3,
+    align: 'center'
   }
 ];
 
@@ -56,23 +73,23 @@ export const parkingChargeOperationColumn = [
 
 export const operationTrendConfig = () => [
   {
-    name: '巴士数量',
+    name: '公交运行',
     code: 'busNum',
     type: 'bar',
     data: [],
     color: 'rgb(34, 118, 252)',
     unit: '辆',
-    displayName: t(`${configHead}.operationTrendConfig.busNum`),
+    // displayName: t(`${configHead}.operationTrendConfig.busNum`),
     displayUnit: t(`${configHead}.operationTrendConfig.unitCar`)
   },
   {
-    name: '巴士储能电量',
+    name: '公交储能电量',
     code: 'busRemainEnergy',
     type: 'line',
     data: [],
     color: 'rgb(255, 207, 95)',
     unit: 'kwh',
-    displayName: t(`${configHead}.operationTrendConfig.busCapacity`),
+    // displayName: t(`${configHead}.operationTrendConfig.busCapacity`),
     displayUnit: t(`${configHead}.operationTrendConfig.unitKwh`)
   }
 ];

@@ -7,8 +7,10 @@
     <panel class="special-scene-panel right" type="right">
       <!-- <AdjustOverview />
       <TodayAdjustDemand /> -->
-      <V2G />
+      <!-- <V2G /> -->
       <!-- <AdjustTrendAnalysis /> -->
+      <BusOperationInfo />
+      <BusPowerTrendBar />
       <BusPowerTrend />
     </panel>
     <map-layer v-if="aircityObj" @playTwin="playTwin" />
@@ -21,6 +23,8 @@ import MapLayer from './map-layers/map-layer.vue';
 import OperationBusOverview from './components/operation-bus-overview.vue';
 import BusPowerDistributed from './components/bus-power-distributed.vue';
 import BusPowerTrend from './components/bus-power-trend.vue';
+import BusPowerTrendBar from './components/bus-power-trend-bar.vue';
+import BusOperationInfo from './components/bus-operation-info.vue';
 // import AdjustOverview from './components/adjust-overview.vue';
 // import TodayAdjustDemand from './components/today-adjust-demand.vue';
 import AdjustTrendAnalysis from './components/adjust-trend-analysis.vue';
@@ -45,7 +49,7 @@ const playTwin = (vl) => {
   }
 
   &.right {
-    grid-template-rows: minmax(auto, 576px) 1fr;
+    grid-template-rows: auto 1fr 1fr;
   }
 }
 </style>

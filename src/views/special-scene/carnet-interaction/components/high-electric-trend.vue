@@ -7,11 +7,11 @@
         <div class="card-item" v-for="item in Object.keys(highlightData)" :key="item">
           <div class="item-row">
             <label>{{ highlightData[item].typeName }}:</label>
-            <span class="value fontSize16DIN">
+            <span class="value">
               {{
                 highlightData[item].timeRange
                   .split('-')
-                  .map((el) => el + '点')
+                  .map((el) => el)
                   .join('-')
               }}
             </span>
@@ -19,14 +19,14 @@
 
           <div class="item-row">
             <label class="">充电量:</label>
-            <span class="value fontSize16DIN">
+            <span class="value">
               {{ highlightData[item].chargeCapacity }}
               <span class="unit">KWh</span>
             </span>
           </div>
           <div class="item-row">
             <label>占比:</label>
-            <span class="value fontSize16DIN">
+            <span class="value">
               {{ highlightData[item].chargeCapacityRatio?.toFixed(2) ?? '--' }}
               <span class="unit">%</span>
             </span>
@@ -132,7 +132,7 @@ const drawChart = async (data = []) => {
   option.tooltip.formatter = (params) => {
     const dataTime = params[0].axisValueLabel;
     let str = `<div class="time-tooltip">`;
-    str += `<div class="time">${dataTime}</div>`;
+    // str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
       console.log(item);
       str += `<div class="item-data">
@@ -236,11 +236,16 @@ onMounted(async () => {
       .item-row {
         display: flex;
         flex-flow: row nowrap;
-        align-items: center;
+        align-items: flex-start;
       }
 
+      label {
+        white-space: nowrap;
+        line-height: 14px;
+        flex: 0 0 60px;
+        text-align: right;
+      }
       .value {
-        font-weight: 700;
         color: #00f7ff;
         display: flex;
         line-height: 14px;
