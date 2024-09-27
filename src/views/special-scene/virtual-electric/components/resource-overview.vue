@@ -9,9 +9,11 @@
           <div class="card-value">
             <span
               class="value fontSize32DIN"
-              :title="`${formatWithToLocalString(allData[item.code])}${item.displayUnit || item.unit || ''}`"
+              :title="`${formatWithToLocalString(Number(allData[item.code])?.toFixed(0))}${
+                item.displayUnit || item.unit || ''
+              }`"
             >
-              {{ formatWithToLocalString(allData[item.code]) }}
+              {{ formatWithToLocalString(Number(allData[item.code])?.toFixed(0)) }}
             </span>
             <span class="unit">{{ item.displayUnit || item.unit || '' }}</span>
           </div>

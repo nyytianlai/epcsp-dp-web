@@ -76,7 +76,7 @@ const drawChart = async (data = []) => {
             operationTabType[0].code
               ? obj.time + t(`${tHead}.hour`) || '时'
               : dayjs(obj.time).format(`DD${t(`${tHead}.unitDay`) || '日'}`),
-            obj[item.code]
+            Number(obj[item.code]).toFixed(0)
           ],
           unit: item.unit
         };
@@ -100,7 +100,7 @@ const drawChart = async (data = []) => {
   option.tooltip.formatter = (params) => {
     const dataTime = params[0].axisValueLabel;
     let str = `<div class="time-tooltip">`;
-    str += `<div class="time">${dataTime}</div>`;
+    // str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
       str += `<div class="item-data">
             <span class="left-data">

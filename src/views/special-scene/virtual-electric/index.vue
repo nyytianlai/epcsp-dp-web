@@ -1,6 +1,6 @@
 <template>
   <div class="special-scene">
-    <page-num :data="pageNumData" />
+    <!-- <page-num :data="pageNumData" /> -->
     <panel class="special-scene-panel left">
       <ResourceOverview />
       <ResourceCategry />

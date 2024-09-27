@@ -44,7 +44,7 @@ const getProjectList = async () => {
       return {
         name: item[nameCode],
         unit: 'kWh',
-        num: item.chargeCapacity
+        num: item.chargeCapacity?.toFixed(0)
       };
     });
   } catch (error) {

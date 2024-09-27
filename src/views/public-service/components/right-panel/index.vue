@@ -19,9 +19,9 @@
           :data="lineStateData"
           :colors="lineStateColor"
           :chartStyle="{
-          width: '100%',
-          height: '2.2rem'
-        }"
+            width: '100%',
+            height: '2.2rem'
+          }"
         />
         <!-- <tabs
         :data="chargingTypesTabs"
@@ -99,7 +99,7 @@ const handleChangeTab = (data, type) => {
 onMounted(() => {
   getMonthRate();
   getChargeEquipmentStatistics();
-  getChargeStatusData('pile');
+  // getChargeStatusData('pile');
 });
 </script>
 

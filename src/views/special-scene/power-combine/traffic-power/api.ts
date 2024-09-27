@@ -96,5 +96,11 @@ export default {
       url: '/busCan/getGpsByPlateNumbers',
       data
     });
+  },
+  // 车网互动-左-V2G区域分布
+  getV2GDistribution() {
+    return request.post({
+      url: '/vehicle/net/inter/getV2GDistribution'
+    });
   }
 };

@@ -88,7 +88,7 @@ const drawChart = async (data = []) => {
   option.tooltip.formatter = (params) => {
     const dataTime = params[0].axisValueLabel;
     let str = `<div class="time-tooltip">`;
-    str += `<div class="time">${dataTime}</div>`;
+    // str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
       console.log(item);
       str += `<div class="item-data">

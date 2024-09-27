@@ -81,7 +81,8 @@ export const chargingStationsFun = (data = {}) => {
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
       clickAble: true,
-      apiCode: 'getOverviewStationStatisticsByArea'
+      apiCode: 'getOverviewStationStatisticsByArea',
+      modalTitle: '各区充电桩接入情况'
     },
     {
       img: ztsyl,
@@ -95,7 +96,8 @@ export const chargingStationsFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
-      clickAble: true
+      clickAble: true,
+      modalTitle: '各区超充接入情况'
     },
     {
       img: ztsyl,
@@ -109,7 +111,8 @@ export const chargingStationsFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
-      clickAble: true
+      clickAble: true,
+      modalTitle: '各区V2G接入情况'
     },
     {
       img: ztsyl,
@@ -123,7 +126,8 @@ export const chargingStationsFun = (data = {}) => {
       unitI18nKey: 'unitGe',
       displayUnit: t(`${configHead}.chargingStationsFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
-      clickAble: true
+      clickAble: true,
+      modalTitle: '欧标站接入情况'
     },
     {
       img: cnzzs,
@@ -182,7 +186,8 @@ export const energyStationFun = (data = {}) => {
       displayUnit: t(`${configHead}.energyStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
       clickAble: true,
-      showPagination: true
+      showPagination: true,
+      modalTitle: '储能站接入情况'
     }
     // {
     //   img: ncd,
@@ -213,7 +218,8 @@ export const photovoltaicStationFun = (data = {}) => {
       displayUnit: t(`${configHead}.photovoltaicStationFun.unitGe`),
       classStyleType: 'leftRightStyleGreen',
       clickAble: true,
-      showPagination: true
+      showPagination: true,
+      modalTitle: '各区光伏接入情况'
     }
     // {
     //   img: nfdl,
@@ -2515,7 +2521,7 @@ export const getTableColumnByType = (type) => {
       return [
         {
           prop: 'areaName',
-          label: '行政区名称',
+          label: '区域',
           width: 2
         },
         {
@@ -2543,7 +2549,7 @@ export const getTableColumnByType = (type) => {
       return [
         {
           prop: 'areaName',
-          label: '行政区名称',
+          label: '区域',
           width: 2
         },
         {
@@ -2570,18 +2576,18 @@ export const getTableColumnByType = (type) => {
     case 'euStandardStationNum':
       return [
         {
-          prop: `stationName`,
-          label: '欧标场站名称',
-          width: 2
-        },
-        {
           prop: `areaName`,
-          label: '行政区',
+          label: '区域',
           width: 2
         },
         {
           prop: `streetName`,
           label: '街道',
+          width: 2
+        },
+        {
+          prop: `stationName`,
+          label: '欧标站名称',
           width: 2
         },
         {
@@ -2603,13 +2609,8 @@ export const getTableColumnByType = (type) => {
     case 'energyStorageStationNum':
       return [
         {
-          prop: `stationName`,
-          label: '储能站名称',
-          width: 2
-        },
-        {
           prop: `areaName`,
-          label: '行政区',
+          label: '区域',
           width: 2
         },
         {
@@ -2618,8 +2619,13 @@ export const getTableColumnByType = (type) => {
           width: 2
         },
         {
+          prop: `stationName`,
+          label: '储能站名称',
+          width: 2
+        },
+        {
           prop: 'capacity',
-          label: '站点装机容量',
+          label: '装机容量(MW)',
           width: 2
         }
       ];
@@ -2637,7 +2643,7 @@ export const getTableColumnByType = (type) => {
         },
         {
           prop: 'capacity',
-          label: '站点装机容量',
+          label: '装机容量(MW)',
           width: 2
         }
       ];
@@ -2645,12 +2651,12 @@ export const getTableColumnByType = (type) => {
       return [
         {
           prop: 'areaName',
-          label: '行政区名称',
+          label: '区域',
           width: 2
         },
         {
           prop: `stationNum`,
-          label: '充电场站数量(个)',
+          label: '充电站数量(个)',
           width: 2
         },
         {

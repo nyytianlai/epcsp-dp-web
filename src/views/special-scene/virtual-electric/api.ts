@@ -102,5 +102,19 @@ export default {
       url: '/virtualPowerPlant/getAdjustOverViewByDate',
       data
     });
+  },
+  // 获取最近的分布式详情,传入Geojson
+  getDistributedResourceDetailsByGeojson(data) {
+    return request.post({
+      url: '/busCan/getDistributedResourceDetailsByGeojson',
+      data
+    });
+  },
+  // 获取最近的分布式资源,传入Geojson
+  getDistributedResourceByGeojson(data) {
+    return request.post({
+      url: '/busCan/getDistributedResourceByGeojson',
+      data
+    });
   }
 };

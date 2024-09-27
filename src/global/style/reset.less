@@ -68,7 +68,6 @@ ol {
   }
 
   .el-table__header {
-    // background: linear-gradient(0deg, #1c3b68 -24.83%, rgba(47, 61, 82, 0.0884779) 100%);
     background-color: rgba(25, 55, 77, 0.8);
     .el-table__cell {
       .cell {
@@ -76,7 +75,7 @@ ol {
         padding: 8px 12px;
         font-weight: 400;
         font-size: 14px;
-        color: rgb(105, 210, 255);
+        color: rgba(#fff, 0.9);
         // text-align: center;
         line-height: 16px;
         word-break: keep-all;
@@ -99,6 +98,17 @@ ol {
       height: 0;
     }
   }
+
+  .el-table__body tbody {
+    tr:nth-of-type(even) {
+      background-color: rgba(#54b5ff, 0.12);
+    }
+
+    tr:nth-of-type(odd) {
+      background-color: transparent;
+    }
+  }
+
   tr {
     th {
       &:first-of-type {
@@ -116,9 +126,9 @@ ol {
     border-bottom: 0;
   }
   td.el-table__cell {
-    background: rgba(84, 181, 255, 0.15);
+    // background: rgba(84, 181, 255, 0.15);
     border-bottom: 1px solid #081219;
-    padding: 24px 0;
+    padding: 12px 0;
     .cell {
       font-size: 16px;
       line-height: 24px;
@@ -138,16 +148,16 @@ ol {
         font-size: 14px;
         font-weight: 400;
         position: relative;
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 1px;
-          height: 14px;
-          background-color: rgba(255, 255, 255, 0.35);
-        }
+        // &::before {
+        //   content: '';
+        //   position: absolute;
+        //   left: 0;
+        //   top: 50%;
+        //   transform: translateY(-50%);
+        //   width: 1px;
+        //   height: 14px;
+        //   background-color: rgba(255, 255, 255, 0.35);
+        // }
       }
     }
   }

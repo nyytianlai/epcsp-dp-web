@@ -48,6 +48,8 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  __g?.marker?.deleteByGroupId('jdStation');
+  __g?.marker?.deleteByGroupId('carnet-interaction-baoAn-group');
   mapStore.changeCurrentQu('');
   mapStore.changeCurrentPosition('深圳市');
   bus.off('map-back');
@@ -197,14 +199,13 @@ const addPoint = async () => {
     pointArr.push(o1);
   });
   setTimeout(() => {
-    __g.marker.add(pointArr, null);
+    __g.marker.add(pointArr, () => {
+      if (route.name !== 'carnet-interaction') {
+        __g?.marker?.deleteByGroupId('jdStation');
+        __g?.marker?.deleteByGroupId('carnet-interaction-baoAn-group');
+      }
+    });
   }, 1000);
-
-  if (route.name !== 'carnet-interaction') {
-    __g?.marker?.deleteByGroupId('jdStation');
-    __g?.marker?.deleteByGroupId('carnet-interaction-baoAn-group');
-    return;
-  }
 };
 
 const addBaoAnPoint = async () => {

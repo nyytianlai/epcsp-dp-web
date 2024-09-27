@@ -33,8 +33,9 @@ import { inject, watch, onBeforeUnmount, ref, computed, reactive, onMounted, nex
 import Qu from '@/components/map-layer/qu.vue';
 import { getPopupHtml, getStrLength } from '@/utils/index';
 import { scale } from '@sutpc/config';
-import { circle, bbox, getCoord } from '@turf/turf';
+import { circle, bbox, getCoord, polygon } from '@turf/turf';
 // import TimeSlide from '@/components/time-slider/index.vue';
+import { Message } from 'element-plus';
 import bus from '@/utils/bus';
 import searchDialog from '../components/search-dialog.vue';
 import {
@@ -60,11 +61,13 @@ import MapLeftBtn from '@/components/map-left-btn.vue';
 import {
   transformCoords,
   transformCoordsArrByType,
-  transformCoordsByType
+  transformCoordsByType,
+  transformCoordsArr
 } from '@/utils/map-coord-tools';
 import CustomerDialog from '@/components/custom-dialog/index.vue';
 import { useVisibleComponentStore } from '@/stores/visibleComponent';
 import dayjs from 'dayjs';
+import { ElMessage } from 'element-plus';
 
 const props = defineProps({
   adjustDate: {
@@ -104,6 +107,8 @@ const showVirture = ref(false);
 let distributedPoint;
 
 let timer;
+
+let startTimer;
 
 let legendNameData = '负荷热力(kw)';
 let legendListData = ref([
@@ -155,7 +160,29 @@ const getData = async () => {
     }),
     Api.requestGeojsonData('barPosition4547')
   ]);
-  drawAreaLayer(res[0]?.data, res[1]?.features);
+  updateLayer(res[0]?.data, res[1]?.features);
+};
+
+const updateLayer = async (data = [], areaPosition = []) => {
+  const ids = areaPosition.map((item) => `${item.properties.QUCODE}`);
+  const makerRes = await __g.marker.get(ids);
+  if (makerRes?.data?.length) {
+    __g.marker.updateBegin();
+    ids.forEach((id) => {
+      const dataObj = data.find((el) => `${el.areaCode}` === `${id}`) || {};
+      const oPopUpUrl = getPopupHtml({
+        usePopupHtml: true,
+        com: 'virtual-electric',
+        params: {
+          value: JSON.stringify({ ...dataObj })
+        }
+      });
+      __g.marker.setPopupURL(id, oPopUpUrl);
+    });
+    __g.marker.updateEnd();
+  } else {
+    drawAreaLayer(data, areaPosition);
+  }
 };
 
 const drawAreaLayer = async (data = [], areaPosition = []) => {
@@ -172,7 +199,7 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
         value: JSON.stringify({ ...dataObj })
       }
     });
-    console.log(oPopUpUrl);
+    // console.log(oPopUpUrl);
     const maxLen = Math.max(
       `${dataObj?.planNum || 0}`.length,
       `${dataObj?.actualNum || 0}`.length,
@@ -216,7 +243,7 @@ const addHeatLayer = async () => {
   // const filterIds = allHeatIds.value.filter((el, i) => i > currentDt.value);
   // const showIds = allHeatIds.value.filter((el, i) => i <= currentDt.value);
   await delete3dt(__g, showIds.flat(3));
-  addCommon3dt(__g, showIds[props.activeIndex]);
+  addCommon3dt(__g, showIds[props.activeIndex][0]);
 };
 
 const handleTopData = async () => {
@@ -418,10 +445,10 @@ const addPoint = async () => {
 const init = async () => {
   await __g.reset();
   await __g.infoTree.hide(virtureTileIds);
-  setTimeout(() => {
+  startTimer = setTimeout(() => {
     addHeatLayer();
+    isInit = true;
   }, 2000);
-  isInit = true;
   // addVirturePoint();
 };
 
@@ -570,13 +597,17 @@ const handleDetail = async () => {
   showDialog.value = false;
   isDrawing.value = false;
   __g.polygon3d.delete('search-circle');
+  __g.polygon3d.delete('drawing-polygon');
   __g.tileLayer.hide(showIds[props.activeIndex]);
-  if (!distributedPoint?.length) return;
-  const data = await Api.getDistributedResourceDetails({
-    lng: distributedPoint[0],
-    lat: distributedPoint[1],
-    distance: 2.5,
-    filter: isFilter.value ? true : undefined
+  if (!drawingData?.length) return;
+  // const data = await Api.getDistributedResourceDetails({
+  //   lng: distributedPoint[0],
+  //   lat: distributedPoint[1],
+  //   distance: 2.5,
+  //   filter: isFilter.value ? true : undefined
+  // });
+  const data = await Api.getDistributedResourceByGeojson({
+    geojson: JSON.stringify(polygon([drawingData]))
   });
   store.changeCurrentQu('circleSearch区');
   store.changeCurrentPosition('circleSearch区');
@@ -584,18 +615,27 @@ const handleDetail = async () => {
   drawPoint(data?.data);
 };
 
+let drawingData = [];
 const handleDraw = async () => {
+  if (drawingData?.length) {
+    drawingData = [];
+  }
+
+  __g.polygon3d.delete('search-circle'), __g.polygon3d.delete('drawing-polygon');
   isDrawing.value = !isDrawing.value;
   if (isDrawing.value) {
     await Promise.allSettled([
       __g.marker.hideByGroupId('area-point-layer')
       // __g.tileLayer.hide(showIds[props.activeIndex])
     ]);
+    // startDrawPolygon();
+    await __g.settings.setEnableCameraMovingEvent(true);
   } else {
     await Promise.allSettled([
       __g.marker.showByGroupId('area-point-layer'),
       // __g.tileLayer.show(showIds[props.activeIndex]),
-      __g.polygon3d.delete('search-circle')
+      __g.polygon3d.delete('search-circle'),
+      __g.polygon3d.delete('drawing-polygon')
     ]);
   }
 };
@@ -628,6 +668,114 @@ const addHighLightStation = async (item, stationType: string) => {
   await focusToHihtLightPop(item.longitude, item.latitude, __g);
 };
 
+const startDrawPolygon = async () => {
+  await __g.settings.setEnableCameraMovingEvent(true);
+  await __g.tools.setMeasurement(6, {
+    pointSize: 8,
+    // textSize: 0,
+    // textColor: [1, 1, 1, 0.01],
+    pointColor: [0, 0, 1, 0.3],
+    lineColor: [0, 0, 1, 1],
+    areaColor: [0, 1, 0, 0.3],
+    showCoordinateText: false
+  });
+  __g.tools.startMeasurement(() => {
+    showDialog.value = true;
+  });
+};
+
+const drawPolygon = async (point) => {
+  drawingData.push(point);
+  const marker = {
+    id: JSON.stringify(drawingData[drawingData.length - 1]),
+    groupId: 'drawing-polygon',
+    coordinate: drawingData[drawingData.length - 1],
+    anchors: [-10, 10], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [20, 20], //图片的尺寸
+    range: [1, 1000000], //可视范围
+    imagePath: getImageByCloud('point-icon'), //显示图片路径
+    useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+    popupBackgroundColor: [1.0, 1.0, 1.0, 1], //弹窗背景颜色
+    autoHidePopupWindow: false,
+    autoHeight: false, // 自动判断下方是否有物体
+    displayMode: 2
+  };
+  __g.marker.add(marker, null);
+  if (drawingData.length > 1) {
+    const polyline = {
+      id: JSON.stringify(drawingData[drawingData.length - 2]),
+      groupId: 'drawing-polygon',
+      userData: JSON.stringify(drawingData[drawingData.length - 2]),
+      coordinates: [drawingData[drawingData.length - 2], drawingData[drawingData.length - 1]],
+      thickness: 100,
+      intensity: 1000,
+      flowRate: 0,
+      depthTest: false,
+      shape: 0,
+      style: 4,
+      color: 'RGB(255,255,0)'
+    };
+    __g.polyline.add(polyline, null);
+  }
+};
+
+const closeDrawing = async () => {
+  if (drawingData.length > 2) {
+    drawingData.push(drawingData[0]);
+    const polyline = {
+      id: JSON.stringify(drawingData[drawingData.length - 1]),
+      groupId: 'drawing-polygon',
+      coordinates: [drawingData[drawingData.length - 1], drawingData[0]],
+      thickness: 100,
+      intensity: 10,
+      flowRate: 0,
+      depthTest: false,
+      shape: 1,
+      style: 4,
+      color: 'RGB(0,0,0)'
+    };
+    const polygonItem = {
+      id: 'drawing-polygon',
+      coordinates: drawingData.map((el) => [el[0], el[1], 3000]),
+      range: [1, 200000],
+      height: 1,
+      color: [75 / 255, 222 / 255, 255 / 255, 0.1],
+      frameColor: 'RGB(255,255,255)',
+      frameThickness: 100, //边框厚度
+      intensity: 1, //亮度
+      // style: 0, //单色 请参照API开发文档选取枚举
+      depthTest: false, //是否做深度检测 开启后会被地形高度遮挡
+      // intensity: 1.0,
+      style: 10,
+      tillingX: 0,
+      tillingY: 0,
+      generateTop: true,
+      generateSide: false,
+      generateBottom: true
+    };
+    __g.polyline.add(polyline, null);
+    __g.polygon3d.add(polygonItem, async () => {
+      __g.marker.deleteByGroupId('drawing-polygon');
+      __g.polyline.delete(drawingData.map((el) => JSON.stringify(el)));
+      isDrawing.value = false;
+      const pdata = transformCoordsArr(
+        drawingData.map((el) => [el[0], el[1]]),
+        'EPSG:4547',
+        'EPSG:4326'
+      );
+      try {
+        const res = await Api.getDistributedResourceDetailsByGeojson({
+          geojson: JSON.stringify(polygon([pdata]))
+        });
+        distributedResource.value = res.data;
+      } catch (error) {}
+      showDialog.value = true;
+    });
+  } else {
+    ElMessage.warning('请绘制至少三个点');
+  }
+};
+
 useEmitt('AIRCITY_EVENT', async (e) => {
   console.log(e);
   if (e.eventtype === 'LeftMouseButtonClick') {
@@ -636,12 +784,22 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       handleToVirture();
     }
 
+    if (isDrawing.value && e.GroupID !== 'drawing-polygon') {
+      drawPolygon(e.MouseClickPoint);
+    } else if (
+      isDrawing.value &&
+      e.GroupID === 'drawing-polygon' &&
+      e.Id === JSON.stringify(drawingData[0])
+    ) {
+      closeDrawing();
+    }
+
     if (isDrawing.value && !e.GroupID) {
       const coord = transformCoords('EPSG:4547', 'EPSG:4326', [
         e.MouseClickPoint[0],
         e.MouseClickPoint[1]
       ]);
-      drawCircle(3000, [coord[0], coord[1]]);
+      // drawCircle(3000, [coord[0], coord[1]]);
     }
 
     if (e.Id?.includes('stationOut-')) {
@@ -695,6 +853,7 @@ watch(
         await __g.marker.deleteByGroupId('jdStation');
 
         await __g.polygon3d.delete('search-circle');
+        __g.polygon3d.delete('drawing-polygon');
         isDrawing.value = false;
 
         const param = {
@@ -763,6 +922,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  clearTimeout(startTimer);
   // closeDarkMode();
   bus.off('map-back');
   bus.off('getVppAdjustTime');

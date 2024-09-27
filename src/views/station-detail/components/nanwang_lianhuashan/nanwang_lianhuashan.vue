@@ -42,23 +42,22 @@ let guangFuActive = false;
 // 光伏板数据
 const state = reactive({
   list: [],
-  selectedCurID: 'photovoltaic_1'
+  selectedCurID: 'LHS_GF1'
 });
 
 const showGuangFUPopup = ref(false);
 
 useEmitt('AIRCITY_EVENT', async (e) => {
-  console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
     if (guangFuActive) {
-      __g.tileLayer.stopHighlightAllActors();
-      const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
-      __g.settings.highlightColor('#FF6B4B');
-      __g.tileLayer.highlightActor(layerId, e.ObjectID);
+      // __g.tileLayer.stopHighlightAllActors();
+      // const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
+      // __g.settings.highlightColor('#FF6B4B');
+      // __g.tileLayer.highlightActor(layerId, e.ObjectID);
+      state.selectedCurID = e.ObjectID;
     }
   }
-
   if (e.eventtype === 'MarkerCallBack') {
   }
 });
@@ -207,7 +206,9 @@ const calcData = () => {
       item.calcVal = ((item.value + item.value * random) * percent).toFixed(2);
       return item;
     });
-    const data = state.list.find((item) => item.id === state.selectedCurID);
+    const arr = state.selectedCurID.split('LHS_GF');
+    const index = +arr[1];
+    const data = state.list.find((item) => item.id === `LHS_GF${index % 36}`);
     if (data) {
       bus.emit('lianhuashan-calcVal', data.calcVal);
     }
@@ -246,6 +247,7 @@ bus.on('handleTabSelect', handleTabSelect);
 bus.on('resetTab3dt', resetTab3dt);
 bus.on('focusToPile', focusToPile);
 onMounted(async () => {
+  __g.tileLayer.stopHighlightAllActors();
   await enterStation();
   // queryAllPileStatus();
 });

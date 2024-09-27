@@ -961,7 +961,7 @@ export const getGuangFuData = (weather = 0) => {
   ];
   for (let i = 0; i < 36; i++) {
     let obj = {
-      id: `photovoltaic_${i + 1}`,
+      id: `LHS_GF${i + 1}`,
       text: '540W',
       value: weather === 1 ? photoData[i] - parseInt(`${photoData[i] * 0.23}`) : photoData[i],
       status: 1
@@ -1005,15 +1005,15 @@ export const timeRandom = {
 export const cameraList = [
   {
     camera: [505935.533105, 2496653.290625, 27.014089, 2.042315, 68.040459, 0],
-    duration: 1
+    duration: 2
   },
   {
     camera: [505939.56041, 2496647.193125, 27.014089, 2.042315, 68.040459, 0],
-    duration: 2
+    duration: 3
   },
   {
     camera: [505942.906875, 2496639.045, 27.014089, 2.042315, 68.040459, 0],
-    duration: 2
+    duration: 3
   },
   {
     camera: [505946.864121, 2496631.728125, 27.238396, 1.883179, 141.61702, 0],

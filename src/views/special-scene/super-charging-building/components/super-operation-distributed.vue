@@ -2,7 +2,7 @@
   <div class="super-operation-distributed">
     <!-- ccyyfbqk: '超充营运分布情况' -->
     <title-column :title="t(`${tHead}.ccyyfbqk`)" />
-    <tabs v-model="selectType" :data="superOperationTabType" />
+    <!-- <tabs v-model="selectType" :data="superOperationTabType" /> -->
     <div
       class="super-operation-distributed-content card-wrapper"
       v-show="!isAreaDistributed"

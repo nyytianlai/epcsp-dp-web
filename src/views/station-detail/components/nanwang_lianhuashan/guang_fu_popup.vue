@@ -1,5 +1,12 @@
 <template>
-  <div class="panel-box" v-if="showPop">
+  <div
+    class="panel-box"
+    v-if="showPop"
+    :style="{
+      left: screenPosition[0],
+      top: screenPosition[1]
+    }"
+  >
     <div class="close" @click="handleClose"></div>
     <div class="arrow left-top"></div>
     <div class="arrow right-top"></div>
@@ -22,7 +29,7 @@ import { getTreeLayerIdByName } from '@/global/config/map';
 import Icon from '@sutpc/vue3-svg-icon';
 import bus from '@/utils/bus';
 
-const screenPosition = ref(['20%', '50%']);
+const screenPosition = ref(['30%', '50%']);
 const mapStore = useMapStore();
 const aircityObj = inject<any>('aircityObj');
 const __g = aircityObj.value?.acApi;
@@ -39,20 +46,20 @@ const state = reactive({
   }
 });
 useEmitt('AIRCITY_EVENT', async (e) => {
+  console.log('点击单晶板', e);
   //正常桩
-  if (e.PropertyName === stationName && e.ObjectID?.includes('singleCrystalSilicon')) {
-    console.log('点击单晶板', e);
+  if (e.PropertyName === stationName && e.ObjectID?.includes('LHS_GF')) {
     __g.tileLayer.stopHighlightAllActors();
     let ids = getTreeLayerIdByName(stationName, mapStore.treeInfo);
     __g.settings.highlightColor('#FF6B4B');
     __g.tileLayer.highlightActor(ids, e.ObjectID);
     let screenCoord = await __g.coord.world2Screen(...e.MouseClickPoint);
-    screenPosition.value = screenCoord.screenPosition;
+    screenPosition.value = screenCoord.screenPosition.map((el) => `${el}px`);
     showPop.value = true;
   } else if (
     e.eventtype === 'LeftMouseButtonClick' &&
     e.PropertyName !== stationName &&
-    !e.ObjectID?.includes('singleCrystalSilicon')
+    !e.ObjectID?.includes('LHS_GF')
   ) {
     showPop.value = false;
   }
@@ -132,10 +139,11 @@ onBeforeUnmount(() => {
   align-items: center;
   background: rgba(18, 40, 73, 0.85);
   box-shadow: inset 0px 0px 16px rgba(10, 167, 255, 0.8);
-  position: absolute;
-  top: 350px;
+  position: fixed;
+  // top: 350px;
   // left: 650px;
-  left: calc(var(--left-width) + 100px);
+  // left: calc(var(--left-width) + 100px);
+  transform: translate(-50%, -100%) translateY(-80px);
   z-index: 99;
 
   .pop-icon {

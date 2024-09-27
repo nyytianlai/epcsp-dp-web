@@ -14,7 +14,7 @@ export const pieColorList = [
 export const v2gRegionalDistributedColumn = [
   {
     prop: 'areaName',
-    label: '行政区',
+    label: '区域',
     width: 3
   },
   {
@@ -31,7 +31,7 @@ export const v2gRegionalDistributedColumn = [
 export const parkingChargeOperationColumn = [
   {
     prop: 'areaName',
-    label: '行政区',
+    label: '区域',
     width: 2
   },
   {
