@@ -606,8 +606,17 @@ const handleDetail = async () => {
   //   distance: 2.5,
   //   filter: isFilter.value ? true : undefined
   // });
-  const data = await Api.getDistributedResourceByGeojson({
-    geojson: JSON.stringify(polygon([drawingData]))
+  const pdata = transformCoordsArr(
+    drawingData.map((el) => [el[0], el[1]]),
+    'EPSG:4547',
+    'EPSG:4326'
+  );
+  const data = await Api.getDistributedResourceDetailsByGeojson({
+    geojson: JSON.stringify({
+      type: 'FeatureCollection',
+      features: [polygon([pdata])]
+    }),
+    filter: isFilter.value ? true : undefined
   });
   store.changeCurrentQu('circleSearch区');
   store.changeCurrentPosition('circleSearch区');
@@ -764,8 +773,11 @@ const closeDrawing = async () => {
         'EPSG:4326'
       );
       try {
-        const res = await Api.getDistributedResourceDetailsByGeojson({
-          geojson: JSON.stringify(polygon([pdata]))
+        const res = await Api.getDistributedResourceByGeojson({
+          geojson: JSON.stringify({
+            type: 'FeatureCollection',
+            features: [polygon([pdata])]
+          })
         });
         distributedResource.value = res.data;
       } catch (error) {}
