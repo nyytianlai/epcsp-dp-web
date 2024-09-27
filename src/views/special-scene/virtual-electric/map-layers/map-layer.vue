@@ -606,8 +606,17 @@ const handleDetail = async () => {
   //   distance: 2.5,
   //   filter: isFilter.value ? true : undefined
   // });
-  const data = await Api.getDistributedResourceByGeojson({
-    geojson: JSON.stringify(polygon([drawingData]))
+  const pdata = transformCoordsArr(
+    drawingData.map((el) => [el[0], el[1]]),
+    'EPSG:4547',
+    'EPSG:4326'
+  );
+  const data = await Api.getDistributedResourceDetailsByGeojson({
+    geojson: JSON.stringify({
+      type: 'FeatureCollection',
+      features: [polygon([pdata])]
+    }),
+    filter: isFilter.value ? true : undefined
   });
   store.changeCurrentQu('circleSearch区');
   store.changeCurrentPosition('circleSearch区');
@@ -690,8 +699,8 @@ const drawPolygon = async (point) => {
     id: JSON.stringify(drawingData[drawingData.length - 1]),
     groupId: 'drawing-polygon',
     coordinate: drawingData[drawingData.length - 1],
-    anchors: [-10, 10], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-    imageSize: [20, 20], //图片的尺寸
+    anchors: [-6, 6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+    imageSize: [12, 12], //图片的尺寸
     range: [1, 1000000], //可视范围
     imagePath: getImageByCloud('point-icon'), //显示图片路径
     useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
@@ -764,8 +773,11 @@ const closeDrawing = async () => {
         'EPSG:4326'
       );
       try {
-        const res = await Api.getDistributedResourceDetailsByGeojson({
-          geojson: JSON.stringify(polygon([pdata]))
+        const res = await Api.getDistributedResourceByGeojson({
+          geojson: JSON.stringify({
+            type: 'FeatureCollection',
+            features: [polygon([pdata])]
+          })
         });
         distributedResource.value = res.data;
       } catch (error) {}
