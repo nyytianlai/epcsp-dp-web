@@ -9,8 +9,6 @@ import vitePluginSutpcIconPark from 'vite-plugin-sutpc-icon-park';
 import vitePluginSutpcCommon from 'vite-plugin-sutpc-common';
 import { ViteEjsPlugin } from 'vite-plugin-ejs';
 // import rollupPluginVisualizer from 'rollup-plugin-visualizer';
-import OptimizationPersist from 'vite-plugin-optimize-persist';
-import PkgConfig from 'vite-plugin-package-config';
 
 import type { UserConfig, ConfigEnv } from 'vite';
 
@@ -36,8 +34,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       }
     },
     plugins: [
-      PkgConfig(),
-      OptimizationPersist(),
       vue(),
       vitePluginSutpcLibStaticImport(),
       vitePluginSutpcLessDeep(),
