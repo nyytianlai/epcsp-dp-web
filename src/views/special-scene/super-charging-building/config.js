@@ -344,28 +344,28 @@ export const pageNumFun = (data = {}) => {
   return [
     {
       name: '今日充电量',
-      num: data?.chargeCapacity,
+      num: data?.chargeCapacity && (data?.chargeCapacity / 10000).toFixed(1),
       unit: '万度',
       displayName: t(`${configHead}.common.jrcdl`)
       // displayNum: t(`${configHead}.common.unitDu`)
     },
     {
       name: '今日充电时长',
-      num: parseInt(data?.chargeHour),
+      num: data?.chargeHour && (data?.chargeHour / 10000).toFixed(1),
       unit: '万小时',
       displayName: t(`${configHead}.common.jrcdsc`)
       // displayNum: t(`${configHead}.common.unitHour`)
     },
     {
       name: '今日充电订单数',
-      num: data?.orderNum,
+      num: data?.orderNum && (data?.orderNum / 10000).toFixed(1),
       unit: '万个',
       displayName: t(`${configHead}.common.jrcddds`)
       // displayNum: t(`${configHead}.common.unitGe`)
     },
     {
       name: '超充日均利用率',
-      num: data?.totalUseRatio,
+      num: data?.totalUseRatio && (data?.totalUseRatio).toFixed(1),
       unit: '%',
       displayName: t(`${configHead}.common.ccrjlyl`)
     }
