@@ -288,6 +288,7 @@ const focusToPile = async (pile) => {
 
 const clickToFocus = async (pile) => {
   const layerId = getTreeLayerIdByName('莲花山充电站_静态车辆', store.treeInfo);
+  const stationId = getTreeLayerIdByName(stationName, store.treeInfo);
   const objId = 'lianhuashancar_' + pile.connectorId;
   const res = await __g.tileLayer.getActorInfo({
     id: layerId,
@@ -308,7 +309,7 @@ const clickToFocus = async (pile) => {
   } else {
     //设置高亮颜色（全局生效）
     __g.settings.highlightColor('RGB(0,128,0)');
-    __g.tileLayer.highlightActor(layerId, pile.connectorId);
+    __g.tileLayer.highlightActor(stationId, pile.connectorId);
   }
 };
 
