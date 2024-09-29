@@ -118,16 +118,19 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       // 是高渲染站点
       changeStationStyle(e.Id, 'hr', [311, 499], [-156, 499]);
 
-      if (currentHrStationID.value === e.Id) {
-        // 连续两次点击相同站点 进入高渲染站点
-        enterStationInfo(stationInfo);
-        __g.marker.hideByGroupId('jdStation');
-        addHrStation(stationInfo.stationId, true);
-      } else {
-        currentHrStationID.value !== ''
-          ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
-          : '';
-      }
+      // if (currentHrStationID.value === e.Id) {
+      //   // 连续两次点击相同站点 进入高渲染站点
+      //   enterStationInfo(stationInfo);
+      //   __g.marker.hideByGroupId('jdStation');
+      //   addHrStation(stationInfo.stationId, true);
+      // } else {
+      //   currentHrStationID.value !== ''
+      //     ? changeStationStyle(currentHrStationID.value, 'chargeStation50', [55, 150], [-22.5, 150])
+      //     : '';
+      // }
+      enterStationInfo(stationInfo);
+      __g.marker.hideByGroupId('jdStation');
+      addHrStation(stationInfo.stationId, true);
       store.changeCurrentHrStationId(e.Id);
     }
   }

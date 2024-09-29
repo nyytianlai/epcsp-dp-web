@@ -452,18 +452,15 @@ const init = async () => {
   // addVirturePoint();
 };
 
-const getBBox = (center, radius) => {
-  const bboxs = bbox(
-    {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'Point',
-        coordinates: getCoord(center)
-      }
-    },
-    radius
-  );
+const getBBox = (center) => {
+  const bboxs = bbox({
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'Point',
+      coordinates: getCoord(center)
+    }
+  });
   console.log(bboxs);
 };
 
@@ -480,7 +477,7 @@ const getDistributerResource = async (data) => {
 const drawCircle = async (radius, centerPoint) => {
   // getBBox(centerPoint, radius);
   await __g.polygon3d.delete('search-circle');
-  const options = { steps: 100, units: 'kilometers' };
+  const options = { steps: 100, units: 'kilometers' as any };
   const polygon = circle(centerPoint, radius / 1000, options);
   const coord = transformCoordsArrByType(polygon.geometry.coordinates[0], 1, 3000);
   const p = {
