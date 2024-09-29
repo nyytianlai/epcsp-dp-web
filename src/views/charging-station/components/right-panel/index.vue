@@ -95,7 +95,7 @@ const getTimePowerGraph = async () => {
       totalPower: data[data.length - 1].ratedPower,
       realTimePower: data[data.length - 1].realTimePower
     };
-    powerInfoNumData.value = info.realTimePower;
+    powerInfoNumData.value = Number(info.realTimePower).toFixed(0);
   }
 };
 
