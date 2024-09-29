@@ -128,8 +128,8 @@ getData();
     column-gap: 6px;
 
     .icon {
-      width: 86px;
-      flex: 0 0 86px;
+      width: 68px;
+      flex: 0 0 68px;
     }
 
     .card-data {

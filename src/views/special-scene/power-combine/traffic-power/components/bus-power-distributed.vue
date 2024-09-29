@@ -89,10 +89,17 @@ getData();
       color: rgb(1, 245, 190) !important;
     }
   }
-
-  .cell {
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
+  .el-table__header-wrapper {
+    .cell {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+  }
+  .el-table__body-wrapper {
+    .cell {
+      padding-top: 3px !important;
+      padding-bottom: 3px !important;
+    }
   }
 }
 </style>
