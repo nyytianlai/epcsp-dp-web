@@ -6,7 +6,7 @@
       <div class="card-content">
         <div class="item-row" v-for="(item, i) in highlightData" :key="i">
           <div class="item-row-group" v-for="obj in item" :key="obj.name">
-            <label>{{ obj.name }}:</label>
+            <label>{{ obj.name ? obj.name + ':' : '' }}</label>
             <span class="value">
               {{ obj.value }}
               <span class="unit" v-if="obj.unit">{{ obj.unit }}</span>

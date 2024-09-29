@@ -61,10 +61,10 @@ export default {
     });
   },
   // 顶部-超充站-总览上面4个指标:今日
-  overTodayCount() {
+  overTodayCount(data = {}) {
     return request.post({
       url: '/dp/superChargeStation/overTodayCount',
-      data: {}
+      data
     });
   },
 

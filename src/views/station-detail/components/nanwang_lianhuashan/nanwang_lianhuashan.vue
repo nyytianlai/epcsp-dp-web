@@ -133,7 +133,7 @@ const hideCarByStatus = async (data = []) => {
   actors.data.forEach((el) => {
     el.objectIds.forEach((actorId) => {
       const fd = data.find((o) => actorId.includes(o.connectorId));
-      if ([2, 3, 4, 5].includes(+fd?.connectorStatus)) {
+      if ([3].includes(Number(fd?.connectorStatus))) {
         __g.tileLayer.showActor(id, actorId, null);
       } else {
         __g.tileLayer.hideActor(id, actorId, null);
