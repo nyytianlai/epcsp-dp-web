@@ -48,8 +48,8 @@ const bottomCardConfig = ref([
   },
   {
     name: '支持V2G公交数量',
-    code: 'v2gbusNum',
-    value: '1074',
+    code: 'v2gNum',
+    // value: '1074',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
@@ -76,13 +76,13 @@ const getData = async () => {
   loading.value = false;
 };
 
-const getV2Gdata = async () => {
-  const { data } = await V2GApi.getVehicleNetInterOverview();
-  bottomCardConfig.value.forEach((el) => {
-    el.value = data[el.code] ?? el.value;
-  });
-};
-getV2Gdata();
+// const getV2Gdata = async () => {
+//   const { data } = await V2GApi.getVehicleNetInterOverview();
+//   bottomCardConfig.value.forEach((el) => {
+//     el.value = data[el.code] ?? el.value;
+//   });
+// };
+// getV2Gdata();
 getData();
 </script>
 
