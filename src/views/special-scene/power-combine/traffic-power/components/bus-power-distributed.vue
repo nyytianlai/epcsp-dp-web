@@ -7,7 +7,7 @@
         :scrollTableData="scrollTableData"
         :columnKeyList="powerDistributedColumn"
         :row-class-name="handleRowClassName"
-        class="custom-dialog-table"
+        class="power-combine-table"
         style="height: 100%"
       />
     </div>
@@ -83,9 +83,16 @@ getData();
     );
   }
 }
-:deep(.high-light-row) {
+:deep(.power-combine-table) {
+  .high-light-row {
+    .cell {
+      color: rgb(1, 245, 190) !important;
+    }
+  }
+
   .cell {
-    color: rgb(1, 245, 190) !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
   }
 }
 </style>
