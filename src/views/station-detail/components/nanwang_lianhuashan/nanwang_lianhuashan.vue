@@ -14,6 +14,7 @@ import {
   playCamera,
   infoObj
 } from '@/global/config/map';
+import { handleClickFocus } from '../../mapOperate';
 import { getPopupHtml, getStrLength } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
@@ -152,7 +153,30 @@ const getCameraData = async () => {
     operatorId: visibleStore.detailParams?.operatorId,
     stationId: visibleStore.detailParams?.stationId
   });
-  console.log(res.data);
+  addCameraPoint((res.data = []));
+};
+
+const addCameraPoint = async (data) => {
+  const pointArr = [];
+  data.forEach((item, index) => {
+    let o1 = {
+      id: 'camera-' + item.cameraId,
+      groupId: 'stationFacilitiesLabel',
+      userData: JSON.stringify(item),
+      // coordinateType: 1,
+      coordinate: transformCoordsByType([item.cameraLng, item.cameraLat], 1), //坐标位置
+      anchors: [-24, 52], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [48, 52], //图片的尺寸
+      range: [1, 1500], //可视范围
+      imagePath: getImageByCloud('camera'),
+      fixedSize: true,
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      displayMode: 2,
+      autoHeight: true
+    };
+    pointArr.push(o1);
+  });
+  await __g.marker.add(pointArr, null);
 };
 
 // 场内设施
@@ -241,6 +265,36 @@ const playCameraTortur = async (cameraList = []) => {
 // 定位到充电桩
 const focusToPile = async (pile) => {
   console.log(pile, 'pile');
+  // const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
+  // handleClickFocus(__g, layerId, pile.connectorId, pile.status);
+  clickToFocus(pile);
+};
+
+const clickToFocus = async (pile) => {
+  const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
+  const res = await __g.tileLayer.getActorInfo({
+    id: layerId,
+    // objectIds: [pile.connectorId]
+    objectIds: [pile.connectorId]
+  });
+
+  console.log(res, 'res1111111111111111');
+  const rotation = res?.data[0].rotation;
+  //定位过去
+  await __g?.tileLayer?.focusActor(
+    layerId,
+    pile.connectorId,
+    2.6,
+    2,
+    [rotation[0] - 12, rotation[1] - 92, 0],
+    null
+  );
+  if (+pile.status === 255) {
+  } else {
+    //设置高亮颜色（全局生效）
+    __g.settings.highlightColor('RGB(0,128,0)');
+    __g.tileLayer.highlightActor(layerId, pile.connectorId);
+  }
 };
 
 bus.on('handleTabSelect', handleTabSelect);

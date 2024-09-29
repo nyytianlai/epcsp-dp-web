@@ -182,9 +182,9 @@ export const pageNumFun = (data = {}) => {
     {
       name: '累计充电时长',
       num: data?.cumChargeTime,
-      unit: data?.cumChargeTimeUnit || '小时',
-      displayName: t(`${configHead}.pageNumFun.ljcdsc`),
-      displayUnit: t(`${configHead}.pageNumFun.unitHour`)
+      unit: data?.cumChargeTimeUnit || '万小时',
+      displayName: t(`${configHead}.pageNumFun.ljcdsc`)
+      // displayUnit: t(`${configHead}.pageNumFun.unitHour`)
     },
     {
       name: '本年充电总量',

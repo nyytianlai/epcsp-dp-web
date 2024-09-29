@@ -39,7 +39,7 @@ export const getOperatCardConfig = (data = {}) => {
       })
     },
     {
-      name: '建设',
+      name: '在建',
       color: '#3A60EE',
       children: [
         {
@@ -122,7 +122,7 @@ export const getOperatCardConfig = (data = {}) => {
 
     {
       name: '接入',
-      color: '#00D2D9',
+      color: '#17A4FA',
       displayName: '接入',
       children: [
         {

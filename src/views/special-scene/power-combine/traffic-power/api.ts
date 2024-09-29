@@ -102,5 +102,11 @@ export default {
     return request.post({
       url: '/vehicle/net/inter/getV2GDistribution'
     });
+  },
+  // 巴士集团公交站撒点
+  getBusGroupBusStation() {
+    return request.post({
+      url: '/busCan/getBusGroupBusStation'
+    });
   }
 };
