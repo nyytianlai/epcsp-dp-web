@@ -156,10 +156,42 @@ const hideAllPos = async () => {
   await __g.tileLayer.hide([id, id2, id3, id4, id5]);
 };
 
+const focusToPile = async (pile) => {
+  console.log(pile, 'pile');
+  clickToFocus(pile);
+};
+
+const clickToFocus = async (pile) => {
+  const layerId = getTreeLayerIdByName('宝安区政府站点', store.treeInfo);
+  const res = await __g.tileLayer.getActorInfo({
+    id: layerId,
+    // objectIds: [pile.connectorId]
+    objectIds: [pile.connectorId]
+  });
+
+  const rotation = res?.data[0].rotation;
+  //定位过去
+  await __g?.tileLayer?.focusActor(
+    layerId,
+    pile.connectorId,
+    2.6,
+    2,
+    [rotation[0] - 12, rotation[1] - 92, 0],
+    null
+  );
+  if (+pile.status === 255) {
+  } else {
+    //设置高亮颜色（全局生效）
+    __g.settings.highlightColor('RGB(0,128,0)');
+    __g.tileLayer.highlightActor(layerId, pile.connectorId);
+  }
+};
+
 onBeforeUnmount(async () => {
   clearTimeout(timer);
   bus.off('handleTabSelect');
   bus.off('resetTab3dt');
+  bus.off('focusToPile');
   const id2 = getTreeLayerIdByName('场内设施Icon', store.treeInfo);
   await __g.camera.stopAnimation(),
     await __g.cameraTour.stop(),
@@ -174,6 +206,8 @@ onBeforeUnmount(async () => {
 bus.on('handleTabSelect', handleTabSelect);
 
 bus.on('resetTab3dt', resetTab3dt);
+
+bus.on('focusToPile', focusToPile);
 onMounted(() => {
   timer = setTimeout(showAllPos, 2000);
 });

@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef"></qu>
+  <qu ref="quRef" :module="200"></qu>
   <legend-list v-show="showRemainPower" :legendList="legendListData" :legendName="legendNameData" />
   <MapLeftBtn v-show="!isPlaying">
     <div class="remain-power" @click="handleRemainPoweLayer">
@@ -41,7 +41,6 @@ import {
   transformCoordsArrByType,
   transformCoordsByType
 } from '@/utils/map-coord-tools';
-import { bearing, point } from '@turf/turf';
 import dayjs from 'dayjs';
 
 const aircityObj = inject<any>('aircityObj');
