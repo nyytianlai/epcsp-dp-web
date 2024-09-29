@@ -7,7 +7,7 @@
         :scrollTableData="scrollTableData"
         :columnKeyList="powerDistributedColumn"
         :row-class-name="handleRowClassName"
-        class="custom-dialog-table"
+        class="power-combine-table"
         style="height: 100%"
       />
     </div>
@@ -83,9 +83,23 @@ getData();
     );
   }
 }
-:deep(.high-light-row) {
-  .cell {
-    color: rgb(1, 245, 190) !important;
+:deep(.power-combine-table) {
+  .high-light-row {
+    .cell {
+      color: rgb(1, 245, 190) !important;
+    }
+  }
+  .el-table__header-wrapper {
+    .cell {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+  }
+  .el-table__body-wrapper {
+    .cell {
+      padding-top: 3px !important;
+      padding-bottom: 3px !important;
+    }
   }
 }
 </style>
