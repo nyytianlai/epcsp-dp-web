@@ -111,6 +111,7 @@
       :style="`height: ${
         pageObj.total / pageObj.pageSize > 1 ? '6rem' : 'auto'
       }; padding-bottom: 24px; max-height: 6rem`"
+      :row-class-name="handleRowClassName"
     />
     <el-pagination
       style="margin-bottom: 12px"
@@ -177,6 +178,13 @@ const pageObj = reactive({
 const handPageChangeRank = (value) => {
   pageObj.currentPage = value;
   loadData();
+};
+
+const handleRowClassName = ({ row, rowIndex }) => {
+  if (row.areaCode === '4403') {
+    return 'high-light-row';
+  }
+  return '';
 };
 
 // 获取数字孪生站点信息
@@ -439,6 +447,12 @@ onMounted(async () => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+:deep(.high-light-row) {
+  .cell {
+    color: rgb(1, 245, 190) !important;
   }
 }
 </style>

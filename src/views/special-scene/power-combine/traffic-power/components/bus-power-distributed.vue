@@ -6,6 +6,7 @@
       <scroll-table
         :scrollTableData="scrollTableData"
         :columnKeyList="powerDistributedColumn"
+        class="custom-dialog-table"
         style="height: 100%"
       />
     </div>

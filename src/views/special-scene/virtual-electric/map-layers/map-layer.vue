@@ -907,6 +907,8 @@ bus.on('map-back', async () => {
   // __g.marker.showByGroupId('qu');
   // addHeatLayer();
   showFIlter.value = false;
+  __g.marker.deleteByGroupId('drawing-polygon');
+  __g.polyline.delete(drawingData.map((el) => JSON.stringify(el)));
   if (currentPosition.value === '深圳市') {
     __g.tileLayer.show(showIds[props.activeIndex]);
     __g.marker.showByGroupId('area-point-layer');
