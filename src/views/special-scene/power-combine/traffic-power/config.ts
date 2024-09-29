@@ -32,13 +32,13 @@ export const powerDistributedColumn = [
     label: 'V2G桩(个)',
     width: 3,
     align: 'center'
-  },
-  {
-    prop: '合计',
-    label: '合计(个)',
-    width: 3,
-    align: 'center'
   }
+  // {
+  //   prop: '合计',
+  //   label: '合计(个)',
+  //   width: 3,
+  //   align: 'center'
+  // }
 ];
 
 export const parkingChargeOperationColumn = [

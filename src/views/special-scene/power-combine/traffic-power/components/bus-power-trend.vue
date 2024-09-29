@@ -1,7 +1,7 @@
 <template>
   <div class="bus-power-trend">
     <!-- bskynlts: '巴士可用能量态势' -->
-    <title-column title="交储能电量趋势" />
+    <title-column title="公交储能电量趋势" />
     <div class="distributed-content" v-loading="loading">
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />

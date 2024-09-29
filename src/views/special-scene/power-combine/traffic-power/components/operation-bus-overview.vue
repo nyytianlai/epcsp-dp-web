@@ -34,8 +34,8 @@ const loading = ref(true);
 const bottomCardConfig = ref([
   {
     name: '公交场站数量',
-    code: 'stationNum',
-    value: '3850',
+    code: 'busStationNum',
+    value: '',
     unit: '个',
     icon: new URL('../images/total-demand.png', import.meta.url).href
   },
@@ -48,7 +48,7 @@ const bottomCardConfig = ref([
   },
   {
     name: '支持V2G公交数量',
-    code: 'v2gNum',
+    code: 'v2gbusNum',
     value: '1074',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
@@ -56,53 +56,10 @@ const bottomCardConfig = ref([
   {
     name: '公交储能总电量',
     code: 'busRemainPower',
-    value: '',
+    value: '23566',
     unit: 'kWh',
     icon: new URL('../images/surplus-power.png', import.meta.url).href
   }
-  // {
-  //   name: 'V2G站',
-  //   code: 'v2gNums',
-  //   value: '145',
-  //   unit: '个',
-  //   icon: new URL('../images/v2g.png', import.meta.url).href
-  // },
-  // {
-  //   name: 'V2G桩数',
-  //   code: 'v2gNum',
-  //   value: '306',
-  //   unit: '个',
-  //   icon: new URL('../images/v2g.png', import.meta.url).href
-  // },
-  // {
-  //   name: '正在运行巴士数量',
-  //   code: 'runBUs',
-  //   value: '408',
-  //   unit: '辆',
-  //   icon: new URL('../images//bus-nums.png', import.meta.url).href
-  // },
-  // {
-  //   name: '正在运行V2G巴士数量',
-  //   code: 'runBUs',
-  //   value: '13',
-  //   unit: '辆',
-  //   icon: new URL('../images//bus-nums.png', import.meta.url).href
-  // },
-  // {
-  //   name: '日均里程',
-  //   code: '',
-  //   value: '126',
-  //   unit: 'km',
-  //   icon: new URL('../images/avarage-mileage.png', import.meta.url).href,
-  //   displayName: t(`${tHead}.bottomCardConfig.rjlc`)
-  // }
-  // {
-  //   name: 'v2g站点数',
-  //   code: 'v2gStationNum',
-  //   value: '',
-  //   unit: '个',
-  //   icon: new URL('../images/avarage-mileage.png', import.meta.url).href
-  // }
 ]);
 const getData = async () => {
   loading.value = true;
@@ -113,16 +70,17 @@ const getData = async () => {
     };
     const { data } = await Api.busCanRunOverview(params);
     bottomCardConfig.value.forEach((el) => {
-      el.value = data[el.code];
+      el.value = data[el.code] ?? el.value;
     });
   } catch (error) {}
   loading.value = false;
 };
 
 const getV2Gdata = async () => {
-  const res = await V2GApi.getVehicleNetInterOverview();
-  // bottomCardConfig.value[2].value = res.data.stationNum;
-  // bottomCardConfig.value[3].value = res.data.pileNum;
+  const { data } = await V2GApi.getVehicleNetInterOverview();
+  bottomCardConfig.value.forEach((el) => {
+    el.value = data[el.code] ?? el.value;
+  });
 };
 getV2Gdata();
 getData();

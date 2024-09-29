@@ -6,6 +6,7 @@
       <scroll-table
         :scrollTableData="scrollTableData"
         :columnKeyList="powerDistributedColumn"
+        :row-class-name="handleRowClassName"
         class="custom-dialog-table"
         style="height: 100%"
       />
@@ -51,6 +52,13 @@ const getData = async () => {
   } catch (error) {}
   loading.value = false;
 };
+
+const handleRowClassName = ({ row, rowIndex }) => {
+  if (row.areaCode === '4403') {
+    return 'high-light-row';
+  }
+  return '';
+};
 getData();
 </script>
 
@@ -73,6 +81,11 @@ getData();
       rgba(37, 177, 255, 0.02) 16.882%,
       rgba(37, 177, 255, 0.2) 100%
     );
+  }
+}
+:deep(.high-light-row) {
+  .cell {
+    color: rgb(1, 245, 190) !important;
   }
 }
 </style>

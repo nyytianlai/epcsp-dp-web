@@ -21,28 +21,28 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { formatWithToLocalString } from '@/global/commonFun.js';
-import V2GApi from '@/views/special-scene/carnet-interaction/api';
 import Api from '../api';
+import V2GApi from '@/views/special-scene/carnet-interaction/api';
 
 const loading = ref(true);
 const topCardConfig = ref([
   {
     name: '正在运行公交数量',
-    code: 'busNum',
-    value: '',
+    code: '',
+    value: '408',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
     name: '正在运行V2G公交数量',
-    code: 'v2gNum',
+    code: '',
     value: '13',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
     name: 'V2G公交储能电量',
-    code: 'pileNum',
+    code: 'v2gBusPower',
     value: '',
     unit: 'KWh',
     icon: new URL('../images/total-power.png', import.meta.url).href
@@ -59,6 +59,13 @@ const getData = async () => {
   } catch (error) {}
   loading.value = false;
 };
+// const getV2Gdata = async () => {
+//   const { data } = await V2GApi.getVehicleNetInterOverview();
+//   topCardConfig.value.forEach((el) => {
+//     el.value = (el.code && data[el.code as string]) ?? el.value;
+//   });
+// };
+// getV2Gdata();
 getData();
 </script>
 
