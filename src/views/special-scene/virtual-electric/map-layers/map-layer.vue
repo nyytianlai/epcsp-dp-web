@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef"></qu>
+  <qu ref="quRef" :module="200"></qu>
   <legend-list :legendList="legendListData" :legendName="legendNameData" />
   <MapLeftBtn>
     <div class="tbn-list">
@@ -199,13 +199,13 @@ const drawAreaLayer = async (data = [], areaPosition = []) => {
         value: JSON.stringify({ ...dataObj })
       }
     });
-    // console.log(oPopUpUrl);
     const maxLen = Math.max(
       `${dataObj?.planNum || 0}`.length,
       `${dataObj?.actualNum || 0}`.length,
       `${dataObj?.actualAdjust || 0}`.length,
       `${dataObj?.baseline || 0}`.length
     );
+    if (['planNum', 'actualNum', 'actualAdjust', 'baseline'].every((el) => !dataObj[el])) return;
     const marker = {
       id: `${item.properties.QUCODE}`,
       groupId: 'area-point-layer',
@@ -736,12 +736,12 @@ const closeDrawing = async () => {
       groupId: 'drawing-polygon',
       coordinates: [drawingData[drawingData.length - 1], drawingData[0]],
       thickness: 100,
-      intensity: 10,
+      intensity: 1000,
       flowRate: 0,
       depthTest: false,
-      shape: 1,
+      shape: 0,
       style: 4,
-      color: 'RGB(0,0,0)'
+      color: 'RGB(255,255,0)'
     };
     const polygonItem = {
       id: 'drawing-polygon',

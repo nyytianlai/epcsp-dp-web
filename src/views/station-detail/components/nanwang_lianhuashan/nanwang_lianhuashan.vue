@@ -108,6 +108,7 @@ const enterStation = async () => {
 const exitStation = async () => {
   const id = getTreeLayerIdByName('南网_莲花山充电站', store.treeInfo);
   await __g.infoTree.hide(id);
+  await __g.marker.deleteByGroupId(facilities[0]?.groupId, null);
 };
 
 // 查询所有充电桩状态
@@ -161,10 +162,6 @@ const addChageingIcon = async (data, id?: string) => {
   });
   await __g.marker.add(pointArr, null);
 };
-
-const showAllPos = async () => {};
-
-const hideAllPos = async () => {};
 
 // 获取摄像头位置信息
 const getCameraData = async () => {
