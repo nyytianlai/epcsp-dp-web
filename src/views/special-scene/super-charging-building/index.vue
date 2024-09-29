@@ -2,7 +2,7 @@
  * @Author: niyayong@sutpc.com
  * @Date: 2024-07-22 15:19:08
  * @LastEditors: niyayong@sutpc.com
- * @LastEditTime: 2024-08-29 18:46:48
+ * @LastEditTime: 2024-09-29 17:46:23
  * @Description: 
  * @FilePath: /epcsp-dp-web/src/views/special-scene/super-charging-building/index.vue
 -->
@@ -54,7 +54,7 @@ const changeButtomTab = (item) => {
 };
 
 const getData = async () => {
-  const res = await Api.overTodayCount();
+  const res = await Api.overTodayCount({ stationType: 3 });
   pageNumData.value = pageNumFun(res?.data);
 };
 getData();
