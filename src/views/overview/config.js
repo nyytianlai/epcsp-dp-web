@@ -2591,20 +2591,25 @@ export const getTableColumnByType = (type) => {
           width: 2
         },
         {
-          prop: 'euPileCount',
-          label: '欧标桩数量(个)',
-          width: 2
-        },
-        {
-          prop: `euPilePower`,
-          label: '欧标桩功率(KW)',
-          width: 2
-        },
-        {
-          prop: `totalPower`,
-          label: '站点总功率(KW)',
+          prop: 'operatorName',
+          label: '运营商名称',
           width: 2
         }
+        // {
+        //   prop: 'euPileCount',
+        //   label: '欧标桩数量(个)',
+        //   width: 2
+        // },
+        // {
+        //   prop: `euPilePower`,
+        //   label: '欧标桩功率(KW)',
+        //   width: 2
+        // },
+        // {
+        //   prop: `totalPower`,
+        //   label: '站点总功率(KW)',
+        //   width: 2
+        // }
       ];
     case 'energyStorageStationNum':
       return [

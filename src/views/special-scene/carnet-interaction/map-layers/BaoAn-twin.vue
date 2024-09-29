@@ -31,7 +31,6 @@ let nyxnTimer;
 let timer;
 
 useEmitt('AIRCITY_EVENT', async (e) => {
-  console.log(e, 'AIRCITY_EVENT');
   // 点击站点图标
   if (e.eventtype === 'LeftMouseButtonClick') {
   }
@@ -175,20 +174,29 @@ const queryAllPileStatus = async () => {
  * 状态码[2,3,4,5] // 展示车辆,其他隐藏
  */
 const hideCarByStatus = async (data = []) => {
-  const id = getTreeLayerIdByName('莲花山充电站_静态车辆', store.treeInfo);
-  const actors = await __g.tileLayer.getObjectIDs(id);
-  __g.tileLayer.updateBegin();
-  actors.data.forEach((el) => {
-    el.objectIds.forEach((actorId) => {
-      const fd = data.find((o) => actorId.includes(o.connectorId));
-      if ([2, 3, 4, 5].includes(+fd?.connectorStatus)) {
-        __g.tileLayer.showActor(id, actorId, null);
-      } else {
-        __g.tileLayer.hideActor(id, actorId, null);
-      }
-    });
+  const hideArr = [];
+  const showArr = [];
+  data.forEach((item) => {
+    if ([2, 3, 4, 5].includes(+item.connectorStatus)) {
+      showArr.push(item.connectorId);
+    } else {
+      hideArr.push(item.connectorId);
+    }
   });
-  __g.tileLayer.updateEnd(null);
+  const id = getTreeLayerIdByName('保安能源_场内静态车辆', store.treeInfo);
+  __g.misc.callBPFunction({
+    functionName: 'ShowVehicle',
+    objectName: 'CarHidden1_2',
+    paramType: 11,
+    paramValue: showArr
+  });
+
+  __g.misc.callBPFunction({
+    functionName: 'HiddenVehicle',
+    objectName: 'CarHidden1_2',
+    paramType: 11,
+    paramValue: hideArr
+  });
 };
 
 const focusToPile = async (pile) => {
@@ -197,8 +205,9 @@ const focusToPile = async (pile) => {
 };
 
 const clickToFocus = async (pile) => {
-  const layerId = getTreeLayerIdByName('宝安区政府站点', store.treeInfo);
-  const objId = 'lianhuashancar_' + pile.connectorId;
+  const stationId = getTreeLayerIdByName('宝安区政府站点', store.treeInfo);
+  const layerId = getTreeLayerIdByName('保安能源_场内静态车辆', store.treeInfo);
+  const objId = '' + pile.connectorId;
   const res = await __g.tileLayer.getActorInfo({
     id: layerId,
     objectIds: [objId]
@@ -218,18 +227,22 @@ const clickToFocus = async (pile) => {
   } else {
     //设置高亮颜色（全局生效）
     __g.settings.highlightColor('RGB(0,128,0)');
-    __g.tileLayer.highlightActor(layerId, pile.connectorId);
+    __g.tileLayer.highlightActor(stationId, pile.equipmentId);
   }
 };
 const setYaw = (Yaw) => {
-  if (Yaw < -90) {
-    return 360 + Yaw;
-  } else if (Yaw > -90 && Yaw < 0) {
-    return Yaw + 90;
+  if (Yaw < 120) {
+    return Yaw;
+  } else if (Yaw < -90) {
+    return 270 + Yaw;
+  } else if (Yaw > -90 && Yaw < -30) {
+    return Yaw;
+  } else if (Yaw > -30 && Yaw < 0) {
+    return Yaw;
   } else if (Yaw > 0 && Yaw < 90) {
     return Yaw;
   } else if (Yaw > 90) {
-    return Yaw + 90;
+    return Yaw;
   }
 };
 
@@ -256,7 +269,7 @@ bus.on('resetTab3dt', resetTab3dt);
 bus.on('focusToPile', focusToPile);
 onMounted(() => {
   timer = setTimeout(showAllPos, 2000);
-  // queryAllPileStatus()
+  queryAllPileStatus();
 });
 </script>
 

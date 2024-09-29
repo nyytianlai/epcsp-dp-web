@@ -71,5 +71,19 @@ export default {
         endTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
       }
     });
+  },
+  // 用电高峰
+  getPrivateChargeCapacityInfo() {
+    return request.post({
+      url: '/vehicle/net/inter/getPrivateChargeCapacityInfo',
+      data: {}
+    });
+  },
+  // 用电高峰
+  getPrivateChargeCapacityStat() {
+    return request.post({
+      url: '/vehicle/net/inter/getPrivateChargeCapacityStat',
+      data: {}
+    });
   }
 };
