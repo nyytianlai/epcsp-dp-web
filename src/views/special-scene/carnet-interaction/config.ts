@@ -184,8 +184,8 @@ export const tabTypeList = [
   }
 ];
 
-export const staticConfig = (data = []) =>
-  [
+export const staticConfig = (data = []) => {
+  const arr = [
     [
       {
         name: '高峰时段',
@@ -228,12 +228,12 @@ export const staticConfig = (data = []) =>
         unit: '%'
       }
     ]
-  ].map((item) => {
+  ];
+  return arr.map((item) => {
     item.forEach((el: any) => {
       const fd = data.find((d) => d.timeProperty === el.timeProperty);
       el.value = fd ? (el.fixed ? (fd[el.code] / 1000)?.toFixed(0) : fd[el.code]) : '';
     });
-    return {
-      ...item
-    };
+    return [...item];
   });
+};
