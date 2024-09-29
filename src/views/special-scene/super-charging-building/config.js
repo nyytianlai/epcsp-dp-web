@@ -374,24 +374,23 @@ export const pageNumFun = (data = {}) => {
 
 export const areaDistributedTabType = [
   {
-    code: 'Operate',
-    label: '已建成',
-    displayLabel: t(`${configHead}.common.yingyun`)
+    code: 'Plan',
+    label: '规划'
+    // displayLabel: t(`${configHead}.common.guihua`)
   },
   {
     code: 'Build',
-    label: '建设中',
-    displayLabel: t(`${configHead}.common.jsz`)
+    label: '在建'
+    // displayLabel: t(`${configHead}.common.jsz`)
   },
   {
-    code: 'Plan',
-    label: '规划',
-    displayLabel: t(`${configHead}.common.guihua`)
+    code: 'Operate',
+    label: '建成'
   },
   {
     code: 'Access',
-    label: '已接入',
-    displayLabel: '已接入' || t(`${configHead}.common.guihua`)
+    label: '接入'
+    // displayLabel: '接入' || t(`${configHead}.common.guihua`)
   }
 ];
 
