@@ -113,16 +113,20 @@ const playCameraTortur = async () => {
 };
 
 const setBaoAnTwinVisible = async (visible) => {
+  const id1 = getTreeLayerIdByName('宝安区政府', mapStore.treeInfo);
   if (!BaoAnTwinIds?.length) {
-    const id1 = getTreeLayerIdByName('宝安区政府站点', mapStore.treeInfo);
-    const id2 = getTreeLayerIdByName('宝安区政府站点_植被', mapStore.treeInfo);
-    id1 && BaoAnTwinIds.push(id1);
-    id2 && BaoAnTwinIds.push(id2);
+    // const id1 = getTreeLayerIdByName('宝安区政府', mapStore.treeInfo);
+    // const id2 = getTreeLayerIdByName('宝安区政府站点_植被', mapStore.treeInfo);
+    // const id2 = getTreeLayerIdByName('宝安区政府站点_植被', mapStore.treeInfo);
+    // id1 && BaoAnTwinIds.push(id1);
+    // id2 && BaoAnTwinIds.push(id2);
   }
   if (visible) {
-    await __g.tileLayer.show(BaoAnTwinIds);
+    // await __g.tileLayer.show(BaoAnTwinIds);
+    await __g.infoTree.show(id1);
   } else {
-    await __g.tileLayer.hide(BaoAnTwinIds);
+    // await __g.tileLayer.hide(BaoAnTwinIds);
+    await __g.infoTree.hide(id1);
   }
 };
 
@@ -132,7 +136,6 @@ const beforeAddOrExitHrStation = (isShow: boolean) => {
 };
 
 const handleToBaoAnTwin = async (init = false) => {
-  showTwin.value = true;
   await Promise.allSettled([
     __g.marker.hideByGroupId('jdStation', null),
     __g.marker.hideByGroupId('carnet-interaction-baoAn-group', null),
@@ -151,6 +154,7 @@ const handleToBaoAnTwin = async (init = false) => {
       isHr: 0
     }
   });
+  showTwin.value = true;
   if (init) {
     __g.camera.set(487526.749609, 2495341.483125, 230.779473, -42.134712, -87.412994, 0);
   } else {

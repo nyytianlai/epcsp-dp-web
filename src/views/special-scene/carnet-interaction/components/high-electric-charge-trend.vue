@@ -9,6 +9,7 @@
             <label>{{ obj.name }}:</label>
             <span class="value">
               {{ obj.value }}
+              <span class="unit" v-if="obj.unit">{{ obj.unit }}</span>
             </span>
           </div>
         </div>
@@ -18,8 +19,8 @@
       <ec-resize :option="ecOption" v-show="!isEmpty" />
       <no-data v-show="isEmpty" />
       <div class="unit" v-show="!isEmpty">
-        <div>单位:KWh</div>
-        <div>单位:%</div>
+        <div>单位:MWh</div>
+        <div v-show="selectType === tabTypeList[0].code">单位:%</div>
       </div>
     </div>
   </div>
@@ -44,7 +45,7 @@ const chartConfig = [
     name: '充电量',
     code: 'chargeCapacity',
     color: '34, 118, 252',
-    unit: 'KWh',
+    unit: 'MWh',
     type: 'bar'
   },
   {
@@ -55,6 +56,7 @@ const chartConfig = [
     type: 'line'
   }
 ];
+
 const chartData = ref([]);
 const ecOption = ref();
 const selectType = ref(tabTypeList[0].code);
@@ -83,17 +85,25 @@ const drawChart = async (data = []) => {
       name: item.name,
       color: `rgb(${item.color})`,
       type: item.type,
-      data: data.map((obj) => {
-        return {
-          value: [
-            obj.time + '时',
-            item.unit === '%'
-              ? obj[item.code] && (obj[item.code] * 100)?.toFixed(2)
-              : obj[item.code]
-          ],
-          unit: item.unit
-        };
-      }),
+      data:
+        selectType.value === tabTypeList[0].code
+          ? data.map((obj) => {
+              return {
+                value: [
+                  obj.time + '时',
+                  item.unit === '%'
+                    ? obj[item.code] && (obj[item.code] * 100)?.toFixed(2)
+                    : obj[item.code] && (obj[item.code] / 1000)?.toFixed(2)
+                ],
+                unit: item.unit
+              };
+            })
+          : data.map((obj) => {
+              return {
+                value: [obj.areaName, obj[item.code] && (obj[item.code] / 1000)?.toFixed(2)],
+                unit: item.unit
+              };
+            }),
       barWidth: scale(10),
       yAxisIndex: i,
       symbol: 'none'
@@ -108,7 +118,7 @@ const drawChart = async (data = []) => {
   option.tooltip.formatter = (params) => {
     const dataTime = params[0].axisValueLabel;
     let str = `<div class="time-tooltip">`;
-    // str += `<div class="time">${dataTime}</div>`;
+    str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
       str += `<div class="item-data">
             <span class="left-data">
@@ -148,6 +158,12 @@ watch(
       await getData();
       drawChart(chartData.value);
     } else {
+      const preArr: any = await Promise.allSettled([
+        Api.getPrivateChargeCapacityInfo(),
+        Api.getPrivateChargeCapacityStat()
+      ]);
+      highlightData.value = staticConfig(preArr[1]?.value?.data);
+      drawChart(preArr[0]?.value?.data);
     }
   },
   {

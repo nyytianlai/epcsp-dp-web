@@ -202,30 +202,36 @@ export const staticConfig = (data = []) =>
       {
         name: '充电量',
         timeProperty: 'peak',
-        code: 'chargeCapacity'
+        code: 'chargeCapacity',
+        unit: 'MWh',
+        fixed: true
       },
       {
         name: '充电量',
         timeProperty: 'bottom',
-        code: 'chargeCapacity'
+        code: 'chargeCapacity',
+        unit: 'MWh',
+        fixed: true
       }
     ],
     [
       {
         name: '占比',
         timeProperty: 'peak',
-        code: 'chargeCapacityRatio'
+        code: 'chargeCapacityRatio',
+        unit: '%'
       },
       {
         name: '占比',
         timeProperty: 'bottom',
-        code: 'chargeCapacityRatio'
+        code: 'chargeCapacityRatio',
+        unit: '%'
       }
     ]
   ].map((item) => {
     item.forEach((el: any) => {
       const fd = data.find((d) => d.timeProperty === el.timeProperty);
-      el.value = fd ? fd[el.code] : 0;
+      el.value = fd ? (el.fixed ? (fd[el.code] / 1000)?.toFixed(0) : fd[el.code]) : 0;
     });
     return {
       ...item

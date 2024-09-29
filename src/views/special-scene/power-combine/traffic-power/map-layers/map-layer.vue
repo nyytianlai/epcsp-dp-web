@@ -809,15 +809,15 @@ useEmitt('AIRCITY_EVENT', async (e) => {
       // addBusV2g(coord);
     }
 
-    if (e.GroupID === 'bus-station') {
-      const data = JSON.parse(e.UserData ?? '{}');
-      const res = await Api.getBusGroupBusTerminalInfoById({
-        id: data?.id
-      });
-      clickCoord = [data?.longitude, data?.latitude];
-      dialogData.value = res.data;
-      showDialog.value = true;
-    }
+    // if (e.GroupID === 'bus-station') {
+    //   const data = JSON.parse(e.UserData ?? '{}');
+    //   const res = await Api.getBusGroupBusTerminalInfoById({
+    //     id: data?.id
+    //   });
+    //   clickCoord = [data?.longitude, data?.latitude];
+    //   dialogData.value = res.data;
+    //   showDialog.value = true;
+    // }
   }
 
   if (e.eventtype === 'MarkerCallBack') {
