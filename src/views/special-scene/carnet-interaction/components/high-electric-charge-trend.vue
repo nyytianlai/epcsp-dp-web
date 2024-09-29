@@ -5,8 +5,12 @@
     <div class="chart-card">
       <div class="card-content">
         <div class="item-row" v-for="(item, i) in highlightData" :key="i">
-          <div class="item-row-group" v-for="obj in item" :key="obj.name">
-            <label>{{ obj.name }}:</label>
+          <div
+            class="item-row-group"
+            v-for="obj in item?.slice(selectType === tabTypeList[0].code ? 0 : 1)"
+            :key="obj.name"
+          >
+            <label>{{ obj.name ? obj.name + ':' : '' }}</label>
             <span class="value">
               {{ obj.value }}
               <span class="unit" v-if="obj.unit">{{ obj.unit }}</span>
@@ -80,7 +84,7 @@ const drawChart = async (data = []) => {
   const option: any = getBaseChartOption();
   const legendData = [];
   const series = [];
-  chartConfig.forEach((item, i) => {
+  chartConfig.slice(0, selectType.value === tabTypeList[0].code ? 2 : 1).forEach((item, i) => {
     series.push({
       name: item.name,
       color: `rgb(${item.color})`,

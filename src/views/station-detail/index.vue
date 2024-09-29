@@ -75,7 +75,7 @@
     </div>
     <div class="device-use-info">
       <!-- cdssrsyxx: '充电设施日使用信息', 充电设施日使用信息 -->
-      <title-column :title="t(`${tHead}.cdssrsyxx`)" />
+      <title-column title="充电设施实时使用信息" />
       <tabs
         :data="chargingTypesTabs"
         @changeTab="(data) => handleChangeTab(data, 'device-use-info')"

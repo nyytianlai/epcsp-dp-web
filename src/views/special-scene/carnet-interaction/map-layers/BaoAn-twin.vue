@@ -177,7 +177,7 @@ const hideCarByStatus = async (data = []) => {
   const hideArr = [];
   const showArr = [];
   data.forEach((item) => {
-    if ([2, 3, 4, 5].includes(+item.connectorStatus)) {
+    if ([3].includes(Number(item.connectorStatus))) {
       showArr.push(item.connectorId);
     } else {
       hideArr.push(item.connectorId);
@@ -223,7 +223,7 @@ const clickToFocus = async (pile) => {
     [rotation[0] - 12, setYaw(rotation[1]), 0],
     null
   );
-  if (+pile.status === 255) {
+  if (pile.status == 255) {
   } else {
     //设置高亮颜色（全局生效）
     __g.settings.highlightColor('RGB(0,128,0)');
