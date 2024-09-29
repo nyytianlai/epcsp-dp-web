@@ -1,5 +1,5 @@
 <template>
-  <qu ref="quRef"></qu>
+  <qu ref="quRef" :module="200"></qu>
   <BaoAnTwin v-if="showTwin" />
 </template>
 
@@ -180,22 +180,7 @@ const addPoint = async () => {
     item['stationType'] = imgName[item.stationLogo] || 'station50';
     let o1 = returnStationPointConfig(item);
     o1.imagePath = getImageByCloud('stationpoint-v2g');
-    if (item.isHr == 0) {
-      let o = {
-        id: 'station-' + index + '-' + item.isHr,
-        groupId: 'jdStation',
-        userData: item.isHr + '',
-        // coordinateType: 2,
-        coordinate: transformCoordsByType([item.lng, item.lat], 2),
-        anchors: [-11.5, 200],
-        imageSize: [33, 36],
-        range: [1, 150000],
-        imagePath: getImageByCloud('1'),
-        displayMode: 2,
-        autoHeight: true
-      };
-      pointArr.push(o);
-    }
+
     pointArr.push(o1);
   });
   setTimeout(() => {

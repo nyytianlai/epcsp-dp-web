@@ -4,31 +4,11 @@
     <tabs v-model="selectType" :data="tabTypeList" />
     <div class="chart-card">
       <div class="card-content">
-        <div class="card-item" v-for="item in Object.keys(highlightData)" :key="item">
-          <div class="item-row">
-            <label>{{ highlightData[item].typeName }}:</label>
+        <div class="item-row" v-for="(item, i) in highlightData" :key="i">
+          <div class="item-row-group" v-for="obj in item" :key="obj.name">
+            <label>{{ obj.name }}:</label>
             <span class="value">
-              {{
-                highlightData[item].timeRange
-                  .split('-')
-                  .map((el) => el)
-                  .join('-')
-              }}
-            </span>
-          </div>
-
-          <div class="item-row">
-            <label class="">充电量:</label>
-            <span class="value">
-              {{ highlightData[item].chargeCapacity }}
-              <span class="unit">KWh</span>
-            </span>
-          </div>
-          <div class="item-row">
-            <label>占比:</label>
-            <span class="value">
-              {{ highlightData[item].chargeCapacityRatio?.toFixed(2) ?? '--' }}
-              <span class="unit">%</span>
+              {{ obj.value }}
             </span>
           </div>
         </div>
@@ -46,17 +26,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import EcResize, { getEcharts } from '@sutpc/vue3-ec-resize';
 import { scale } from '@sutpc/config';
-import { getBaseChartOption, tabTypeList } from '../config';
+import { getBaseChartOption, tabTypeList, staticConfig } from '../config';
 import dayjs from 'dayjs';
 import Api from '../api';
 import { deepClone } from '@/utils';
 
 const isEmpty = ref(false);
 const loading = ref(false);
-const highlightData = ref<any>({});
+const highlightData = ref<any>(staticConfig());
 const chartConfig = [
   {
     name: '用电量',
@@ -86,16 +66,9 @@ const getData = async () => {
   loading.value = false;
 };
 const getHighlightData = async () => {
-  const obj = {};
   const res = await Api.getV2GChargeCapacityStat(1);
-  console.log(res?.data);
-  res.data.forEach((item) => {
-    obj[item.timeProperty] = {
-      ...item,
-      typeName: item.timeProperty === 'bottom' ? '低谷时段' : '尖峰时段'
-    };
-  });
-  highlightData.value = obj;
+
+  highlightData.value = staticConfig(res?.data);
 };
 const drawChart = async (data = []) => {
   await getEcharts();
@@ -134,7 +107,6 @@ const drawChart = async (data = []) => {
     let str = `<div class="time-tooltip">`;
     // str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
-      console.log(item);
       str += `<div class="item-data">
             <span class="left-data">
               ${item?.marker}
@@ -163,11 +135,22 @@ const drawChart = async (data = []) => {
     series
   };
 };
-onMounted(async () => {
-  getHighlightData();
-  await getData();
-  drawChart(chartData.value);
-});
+
+watch(
+  () => selectType.value,
+  async (val) => {
+    if (val === tabTypeList[0].code) {
+      getHighlightData();
+      await getData();
+      drawChart(chartData.value);
+    } else {
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
 </script>
 
 <style scoped lang="less">
@@ -220,23 +203,21 @@ onMounted(async () => {
 
     .card-content {
       display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      justify-content: space-between;
+      flex-flow: column nowrap;
       row-gap: 4px;
-
-      .card-item {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-flow: column nowrap;
-        row-gap: 4px;
-      }
 
       .item-row {
         display: flex;
         flex-flow: row nowrap;
         align-items: flex-start;
+      }
+
+      .item-row-group {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-flow: row nowrap;
+        row-gap: 4px;
       }
 
       label {

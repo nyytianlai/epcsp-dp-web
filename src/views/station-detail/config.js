@@ -2922,7 +2922,7 @@ export const actionColumns = [
     width: 2
   },
   {
-    prop: 'servicePhone',
+    prop: 'stationTel',
     label: '联系方式',
     width: 2
   }

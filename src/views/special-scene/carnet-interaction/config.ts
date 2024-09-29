@@ -175,11 +175,59 @@ export const getBaseChartOption = () => {
 
 export const tabTypeList = [
   {
-    code: 'Operate',
+    code: 'public',
     label: '公共充电桩'
   },
   {
-    code: 'Build',
+    code: 'private',
     label: '私人充电桩'
   }
 ];
+
+export const staticConfig = (data = []) =>
+  [
+    [
+      {
+        name: '尖峰时段',
+        timeProperty: 'peak',
+        code: 'timeRange'
+      },
+      {
+        name: '低谷时段',
+        timeProperty: 'bottom',
+        code: 'timeRange'
+      }
+    ],
+    [
+      {
+        name: '充电量',
+        timeProperty: 'peak',
+        code: 'chargeCapacity'
+      },
+      {
+        name: '充电量',
+        timeProperty: 'bottom',
+        code: 'chargeCapacity'
+      }
+    ],
+    [
+      {
+        name: '占比',
+        timeProperty: 'peak',
+        code: 'chargeCapacityRatio'
+      },
+      {
+        name: '占比',
+        timeProperty: 'bottom',
+        code: 'chargeCapacityRatio'
+      }
+    ]
+  ].map((item) => {
+    item.forEach((el: any) => {
+      const fd = data.find((d) => d.timeProperty === el.timeProperty);
+      el.value = fd ? fd[el.code] : 0;
+    });
+    return {
+      ...item
+    };
+  });
