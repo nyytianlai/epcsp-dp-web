@@ -110,6 +110,9 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         'pinia',
         'dayjs',
         '@sutpc/vue3-ec-resize',
+        '@sutpc/vue3-scroll-table',
+        '@sutpc/vue3-svg-icon',
+        'proj4',
         'echarts',
         'lodash-es',
         '@sutpc/zebra'

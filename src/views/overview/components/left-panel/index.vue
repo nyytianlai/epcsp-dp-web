@@ -112,6 +112,7 @@
         pageObj.total / pageObj.pageSize > 1 ? '6rem' : 'auto'
       }; padding-bottom: 24px; max-height: 6rem`"
       :row-class-name="handleRowClassName"
+      v-loading="tableLoading"
     />
     <el-pagination
       style="margin-bottom: 12px"
@@ -166,6 +167,7 @@ const columns = ref([]);
 const tableData = ref([]);
 const showPagination = ref(false);
 const apiKey = ref('');
+const tableLoading = ref(false);
 
 const modalTitle = ref('');
 
@@ -235,9 +237,13 @@ const loadData = async () => {
       pageSize: pageObj.pageSize
     };
   }
-  const res = await Api[apiKey.value](param);
-  tableData.value = Array.isArray(res?.data) ? res?.data : res?.data?.list;
-  pageObj.total = res?.data?.total;
+  tableLoading.value = true;
+  try {
+    const res = await Api[apiKey.value](param);
+    tableData.value = Array.isArray(res?.data) ? res?.data : res?.data?.list;
+    pageObj.total = res?.data?.total;
+  } catch (error) {}
+  tableLoading.value = false;
 };
 
 const handleCardClick = async (item) => {
@@ -247,9 +253,9 @@ const handleCardClick = async (item) => {
   showPagination.value = item.showPagination;
   apiKey.value = item.apiCode;
   pageObj.total = 0;
-  await loadData();
 
   showDialog.value = true;
+  await loadData();
 };
 
 const handleTodetail = () => {

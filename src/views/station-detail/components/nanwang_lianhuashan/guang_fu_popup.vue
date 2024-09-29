@@ -64,17 +64,6 @@ useEmitt('AIRCITY_EVENT', async (e) => {
     showPop.value = false;
   }
 });
-
-// 定位到单晶版
-const focusToPile = (data) => {
-  __g.tileLayer.stopHighlightAllActors();
-  let layerId = getTreeLayerIdByName(stationName, mapStore.treeInfo);
-  __g.settings.highlightColor('#FF6B4B');
-  __g.tileLayer.highlightActor(layerId, data.id);
-  state.currentPower.value = data.value;
-  showPop.value = true;
-};
-
 const handleClose = () => {
   //清除绿色高亮
   __g.tileLayer.stopHighlightAllActors();
@@ -86,9 +75,6 @@ onMounted(async () => {
   } else {
     state.weatherIcon = 'sun-day';
   }
-  bus.on('focusToPile', (e) => {
-    focusToPile(e);
-  });
   bus.on('lianhuashan-calcVal', (val: string) => {
     state.currentPower.value = val;
   });
@@ -98,7 +84,6 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
-  bus.off('focusToPile');
   bus.off('closePowerPopup');
   bus.off('lianhuashan-calcVal');
 });
