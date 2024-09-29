@@ -2917,7 +2917,7 @@ export const actionColumns = [
     width: 2
   },
   {
-    prop: 'serviceContact',
+    prop: 'stationPrincipal',
     label: '联系人',
     width: 2
   },

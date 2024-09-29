@@ -732,28 +732,29 @@ const addBusStationPoint = async () => {
   await __g.marker.deleteByGroupId('bus-station');
   const res = await Api.getBusGroupBusTerminal();
   const arr = [];
-  res.data?.forEach((item) => {
+  res.data?.forEach((item, i) => {
+    const name = item.name || item.propertyName;
     const marker = {
-      id: `${item.id}`,
+      id: `${item.id}_${i}`,
       userData: JSON.stringify(item),
       coordinate: transformCoordsByType([item.longitude, item.latitude], 1),
       groupId: 'bus-station',
-      anchors: [-39, 80], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
-      imageSize: [78, 80], //图片的尺寸
-      range: [1, 1000000], //可视范围
-      textRange: [1, 1000000], //可视范围
-      imagePath: getImageByCloud('qu-point'), //显示图片路径
-      // text: item.name, //显示文本
-      textOffset: [-((item.name.length * 12) / 2) - 78, -40], //文本偏移
-      textColor: [1, 1, 1, 1], //文本颜色
-      fontSize: 12, //文本字体大小
-      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8], //文本背景颜色
-      fontOutlineSize: 1, //字体轮廓线大小
-      fontColor: '#FFFFFF', //字体颜色
-      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      anchors: [-39, 80],
+      imageSize: [78, 80],
+      range: [1, 1000000],
+      textRange: [1, 1000000],
+      imagePath: getImageByCloud('qu-point'),
+      // text: item.name,
+      textOffset: [-((name * 12) / 2) - 78, -40],
+      textColor: [1, 1, 1, 1],
+      fontSize: 12,
+      textBackgroundColor: [0 / 255, 46 / 255, 66 / 255, 0.8],
+      fontOutlineSize: 1,
+      fontColor: '#FFFFFF',
+      useTextAnimation: false,
       autoHidePopupWindow: false,
-      autoHeight: true, // 自动判断下方是否有物体
-      displayMode: 2 //智能显示模式  开发过程中请根据业务需求判断使用四种显示模式,
+      autoHeight: true,
+      displayMode: 2
     };
     arr.push(marker);
   });

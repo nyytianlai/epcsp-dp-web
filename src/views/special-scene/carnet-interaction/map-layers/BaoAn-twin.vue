@@ -14,6 +14,8 @@ import {
 import { getPopupHtml } from '@/utils/index';
 import { scale } from '@sutpc/config';
 import { transformCoordsByType } from '@/utils/map-coord-tools';
+import { connectorStatusInfo } from '@/views/station-detail/api.js';
+import { useVisibleComponentStore } from '@/stores/visibleComponent';
 
 import bus from '@/utils/bus';
 import Api from '../api';
@@ -22,6 +24,7 @@ const aircityObj = inject<any>('aircityObj');
 const { useEmitt } = aircityObj.value;
 const __g = aircityObj.value?.acApi;
 const store = useMapStore();
+const visibleStore = useVisibleComponentStore();
 
 let v2gTimer;
 let nyxnTimer;
@@ -156,6 +159,38 @@ const hideAllPos = async () => {
   await __g.tileLayer.hide([id, id2, id3, id4, id5]);
 };
 
+// 查询所有充电桩状态
+const queryAllPileStatus = async () => {
+  const res = await connectorStatusInfo({
+    operatorId: visibleStore.detailParams?.operatorId,
+    stationId: visibleStore.detailParams?.stationId
+  });
+  hideCarByStatus(res.data);
+};
+
+// 根据桩状态隐藏车辆
+/**
+ * @param status
+ * 设备状态 0-离网；1-空闲；2-占用(未充放电)；3-占用(充放电中)；4-占用(预约锁定)；5-占用(充放电完成)；255-故障；
+ * 状态码[2,3,4,5] // 展示车辆,其他隐藏
+ */
+const hideCarByStatus = async (data = []) => {
+  const id = getTreeLayerIdByName('莲花山充电站_静态车辆', store.treeInfo);
+  const actors = await __g.tileLayer.getObjectIDs(id);
+  __g.tileLayer.updateBegin();
+  actors.data.forEach((el) => {
+    el.objectIds.forEach((actorId) => {
+      const fd = data.find((o) => actorId.includes(o.connectorId));
+      if ([2, 3, 4, 5].includes(+fd?.connectorStatus)) {
+        __g.tileLayer.showActor(id, actorId, null);
+      } else {
+        __g.tileLayer.hideActor(id, actorId, null);
+      }
+    });
+  });
+  __g.tileLayer.updateEnd(null);
+};
+
 const focusToPile = async (pile) => {
   console.log(pile, 'pile');
   clickToFocus(pile);
@@ -163,20 +198,20 @@ const focusToPile = async (pile) => {
 
 const clickToFocus = async (pile) => {
   const layerId = getTreeLayerIdByName('宝安区政府站点', store.treeInfo);
+  const objId = 'lianhuashancar_' + pile.connectorId;
   const res = await __g.tileLayer.getActorInfo({
     id: layerId,
-    // objectIds: [pile.connectorId]
-    objectIds: [pile.connectorId]
+    objectIds: [objId]
   });
-
   const rotation = res?.data[0].rotation;
+
   //定位过去
   await __g?.tileLayer?.focusActor(
     layerId,
-    pile.connectorId,
-    2.6,
+    objId,
+    1.6,
     2,
-    [rotation[0] - 12, rotation[1] - 92, 0],
+    [rotation[0] - 12, setYaw(rotation[1]), 0],
     null
   );
   if (+pile.status === 255) {
@@ -184,6 +219,17 @@ const clickToFocus = async (pile) => {
     //设置高亮颜色（全局生效）
     __g.settings.highlightColor('RGB(0,128,0)');
     __g.tileLayer.highlightActor(layerId, pile.connectorId);
+  }
+};
+const setYaw = (Yaw) => {
+  if (Yaw < -90) {
+    return 360 + Yaw;
+  } else if (Yaw > -90 && Yaw < 0) {
+    return Yaw + 90;
+  } else if (Yaw > 0 && Yaw < 90) {
+    return Yaw;
+  } else if (Yaw > 90) {
+    return Yaw + 90;
   }
 };
 
@@ -210,6 +256,7 @@ bus.on('resetTab3dt', resetTab3dt);
 bus.on('focusToPile', focusToPile);
 onMounted(() => {
   timer = setTimeout(showAllPos, 2000);
+  // queryAllPileStatus()
 });
 </script>
 
