@@ -116,7 +116,6 @@ const queryAllPileStatus = async () => {
     operatorId: visibleStore.detailParams?.operatorId,
     stationId: visibleStore.detailParams?.stationId
   });
-  console.log(res, 'res');
   hideCarByStatus(res.data);
 };
 
@@ -132,8 +131,8 @@ const hideCarByStatus = async (data = []) => {
   __g.tileLayer.updateBegin();
   actors.data.forEach((el) => {
     el.objectIds.forEach((actorId) => {
-      const fd = data.find((o) => o.connectorId === actorId);
-      if ([2, 3, 4, 5].includes(+fd?.status)) {
+      const fd = data.find((o) => actorId.includes(o.connectorId));
+      if ([2, 3, 4, 5].includes(+fd?.connectorStatus)) {
         __g.tileLayer.showActor(id, actorId, null);
       } else {
         __g.tileLayer.hideActor(id, actorId, null);
@@ -141,6 +140,26 @@ const hideCarByStatus = async (data = []) => {
     });
   });
   __g.tileLayer.updateEnd(null);
+};
+// 添加充电中icon
+const addChageingIcon = async (data, id?: string) => {
+  const pointArr = [];
+  data.forEach((element) => {
+    let o1 = {
+      id: element.id,
+      groupId: 'stationChargeIcon',
+      coordinate: element.coord, //坐标位置
+      anchors: [-22, 93.6], //锚点，设置Marker的整体偏移，取值规则和imageSize设置的宽高有关，图片的左上角会对准标注点的坐标位置。示例设置规则：x=-imageSize.width/2，y=imageSize.height
+      imageSize: [44, 93.6], //图片的尺寸
+      range: [0, 150], //可视范围
+      imagePath: `${getHtmlUrl()}/static/images/charge.gif`,
+      useTextAnimation: false, //关闭文字展开动画效果 打开会影响效率
+      displayMode: 2,
+      occlusionCull: false
+    };
+    pointArr.push(o1);
+  });
+  await __g.marker.add(pointArr, null);
 };
 
 const showAllPos = async () => {};
@@ -264,29 +283,25 @@ const playCameraTortur = async (cameraList = []) => {
 };
 // 定位到充电桩
 const focusToPile = async (pile) => {
-  console.log(pile, 'pile');
-  // const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
-  // handleClickFocus(__g, layerId, pile.connectorId, pile.status);
   clickToFocus(pile);
 };
 
 const clickToFocus = async (pile) => {
-  const layerId = getTreeLayerIdByName(stationName, store.treeInfo);
+  const layerId = getTreeLayerIdByName('莲花山充电站_静态车辆', store.treeInfo);
+  const objId = 'lianhuashancar_' + pile.connectorId;
   const res = await __g.tileLayer.getActorInfo({
     id: layerId,
-    // objectIds: [pile.connectorId]
-    objectIds: [pile.connectorId]
+    objectIds: [objId]
   });
-
-  console.log(res, 'res1111111111111111');
   const rotation = res?.data[0].rotation;
+
   //定位过去
   await __g?.tileLayer?.focusActor(
     layerId,
-    pile.connectorId,
-    2.6,
+    objId,
+    1.6,
     2,
-    [rotation[0] - 12, rotation[1] - 92, 0],
+    [rotation[0] - 12, setYaw(rotation[1]), 0],
     null
   );
   if (+pile.status === 255) {
@@ -297,13 +312,25 @@ const clickToFocus = async (pile) => {
   }
 };
 
+const setYaw = (Yaw) => {
+  if (Yaw < -90) {
+    return 360 + Yaw;
+  } else if (Yaw > -90 && Yaw < 0) {
+    return Yaw + 90;
+  } else if (Yaw > 0 && Yaw < 90) {
+    return Yaw;
+  } else if (Yaw > 90) {
+    return Yaw + 90;
+  }
+};
+
 bus.on('handleTabSelect', handleTabSelect);
 bus.on('resetTab3dt', resetTab3dt);
 bus.on('focusToPile', focusToPile);
 onMounted(async () => {
   __g.tileLayer.stopHighlightAllActors();
   await enterStation();
-  // queryAllPileStatus();
+  queryAllPileStatus();
 });
 
 onBeforeUnmount(async () => {

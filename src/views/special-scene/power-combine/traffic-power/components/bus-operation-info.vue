@@ -28,15 +28,15 @@ const loading = ref(true);
 const topCardConfig = ref([
   {
     name: '正在运行公交数量',
-    code: '',
-    value: '408',
+    code: 'runningBusNumber',
+    value: '',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
   {
     name: '正在运行V2G公交数量',
-    code: '',
-    value: '13',
+    code: 'runningV2GBusNumber',
+    value: '',
     unit: '辆',
     icon: new URL('../images/bus-nums.png', import.meta.url).href
   },
