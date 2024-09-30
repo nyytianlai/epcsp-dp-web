@@ -172,6 +172,15 @@ const queryAllPileStatus = async () => {
  * @param status
  * 设备状态 0-离网；1-空闲；2-占用(未充放电)；3-占用(充放电中)；4-占用(预约锁定)；5-占用(充放电完成)；255-故障；
  * 状态码[2,3,4,5] // 展示车辆,其他隐藏
+ * 
+ * 蓝图函数 保安能源车辆显隐
+    ID:CarHidden1_2
+    函数名：ShowVehicle       //显示指定ID车辆
+    传参：StringArray          
+    HiddenVehicle      //隐藏指定ID车辆
+    传参：StringArray    
+    ShowMainVehicle   //全部显示
+    HiddenMainVehicle//全部隐藏
  */
 const hideCarByStatus = async (data = []) => {
   const hideArr = [];
