@@ -37,7 +37,6 @@ const pageNumData = ref(pageNumFun());
 const active = ref('active');
 const activeIndex = ref();
 const handleActiveChange = ({ value, index }) => {
-  console.log(value, index, '00000000000000');
   active.value = value;
   activeIndex.value = index;
 };

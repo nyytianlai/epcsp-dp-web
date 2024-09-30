@@ -90,7 +90,6 @@ const drawChart = async (data = []) => {
     let str = `<div class="time-tooltip">`;
     // str += `<div class="time">${dataTime}</div>`;
     params.map((item) => {
-      console.log(item);
       str += `<div class="item-data">
             <span class="left-data">
               ${item?.marker}

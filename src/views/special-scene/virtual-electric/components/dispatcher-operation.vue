@@ -42,7 +42,6 @@ watch(
     if (props.adjustDate) {
       let date = props.adjustDate.replaceAll('0', '').split('-');
       type.value[0].name = `${date[1]}月${date[2]}日`;
-      console.log('type :>> ', type);
       getData();
     }
   }
